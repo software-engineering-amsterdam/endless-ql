@@ -12,6 +12,10 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 	public final IdentifierStack identifierStack;
 	private final ErrorHandler errorHandler;
 
+	public IdentifierResolver() {
+		this(false);
+	}
+
 	public IdentifierResolver(boolean printErrors) {
 		this.identifierStack = new IdentifierStack();
 		this.errorHandler = new ErrorHandler(this.getClass().getSimpleName(), printErrors);
@@ -20,31 +24,35 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 	public void resolve(List<Statement> statements) {
 		// Clear previous errors first
 		errorHandler.clearErrors();
-		
+
 		for (Statement statment : statements) {
 			statment.accept(this);
 		}
 	}
-	
+
+	public List<String> getErrors() {
+		return errorHandler.getReports();
+	}
+
 	public int getNumberOfErrors() {
 		return errorHandler.getNumberOfErrors();
 	}
-	
+
 	// This method was added for testing purposes
 	public String getErrorAtIndex(int index) {
 		return errorHandler.getErrorAtIndex(index);
 	}
-	
+
 	// Return a list that contains only question statements
 	public List<QuestionStatement> filterQuestionStmt(List<Statement> statements) {
 		List<QuestionStatement> questions = new ArrayList<>();
-		
+
 		statements.stream().filter(questionStmt -> questionStmt instanceof QuestionStatement)
 		.forEach(question -> questions.add((QuestionStatement) question));
-		
+
 		return questions;
 	}
-	
+
 	public boolean findDuplicatedIdentifier(IdentifierExpression identifier) {
 		if (identifierStack.isInCurrentScope(identifier.getName())) {
 			errorHandler.addIdentifierError(identifier.getToken(), "Read-only identifier already declared the current scope");
@@ -60,10 +68,10 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public void visitBinaryExpr(BinaryExpression expr) {
 		expr.visitLeftExpression(this);
 		expr.visitRightExpression(this);
@@ -71,7 +79,7 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 
 	@Override
 	public Void visit(FormStatement stmt) {
-		stmt.visitBlockStmt(this);
+		stmt.visitBlockStatement(this);
 		return null;
 	}
 
@@ -79,7 +87,7 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 	public Void visit(BlockStatement stmt) {
 		// Create a new scope for the block statement.
 		identifierStack.enterScope();
-		
+
 		// Make sure we add all the question identifiers to the stack before we visit each statement.
 		for (QuestionStatement question : filterQuestionStmt(stmt.getStatements())) {
 			if (!findDuplicatedIdentifier(question.getIdentifier())) {
@@ -102,7 +110,7 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 
 	@Override
 	public Void visit(ComputedQuestionStatement stmt) {
-		
+
 		// Visit the expression.
 		stmt.visitExpression(this);
 		return null;
@@ -127,7 +135,7 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 	public Void visit(IdentifierExpression identifier) {
 		// Search the identifier
 		IdentifierExpression retrievedIdentifier = identifierStack.getIdentifier(identifier.getName());
-		
+
 		if (retrievedIdentifier != null) {
 			identifier.updateAllFields(retrievedIdentifier);
 		} else {

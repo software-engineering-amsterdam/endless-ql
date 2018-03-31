@@ -1,5 +1,7 @@
 package qlviz.gui.renderer.javafx;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -15,11 +17,12 @@ public class StyledJavafxSectionRenderer implements StyledSectionRenderer {
     private final Pane target;
     private final QuestionRenderer questionRenderer;
 
+    @Inject
     public StyledJavafxSectionRenderer(
-            Function<Pane, QuestionRenderer> questionRendererFactory,
-            Pane target) {
+            QuestionRendererFactory questionRendererFactory,
+            @Assisted Pane target) {
         this.target = target;
-        this.questionRenderer = questionRendererFactory.apply(target);
+        this.questionRenderer = questionRendererFactory.create(target);
     }
 
     public void render(List<QuestionViewModel> questions, Section section) {

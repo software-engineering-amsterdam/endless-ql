@@ -3,7 +3,7 @@ package qlviz.style;
         import org.antlr.v4.runtime.tree.TerminalNode;
         import org.junit.Assert;
         import org.junit.Test;
-        import qlviz.QLSBaseVisitor;
+        import qlviz.QLSVisitor;
         import qlviz.QLSParser;
         import qlviz.interpreter.style.PageVisitor;
         import qlviz.model.style.DefaultWidgetDeclaration;
@@ -21,16 +21,16 @@ public class PageVisitorTest {
     @Test
     public void testVisitPage() {
         // Arrange
-        QLSBaseVisitor<Section> sectionVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<Section> sectionVisitorMock = mock(QLSVisitor.class);
         QLSParser.PageContext contextMock = mock(QLSParser.PageContext.class);
-        QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<DefaultWidgetDeclaration> defaultWidgetVisitorMock = mock(QLSVisitor.class);
         PageVisitor pageVisitor = new PageVisitor(sectionVisitorMock, defaultWidgetVisitorMock);
         TerminalNode identifierMock = mock(TerminalNode.class);
 
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(contextMock.section()).thenReturn(
                 List.of(mock(QLSParser.SectionContext.class), mock(QLSParser.SectionContext.class)));
-        when(sectionVisitorMock.visitPage(any())).thenReturn(mock(Section.class));
+        when(sectionVisitorMock.visitSection(any())).thenReturn(mock(Section.class));
 
         // Act
         Page result = pageVisitor.visitPage(contextMock);
@@ -44,15 +44,15 @@ public class PageVisitorTest {
     public void testName() {
         // Arrange
         final String name = "test_name";
-        QLSBaseVisitor<Section> sectionVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<Section> sectionVisitorMock = mock(QLSVisitor.class);
         QLSParser.PageContext contextMock = mock(QLSParser.PageContext.class);
-        QLSBaseVisitor<DefaultWidgetDeclaration> defaultWidgetVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<DefaultWidgetDeclaration> defaultWidgetVisitorMock = mock(QLSVisitor.class);
         PageVisitor pageVisitor = new PageVisitor(sectionVisitorMock, defaultWidgetVisitorMock);
         TerminalNode identifierMock = mock(TerminalNode.class);
         when(contextMock.IDENTIFIER()).thenReturn(identifierMock);
         when(contextMock.section()).thenReturn(
                 List.of(mock(QLSParser.SectionContext.class), mock(QLSParser.SectionContext.class)));
-        when(sectionVisitorMock.visitPage(any())).thenReturn(mock(Section.class));
+        when(sectionVisitorMock.visitSection(any())).thenReturn(mock(Section.class));
         when(identifierMock.getText()).thenReturn(name);
 
         // Act

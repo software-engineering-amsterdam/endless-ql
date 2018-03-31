@@ -2,7 +2,6 @@ package qls.ast.style;
 
 import java.awt.Color;
 
-import ql.ast.literal.StringLiteral;
 import qls.visiting.StyleVisitor;
 
 public class FontColor extends StyleProperty {

@@ -12,4 +12,12 @@ public class DefaultStyleStatement extends DefaultStatement {
         this.type = type;
         this.style = style;
     }
+
+    public Type getType() {
+        return type;
+    }
+
+    public Style getStyle() {
+        return style;
+    }
 }

@@ -1,6 +1,9 @@
 package org.uva.qls.ast.Widget.WidgetTypes;
 
 
+import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.ast.type.MoneyType;
+import org.uva.ql.ast.type.Type;
 import org.uva.qls.visitor.WidgetTypeVisitor;
 
 import java.util.Arrays;
@@ -18,9 +21,21 @@ public class SliderType extends WidgetType {
         this.step = step;
     }
 
+    public int getStart() {
+        return Integer.parseInt(this.start);
+    }
+
+    public int getEnd() {
+        return Integer.parseInt(this.end);
+    }
+
+    public int getStep() {
+        return Integer.parseInt(this.step);
+    }
+
     @Override
-    public List<String> getCompatibleTypes() {
-        return Arrays.asList("IntegerType");
+    public List<Class<? extends Type>> getCompatibleTypes() {
+        return Arrays.asList(IntegerType.class, MoneyType.class);
     }
 
     @Override
@@ -28,4 +43,8 @@ public class SliderType extends WidgetType {
         return visitor.visit(this, question, value, readOnly);
     }
 
+    @Override
+    public String toString() {
+        return "SliderType";
+    }
 }

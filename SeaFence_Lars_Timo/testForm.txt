@@ -6,49 +6,20 @@ form taxOfficeExample
     		hasBoughtHouse: boolean
   	"Did you enter a loan?"
     		hasMaintLoan: boolean
-	"if2 > 3 ?"
-      		ifV4: int
+	
 	
 	if (hasSoldHouse)
   	{
-    		"ifV"
-      			ifV: int
+		"val1" val1: int
+    		"val2" val2: int
+    		"Value residue = val1 + val2:" valueResidue: int = val1 + val2
   	}
-  	elif (hasBoughtHouse)
-  	{
-		"elif"
-      			elifV: int 
-  	}
-	else 
+
+	if(hasBoughtHouse && hasMaintLoan)
 	{
-		"else"
-			elseV: int
+		"Value residue 2 = val1 - val2" valueResidue2: int = val1 - val2
 	}
 
-  	if (ifV4 > 3)
-  	{
-    		"if2"
-      			ifV2: int
- 	}
-	else 
-	{
-		"else2"
-			elseV2: int
-	}
-
-	"Did you enter a loan?"
-    		hasMaint2Loan: boolean
-
-
-    "Value residue:" valueResidue: int = (elseV * elseV2)
-/*
-  elif (hasSoldHouse == hasBoughtHouse) {
-    "Private debts for the sold house:" privateDebt: int
-  }
-
-  if (hasSoldHouse > hasBoughtHouse) {
-    "What was the selling price?" sellingPrice: int
-    "Private debts for the sold house:" privateDebt: int
-    "Value residue:" valueResidue: int = (privateIncome * sellingPrice - !privateDebt)
-  }*/
+	"Question after if statements?"
+		afterStatements: boolean
 }

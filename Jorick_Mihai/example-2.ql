@@ -7,8 +7,8 @@ form Box1HouseOwning {
     
     if (hasSoldHouse) {
         "Price the house was sold for:" sellingPrice: integer
-        "Private debts for the sold house:" privateDebt: integer (-10)
-        "Value residue:" valueResidue: integer (sellingPrice * privateDebt / 10)
+        "Private debts for the sold house:" privateDebt: integer
+        "Value residue:" valueResidue: integer = (sellingPrice * privateDebt / 10)
         
         if (valueResidue > 2000) {
         		"Are you rich?:" areYouRich: boolean
@@ -17,9 +17,9 @@ form Box1HouseOwning {
         			"Can you give me some money:" giveMeMoney: boolean
         			
         			if(giveMeMoney) {
-        				"Thanks mate" thankYou: string ""
+        				"Thanks mate" thankYou: string = ""
         			} else {
-        				"Cheap ass" cheapAss: string ""
+        				"Cheap ass" cheapAss: string = ""
         			}
         		}
         }

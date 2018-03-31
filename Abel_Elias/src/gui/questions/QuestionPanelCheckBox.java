@@ -2,7 +2,8 @@ package gui.questions;
 
 import QL.classes.Question;
 import QL.classes.values.Value;
-import gui.FormBuilder;
+import gui.GUIBuilder;
+import gui.QuestionChangeListener;
 
 import javax.swing.*;
 import javax.swing.text.DocumentFilter;
@@ -13,6 +14,7 @@ public class QuestionPanelCheckBox extends QuestionPanel {
 
     private JCheckBox checkBox;
 
+
     public QuestionPanelCheckBox(String key, Question question) {
         super(key, question);
         createControlWidget(key);
@@ -21,6 +23,8 @@ public class QuestionPanelCheckBox extends QuestionPanel {
     @Override
     public void createControlWidget(String key) {
         checkBox = new JCheckBox();
+//        Question question = super.getQuestion();
+//        this.setValue(question.getValue());
         this.add(checkBox);
     }
 
@@ -30,14 +34,13 @@ public class QuestionPanelCheckBox extends QuestionPanel {
     }
 
     @Override
-    public void setListener(EventListener listener) {
-        FormBuilder.BoolActionListener boolActionListener = (FormBuilder.BoolActionListener) listener;
-        checkBox.addActionListener(boolActionListener);
+    public void setWidgetFixed() {
+        this.checkBox.setEnabled(false);
     }
 
     @Override
-    public void setWidgetFixed() {
-        this.checkBox.setEnabled(false);
+    public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
+        checkBox.addActionListener(questionChangeListener.new BoolActionListener(super.getQuestion().getId(), checkBox));
     }
 
     @Override

@@ -9,7 +9,7 @@ import Variable from "../form/nodes/expressions/VariableIdentifier";
 import BooleanLiteral from "../form/nodes/literals/BooleanLiteral";
 import IfCondition from "../form/nodes/conditions/IfCondition";
 import Negation from "../form/nodes/expressions/boolean_expressions/Negation";
-import ComputedField from "../form/nodes/fields/ComputedField";
+import ComputedField from "../form/nodes/fields/ComputedFieldNode";
 import { FieldType } from "../form/FieldType";
 
 export const testExpressionStuff = () => {

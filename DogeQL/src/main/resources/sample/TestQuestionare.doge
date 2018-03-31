@@ -1,15 +1,15 @@
-form taxOfficeExample {
-    "Is BTC gonna crash?" crash: int = 5
+form taxOfficeExample
+{
+  "Did you sell a house in 2010?" hasSoldHouse: boolean = true
 
-    if(true && true) {
-        "Send help?" sendHelp: boolean = false
+  "Fucking BTC" fuckBTC: integer
 
-        if(sendHelp) {
-            "Q3" q3: string
-        }
-
-        "Q4" q4: money
+    if(hasSoldHouse){
+       "string q" strQ : string
     }
+   "integer q" intQ : integer = 10 + 5
+   "decimal q" decQ : decimal
+   "money q" moneyQ : money
 
-    "Q5" q5: boolean
+   "lol" lol : integer = intQ - fuckBTC
 }

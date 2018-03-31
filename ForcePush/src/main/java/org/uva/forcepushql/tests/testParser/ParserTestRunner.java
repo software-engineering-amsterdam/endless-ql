@@ -5,15 +5,18 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-import org.uva.forcepushql.antlr.GrammarLexer;
-import org.uva.forcepushql.antlr.GrammarParser;
+import org.uva.forcepushql.parser.antlr.GrammarLexer;
+import org.uva.forcepushql.parser.antlr.GrammarParser;
 
-public class ParserTestRunner {
+public class ParserTestRunner
+{
 
-    public static void main(String[] args){
+    public static void main(String[] args)
+    {
         Result result = JUnitCore.runClasses(ParserTest.class);
 
-        for(Failure failure : result.getFailures()){
+        for (Failure failure : result.getFailures())
+        {
             System.out.println(failure.toString());
         }
 

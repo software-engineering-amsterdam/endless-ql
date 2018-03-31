@@ -128,7 +128,7 @@ public class IdentifierResolverTests {
 //		assertTrue(identifierResolver.
 //				getErrorAtIndex(1).equals("[IdentifierResolver] line: 5, column: 4: Undeclared identifier: y"));
 //	}
-	
+
 //	String sameNameDifferentTypeTest1 =
 //			"form Form1 {\n"
 //			+ "\"question1\" q1: boolean\n"
@@ -143,7 +143,7 @@ public class IdentifierResolverTests {
 //		assertTrue(identifierResolver.
 //				getErrorAtIndex(0).equals("[IdentifierResolver] line: 3, column: 12: Read-only identifier already declared the current scope: q1"));
 //	}
-	
+
 //	String sameNameDifferentTypeTest2 =
 //			"form Form1 {\n"
 //			+ "\"question1\" q1: boolean\n"
@@ -179,7 +179,7 @@ public class IdentifierResolverTests {
 //		identifierResolver.resolve(ast);
 //		assertTrue(identifierResolver.getNumberOfErrors() == 0);
 //	}
-	
+
 	String positiveTest2 =
 			"form Form1 {\n"
 			+ "\"question1\" q1: boolean\n"
@@ -194,12 +194,12 @@ public class IdentifierResolverTests {
 		identifierResolver.resolve(ast);
 		assertTrue(identifierResolver.getNumberOfErrors() == 0);
 	}
-	
+
 	String positiveTest3 =
 			"form Form1 {\n"
-			+ "\"question2\" q2: boolean q1\n"
+			+ "\"question2\" q2: boolean = q1\n"
 			+ "if (q1) {\n"
-			+ "\"question3\" q3: boolean q1\n"
+			+ "\"question3\" q3: boolean = q1\n"
 			+ "}\n"
 			+ "\"question1\" q1: boolean\n"
 			+ "}";

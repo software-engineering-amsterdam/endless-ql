@@ -1,12 +1,11 @@
 class ReferenceChecker:
-    def __init__(self, table, debug):
-        self.__has_errors = False
-        self.__debug = debug
+    def __init__(self, table):
+        self.__errors = []
         self.__check_invalid_references(table)
 
     @property
-    def has_errors(self):
-        return self.__has_errors
+    def errors(self):
+        return self.__errors
 
     def __check_invalid_references(self, table):
         known_types = [row['name'] for row in table['content'] if row['type']]
@@ -24,5 +23,4 @@ class ReferenceChecker:
     def __identifier_seen(self, known_types, unknown_types):
         for (identifier, position) in unknown_types:
             if not (identifier in known_types):
-                self.__debug.error([position.line], 'Identifier \"{}\" is unknown'.format(identifier))
-                self.__has_errors = True
+                self.__errors.append('Identifier \"{}\" at position {} is unknown'.format(identifier, position))

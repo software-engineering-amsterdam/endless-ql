@@ -37,8 +37,12 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IMathComparisonValidator), typeof(MathComparisonValidator));
             appRegistration.AddSingleton(typeof(IMathExpressionValidator), typeof(MathExpressionValidator));
             appRegistration.AddSingleton(typeof(IUnknownTypeValidator), typeof(UnknownTypeValidator));
+            appRegistration.AddSingleton(typeof(IDuplicateTextValidator), typeof(DuplicateTextValidator));
+            appRegistration.AddSingleton(typeof(ICyclicDependencyValidator), typeof(CyclicDependencyValidator));
             appRegistration.AddSingleton(typeof(IVariableService), typeof(VariableService));
             appRegistration.AddSingleton(typeof(ITypeService), typeof(TypeService));
+            appRegistration.AddSingleton(typeof(ICalculationService), typeof(CalculationService));
+            appRegistration.AddSingleton(typeof(IExtractVariableVisitor), typeof(ExtractVariableVisitor));
         }
     }
 }

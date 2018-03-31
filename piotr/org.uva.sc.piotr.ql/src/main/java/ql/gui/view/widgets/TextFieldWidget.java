@@ -50,6 +50,6 @@ public class TextFieldWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.textField.setText(this.getQuestionModel().getValue().getStringValue());
+        this.textField.setText((String) this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 }

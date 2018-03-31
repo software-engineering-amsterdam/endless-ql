@@ -6,12 +6,13 @@ import NodeLocation from "./location/NodeLocation";
 export default abstract class AbstractTreeNode implements TreeNode, Locateable {
   protected location: NodeLocation;
 
-  setLocation(location: NodeLocation): void {
+  setLocation(location: NodeLocation): TreeNode {
     this.location = location;
+    return this;
   }
 
   getLocation(): NodeLocation {
-    throw new Error("Method not implemented.");
+    return this.location;
   }
 
   abstract accept(visitor: NodeVisitor);

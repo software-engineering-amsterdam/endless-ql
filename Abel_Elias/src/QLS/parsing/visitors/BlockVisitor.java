@@ -1,8 +1,10 @@
 package QLS.parsing.visitors;
+import QL.classes.Question;
+import QLS.classes.Page;
 import QLS.classes.blocks.Block;
-import QLS.classes.blocks.LineInBlock;
-import QLS.classes.blocks.Question;
+import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Section;
+import QLS.classes.blocks.StyledQuestion;
 import QLS.classes.widgets.CheckBoxWidget;
 import QLS.classes.widgets.DropdownWidget;
 import QLS.classes.widgets.RadioWidget;
@@ -15,28 +17,28 @@ import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class BlockVisitor extends QLSBaseVisitor {
 
     private WidgetVisitor widgetVisitor;
+    private final LinkedHashMap<String, Section> sections;
+    private final LinkedHashMap<String, StyledQuestion> styledQuestions;
+    private LinkedHashMap<String, Question> questions;
+    private final LinkedHashMap<String, Element> parents;
+    private String currentParentId;
 
-
-    public BlockVisitor() {
+    public BlockVisitor(LinkedHashMap<String, Question> questions) {
         this.widgetVisitor = new WidgetVisitor();
+        this.parents = new LinkedHashMap<>();
+        this.sections = new LinkedHashMap<>();
+        this.styledQuestions = new LinkedHashMap<>();
+        this.questions = questions;
     }
 
     @Override
-    public Block visitBlock(QLSParser.BlockContext ctx) {
-        List<LineInBlock> blockElements = new ArrayList<>();
-        for (QLSParser.LineInBlockContext c : ctx.lineInBlock()) {
-            blockElements.add(this.visitLineInBlock(c));
-        }
-        return new Block(blockElements);
-    }
-
-    @Override
-    public LineInBlock visitLineInBlock(QLSParser.LineInBlockContext ctx) {
+    public Element visitElement(QLSParser.ElementContext ctx) {
         if (ctx.section() != null) {
             return visitSection(ctx.section());
         } else if (ctx.question() != null) {
@@ -49,17 +51,34 @@ public class BlockVisitor extends QLSBaseVisitor {
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        List<Block> blocks = new ArrayList<>();
-        for (QLSParser.BlockContext c : ctx.block()) {
-            blocks.add(this.visitBlock(c));
+        List<Element> elements = new ArrayList<>();
+        currentParentId = id;
+        for (QLSParser.ElementContext c : ctx.element()) {
+            elements.add(this.visitElement(c));
         }
-        return new Section(id, blocks);
+        Section section = new Section(id, elements);
+        sections.put(id, section);
+        return section;
     }
 
     @Override
-    public Question visitQuestion(QLSParser.QuestionContext ctx) {
+    public StyledQuestion visitQuestion(QLSParser.QuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
         Widget widget = widgetVisitor.visitWidget(ctx.widget());
-        return new Question(id, widget);
+        StyledQuestion question = new StyledQuestion(id, widget, questions.get(id), currentParentId);
+        styledQuestions.put(id, question);
+        return question;
+    }
+
+    public LinkedHashMap<String,Section> getSections() {
+        return sections;
+    }
+
+    public LinkedHashMap<String,StyledQuestion> getQuestions() {
+        return styledQuestions;
+    }
+
+    public LinkedHashMap<String,Element> getParents() {
+        return parents;
     }
 }

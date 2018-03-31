@@ -1,0 +1,23 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Buying"
+    {
+      question fuckBTC
+    }
+  }
+
+  page NonHousing
+  {
+    section "Selling"
+    {
+      question hasSoldHouse
+
+      section "You sold a house"
+      {
+        question intQ
+      }
+    }
+  }
+}

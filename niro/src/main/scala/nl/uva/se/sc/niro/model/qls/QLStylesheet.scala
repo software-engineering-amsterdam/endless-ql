@@ -1,36 +1,14 @@
 package nl.uva.se.sc.niro.model.qls
 
-case class QLStylesheet(name: String, pages: Seq[Page]) {
+import nl.uva.se.sc.niro.model.ql.AnswerType
 
-  def collectStylesForQuesiotn(id: String): Seq[QLSWidgetType] = {
-    pages.flatMap(_.sections.flatMap(_.questions.filter(_.name == id).map(_.widgetType.orNull)))
-  }
+/**
+  * QLS AST
+  */
+case class QLStylesheet(name: String, pages: Seq[Page], defaultStyles: Map[AnswerType, Styling]) {
 
-  def collectPageNamesWithQuestion(questionId: String): Seq[String] =
-    pages.filter(containsSectionWithQuestion(_, questionId)).map(_.name)
-
-  def collectAllQuestions(): Seq[Question] = pages.flatMap(_.sections.flatMap(_.questions))
+  def collectAllQuestions(): Seq[Question] = pages.flatMap(_.collectAllQuestions())
 
   def collectQuestionsForPage(pageName: String): Seq[Question] =
-    pages.filter(_.name == pageName).flatMap(_.sections.flatMap(_.questions))
-
-  private def containsSectionWithQuestion(page: Page, questionId: String): Boolean = {
-    page.sections.exists(containsQuestion(_, questionId))
-  }
-
-  private def containsQuestion(section: Section, questionId: String): Boolean = {
-    section.questions.exists(_.name == questionId)
-  }
+    pages.filter(_.name == pageName).flatten(_.collectAllQuestions())
 }
-
-case class Page(name: String, sections: Seq[Section])
-
-case class Section(name: String, questions: Seq[Question])
-
-case class Question(name: String, widgetType: Option[QLSWidgetType])
-
-abstract class QLSWidgetType
-case class QLSSpinBox() extends QLSWidgetType
-case class QLSCheckBox() extends QLSWidgetType
-case class QLSRadio(trueValue: String, falseValue: String) extends QLSWidgetType
-case class QLSComboBox(trueValue: String, falseValue: String) extends QLSWidgetType

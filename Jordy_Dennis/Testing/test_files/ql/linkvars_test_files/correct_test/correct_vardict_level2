@@ -1,0 +1,18 @@
+form taxOfficeExample {
+	"Did you sell a house in 2010?"
+		a: int
+
+	"Did you sell a house in 2012?"
+		b: string
+
+	"Uitkomst"
+		g: int = (a * a)
+
+	if(a && b){
+		"Did you sell a house in 2012?"
+			f: int
+	}
+
+}
+---
+OrderedDict([('a', OrderedDict([('type', <class 'int'>), ('node', VarNode: a <class 'int'> 0), ('assign', Question: Did you sell a house in 2010?, a:<class 'int'>), ('node_list', [VarNode: a <class 'int'> 0, VarNode: a <class 'int'> 0, VarNode: a <class 'int'> 0, VarNode: a <class 'int'> 0])])), ('b', OrderedDict([('type', <class 'str'>), ('node', VarNode: b <class 'str'> ), ('assign', Question: Did you sell a house in 2012?, b:<class 'str'>), ('node_list', [VarNode: b <class 'str'> , VarNode: b <class 'str'> ])])), ('g', OrderedDict([('type', <class 'int'>), ('node', VarNode: g <class 'int'> 0), ('assign', Assigment: "Uitkomst" g:<class 'int'> = Binop: VarNode: a <class 'int'> 0 * VarNode: a <class 'int'> 0), ('node_list', [VarNode: g <class 'int'> 0])])), ('f', OrderedDict([('type', <class 'int'>), ('node', VarNode: f <class 'int'> 0), ('assign', Question: Did you sell a house in 2012?, f:<class 'int'>), ('node_list', [VarNode: f <class 'int'> 0])]))])

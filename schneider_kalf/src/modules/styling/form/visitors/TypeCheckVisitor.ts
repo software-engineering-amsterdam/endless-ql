@@ -1,51 +1,60 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
-import DefaultStyle from "../nodes/children/DefaultStyle";
-import QuestionStyle from "../nodes/children/QuestionStyle";
+import DefaultStyle from "../nodes/children/DefaultStyleNode";
+import QuestionStyleNode from "../nodes/children/QuestionStyleNode";
 import Section from "../nodes/containers/SectionNode";
 import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheetNode";
-import { checkBaseAttribute, checkWidgetAttribute } from "../style_helpers";
+import StyleSheetNode from "../nodes/StyleSheetNode";
+import { QuestionPlacedTwiceInLayoutError, UnkownQuestionUsedInLayoutError } from "../style_errors";
+import { Maybe } from "../../../../helpers/type_helper";
 
 export default class TypeCheckVisitor implements StyleNodeVisitor {
-  private identifiersQL: Map<string, any>;
+  private qlVariables: Map<string, any>;
+  private allQuestions: Map<string, QuestionStyleNode>;
 
-  constructor(identifiersQL: Map<string, any>) {
-    this.identifiersQL = identifiersQL;
+  constructor(qlVariables: Map<string, any>) {
+    this.qlVariables = qlVariables;
+    this.allQuestions = new Map();
   }
 
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
-    // TODO: ASK: Added extends StyleTreeNode to StyleAttribute
-    return defaultStyle.children.forEach(child => child.accept(this));
+    defaultStyle.children.forEach(child => child.accept(this));
   }
 
-  visitQuestionStyle(question: QuestionStyle): any {
-    if (!this.identifiersQL.get[question.identifier]) {
-      // Warning("Question '" + question.identifier + "' does not exist in the QL template")
+  visitQuestionStyle(question: QuestionStyleNode): any {
+    const duplicateQuestion: Maybe<QuestionStyleNode> = this.allQuestions.get(question.identifier);
+
+    if (typeof duplicateQuestion !== 'undefined') {
+      throw QuestionPlacedTwiceInLayoutError.make(question, duplicateQuestion);
     }
-    return question.children.forEach(child => child.accept(this));
+
+    this.allQuestions.set(question.identifier, question);
+
+    if (this.qlVariables.has[question.identifier] === false) {
+      throw UnkownQuestionUsedInLayoutError.make(question.identifier);
+    }
+
+    question.children.forEach(child => child.accept(this));
   }
 
   visitSection(section: Section): any {
-    return section.body.forEach(child => child.accept(this));
+    section.body.forEach(child => child.accept(this));
   }
 
   visitPageAttribute(page: Page): any {
-    return page.body.forEach(child => child.accept(this));
+    page.body.forEach(child => child.accept(this));
   }
 
   visitWidgetAttribute(widgetAttribute: WidgetAttribute): any {
-    checkWidgetAttribute(widgetAttribute);
-    return;
+    widgetAttribute.validate();
   }
 
   visitBaseAttribute(baseAttribute: BaseAttribute): any {
-    checkBaseAttribute(baseAttribute.name, baseAttribute.value);
     return;
   }
 
-  visitStyleSheet(stylesheet: Stylesheet): any {
-    return stylesheet.children.forEach(child => child.accept(this));
+  visitStyleSheet(styleSheet: StyleSheetNode): any {
+    styleSheet.children.forEach(child => child.accept(this));
   }
 }

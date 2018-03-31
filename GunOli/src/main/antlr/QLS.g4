@@ -5,15 +5,16 @@ block       : '{' page+ '}';
 page        : PAGE IDENTIFIER '{' (section | defaultSec)+ '}';
 section     : SECTION STRING (question | '{' (question | section | defaultSec)+ '}');
 question    : QUESTION IDENTIFIER (widget)*;
-defaultSec  : DEFAULT type (widget | '{' widget* '}');
+defaultSec  : DEFAULT type (widget | '{' style* widget* '}');
 
 widget  : WIDGET RADIO '(' STRING (',' STRING)* ')' #radioWidget
         | WIDGET CHECKBOX                           #checkWidget
-        | WIDGET SPINBOX                            #spinWidget
-        | WIDTH INTEGER                             #widthWidget
-        | FONT STRING                               #fontWidget
-        | FONTSIZE INTEGER                          #fontSizeWidget
-        | COLOR HEXVALUE                            #colorWidget;
+        | WIDGET SPINBOX                            #spinWidget;
+
+style   : WIDTH INTEGER                             #widthStyle
+        | FONT STRING                               #fontStyle
+        | FONTSIZE INTEGER                          #fontSizeStyle
+        | COLOR HEXVALUE                            #colorStyle;
 
 type    : BOOLEANTYPE | STRINGTYPE | MONEYTYPE | INTEGERTYPE | DATETYPE | DECIMALTYPE;
 

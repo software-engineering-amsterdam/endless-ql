@@ -8,13 +8,19 @@ import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 import java.util.function.Consumer;
 
+import static nl.uva.js.qlparser.ui.GUIBuilder.FORM_WIDTH;
+
 public class ComponentBuilder {
+
+    public static final String YES = "Yes";
+    public static final String NO = "No";
 
     private static <T extends JTextField> T attachTextFieldListeners(T textField, Variable variable) {
 
@@ -80,6 +86,82 @@ public class ComponentBuilder {
         });
 
         return checkBox;
+    }
+
+    public static Component buildSectionHeader(String name) {
+        Panel panel = buildComponentPanel();
+        Label label = new Label(name);
+        label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+        panel.add(label);
+
+        return panel;
+    }
+
+    public static Panel buildComponentPanel() {
+        Panel panel = new Panel();
+        panel.setPreferredSize(new Dimension(FORM_WIDTH - 100, 40));
+        return panel;
+    }
+
+    public static JPanel buildRadioButtons(Variable variable) {
+//        Listen to field changes and update the variable accordingly
+        ActionListener radioActionListener = event -> variable.setValue(Value.builder()
+                .dataType(variable.getDataType())
+                .value(event.getActionCommand().equals(YES))
+                .build());
+
+        JRadioButton buttonYes   = new JRadioButton(YES);
+        buttonYes.setActionCommand(YES);
+        buttonYes.addActionListener(radioActionListener);
+
+        JRadioButton buttonNo    = new JRadioButton(NO);
+        buttonNo.setActionCommand(NO);
+        buttonNo.addActionListener(radioActionListener);
+
+        ButtonGroup radioButtons = new ButtonGroup();
+        radioButtons.add(buttonYes);
+        radioButtons.add(buttonNo);
+
+//        Set value if there is any present
+        updateRadioValue(variable, buttonYes, buttonNo);
+
+//        Listen to external changes
+        variable.addChangeListener(newValue -> {
+            if (!newValue.getName().equals(variable.getName()))
+                updateRadioValue(variable, buttonYes, buttonNo);
+        });
+
+        JPanel panel = new JPanel(new FlowLayout());
+        panel.setPreferredSize(new Dimension(300, 20));
+        panel.add(buttonYes);
+        panel.add(buttonNo);
+        return panel;
+    }
+
+    private static void updateRadioValue(Variable variable, JRadioButton buttonYes, JRadioButton buttonNo) {
+        NonNullRun.consumer(variable.getValue(), value -> buttonYes.setSelected(true == (Boolean) value.value()));
+        NonNullRun.consumer(variable.getValue(), value -> buttonNo.setSelected(false == (Boolean) value.value()));
+    }
+
+    public static JComboBox buildDropdown(Variable variable) {
+
+        JComboBox<String> dropdown = new JComboBox<>(new String[]{YES, NO});
+        dropdown.addActionListener(event -> variable.setValue(Value.builder()
+                  .dataType(variable.getDataType())
+                  .value(Objects.requireNonNull(dropdown.getSelectedItem()).equals(YES))
+                  .build()));
+
+//        Set value if there is any present
+        NonNullRun.consumer(variable.getValue(), value ->
+                dropdown.setSelectedItem(((Boolean) value.value()) ? YES : NO));
+
+//        Listen to external changes
+        variable.addChangeListener(newValue -> {
+            if (!newValue.getName().equals(variable.getName()))
+                dropdown.setSelectedItem(((Boolean) newValue.value()) ? YES : NO);
+        });
+
+        return dropdown;
     }
 
     @RequiredArgsConstructor

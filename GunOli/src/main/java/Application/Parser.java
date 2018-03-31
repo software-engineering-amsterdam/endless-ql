@@ -3,10 +3,9 @@ package Application;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import QL.ParseObjectsQL.QuestionMap;
 import QL.QLVisitor.ExpressionTable;
-import QL.ParseObjectsQL.Question;
-import QL.ParseObjectsQL.Form;
+import QL.AST.Question;
+import QL.AST.Form;
 import QL.QLAntlrGen.QLParser;
 import QL.QLAntlrGen.QLLexer;
 import QL.QLVisitor.FormVisitor;
@@ -15,7 +14,8 @@ import QLS.ParseObjectQLS.Widgets.Widget;
 import QLS.QLSAntlrGen.QLSLexer;
 import QLS.QLSAntlrGen.QLSParser;
 import QLS.QLSVisitor.StylesheetVisitor;
-import org.antlr.v4.gui.Trees; //for debug printing
+import org.antlr.v4.gui.Trees;
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -36,7 +36,7 @@ public class Parser {
             FormVisitor visitor = new FormVisitor(expressionTable);
             return visitor.visit(parser.head());
         }catch(Exception e){
-            System.out.println("Unable to Parse Selected File");
+            System.out.println("Unable to Parse Selected QL File");
             throw new UnsupportedOperationException(e.getMessage());
         }
     }
@@ -51,10 +51,11 @@ public class Parser {
             //Trees.inspect(parser.head(), parser); //Debug QLS parse tree, change later
             //parser.reset();
 
+
             StylesheetVisitor visitor = new StylesheetVisitor();
             return visitor.visit(parser.head());
         }catch(Exception e){
-            System.out.println("Unable to Parse Selected File");
+            System.out.println("Unable to Parse Selected QLS File");
             throw new UnsupportedOperationException(e.getMessage());
         }
     }
@@ -62,8 +63,8 @@ public class Parser {
 
     //debugging prints, remove after completion
 
-    public void printQLForm(Form form){
-        for(Question question : form.getBlock().getQuestions()){
+    /*public void printQLForm(Form form){
+        for(Question question : form.getQuestions()){
             String questionName = question.getIdentifier();
             ExpressionTable expressionTable = form.getExpressionTable();
             System.out.println( question.getIdentifier() + " : " +
@@ -72,7 +73,7 @@ public class Parser {
                                 //question.isEnabled()+" : "+
                                 expressionTable.getExpression(questionName).evaluate().getValue());
         }
-    }
+    }*/
 
     public void printQLSStyleSheet(Stylesheet ss){
         for(Page page : ss.getPages()){

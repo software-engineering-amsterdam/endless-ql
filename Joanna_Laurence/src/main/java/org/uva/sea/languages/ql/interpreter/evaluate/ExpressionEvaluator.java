@@ -4,18 +4,14 @@ import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.*;
 import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
 import org.uva.sea.languages.ql.parser.elements.ASTNode;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
 import org.uva.sea.languages.ql.parser.visitor.BaseASTVisitor;
 
 public class ExpressionEvaluator extends BaseASTVisitor<Value> {
 
     private SymbolTable symbolTable = new SymbolTable();
 
-    /**
-     * Evaluate the AST and get all questions
-     *
-     * @param node The base AST node
-     */
+
     public Value evaluate(ASTNode node, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
         return node.accept(this);
@@ -26,7 +22,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.add(right);
+            return right.add(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -37,7 +33,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.and(right);
+            return right.and(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -48,7 +44,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.divide(right);
+            return right.divide(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -59,7 +55,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.isEqual(right);
+            return right.isEqual(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -70,7 +66,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.isGreaterOrEqual(right);
+            return right.isGreaterOrEqual(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -81,7 +77,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.isGreaterThan(right);
+            return right.isGreaterThan(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -92,7 +88,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.isLessOrEqual(right);
+            return right.isLessOrEqual(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -103,7 +99,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.isLessThan(right);
+            return right.isLessThan(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -114,7 +110,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.multiply(right);
+            return right.multiply(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -135,7 +131,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.isNotEqual(right);
+            return right.isNotEqual(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -156,7 +152,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.or(right);
+            return right.or(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }
@@ -177,7 +173,7 @@ public class ExpressionEvaluator extends BaseASTVisitor<Value> {
         try {
             Value left = node.getLeftHandSide().accept(this);
             Value right = node.getRightHandSide().accept(this);
-            return left.subtract(right);
+            return right.subtract(left);
         } catch (EvaluationException e) {
             return new ErrorValue(e.getMessage(), node.getLine(), node.getColumn());
         }

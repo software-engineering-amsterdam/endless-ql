@@ -1,42 +1,100 @@
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/UnaryExpressions/UnaryExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/antlrGen/QLBaseVisitor.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Block.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/UnaryExpressions/NegationExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/ExpressionConstants/IntegerConstant.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/EvaluationType.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/Visitor/ConditionVisitor.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/antlrGen/QLVisitor.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/Visitor/QuestionVisitor.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/ExpressionConstants/Constant.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/antlrGen/QLLexer.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/Application/Main.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Form.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/Visitor/FormVisitor.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Question.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/Visitor/ExpressionVisitor.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/LessThanExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/BinaryExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/Visitor/BlockVisitor.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/ExpressionConstants/DecimalConstant.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/antlrGen/QLBaseListener.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/ExpressionConstants/DateConstant.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/EqualExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/SubtractExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/antlrGen/QLListener.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/NotEqualExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/GreaterThanExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Condition.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/GreaterOrEqualExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/AdditionExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/DivisionExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/UnaryExpressions/NotExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/ExpressionConstants/BooleanConstant.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/ExpressionConstants/StringConstant.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/Expression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/OrExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/ExpressionConstants/MoneyConstant.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/MultiplicationExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/antlrGen/QLParser.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/Application/Parser.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/AndExpression.java
-/Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/java/ParseObjects/Expressions/BinaryExpressions/LessOrEqualExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\LessEqualEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\GreaterThanEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Default.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSAntlrGen\QLSListener.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Question.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSVisitor\PageVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\ASTNode.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\MultiplicationExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\Application\Main.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Page.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\EvaluationVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\UnaryEvaluators\NotEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLVisitor\ExpressionTable.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLAntlrGen\QLListener.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Widgets\SpinBox.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\UnaryExpressions\NotExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLAntlrGen\QLBaseVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\UnaryExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSVisitor\SectionVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\EqualsEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSVisitor\WidgetVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Widgets\Font.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\GreaterEqualEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSAntlrGen\QLSVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\GUI\QLUserInterface.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSVisitor\QLSQuestionVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Values\BooleanValue.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\GUI\FormBuilder.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Value.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\SubtractExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\DivisionExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\ExpressionConstants\UndefinedConstant.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\LessThanExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Widgets\Widget.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\Expression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSAntlrGen\QLSBaseVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLVisitor\BlockVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\ExpressionConstants\IntegerConstant.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\UnaryExpressions\NegationExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLAntlrGen\QLBaseListener.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Values\StringValue.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Analysis\LabelDuplicationDetector.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\Constant.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\AndEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\SubtractionEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\ExpressionConstants\BooleanConstant.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\NotEqualEvalutor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\QLSQuestion.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSAntlrGen\QLSLexer.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\ExpressionConstants\DateConstant.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\EvaluatorFactory.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLAntlrGen\QLParser.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLVisitor\QuestionVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\ExpressionConstants\DecimalConstant.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\ExpressionConstants\MoneyConstant.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Form.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\AdditionEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLVisitor\ExpressionVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\NotEqualExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\OrExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Section.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\Application\Parser.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\OrEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Values\NumericValue.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Widgets\Radio.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\MultiplyEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Values\UndefinedValue.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSAntlrGen\QLSBaseListener.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Widgets\Width.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Analysis\EvaluationType.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\LessThanEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\GreaterThanExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\IdentifierExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLAntlrGen\QLLexer.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\UnaryEvaluators\NegationEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\ExpressionConstants\StringConstant.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Values\DateValue.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Analysis\CycleDetector.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Stylesheet.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLAntlrGen\QLVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Analysis\ExpressionVisitorInterface.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Widgets\Color.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\BinaryEvaluators\DivideEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\AndExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\GreaterOrEqualExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Widgets\CheckBox.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\ParseObjectQLS\Widgets\FontSize.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\LessOrEqualExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Evaluation\Evaulators\UnaryEvaluator.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSVisitor\StylesheetVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\EqualExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSVisitor\DefaultVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QLS\QLSAntlrGen\QLSParser.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\Analysis\TypeChecker.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\AST\Expressions\BinaryExpressions\AdditionExpression.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLVisitor\ConditionVisitor.java
+C:\Users\Michael\Desktop\Software Construction\endless-ql\GunOli\src\main\java\QL\QLVisitor\FormVisitor.java

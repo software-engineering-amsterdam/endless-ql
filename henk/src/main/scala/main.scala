@@ -4,11 +4,11 @@ import org.antlr.v4.runtime._
 
 object Main extends App {
 
-  def getParser(input:String): QlParser = {
+  def getParser(input:String): QLParser = {
     val charStream = new ANTLRInputStream(input)
-    val lexer = new QlLexer(charStream)
+    val lexer = new QLLexer(charStream)
     val tokens = new CommonTokenStream(lexer)
-    val parser = new QlParser(tokens)
+    val parser = new QLParser(tokens)
     return parser
   }
 

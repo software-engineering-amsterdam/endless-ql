@@ -1,0 +1,2 @@
+// String literal token
+"abcdefghijklmnopqrstuvwxyz"

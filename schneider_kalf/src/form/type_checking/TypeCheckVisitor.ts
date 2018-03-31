@@ -23,10 +23,12 @@ import BinaryOperator from "../nodes/expressions/BinaryOperator";
 import NodeVisitor from "../nodes/visitors/NodeVisitor";
 import FormNode from "../nodes/FormNode";
 import IfCondition from "../nodes/conditions/IfCondition";
-import ComputedField from "../nodes/fields/ComputedField";
+import ComputedField from "../nodes/fields/ComputedFieldNode";
 import QuestionNode from "../nodes/fields/QuestionNode";
 import DateLiteral from "../nodes/literals/DateLiteral";
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
+import { Maybe } from "../../helpers/type_helper";
+import TreeNode from "../nodes/TreeNode";
 
 export class TypeCheckVisitor implements NodeVisitor {
   private _variables: VariablesInformation;
@@ -45,12 +47,15 @@ export class TypeCheckVisitor implements NodeVisitor {
 
   visitIfCondition(ifCondition: IfCondition) {
     const predicateType = ifCondition.predicate.accept(this);
-    return assertFieldType(predicateType, FieldType.Boolean);
+
+    ifCondition.getAllStatements().forEach(statement => statement.accept(this));
+
+    return this.assertFieldType(predicateType, FieldType.Boolean, ifCondition);
   }
 
   visitComputedField(computedField: ComputedField) {
     const formulaType = computedField.formula.accept(this);
-    return assertFieldType(formulaType, computedField.type);
+    return this.assertFieldType(formulaType, computedField.type, computedField);
   }
 
   visitQuestion(question: QuestionNode) {
@@ -78,11 +83,11 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitNegation(negation: Negation): any {
-    return assertFieldType(negation.expression.accept(this), FieldType.Boolean);
+    return this.assertFieldType(negation.expression.accept(this), FieldType.Boolean, negation);
   }
 
   visitVariableIdentifier(variable: VariableIdentifier): any {
-    const variableInformation: VariableInformation | undefined = this._variables.get(variable.identifier);
+    const variableInformation: Maybe<VariableInformation> = this._variables.get(variable.identifier);
 
     if (!variableInformation) {
       throw UnkownFieldError.make(variable.identifier);
@@ -92,8 +97,8 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   visitDivision(division: Division): any {
-    const leftType = assertNumericFieldType(division.left.accept(this));
-    const rightType = assertNumericFieldType(division.right.accept(this));
+    const leftType = assertNumericFieldType(division.left.accept(this), division.left);
+    const rightType = assertNumericFieldType(division.right.accept(this), division.right);
 
     if (leftType === FieldType.Money && rightType === FieldType.Money) {
       return FieldType.Decimal;
@@ -147,14 +152,14 @@ export class TypeCheckVisitor implements NodeVisitor {
   }
 
   private visitBooleanOperator(operator: BinaryOperator): FieldType {
-    assertFieldType(operator.left.accept(this), FieldType.Boolean);
-    assertFieldType(operator.right.accept(this), FieldType.Boolean);
+    this.assertFieldType(operator.left.accept(this), FieldType.Boolean, operator.left);
+    this.assertFieldType(operator.right.accept(this), FieldType.Boolean, operator.right);
     return FieldType.Boolean;
   }
 
   private visitNumericOperator(operator: BinaryOperator): FieldType {
-    const leftType = assertNumericFieldType(operator.left.accept(this));
-    const rightType = assertNumericFieldType(operator.right.accept(this));
+    const leftType = assertNumericFieldType(operator.left.accept(this), operator.left);
+    const rightType = assertNumericFieldType(operator.right.accept(this), operator.right);
 
     return getCommonNumericFieldType(leftType, rightType);
   }
@@ -167,13 +172,13 @@ export class TypeCheckVisitor implements NodeVisitor {
       const commonType = getCommonNumericFieldType(leftType, rightType);
 
       if (!isNumericFieldType(commonType)) {
-        throw TypesNotComparableError.make(leftType.toString(), rightType.toString());
+        throw TypesNotComparableError.make(leftType.toString(), rightType.toString(), operator);
       }
 
       return FieldType.Boolean;
     }
 
-    assertFieldType(leftType, rightType);
+    this.assertFieldType(leftType, rightType, operator);
 
     return FieldType.Boolean;
   }
@@ -183,9 +188,13 @@ export class TypeCheckVisitor implements NodeVisitor {
     const rightType = operator.right.accept(this);
 
     if (!fieldTypesSortable(leftType, rightType)) {
-      throw TypesNotComparableError.make(leftType.toString(), rightType.toString());
+      throw TypesNotComparableError.make(leftType.toString(), rightType.toString(), operator);
     }
 
     return FieldType.Boolean;
+  }
+
+  private assertFieldType(actualType: FieldType, expectedType: FieldType, node: TreeNode): FieldType {
+    return assertFieldType(actualType, expectedType, node);
   }
 }

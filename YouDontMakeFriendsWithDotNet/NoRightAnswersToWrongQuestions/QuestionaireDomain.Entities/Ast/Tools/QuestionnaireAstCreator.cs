@@ -13,7 +13,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             m_astTreeBuilder = astTreeBuilder;
         }
 
-        public Reference<IQuestionnaireRootNode> Create(string definition)
+        public DomainId<IQuestionnaireRootNode> Create(string definition)
         {
             return m_astTreeBuilder.BuildForm(definition);
         }

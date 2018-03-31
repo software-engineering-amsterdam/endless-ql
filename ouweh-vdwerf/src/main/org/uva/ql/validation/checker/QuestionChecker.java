@@ -1,6 +1,7 @@
 package org.uva.ql.validation.checker;
 
 import org.uva.ql.ast.Question;
+import org.uva.ql.validation.ValidationResult;
 
 import java.util.HashSet;
 import java.util.List;
@@ -16,18 +17,22 @@ public class QuestionChecker extends Checker {
     }
 
     @Override
-    public void runCheck() {
+    public ValidationResult runCheck() {
+        ValidationResult result = new ValidationResult();
+
         Set<String> questionIDs = new HashSet<>();
         Set<String> questionTexts = new HashSet<>();
 
         for (Question question : this.questions) {
             if (!questionIDs.add(question.getId())) {
-                logger.warning(String.format("WARNING: (var could be overwritten) question name %s already exists", question.getId()));
+                result.addWarning(String.format("WARNING: (var could be overwritten) question name %s already exists", question.getId()));
             }
 
             if (!questionTexts.add(question.getContent())) {
-                logger.warning(String.format("WARNING: Question content %s already exists", question.getContent()));
+                result.addWarning(String.format("WARNING: Question content %s already exists", question.getContent()));
             }
         }
+
+        return result;
     }
 }

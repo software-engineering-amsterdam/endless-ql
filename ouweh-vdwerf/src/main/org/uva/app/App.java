@@ -8,7 +8,7 @@ import org.uva.ql.evaluator.data.StatementTable;
 import org.uva.ql.evaluator.data.ValueTable;
 import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.QLValidator;
-import org.uva.ql.validation.collector.QuestionContext;
+import org.uva.ql.validation.ValidationResult;
 import org.uva.qls.QLSBuilder;
 import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.evaluator.StyleEvaluator;
@@ -23,29 +23,34 @@ public class App {
     private App() {
         Logger logger = Logger.getGlobal();
         LogManager.getLogManager().reset();
-        logger.addHandler(new LogHandler());
 
-        String input = new InputHandler().readFile("input/original.ql");
-//        String input = new InputHandler().getUserInput("ql");
+        String input = new IOHandler().readFile("input/original.ql");
+//        String input = new IOHandler().getUserInput("ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
-        String qlsInput = new InputHandler().readFile("input/default.qls");
-//        String input = new InputHandler().getUserInput("qls");
-        QLSBuilder QLSBuilder = new QLSBuilder();
-        Stylesheet stylesheet = QLSBuilder.buildAST(qlsInput);
-
         QLValidator validator = new QLValidator(form);
-        validator.run();
-
-        QLSValidator qlsValidator = new QLSValidator(new QuestionContext(form).getQuestions(), stylesheet);
-//        qlsValidator.run();
+        ValidationResult validationResult = validator.run();
 
         FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
         StyleEvaluator styleEvaluator = new StyleEvaluator();
-        styleEvaluator.setStylesheet(stylesheet);
 
-        GUIHandler guiHandler = new GUIHandler(formEvaluator, styleEvaluator);
+
+        String qlsInput = new IOHandler().readFile("input/default.qls");
+//        String input = new IOHandler().getUserInput("qls");
+
+
+        if (!qlsInput.isEmpty()) {
+            QLSBuilder QLSBuilder = new QLSBuilder();
+            Stylesheet stylesheet = QLSBuilder.buildAST(qlsInput);
+
+            QLSValidator qlsValidator = new QLSValidator(form, stylesheet);
+            validationResult = validationResult.merge(qlsValidator.run());
+
+            styleEvaluator.setStylesheet(stylesheet);
+        }
+
+        GUIHandler guiHandler = new GUIHandler(formEvaluator, styleEvaluator, validationResult);
     }
 
     public static void main(String[] args) {

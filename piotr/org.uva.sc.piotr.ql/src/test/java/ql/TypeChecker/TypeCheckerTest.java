@@ -1,26 +1,26 @@
 package ql.TypeChecker;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import ql.ast.ASTBuilder;
 import ql.ast.model.Form;
-import ql.exceptions.*;
 import ql.grammar.QLLexer;
 import ql.grammar.QLParser;
 import ql.logic.collectors.CollectConditionsVisitor;
 import ql.logic.collectors.CollectQuestionsVisitor;
 import ql.logic.collectors.CollectReferencesVisitor;
 import ql.logic.validators.*;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class TypeCheckerTest {
 
-    private CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
-    private CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
-    private CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
+    private final CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
+    private final CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
+    private final CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
 
     private Form getAstFormFromString(String formString) {
         CharStream charStream = CharStreams.fromString(formString);
@@ -36,7 +36,7 @@ public class TypeCheckerTest {
     public final ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void checkReferenceToUndefinedQuestionTest() throws Exception {
+    public void checkReferenceToUndefinedQuestionTest() {
 
         String fileContent = "form wrongForm1 {\n" +
                 "\"How much money do you have?\"\n" +
@@ -47,17 +47,16 @@ public class TypeCheckerTest {
 
         Form form = this.getAstFormFromString(fileContent);
 
-        exception.expect(UndeclaredReferenceException.class);
-
-        // Validate undeclared variables usage in questions and conditions
-        VariablesReferencesValidator.validateVariablesUsage(
+        VariablesReferencesValidator validator = new VariablesReferencesValidator(
                 this.collectQuestionsVisitor.getQuestions(form),
                 this.collectReferencesVisitor.getVariableReferences(form)
         );
+
+        Assert.assertFalse(validator.validate());
     }
 
     @Test
-    public void checkDuplicateDefinitionsTest() throws Exception {
+    public void checkDuplicateDefinitionsTest() {
 
         String fileContent = "form wrongForm2 {\n" +
                 "\"How much money do you have?\"\n" +
@@ -67,10 +66,12 @@ public class TypeCheckerTest {
                 "}";
 
         Form form = this.getAstFormFromString(fileContent);
+        
+        QuestionsDuplicationValidator validator = new QuestionsDuplicationValidator(
+                this.collectQuestionsVisitor.getQuestions(form)
+        );
 
-        exception.expect(DuplicateDeclarationException.class);
-
-        QuestionsValidator.validateDuplicates(this.collectQuestionsVisitor.getQuestions(form));
+        Assert.assertFalse(validator.validate());
     }
 
     @Test
@@ -84,15 +85,16 @@ public class TypeCheckerTest {
                 "}";
 
         Form form = this.getAstFormFromString(fileContent);
-
-        exception.expect(DuplicateLabelException.class);
-
-        QuestionsValidator.validateLabels(this.collectQuestionsVisitor.getQuestions(form));
-
+        
+        QuestionLabelsValidator validator = new QuestionLabelsValidator(
+                this.collectQuestionsVisitor.getQuestions(form)
+        );
+        
+        Assert.assertFalse(validator.validate());
     }
 
     @Test
-    public void checkConditionsEvaluationTypeTest() throws Exception {
+    public void checkConditionsEvaluationTypeTest() {
 
         String fileContent = "form wrongForm4 {\n" +
                 "  \"What is your age?\"\n" +
@@ -104,13 +106,13 @@ public class TypeCheckerTest {
                 "}";
 
         Form form = this.getAstFormFromString(fileContent);
-
-        exception.expect(NonBooleanConditionException.class);
-
-        ConditionsValidator.validateConditions(
+        
+        ConditionsValidator validator = new ConditionsValidator(
                 this.collectConditionsVisitor.getConditions(form),
                 this.collectQuestionsVisitor.getQuestions(form)
         );
+        
+        Assert.assertFalse(validator.validate());
 
     }
 
@@ -128,20 +130,20 @@ public class TypeCheckerTest {
                 "  \"Do you have debts?\"\n" +
                 "  debts: boolean\n" +
                 "\n" +
-                "  if (name + age == \"adult\") {\n" +
+                "  if (name + age == 55) {\n" +
                 "    \"Test\"\n" +
                 "    test: string\n" +
                 "  }\n" +
                 "}";
 
         Form form = this.getAstFormFromString(fileContent);
-
-        exception.expect(IncompatibleTypesException.class);
-
-        TypesValidator.validateTypes(
+        
+        TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
                 this.collectQuestionsVisitor.getQuestions(form)
         );
+
+        Assert.assertFalse(validator.validate());
     }
 
     @Test
@@ -165,12 +167,12 @@ public class TypeCheckerTest {
 
         Form form = this.getAstFormFromString(fileContent);
 
-        exception.expect(IncompatibleTypesException.class);
-
-        TypesValidator.validateTypes(
+        TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
                 this.collectQuestionsVisitor.getQuestions(form)
         );
+
+        Assert.assertFalse(validator.validate());
 
     }
 
@@ -195,12 +197,12 @@ public class TypeCheckerTest {
 
         Form form = this.getAstFormFromString(fileContent);
 
-        exception.expect(IncompatibleTypesException.class);
-
-        TypesValidator.validateTypes(
+        TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
                 this.collectQuestionsVisitor.getQuestions(form)
         );
+
+        Assert.assertFalse(validator.validate());
 
     }
 
@@ -225,12 +227,12 @@ public class TypeCheckerTest {
 
         Form form = this.getAstFormFromString(fileContent);
 
-        exception.expect(IllegalOperationOnTypesException.class);
-
-        TypesValidator.validateTypes(
+        TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
                 this.collectQuestionsVisitor.getQuestions(form)
         );
+
+        Assert.assertFalse(validator.validate());
 
     }
 
@@ -256,12 +258,12 @@ public class TypeCheckerTest {
 
         Form form = this.getAstFormFromString(fileContent);
 
-        exception.expect(IncompatibleTypesException.class);
-
-        TypesValidator.validateTypes(
+        TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
                 this.collectQuestionsVisitor.getQuestions(form)
         );
+
+        Assert.assertFalse(validator.validate());
 
     }
 
@@ -280,10 +282,31 @@ public class TypeCheckerTest {
 
         Form form = this.getAstFormFromString(fileContent);
 
-        exception.expect(QuestionDependencyException.class);
 
-        QuestionsDependencyValidator.validateCyclicDependencies(this.collectQuestionsVisitor.getQuestionsMap(form));
+        QuestionsDependencyValidator validator = new QuestionsDependencyValidator(
+                this.collectQuestionsVisitor.getQuestionsMap(form)
+        );
 
+        Assert.assertFalse(validator.validate());
+    }
+
+    @Test
+    public void castingDecimalToIntegerErrorTest() {
+
+        String fileContent = "form division\n" +
+                "{\n" +
+                "  \"Give me integer A\" intA: integer\n" +
+                "  \"Give me decimal B\" decB: decimal\n" +
+                "  \"A/B equals\" intC: integer = intA/decB\n" +
+                "}";
+
+        Form form = this.getAstFormFromString(fileContent);
+
+        IntegerToDecimalCastingValidator validator = new IntegerToDecimalCastingValidator(
+                this.collectQuestionsVisitor.getQuestionsMap(form)
+        );
+
+        Assert.assertFalse(validator.validate());
     }
 
 }

@@ -1,5 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.ql.visitor;
 
+import com.chariotit.uva.sc.qdsl.ast.cyclechecker.tree.DependencyTree;
+import com.chariotit.uva.sc.qdsl.ast.cyclechecker.tree.Node;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.BooleanConstant;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.constant.IntegerConstant;
@@ -11,7 +13,15 @@ import com.chariotit.uva.sc.qdsl.ast.ql.node.type.IntegerTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.MoneyTypeNode;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.type.StringTypeNode;
 
+import java.util.Set;
+
 public class CycleDetectionVisitor extends NodeVisitor {
+
+    private DependencyTree dependencyTree = new DependencyTree();
+
+    public DependencyTree getDependencyTree() {
+        return dependencyTree;
+    }
 
     @Override
     public void visitBooleanConstant(BooleanConstant booleanConstant) {
@@ -89,6 +99,16 @@ public class CycleDetectionVisitor extends NodeVisitor {
     }
 
     @Override
+    public void visitOrOp(OrOp orOp) {
+
+    }
+
+    @Override
+    public void visitAndOp(AndOp andOp) {
+
+    }
+
+    @Override
     public void visitBooleanType(BooleanTypeNode booleanType) {
 
     }
@@ -125,7 +145,20 @@ public class CycleDetectionVisitor extends NodeVisitor {
 
     @Override
     public void visitIfBlock(IfBlock ifBlock) {
+        createDependencies(ifBlock.getExpression().getPrerequisites(), ifBlock.getProducedLabels());
+    }
 
+    private void createDependencies(Set<String> prerequisites, Set<String> produced) {
+
+        for (String prereq : prerequisites) {
+            Node prereqNode = dependencyTree.getOrAddNode(prereq);
+
+            for (String prod : produced) {
+                Node prodNode = dependencyTree.getOrAddNode(prod);
+
+                dependencyTree.addDependency(prodNode, prereqNode);
+            }
+        }
     }
 
     @Override
@@ -146,6 +179,12 @@ public class CycleDetectionVisitor extends NodeVisitor {
     @Override
     public void visitLineElement(LineElement lineElement) {
 
+        // In a line element, the question label depends on the labels used in the expression
+        if (lineElement.getTypeExpression().getExpression() != null) {
+
+            createDependencies(lineElement.getPrerequisites(),
+                    lineElement.getProducedLabels());
+        }
     }
 
     @Override
@@ -162,4 +201,5 @@ public class CycleDetectionVisitor extends NodeVisitor {
     public void visitUnOpExpression(UnOpExpression unOpExpression) {
 
     }
+
 }

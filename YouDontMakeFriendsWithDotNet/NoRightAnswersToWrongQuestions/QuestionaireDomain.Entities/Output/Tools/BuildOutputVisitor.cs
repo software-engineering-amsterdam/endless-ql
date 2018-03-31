@@ -20,8 +20,8 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         private readonly ISymbolTable m_lookup;
         private readonly IBooleanEvaluatorVisitor m_booleanEvaluator;
 
-        private readonly IList<Reference<IQuestionOutputItem>> m_questions = 
-            new List<Reference<IQuestionOutputItem>>();
+        private readonly IList<DomainId<IQuestionOutputItem>> m_questions = 
+            new List<DomainId<IQuestionOutputItem>>();
 
         public BuildOutputVisitor(
             IDomainItemLocator domainItemLocator,
@@ -36,8 +36,8 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             m_questionsCurrentlyVisible.Push(true);
         }
 
-        public Reference<IQuestionnaireOutputItem> Build(
-            Reference<IQuestionnaireRootNode> node)
+        public DomainId<IQuestionnaireOutputItem> Build(
+            DomainId<IQuestionnaireRootNode> node)
         {
             dynamic d = node;
             this.Visit(d);
@@ -46,7 +46,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 .FirstOrDefault();
         }
 
-        public void Visit(Reference<IQuestionnaireRootNode> questionnaireNode)
+        public void Visit(DomainId<IQuestionnaireRootNode> questionnaireNode)
         {
             var astNode = questionnaireNode
                 .ToDomainItem(m_domainItemLocator);
@@ -66,37 +66,38 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             }
         }
 
-        private void HandleStatements(IEnumerable<Reference<IStatementNode>> statements)
+        private void HandleStatements(IEnumerable<DomainId<IStatementNode>> statements)
         {
             foreach (var statement in statements)
             {
-                if (m_domainItemLocator.Exists<IQuestionNode>(statement.Id))
+                if (m_domainItemLocator.Exists<IUserInputQuestionNode>(statement.Id))
                 {
-                    Visit(new Reference<IQuestionNode>(statement.Id));
+                    Visit(new DomainId<IUserInputQuestionNode>(statement.Id));
+                }
+                else if (m_domainItemLocator.Exists<ICalculatedQuestionNode>(statement.Id))
+                {
+                    Visit(new DomainId<ICalculatedQuestionNode>(statement.Id));
                 }
                 else if (m_domainItemLocator.Exists<IConditionalStatementNode>(statement.Id))
                 {
-                    Visit(new Reference<IConditionalStatementNode>(statement.Id));
+                    Visit(new DomainId<IConditionalStatementNode>(statement.Id));
                 }
             }
         }
 
-        private void Visit(Reference<IQuestionNode> questionNode)
+        private void Visit(DomainId<IUserInputQuestionNode> questionNode)
         {
-            //ToDo: where are my readonly / calculated questions
             var astNode = questionNode.ToDomainItem(m_domainItemLocator);
 
             var existingOutput = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .FirstOrDefault(x => x.Variable.Id == astNode.Id);
-            
+
             if (existingOutput == null)
             {
                 var question = m_outputItemFactory.CreateQuestionOutputItem(
-                    questionNode,
-                    astNode.QuestionText,
+                    new DomainId<IQuestionNode>(questionNode.Id), 
                     GetValue(astNode),
-                    astNode.QuestionType,
                     m_questionsCurrentlyVisible.Peek(),
                     false);
 
@@ -108,7 +109,32 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             }
         }
 
-        private void Visit(Reference<IConditionalStatementNode> ifElseNode)
+        private void Visit(DomainId<ICalculatedQuestionNode> questionNode)
+        {
+            var astNode = questionNode.ToDomainItem(m_domainItemLocator);
+
+            var existingOutput = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .FirstOrDefault(x => x.Variable.Id == astNode.Id);
+
+            if (existingOutput == null)
+            {
+                var question = m_outputItemFactory.CreateQuestionOutputItem(
+                    new DomainId<IQuestionNode>(questionNode.Id),
+                    GetValue(astNode),
+                    m_questionsCurrentlyVisible.Peek(),
+                    true);
+
+                m_questions.Add(question);
+            }
+            else
+            {
+                existingOutput.Value = GetValue(astNode);
+                existingOutput.Visible = m_questionsCurrentlyVisible.Peek();
+            }
+        }
+
+        private void Visit(DomainId<IConditionalStatementNode> ifElseNode)
         {
             var node = ifElseNode.ToDomainItem(m_domainItemLocator);
             var predicateResult = Evaluate(node.Predicate);
@@ -120,7 +146,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             m_questionsCurrentlyVisible.Pop();
         }
 
-        private bool Evaluate(Reference<IBooleanLogicNode> predicate)
+        private bool Evaluate(DomainId<IBooleanLogicNode> predicate)
         {
             return m_booleanEvaluator.Evaluate(predicate);
         }
@@ -145,7 +171,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 
             if (type == typeof(int))
             {
-                return m_lookup.Lookup<int>(question.Id).ToString(CultureInfo.InvariantCulture);
+                return m_lookup.Lookup<decimal>(question.Id).ToString(CultureInfo.InvariantCulture);
             }
 
             if (type == typeof(DateTime))

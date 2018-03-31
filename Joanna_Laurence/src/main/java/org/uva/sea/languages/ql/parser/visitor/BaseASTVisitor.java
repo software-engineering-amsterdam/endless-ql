@@ -2,9 +2,9 @@ package org.uva.sea.languages.ql.parser.visitor;
 
 import org.uva.sea.languages.ql.parser.elements.*;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
 import org.uva.sea.languages.ql.parser.nodeTypes.BinaryOperator;
-import org.uva.sea.languages.ql.parser.nodeTypes.SingleNode;
+import org.uva.sea.languages.ql.parser.nodeTypes.SingleOperator;
 
 public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
 
@@ -45,7 +45,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
     public T visit(Negative node) {
-        return this.visit((SingleNode) node);
+        return this.visit((SingleOperator) node);
     }
 
     public T visit(NotEqual node) {
@@ -53,7 +53,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
     public T visit(Not node) {
-        return this.visit((SingleNode) node);
+        return this.visit((SingleOperator) node);
     }
 
     public T visit(Or node) {
@@ -61,7 +61,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
     }
 
     public T visit(Positive node) {
-        return this.visit((SingleNode) node);
+        return this.visit((SingleOperator) node);
     }
 
     public T visit(Subtraction node) {
@@ -102,9 +102,9 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
 
     public T visit(IfStatement node) {
         node.getExpression().accept(this);
-        node.getThen().accept(this);
-        if (node.getOtherwise() != null)
-            node.getOtherwise().accept(this);
+        node.getThenBlock().accept(this);
+        if (node.getOtherwiseBlock() != null)
+            node.getOtherwiseBlock().accept(this);
         return null;
     }
 
@@ -112,7 +112,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
         return node.getStatements().accept(this);
     }
 
-    public T visit(final Question node) {
+    public T visit(Question node) {
         if (node.getValue() != null)
             node.getValue().accept(this);
 
@@ -135,7 +135,7 @@ public abstract class BaseASTVisitor<T> implements IASTVisitor<T> {
         return null;
     }
 
-    public T visit(SingleNode node) {
+    public T visit(SingleOperator node) {
         return node.getValue().accept(this);
     }
 }

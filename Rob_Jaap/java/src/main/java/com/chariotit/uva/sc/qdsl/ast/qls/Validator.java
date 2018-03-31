@@ -1,7 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.qls;
 
 import com.chariotit.uva.sc.qdsl.ast.ql.node.QLAstRoot;
-import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckError;
+import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
 import com.chariotit.uva.sc.qdsl.ast.qls.visitor.TypeCheckVisitor;
 

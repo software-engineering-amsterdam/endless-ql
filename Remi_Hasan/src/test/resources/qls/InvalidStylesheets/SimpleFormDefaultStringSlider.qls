@@ -1,0 +1,16 @@
+stylesheet simpleForm
+{
+  page Page1
+  {
+    section "All Questions"
+    {
+      question someInteger
+      question someBoolean
+      question someDecimal
+      question someDate
+      question someMoney
+      question someString
+    }
+    default string widget slider(0,1)
+  }
+}

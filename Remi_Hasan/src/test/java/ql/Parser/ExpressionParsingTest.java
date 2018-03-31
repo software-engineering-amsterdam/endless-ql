@@ -1,12 +1,12 @@
-package ql.Parser;
+package ql.parser;
 
-import ql.parser.QLLexer;
-import ql.parser.QLParser;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.runner.RunWith;
+import ql.antlr.QLLexer;
+import ql.antlr.QLParser;
 
 import static org.junit.Assert.assertEquals;
 

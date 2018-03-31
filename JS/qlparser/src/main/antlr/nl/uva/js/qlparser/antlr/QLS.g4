@@ -10,12 +10,12 @@ LC: '//'~[\r\n]+ -> skip;
 STYLESHEET: 'stylesheet';
 
 // Keywords
-PAGE:     'page';
-SECTION:  'section';
-QUESTION: 'question';
-WIDGET:   'widget';
-DEFAULT:  'default';
-STYLE:    'style';
+PAGE:       'page';
+SECTION:    'section';
+EXPRESSION: 'expression';
+WIDGET:     'widget';
+DEFAULT:    'default';
+STYLE:      'style';
 
 // Datatypes
 DATE:       'date';
@@ -47,13 +47,11 @@ FONTTYPE:    'fonttype';
 FONTSTYLE:   'fontstyle';
 
 
-// Question, page and widget names
+// Expression, page and widget names
 NAME: [a-zA-Z][a-zA-Z0-9]*;
 
 // String values for naming Pages and Sections
 STRVAL: '"'~['\\\r\n]*?'"';
-
-COLORVAL: '#'[a-zA-Z0-9]*;
 
 INTVAL:[0-9]+;
 
@@ -96,11 +94,11 @@ page
     ;
 
 section
-    : SECTION STRVAL LB question* RB
+    : SECTION STRVAL LB expression* RB
     ;
 
-question
-    : QUESTION NAME (WIDGET widgetType widgetStyle?)?
+expression
+    : EXPRESSION NAME (WIDGET widgetType)? (widgetStyle)?
     ;
 
 widgetStyle

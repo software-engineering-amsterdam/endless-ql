@@ -9,8 +9,8 @@ public class DuplicateSymbolMismatchException extends Exception {
                 String.format("Duplicate symbol declaration %s on lines %d and %d with different " +
                                 "types (%s and %s)",
                         entryA.getLabel(),
-                        entryA.getNode().getLineNumber(),
-                        entryB.getNode().getLineNumber(),
+                        entryA.getNode().getSourceFilePosition().getLineNumber(),
+                        entryB.getNode().getSourceFilePosition().getLineNumber(),
                         entryA.getExpressionType(),
                         entryB.getExpressionType())
         );

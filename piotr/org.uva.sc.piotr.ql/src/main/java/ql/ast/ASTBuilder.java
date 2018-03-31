@@ -1,5 +1,6 @@
 package ql.ast;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import ql.ast.model.ASTNode;
 import ql.ast.model.Form;
 import ql.ast.model.declarations.*;
@@ -20,7 +21,6 @@ import ql.ast.model.statements.Question;
 import ql.ast.model.statements.Statement;
 import ql.grammar.QLBaseVisitor;
 import ql.grammar.QLParser;
-import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,6 +144,14 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
         );
     }
 
+    @Override
+    public TypeDeclarationDate visitTypeDeclarationDate(QLParser.TypeDeclarationDateContext ctx) {
+        return new TypeDeclarationDate(
+                ctx.getText(),
+                this.ExtractMetaInformationFromContext(ctx)
+        );
+    }
+
     // Values
 
     @Override
@@ -156,10 +164,15 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
             type = Expression.DataType.BOOLEAN;
         } else if (ctx.DECIMAL() != null) {
             type = Expression.DataType.DECIMAL;
+        } else if (ctx.MONEY() != null) {
+            type = Expression.DataType.MONEY;
+            text = ctx.value.getText().substring(1, ctx.value.getText().length());      // remove first character
         } else if (ctx.INTEGER() != null) {
             type = Expression.DataType.INTEGER;
+        } else if (ctx.DATE() != null) {
+            type = Expression.DataType.DATE;
         } else if (ctx.STRING() != null) {
-            text = ctx.value.getText().substring(1, ctx.value.getText().length() - 1);
+            text = ctx.value.getText().substring(1, ctx.value.getText().length() - 1);  // remove first & last char.
         }
 
         return new Literal(
@@ -310,9 +323,7 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
 
     private ASTNode.MetaInformation ExtractMetaInformationFromContext(ParserRuleContext ctx) {
         return new ASTNode.MetaInformation(
-                ctx.start.getLine(),
-                ctx.stop.getLine(),
-                ctx.getText()
+                ctx.start.getLine()
         );
     }
 }

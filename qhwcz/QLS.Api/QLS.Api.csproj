@@ -34,6 +34,7 @@
       <HintPath>..\packages\Antlr4.Runtime.4.6.4\lib\net45\Antlr4.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,12 +56,18 @@
     <Compile Include="Ast\StylesheetNode.cs" />
     <Compile Include="Ast\WidgetNode.cs" />
     <Compile Include="Ast\WidgetOptionNode.cs" />
-    <Compile Include="Entities\WidgetType.cs" />
+    <Compile Include="Entities\IWidgetType.cs" />
     <Compile Include="Infrastructure\StylesheetTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QL.Api\QL.Api.csproj">
+      <Project>{E314ABD5-8189-4707-B201-A82933957F51}</Project>
+      <Name>QL.Api</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

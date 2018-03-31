@@ -1,11 +1,11 @@
 package org.uva.forcepushql;
 
 import org.antlr.v4.runtime.*;
-import org.uva.forcepushql.antlr.GrammarLexer;
-import org.uva.forcepushql.antlr.GrammarParser;
-import org.uva.forcepushql.ast.BuildASTVisitor;
-import org.uva.forcepushql.ast.Node;
-import org.uva.forcepushql.ast.VisitorEvaluator;
+import org.uva.forcepushql.parser.antlr.GrammarLexer;
+import org.uva.forcepushql.parser.antlr.GrammarParser;
+import org.uva.forcepushql.parser.ast.visitors.BuildASTVisitor;
+import org.uva.forcepushql.parser.ast.elements.Node;
+import org.uva.forcepushql.interpreter.evaluators.ASTVisitorEvaluator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,10 @@ public class Test
         //Node ifCondition = new BuildASTVisitor().visitConditionalIf(parser.conditionalIf());
         //String value = new EvaluateExpressionVisitor().visit(ifCondition);
         Node form = new BuildASTVisitor().visitFormStructure(parser.formStructure());
-        //String value = form.accept(new VisitorEvaluator());
+        //String value = form.accept(new ASTVisitorEvaluator());
+
+
+
 
         JFrame guiFrame = new JFrame("MainFrame");
         guiFrame.setLocationRelativeTo(null);
@@ -48,7 +51,7 @@ public class Test
         guiFrame.setLayout(null);
 
         //ADD PANELS
-        LinkedList<JPanel> jPanels = form.accept(new VisitorEvaluator());
+        LinkedList<JPanel> jPanels = form.accept(new ASTVisitorEvaluator());
         Insets insets = guiFrame.getInsets();
         int height = 5;
 

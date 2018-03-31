@@ -106,7 +106,7 @@ ID
 	: [a-zA-Z0-9]+
 	;
 DATE
-	: '"' NUMBER '-' NUMBER '-' NUMBER '"'
+	: NUMBER '-' NUMBER '-' NUMBER
 	;
 STRING
 	: '"' (~'"' | '""')* '"'

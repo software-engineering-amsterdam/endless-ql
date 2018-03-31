@@ -9,7 +9,7 @@ import ql.gui.widget.*;
 import ql.ast.Form;
 import ql.ast.statement.ComputedQuestion;
 import ql.ast.statement.IfThenStatement;
-import ql.ast.statement.NormalQuestion;
+import ql.ast.statement.AnswerableQuestion;
 import ql.ast.statement.Question;
 import ql.ast.type.*;
 import ql.visiting.MainVisitor;
@@ -22,7 +22,7 @@ import ql.ast.expression.LiteralExpression;
 import ql.ast.literal.BooleanLiteral;
 
 
-public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGUI, WidgetInterface> {
+public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGUI, Widget> {
 
 	@Override
 	public FormGUI createFormGUI(Form form) {
@@ -31,7 +31,7 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 	
 	    form.getBlock().accept(new MainVisitor<Void, Expression>() {
              @Override
-             public Void visit(NormalQuestion question, Expression enableExpression) {
+             public Void visit(AnswerableQuestion question, Expression enableExpression) {
                questions.add(createQuestionGUI(question, enableExpression, null, ctx));
                return null;
              }
@@ -71,18 +71,18 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 	}
 
 	@Override
-	public WidgetInterface createValueWidget(Question question, EvaluationContext ctx) {
-		return question.getType().accept(new TypeVisitor<WidgetInterface, Void>() {
+	public Widget createValueWidget(Question question, EvaluationContext ctx) {
+		return question.getType().accept(new TypeVisitor<Widget, Void>() {
 			
 			// type visitor found undefined type, no widget is created
 			@Override
-			public WidgetInterface visit(UndefinedType type, Void ctx) {
+			public Widget visit(UndefinedType type, Void ctx) {
 				throw new UnsupportedOperationException(
 						"Error WidgetInterface: Value type is undefined!");
 			}
 			
 			@Override
-			public WidgetInterface visit(BooleanType type, Void ctx2){
+			public Widget visit(BooleanType type, Void ctx2){
 				//default False "No"
 				FieldOption defaultOption = new FieldOption("No", BooleanValue.FALSE);
 				FieldOption otherOption = new FieldOption("Yes", BooleanValue.TRUE);
@@ -94,33 +94,33 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 			}
 			
 			@Override
-			public WidgetInterface visit(StringType type, Void ctx2) {
+			public Widget visit(StringType type, Void ctx2) {
 				//default empty string
 				return new TextField(question, new StringValue(""), ctx);
 			}
 				
 			@Override
-			public WidgetInterface visit(MoneyType type, Void ctx2) {
+			public Widget visit(MoneyType type, Void ctx2) {
 				//default 0.0
-				return new TextField(question, new DecimalValue(BigDecimal.valueOf(0.0)), ctx);
+				return new TextField(question, new MoneyValue(BigDecimal.valueOf(0.0)), ctx);
 			}
 			
 			@Override
-			public WidgetInterface visit(DateType type, Void ctx2) {
+			public Widget visit(DateType type, Void ctx2) {
 				//default today
 				return new TextField(question, new DateValue(new Date()), ctx);
 			}
 			
 			@Override
-			public WidgetInterface visit(IntegerType type, Void ctx2) {
+			public Widget visit(IntegerType type, Void ctx2) {
 				//default 0
 				return new TextField(question, new IntegerValue(0), ctx);
 			}
 			
 			@Override
-			public WidgetInterface visit(DecimalType type, Void ctx2) {
+			public Widget visit(DecimalType type, Void ctx2) {
 				//default 0.0
-				return new TextField(question, new DecimalValue(BigDecimal.valueOf(0.0)), ctx);
+				return new TextField(question, new MoneyValue(BigDecimal.valueOf(0.0)), ctx);
 			}
 				
 		  },
@@ -128,7 +128,7 @@ public class QlPageGenerator implements QlGraphicalInterface<FormGUI, QuestionGU
 	}
 	
 	@Override
-	public WidgetInterface createLabel(Question question, EvaluationContext ctx) {
+	public Widget createLabel(Question question, EvaluationContext ctx) {
 		//question label
 		return new Label(question.getName()); 
 	}

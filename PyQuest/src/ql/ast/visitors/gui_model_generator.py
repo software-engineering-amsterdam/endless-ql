@@ -1,11 +1,11 @@
-from ql.ast.statements.form_node import FormNode
-from ql.ast.statements.if_node import IfNode
-from ql.ast.statements.question_node import QuestionNode
-from ql.ast.expressions.binary_operators.and_node import AndOperatorNode
+from ql.ast.nodes.statements.form_node import FormNode
+from ql.ast.nodes.statements.if_node import IfNode
+from ql.ast.nodes.statements.question_node import QuestionNode
+from ql.ast.nodes.expressions.binary_operators.and_node import AndOperatorNode
 from ql.types.boolean import QLBoolean
 from ql.types.undefined import QLUndefined
 from ql.ast.visitors.visitor_helper import when, on
-from gui.model.form import Form
+from gui.model.form import FormModel
 
 
 class GUIModel:
@@ -19,7 +19,7 @@ class GUIModel:
 
     @when(FormNode)
     def visit(self, node):
-        self.form = Form(node.identifier)
+        self.form = FormModel(node.identifier)
 
         for child in node.block:
             child.accept(self)

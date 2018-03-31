@@ -2,16 +2,14 @@ package org.uva.ql.validation;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.app.InputHandler;
-import org.uva.app.LogHandler;
+import org.uva.app.IOHandler;
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.parsing.ASTBuilder;
 import org.uva.ql.validation.checker.DependencyChecker;
-import org.uva.ql.validation.collector.ParameterMapping;
+import org.uva.ql.validation.collector.ParameterContext;
 
 import java.util.*;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.assertFalse;
@@ -19,27 +17,21 @@ import static org.junit.Assert.assertTrue;
 
 public class DependencyCheckerTest {
 
-    private LogHandler logHandler;
-
     @Before
-    public void setUp() {
-        Logger logger = Logger.getGlobal();
-        LogManager.getLogManager().reset();
-        this.logHandler = new LogHandler();
-        logger.addHandler(logHandler);
+    public void setUp() throws Exception {
+        //Disable console logging for tests.
+        Logger.getGlobal().setUseParentHandlers(false);
     }
 
     @Test
     public void runCheckTestInput() {
-
-        String input = new InputHandler().readFile("input/test/circularDependency.ql");
+        String input = new IOHandler().readFile("input/test/circularDependency.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
-        DependencyChecker dependencyChecker = new DependencyChecker(new ParameterMapping(form).getParameterMapping());
-        dependencyChecker.runCheck();
+        DependencyChecker dependencyChecker = new DependencyChecker(new ParameterContext(form).getDependencyMapping());
 
-        assertTrue(this.logHandler.hasErrors());
+        assertTrue(dependencyChecker.runCheck().hasErrors());
     }
 
     @Test
@@ -51,9 +43,8 @@ public class DependencyCheckerTest {
         parameterMapping.put("Q1", parameters);
 
         DependencyChecker dependencyChecker = new DependencyChecker(parameterMapping);
-        dependencyChecker.runCheck();
 
-        assertTrue(this.logHandler.hasWarnings());
+        assertTrue(dependencyChecker.runCheck().hasErrors());
     }
 
     @Test
@@ -68,9 +59,8 @@ public class DependencyCheckerTest {
         parameterMapping.put("Q2", parameters);
 
         DependencyChecker dependencyChecker = new DependencyChecker(parameterMapping);
-        dependencyChecker.runCheck();
 
-        assertTrue(this.logHandler.hasWarnings());
+        assertTrue(dependencyChecker.runCheck().hasErrors());
     }
 
     @Test
@@ -88,9 +78,8 @@ public class DependencyCheckerTest {
         expressions.put("Q3", parameters);
 
         DependencyChecker dependencyChecker = new DependencyChecker(expressions);
-        dependencyChecker.runCheck();
 
-        assertTrue(this.logHandler.hasWarnings());
+        assertTrue(dependencyChecker.runCheck().hasErrors());
     }
 
     @Test
@@ -105,8 +94,7 @@ public class DependencyCheckerTest {
         expressions.put("Q2", parameters);
 
         DependencyChecker dependencyChecker = new DependencyChecker(expressions);
-        dependencyChecker.runCheck();
 
-        assertFalse(this.logHandler.hasWarnings());
+        assertFalse(dependencyChecker.runCheck().hasErrors());
     }
 }

@@ -1,60 +1,69 @@
-from os import listdir
-from ql.parser.lexer import QLLexer
-from ql.parser.parser import QLParser
 from termcolor import colored
 
+from os import listdir
 
-def test_directory(directory, parser, lexer):
-    success_counter = 0
-    directory_valid_tests = directory + '/valid/'
-    directory_invalid_tests = directory + '/invalid/'
-    valid_files = sorted(listdir(directory_valid_tests))
-    invalid_files = sorted(listdir(directory_invalid_tests))
 
-    print('Performing valid {} test:'.format(directory[:-1]))
+class Test:
+    def __init__(self, name, directory):
+        self.__name = name
+        self.directory = directory
+        self.valid_files = sorted(listdir(directory + 'valid'))
+        self.invalid_files = sorted(listdir(directory + 'invalid'))
 
-    for file in valid_files:
-        test = open(directory_valid_tests + file, 'r').read()
-        result = test_parser(test, parser, lexer)
-        print_result(file, result)
+    @property
+    def name(self):
+        return self.__name
+
+    def test(self):
+        successes = 0
+        print('-------------------------------------------------------------------------------------------\n')
+        print('Performing {} tests.\n'.format(self.name))
+        print('-------------------------------------------------------------------------------------------\n')
+        print('Performing valid tests:')
+        successes += self.test_valid_files()
+
+        print()
+        print('Performing invalid tests:')
+        successes += self.test_invalid_files()
+
+        print()
+        print('{} out of {} {} tests successful.\n'.format(successes, len(self.valid_files) + len(self.invalid_files),
+                                                           self.name))
+
+    def test_file(self, file):
+        pass
+
+    def test_valid_files(self, valid=True):
+        successes = 0
+
+        for file in self.valid_files:
+            test = open(self.directory + 'valid/' + file, 'r').read()
+            result = valid == self.test_file(test)
+            self.print_result(file, result, test.split('\n')[0])
+
+            if result:
+                successes += 1
+
+        return successes
+
+    def test_invalid_files(self, valid=False):
+        successes = 0
+
+        for file in self.invalid_files:
+            test = open(self.directory + 'invalid/' + file, 'r').read()
+            result = valid == self.test_file(test)
+            self.print_result(file, result, test.split('\n')[0])
+
+            if result:
+                successes += 1
+
+        return successes
+
+    @staticmethod
+    def print_result(file, result=True, test=''):
+        tag = colored('[failure]', 'red')
 
         if result:
-            success_counter += 1
+            tag = colored('[success]', 'green')
 
-    print('Performing invalid {} test:'.format(directory[:-1]))
-
-    for file in invalid_files:
-        test = open(directory_invalid_tests + file, 'r').read()
-        result = not test_parser(test, parser, lexer)
-        print_result(file, result)
-
-        if result:
-            success_counter += 1
-
-    print('{} out of {} test successful.\n'.format(success_counter, len(valid_files) + len(invalid_files)))
-
-
-def test_parser(test, parser, lexer):
-    try:
-        parser.parser.parse(test, lexer.lexer)
-        return True
-    except:
-        return False
-
-
-def print_result(file, result=True):
-    if result:
-        tag = colored('[success]', 'green')
-    else:
-        tag = colored('[fail]', 'red')
-
-    print('{} {}'.format(tag, file))
-
-
-if __name__ == '__main__':
-    parser = QLParser()
-    lexer = QLLexer()
-    directories = ['parser/']
-
-    for directory in directories:
-        test_directory(directory, parser, lexer)
+        print(tag, file, test.strip('//').strip())

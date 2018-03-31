@@ -8,7 +8,7 @@ import nl.uva.js.qlparser.wrappers.logic.ValueChangeListener;
 
 @Data
 @Builder
-public class Value<T> implements DataExpression {
+public class Value<T> implements DataExpression<T> {
     @NonNull private DataType dataType;
     @NonNull private T value;
 

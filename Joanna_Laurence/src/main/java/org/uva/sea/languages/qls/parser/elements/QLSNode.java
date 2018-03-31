@@ -7,7 +7,7 @@ public abstract class QLSNode {
 
     private final Token token;
 
-    public QLSNode(Token token) {
+    protected QLSNode(Token token) {
         this.token = token;
     }
 

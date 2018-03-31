@@ -12,7 +12,7 @@ import ql.visiting.value.StringValue;
 import ql.visiting.value.Value;
 
 
-public class Label implements WidgetInterface {
+public class Label implements Widget {
 	private JLabel label;
 
 	// Configuration
@@ -23,8 +23,7 @@ public class Label implements WidgetInterface {
 	public Label(String str) {
 		label = new JLabel(str);
 		setConfiguration(config);
-		//label.setComponentPopupMenu(new JPopupMenu());
-		label.setToolTipText("info");
+		//label.setToolTipText("info");
 		label.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 	}
 	

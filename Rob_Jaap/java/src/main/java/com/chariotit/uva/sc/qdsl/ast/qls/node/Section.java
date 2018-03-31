@@ -1,6 +1,7 @@
 package com.chariotit.uva.sc.qdsl.ast.qls.node;
 
 
+import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.qls.visitor.NodeVisitor;
 
 import java.util.ArrayList;
@@ -11,17 +12,15 @@ public class Section extends SectionElement {
     private List<SectionElement> elements;
     private List<DefaultProperties> defaults;
 
-    public Section(List<SectionElement> elements, List<DefaultProperties> defaults, Integer
-            lineNumber,
-                   Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public Section(List<SectionElement> elements, List<DefaultProperties> defaults, SourceFilePosition
+            filePosition) {
+        super(filePosition);
         this.elements = elements;
         this.defaults = defaults;
     }
 
-    public Section(List<SectionElement> elements, Integer lineNumber,
-                   Integer columnNumber) {
-        super(lineNumber, columnNumber);
+    public Section(List<SectionElement> elements, SourceFilePosition filePosition) {
+        super(filePosition);
         this.elements = elements;
         this.defaults = new ArrayList<>();
     }

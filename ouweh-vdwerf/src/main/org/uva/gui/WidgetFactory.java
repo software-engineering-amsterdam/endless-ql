@@ -1,8 +1,6 @@
 package org.uva.gui;
 
-import org.uva.gui.widgets.BooleanWidget;
-import org.uva.gui.widgets.IntegerWidget;
-import org.uva.gui.widgets.QuestionWidget;
+import org.uva.gui.widgets.*;
 import org.uva.ql.ast.Question;
 import org.uva.ql.evaluator.value.Value;
 import org.uva.qls.ast.Widget.WidgetTypes.*;
@@ -28,31 +26,31 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
 
     @Override
     public QuestionWidget visit(CheckboxType checkboxType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly);
+        return new CheckboxWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), checkboxType.getLabel());
     }
 
     @Override
     public QuestionWidget visit(DropDownType dropDownType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly);
+        return new DropdownWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), dropDownType.getTrueLabel(), dropDownType.getFalseLabel());
     }
 
     @Override
     public QuestionWidget visit(RadioType radioType, Question question, Value value, Boolean readOnly) {
-        return new BooleanWidget(question, value, readOnly);
+        return new RadioWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), radioType.getTrueLabel(), radioType.getFalseLabel());
     }
 
     @Override
     public QuestionWidget visit(SliderType sliderType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly);
+        return new SliderWidget(question, value, readOnly, this.styleEvaluator.getStyle(question), sliderType.getStart(), sliderType.getEnd(), sliderType.getStep());
     }
 
     @Override
     public QuestionWidget visit(SpinboxType spinboxType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly);
+        return new SpinboxWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 
     @Override
     public QuestionWidget visit(TextType textType, Question question, Value value, Boolean readOnly) {
-        return new IntegerWidget(question, value, readOnly);
+        return new TextWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 }

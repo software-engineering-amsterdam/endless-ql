@@ -16,42 +16,45 @@ from .form_page import Page
 import copy
 import collections
 
-class FormGui:
 
+class FormGui:
     """
         Create the header, buttonframe, and content frame, also set the question generator.
 
         If QLS is enabled, a menu for the buttons will be created, if it is disabled, a default frame
         will be created
     """
-    def __init__(self, parent, questionGenerator, header="No Header Text", color="orange", qls=False):
+
+    def __init__(self, parent, questionGenerator, header="No Header Text", color="white", qls=False):
         self.frame = create_frame(parent, color)
         self.frame.pack(expand=True, fill='both')
         self.headerFrame = None
+        self.header = header
         self.createHeader(header, parent=self.frame)
 
         self.pages = collections.OrderedDict()
-        self.buttonFrame = create_frame(self.frame, background='blue')
+        self.buttonFrame = create_frame(self.frame, background='white')
 
         if qls:
             self.buttonFrame.pack(side="top", fill="x", expand=False)
 
-        self.contents = create_frame(self.frame, background='black')
+        self.contents = create_frame(self.frame)
         self.contents.pack(side="top", fill="both", expand=True)
 
         self.questions = []
         self.name = header
         self.questionGenerator = questionGenerator
 
-        if qls == False:
+        if not qls:
             self.addPage()
             self.pages['default'].createSection()
 
     """
         Create the header with possible QLS formatting
     """
+
     def createHeader(self, header, parent=None, boxWidth=200, boxHeight=2, fontType='Arial', fontSize=15,
-                      fontColor='blue'):
+                     fontColor='blue'):
         headerFrame = create_frame(parent)
         text = Text(parent, height=boxHeight, width=boxWidth)
         headerFont = Font(family=fontType, size=fontSize, weight='bold')
@@ -65,6 +68,7 @@ class FormGui:
         Add a new page to the content frame and place a button within the button frame. 
         The new page is also added to our dictionairy of pages (used for adding and removing question)
     """
+
     def addPage(self, header='default', color='green'):
         new_page = Page(self.contents, self.questionGenerator, color=color)
         new_page.place(self.contents, x=0, y=0, relwidth=1, relheight=1)
@@ -81,23 +85,10 @@ class FormGui:
     def getPage(self, pageName):
         return self.pages[pageName]
 
-    # """
-    #     Add questions to a given page, if no page is given (QL), the default page will be used
-    # """
-    # def addQuestionToPage(self, varName, questionText="Default Question", questionType=bool, value=False, pageName='default'):
-    #     page = self.pages[pageName]
-    #     page.addQuestion(varName, questionText, questionType, value)
-    #
-    # """
-    #     Remove questions from a given page, if no page is given (QL), the default page will be used
-    # """
-    # def removeQuestionFromPage(self, varName, pageName='default'):
-    #     page = self.pages[pageName]
-    #     page.removeQuestion(varName)
-
     """
         Checks if question is already on a page
     """
+
     def isQuestionOnPage(self, varName, sectionName='default', pageName='default'):
         page = self.pages[pageName]
         return page.isQuestionOnPage(varName, sectionName)
@@ -105,6 +96,7 @@ class FormGui:
     """
         Returns a question object from a section on a page
     """
+
     def getQuestionFromSection(self, varName, sectionName='default', pageName='default'):
         page = self.pages[pageName]
         return page.getQuestionFromSection(varName, sectionName)
@@ -112,16 +104,17 @@ class FormGui:
     """
         Deletes question that are no longer valid, i.e. questions in a if, elif or else
     """
+
     def deleteInvalidQuestions(self, questions, sectionName='default', pageName='default'):
         page = self.pages[pageName]
         page.deleteInvalidQuestions(questions, sectionName)
 
-    def insertQuestion(self, insertAfterVarName, varName,sectionName='default', questionText="Default Question", questionType=bool, value=False, pageName='default'):
+    def insertQuestion(self, varName, questionText, questionType, value, sectionName='default', pageName='default',
+                       insertAfterVarName="", defaults=None, widgetType='default', **kwargs):
         page = self.pages[pageName]
-        print(varName)
-        page.addQuestionToSection(sectionName, varName, questionText, questionType, value, insertAfterVarName)
+        page.addQuestionToSection(sectionName, varName, questionText, questionType, value, insertAfterVarName, defaults, widgetType, **kwargs)
 
-    def removeQuestionFromSection(self, pageName, sectionName, varName):
+    def removeQuestionFromSection(self, varName, sectionName='default', pageName='default'):
         page = self.pages[pageName]
         page.removeQuestionFromSection(sectionName, varName)
 
@@ -131,19 +124,29 @@ class FormGui:
             if section.getName() == sectionName:
                 return True
         return False
+
+    def getSection(self, sectionName='default', pageName='default'):
+        page = self.pages[pageName]
+        for section in page.sections:
+            if section.getName() == sectionName:
+                return section
+        return None
+
     """
         Get all of the answers (and assignments) from the varDict, and download them
     """
+
     def getAnswers(self):
         answers = {}
         varDict = self.questionGenerator.getVarDict()
         for varName in varDict:
             answers[varName] = varDict[varName]['node'].evaluate()
-        return answers
+        return answers, self.header
 
     """
         Usefull getter and setter functions
     """
+
     def getHeader(self):
         return self.headerFrame
 

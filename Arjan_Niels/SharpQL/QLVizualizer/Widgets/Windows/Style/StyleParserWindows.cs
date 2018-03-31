@@ -64,7 +64,7 @@ namespace QLVisualizer.Widgets.Windows.Style
                                 MarginBottom = QValueTypeParser.ParseInteger(qlsValue.StyleValue);
                                 break;
                             case StyleProperty.BackgroundColor:
-                                BackgroundColor = (Color)colorConverter.ConvertFromString(QValueTypeParser.ParseHexadecimal(qlsValue.StyleValue));
+                                BackgroundColor = QValueTypeParser.ParseHexadecimal(qlsValue.StyleValue).ToColor();
                                 break;
                             case StyleProperty.Font:
                                 Font = QValueTypeParser.ParseText(qlsValue.StyleValue);
@@ -73,7 +73,7 @@ namespace QLVisualizer.Widgets.Windows.Style
                                 FontSize = QValueTypeParser.ParseInteger(qlsValue.StyleValue);
                                 break;
                             case StyleProperty.TextColor:
-                                TextColor = (Color)colorConverter.ConvertFromString(QValueTypeParser.ParseHexadecimal(qlsValue.StyleValue));
+                                TextColor = QValueTypeParser.ParseHexadecimal(qlsValue.StyleValue).ToColor();
                                 break;
                             case StyleProperty.AutoSize:
                                 AutoSize = QValueTypeParser.ParseBoolean(qlsValue.StyleValue);

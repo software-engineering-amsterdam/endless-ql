@@ -138,7 +138,7 @@ namespace QLVisualizer.Factories
 
         private static ElementManagerLeaf AddQLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
         {
-            QLSStyle style = new QLSStyle(QValueType.Unknown, new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
+            QLSStyle style = new QLSStyle(QValueType.Unknown, new QLSWidgetSpecification(WidgetType.Default, new List<string>()));
 
             if (node.NodeStyles.Count > 1)
                 throw new InvalidOperationException("Multiple styles in leaf node");

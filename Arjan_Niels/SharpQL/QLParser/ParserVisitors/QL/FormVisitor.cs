@@ -23,10 +23,10 @@ namespace QLParser.ParserVisitors.QL
             FormNode node = new FormNode(Location.FromContext(context), name);
 
             // Get the sections
-            SectionContext[] sectionContext = context.section();
+            SectionContext[] sectionContexts = context.section();
             SectionVisitor visitor = new SectionVisitor();
-            foreach (SectionContext ctx in sectionContext)
-                node.AddNode(visitor.VisitSection(ctx));
+            foreach (SectionContext sectionContext in sectionContexts)
+                node.AddNode(visitor.VisitSection(sectionContext));
 
             return node;
         }

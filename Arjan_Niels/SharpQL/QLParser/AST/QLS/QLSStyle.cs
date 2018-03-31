@@ -37,22 +37,6 @@ namespace QLParser.AST.QLS
             return WidgetSpecification != null ? " - Node has a specification" : "";
         }
 
-        // TODO: REFACTOR
-        // qlsStyle (input) is dominant!!!
-        public QLSStyle CombineWith(QLSStyle qlsStyle)
-        {
-            QLSStyle result = new QLSStyle
-            {
-                QValueType = qlsStyle.QValueType,
-                WidgetSpecification = qlsStyle.WidgetSpecification,
-
-                // all unique values with qls as dominant base
-                StylingValues = qlsStyle.StylingValues.Concat(StylingValues.Where(o => !qlsStyle.StylingValues.Select(a => a.StyleProperty).Contains(o.StyleProperty))).ToList()
-            };
-
-            return result;
-        }
-
         #region IQLSElement
         public QLSWidgetSpecification GetQLSWidgetSpecification()
         {

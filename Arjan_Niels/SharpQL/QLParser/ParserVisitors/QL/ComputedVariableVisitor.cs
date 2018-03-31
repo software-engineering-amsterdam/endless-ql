@@ -14,9 +14,8 @@ namespace QLParser.ParserVisitors.QL
                 throw new ArgumentNullException("Context can't be null");
 
             var id = context.ID().GetText();
-            var textRaw = context.TEXT().GetText();
-            var text = textRaw.Substring(1, textRaw.Length - 2);
-            var qtype = (QValueType)Enum.Parse(typeof(QValueType), context.QTYPE().GetText().ToUpper());
+            var text = Util.RemoveQuotes(context.TEXT().GetText());
+            var qtype = Util.GetQValueTypeFromString(context.QTYPE().GetText());
 
             IExpressionNode expression = null;
 

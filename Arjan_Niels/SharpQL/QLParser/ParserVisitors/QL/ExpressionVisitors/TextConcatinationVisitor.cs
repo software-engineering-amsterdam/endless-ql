@@ -27,7 +27,7 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
             else if (context.TEXT() != null)
                 return new LiteralNode(location, Util.RemoveQuotes(context.TEXT().GetText()), QValueType.Text);
 
-            throw new InvalidOperationException("We shouldn't be able to reach this line of code! Everything should be handled by the statements above");
+            throw new NotImplementedException("We shouldn't be able to reach this line of code! Everything should be handled by the statements above");
         }
     }
 }

@@ -15,7 +15,6 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
             if (context == null)
                 throw new ArgumentNullException("Context can't be null");
 
-            // If ( expression )
             var comparisonoContext = context.comparisonExpression();
             if (comparisonoContext != null)
                 return VisitComparisonExpression(comparisonoContext);

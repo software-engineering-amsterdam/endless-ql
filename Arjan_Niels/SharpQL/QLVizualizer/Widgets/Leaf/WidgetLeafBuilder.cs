@@ -1,4 +1,5 @@
-﻿using QLParser.AST.QL;
+﻿using QLParser;
+using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers;
 
@@ -19,7 +20,7 @@ namespace QLVisualizer.Widgets.Leaf
             if (!RetrieveValidStyle(styles, out style))
                 return;
 
-            _style = style.CombineWith(_style);
+            _style = Util.CombineStyles(_style, style);
 
             string[] errors = new string[0];
             _styleParser?.ParseStyle(_style, out errors);

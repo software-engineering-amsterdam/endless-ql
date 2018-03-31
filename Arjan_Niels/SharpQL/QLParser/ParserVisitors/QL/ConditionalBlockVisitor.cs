@@ -22,10 +22,10 @@ namespace QLParser.ParserVisitors.QL
             var conditionalNode = new ConditionalNode(Location.FromContext(context), expression);
 
             // Get the sections and process them.
-            var sectionContext = context.section();
+            var sectionContexts = context.section();
             var sectionVisitor = new SectionVisitor();
-            foreach (var ctx in sectionContext)
-                conditionalNode.AddNode(sectionVisitor.VisitSection(ctx));
+            foreach (var sectionContext in sectionContexts)
+                conditionalNode.AddNode(sectionVisitor.VisitSection(sectionContext));
 
             return conditionalNode;
         }

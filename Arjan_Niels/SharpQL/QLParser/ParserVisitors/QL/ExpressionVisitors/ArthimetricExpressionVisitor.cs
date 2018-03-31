@@ -36,10 +36,8 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
             if (context.artithmeticExpression() != null)
                 return VisitArtithmeticExpression(context.artithmeticExpression()[0]);
 
-
             return base.VisitArtithmeticExpression(context);
         }
-
 
         private ArthimetricOperator GetArthimeticOperator(ArtithmeticExpressionContext context)
         {

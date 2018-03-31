@@ -1,4 +1,5 @@
-﻿using QLParser.AST.QL;
+﻿using QLParser;
+using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers;
 using System;
@@ -31,7 +32,7 @@ namespace QLVisualizer.Widgets.Collection
                 if (!_styleValues.ContainsKey(style.QValueType))
                     _styleValues.Add(style.QValueType, style);
                 else
-                    _styleValues[style.QValueType] = style.CombineWith(_styleValues[style.QValueType]);
+                    _styleValues[style.QValueType] = Util.CombineStyles(_styleValues[style.QValueType], style);
             }
         }
 

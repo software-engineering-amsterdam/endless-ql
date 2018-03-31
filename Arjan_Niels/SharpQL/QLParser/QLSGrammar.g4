@@ -38,7 +38,7 @@ COLON				: ':';
 HASHTAG				: '#';
 
 QTYPE				: 'boolean' | 'money' | 'text' | 'integer' | 'double' | 'hex';
-WIDGETTYPE			: 'checkbox' | 'spinner' | 'radio' | 'textfield';
+WIDGETTYPE			: 'checkbox' | 'spinner' | 'radio' | 'textfield' | 'colorpicker';
 
 ID					: [a-zA-Z][a-zA-Z0-9\-]+;
 TEXT				: '"' .*? '"' ;

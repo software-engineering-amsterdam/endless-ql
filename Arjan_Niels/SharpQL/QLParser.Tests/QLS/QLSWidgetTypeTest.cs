@@ -114,7 +114,7 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetType);
 
             var questionNode = qls.Children[0].Children[0].Children[0];
-            Assert.AreEqual(WidgetType.SPINNER, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(WidgetType.Spinner, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
             Assert.AreEqual(0, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
         }
 
@@ -124,7 +124,7 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetTypeTextfield);
 
             var questionNode = qls.Children[0].Children[0].Children[0];
-            Assert.AreEqual(WidgetType.TEXTFIELD, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(WidgetType.Textfield, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
             Assert.AreEqual(0, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
         }
 
@@ -135,7 +135,7 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetTypeWithArguments);
 
             var questionNode = qls.Children[0].Children[0].Children[0];
-            Assert.AreEqual(WidgetType.RADIO, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(WidgetType.Radio, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
             Assert.AreEqual(3, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
             Assert.AreEqual("Yes", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[0]);
             Assert.AreEqual("No", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[1]);

@@ -1,8 +1,8 @@
-﻿using Antlr4.Runtime.Misc;
-using QLParser.AST;
+﻿using QLParser.AST;
 using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
+using System;
 using System.Collections.Generic;
 using static QLSGrammar.QLSGrammarParser;
 
@@ -10,8 +10,11 @@ namespace QLParser.ParserVisitors.QLS
 {
     public class StylesheetVisitor : QLSGrammar.QLSGrammarBaseVisitor<QLSNode>
     {
-        public override QLSNode VisitStylesheet([NotNull] StylesheetContext context)
+        public override QLSNode VisitStylesheet(StylesheetContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null.");
+
             string id = context.ID().GetText();
             var styles = VisitDefaults(context.defaults());
             var qlsNode = new QLSStructuralNode(Location.FromContext(context), QLSNodeType.Stylesheet, id, styles);
@@ -22,8 +25,11 @@ namespace QLParser.ParserVisitors.QLS
             return qlsNode;
         }
 
-        public override QLSNode VisitPage([NotNull] PageContext context)
+        public override QLSNode VisitPage(PageContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null.");
+
             string id = Util.RemoveQuotes(context.TEXT().GetText());
             var styles = VisitDefaults(context.defaults());
             var qlsNode = new QLSStructuralNode(Location.FromContext(context), QLSNodeType.Page, id, styles);
@@ -34,8 +40,11 @@ namespace QLParser.ParserVisitors.QLS
             return qlsNode;
         }
 
-        public override QLSNode VisitSection([NotNull] SectionContext context)
+        public override QLSNode VisitSection(SectionContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null.");
+
             string id = Util.RemoveQuotes(context.TEXT().GetText());
             var styles = VisitDefaults(context.defaults());
             var qlsNode = new QLSStructuralNode(Location.FromContext(context), QLSNodeType.Section, id, styles);
@@ -49,8 +58,11 @@ namespace QLParser.ParserVisitors.QLS
             return qlsNode;
         }
 
-        public override QLSNode VisitQuestion([NotNull] QuestionContext context)
+        public override QLSNode VisitQuestion(QuestionContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null.");
+
             string id = context.ID().GetText();
 
             if (context.widgetspecification() != null)

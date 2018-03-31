@@ -18,7 +18,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf
         public override Control Create()
         {
             // Initialize inputcreator options
-            WidgetType widgetType = WidgetType.DEFAULT;
+            WidgetType widgetType = WidgetType.Default;
             List<string> widgetOptions = new List<string>() { _elementManager.Text };
 
             if (_elementManager.GetStyle() != null)
@@ -31,14 +31,14 @@ namespace QLVisualizer.Widgets.Windows.Leaf
             IInputCreator<Control, bool> inputCreator = null;
             switch (widgetType)
             {
-                case WidgetType.CHECKBOX:
-                case WidgetType.DEFAULT:
+                case WidgetType.Checkbox:
+                case WidgetType.Default:
                     inputCreator = new CheckBoxCreator<bool>();
                     break;
-                case WidgetType.TEXTFIELD:
+                case WidgetType.Textfield:
                     inputCreator = new TextBoxCreator<bool>();
                     break;
-                case WidgetType.RADIO:
+                case WidgetType.Radio:
                     inputCreator = new RadioButtonCreator<bool>();
                     break;
                 default:

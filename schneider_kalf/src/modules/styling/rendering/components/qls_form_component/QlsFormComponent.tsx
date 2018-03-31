@@ -37,7 +37,7 @@ export class QlsFormComponent extends React.Component<QlsFormComponentProps, Qls
   renderStyledField(identifier: string) {
     const styledField = this.props.form.getStyledField(identifier);
 
-    if (!this.fieldIsVisible(styledField)) {
+    if (!styledField || !this.fieldIsVisible(styledField)) {
       return null;
     }
 

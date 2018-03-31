@@ -1,30 +1,13 @@
 package gui;
 
 import QL.classes.Question;
-import QL.classes.values.BooleanValue;
-import QL.classes.values.IntegerValue;
-import QL.classes.values.StringValue;
-import QL.classes.values.UndefinedValue;
 import QL.classes.values.Value;
 import QL.parsing.visitors.FormVisitor;
-import QLS.parsing.visitors.StylesheetVisitor;
 import gui.listeners.QuestionListener;
-import gui.questions.QuestionPanel;
-import gui.questions.QuestionWidgetCheckBox;
-import gui.questions.QuestionWidgetDate;
-import gui.questions.text.QuestionWidgetTextInt;
-import gui.questions.text.QuestionWidgetTextString;
-import org.jdatepicker.JDatePicker;
+import gui.panels.QuestionPanel;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;

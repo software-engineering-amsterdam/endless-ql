@@ -20,6 +20,7 @@ public class WidgetVisitor extends QLSBaseVisitor {
     }
 
     @Override
+    //TODO: aklnglknf
     public WidgetType visitWidgetType(QLSParser.WidgetTypeContext ctx) {
         if(ctx.checkboxWidget() != null) {
             return visitCheckboxWidget(ctx.checkboxWidget());

@@ -1,8 +1,9 @@
-package gui.questions;
+package gui.panels;
 
 import QL.classes.Question;
 import QL.classes.values.Value;
 import gui.listeners.QuestionListener;
+import gui.widgets.Widget;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -10,31 +11,30 @@ import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.util.EventListener;
 
-public abstract class QuestionPanel extends JPanel {
-    private String key;
+public class QuestionPanel extends JPanel {
     private Question question;
     private Boolean isActive;
+    private Widget widget;
 
-    public QuestionPanel(String key, Question question) {
-        this.key = key;
+    public QuestionPanel(Question question, Widget widget) {
         this.question = question;
+        this.widget = widget;
         this.isActive = question.isVisible();
+
+        widget.getJComponent().setEnabled(!question.isFixed());
+
         this.add(new JLabel(question.getText()));
+        this.add(widget.getJComponent());
+
         this.setBorder(new MatteBorder(1, 1, 1, 1, Color.GRAY));
     }
-
-    public abstract void createControlWidget(String key);
 
     public Question getQuestion() {
         return question;
     }
 
-    public abstract JComponent getComponent();
-
-    public abstract void setValue(Value value);
-
-    public abstract void setWidgetFixed ();
-
-    public abstract void setQuestionChangeListener(QuestionListener questionListener);
+    public void refresh(){
+        widget.refresh();
+    }
 
 }

@@ -1,26 +1,18 @@
 package gui;
 
-import QL.classes.Question;
-import QL.classes.values.Value;
 import QLS.classes.Page;
 import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Section;
 import QLS.classes.blocks.StyledQuestion;
-import QLS.classes.widgets.CheckBoxWidget;
-import QLS.classes.widgets.TextWidget;
-import QLS.classes.widgets.WidgetType;
 import QLS.parsing.visitors.StylesheetVisitor;
-import gui.pages.PagePanel;
-import gui.questions.QuestionPanel;
+import gui.panels.PagePanel;
+import gui.panels.QuestionPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class QLSBuilder {
     private StylesheetVisitor stylesheetVisitor;

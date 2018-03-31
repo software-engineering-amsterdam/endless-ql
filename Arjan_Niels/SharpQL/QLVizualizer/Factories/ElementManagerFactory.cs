@@ -7,6 +7,7 @@ using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Elements.Managers.LeafTypes;
 using QLVisualizer.Expression.Enums;
 using QLVisualizer.Expression.Types;
+using QLVisualizer.Expression.Types.Numeric;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -65,10 +65,12 @@
     <Compile Include="Expression\Enums\ExpressionOperator.cs" />
     <Compile Include="Expression\ExpressionValue.cs" />
     <Compile Include="Expression\TypedExpressionValue.cs" />
-    <Compile Include="Expression\Types\ExpressionDouble.cs" />
-    <Compile Include="Expression\Types\ExpressionHex.cs" />
-    <Compile Include="Expression\Types\ExpressionInt.cs" />
+    <Compile Include="Expression\Types\Numeric\ExpressionDouble.cs" />
+    <Compile Include="Expression\Types\Numeric\ExpressionHex.cs" />
+    <Compile Include="Expression\Types\Numeric\ExpressionInt.cs" />
     <Compile Include="Expression\Types\ExpressionString.cs" />
+    <Compile Include="Expression\Types\Numeric\IExpressionNumeric.cs" />
+    <Compile Include="Expression\Types\Numeric\NumericUtils.cs" />
     <Compile Include="Factories\ExpressionFactory.cs" />
     <Compile Include="Factories\ElementManagerFactory.cs" />
     <Compile Include="Factories\QValueTypeParser.cs" />

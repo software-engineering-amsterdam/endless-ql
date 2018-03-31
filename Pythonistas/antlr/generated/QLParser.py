@@ -8,7 +8,7 @@ import sys
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#")
-        buf.write("t\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b")
+        buf.write("|\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b")
         buf.write("\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\3\2\3\2")
         buf.write("\3\2\3\2\3\2\3\3\3\3\7\3\"\n\3\f\3\16\3%\13\3\3\3\3\3")
         buf.write("\7\3)\n\3\f\3\16\3,\13\3\7\3.\n\3\f\3\16\3\61\13\3\3\3")
@@ -16,33 +16,36 @@ def serializedATN():
         buf.write("\5\16\5A\13\5\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7")
         buf.write("\3\7\5\7N\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\n\3\n")
         buf.write("\3\n\3\n\5\n\\\n\n\3\13\3\13\5\13`\n\13\3\f\3\f\3\f\3")
-        buf.write("\f\3\f\3\f\3\f\5\fi\n\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5")
-        buf.write("\rr\n\r\3\r\2\2\16\2\4\6\b\n\f\16\20\22\24\26\30\2\3\4")
-        buf.write("\2\6\7\n\n\2t\2\32\3\2\2\2\4\37\3\2\2\2\6\66\3\2\2\2\b")
-        buf.write("8\3\2\2\2\nB\3\2\2\2\fM\3\2\2\2\16O\3\2\2\2\20U\3\2\2")
-        buf.write("\2\22[\3\2\2\2\24_\3\2\2\2\26h\3\2\2\2\30q\3\2\2\2\32")
-        buf.write("\33\7\3\2\2\33\34\7\n\2\2\34\35\5\4\3\2\35\36\7\2\2\3")
-        buf.write("\36\3\3\2\2\2\37#\7\r\2\2 \"\7\"\2\2! \3\2\2\2\"%\3\2")
-        buf.write("\2\2#!\3\2\2\2#$\3\2\2\2$/\3\2\2\2%#\3\2\2\2&*\5\6\4\2")
-        buf.write("\')\7\"\2\2(\'\3\2\2\2),\3\2\2\2*(\3\2\2\2*+\3\2\2\2+")
-        buf.write(".\3\2\2\2,*\3\2\2\2-&\3\2\2\2.\61\3\2\2\2/-\3\2\2\2/\60")
-        buf.write("\3\2\2\2\60\62\3\2\2\2\61/\3\2\2\2\62\63\7\16\2\2\63\5")
-        buf.write("\3\2\2\2\64\67\5\b\5\2\65\67\5\16\b\2\66\64\3\2\2\2\66")
-        buf.write("\65\3\2\2\2\67\7\3\2\2\289\7\13\2\29:\7\n\2\2:;\7\f\2")
-        buf.write("\2;?\5\20\t\2<>\5\n\6\2=<\3\2\2\2>A\3\2\2\2?=\3\2\2\2")
-        buf.write("?@\3\2\2\2@\t\3\2\2\2A?\3\2\2\2BC\7\21\2\2CD\7\17\2\2")
-        buf.write("DE\5\22\n\2EF\7\20\2\2F\13\3\2\2\2GN\7\n\2\2HI\7\17\2")
-        buf.write("\2IJ\5\f\7\2JK\7\20\2\2KN\3\2\2\2LN\5\30\r\2MG\3\2\2\2")
-        buf.write("MH\3\2\2\2ML\3\2\2\2N\r\3\2\2\2OP\7\4\2\2PQ\7\17\2\2Q")
-        buf.write("R\5\f\7\2RS\7\20\2\2ST\5\4\3\2T\17\3\2\2\2UV\t\2\2\2V")
-        buf.write("\21\3\2\2\2W\\\7\t\2\2X\\\7\b\2\2Y\\\7\n\2\2Z\\\5\24\13")
-        buf.write("\2[W\3\2\2\2[X\3\2\2\2[Y\3\2\2\2[Z\3\2\2\2\\\23\3\2\2")
-        buf.write("\2]`\5\26\f\2^`\5\30\r\2_]\3\2\2\2_^\3\2\2\2`\25\3\2\2")
-        buf.write("\2ab\7\t\2\2bc\7\25\2\2ci\7\t\2\2de\7\17\2\2ef\5\26\f")
-        buf.write("\2fg\7\20\2\2gi\3\2\2\2ha\3\2\2\2hd\3\2\2\2i\27\3\2\2")
-        buf.write("\2jk\7\t\2\2kl\7\32\2\2lr\7\t\2\2mn\7\17\2\2no\5\30\r")
-        buf.write("\2op\7\20\2\2pr\3\2\2\2qj\3\2\2\2qm\3\2\2\2r\31\3\2\2")
-        buf.write("\2\f#*/\66?M[_hq")
+        buf.write("\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\5\fm\n\f\3\r\3\r\3\r\3")
+        buf.write("\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\rz\n\r\3\r\2\2\16\2\4")
+        buf.write("\6\b\n\f\16\20\22\24\26\30\2\3\4\2\6\7\n\n\2\u0080\2\32")
+        buf.write("\3\2\2\2\4\37\3\2\2\2\6\66\3\2\2\2\b8\3\2\2\2\nB\3\2\2")
+        buf.write("\2\fM\3\2\2\2\16O\3\2\2\2\20U\3\2\2\2\22[\3\2\2\2\24_")
+        buf.write("\3\2\2\2\26l\3\2\2\2\30y\3\2\2\2\32\33\7\3\2\2\33\34\7")
+        buf.write("\n\2\2\34\35\5\4\3\2\35\36\7\2\2\3\36\3\3\2\2\2\37#\7")
+        buf.write("\r\2\2 \"\7\"\2\2! \3\2\2\2\"%\3\2\2\2#!\3\2\2\2#$\3\2")
+        buf.write("\2\2$/\3\2\2\2%#\3\2\2\2&*\5\6\4\2\')\7\"\2\2(\'\3\2\2")
+        buf.write("\2),\3\2\2\2*(\3\2\2\2*+\3\2\2\2+.\3\2\2\2,*\3\2\2\2-")
+        buf.write("&\3\2\2\2.\61\3\2\2\2/-\3\2\2\2/\60\3\2\2\2\60\62\3\2")
+        buf.write("\2\2\61/\3\2\2\2\62\63\7\16\2\2\63\5\3\2\2\2\64\67\5\b")
+        buf.write("\5\2\65\67\5\16\b\2\66\64\3\2\2\2\66\65\3\2\2\2\67\7\3")
+        buf.write("\2\2\289\7\13\2\29:\7\n\2\2:;\7\f\2\2;?\5\20\t\2<>\5\n")
+        buf.write("\6\2=<\3\2\2\2>A\3\2\2\2?=\3\2\2\2?@\3\2\2\2@\t\3\2\2")
+        buf.write("\2A?\3\2\2\2BC\7\21\2\2CD\7\17\2\2DE\5\22\n\2EF\7\20\2")
+        buf.write("\2F\13\3\2\2\2GN\7\n\2\2HI\7\17\2\2IJ\5\f\7\2JK\7\20\2")
+        buf.write("\2KN\3\2\2\2LN\5\30\r\2MG\3\2\2\2MH\3\2\2\2ML\3\2\2\2")
+        buf.write("N\r\3\2\2\2OP\7\4\2\2PQ\7\17\2\2QR\5\f\7\2RS\7\20\2\2")
+        buf.write("ST\5\4\3\2T\17\3\2\2\2UV\t\2\2\2V\21\3\2\2\2W\\\7\t\2")
+        buf.write("\2X\\\7\b\2\2Y\\\7\n\2\2Z\\\5\24\13\2[W\3\2\2\2[X\3\2")
+        buf.write("\2\2[Y\3\2\2\2[Z\3\2\2\2\\\23\3\2\2\2]`\5\26\f\2^`\5\30")
+        buf.write("\r\2_]\3\2\2\2_^\3\2\2\2`\25\3\2\2\2ab\7\t\2\2bc\7\25")
+        buf.write("\2\2cm\7\t\2\2de\7\17\2\2ef\5\26\f\2fg\7\20\2\2gm\3\2")
+        buf.write("\2\2hm\7\t\2\2ij\7\17\2\2jk\7\t\2\2km\7\20\2\2la\3\2\2")
+        buf.write("\2ld\3\2\2\2lh\3\2\2\2li\3\2\2\2m\27\3\2\2\2no\7\t\2\2")
+        buf.write("op\7\32\2\2pz\7\t\2\2qr\7\17\2\2rs\5\30\r\2st\7\20\2\2")
+        buf.write("tz\3\2\2\2uv\7\b\2\2vw\7\32\2\2wz\7\b\2\2xz\7\b\2\2yn")
+        buf.write("\3\2\2\2yq\3\2\2\2yu\3\2\2\2yx\3\2\2\2z\31\3\2\2\2\f#")
+        buf.write("*/\66?M[_ly")
         return buf.getvalue()
 
 
@@ -793,10 +796,10 @@ class QLParser ( Parser ):
         localctx = QLParser.Arithmetic_Context(self, self._ctx, self.state)
         self.enterRule(localctx, 20, self.RULE_arithmetic_)
         try:
-            self.state = 102
+            self.state = 106
             self._errHandler.sync(self)
-            token = self._input.LA(1)
-            if token in [QLParser.INT]:
+            la_ = self._interp.adaptivePredict(self._input,8,self._ctx)
+            if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 95
                 self.match(QLParser.INT)
@@ -805,7 +808,8 @@ class QLParser ( Parser ):
                 self.state = 97
                 self.match(QLParser.INT)
                 pass
-            elif token in [QLParser.PARL]:
+
+            elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 98
                 self.match(QLParser.PARL)
@@ -814,8 +818,23 @@ class QLParser ( Parser ):
                 self.state = 100
                 self.match(QLParser.PARR)
                 pass
-            else:
-                raise NoViableAltException(self)
+
+            elif la_ == 3:
+                self.enterOuterAlt(localctx, 3)
+                self.state = 102
+                self.match(QLParser.INT)
+                pass
+
+            elif la_ == 4:
+                self.enterOuterAlt(localctx, 4)
+                self.state = 103
+                self.match(QLParser.PARL)
+                self.state = 104
+                self.match(QLParser.INT)
+                self.state = 105
+                self.match(QLParser.PARR)
+                pass
+
 
         except RecognitionException as re:
             localctx.exception = re
@@ -850,6 +869,12 @@ class QLParser ( Parser ):
         def PARR(self):
             return self.getToken(QLParser.PARR, 0)
 
+        def BOOL(self, i:int=None):
+            if i is None:
+                return self.getTokens(QLParser.BOOL)
+            else:
+                return self.getToken(QLParser.BOOL, i)
+
         def getRuleIndex(self):
             return QLParser.RULE_boolean_
 
@@ -867,29 +892,45 @@ class QLParser ( Parser ):
         localctx = QLParser.Boolean_Context(self, self._ctx, self.state)
         self.enterRule(localctx, 22, self.RULE_boolean_)
         try:
-            self.state = 111
+            self.state = 119
             self._errHandler.sync(self)
-            token = self._input.LA(1)
-            if token in [QLParser.INT]:
+            la_ = self._interp.adaptivePredict(self._input,9,self._ctx)
+            if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 104
+                self.state = 108
                 self.match(QLParser.INT)
-                self.state = 105
+                self.state = 109
                 self.match(QLParser.BOOLEAN_OP)
-                self.state = 106
+                self.state = 110
                 self.match(QLParser.INT)
                 pass
-            elif token in [QLParser.PARL]:
+
+            elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 107
+                self.state = 111
                 self.match(QLParser.PARL)
-                self.state = 108
+                self.state = 112
                 self.boolean_()
-                self.state = 109
+                self.state = 113
                 self.match(QLParser.PARR)
                 pass
-            else:
-                raise NoViableAltException(self)
+
+            elif la_ == 3:
+                self.enterOuterAlt(localctx, 3)
+                self.state = 115
+                self.match(QLParser.BOOL)
+                self.state = 116
+                self.match(QLParser.BOOLEAN_OP)
+                self.state = 117
+                self.match(QLParser.BOOL)
+                pass
+
+            elif la_ == 4:
+                self.enterOuterAlt(localctx, 4)
+                self.state = 118
+                self.match(QLParser.BOOL)
+                pass
+
 
         except RecognitionException as re:
             localctx.exception = re

@@ -16,8 +16,8 @@ type: (BOOLEAN | MONEY | ID);
 value: (INT | BOOL| ID | compute);
 
 compute: arithmetic_ | boolean_;
-arithmetic_: INT ARITHMETIC_OP INT | PARL arithmetic_ PARR;
-boolean_: INT BOOLEAN_OP INT | PARL boolean_ PARR;
+arithmetic_: INT ARITHMETIC_OP INT | PARL arithmetic_ PARR | INT | PARL INT PARR;
+boolean_: INT BOOLEAN_OP INT | PARL boolean_ PARR | BOOL BOOLEAN_OP BOOL | BOOL;
 
 // Lexer
 FORM       : 'form';

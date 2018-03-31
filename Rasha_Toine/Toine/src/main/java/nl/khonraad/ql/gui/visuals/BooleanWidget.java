@@ -5,7 +5,7 @@ import javax.swing.JComboBox;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
-import nl.khonraad.ql.cdiSupport.QuestionnaireAccessor;
+import nl.khonraad.ql.cdisupport.QuestionnaireAccessor;
 
 @SuppressWarnings( "serial" ) 
 

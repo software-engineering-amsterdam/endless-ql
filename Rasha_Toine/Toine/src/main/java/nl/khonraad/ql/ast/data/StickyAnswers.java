@@ -12,7 +12,7 @@ import nl.khonraad.ql.algebra.value.Type;
 
 public class StickyAnswers {
 
-    private Map<Identifier, Value> stickyAnswers = new HashMap<>();
+    private Map<Identifier, Value> stickyAnswersMap = new HashMap<>();
 
     private static Value initialValueOf( Type type ) {
         switch ( type ) {
@@ -31,16 +31,16 @@ public class StickyAnswers {
     }
 
     void clear() {
-        stickyAnswers.clear();
+        stickyAnswersMap.clear();
     }
 
     void add( Identifier identifier, Value value ) {
-        stickyAnswers.put( identifier, value );
+        stickyAnswersMap.put( identifier, value );
     }
 
     Value get( Identifier identifier, Type type ) {
-        if ( stickyAnswers.containsKey( identifier ) ) {
-            return stickyAnswers.get( identifier );
+        if ( stickyAnswersMap.containsKey( identifier ) ) {
+            return stickyAnswersMap.get( identifier );
         }
         return initialValueOf( type );
 

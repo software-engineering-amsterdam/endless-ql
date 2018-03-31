@@ -1,4 +1,4 @@
-package nl.khonraad.ql.cdiSupport;
+package nl.khonraad.ql.cdisupport;
 
 import javax.enterprise.context.ApplicationScoped;
 

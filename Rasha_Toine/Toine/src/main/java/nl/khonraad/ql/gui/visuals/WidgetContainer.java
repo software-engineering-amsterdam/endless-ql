@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 
 import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.ast.Visitor;
+import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
 import nl.khonraad.ql.ast.data.Questionnaire;
@@ -25,7 +25,7 @@ public class WidgetContainer extends Panel {
     Logger        logger;
 
     @Inject
-    Visitor       visitor;
+    ExtendedQLBaseVisitor       visitor;
 
     @Inject
     Questionnaire questionnaire;
@@ -71,9 +71,10 @@ public class WidgetContainer extends Panel {
             return addToParent( parentPanel, new ComputedQuestionWidget( question, questionnaire ) );
         }
 
+        Type type = question.type();
+
         if ( behaviouralType == BehaviouralType.ANSWERABLE ) {
 
-            Type type = question.type();
 
             switch ( type ) {
 

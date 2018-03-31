@@ -15,7 +15,7 @@ import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Questionnaire;
 
-public final class Visitor extends QLBaseVisitor<Value> {
+public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
     @Inject
     private Questionnaire       questionnaire;
@@ -23,11 +23,6 @@ public final class Visitor extends QLBaseVisitor<Value> {
     private List<Identifier>    forwardReferences             = new ArrayList<>();
 
     private static final String REFERENCES_UNDEFINED_QUESTION = "Reference to undefined question: ";
-
-    private String removeQuotes( String text ) {
-
-        return text.substring( 1, text.length() - 1 );
-    }
 
     @Override
     public Value visitForm( QLParser.FormContext ctx ) {
@@ -62,7 +57,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
     public Value visitPartAnswerableQuestion( QLParser.PartAnswerableQuestionContext ctx ) {
 
         Identifier identifier = new Identifier( ctx.Identifier().getText() );
-        Label label = new Label( removeQuotes( ctx.QuotedString().getText() ) );
+        Label label = new Label( ctx.QuotedString().getText() );
 
         Type type = Type.type( ctx.type().getText() );
 
@@ -86,7 +81,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
     public Value visitPartComputedQuestion( QLParser.PartComputedQuestionContext ctx ) {
 
         Identifier identifier = new Identifier( ctx.Identifier().getText() );
-        Label label = new Label( removeQuotes( ctx.QuotedString().getText() ) );
+        Label label = new Label( ctx.QuotedString().getText() );
 
         Type type = Type.type( ctx.type().getText() );
 
@@ -118,7 +113,7 @@ public final class Visitor extends QLBaseVisitor<Value> {
     @Override
     public Value visitExpressionQuotedString( QLParser.ExpressionQuotedStringContext ctx ) {
 
-        return new Value( Type.String, removeQuotes( ctx.QuotedString().getText() ) );
+        return new Value( Type.String, ctx.QuotedString().getText() );
     }
 
     @Override

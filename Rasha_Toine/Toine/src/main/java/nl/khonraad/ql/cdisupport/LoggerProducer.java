@@ -1,4 +1,4 @@
-package nl.khonraad.ql.cdiSupport;
+package nl.khonraad.ql.cdisupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

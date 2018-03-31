@@ -45,13 +45,20 @@ class StatementVisitor extends QLBaseVisitor[Statement] {
   }
 
   override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {
-    visit(ctx.ifStmt)
+    val ifStmt = visit(ctx.ifStmt)
+    val elseStmt = Option(ctx.elseStmt).map(visitElseStmt)
+    ConditionalStatement(ifStmt, elseStmt)
   }
 
   override def visitIfStmt(ctx: QLParser.IfStmtContext): Statement = {
     val statements = ctx.stmt.map(visit).toList
     val predicate = expressionVisitor.visit(ctx.expr)
     IfStatement(predicate, statements)
+  }
+
+  override def visitElseStmt(ctx: QLParser.ElseStmtContext): Statement = {
+    val statements = ctx.stmt.map(visit).toList
+    ElseStatement(statements)
   }
 
   override def visitValAssign(ctx: QLParser.ValAssignContext): ValAssign = {

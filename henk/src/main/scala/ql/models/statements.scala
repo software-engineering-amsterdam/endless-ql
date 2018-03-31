@@ -12,3 +12,5 @@ case class VarDecl(typeDecl: NodeType, id: Expression) extends Statement
 case class ValAssign(expression: Expression) extends Statement
 case class IfStatement(expression: Expression, statements: List[Statement])
     extends Statement
+case class ElseStatement(statements: List[Statement]) extends Statement
+case class ConditionalStatement(ifStmt: Statement, elseStmt: Option[Statement]) extends Statement

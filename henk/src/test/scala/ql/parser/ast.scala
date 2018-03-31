@@ -66,4 +66,26 @@ class QLASTParserSpec extends FunSpec {
     )
     ifStmt should contain(expected)
   }
+
+  it("should contain an else block") {
+    val elseStmt = FormHelper.getElseStatements(
+      getClass.getResource("ql/else.ql"))
+
+    val expected = ElseStatement(
+      List(
+        Question(VarDecl(BooleanType, Identifier("soldThirdHouse")),
+                 "Did you sell a house in 2010?")
+      )
+    )
+    elseStmt should contain(expected)
+  }
+
+  it("statements in else block should also be expanded") {
+    val questions = FormHelper.getQuestions(
+      getClass.getResource("ql/else.ql"))
+
+    val expected = Question(VarDecl(BooleanType, Identifier("soldThirdHouse")),
+                 "Did you sell a house in 2010?")
+    questions should contain(expected)
+  }
 }

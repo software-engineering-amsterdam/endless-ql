@@ -5,6 +5,7 @@
         Int,
         Double,
         Bool,
-        Hex
+        Hex,
+        Text
     }
 }

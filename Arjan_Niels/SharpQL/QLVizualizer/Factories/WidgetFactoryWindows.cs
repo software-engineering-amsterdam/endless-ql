@@ -63,6 +63,8 @@ namespace QLVisualizer.Factories
                     return new MoneyBuilderWindows(moneyQuestion);
                 case StringQuestionManager stringQuestion:
                     return new StringBuilderWindows(stringQuestion);
+                case HexQuestionManager hexQuestion:
+                    return new HexBuilderWindows(hexQuestion);
             }
             throw new NotImplementedException();
         }

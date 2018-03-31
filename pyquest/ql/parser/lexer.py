@@ -29,7 +29,6 @@ class QLLexer:
         'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'COLON',
         'ASSIGN',
         'LE', 'LT', 'GE', 'GT', 'EQ', 'NE', 'AND', 'OR',  # TODO: expand abbreviation
-        'NOT',
         'DOLLAR',
         'LEFT_BRACE', 'RIGHT_BRACE',
         'LEFT_BRACKET', 'RIGHT_BRACKET',

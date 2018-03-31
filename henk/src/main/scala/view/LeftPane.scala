@@ -15,21 +15,25 @@ class CodeSection extends TextArea {
   wrapText = true
 }
 
-class ErrorField extends Text {
-  text = "Error: "
+class ErrorText extends Text {
   fill = Red
-  visible = false
+  visible = true
+  wrappingWidth = 400
 }
 
 class LeftPane extends BorderPane {
   var codeSection = new CodeSection
+  var error       = new ErrorText
 
-  top = new ErrorField
+  top    = error
   center = codeSection
-  bottom = new Submit(codeSection)
+  bottom = new Submit(codeSection, error)
 }
 
-class Submit(codeSection: TextArea) extends Button {
+class Submit(codeSection: TextArea, error: ErrorText) extends Button {
   text = "Generate"
-  onAction = { ae => println(codeSection.text()) }
+  onAction = {
+    error.text = "Error: Error: Error: Error: Error: Error:"
+    _ => println(codeSection.text())
+  }
 }

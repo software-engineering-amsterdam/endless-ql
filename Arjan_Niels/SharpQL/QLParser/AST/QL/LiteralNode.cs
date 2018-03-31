@@ -23,7 +23,7 @@
 
         public override void Accept(IQLVisitor visitor)
         {
-            visitor.Visit(this);
+            visitor.Visit((dynamic)this);
         }
     }
 }

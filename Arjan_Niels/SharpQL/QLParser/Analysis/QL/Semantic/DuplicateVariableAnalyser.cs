@@ -26,7 +26,7 @@ namespace QLParser.Analysis.QL.Semantic
             this.VisitedIDs.Clear();
 
             // This visit discovers all the identifiers.
-            this.Visit(node);
+            this.Visit((dynamic)node);
             return VisitedIDs.Count == VisitedIDs.Distinct().Count();
         }
 
@@ -54,8 +54,6 @@ namespace QLParser.Analysis.QL.Semantic
             var id = node.ID;
             var type = node.ValueType;
             AddVariable(id, type);
-
-            node.Accept(this);
         }
 
         public void Visit(FormNode node)
@@ -80,11 +78,6 @@ namespace QLParser.Analysis.QL.Semantic
         }
 
         public void Visit(ExpressionNode node)
-        {
-            return;
-        }
-
-        public void Visit(QLNode node)
         {
             return;
         }

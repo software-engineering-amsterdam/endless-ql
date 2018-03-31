@@ -14,7 +14,7 @@ namespace QLParser.Analysis.QL.Semantic
         public bool Analyse(QLNode node)
         {
             this._isValid = true;
-            this.Visit(node);
+            this.Visit((dynamic)node);
 
             return this._isValid;
         }
@@ -59,8 +59,6 @@ namespace QLParser.Analysis.QL.Semantic
         {
             if (!AnalyseExpression(node.Expression))
                 this._isValid = false;
-
-            node.Accept(this);
         }
 
         public void Visit(ConditionalNode node)
@@ -68,18 +66,16 @@ namespace QLParser.Analysis.QL.Semantic
             if (!AnalyseExpression(node.Expression))
                 this._isValid = false;
             VisitChildren(node);
-
-            node.Accept(this);
         }
 
         public void Visit(QLNode node)
         {
-            node.Accept(this);
+            return;
         }
 
         public void Visit(QuestionNode node)
         {
-            node.Accept(this);
+            return;
         }
 
         public void Visit(FormNode node)
@@ -89,7 +85,7 @@ namespace QLParser.Analysis.QL.Semantic
 
         public void Visit(ExpressionNode node)
         {
-            node.Accept(this);
+            return;
         }
 
         private void VisitChildren(QLCollectionNode node)

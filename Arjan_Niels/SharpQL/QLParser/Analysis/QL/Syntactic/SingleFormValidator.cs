@@ -33,12 +33,12 @@ namespace QLParser.Analysis.QL.Syntactic
 
         public void Visit(QuestionNode node)
         {
-            node.Accept(this);
+            return;
         }
 
         public void Visit(ComputedNode node)
         {
-            node.Accept(this);
+            return;
         }
 
         public void Visit(FormNode node)
@@ -49,12 +49,12 @@ namespace QLParser.Analysis.QL.Syntactic
 
         public void Visit(QLNode node)
         {
-            node.Accept(this);
+            return;
         }
 
         public void Visit(ExpressionNode node)
         {
-            node.Accept(this);
+            return;
         }
 
         public void Visit(ConditionalNode node)

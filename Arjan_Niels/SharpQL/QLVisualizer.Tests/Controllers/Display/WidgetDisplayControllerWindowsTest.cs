@@ -2,20 +2,17 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLVisualizer.Controllers;
 using QLVisualizer.Controllers.Display;
-using QLVisualizer.Style;
 using QLVisualizer.Elements.Managers.LeafTypes;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 
 namespace QLVisualizer.Tests.Controllers.Display
 {
     [TestClass]
-    public class WidgetDisplayControllerWindowsTest : WidgetDisplayControllerTest<Control, WindowsStyleProperties>
+    public class WidgetDisplayControllerWindowsTest : WidgetDisplayControllerTest<Control>
     {
         [TestInitialize]
         public void Initialize()
         {
-            _widgetStyle = new WindowsStyleProperties();
-
             _elementManagerDisplayContoller = new ElementManagerDisplayContollerWindows(null, 10);
             _intWidget = new IntQuestionManager("a", "q1", null, _elementManagerDisplayContoller);
             _boolWidget = new BoolQuestionManager("b", "q2", null, _elementManagerDisplayContoller);

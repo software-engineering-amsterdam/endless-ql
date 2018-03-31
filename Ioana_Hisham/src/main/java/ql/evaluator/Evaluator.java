@@ -42,21 +42,24 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
 
     @Override
     public Void visit(IfThen ifThen) {
-        ifThen.getCondition().accept(this);
-        for (Statement statement : ifThen.getThenStatements()) {
-            statement.accept(this);
+        if (ifThen.getCondition().accept(this).toBoolean()) {
+            for (Statement statement : ifThen.getThenStatements()) {
+                statement.accept(this);
+            }
         }
         return null;
     }
 
     @Override
     public Void visit(IfThenElse ifThenElse) {
-        ifThenElse.getCondition().accept(this);
-        for (Statement statement : ifThenElse.getThenStatements()) {
-            statement.accept(this);
-        }
-        for (Statement statement : ifThenElse.getElseStatements()) {
-            statement.accept(this);
+        if (ifThenElse.getCondition().accept(this).toBoolean()) {
+            for (Statement statement : ifThenElse.getThenStatements()) {
+                statement.accept(this);
+            }
+        } else {
+            for (Statement statement : ifThenElse.getElseStatements()) {
+                statement.accept(this);
+            }
         }
         return null;
     }

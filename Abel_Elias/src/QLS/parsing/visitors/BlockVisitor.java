@@ -27,6 +27,7 @@ public class BlockVisitor extends QLSBaseVisitor {
     private final LinkedHashMap<String, StyledQuestion> styledQuestions;
     private LinkedHashMap<String, Question> questions;
     private final LinkedHashMap<String, Element> parents;
+    private String currentParentId;
 
     public BlockVisitor(LinkedHashMap<String, Question> questions) {
         this.widgetVisitor = new WidgetVisitor();
@@ -49,8 +50,9 @@ public class BlockVisitor extends QLSBaseVisitor {
 
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
-        String id = ctx.IDENTIFIER().getText();
+        String id = ctx.STR().getText();
         List<Element> elements = new ArrayList<>();
+        currentParentId = id;
         for (QLSParser.ElementContext c : ctx.element()) {
             elements.add(this.visitElement(c));
         }
@@ -63,7 +65,7 @@ public class BlockVisitor extends QLSBaseVisitor {
     public StyledQuestion visitQuestion(QLSParser.QuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
         Widget widget = widgetVisitor.visitWidget(ctx.widget());
-        StyledQuestion question = new StyledQuestion(id, widget, questions.get(id));
+        StyledQuestion question = new StyledQuestion(id, widget, questions.get(id), currentParentId);
         styledQuestions.put(id, question);
         return question;
     }

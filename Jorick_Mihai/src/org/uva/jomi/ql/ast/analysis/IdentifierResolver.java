@@ -61,10 +61,14 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 			IdentifierExpression outsideIdentifier = identifierStack.getIdentifier(identifier.getName());
 			if (outsideIdentifier != null) {
 				if (outsideIdentifier.getType() != identifier.getType()) {
-					String error = String.format("Read-only identifier (line: %d, column: %d) with a different type is declared in an outside scope",
+					String error = String.format("Read-only identifier with a different type is declared in an outside scope (line: %d, column: %d)",
 							outsideIdentifier.getLineNumber(), outsideIdentifier.getColumnNumber());
 					errorHandler.addIdentifierError(identifier.getToken(), error);
 					return true;
+				} else {
+					String error = String.format("Read-only identifier is already declared in an outside scope (line: %d, column: %d)",
+							outsideIdentifier.getLineNumber(), outsideIdentifier.getColumnNumber());
+					errorHandler.addIdentifierError(identifier.getToken(), error);
 				}
 			}
 		}

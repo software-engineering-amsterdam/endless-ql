@@ -15,29 +15,24 @@ import org.uva.qls.evaluator.StyleEvaluator;
 import org.uva.qls.validation.QLSValidator;
 
 import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 
-public class App {
+class App {
 
     private App() {
-        Logger logger = Logger.getGlobal();
         LogManager.getLogManager().reset();
 
-        String input = new IOHandler().readFile("input/original.ql");
-//        String input = new IOHandler().getUserInput("ql");
+        String qlInput = new IOHandler().getUserInput("ql");
+        String qlsInput = new IOHandler().getUserInput("qls");
+
         ASTBuilder builder = new ASTBuilder();
-        Form form = builder.buildAST(input);
+        Form form = builder.buildAST(qlInput);
 
         QLValidator validator = new QLValidator(form);
         ValidationResult validationResult = validator.run();
 
         FormEvaluator formEvaluator = new FormEvaluator(new ExpressionTable(), new StatementTable(), new ValueTable(), form);
         StyleEvaluator styleEvaluator = new StyleEvaluator();
-
-
-        String qlsInput = new IOHandler().readFile("input/default.qls");
-//        String input = new IOHandler().getUserInput("qls");
 
 
         if (!qlsInput.isEmpty()) {
@@ -50,7 +45,7 @@ public class App {
             styleEvaluator.setStylesheet(stylesheet);
         }
 
-        GUIHandler guiHandler = new GUIHandler(formEvaluator, styleEvaluator, validationResult);
+        new GUIHandler(formEvaluator, styleEvaluator, validationResult);
     }
 
     public static void main(String[] args) {

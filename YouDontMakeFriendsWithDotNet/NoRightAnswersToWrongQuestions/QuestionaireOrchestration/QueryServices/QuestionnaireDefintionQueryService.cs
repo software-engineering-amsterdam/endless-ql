@@ -6,7 +6,8 @@ using QuestionnaireOrchestration.Models;
 
 namespace QuestionnaireOrchestration.QueryServices
 {
-    internal sealed class QuestionnaireDefintionQueryService : ModelQueryServiceBase<QuestionnaireDefinitionModel>
+    internal sealed class QuestionnaireDefintionQueryService 
+        : ModelQueryServiceBase<QuestionnaireDefinitionModel>
     {
         public QuestionnaireDefintionQueryService(
             IDomainItemLocator domainItemLocator) 

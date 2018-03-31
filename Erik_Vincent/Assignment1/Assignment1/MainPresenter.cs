@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Assignment1.Converters;
 using Assignment1.Execution;
 using Assignment1.Export;
+using Assignment1.Model.QL.AST;
 using Assignment1.Parser;
 using Assignment1.Rendering;
 using Assignment1.Rendering.QLS;
@@ -20,7 +21,6 @@ namespace Assignment1
         public MainPresenter(IMainView view)
         {
             _view = view;
-            view.Show();
             _view.SelectQLFile += SelectQLFile;
             _view.ExportAnswers += ExportAnswers;
         }
@@ -58,18 +58,16 @@ namespace Assignment1
 
         private void ParseFile(string inputFile)
         {
+            string fileContent = File.ReadAllText(inputFile);
             try
             {
-                var astForm = TextToQLAST.ParseString(File.ReadAllText(inputFile));
-                var messages = new MessageContainer();
-                messages.Add(QLASTDuplicateChecker.CheckDuplicates(astForm));
-                if (AnyErrors(messages)) return;
-                messages.Add(QLASTScopeChecker.CheckReferenceScopes(astForm));
-                if (AnyErrors(messages)) return;
-                messages.Add(QLASTCyclicDependencyChecker.CheckForCycles(astForm));
-                if (AnyErrors(messages)) return;
-                messages.Add(QLTypeChecker.CheckTypes(astForm));
-                if (AnyErrors(messages)) return;
+                var astForm = TextToQLAST.ParseString(fileContent);
+                var messages = ValidateForm(astForm);
+                if (AnyErrors(messages))
+                {
+                    _view.SetErrors(messages.Errors);
+                    return;
+                }
                 _executor = new QLExecutor(astForm);
 
                 var qlsFileLocation = inputFile + ".qls";
@@ -85,12 +83,24 @@ namespace Assignment1
             }
         }
 
+        public MessageContainer ValidateForm(QuestionForm astForm)
+        {
+            var messages = new MessageContainer();
+            messages.Add(QLASTDuplicateChecker.CheckDuplicates(astForm));
+            if (AnyErrors(messages)) return messages;
+            messages.Add(QLASTScopeChecker.CheckReferenceScopes(astForm));
+            if (AnyErrors(messages)) return messages;
+            messages.Add(QLASTCyclicDependencyChecker.CheckForCycles(astForm));
+            if (AnyErrors(messages)) return messages;
+            messages.Add(QLTypeChecker.CheckTypes(astForm));
+            if (AnyErrors(messages)) return messages;
+            return messages;
+        }
+
         private bool AnyErrors(MessageContainer messages)
         {
             if (!messages.Errors.Any()) return false;
-            _view.SetErrors(messages.Errors);
             return true;
-
         }
     }
 }

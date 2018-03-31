@@ -14,8 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.*;
-
 public class QLSValidatorTest {
 
     private Form form;
@@ -34,7 +32,7 @@ public class QLSValidatorTest {
         this.incompatibleStylesheet = QLSBuilder.buildAST(new IOHandler().readFile("input/test/qls/incorrectStyleSheetTest.qls"));
 
         ASTBuilder builder = new ASTBuilder();
-        this.form = builder.buildAST(new IOHandler().readFile("input/original.ql"));
+        this.form = builder.buildAST(new IOHandler().readFile("input/default.ql"));
     }
 
     @Test

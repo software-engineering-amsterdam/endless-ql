@@ -30,14 +30,11 @@ class InputFrame(QtWidgets.QFrame):
         # Adds parse button
         self.parse_button = QtWidgets.QPushButton('Parse', self)
         self.parse_button.clicked.connect(self.on_parse)
-        self.parse_button.resize(self.parse_button.sizeHint())
         self.input_layout.addWidget(self.parse_button, 20, 3)
 
         # Adds quit button
         self.quit_button = QtWidgets.QPushButton('Quit', self)
-        self.quit_button.clicked.connect(self.close)
-        self.quit_button.clicked.connect(QtWidgets.QApplication.instance().quit)  # todo: check for redundancy
-        self.quit_button.resize(self.quit_button.sizeHint())
+        self.quit_button.clicked.connect(QtWidgets.QApplication.instance().quit)
         self.input_layout.addWidget(self.quit_button, 20, 4)
 
     def on_parse(self):
@@ -45,10 +42,3 @@ class InputFrame(QtWidgets.QFrame):
         ql_text = self.ql_input.toPlainText()
         qls_text = self.qls_input.toPlainText()
         self.parse_is_pressed.emit(ql_text, qls_text)
-
-
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    input_frame = InputFrame()
-    input_frame.show()
-    sys.exit(app.exec_())

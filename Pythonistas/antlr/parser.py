@@ -3,14 +3,14 @@ import re
 import os
 import sys
 from commons.error_handling import MyErrorListener
-from antlr.generated.QLLexer import QLLexer
-from antlr.generated.QLParser import QLParser
-from antlr.generated.QLSLexer import QLSLexer
-from antlr.generated.QLSParser import QLSParser
+from antlr.generated import *
 from commons.utility import open_file
 
 
 class ParserInterface:
+    """
+    Uses antlr4 generated lexer parser, dynamically abstracts depending on input
+    """
     def __init__(self, parser_input, grammar_name=None):
         self.grammar_text = parser_input
         self.grammar_name = grammar_name
@@ -29,13 +29,14 @@ class ParserInterface:
     def lexing(self):
         """ Tokenizes the parser input """
         text_input = antlr4.InputStream(self.grammar_text)
-        lexer = getattr(sys.modules[__name__], f'{self.grammar_name}Lexer')(text_input)
+        lexer = self.get_generated(f'{self.grammar_name}Lexer', text_input)
         self.tokens = antlr4.CommonTokenStream(lexer)
 
     def parsing(self):
         """ Parses the tokens """
-        self.parser = getattr(sys.modules[__name__], f'{self.grammar_name}Parser')(self.tokens)
+        self.parser = self.get_generated(f'{self.grammar_name}Parser', self.tokens)
         self.parser._listeners = [MyErrorListener()]
+        # ruleNames[0] is the first token of grammar file to dynamically run parser
         self.ast = getattr(self.parser, f'{self.parser.ruleNames[0]}')()
         self.errors = self.parser._listeners[0].get_errors()
 
@@ -114,6 +115,11 @@ class ParserInterface:
         grammar_dir = f'{os.getcwd()}/antlr/grammar'
         if f'{self.grammar_name}.g4' not in os.listdir(grammar_dir):
             raise ValueError('Request for parsing with grammar that does not exist')
+
+    def get_generated(self, generated_class, class_input):
+        """ Factory for delegating correctly antlr4 generated class """
+        return getattr(sys.modules[
+                           f'antlr.generated.{generated_class}'], f'{generated_class}')(class_input)
 
     @staticmethod
     def check_if_file(input):

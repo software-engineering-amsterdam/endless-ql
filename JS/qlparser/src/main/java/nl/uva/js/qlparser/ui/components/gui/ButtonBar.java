@@ -6,6 +6,7 @@ import java.awt.*;
 import static nl.uva.js.qlparser.ui.GUIBuilder.*;
 
 public class ButtonBar extends JPanel {
+    public static final int BUTTON_HEIGHT = 50;
 
     public JPanel leftPanel;
     public JPanel rightPanel;
@@ -27,5 +28,12 @@ public class ButtonBar extends JPanel {
         this.add(leftPanel, BorderLayout.LINE_START);
         this.add(centerPanel, BorderLayout.CENTER);
         this.add(rightPanel, BorderLayout.LINE_END);
+    }
+
+   private JPanel getButtonPanel(int width) {
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(width, BUTTON_HEIGHT));
+        panel.setBackground(Color.gray);
+        return panel;
     }
 }

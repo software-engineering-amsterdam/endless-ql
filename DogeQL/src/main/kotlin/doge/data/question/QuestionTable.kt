@@ -1,6 +1,7 @@
 package doge.data.question
 
 import doge.common.Name
+import ui.model.domain.Question
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet

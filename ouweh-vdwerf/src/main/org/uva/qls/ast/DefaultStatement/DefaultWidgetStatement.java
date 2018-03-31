@@ -5,8 +5,8 @@ import org.uva.qls.ast.Widget.Widget;
 
 public class DefaultWidgetStatement extends DefaultStatement {
 
-    private Type type;
-    private Widget widget;
+    private final Type type;
+    private final Widget widget;
 
     public DefaultWidgetStatement(Type type, Widget widget) {
         this.type = type;

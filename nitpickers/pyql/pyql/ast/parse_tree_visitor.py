@@ -10,6 +10,7 @@ from pyql.util.values import MoneyValue
 from pyql.util.values import IntegerValue
 from pyql.util.values import StringValue
 from pyql.util.values import DecimalValue
+from pyql.util.values import BooleanValue
 
 # TODO check if can get rid of 'if getChildCount() > 1'
 

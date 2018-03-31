@@ -1,6 +1,7 @@
 package qls.visitor
 
-import qls.model.*
+import qls.ast.model.*
+
 
 interface QlsVisitor<out T>{
 
@@ -11,5 +12,5 @@ interface QlsVisitor<out T>{
     fun visit(defaultAttributes: DefaultAttributes): T
     fun visit(question: Question): T
     fun visit(element: Element): T
-
+    fun visit(attributes: Attribute): T
 }

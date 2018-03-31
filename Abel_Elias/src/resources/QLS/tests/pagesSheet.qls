@@ -1,0 +1,23 @@
+stylesheet taxOfficeExample
+{
+  page firstPage
+  {
+  }
+  page secondPage
+  {
+    section Selling
+    {
+      question hasSoldHouse
+        widget checkbox
+      section You sold a house
+      {
+        question sellingPrice
+          widget text
+        question privateDebt
+          widget text
+        question valueResidue
+          widget text
+      }
+    }
+  }
+}

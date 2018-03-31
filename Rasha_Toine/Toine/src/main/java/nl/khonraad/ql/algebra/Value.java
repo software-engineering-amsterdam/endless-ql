@@ -3,27 +3,38 @@ package nl.khonraad.ql.algebra;
 import java.math.BigDecimal;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
-public class Value {
+import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
+import nl.khonraad.ql.algebra.function.BinaryFunction;
+import nl.khonraad.ql.algebra.function.BinaryFunctions;
+import nl.khonraad.ql.algebra.function.UnaryFunction;
+import nl.khonraad.ql.algebra.function.UnaryFunctions;
+import nl.khonraad.ql.algebra.value.Operator;
+import nl.khonraad.ql.algebra.value.Storage;
+import nl.khonraad.ql.algebra.value.Type;
 
-    private static Exception              unaryOperationNotSupported = new Exception( "Unsupported unary operation" );
-
-    public static final DateTimeFormatter SIMPLE_DATE_FORMAT         = DateTimeFormat.forPattern( "dd/MM/yyyy" );
-
-    public static final Value             FALSE                      = new Value( false );
-    public static final Value             TRUE                       = new Value( true );
+public class Value implements StringAble {
 
     private Type                          type;
-    private String                        text;
+    private Storage                       storage;
+
+    @Override
+    public String string() {
+        return storage.string();
+    }
+
+    public Value(Type type, String string) {
+
+        this.type = type;
+        this.storage = new Storage( string );
+    }
 
     public Value(boolean b) {
         this( Type.Boolean, b ? "True" : "False" );
     }
 
     public Value(DateTime m) {
-        this( Type.Date, SIMPLE_DATE_FORMAT.print( m ) );
+        this( Type.Date, SimpleDateFormatter.string( m ) );
     }
 
     public Value(Integer i) {
@@ -38,71 +49,64 @@ public class Value {
         this( Type.String, s );
     }
 
-    public Value(Type type, String string) {
-
-        this.type = type;
-        this.text = string;
+    public Value apply( Operator operator )  {
+        
+        return UnaryFunctions.function( UnaryFunction.signature( operator, type()) ).apply( this );
     }
 
-    public Value apply( String operator ) throws Exception {
-
-        switch ( operator ) {
-
-            case "+":
-                return this;
-
-            case "-":
-                return new PartialFunction( this, "*" ).applyOperand( new Value( -1 ) );
-
-            case "!":
-                return (this.equals( TRUE )) ? FALSE : TRUE;
-
-            default:
-                throw unaryOperationNotSupported;
-        }
+    public Value apply( Operator operator, Value operand ) {
+        
+        return BinaryFunctions.function( BinaryFunction.signature( type(), operator, operand.type() ) ).apply( this, operand );
 
     }
 
-    public Value apply( String operator, Value operand ) throws Exception {
-
-        return new PartialFunction( this, operator ).applyOperand( operand );
-
-    }
-
-    public Type getType() {
+    public Type type() {
         return type;
     }
 
-    public String getText() {
-        return text;
-    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((text == null) ? 0 : text.hashCode());
+        result = prime * result + ((storage == null) ? 0 : storage.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals( Object obj ) {
-        if ( this == obj )
+        if ( this == obj ) {
             return true;
-        if ( obj == null )
+        }
+        if ( obj == null ) {
             return false;
-        if ( getClass() != obj.getClass() )
+        }
+        if ( getClass() != obj.getClass() ) {
             return false;
+        }
         Value other = (Value) obj;
-        if ( text == null ) {
-            if ( other.text != null )
+        if ( storage == null ) {
+            if ( other.storage != null ) {
                 return false;
+            }
         } else
-            if ( !text.equals( other.text ) )
+            if ( !storage.equals( other.storage ) ) {
                 return false;
-        if ( type != other.type )
+            }
+        if ( type != other.type ) {
             return false;
+        }
         return true;
     }
+
 }

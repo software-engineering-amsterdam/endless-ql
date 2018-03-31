@@ -158,7 +158,8 @@ public class ASTConstructionVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitStringLiteral(QLParser.StringLiteralContext ctx) {
-        return new StringLiteral(ctx.STRINGLITERAL().getText(), getSourceLocation(ctx));
+        String inputWithoutQuotes = ctx.STRINGLITERAL().getText().substring(1, ctx.STRINGLITERAL().getText().length() - 1);
+        return new StringLiteral(inputWithoutQuotes, getSourceLocation(ctx));
     }
 
     @Override
@@ -181,7 +182,7 @@ public class ASTConstructionVisitor extends QLBaseVisitor<ASTNode> {
         try {
             return new DateLiteral(ctx.getText(), getSourceLocation(ctx));
         } catch (ParseException e) {
-            throw new IllegalArgumentException(String.format("Invalid date: %s", ctx.getText()));
+            throw new IllegalArgumentException(String.format("Invalid date: %s at line: %s", ctx.getText(), ctx.start.getLine()));
         }
     }
 

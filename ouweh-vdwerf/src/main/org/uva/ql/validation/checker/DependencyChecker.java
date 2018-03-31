@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class DependencyChecker extends Checker {
 
-    private Set<Dependency> dependencies;
+    private final Set<Dependency> dependencies;
 
     public DependencyChecker(Map<String, List<Parameter>> parameterMapping) {
 

@@ -14,7 +14,7 @@ import doge.typechecker.type.TypeVisitor
 
 class TypeChecker(private val fileName: String, private val symbolTable: SymbolTable, private val root: QLNode) {
 
-    fun check(): Boolean {
+    fun check(): MutableList<String> {
         val allErrors = mutableListOf<String>()
 
         allErrors += checkDuplicates().collect()
@@ -23,17 +23,16 @@ class TypeChecker(private val fileName: String, private val symbolTable: SymbolT
 
         if (allErrors.isNotEmpty()) {
             printErrors(allErrors)
-            return false
+            return allErrors
         }
 
         allErrors += checkTypes().collect()
 
         if (allErrors.isNotEmpty()) {
             printErrors(allErrors)
-            return false
         }
 
-        return true
+        return allErrors
     }
 
     private fun checkDuplicates(): DuplicationErrorContext {

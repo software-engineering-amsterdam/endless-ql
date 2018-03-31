@@ -16,27 +16,9 @@ public class WidgetVisitor extends QLSBaseVisitor {
 
     @Override
     public Widget visitWidget(QLSParser.WidgetContext ctx) {
-        return new Widget(visitWidgetType(ctx.widgetType()));
+        return new Widget((WidgetType) visitWidgetType(ctx.widgetType()));
     }
 
-    @Override
-    public WidgetType visitWidgetType(QLSParser.WidgetTypeContext ctx) {
-        if(ctx.checkboxWidget() != null) {
-            return visitCheckboxWidget(ctx.checkboxWidget());
-        } else if(ctx.textWidget() != null) {
-            return visitTextWidget(ctx.textWidget());
-        } else if (ctx.radioWidget() != null) {
-            return visitRadioWidget(ctx.radioWidget());
-        } else if (ctx.spinboxWidget() != null) {
-            return visitSpinboxWidget(ctx.spinboxWidget());
-        } else if ( ctx.sliderWidget() != null) {
-            return visitSliderWidget(ctx.sliderWidget());
-        } else if (ctx.dropdownWidget() != null) {
-            return visitDropdownWidget(ctx.dropdownWidget());
-        }  else {
-            return null;
-        }
-    }
 
     @Override
     public CheckBoxWidget visitCheckboxWidget(QLSParser.CheckboxWidgetContext ctx) {

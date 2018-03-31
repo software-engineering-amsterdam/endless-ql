@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.model.ql.expressions.answers
 
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
 
-abstract class Answer extends Expression {
+trait Answer extends Expression {
 
   type T
 

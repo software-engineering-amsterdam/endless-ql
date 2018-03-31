@@ -9,7 +9,7 @@ import nl.uva.se.sc.niro.ql.model.ast.evaluation.QLFormEvaluator.ValueStore
 object ExpressionEvaluator {
   implicit class ExpressionOps(e: Expression) {
     def evaluate(symbolTable: SymbolTable, valueStore: ValueStore): Option[Answer] = e match {
-      case a: Answer           => Some(a)
+      case a: Answer           => Some(a.evaluate)
       case r: Reference        => r.evaluate(symbolTable, valueStore)
       case a: Addition         => a.evaluate(symbolTable, valueStore)
       case s: Subtract         => s.evaluate(symbolTable, valueStore)
@@ -26,6 +26,10 @@ object ExpressionEvaluator {
       case a: And              => a.evaluate(symbolTable, valueStore)
       case n: Negate           => n.evaluate(symbolTable, valueStore)
     }
+  }
+
+  implicit class AnswerOps(expression: Answer) {
+    def evaluate = expression
   }
 
   implicit class AdditionOps(expression: Addition) {

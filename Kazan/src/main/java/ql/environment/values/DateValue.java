@@ -1,7 +1,8 @@
-package ql.evaluator.values;
+package ql.environment.values;
 
 import ql.ast.expressions.literals.DateLiteral;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,8 +14,16 @@ public class DateValue implements Value<Date> {
         this.value = value;
     }
 
-    @Override
-    public String toString() {
+    public DateValue(String input) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DateLiteral.getDateFormat());
+            value = dateFormat.parse(input);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public String getDisplayValue() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DateLiteral.getDateFormat());
         return dateFormat.format(getValue());
     }

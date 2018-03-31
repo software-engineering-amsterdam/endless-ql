@@ -1,6 +1,14 @@
-package ql.evaluator.values;
+package ql.environment.values;
 
 public class UndefinedValue implements Value<Void> {
+
+    //TODO: currently not used
+
+    public UndefinedValue() {
+    }
+
+    public UndefinedValue(String input) {
+    }
 
     @Override
     public Void getValue() {

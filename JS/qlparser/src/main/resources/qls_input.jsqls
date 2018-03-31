@@ -5,11 +5,23 @@ stylesheet taxOfficeExample {
         section "Personalia" {
             expression name
             expression age
+                widget spinbox style {
+                    min:18
+                    max:100
+                }
             expression grade
         }
     }
 
     page Housing {
+        section "My house" {
+            expression rating
+                widget slider style {
+                    min:0
+                    max:5
+                }
+        }
+
         section "Buying" {
             expression hasBoughtHouse
             widget checkbox

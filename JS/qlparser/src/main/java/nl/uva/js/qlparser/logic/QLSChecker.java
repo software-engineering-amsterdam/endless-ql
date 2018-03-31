@@ -75,20 +75,6 @@ public class QLSChecker {
         return expressionReferencesByName;
     }
 
-    private Map<String, Question> getQuestions(LinkedList<? extends FormExpression> formExpressions) {
-        Map<String, Question> questions = new HashMap<>();
-
-        for(FormExpression formExpression : formExpressions) {
-            if (formExpression instanceof Question) {
-                questions.put(formExpression.getVariable().getName(), (Question) formExpression);
-            } else if (formExpression instanceof IfBlock) {
-                Map<String, Question> ifQuestions = getQuestions(((IfBlock) formExpression).getExpressions());
-                questions.putAll(ifQuestions);
-            }
-        }
-        return questions;
-    }
-
     private void checkWidgetAssignments(
             Map<String, FormExpression> questions,
             Map<String, ExpressionReference> questionRefs,
@@ -100,7 +86,7 @@ public class QLSChecker {
                 continue;
             }
 
-            DataType dataType = ((Question) formExpression).getVariable().getDataType();
+            DataType dataType = formExpression.getVariable().getDataType();
             WidgetType widgetType = ref.getWidgetType();
 
             if (null != widgetType && !WidgetType.mapDataTypeToWidget.get(dataType).contains(widgetType)) {

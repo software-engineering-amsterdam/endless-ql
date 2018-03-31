@@ -1,4 +1,4 @@
-package ql.evaluator.values;
+package ql.environment.values;
 
 import java.math.BigDecimal;
 
@@ -13,6 +13,10 @@ public class MoneyValue extends NumericValue<BigDecimal> {
 
     public MoneyValue(double value) {
         this(new BigDecimal(value));
+    }
+
+    public MoneyValue(String input) {
+        value = new BigDecimal(input);
     }
 
     private void round() {

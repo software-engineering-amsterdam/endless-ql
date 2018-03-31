@@ -26,7 +26,7 @@ class FormModel:
         changed_question = self.find_question_of_widget(changed_widget)
 
         if changed_question:
-            changed_question.answer = changed_question.answer_type.get_literal_node(changed_question.widget.value())
+            changed_question.answer = changed_question.answer_type.get_literal_node(changed_question.widget.get_value())
 
             for question in self.block:
                 result = question.evaluate_show_condition(self)

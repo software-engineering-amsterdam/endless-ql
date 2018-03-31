@@ -3,7 +3,6 @@ import java.io.File;
 
 import QL.Analysis.TypeChecker;
 import QL.AST.Form;
-import QL.Evaluation.EvaluationVisitor;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -12,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import Application.Parser;
 
 public class QLUserInterface {
     public QLUserInterface(Stage stage){

@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimpleWPFApp"
+             xmlns:wpfextension="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <local:TypeTemplateSelection x:Key="TemplateSelector" />
-        
+        <local:ObjectToIntegerConverter x:Key="ObjectToIntegerConverter"/>
         <DataTemplate x:Key="DefaultTemplate">
             <Grid>
                 <Label 
@@ -30,14 +31,16 @@
         
         <DataTemplate x:Key="IntTemplate">
             <Grid>
-                <TextBox 
-                    Text="{Binding Value
-                        , Mode=TwoWay
-                        , UpdateSourceTrigger=LostFocus}" 
-                    MinWidth ="180" />
+                <wpfextension:IntegerUpDown 
+                    Value="{Binding Path=Value, Converter={StaticResource ObjectToIntegerConverter}}"
+
+                    Increment="1" />
             </Grid>
         </DataTemplate>
-        
+        <!--Text="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=LostFocus}"-->
+
         <DataTemplate x:Key="DecimalTemplate">
             <Grid>
                 <TextBox 
@@ -53,7 +56,7 @@
                 <CheckBox 
                     IsChecked="{Binding Value
                         , Mode=TwoWay
-                        , UpdateSourceTrigger=LostFocus}" />
+                        , UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </DataTemplate>
 
@@ -70,6 +73,7 @@
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
+
     <Grid 
         Visibility="{Binding Path=Visible
             , Converter={StaticResource BoolToVis}}">

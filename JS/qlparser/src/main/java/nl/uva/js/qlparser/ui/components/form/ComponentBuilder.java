@@ -226,8 +226,13 @@ public class ComponentBuilder {
     }
 
     private static int getInitialValue(Variable variable, int min) {
-        Integer initialVal = (((CalculatableInteger) variable.value()).get()) != null ? (((CalculatableInteger) variable.value()).get()) : 0;
-        return initialVal >= min ? initialVal : min;
+        try {
+            Integer initialVal = (((CalculatableInteger) variable.value()).get());
+            return initialVal >= min ? initialVal : min;
+
+        } catch (ClassCastException e) {
+            return min;
+        }
     }
 
     private static String getProperty(WidgetStyle widgetStyle, Property property) {

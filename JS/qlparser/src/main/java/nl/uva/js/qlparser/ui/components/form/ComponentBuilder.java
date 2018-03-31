@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.ql.expressions.data.Value;
 import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
+import nl.uva.js.qlparser.wrappers.arithmetic.CalculatableInteger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -167,6 +168,37 @@ public class ComponentBuilder {
         });
 
         return dropdown;
+    }
+
+    public static JSlider buildSlider(Variable variable) {
+        final int min  = 0;
+        final int max  = 100;
+        final int init = 0;
+
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, min, max, init);
+        slider.setMajorTickSpacing(10);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+
+//        Set value if there is any present
+        NonNullRun.consumer(variable.getValue(), value -> slider.setValue(((CalculatableInteger)value.value()).get()));
+
+//        Listen to field changes and update the variable accordingly
+        slider.addChangeListener(event -> {
+            variable.setValue(Value.builder()
+                    .dataType(variable.getDataType())
+                    .value(slider.getValue())
+                    .build());
+        });
+
+//        Listen to external changes
+        variable.addChangeListener(newValue -> {
+            if (!newValue.getName().equals(variable.getName()))
+                slider.setValue((Integer) newValue.value());
+        });
+
+        return slider;
     }
 
     @RequiredArgsConstructor

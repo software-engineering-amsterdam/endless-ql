@@ -28,9 +28,9 @@ final case class Negate           (right: Expression)                   extends 
 // format: on
 
 object Expression {
-  def apply(operator: String, left: Expression): Expression = operator match {
-    case "-" => Minus(left)
-    case "!" => Negate(left)
+  def apply(operator: String, right: Expression): Expression = operator match {
+    case "-" => Minus(right)
+    case "!" => Negate(right)
     case _   => throw new IllegalArgumentException(s"Unknown operator $operator")
   }
 

@@ -74,17 +74,17 @@ namespace QLParser.Analysis.QL.Semantic
                 child.Accept(this);
         }
 
-        public void Visit(QLNode node)
-        {
-            return;
-        }
-
         public void Visit(QLCollectionNode node)
         {
             VisitChildren(node);
         }
 
         public void Visit(ExpressionNode node)
+        {
+            return;
+        }
+
+        public void Visit(QLNode node)
         {
             return;
         }

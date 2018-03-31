@@ -14,6 +14,7 @@ public class QuestionPanelCheckBox extends QuestionPanel {
 
     private JCheckBox checkBox;
 
+
     public QuestionPanelCheckBox(String key, Question question) {
         super(key, question);
         createControlWidget(key);
@@ -22,6 +23,8 @@ public class QuestionPanelCheckBox extends QuestionPanel {
     @Override
     public void createControlWidget(String key) {
         checkBox = new JCheckBox();
+//        Question question = super.getQuestion();
+//        this.setValue(question.getValue());
         this.add(checkBox);
     }
 

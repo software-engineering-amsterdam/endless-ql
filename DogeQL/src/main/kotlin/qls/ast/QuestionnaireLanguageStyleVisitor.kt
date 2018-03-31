@@ -2,8 +2,8 @@ package qls.ast
 
 import QuestionnaireLanguageStyleGrammarBaseVisitor
 import QuestionnaireLanguageStyleGrammarParser
+import qls.ast.model.*
 import qls.ast.node.QlsNode
-import qls.model.*
 
 class QuestionnaireLanguageStyleVisitor : QuestionnaireLanguageStyleGrammarBaseVisitor<QlsNode>() {
 

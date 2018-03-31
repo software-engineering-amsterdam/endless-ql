@@ -176,4 +176,10 @@ public class TestASTTraverse extends AbstractASTTraverse<Object> {
         System.out.println("Visiting typeDeclarationString " + typeDeclarationString.getClass().getSimpleName() + " :" + typeDeclarationString.getMetaInformation().getStartLine());
         return super.visit(typeDeclarationString);
     }
+
+    @Override
+    public Object visit(TypeDeclarationDate typeDeclarationDate) {
+        System.out.println("Visiting typeDeclarationDate " + typeDeclarationDate.getClass().getSimpleName() + " :" + typeDeclarationDate.getMetaInformation().getStartLine());
+        return super.visit(typeDeclarationDate);
+    }
 }

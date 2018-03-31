@@ -7,7 +7,9 @@ abstract public class Expression extends ASTNode {
         STRING,
         BOOLEAN,
         INTEGER,
-        DECIMAL
+        DECIMAL,
+        MONEY,
+        DATE
     }
     protected Expression(MetaInformation metaInformation) {
         super(metaInformation);

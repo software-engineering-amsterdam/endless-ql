@@ -1,6 +1,7 @@
 package qls.visitor
 
-import qls.model.*
+import qls.ast.model.*
+
 
 interface QlsVisitor<out T>{
 

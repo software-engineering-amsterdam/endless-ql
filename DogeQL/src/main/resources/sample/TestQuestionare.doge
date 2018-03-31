@@ -1,11 +1,15 @@
-doge taxOfficeExample
+form taxOfficeExample
 {
   "Did you sell a house in 2010?" hasSoldHouse: boolean = true
 
   "Fucking BTC" fuckBTC: integer
 
-   "string q" strQ : string
-   "integer q" intQ : integer
+    if(hasSoldHouse){
+       "string q" strQ : string
+    }
+   "integer q" intQ : integer = 10 + 5
    "decimal q" decQ : decimal
    "money q" moneyQ : money
+
+   "lol" lol : integer = intQ - fuckBTC
 }

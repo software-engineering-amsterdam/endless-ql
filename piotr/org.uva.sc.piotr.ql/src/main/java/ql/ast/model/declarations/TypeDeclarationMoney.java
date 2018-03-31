@@ -19,6 +19,6 @@ public class TypeDeclarationMoney extends TypeDeclaration {
 
     @Override
     public Expression.DataType toDataType() {
-        return Expression.DataType.DECIMAL;
+        return Expression.DataType.MONEY;
     }
 }

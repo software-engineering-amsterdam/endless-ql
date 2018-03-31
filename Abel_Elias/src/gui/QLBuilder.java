@@ -189,9 +189,8 @@ public class QLBuilder {
                     questionPanelHashMap.get(entry.getKey()).setValue(question.getValue());
                 }
             } else {
-                if(questionPanelHashMap.get(entry.getKey()) != null) {
-                    questionPanelHashMap.get(entry.getKey()).setVisible(false);
-                }
+                if (questionPanelHashMap.get(entry.getKey()) != null)
+                questionPanelHashMap.get(entry.getKey()).setVisible(false);
             }
         }
         mainListPanel.revalidate();

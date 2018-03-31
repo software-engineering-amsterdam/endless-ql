@@ -14,6 +14,11 @@ public class QuestionDefinition extends BlockElement {
         this.widget = widget;
     }
 
+    public QuestionDefinition(MetaInformation metaInformation, String name) {
+        super(metaInformation);
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

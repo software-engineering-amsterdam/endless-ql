@@ -60,10 +60,16 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public QuestionDefinition visitQuestionDefinition(QLSParser.QuestionDefinitionContext ctx) {
+        if (ctx.widgetDefinition() != null) {
+            return new QuestionDefinition(
+                    new ASTNode.MetaInformation(ctx.start.getLine()),
+                    ctx.name.getText(),
+                    this.visitWidget(ctx.widgetDefinition().widget())
+            );
+        }
         return new QuestionDefinition(
                 new ASTNode.MetaInformation(ctx.start.getLine()),
-                ctx.name.getText(),
-                this.visitWidget(ctx.widgetDefinition().widget())
+                ctx.name.getText()
         );
     }
 

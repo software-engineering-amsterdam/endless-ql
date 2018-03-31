@@ -70,13 +70,13 @@ public class GUIBuilder {
 
     public void onQuestionChange(String key, Value value) {
         qlBuilder.update(key, value);
-        qlsBuilder.createStyledForm(qlBuilder.getVisibleQuestions(questionListener));
+        qlsBuilder.createStyledForm(qlBuilder.getQuestionPanelHashMap());
     }
 
     public void initComponents(boolean a)  {
         //initStyleSheet(stylesheetVisitor);
-        //qlBuilder.createMainListPanel(questionListener);
-        qlsBuilder.createStyledForm(qlBuilder.getVisibleQuestions(questionListener));
+        qlBuilder.createMainListPanel(questionListener);
+        qlsBuilder.createStyledForm(qlBuilder.getQuestionPanelHashMap());
         mainPanel.add(qlsBuilder.getStyleSheetPanel());
     }
 

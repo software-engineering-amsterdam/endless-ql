@@ -34,8 +34,6 @@ public class QLBuilder {
     private JPanel mainListPanel;
 
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
-    private LinkedHashMap<String, Question> visibleQuestionHashMap; //collection of questions
-
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor;
     private QuestionListener questionListener;
@@ -71,16 +69,9 @@ public class QLBuilder {
             Question question = entry.getValue();
             //If the question is marked as visible, we build a panel
             if(question.isVisible()) {
-                //buildQuestionPanel(question);
-                visibleQuestionHashMap.put(entry.getKey(), entry.getValue());
+                buildQuestionPanel(question);
             }
         }
-    }
-
-    public LinkedHashMap<String, Question> getVisibleQuestions(QuestionListener listener) {
-        this.questionListener = listener;
-        initQuestionPanels();
-        return visibleQuestionHashMap;
     }
 
     public JPanel createMainListPanel(QuestionListener questionListener) {

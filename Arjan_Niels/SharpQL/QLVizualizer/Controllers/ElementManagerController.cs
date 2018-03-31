@@ -1,5 +1,4 @@
-﻿using QLVisualizer.Elements.Managers;
-using QLVisualizer.Elements.Managers.CollectionTypes;
+﻿using QLVisualizer.Elements.Managers.CollectionTypes;
 using System;
 using System.Collections.Generic;
 
@@ -19,9 +18,9 @@ namespace QLVisualizer.Controllers
 
         private ParseController _parseController;
 
-        public ElementManagerController(FormManager formManager)
+        public ElementManagerController()
         {
-            Form = formManager;
+            Form = null;
             _parseController = new ParseController();
         }
 
@@ -48,13 +47,7 @@ namespace QLVisualizer.Controllers
             List<string> errors = new List<string>();
             try
             {
-                Form = HandleQL(rawQL);
-                if (Form != null)
-                {
-                    if (rawQLS != "")
-                        Form = HandleQLS(rawQLS, ref errors);
-                    DisplayForm();
-                }
+                Form = _parseController.Parse(rawQL, rawQLS, this, ref errors);
             }
             catch (Exception e)
             {
@@ -65,26 +58,6 @@ namespace QLVisualizer.Controllers
                 if (errors.Count > 0)
                     ShowError(errors.ToArray());
             }
-        }
-
-
-        private FormManager HandleQLS(string rawQLS, ref List<string> errors)
-        {
-            return _parseController.ParseQLS(rawQLS, Form, this, ref errors).Item2;
-        }
-
-        /// <summary>
-        /// Handles QL-language input
-        /// </summary>
-        /// <param name="rawQL">Raw QL-language string</param>
-        private FormManager HandleQL(string rawQL)
-        {
-            Tuple<string[], FormManager> parseResults = _parseController.ParseQL(rawQL, this);
-            if (parseResults.Item1.Length > 0)
-                ShowError(parseResults.Item1);
-            else
-                return parseResults.Item2;
-            return null;
         }
 
         /// <summary>

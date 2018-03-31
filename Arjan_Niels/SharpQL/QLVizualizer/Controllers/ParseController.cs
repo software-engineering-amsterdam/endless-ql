@@ -4,30 +4,26 @@ using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Factories;
-using System;
 using System.Collections.Generic;
 
 namespace QLVisualizer.Controllers
 {
     public class ParseController
     {
-        
-        public Tuple<string[], FormManager> ParseQL(string rawQL, ElementManagerController elementManagerController)
+        public FormManager Parse(string rawQl, string rawQls, ElementManagerController elementManagerController, ref List<string> errors)
         {
-            FormNode node = QLParserHelper.Parse(rawQL);
-            Analyser.Reset();
-            if (!Analyser.Analyse(node))
-                return new Tuple<string[], FormManager>(Analyser.GetErrors().ToArray(), null);
+            FormNode formNode = QLParserHelper.Parse(rawQl);
+            QLSNode qlsNode = QLSParserHelper.Parse(rawQls);
+            if (!Analyser.Analyse(formNode, qlsNode))
+            {
+                errors.AddRange(Analyser.GetErrors());
+                return null;
+            }
 
-            FormManager formManager = ElementManagerFactory.CreateForm(node, elementManagerController);
-            return new Tuple<string[], FormManager>(new string[0], formManager);
-        }
+            FormManager result = ElementManagerFactory.CreateForm(formNode, elementManagerController);
+            result = ElementManagerFactory.ApplyQLS(result, qlsNode, elementManagerController, ref errors);
+            return result;
 
-        public Tuple<string[], FormManager> ParseQLS(string rawQLS, FormManager form, ElementManagerController elementManagerController, ref List<string> errors)
-        {
-            QLSNode qlsNode = QLSParserHelper.Parse(rawQLS);
-            form = ElementManagerFactory.ApplyQLS(form, qlsNode, elementManagerController, ref errors);
-            return new Tuple<string[], FormManager>(new string[0], form);
         }
     }
 }

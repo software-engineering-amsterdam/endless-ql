@@ -44,9 +44,27 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource">
+      <HintPath>..\UnitTests\bin\Debug\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tracing">
+      <HintPath>..\UnitTests\bin\Debug\System.Diagnostics.Tracing.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO.Compression.ZipFile">
       <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reflection">
+      <HintPath>..\UnitTests\bin\Debug\System.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\UnitTests\bin\Debug\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions">
+      <HintPath>..\UnitTests\bin\Debug\System.Runtime.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices">
+      <HintPath>..\UnitTests\bin\Debug\System.Runtime.InteropServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />

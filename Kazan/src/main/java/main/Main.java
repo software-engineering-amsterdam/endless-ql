@@ -1,8 +1,8 @@
 package main;
 
-import gui.FormUI;
-import gui.FormUIFactory;
 import ql.ast.Form;
+import ql.gui.FormUI;
+import ql.gui.FormUIFactory;
 import ql.parser.FormBuilder;
 import ql.validator.Validator;
 import qls.ast.Stylesheet;
@@ -17,7 +17,9 @@ public class Main {
 
         //TODO: pass file (non-string) instead of filecontents to formbuilder
 
-        String qlFileName = "src/input/ql/correct/gui/allComputedQuestionTypes.ql";
+        String qlFileName = "src/input/ql/correct/if.ql";
+        // String qlFileName = "src/input/ql/correct/gui/dependentValue.ql";
+        // String qlFileName = "src/input/ql/correct/gui/allComputedQuestionTypes.ql";
         String qlFile = new FileScanner().loadFile(qlFileName);
 
         FormBuilder formBuilder = new FormBuilder();
@@ -30,7 +32,7 @@ public class Main {
         // Stylesheet stylesheet = stylesheetBuilder.createForm(qlFile);
         Stylesheet stylesheet = null;
 
-        if (Validator.passesTypeChecks(form)) {
+        if (Validator.passesChecks(form)) {
             System.out.println("Successfully passed all checks");
             FormUI formUI = new FormUIFactory().getFormUI(form);
             formUI.display();

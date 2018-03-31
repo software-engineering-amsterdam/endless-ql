@@ -19,7 +19,7 @@ class OutputFrame(QtWidgets.QFrame):
         if errors:
             for error in errors:
                 self.frame_layout.addWidget(QtWidgets.QLabel(error))
-        elif questions:
+        elif question_ids and questions:
             self.add_questions()
 
             submit_button = QtWidgets.QPushButton('Submit', self)
@@ -38,13 +38,8 @@ class OutputFrame(QtWidgets.QFrame):
             file.write(self.questions[question_id].question_string+str(self.questions[question_id].answer)+'\n')
         file.close()
 
-    def add_question(self, question_frame):
-        """ Adds frame with question and answer string """
-        self.frame_layout.addWidget(question_frame, alignment=QtCore.Qt.AlignLeft)
-
     def add_questions(self):
         """ Aggregate individual question frames """
         for question_id in self.question_ids:
             question = self.questions[question_id]
-            question_frame = question.create_frame()
-            self.add_question(question_frame)
+            self.frame_layout.addWidget(question.create_frame(), alignment=QtCore.Qt.AlignLeft)

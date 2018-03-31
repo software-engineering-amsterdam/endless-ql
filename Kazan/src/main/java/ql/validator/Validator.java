@@ -8,45 +8,44 @@ import ql.validator.checkers.QuestionDuplicationChecker;
 
 
 /**
- * Performs validation for the AST by checking invalid references, expressions, duplications, and cyclic dependencies
+ * The validator detects:
+ *
+ * - reference to undefined questions
+ * - duplicate question declarations with different types
+ * - conditions that are not of the type boolean
+ * - operands of invalid type to operators
+ * - cyclic dependencies between questions
+ * - duplicate labels (warning)
  */
 public class Validator {
 
-    private static final Checker questionDuplicationChecker = new QuestionDuplicationChecker();
-    private static final Checker expressionChecker = new ExpressionChecker();
-    private static final Checker cyclicDependencyChecker = new CyclicDependencyChecker();
+    //TODO: passesTests return issuetracker.
 
-    public static boolean passesTypeChecks(Form form) {
+    public static boolean passesChecks(Form form) {
 
-        //TODO: passesTests return issuetracker. No global tracker, no singleton
+        Checker questionDuplicationChecker = new QuestionDuplicationChecker();
+        Checker expressionChecker = new ExpressionChecker();
+        Checker cyclicDependencyChecker = new CyclicDependencyChecker();
 
         //Check for duplicate question identifiers and labels
-        if (!questionDuplicationChecker.passesTests(form)) {
-            questionDuplicationChecker.logErrors();
-            return false;
-        }
+        if (detectsErrors(questionDuplicationChecker, form)) return false;
 
         //Check for reference to undefined questions, non-boolean conditionals, and invalid operand types
-        if (!expressionChecker.passesTests(form)) {
-            expressionChecker.logErrors();
-            return false;
-        }
+        if (detectsErrors(expressionChecker, form)) return false;
 
         //Check cyclic dependencies between questions
-        if (!cyclicDependencyChecker.passesTests(form)) {
-            cyclicDependencyChecker.logErrors();
-            return false;
-        }
-
-        logWarnings();
+        if (detectsErrors(cyclicDependencyChecker, form)) return false;
 
         return true;
     }
 
-    private static void logWarnings() {
-        questionDuplicationChecker.logWarnings();
-        expressionChecker.logWarnings();
-        cyclicDependencyChecker.logWarnings();
+    private static boolean detectsErrors(Checker checker, Form form) {
+        if (checker.passesTests(form)) {
+            checker.logWarnings();
+            return false;
+        }
+        checker.logErrors();
+        return true;
     }
 
 }

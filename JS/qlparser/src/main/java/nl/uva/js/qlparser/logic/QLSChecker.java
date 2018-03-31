@@ -3,6 +3,7 @@ package nl.uva.js.qlparser.logic;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
+import nl.uva.js.qlparser.models.ql.expressions.form.IfBlock;
 import nl.uva.js.qlparser.models.ql.expressions.form.Question;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.Page;
@@ -23,14 +24,14 @@ public class QLSChecker {
     public ArrayList<String> checkForErrors(Form form, Stylesheet stylesheet) {
         errors = new ArrayList<>();
 
-        HashMap<String, FormExpression> expressionsByName        = form.getExpressionsByName();
-        HashMap<String, ExpressionReference> expressionRefsByName  = getExpressionReferencesByName(stylesheet);
+        Map<String, FormExpression> expressionsByName = form.getExpressionsByName();
+        Map<String, ExpressionReference> expressionRefsByName = getExpressionReferencesByName(stylesheet);
 
-        checkDuplicateReferences(expressionRefsByName.values());
+        this.checkDuplicateReferences(expressionRefsByName.values());
 
-        checkQuestionsExist(expressionsByName.keySet(), expressionRefsByName.keySet());
+        this.checkQuestionsExist(expressionsByName.keySet(), expressionRefsByName.keySet());
 
-        checkWidgetAssignments(expressionsByName, expressionRefsByName, stylesheet.getDefaultStyles());
+        this.checkWidgetAssignments(expressionsByName, expressionRefsByName, stylesheet.getDefaultStyles());
 
         return errors;
     }
@@ -58,8 +59,8 @@ public class QLSChecker {
         }
     }
 
-    private HashMap<String, ExpressionReference> getExpressionReferencesByName(Stylesheet stylesheet) {
-        HashMap<String, ExpressionReference> expressionReferencesByName = new HashMap<>();
+    private Map<String, ExpressionReference> getExpressionReferencesByName(Stylesheet stylesheet) {
+        Map<String, ExpressionReference> expressionReferencesByName = new HashMap<>();
 
         LinkedList<Page> pages = stylesheet.getPages();
         if (null != pages) {
@@ -75,8 +76,8 @@ public class QLSChecker {
     }
 
     private void checkWidgetAssignments(
-            HashMap<String, FormExpression> questions,
-            HashMap<String, ExpressionReference> questionRefs,
+            Map<String, FormExpression> questions,
+            Map<String, ExpressionReference> questionRefs,
             LinkedList<DefaultStyle> defaultStyles
     ) {
         for (ExpressionReference ref : questionRefs.values()) {
@@ -85,7 +86,7 @@ public class QLSChecker {
                 continue;
             }
 
-            DataType dataType = ((Question) formExpression).getDataType();
+            DataType dataType = formExpression.getVariable().getDataType();
             WidgetType widgetType = ref.getWidgetType();
 
             if (null != widgetType && !WidgetType.mapDataTypeToWidget.get(dataType).contains(widgetType)) {

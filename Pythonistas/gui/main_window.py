@@ -18,17 +18,43 @@ class MainWindow(QtWidgets.QWidget):
         self.main_layout = QtWidgets.QHBoxLayout()
         self.main_layout.setSpacing(10)
         self.setLayout(self.main_layout)
-        self.setWindowTitle('QL parser')
+        self.setWindowTitle('Questionnaire builder')
         self.setGeometry(200, 200, 1000, 500)
 
         # Initiates inner frames
-        input_frame = InputFrame()
+        self.input_frame = InputFrame()
         self.output_frame = OutputFrame()
-        self.main_layout.addWidget(input_frame, alignment=QtCore.Qt.AlignLeft)
+        self.main_layout.addWidget(self.input_frame, alignment=QtCore.Qt.AlignLeft)
         self.main_layout.addWidget(self.output_frame, alignment=QtCore.Qt.AlignRight)
 
         # Connect btn with parsing
-        input_frame.parse_is_pressed.connect(self.parse)
+        self.input_frame.parse_is_pressed.connect(self.parse)
+
+    def parse(self, ql_text, qls_text):
+        """ Parse the GUI user input """
+        if ql_text:
+            # Init & traverse QL AST
+            ql_data = ParserInterface(ql_text, 'QL')
+
+            if ql_data.errors:
+                return self.initiate_output_frame(errors=ql_data.errors)
+
+            [question_ids, questions, error_message, warning_message] = visit_ql(ql_data.ast)
+
+            if qls_text:
+                # Init & traverses QLS AST
+                qls_data = ParserInterface(qls_text, 'QLS')
+
+                if qls_data.errors:
+                    return self.initiate_output_frame(errors=qls_data.errors)
+
+                [question_ids, questions, error_message] = visit_qls(qls_data.ast, question_ids, questions)
+
+            # The output_frame is initialized and appropriately filled with questions and their answering widgets.
+            self.initiate_output_frame(question_ids, questions, warning_message, error_message)
+
+        else:
+            self.initiate_output_frame(errors=["Error: QL input missing"])
 
     def initiate_output_frame(self, question_ids=list(), questions=None, warning=None, errors=None):
         """ Reinitialize output frame """
@@ -37,32 +63,3 @@ class MainWindow(QtWidgets.QWidget):
 
         self.output_frame = OutputFrame(question_ids, questions, warning, errors)
         self.main_layout.addWidget(self.output_frame, alignment=QtCore.Qt.AlignRight)
-
-    def parse(self, ql_text, qls_text):
-        """ Parse the GUI user input """
-        ql_data = ParserInterface(ql_text, 'QL')
-        qls_data = ParserInterface(qls_text, 'QLS')
-
-        if ql_text:
-
-            if ql_data.errors:
-                self.initiate_output_frame(errors=ql_data.errors)
-                return
-
-            # Traverses QL AST
-            [question_ids, questions, error_message, warning_message] = visit_ql(ql_data.ast)
-
-            if qls_text:
-
-                if qls_data.errors:
-                    self.initiate_output_frame(errors=qls_data.errors)
-                    return
-
-                # Traverses QLS AST
-                error_message = visit_qls(qls_data.ast, question_ids, questions)
-
-            # The output_frame is initialized and appropriately filled with questions and their answering tools.
-            self.initiate_output_frame(question_ids, questions, warning_message, error_message)
-
-        else:
-            self.initiate_output_frame(errors="Error: QL input missing")

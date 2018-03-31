@@ -8,11 +8,6 @@ public class BooleanValue implements Value {
     }
 
     @Override
-    public String getTypeAsString() {
-        return "BOOLEAN";
-    }
-
-    @Override
     public Boolean getValue() {
         return value;
     }
@@ -52,13 +47,4 @@ public class BooleanValue implements Value {
         return value.logicalOr(this);
     }
 
-    @Override
-    public Value negate(BooleanValue value) {
-        return new BooleanValue(!value.getValue());
-    }
-
-    @Override
-    public Value negate(Value value) {
-        return value.negate(this);
-    }
 }

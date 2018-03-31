@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Assignment1.Converters;
 using Assignment1.Execution;
 using Assignment1.Export;
+using Assignment1.Model.QL.AST;
 using Assignment1.Parser;
 using Assignment1.Rendering;
 using Assignment1.Rendering.QLS;
@@ -20,7 +21,6 @@ namespace Assignment1
         public MainPresenter(IMainView view)
         {
             _view = view;
-            view.Show();
             _view.SelectQLFile += SelectQLFile;
             _view.ExportAnswers += ExportAnswers;
         }
@@ -33,6 +33,7 @@ namespace Assignment1
             };
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
+                _view.ClearUI();
                 ParseFile(fileDialog.FileName);
             }
         }
@@ -57,32 +58,49 @@ namespace Assignment1
 
         private void ParseFile(string inputFile)
         {
+            string fileContent = File.ReadAllText(inputFile);
             try
             {
-                var astForm = TextToQLAST.ParseString(File.ReadAllText(inputFile));
-                var messages = new MessageContainer();
-                messages.Add(QLASTDuplicateChecker.CheckDuplicates(astForm));
-                messages.Add(QLASTScopeChecker.CheckReferenceScopes(astForm));
-                if (messages.Errors.Any())
+                var astForm = TextToQLAST.ParseString(fileContent);
+                var messages = ValidateForm(astForm);
+                if (AnyErrors(messages))
                 {
                     _view.SetErrors(messages.Errors);
+                    return;
                 }
-                else
-                {
-                    messages.Add(QLASTCyclicDependencyChecker.CheckForCycles(astForm));
-                    QLTypeChecker typechecker = new QLTypeChecker();
-                    typechecker.TypeCheckQuestionForm(astForm);
-                    _executor = new QLExecutor(astForm);
-                    //var renderer = new QLRenderer(_executor);
-                    var renderer = new QLSRenderer(_executor, QLSParser.ParseString(File.ReadAllText(inputFile + ".qls")));
-                    _view.SetFormControl(renderer.Render());
-                }
+                _executor = new QLExecutor(astForm);
+
+                var qlsFileLocation = inputFile + ".qls";
+                IQuestionFormRenderer renderer = new QLRenderer(_executor);
+                if (File.Exists(qlsFileLocation))
+                    renderer = new QLSRenderer(_executor, QLSParser.ParseString(File.ReadAllText(qlsFileLocation)));
+                _view.SetFormControl(renderer.Render());
                 _view.SetWarnings(messages.Warnings);
             }
             catch (QLParseException exception)
             {
                 _view.SetErrors(exception.Exceptions);
             }
+        }
+
+        public MessageContainer ValidateForm(QuestionForm astForm)
+        {
+            var messages = new MessageContainer();
+            messages.Add(QLASTDuplicateChecker.CheckDuplicates(astForm));
+            if (AnyErrors(messages)) return messages;
+            messages.Add(QLASTScopeChecker.CheckReferenceScopes(astForm));
+            if (AnyErrors(messages)) return messages;
+            messages.Add(QLASTCyclicDependencyChecker.CheckForCycles(astForm));
+            if (AnyErrors(messages)) return messages;
+            messages.Add(QLTypeChecker.CheckTypes(astForm));
+            if (AnyErrors(messages)) return messages;
+            return messages;
+        }
+
+        private bool AnyErrors(MessageContainer messages)
+        {
+            if (!messages.Errors.Any()) return false;
+            return true;
         }
     }
 }

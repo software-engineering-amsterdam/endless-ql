@@ -8,11 +8,13 @@ import org.junit.runner.notification.Failure;
 import org.uva.forcepushql.parser.antlr.GrammarLexer;
 import org.uva.forcepushql.parser.antlr.GrammarParser;
 
+import java.io.IOException;
+
 public class ParserTestRunner
 {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
+
         Result result = JUnitCore.runClasses(ParserTest.class);
 
         for (Failure failure : result.getFailures())

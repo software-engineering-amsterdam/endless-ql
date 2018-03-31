@@ -53,7 +53,6 @@ public class TypeChecker extends QLBaseVisitor{
 
     @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
-        System.out.println("passed here");
         Object value = visit(ctx.expression());
         return checkType(Value.BOOLEAN, value, ctx.expression(), ctx);
     }

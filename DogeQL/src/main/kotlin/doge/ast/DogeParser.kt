@@ -5,18 +5,25 @@ import QuestionnaireLanguageGrammarParser
 import doge.ast.node.QLNode
 import doge.data.symbol.SymbolTable
 import doge.typechecker.TypeChecker
+import doge.visitor.ValueUpdateVisitor
+import jdk.nashorn.internal.runtime.Undefined
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
+import qls.ast.node.QlsNode
+import java.io.File
+import java.io.FileInputStream
 
 
-data class DogeParseResult(val ast: QLNode, val symbolTable: SymbolTable)
+data class DogeParseResult(val ast: QLNode?, val symbolTable: SymbolTable?, val info : List<String>)
 
 class DogeParser {
 
-    fun parse(): DogeParseResult? {
-        val fileName = "/sample/TestQuestionare.doge"
+    fun parse(file: File): DogeParseResult? {
+        val fileName = file.path
 
-        javaClass.getResource(fileName).openStream().use {
+        var errors: MutableList<String>
+
+        FileInputStream(fileName).use {
             val stream = ANTLRInputStream(it)
             val lexer = QuestionnaireLanguageGrammarLexer(stream)
             val tokens = CommonTokenStream(lexer)
@@ -25,14 +32,17 @@ class DogeParser {
             val ast = visitor.visit(parser.form())
 
             val symbolTable = SymbolTable()
-            val validQL = TypeChecker(fileName, symbolTable, ast).check()
+            errors = TypeChecker(fileName, symbolTable, ast).check()
 
-            if (validQL) {
-                return DogeParseResult(ast, symbolTable)
+
+            if (errors.isEmpty()) {
+                ValueUpdateVisitor.default(symbolTable).visit(ast)
+
             }
-        }
 
-        return null
+            return DogeParseResult(ast, symbolTable, errors)
+
+        }
     }
 
 }

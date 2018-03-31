@@ -6,7 +6,7 @@ trait IntegerValueCheck {
 
   def checkIntegerValue(name: String, value: Double, valueName: String): Option[TypeCheckError] = {
     if (value.toInt != value)
-      Some(TypeCheckError(name, s"The ${valueName} value [${value}] is not an integer value."))
+      Some(TypeCheckError(name, s"The '$valueName' value '$value' is not an integer value."))
     else None
   }
 }

@@ -5,13 +5,12 @@ import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
-import nl.uva.js.qlparser.models.qls.elements.Page;
 import nl.uva.js.qlparser.models.qls.elements.ExpressionReference;
+import nl.uva.js.qlparser.models.qls.elements.Page;
 import nl.uva.js.qlparser.models.qls.elements.Section;
 import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 import nl.uva.js.qlparser.models.qls.style.WidgetStyle;
-import nl.uva.js.qlparser.ui.components.form.ComponentBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +31,7 @@ public class FormPanel extends JPanel {
     private LinkedHashMap<String, LinkedList<Component>> pages;
     private HashMap<DataType, DefaultStyle> defaultStyles;
 
-    public FormPanel(Form form, int viewHeight, int formWidth, int formHeight){
+    public FormPanel(Form form, int viewHeight, int formWidth, int formHeight) {
         formContent = new JPanel();
         formContent.setPreferredSize(new Dimension(formWidth, formHeight));
         formContent.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -84,7 +83,7 @@ public class FormPanel extends JPanel {
      */
     public void apply(Stylesheet stylesheet) {
         pages         = new LinkedHashMap<>();
-        defaultStyles = new HashMap<>();
+        defaultStyles = getDefaultStyles();
 
         stylesheet.getDefaultStyles().forEach(style -> defaultStyles.put(style.getDataType(), style));
 
@@ -94,6 +93,17 @@ public class FormPanel extends JPanel {
 
         // Set to first page
         setPage(pages.keySet().iterator().next());
+    }
+
+    /**
+     *  Preset default values for supported widget types, as fallback.
+     */
+    private HashMap<DataType, DefaultStyle> getDefaultStyles() {
+        HashMap<DataType, DefaultStyle> defaultStyles = new HashMap<>();
+        defaultStyles.put(DataType.BOOLEAN, DefaultStyle.builder().widgetType(WidgetType.CHECKBOX).build());
+        defaultStyles.put(DataType.INTEGER, DefaultStyle.builder().widgetType(WidgetType.TEXT).build());
+
+        return defaultStyles;
     }
 
     public void setPage(String pageName) {
@@ -118,43 +128,54 @@ public class FormPanel extends JPanel {
         return pageComponents;
     }
 
-    //TODO: WIP
+    /**
+     *  Change widget to match style and widget type
+     */
     private void updateWidget(Component component, WidgetType widgetType, WidgetStyle widgetStyle) {
         FormExpression expression = form.getExpressionsByName().get(component.getName());
-        Variable variable = expression.getVariable();
+        Variable variable         = expression.getVariable();
+
         if (variable == null) {
+            // Not a Question
             return;
         }
 
-        Panel formComponent = (Panel) component;
-        Component input  = formComponent.getComponent(1);
+        Panel formComponent  = (Panel) component;
+        Component inputField = formComponent.getComponent(1);
 
-        DataType dataType = expression.getType();
-
-        if (needToReplaceWidget(widgetType, dataType)) {
-            formComponent.remove(input);
-
-            if (defaultStyles.containsKey(dataType)) {
-                DefaultStyle defaultStyle = defaultStyles.get(dataType);
-
-                switch (defaultStyle.getWidgetType()) {
-                    case CHECKBOX:
-                        formComponent.add(ComponentBuilder.buildCheckBox(variable));
-                        break;
-                    case DROPDOWN:
-                        formComponent.add(ComponentBuilder.buildDropdown(variable));
-                        break;
-                    case RADIO:
-                        formComponent.add(ComponentBuilder.buildRadioButtons(variable));
-                }
-            }
-        }
+        updateWidgetType(widgetType, variable, formComponent, inputField, widgetStyle);
+        updateWidgetStyle(widgetStyle, formComponent, inputField);
 
         component.revalidate();
         component.repaint();
     }
 
+    private void updateWidgetType(WidgetType widgetType, Variable variable, Panel formComponent, Component input, WidgetStyle widgetStyle) {
+        DataType dataType = variable.getDataType();
+
+        if (needToReplaceWidget(widgetType, dataType)) {
+            formComponent.remove(input);
+
+            // Replace widget by default widget type, unless the widget-level type overrides it.
+            if (widgetType == null) {
+                DefaultStyle defaultStyle = defaultStyles.get(dataType);
+                WidgetType defaultWidgetType = defaultStyle.getWidgetType();
+                formComponent.add(defaultWidgetType.createWidget(variable, widgetStyle));
+            } else {
+                formComponent.add(widgetType.createWidget(variable, widgetStyle));
+            }
+        }
+    }
+
     private boolean needToReplaceWidget(WidgetType widgetType, DataType dataType) {
-        return defaultStyles.containsKey(dataType) || widgetType != null;
+        boolean defaultStyleIsPresent = defaultStyles.containsKey(dataType);
+
+        WidgetType defaultWidgetType = defaultStyleIsPresent ? defaultStyles.get(dataType).getWidgetType() : null;
+
+        return defaultWidgetType != null || widgetType != null;
+    }
+
+    private void updateWidgetStyle(WidgetStyle widgetStyle, Panel formComponent, Component inputField) {
+        //TODO
     }
 }

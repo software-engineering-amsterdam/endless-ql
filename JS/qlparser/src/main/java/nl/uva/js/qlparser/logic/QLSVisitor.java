@@ -14,6 +14,7 @@ import nl.uva.js.qlparser.models.qls.style.StyleRule;
 import nl.uva.js.qlparser.models.qls.style.WidgetStyle;
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
@@ -94,10 +95,11 @@ public class QLSVisitor extends QLSBaseVisitor{
 
     @Override
     public WidgetStyle visitWidgetStyle(QLSParser.WidgetStyleContext ctx) {
-        LinkedList<StyleRule> styleRules = ctx.styleRule()
-                .stream()
-                .map(this::visitStyleRule)
-                .collect(Collectors.toCollection(LinkedList::new));
+        HashMap<Property, String> styleRules = new HashMap<>();
+
+        for (QLSParser.StyleRuleContext src : ctx.styleRule()) {
+            styleRules.put(visitStyleRule(src).getProperty(), visitStyleRule(src).getValue());
+        }
 
         return WidgetStyle.builder()
                 .styleRules(styleRules)
@@ -108,7 +110,7 @@ public class QLSVisitor extends QLSBaseVisitor{
     public StyleRule visitStyleRule(QLSParser.StyleRuleContext ctx) {
         return StyleRule.builder()
                 .property(ctx.property().<Property>accept(this))
-                .value((String) DataType.STRING.getValueOf().apply(ctx.STRVAL().getText()))
+                .value(ctx.styleVal().getText())
                 .build();
     }
 

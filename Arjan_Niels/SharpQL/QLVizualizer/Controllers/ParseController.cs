@@ -1,6 +1,6 @@
 ﻿using QLParser;
 using QLParser.Analysis;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Factories;
@@ -14,6 +14,7 @@ namespace QLVisualizer.Controllers
         public Tuple<string[], FormManager> ParseQL(string rawQL, ElementManagerController elementManagerController)
         {
             FormNode node = QLParserHelper.Parse(rawQL);
+            Analyser.Reset();
             if (!Analyser.Analyse(node))
                 return new Tuple<string[], FormManager>(Analyser.GetErrors().ToArray(), null);
 

@@ -7,10 +7,6 @@ class SymbolTable {
 
     private var symbols = HashMap<Name, BaseSymbolValue>()
 
-    fun evaluateTable() {
-
-    }
-
     fun registerSymbol(name: Name, value: BaseSymbolValue): SymbolRegistrationResult {
         val previousSymbol = findSymbol(name)
 

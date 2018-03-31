@@ -35,7 +35,8 @@ public class MoneyFieldWidget extends Widget {
                 warn();
             }
 
-            public void removeUpdate(DocumentEvent e) { }
+            public void removeUpdate(DocumentEvent e) {
+            }
 
             public void insertUpdate(DocumentEvent e) {
                 warn();
@@ -60,6 +61,12 @@ public class MoneyFieldWidget extends Widget {
         });
 
         this.field = textField;
+
+
+        ImageIcon icon = new ImageIcon("./src/main/resources/images/dollar-sign.gif","this is a caption");
+
+        this.field.setBorder(BorderFactory.createMatteBorder(
+                0, 16, 0, 0, icon));
     }
 
     @Override

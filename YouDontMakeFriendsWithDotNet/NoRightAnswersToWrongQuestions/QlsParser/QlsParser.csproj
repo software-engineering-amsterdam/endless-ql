@@ -77,9 +77,6 @@
     <Compile Include="QlsParserModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\QlsTransformer\QlsTransformer.csproj">
       <Project>{4214F8B0-A5FA-4426-B71C-16CED6FA0A63}</Project>
       <Name>QlsTransformer</Name>
@@ -92,6 +89,10 @@
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
       <Name>QuestionnaireInfrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

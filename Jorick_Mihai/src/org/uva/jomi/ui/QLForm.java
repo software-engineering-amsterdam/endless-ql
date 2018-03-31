@@ -47,12 +47,15 @@ public class QLForm {
 
 			ParseContext cst = parser.parse();
 
-			AstBuilder builder = new AstBuilder(true);
-			this.ast = builder.visit(cst);
+			if (parser.getNumberOfSyntaxErrors() == 0) {
+				AstBuilder builder = new AstBuilder(true);
+				this.ast = builder.visit(cst);
 
-			if (builder.getNumberOfErros() > 0) {
-				System.err.println("Failed to build the AST");
+				if (builder.getNumberOfErros() > 0) {
+					System.err.println("Failed to build the AST");
+				}
 			}
+
 		} catch(IOException e) {
 			System.err.println("Source file was not found: " + e.getMessage());
 		}

@@ -1,4 +1,4 @@
-// Generated from /Users/piotrkosytorz/Library/Mobile Documents/com~apple~CloudDocs/Study/SC/endless-ql/piotr/org.uva.sc.piotr.ql/src/ql.main/java/ql.qls.grammar/QL.g4 by ANTLR 4.7
+// Generated from /Users/piotrkosytorz/Library/Mobile Documents/com~apple~CloudDocs/Study/SC/endless-ql/piotr/org.uva.sc.piotr.ql/src/main/java/ql/grammar/QL.g4 by ANTLR 4.7
 package ql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -63,6 +63,13 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitTypeDeclarationMoney(QLParser.TypeDeclarationMoneyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TypeDeclarationDate}
+	 * labeled alternative in {@link QLParser#dataType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeDeclarationDate(QLParser.TypeDeclarationDateContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#ifStatement}.
 	 * @param ctx the parse tree

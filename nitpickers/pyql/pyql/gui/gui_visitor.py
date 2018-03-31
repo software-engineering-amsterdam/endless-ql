@@ -1,5 +1,3 @@
-import tkinter
-
 from multimethods import multimethod
 from pyql.ast.form.form import Form
 from pyql.ast.form.block import Block
@@ -11,33 +9,13 @@ from pyql.ast.ast import ASTNode
 from pyql.ast.expression.expressions import Identifier
 from pyql.util.types import Type
 from pyql.static_analysis.expression_evaluator import ExpressionEvaluator
-from pyql.gui.window import Window
-
-from pyql.gui.widgets.widget_factory import WidgetFactory
 
 
 class GUIVisitor:
-    def __init__(self, ast, symbol_table, messages):
-        self._expression_visitor = ExpressionEvaluator(symbol_table)
-        self._ast = ast
+    def __init__(self, gui_window, symbol_table):
+        self._gui_window = gui_window
         self._symbol_table = symbol_table
-
-        root = tkinter.Tk()
-        self._window = Window(root, self, self._symbol_table)
-
-        print(messages, not messages)
-        if not messages:
-            self.build()
-        else:
-            self.build_messages(messages)
-        root.mainloop()
-
-    def build(self):
-        self._window.clear()
-        self._ast.accept(self)
-
-    def build_messages(self, messages):
-        self._window.show_messages(messages)
+        self._expression_visitor = ExpressionEvaluator(self._symbol_table)
 
     @multimethod(Identifier)
     def visit(self, identifier):
@@ -58,28 +36,29 @@ class GUIVisitor:
     @multimethod(ComputedQuestion)
     def visit(self, computed_question):
         try:
-            expression_evaluated_value = computed_question.expression.accept(self._expression_visitor).value
+            expression_result = computed_question.expression.accept(self._expression_visitor).value
         except KeyError:
             return False
 
-        if expression_evaluated_value:
+        if expression_result:
             identifier = computed_question.identifier.accept(self)
-            question_type = computed_question.question_type.accept(self)
+            type = computed_question.question_type
+            text = computed_question.text
 
-            self._window.add_computed_question(identifier, computed_question.text, WidgetFactory.widget(question_type),
-                                               expression_evaluated_value)
+            self._gui_window.add_computed_question(identifier, type, text, expression_result)
 
     @multimethod(Question)
     def visit(self, question):
         identifier = question.identifier.accept(self)
-        question_type = question.question_type.accept(self)
+        type = question.question_type
+        text = question.text
 
         try:
-            value = self._symbol_table.get(identifier).value
+            saved_value = self._symbol_table.get(identifier).value
         except KeyError:
-            value = ""
+            saved_value = ""
 
-        self._window.add_question(identifier, question.text, WidgetFactory.widget(question_type), value)
+        self._gui_window.add_question(identifier, type, text, saved_value)
 
     @multimethod(IfElse)
     def visit(self, if_else_statement):

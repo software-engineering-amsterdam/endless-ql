@@ -22,14 +22,14 @@ public class IOHandler {
     }
 
     public String getUserInput(String type) {
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "/input");
 
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "QL & QLS Questionnaires", type);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(type, type);
         chooser.setFileFilter(filter);
+
         int returnVal = chooser.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            return readFile(chooser.getSelectedFile().getName());
+            return readFile(chooser.getSelectedFile().getPath());
         } else {
             logger.info("No file selected");
             System.exit(0);

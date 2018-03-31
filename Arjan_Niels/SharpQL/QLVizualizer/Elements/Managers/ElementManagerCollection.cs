@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using QLParser.AST.QLS;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 
@@ -18,7 +18,10 @@ namespace QLVisualizer.Elements.Managers
             base(identifyer, text, xmlName, controller, activationExpression)
         {
             Children = new List<ElementManager>();
+            Styles = new List<QLSStyle>();
         }
+
+        public List<QLSStyle> Styles { get; private set; }
 
         /// <summary>
         /// Add child, set parent of ElementManager
@@ -52,7 +55,7 @@ namespace QLVisualizer.Elements.Managers
 
             // Only send to children if parent is active
             if (Active)
-                foreach (ElementManagerLeaf manager in Children)
+                foreach (ElementManager manager in Children)
                     manager.ActivationUpdate(elementManagerLeaf, isActive);
         }
 
@@ -89,7 +92,7 @@ namespace QLVisualizer.Elements.Managers
                         Tuple<List<string>, Dictionary<string, ElementManagerLeaf>> recResult = childCollection.FindRecursiveLeafsById(targets);
                         targets = recResult.Item1;
 
-                        result.Concat(recResult.Item2);
+                        result = result.Concat(recResult.Item2).ToDictionary(o => o.Key, o => o.Value);
                         break;
                     case ElementManagerLeaf childLeaf:
                         if (targets.Contains(childLeaf.Identifier))
@@ -134,6 +137,29 @@ namespace QLVisualizer.Elements.Managers
             return new Tuple<List<string>, Dictionary<string, ElementManager>>(targets, result);
         }
 
+        public void AddStyle(params QLSStyle[] styles)
+        {
+            Styles.AddRange(styles);
+        }
 
+        public override void SetStyle(QLSStyle style)
+        {
+            Styles = new List<QLSStyle>() { style };
+        }
+
+        public void SetStyles(List<QLSStyle> styles)
+        {
+            Styles = styles;
+        }
+
+        public List<QLSStyle> GetStyles()
+        {
+            return Styles;
+        }
+
+        public override QLSStyle GetStyle()
+        {
+            return Styles.Count > 0 ? Styles[0] : null;
+        }
     }
 }

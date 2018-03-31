@@ -15,7 +15,7 @@ public class EqualsEvaluator extends BinaryEvaluator{
             Value left = getLeftValue();
             Value right = getRightValue();
 
-            return new BooleanValue(left.equals(right));
+            return new BooleanValue(left.getValue().equals(right.getValue()));
         }
 
         return new UndefinedValue();

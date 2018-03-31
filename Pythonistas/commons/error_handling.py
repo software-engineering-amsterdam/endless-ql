@@ -26,4 +26,4 @@ class MyErrorListener(ErrorListener):
 
     def get_errors(self):
         """ Needed due to parent being protected """
-        return self.errors
+        return [k for k in self.errors if 'EOF' not in k]

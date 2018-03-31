@@ -28,7 +28,7 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IQuestionnaireOutputCreator), typeof(QuestionnaireOutputCreator));
             appRegistration.AddSingleton(typeof(IQuestionnaireOutputUpdater), typeof(QuestionnaireOutputUpdater));
             appRegistration.AddSingleton(typeof(IQuestionnaireAstCreator), typeof(QuestionnaireAstCreator));
-            appRegistration.AddSingleton(typeof(IQuestionnaireValidator), typeof(QuestionnaireValidator));
+            appRegistration.AddSingleton(typeof(IQuestionnaireTypeChecker), typeof(QuestionnaireTypeChecker));
             appRegistration.AddSingleton(typeof(IDuplicateVariableValidator), typeof(DuplicateVariableValidator));
             appRegistration.AddSingleton(typeof(IUndefinedVariableValidator), typeof(UndefinedVariableValidator));
             appRegistration.AddSingleton(typeof(IBooleanConditionValidator), typeof(BooleanConditionValidator));

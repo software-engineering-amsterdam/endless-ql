@@ -1,6 +1,6 @@
 ﻿namespace QuestionnaireDomain.Entities.Validators.Interfaces
 {
-    public interface IMathComparisonValidator : IValidator
+    public interface IMathComparisonValidator : IQuestionnairValidator
     {
     }
 }

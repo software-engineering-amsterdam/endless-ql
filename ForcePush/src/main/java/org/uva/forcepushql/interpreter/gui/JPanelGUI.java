@@ -17,14 +17,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class JPanelGUI extends Observer
-{
+public class JPanelGUI{
 
     private LinkedList<QuestionGUI> questionGUIS;
     private HashMap<String, Boolean> booleanValues;
     private HashMap<String, Double> numberValues;
     private HashMap<String, String> calculations;
-    private String condition;
     private int height = 0;
     private JPanel panel;
 
@@ -66,91 +64,12 @@ public class JPanelGUI extends Observer
 
     }
 
-    public void setCondition(String condition)
-    {
-        this.condition = condition;
-        condition = allTogether(condition);
-        String[] result = condition.split("\\.");
-
-        for (String s : result)
-        {
-            booleanValues.put(s, false);
-        }
-
-    }
-
-    public void addCalculation(String variable, String calculation)
-    {
-        calculations.put(variable, calculation);
-        calculation = allTogether(calculation);
-        String[] result = calculation.split("\\.");
-
-        for (String s : result)
-        {
-            if (!isNumeric(s))
-            {
-                numberValues.put(s, -1.0);
-            }
-        }
-    }
-
-
-    private void checkCondition()
-    {
-
-        String toTest = condition;
-
-        for (Map.Entry<String, Boolean> bv : booleanValues.entrySet())
-        {
-            toTest = toTest.replaceAll(bv.getKey(), String.valueOf(bv.getValue()));
-        }
-
-        boolean result = createAST(toTest).accept(new ASTExpressionVisitorEvaluator());
-
-        panel.setVisible(result);
-
-    }
-
-    private void checkCalculation()
-    {
-
-        for (Map.Entry<String, String> c : calculations.entrySet())
-        {
-            String toCalculate = c.getValue();
-
-            for (Map.Entry<String, Double> nv : numberValues.entrySet())
-            {
-                toCalculate = toCalculate.replaceAll(nv.getKey(), String.valueOf(nv.getValue()));
-            }
-
-            if (!toCalculate.contains("-1.0"))
-            {
-                double result = createAST(toCalculate).accept(new ASTExpressionVisitorEvaluator());
-                ((TextboxGUI) getQuestion(c.getKey())).setText(String.valueOf(result));
-            }
-        }
-
-    }
-
     public int getHeight()
     {
         return height;
     }
 
 
-    @Override
-    public void updateRadio(Radio radio)
-    {
-        booleanValues.put(radio.answerNameValue(), radio.answerValue());
-        checkCondition();
-    }
-
-    @Override
-    public void updateTextbox(Textbox textbox)
-    {
-        numberValues.put(textbox.answerNameValue(), Double.valueOf(textbox.answerValue()));
-        checkCalculation();
-    }
 
     public QuestionGUI getQuestion(String name)
     {
@@ -169,51 +88,5 @@ public class JPanelGUI extends Observer
         return panel;
     }
 
-    private String allTogether(String string)
-    {
-        return getString(string);
-    }
 
-    public static String getString(String string)
-    {
-        string = string.replaceAll("&&", ".");
-        string = string.replaceAll("\\|\\|", ".");
-        string = string.replaceAll("<", ".");
-        string = string.replaceAll(">", ".");
-        string = string.replaceAll("<=", ".");
-        string = string.replaceAll(">=", ".");
-        string = string.replaceAll("!=", ".");
-        string = string.replaceAll("==", ".");
-        string = string.replaceAll("!", "");
-        string = string.replaceAll("\\+", ".");
-        string = string.replaceAll("-", ".");
-        string = string.replaceAll("\\*", ".");
-        string = string.replaceAll("/", ".");
-        string = string.replaceAll(" ", "");
-
-        return string;
-    }
-
-    private ExpressionNode createAST(String input)
-    {
-        ANTLRInputStream expression = new ANTLRInputStream(input);
-        GrammarLexer lexer = new GrammarLexer(expression);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        GrammarParser parser = new GrammarParser(tokens);
-        ExpressionNode mathUnit = new BuildASTExpressionVisitor().visitMathUnit(parser.mathUnit());
-
-        return mathUnit;
-    }
-
-    private boolean isNumeric(String str)
-    {
-        try
-        {
-            double d = Double.parseDouble(str);
-        } catch (NumberFormatException nfe)
-        {
-            return false;
-        }
-        return true;
-    }
 }

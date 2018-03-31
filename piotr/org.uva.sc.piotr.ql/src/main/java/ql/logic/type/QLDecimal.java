@@ -3,9 +3,8 @@ package ql.logic.type;
 import ql.ast.model.expressions.Expression;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
-public class QLDecimal extends QLNumeric<BigDecimal> {
+public class QLDecimal extends QLDataTypeWrapper<BigDecimal> {
 
     public QLDecimal(BigDecimal value) {
         super(value);
@@ -17,36 +16,36 @@ public class QLDecimal extends QLNumeric<BigDecimal> {
     }
 
     @Override
-    public QLDecimal castToDecimal() {
-        return this;
-    }
-
-    @Override
     public QLDecimal negate() {
         return new QLDecimal(this.value.negate());
     }
 
     // binary operations
     @Override
-    public QLDecimal add(QLSummable rhs) {
-        return new QLDecimal(this.value.add(castValueFromQLDataTypeNumeric(rhs.getValue())));
+    public QLDecimal add(QLDataTypeWrapper rhs) {
+        return new QLDecimal(this.value.add(castToBigDecimal(rhs.getValue())));
     }
 
     @Override
-    public QLDecimal subtract(QLNumeric rhs) {
-        return new QLDecimal(this.value.subtract(rhs.castToDecimal().getValue()));
+    public QLDecimal subtract(QLDataTypeWrapper rhs) {
+        return new QLDecimal(this.value.subtract(castToBigDecimal(rhs.getValue())));
     }
 
     @Override
-    public QLDecimal multiply(QLNumeric rhs) {
-        return new QLDecimal(this.value.multiply(rhs.castToDecimal().getValue()));
+    public QLDataTypeWrapper multiply(QLDataTypeWrapper rhs) {
+        if (rhs instanceof QLDecimal || rhs instanceof QLInteger)
+            return new QLDecimal(this.value.multiply(castToBigDecimal(rhs.getValue())));
+        if (rhs instanceof QLMoney)
+            // decimal * money -> money
+            return new QLMoney(this.value.multiply(castToBigDecimal(rhs.getValue())));
+        throw new RuntimeException("Illegal operation");
     }
 
     @Override
-    public QLDecimal divide(QLNumeric rhs) {
-        BigDecimal rhsValue = rhs.castToDecimal().getValue();
+    public QLDecimal divide(QLDataTypeWrapper rhs) {
+        BigDecimal rhsValue = castToBigDecimal(rhs.getValue());
         if (rhsValue.compareTo(BigDecimal.ZERO) != 0) {
-            return new QLDecimal(this.value.divide(rhs.castToDecimal().getValue(), 8, BigDecimal.ROUND_DOWN));
+            return new QLDecimal(this.value.divide(castToBigDecimal(rhs.getValue()), 8, BigDecimal.ROUND_DOWN));
         } else if (this.value.compareTo(BigDecimal.ZERO) >= 0) {
             // plus infinity
             return new QLDecimal(new BigDecimal(Double.MAX_VALUE).setScale(8, BigDecimal.ROUND_DOWN));
@@ -58,40 +57,32 @@ public class QLDecimal extends QLNumeric<BigDecimal> {
 
     @Override
     public QLBoolean equals(QLDataTypeWrapper rhs) {
-        return new QLBoolean(this.value.compareTo(castValueFromQLDataTypeNumeric(rhs.getValue())) == 0);
+        return new QLBoolean(this.value.compareTo(castToBigDecimal(rhs.getValue())) == 0);
     }
 
     @Override
     public QLBoolean notEquals(QLDataTypeWrapper rhs) {
-        return new QLBoolean(this.value.compareTo(castValueFromQLDataTypeNumeric(rhs.getValue())) != 0);
+        return new QLBoolean(this.value.compareTo(castToBigDecimal(rhs.getValue())) != 0);
     }
 
     @Override
-    public QLBoolean greaterThan(QLNumeric rhs) {
-        return new QLBoolean(this.value.compareTo(rhs.castToDecimal().getValue()) > 0);
+    public QLBoolean greaterThan(QLDataTypeWrapper rhs) {
+        return new QLBoolean(this.value.compareTo(castToBigDecimal(rhs.getValue())) > 0);
     }
 
     @Override
-    public QLBoolean greaterEqual(QLNumeric rhs) {
-        return new QLBoolean(this.value.compareTo(rhs.castToDecimal().getValue()) >= 0);
+    public QLBoolean greaterEqual(QLDataTypeWrapper rhs) {
+        return new QLBoolean(this.value.compareTo(castToBigDecimal(rhs.getValue())) >= 0);
     }
 
     @Override
-    public QLBoolean lessThan(QLNumeric rhs) {
-        return new QLBoolean(this.value.compareTo(rhs.castToDecimal().getValue()) < 0);
+    public QLBoolean lessThan(QLDataTypeWrapper rhs) {
+        return new QLBoolean(this.value.compareTo(castToBigDecimal(rhs.getValue())) < 0);
     }
 
     @Override
-    public QLBoolean lessEqual(QLNumeric rhs) {
-        return new QLBoolean(this.value.compareTo(rhs.castToDecimal().getValue()) <= 0);
+    public QLBoolean lessEqual(QLDataTypeWrapper rhs) {
+        return new QLBoolean(this.value.compareTo(castToBigDecimal(rhs.getValue())) <= 0);
     }
 
-    private static BigDecimal castValueFromQLDataTypeNumeric(Object value) {
-        if (value instanceof BigInteger) {
-            return new BigDecimal((BigInteger) value);
-        } else if (value instanceof BigDecimal) {
-            return (BigDecimal) value;
-        }
-        throw new RuntimeException("Unable to cast " + value.getClass().getSimpleName() + " to " + BigDecimal.class.getSimpleName());
-    }
 }

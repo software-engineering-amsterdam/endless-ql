@@ -13,7 +13,7 @@ public class CalculatableInteger extends Calculatable<Integer> {
 
     @Override
     @JsonValue
-    Integer get() {
+    public Integer get() {
         return super.get();
     }
 

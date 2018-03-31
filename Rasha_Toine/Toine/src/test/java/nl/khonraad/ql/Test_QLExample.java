@@ -8,9 +8,10 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
-import nl.khonraad.ql.algebra.Type;
+import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Value;
-import nl.khonraad.ql.dynamics.Questionnaire;
+import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.ast.data.Questionnaire;
 
 public class Test_QLExample {
 
@@ -23,24 +24,24 @@ public class Test_QLExample {
 
         questionnaire.visit();
 
-        questionnaire.storeAnswer( "hasSoldHouse", Value.TRUE );
-        questionnaire.storeAnswer( "hasBoughtHouse", Value.TRUE );
-        questionnaire.storeAnswer( "hasMaintLoan", Value.TRUE );
+        questionnaire.storeAnswer( new Identifier( "hasSoldHouse" ), new Value( true ) );
+        questionnaire.storeAnswer( new Identifier( "hasBoughtHouse" ), new Value( true ) );
+        questionnaire.storeAnswer( new Identifier( "hasMaintLoan" ), new Value( true ) );
 
-        assertNull( questionnaire.findAnswerable( "sellingPrice" ) );
-        assertNull( questionnaire.findAnswerable( "privateDebt" ) );
-
-        questionnaire.visit();
-
-        assertNotNull( questionnaire.findAnswerable( "sellingPrice" ) );
-        assertNotNull( questionnaire.findAnswerable( "privateDebt" ) );
-
-        questionnaire.storeAnswer( "sellingPrice", new Value( Type.Money, "1000000.00" ) );
-        questionnaire.storeAnswer( "privateDebt", new Value( Type.Money, "800000.00" ) );
+        assertNull( questionnaire.findAnswerable( new Identifier( "sellingPrice" ) ) );
+        assertNull( questionnaire.findAnswerable( new Identifier( "privateDebt" ) ) );
 
         questionnaire.visit();
 
-        assertEquals( "a", "200000.00", questionnaire.findComputed( "valueResidue" ).getValue().getText() );
+        assertNotNull( questionnaire.findAnswerable( new Identifier( "sellingPrice" ) ) );
+        assertNotNull( questionnaire.findAnswerable( new Identifier( "privateDebt" ) ) );
+
+        questionnaire.storeAnswer( new Identifier( "sellingPrice" ), new Value( Type.Money, "1000000.00" ) );
+        questionnaire.storeAnswer( new Identifier( "privateDebt" ), new Value( Type.Money, "800000.00" ) );
+
+        questionnaire.visit();
+
+        assertEquals( "a", "200000.00", questionnaire.findComputed( new Identifier( "valueResidue" ) ).value().string() );
 
     }
 }

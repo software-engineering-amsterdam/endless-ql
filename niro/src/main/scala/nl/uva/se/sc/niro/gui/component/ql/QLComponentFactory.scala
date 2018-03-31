@@ -26,13 +26,3 @@ class QLComponentFactory(widgetFactory: WidgetFactory) extends ComponentFactory 
     }
   }
 }
-
-// TODO convert to builder
-object QLComponentFactory {
-  def apply(componentChangeListener: ComponentChangedListener, widgetFactory: WidgetFactory) =
-    new ComponentFactoryAddValueChangedListenerDecorator(
-      componentChangeListener,
-      new ComponentFactoryIsReadOnlyDecorator(
-        new ComponentFactoryBindComponentToQuestion(new QLComponentFactory(widgetFactory)))
-    )
-}

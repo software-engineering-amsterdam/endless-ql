@@ -143,7 +143,6 @@ public class TypeCheckerTest {
                 this.collectQuestionsVisitor.getQuestions(form)
         );
 
-        boolean x = validator.validate();
         Assert.assertFalse(validator.validate());
     }
 

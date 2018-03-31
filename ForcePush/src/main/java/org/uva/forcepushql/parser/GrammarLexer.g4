@@ -56,7 +56,7 @@ NOT             : '!';
 //Variables
 NUM             : [0-9]+;
 VAR             : [A-Za-z][A-Za-z0-9]*;
-LABEL           : '"'[A-Za-z0-9 ,.?/:]+'"';
+LABEL           : '"'[A-Za-z0-9 ,.!'?/:]+'"';
 DEC             : [0-9]+'.'[0-9]+;
 
 

@@ -8,6 +8,6 @@ form testForm {
 		"Third Question"
 		anotherIdentifier : integer
 		"Fourth Question"
-		yetAnotherIdentifier : decimal = firstInteger + 1
+		yetAnotherIdentifier : integer = firstInteger + 1
 	}
 }

@@ -19,7 +19,7 @@ public class QLValidator {
     }
 
     private List<Checker> getCheckers() {
-        List<Question> questions = new QuestionContext(form).getQuestions();
+        List<Question> questions = new QuestionContext(form).getList();
         SymbolTable symbolTable = new SymbolTable(form);
         ParameterContext parameterContext = new ParameterContext(form);
 
@@ -29,7 +29,7 @@ public class QLValidator {
         QuestionChecker questionChecker = new QuestionChecker(questions);
         checkers.add(questionChecker);
 
-        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, parameterContext.getParameters());
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, parameterContext.getList());
         checkers.add(parameterChecker);
 
         DependencyChecker dependencyChecker = new DependencyChecker(parameterContext.getDependencyMapping());

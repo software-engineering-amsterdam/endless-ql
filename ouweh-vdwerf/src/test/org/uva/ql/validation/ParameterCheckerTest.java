@@ -38,7 +38,7 @@ public class ParameterCheckerTest {
 
         SymbolTable symbolTable = new SymbolTable(form);
 
-        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getParameters());
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getList());
 
         assertTrue(parameterChecker.runCheck().hasErrors());
     }
@@ -51,7 +51,7 @@ public class ParameterCheckerTest {
 
         SymbolTable symbolTable = new SymbolTable(form);
 
-        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getParameters());
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getList());
 
         assertTrue(parameterChecker.runCheck().hasErrors());
     }
@@ -69,7 +69,7 @@ public class ParameterCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(form), new ParameterContext(form).getParameters());
+        ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(form), new ParameterContext(form).getList());
 
         assertTrue(parameterChecker.runCheck().hasErrors());
     }
@@ -89,7 +89,7 @@ public class ParameterCheckerTest {
 
         SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new BooleanType());
-        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getParameters());
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getList());
         parameterChecker.runCheck();
 
         assertFalse(parameterChecker.runCheck().hasWarnings());

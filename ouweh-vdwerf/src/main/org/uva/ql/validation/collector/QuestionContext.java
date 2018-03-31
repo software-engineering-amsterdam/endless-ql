@@ -41,7 +41,7 @@ public class QuestionContext implements StatementVisitor<Void, String> {
         return null;
     }
 
-    public List<Question> getQuestions() {
+    public List<Question> getList() {
         return this.questions;
     }
 }

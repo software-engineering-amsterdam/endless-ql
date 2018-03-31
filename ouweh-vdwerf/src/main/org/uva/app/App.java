@@ -50,7 +50,7 @@ public class App {
             styleEvaluator.setStylesheet(stylesheet);
         }
 
-        GUIHandler guiHandler = new GUIHandler(formEvaluator, styleEvaluator, validationResult);
+        new GUIHandler(formEvaluator, styleEvaluator, validationResult);
     }
 
     public static void main(String[] args) {

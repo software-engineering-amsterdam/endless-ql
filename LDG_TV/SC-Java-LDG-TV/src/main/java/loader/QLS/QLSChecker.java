@@ -16,13 +16,14 @@ public class QLSChecker {
      * Verify stylesheet
      * @param stylesheet stylesheet to be checked
      */
-    public void verifyStylesheetStructure(Stylesheet stylesheet, FormNode formNode) {
+    public boolean verifyStylesheetStructure(Stylesheet stylesheet, FormNode formNode) {
         try {
             this.checkReferenceUndefinedVariable(stylesheet);
             this.checkNotAllQuestionsArePlace(stylesheet, formNode);
         } catch (Exception e) {
-            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**

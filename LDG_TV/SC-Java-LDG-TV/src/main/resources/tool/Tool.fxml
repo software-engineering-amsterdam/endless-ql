@@ -18,7 +18,7 @@
         <items>
           <Button mnemonicParsing="false" onAction="#generateQuestionnaire" text="Build" />
             <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#importQLFile" text="Import QL" />
-            <Button layoutX="63.0" layoutY="10.0" mnemonicParsing="false" onAction="#importQLFile" text="Import QLS" />
+            <Button layoutX="63.0" layoutY="10.0" mnemonicParsing="false" onAction="#importQLSFile" text="Import QLS" />
         </items>
       </ToolBar>
       <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">

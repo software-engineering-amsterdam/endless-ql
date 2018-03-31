@@ -42,8 +42,8 @@ public class QLLoader extends FormBaseListener {
         try {
             this.qlChecker.doChecks();
         } catch (ReferenceUndefinedVariableException | DuplicateQuestionDeclarationException | InvalidConditionException e) {
+            this.formNode = null;
             this.notifyListenersWithError(e.getMessage());
-            return;
         }
     }
 

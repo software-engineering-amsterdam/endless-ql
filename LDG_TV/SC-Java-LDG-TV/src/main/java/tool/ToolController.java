@@ -63,9 +63,20 @@ public class ToolController implements Consumer, LoaderErrorListener {
         DialogErrorListener dialogErrorListener = new DialogErrorListener();
 
         QLBuilder qlBuilder = new QLBuilder(tbErrorListener, dialogErrorListener);
+
         Utilities.ofEmptyString(taSourceCodeQL.getText())
                 .ifPresentOrElse(
-                        qlText -> this.formNode = qlBuilder.toFormNode(qlText),
+                        qlText -> {
+                            FormNode fn = qlBuilder.toFormNode(qlText);
+                            boolean fnIsSet = fn != null;
+
+                            if(fnIsSet){
+                                this.formNode = qlBuilder.toFormNode(qlText);
+                            } else {
+                                showAlertBox("Error on parsing QL");
+
+                            }
+                        },
                         () -> showAlertBox("Please import or add QL code")
                 );
 
@@ -73,17 +84,22 @@ public class ToolController implements Consumer, LoaderErrorListener {
                 .ifPresentOrElse(
                         qlsText -> {
                             Stylesheet ss = qlBuilder.toStylesheet(qlsText, this.formNode);
-                            this.formNode.setStylesheet(ss);
-                            this.qlsEnabled = true;
-                            buildQLS();
+                            boolean ssIsSet = ss != null;
+                            if(ssIsSet) {
+                                this.formNode.setStylesheet(ss);
+                                this.qlsEnabled = true;
+                                buildQLS();
+                            } else {
+                                showAlertBox("Error on parsing QLS");
+                            }
                         },
                         () -> {
                             this.qlsEnabled = false;
-                            this.buildQL();
+                            buildQL();
                         }
                 );
 
-        printInfoMessage("Build successful");
+        printInfoMessage("Build ended");
     }
 
     /**
@@ -91,37 +107,54 @@ public class ToolController implements Consumer, LoaderErrorListener {
      * @param event that kicked of the invocation
      */
     public void importQLFile(ActionEvent event) {
+        Optional<String> text = getTextFromFile();
+
+        text.ifPresentOrElse(
+                t -> {
+                    taSourceCodeQL.setText(t);
+                    printInfoMessage("Import QL successful");
+                },
+                () -> showAlertBox("Could not read file.")
+        );
+    }
+
+    public void importQLSFile(ActionEvent event) {
+        Optional<String> text = getTextFromFile();
+
+        text.ifPresentOrElse(
+                t -> {
+                    taSourceCodeQLS.setText(t);
+                    printInfoMessage("Import QLS successful");
+                },
+                () -> showAlertBox("Could not read file.")
+        );
+    }
+
+    private Optional<String> getTextFromFile(){
         FileChooser fileChooser = getFileChooser();
 
         Stage s = new Stage();
         File selectedFile = fileChooser.showOpenDialog(s);
 
         if (selectedFile == null) {
-            return;
+            return Optional.empty();
         }
 
-        Optional<String> qlText = Utilities.readFile(selectedFile.getAbsolutePath());
-
-        qlText.ifPresentOrElse(
-                text -> {
-                    taSourceCodeQL.setText(text);
-                    printInfoMessage("Import " + selectedFile.getName() + " successful");
-                },
-                () -> showAlertBox("Could not read file.")
-        );
+        return Utilities.readFile(selectedFile.getAbsolutePath());
     }
 
     private void buildQL(){
         ListView lvQuestionnaire = new ListView();
-        lvQuestionnaire.getItems().clear();
         List<ASTNode> astNodes = this.formNode.getASTNodes();
         List<QuestionNode> questions = getAllQuestions(astNodes);
-        drawQuestions(questions,lvQuestionnaire, true);
+        drawQuestions(questions, lvQuestionnaire, true);
+
         listViews.add(lvQuestionnaire);
         Tab t = new Tab("QL Form");
         t.setContent(lvQuestionnaire);
         this.tpPages.getTabs().add(t);
     }
+
     private void buildQLS(){
         Stylesheet styleSheet = formNode.getStylesheet();
 
@@ -131,6 +164,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
             drawPage(tab, p);
         }
     }
+
     private void drawPage(Tab tab, Page p){
         HBox hbox = new HBox();
         ListView<Row> lv = new ListView<>();
@@ -142,6 +176,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
         hbox.getChildren().add(lv);
         tab.setContent(hbox);
     }
+
     private void drawSection(Section s, ListView<Row> lView){
         Row r = new SectionRow(s.getLabel());
         lView.getItems().add(r);
@@ -150,8 +185,8 @@ public class ToolController implements Consumer, LoaderErrorListener {
             temp.add(this.formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
         }
         drawQuestions(temp, lView, false);
-
     }
+
     private void drawQuestions(List<QuestionNode> questionNodes, ListView lView, boolean clearView){
         Visitor uiVisitor = new UIVisitor();
         if(clearView){
@@ -200,9 +235,9 @@ public class ToolController implements Consumer, LoaderErrorListener {
 
         return visibleQuestions;
     }
+
     private void showAlertBox(String errorMessage){
         Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage);
-
         alert.showAndWait();
     }
     private void printInfoMessage(String message){
@@ -227,12 +262,13 @@ public class ToolController implements Consumer, LoaderErrorListener {
         List<QuestionNode> questions = getAllQuestions(this.formNode.getASTNodes());
         if (!qlsEnabled){
             drawQuestions(questions, this.listViews.get(0), true);
-        }else{
-            for (int i = 0; i < this.tpPages.getTabs().size(); i ++){
-                Tab tab = this.tpPages.getTabs().get(i);
-                Page page = this.formNode.getStylesheet().getPages().get(i);
-                drawPage(tab, page);
-            }
+            return;
+        }
+
+        for (int i = 0; i < this.tpPages.getTabs().size(); i ++){
+            Tab tab = this.tpPages.getTabs().get(i);
+            Page page = this.formNode.getStylesheet().getPages().get(i);
+            drawPage(tab, page);
         }
     }
 

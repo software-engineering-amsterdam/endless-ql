@@ -49,7 +49,7 @@ public class QLBuilder {
 
         qlsParser.addErrorListener(errorListener);
 
-        StylesheetParser.StylesheetBuilderContext stylesheetTree= qlsParser.stylesheetBuilder();
+        StylesheetParser.StylesheetBuilderContext stylesheetTree = qlsParser.stylesheetBuilder();
         QLSLoader qlsLoader = new QLSLoader(formNode);
         ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
 

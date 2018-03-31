@@ -33,7 +33,11 @@ public class QLSLoader extends StylesheetBaseListener {
     @Override
     public void exitStylesheetBuilder(StylesheetParser.StylesheetBuilderContext ctx){
         this.qlsChecker = new QLSChecker();
-        qlsChecker.verifyStylesheetStructure(styleSheet, this.formNode);
+        boolean notValid = !qlsChecker.verifyStylesheetStructure(styleSheet, this.formNode);
+
+        if(notValid) {
+            this.styleSheet = null;
+        }
     }
     @Override
     public void enterPageNodeStructure(StylesheetParser.PageNodeStructureContext ctx) {
@@ -90,7 +94,12 @@ public class QLSLoader extends StylesheetBaseListener {
             }
             uiElement = new UIElement(ctx.uiIdentifier().getText(), "default", options);
         }
-            v.setUiElement(uiElement);
+
+        if(v == null) {
+            return;
+        }
+
+        v.setUiElement(uiElement);
 
     }
 

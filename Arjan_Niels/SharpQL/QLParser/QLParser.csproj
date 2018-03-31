@@ -74,6 +74,7 @@
     <Compile Include="AST\QL\ExpressionNodes\Enums\LogicalOperator.cs" />
     <Compile Include="AST\QL\ExpressionNodes\ExpressionNode.cs" />
     <Compile Include="AST\QL\ExpressionNodes\LogicalExpressionNode.cs" />
+    <Compile Include="AST\QL\ExpressionNodes\TextConcatinationNode.cs" />
     <Compile Include="AST\QL\FormNode.cs" />
     <Compile Include="AST\QL\IExpressionNode.cs" />
     <Compile Include="AST\QL\IIdentifiedNode.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Exceptions\UnknownNodeTypeException.cs" />
     <Compile Include="Exceptions\UnknownOperatorException.cs" />
     <Compile Include="Exceptions\UnknownQValueTypeException.cs" />
+    <Compile Include="ParserVisitors\QL\ExpressionVisitors\TextConcatinationVisitor.cs" />
     <Compile Include="QLSParserHelper.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="ParserVisitors\QL\ExpressionVisitors\ArthimetricExpressionVisitor.cs" />

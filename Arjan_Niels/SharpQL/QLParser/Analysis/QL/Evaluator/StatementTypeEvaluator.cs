@@ -21,8 +21,8 @@ namespace QLParser.Analysis.QL.Evaluator
                 case QValueType.MONEY:
                 case QValueType.INTEGER:
                 case QValueType.DOUBLE:
+                case QValueType.HEX:
                     return StatementType.NUMERIC;
-
                 case QValueType.UNKNOWN:
                     return StatementType.UNKNOWN;
             }
@@ -32,6 +32,9 @@ namespace QLParser.Analysis.QL.Evaluator
 
         public static QValueType GetStatementResultType(IExpressionNode lhs, IExpressionNode rhs)
         {
+            if (lhs.GetQValueType() == QValueType.TEXT || rhs.GetQValueType() == QValueType.TEXT)
+                return QValueType.TEXT;
+
             if (lhs.GetQValueType() == QValueType.BOOLEAN || rhs.GetQValueType() == QValueType.BOOLEAN)
                 return QValueType.BOOLEAN;
 

@@ -19,7 +19,11 @@ namespace QLParser.ParserVisitors.QL
             var qtype = (QValueType)Enum.Parse(typeof(QValueType), context.QTYPE().GetText().ToUpper());
 
             IExpressionNode expression = null;
-            if (context.artithmeticExpression() != null)
+
+            if (context.textConcatination() != null)
+                expression = new TextConcatinationVisitor().VisitTextConcatination(context.textConcatination());
+
+            else if (context.artithmeticExpression() != null)
                 expression = new ArthimetricExpressionVisitor().VisitArtithmeticExpression(context.artithmeticExpression());
 
             else if (context.comparisonExpression() != null)

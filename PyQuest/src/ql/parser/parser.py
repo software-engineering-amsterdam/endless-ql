@@ -1,5 +1,5 @@
 from ply.yacc import yacc
-from ql.parser import lexer
+from ql.parser.lexer import QLLexer
 from ql.parser.metadata import Metadata
 from ql.ast.nodes.expressions.variable_node import VariableNode
 from ql.ast.nodes.expressions.binary_operators.addition_node import AdditionOperatorNode
@@ -36,7 +36,7 @@ from ql.types.undefined import QLUndefined
 class QLParser:
     def __init__(self):
         self.__errors = []
-        self.__tokens = lexer.QLLexer.tokens
+        self.__tokens = QLLexer.tokens
         self.__precedence = (
             ('left', 'OR'),
             ('left', 'AND'),

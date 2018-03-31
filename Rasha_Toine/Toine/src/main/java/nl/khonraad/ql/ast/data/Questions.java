@@ -11,18 +11,18 @@ import nl.khonraad.ql.ast.data.Question.BehaviouralType;
 
 public class Questions implements Iterable<Question> {
 
-    private List<Question> questions = new ArrayList<>();
+    private List<Question> questionList = new ArrayList<>();
 
     Value storeComputedQuestion( Identifier identifier, Label label, Value value ) {
         Question question = new Question( BehaviouralType.COMPUTED, identifier, label, value );
 
-        questions.add( question );
+        questionList.add( question );
         return value;
     }
 
     Question findQuestion( BehaviouralType behaviouralType, Identifier identifier ) {
 
-        for ( Question question : questions ) {
+        for ( Question question : questionList ) {
             if ( behaviouralType == question.getBehaviouralType() && question.identifier().equals( identifier ) ) {
                 return question;
             }
@@ -32,21 +32,21 @@ public class Questions implements Iterable<Question> {
 
     List<Question> listQuestions() {
 
-        return questions;
+        return questionList;
 
     }
 
     @Override
     public Iterator<Question> iterator() {
-        return questions.iterator();
+        return questionList.iterator();
     }
 
     void clear() {
-        questions.clear();
+        questionList.clear();
     }
 
     void add( Question question ) {
-        questions.add( question );
+        questionList.add( question );
 
     }
 

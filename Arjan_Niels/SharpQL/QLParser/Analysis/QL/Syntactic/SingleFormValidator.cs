@@ -33,12 +33,12 @@ namespace QLParser.Analysis.QL.Syntactic
 
         public void Visit(QuestionNode node)
         {
-            VisitChildren(node);
+            node.Accept(this);
         }
 
         public void Visit(ComputedNode node)
         {
-            VisitChildren(node);
+            node.Accept(this);
         }
 
         public void Visit(FormNode node)
@@ -49,12 +49,12 @@ namespace QLParser.Analysis.QL.Syntactic
 
         public void Visit(QLNode node)
         {
-            VisitChildren(node);
+            node.Accept(this);
         }
 
         public void Visit(ExpressionNode node)
         {
-            VisitChildren(node);
+            node.Accept(this);
         }
 
         public void Visit(ConditionalNode node)
@@ -62,7 +62,12 @@ namespace QLParser.Analysis.QL.Syntactic
             VisitChildren(node);
         }
 
-        private void VisitChildren(QLNode node)
+        public void Visit(QLCollectionNode node)
+        {
+            VisitChildren(node);
+        }
+
+        private void VisitChildren(QLCollectionNode node)
         {
             foreach (var child in node.Children)
                 child.Accept(this);

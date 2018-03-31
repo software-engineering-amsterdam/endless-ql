@@ -1,6 +1,6 @@
 ﻿namespace QLParser.AST.QL
 {
-    public class FormNode : QLNode
+    public class FormNode : QLCollectionNode
     {
         public string FormName { get; set; }
 

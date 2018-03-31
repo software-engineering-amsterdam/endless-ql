@@ -6,21 +6,31 @@ using QLParser.Exceptions;
 
 namespace QLParser.Analysis.QL.Semantic
 {
+    /// <summary>
+    /// This analyser checks if all the statements are valid and of the right type.
+    /// </summary>
     public class StatementTypeAnalyser : IQLAnalyser
     {
         public bool Analyse(QLNode node)
         {
             var result = true;
             var expression = GetExpression(node);
-            if (expression != null && AnalyseExpression(expression) == StatementType.UNKNOWN)
+            if (expression != null && AnalyseExpression(expression) == StatementType.Unknown)
             {
                 Analyser.AddMessage(string.Format("{0} - This expression isn't valid.", node.Location), LanguageType.QL, MessageType.ERROR);
                 return false;
             }
 
-            foreach (QLNode child in node.Children)
-                if (!Analyse(child))
-                    result = false;
+            switch (node)
+            {
+                case QLCollectionNode collectionNode:
+                    foreach (QLNode child in collectionNode.Children)
+                        if (!Analyse(child))
+                            result = false;
+                    break;
+                default:
+                    return true;
+            }
 
             return result;
         }
@@ -82,7 +92,7 @@ namespace QLParser.Analysis.QL.Semantic
             StatementType left = AnalyseExpression(node.Left);
             StatementType right = AnalyseExpression(node.Right);
 
-            return left == right && left == StatementType.TEXT ? StatementType.TEXT : StatementType.UNKNOWN;
+            return left == right && left == StatementType.Text ? StatementType.Text : StatementType.Unknown;
         }
 
         private StatementType Analyze(ComparisonExpressionNode node)
@@ -93,9 +103,9 @@ namespace QLParser.Analysis.QL.Semantic
             switch (node.Operator)
             {
                 case ComparisonOperator.EQ:
-                    return (left == right) ? StatementType.BOOLEAN : StatementType.UNKNOWN;
+                    return (left == right) ? StatementType.Boolean : StatementType.Unknown;
                 default:
-                    return (left == right && left == StatementType.NUMERIC) ? StatementType.BOOLEAN : StatementType.UNKNOWN;
+                    return (left == right && left == StatementType.Numeric) ? StatementType.Boolean : StatementType.Unknown;
             }
         }
 
@@ -104,7 +114,7 @@ namespace QLParser.Analysis.QL.Semantic
             StatementType left = AnalyseExpression(node.Left);
             StatementType right = AnalyseExpression(node.Right);
 
-            return (left == right && left == StatementType.NUMERIC) ? StatementType.NUMERIC : StatementType.UNKNOWN;
+            return (left == right && left == StatementType.Numeric) ? StatementType.Numeric : StatementType.Unknown;
         }
 
         private StatementType Analyze(LogicalExpressionNode node)
@@ -112,7 +122,7 @@ namespace QLParser.Analysis.QL.Semantic
             StatementType left = AnalyseExpression(node.Left);
             StatementType right = AnalyseExpression(node.Right);
 
-            return (left == right && left == StatementType.BOOLEAN) ? StatementType.BOOLEAN : StatementType.UNKNOWN;
+            return (left == right && left == StatementType.Boolean) ? StatementType.Boolean : StatementType.Unknown;
         }
     }
 }

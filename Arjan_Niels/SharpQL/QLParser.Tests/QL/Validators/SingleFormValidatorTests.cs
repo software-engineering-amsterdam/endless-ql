@@ -8,34 +8,28 @@ namespace QLParser.Tests.QL
     [TestClass]
     public class SingleFormValidatorTest : QLTest
     {
-        private QLNode _validAST;
-        private QLNode _multipleFormAST;
-        private QLNode _multipleFormInLowerNodeAST;
-        private QLNode _multipleLayerValidForm;
+        private FormNode _validAST;
+        private FormNode _multipleFormAST;
+        private FormNode _multipleFormInLowerNodeAST;
 
         [TestInitialize]
         public void Initialize()
         {
-            var firstQuestion = new QuestionNode(new Location(0, 0), "Q1", "Do you like puppies?", QValueType.BOOLEAN);
-            var secondQuestion = new QuestionNode(new Location(0, 0), "Q2", "Do you like kittens?", QValueType.BOOLEAN);
-            var thirdQuestion = new QuestionNode(new Location(0, 0), "Q3", "Is this the first question?", QValueType.BOOLEAN);
-            thirdQuestion.AddNode(new FormNode(new Location(0, 0), "InvalidFormInLowerLayer"));
-            var forthQuestion = new QuestionNode(new Location(0, 0), "Q4", "Is this the forthQuestion?", QValueType.BOOLEAN);
+            var firstQuestion = new QuestionNode(Location.Empty, "Q1", "Do you like puppies?", QValueType.BOOLEAN);
+            var secondQuestion = new QuestionNode(Location.Empty, "Q2", "Do you like kittens?", QValueType.BOOLEAN);
+            var thirdQuestion = new ConditionalNode(Location.Empty, null);
+            thirdQuestion.AddNode(new FormNode(Location.Empty, "InvalidFormInLowerLayer"));
+            var forthQuestion = new QuestionNode(Location.Empty, "Q4", "Is this the forthQuestion?", QValueType.BOOLEAN);
 
-            _validAST = new FormNode(new Location(0, 0), "TestForm");
+            _validAST = new FormNode(Location.Empty, "TestForm");
             _validAST.AddNode(firstQuestion);
             _validAST.AddNode(secondQuestion);
 
-            _multipleFormAST = new FormNode(new Location(0, 0), "TestForm");
-            _multipleFormAST.AddNode(new FormNode(new Location(0, 0), "InvalidForm"));
+            _multipleFormAST = new FormNode(Location.Empty, "TestForm");
+            _multipleFormAST.AddNode(new FormNode(Location.Empty, "InvalidForm"));
 
-            _multipleFormInLowerNodeAST = new FormNode(new Location(0, 0), "InvalidForm");
+            _multipleFormInLowerNodeAST = new FormNode(Location.Empty, "InvalidForm");
             _multipleFormInLowerNodeAST.AddNode(thirdQuestion);
-
-            _multipleLayerValidForm = new FormNode(new Location(0, 0), "ValidForm");
-            _multipleLayerValidForm.AddNode(forthQuestion);
-            forthQuestion.AddNode(firstQuestion);
-            forthQuestion.AddNode(secondQuestion);
         }
 
         [TestMethod]
@@ -57,13 +51,6 @@ namespace QLParser.Tests.QL
         {
             var validator = new SingleFormValidator();
             Assert.IsFalse(validator.Analyse(_multipleFormInLowerNodeAST));
-        }
-
-        [TestMethod]
-        public void MultipleLayerValidForm()
-        {
-            var validator = new SingleFormValidator();
-            Assert.IsTrue(validator.Analyse(_multipleLayerValidForm));
         }
     }
 }

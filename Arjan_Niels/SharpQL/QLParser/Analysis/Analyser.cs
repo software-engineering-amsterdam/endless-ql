@@ -34,7 +34,6 @@ namespace QLParser.Analysis
             this._qlAnalysers = new List<IQLAnalyser>()
             {
                 // Syntactic
-                new QuestionHasNoChildrenValidator(),
                 new SingleFormValidator(),
 
                 // Semantic

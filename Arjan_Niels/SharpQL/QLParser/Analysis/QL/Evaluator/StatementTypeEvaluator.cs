@@ -15,33 +15,33 @@ namespace QLParser.Analysis.QL.Evaluator
             switch (node.GetQValueType())
             {
                 case QValueType.BOOLEAN:
-                    return StatementType.BOOLEAN;
+                    return StatementType.Boolean;
                 case QValueType.TEXT:
-                    return StatementType.TEXT;
+                    return StatementType.Text;
                 case QValueType.MONEY:
                 case QValueType.INTEGER:
                 case QValueType.DOUBLE:
                 case QValueType.HEX:
-                    return StatementType.NUMERIC;
+                    return StatementType.Numeric;
                 case QValueType.UNKNOWN:
-                    return StatementType.UNKNOWN;
+                    return StatementType.Unknown;
             }
 
             throw new UnknownQValueTypeException("We don't know what to do with this QValueType.");
         }
 
-        public static QValueType GetStatementResultType(IExpressionNode lhs, IExpressionNode rhs)
+        public static QValueType GetStatementResultType(IExpressionNode left, IExpressionNode right)
         {
-            if (lhs.GetQValueType() == QValueType.TEXT || rhs.GetQValueType() == QValueType.TEXT)
+            if (left.GetQValueType() == QValueType.TEXT || right.GetQValueType() == QValueType.TEXT)
                 return QValueType.TEXT;
 
-            if (lhs.GetQValueType() == QValueType.BOOLEAN || rhs.GetQValueType() == QValueType.BOOLEAN)
+            if (left.GetQValueType() == QValueType.BOOLEAN || right.GetQValueType() == QValueType.BOOLEAN)
                 return QValueType.BOOLEAN;
 
-            if (lhs.GetQValueType() == QValueType.MONEY || rhs.GetQValueType() == QValueType.MONEY)
+            if (left.GetQValueType() == QValueType.MONEY || right.GetQValueType() == QValueType.MONEY)
                 return QValueType.MONEY;
 
-            if (lhs.GetQValueType() == QValueType.DOUBLE || rhs.GetQValueType() == QValueType.DOUBLE)
+            if (left.GetQValueType() == QValueType.DOUBLE || right.GetQValueType() == QValueType.DOUBLE)
                 return QValueType.DOUBLE;
 
             return QValueType.INTEGER;

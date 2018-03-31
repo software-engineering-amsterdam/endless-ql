@@ -80,12 +80,12 @@
     <Compile Include="AST\QL\IIdentifiedNode.cs" />
     <Compile Include="AST\QL\IQLTraversable.cs" />
     <Compile Include="AST\QL\IQLVisitor.cs" />
+    <Compile Include="AST\QL\QLCollectionNode.cs" />
     <Compile Include="AST\QL\QLNode.cs" />
     <Compile Include="AST\QL\NodeType.cs" />
     <Compile Include="AST\QL\QuestionNode.cs" />
     <Compile Include="AST\QL\StatementNode.cs" />
     <Compile Include="Analysis\SymbolTable.cs" />
-    <Compile Include="Analysis\QL\Syntactic\QuestionHasNoChildrenValidator.cs" />
     <Compile Include="Analysis\QL\Syntactic\SingleFormValidator.cs" />
     <Compile Include="AST\QL\QValueType.cs" />
     <Compile Include="AST\QL\IdentifierNode.cs" />

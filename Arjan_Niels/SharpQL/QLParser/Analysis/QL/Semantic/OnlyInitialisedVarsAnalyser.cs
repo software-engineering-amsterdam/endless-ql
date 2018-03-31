@@ -4,16 +4,19 @@ using QLParser.Exceptions;
 
 namespace QLParser.Analysis.QL.Semantic
 {
+    /// <summary>
+    /// This analyser will check if all the variables in the form are initialized by a question.
+    /// </summary>
     public class OnlyInitialisedVarsAnalyser : IQLAnalyser, IQLVisitor
     {
-        private bool isValid = false;
+        private bool _isValid = false;
 
         public bool Analyse(QLNode node)
         {
-            this.isValid = true;
+            this._isValid = true;
             this.Visit(node);
 
-            return isValid;
+            return this._isValid;
         }
 
         private bool IsIdentiierInSymbolTable(IdentifierNode node)
@@ -55,26 +58,28 @@ namespace QLParser.Analysis.QL.Semantic
         public void Visit(ComputedNode node)
         {
             if (!AnalyseExpression(node.Expression))
-                this.isValid = false;
+                this._isValid = false;
 
-            VisitChildren(node);
+            node.Accept(this);
         }
 
         public void Visit(ConditionalNode node)
         {
             if (!AnalyseExpression(node.Expression))
-                this.isValid = false;
+                this._isValid = false;
             VisitChildren(node);
+
+            node.Accept(this);
         }
 
         public void Visit(QLNode node)
         {
-            VisitChildren(node);
+            node.Accept(this);
         }
 
         public void Visit(QuestionNode node)
         {
-            VisitChildren(node);
+            node.Accept(this);
         }
 
         public void Visit(FormNode node)
@@ -84,13 +89,18 @@ namespace QLParser.Analysis.QL.Semantic
 
         public void Visit(ExpressionNode node)
         {
-            VisitChildren(node);
+            node.Accept(this);
         }
 
-        private void VisitChildren(QLNode node)
+        private void VisitChildren(QLCollectionNode node)
         {
             foreach (var child in node.Children)
                 child.Accept(this);
+        }
+
+        public void Visit(QLCollectionNode node)
+        {
+            VisitChildren(node);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace QLVisualizer.Factories
                     newCondition = (condition == null) ? newCondition : condition.Combine(newCondition, ExpressionOperator.And) as ExpressionBool;
 
                     // Add children with new condition
-                    parent.AddChildren(node.Children.Select(o => ParseChildNode(o, elementManagerController, parent, newCondition)).Where(o => o != null));
+                    parent.AddChildren(conditionalNode.Children.Select(o => ParseChildNode(o, elementManagerController, parent, newCondition)).Where(o => o != null));
                     return null;
 
                 case QuestionNode questionNode:

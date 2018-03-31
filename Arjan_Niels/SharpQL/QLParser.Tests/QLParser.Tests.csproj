@@ -68,7 +68,6 @@
     <Compile Include="QL\Expressions\LogicalExpressionTests.cs" />
     <Compile Include="QL\SymbolTableTests.cs" />
     <Compile Include="QL\Validators\ASTValidatorTests.cs" />
-    <Compile Include="QL\Validators\QuestionHasNoChildrenTests.cs" />
     <Compile Include="QL\Validators\SingleFormValidatorTests.cs" />
     <Compile Include="QL\FormNameTest.cs" />
     <Compile Include="FormExamples.cs" />

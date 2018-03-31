@@ -1,6 +1,6 @@
 ﻿namespace QLParser.AST.QL
 {
-    public class ConditionalNode : QLNode
+    public class ConditionalNode : QLCollectionNode
     {
         public IExpressionNode Expression { get; private set; }
 

@@ -9,21 +9,21 @@ namespace QLParser.Tests.QL.Validators
     [TestClass]
     public class ASTValidatorTests : QLTest
     {
-        private QLNode _validAST;
-        private QLNode _invalidAST;
+        private QLCollectionNode _validAST;
+        private QLCollectionNode _invalidAST;
 
         [TestInitialize]
         public void Initialize()
         {
             _validAST = new FormNode(new Location(0, 0), "ValidForm");
-            var firstQuestion = new QuestionNode(Location.Null, "Q1", "Do you like puppies?", QValueType.BOOLEAN);
-            var secondQuestion = new QuestionNode(Location.Null, "Q2", "Do you like kittens?", QValueType.BOOLEAN);
+            var firstQuestion = new QuestionNode(Location.Empty, "Q1", "Do you like puppies?", QValueType.BOOLEAN);
+            var secondQuestion = new QuestionNode(Location.Empty, "Q2", "Do you like kittens?", QValueType.BOOLEAN);
 
             _validAST.AddNode(firstQuestion);
             _validAST.AddNode(secondQuestion);
 
-            _invalidAST = new FormNode(Location.Null, "InvalidForm");
-            _invalidAST.AddNode(new FormNode(Location.Null, "InvalidSecondForm"));
+            _invalidAST = new FormNode(Location.Empty, "InvalidForm");
+            _invalidAST.AddNode(new FormNode(Location.Empty, "InvalidSecondForm"));
         }
 
         [TestMethod]

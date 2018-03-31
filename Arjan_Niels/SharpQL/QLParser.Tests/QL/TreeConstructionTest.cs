@@ -8,7 +8,7 @@ namespace QLParser.Tests.QL
     [TestClass]
     public class TreeConstructionTest : QLTest
     {
-        public QLNode AST { get; set; }
+        public QLCollectionNode AST { get; set; }
 
         [TestInitialize]
         public void Initialize()

@@ -35,6 +35,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf.InputCreators
                 RadioButton radioButton = new RadioButton { Text = option };
                 radioButton.Checked = questionElementManager.AnswerToString() == option;
                 radioButton.CheckedChanged += (object sender, EventArgs eventArgs) => questionElementManager.SetAnswer(radioButton.Text);
+                questionElementManager.OnAnswerValueUpdate += (ElementManagerLeaf elementManagerLeaf, bool calculated) => { if (calculated) { radioButton.Checked = elementManagerLeaf.AnswerToString() == option; } };
                 holder.Controls.Add(styler.StyleElement(radioButton));
             }
             return holder;

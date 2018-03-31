@@ -53,13 +53,15 @@
     <Compile Include="Controllers\Display\WidgetDisplayControllerWindowsTest.cs" />
     <Compile Include="Controllers\Display\WidgetDisplayControllerTest.cs" />
     <Compile Include="Controllers\WidgetControllerTest.cs" />
+    <Compile Include="ElementManagers\Typed\DoubleQuestionManagerTest.cs" />
+    <Compile Include="ElementManagers\Typed\HexQuestionManagerTest.cs" />
     <Compile Include="Expression\ExpressionDoubleTest.cs" />
     <Compile Include="Expression\ExpressionHexTest.cs" />
     <Compile Include="Expression\ExpressionIntTest.cs" />
     <Compile Include="Expression\ExpressionBoolTest.cs" />
     <Compile Include="Expression\ExpressionTextTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ElementManagers\QuestionWidget.cs" />
+    <Compile Include="ElementManagers\ElementQuestionManagerTest.cs" />
     <Compile Include="ElementManagers\Typed\IntQuestionManagerTest.cs" />
     <Compile Include="ElementManagers\Typed\BoolQuestionManagerTest.cs" />
     <Compile Include="ElementManagers\Typed\TextQuestionManagerTest.cs" />

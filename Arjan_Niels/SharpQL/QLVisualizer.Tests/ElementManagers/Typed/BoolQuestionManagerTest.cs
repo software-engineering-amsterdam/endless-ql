@@ -4,7 +4,7 @@ using QLVisualizer.Elements.Managers.LeafTypes;
 namespace QLVisualizer.Tests.Elements.Managers.Typed
 {
     [TestClass]
-    public class BoolQuestionManagerTest : QuestionWidget<BoolQuestionManager, bool>
+    public class BoolQuestionManagerTest : ElementQuestionManagerTest<BoolQuestionManager, bool>
     {    
         [TestInitialize]
         public void Initialize()

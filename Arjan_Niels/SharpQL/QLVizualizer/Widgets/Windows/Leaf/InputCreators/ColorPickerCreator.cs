@@ -46,7 +46,8 @@ namespace QLVisualizer.Widgets.Windows.Leaf.InputCreators
 
         private void UpdateColor(string answerValue)
         {
-            _colorDialog.Color = new Hexadecimal(answerValue).ToColor();
+            if(answerValue != string.Empty)
+                _colorDialog.Color = new Hexadecimal(answerValue).ToColor();
 
         }
 

@@ -21,14 +21,6 @@ namespace QLVisualizer.Elements.Managers
         /// </summary>
         private TypedExpressionValue<T> _answerExpression;
 
-        /// <summary>
-        /// Indication if the answer is editable
-        /// </summary>
-        //public bool Editable { get { return _answerExpression == null; } }
-
-        //public delegate void TypedAnswerValueUpdate(QuestionElementValue<T> answer, bool calculated);
-        //public event TypedAnswerValueUpdate OnTypedAnswerValueUpdate;
-
         public QuestionElementManager(string identifyer, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : 
             base(identifyer, text, "question", parent, controller, activationExpression)
         {

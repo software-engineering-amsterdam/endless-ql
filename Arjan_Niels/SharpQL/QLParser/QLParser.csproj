@@ -77,6 +77,7 @@
     <Compile Include="AST\QL\ExpressionNodes\TextConcatinationNode.cs" />
     <Compile Include="AST\QL\FormNode.cs" />
     <Compile Include="AST\QL\IExpressionNode.cs" />
+    <Compile Include="AST\QL\IIdentifiedNode.cs" />
     <Compile Include="AST\QL\IQLTraversable.cs" />
     <Compile Include="AST\QL\IQLVisitor.cs" />
     <Compile Include="AST\QL\QLNode.cs" />

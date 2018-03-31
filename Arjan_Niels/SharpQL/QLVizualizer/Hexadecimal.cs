@@ -5,11 +5,11 @@ namespace QLVisualizer
 {
     public class Hexadecimal
     {
-        private byte _value;
+        private int _value;
 
         public Hexadecimal(int value)
         {
-            _value = (byte)value;
+            _value = value;
         }
 
         public Hexadecimal(string value)
@@ -25,14 +25,14 @@ namespace QLVisualizer
             return value.StartsWith("#");
         }
 
-        private byte StringToByte(string value)
+        private int StringToByte(string value)
         {
-            return Convert.ToByte(value.Substring(1), 16);
+            return Convert.ToInt32(value.Substring(1), 16);
         }
 
         public override string ToString()
         {
-            return string.Format("{0:x}", _value);
+            return string.Format("#{0}",_value.ToString("X4"));
         }
 
         public int ToInteger()

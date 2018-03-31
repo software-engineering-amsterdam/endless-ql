@@ -9,7 +9,7 @@ namespace QLVisualizer.Expression.Types.Numeric
         {
         }
 
-        public ExpressionHex(ExpressionType type, string[] usedWidgetIDs, Func<Hexadecimal> expression) : base(ExpressionTypes.Numeric, ExpressionOperators.Numeric, ExpressionType.Hex, usedWidgetIDs, expression)
+        public ExpressionHex(string[] usedWidgetIDs, Func<Hexadecimal> expression) : base(ExpressionTypes.Numeric, ExpressionOperators.Numeric, ExpressionType.Hex, usedWidgetIDs, expression)
         {
         }
 

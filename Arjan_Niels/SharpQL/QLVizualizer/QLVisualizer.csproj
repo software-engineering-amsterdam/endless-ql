@@ -68,7 +68,7 @@
     <Compile Include="Expression\Types\Numeric\ExpressionDouble.cs" />
     <Compile Include="Expression\Types\Numeric\ExpressionHex.cs" />
     <Compile Include="Expression\Types\Numeric\ExpressionInt.cs" />
-    <Compile Include="Expression\Types\ExpressionString.cs" />
+    <Compile Include="Expression\Types\ExpressionText.cs" />
     <Compile Include="Expression\Types\Numeric\IExpressionNumeric.cs" />
     <Compile Include="Expression\Types\Numeric\NumericUtils.cs" />
     <Compile Include="Factories\ExpressionFactory.cs" />

@@ -11,16 +11,6 @@ class QLSASTParserSpec extends FunSpec {
       val qls =
         FormHelper.getQuestions(getClass.getResource("qls/parser/simple.qls"))
 
-      // val expected = Page(
-        // Identifier("Housing"),
-        // List(
-          // Section(StringValue("Buying"),
-                  // List(Question(Identifier("hasBoughtHouse"), None))),
-          // Section(StringValue("Loaning"),
-                  // List(Question(Identifier("hasMaintLoan"), None))),
-        // )
-      // )
-
       qls should contain(Question(Identifier("didYouBuyAHouse"), None))
     }
 
@@ -63,6 +53,10 @@ class QLSASTParserSpec extends FunSpec {
       }
 
       it("should contain WidgetStyling") {
+        val expected = WidgetStyling(
+          SpinboxWidget(None)
+        )
+
         styling should contain(WidgetStyling(SpinboxWidget(None)))
       }
     }
@@ -91,7 +85,7 @@ class QLSASTParserSpec extends FunSpec {
       }
 
       it("should contain widthStyling") {
-        val expected = WidgetStyling(CheckboxWidget(None,
+        val expected = WidgetStyling(CheckboxWidget(Some(StringType),
           List(StringValue("first"), StringValue("second"))
         ))
         styling should contain(expected)
@@ -108,7 +102,7 @@ class QLSASTParserSpec extends FunSpec {
         BooleanType,
         List(
           WidgetStyling(
-            RadioWidget(None, List(PolarValue("Yes"), PolarValue("No")))
+            RadioWidget(Some(BooleanType), List(PolarValue("Yes"), PolarValue("No")))
         ))
       )
       defaultDecls should contain(expected)
@@ -119,7 +113,7 @@ class QLSASTParserSpec extends FunSpec {
         BooleanType,
         List(
           WidgetStyling(
-            DropdownWidget(None, List(BooleanValue(true), BooleanValue(false)))
+            DropdownWidget(Some(BooleanType), List(BooleanValue(true), BooleanValue(false)))
         ))
       )
       defaultDecls should contain(expected)
@@ -130,9 +124,7 @@ class QLSASTParserSpec extends FunSpec {
         IntegerType,
         List(
           WidgetStyling(
-            SliderWidget(None, 
-              List(IntegerValue(1), IntegerValue(2)
-            )
+            SliderWidget(Some(IntegerType), List(IntegerValue(1), IntegerValue(2))
           )
         ))
       )

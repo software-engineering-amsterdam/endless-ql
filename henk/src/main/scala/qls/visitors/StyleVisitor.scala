@@ -1,6 +1,8 @@
 package qls.visitors
 
 import grammar._
+
+import ql.models.ast.{ BooleanType, StringType, IntegerType, NodeType}
 import qls.models.ast._
 
 import scala.collection.JavaConversions._
@@ -41,24 +43,36 @@ class StyleVisitor extends QLSBaseVisitor[StylingConfiguration] {
     ColorStyling(StringValue(ctx.hex_color.getText))
   }
 
+  def infereType(value: ExpressionValue): NodeType = {
+    value match {
+      case IntegerValue(_) => IntegerType
+      case StringValue(_) => StringType
+      case BooleanValue(_) => BooleanType
+      case PolarValue(_) => BooleanType
+    }
+  }
+
   override def visitWidgetStyling(
       ctx: QLSParser.WidgetStylingContext): StylingConfiguration = {
     val widget = ctx.WIDGET_TYPE.getText match {
       case "spinbox" => SpinboxWidget(None)
       case "radio" => {
         val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        RadioWidget(None, options)
+        val sliderType = options.headOption.map(infereType)
+        RadioWidget(sliderType, options)
       }
       case "checkbox" => {
         val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        CheckboxWidget(None, options)
+        val sliderType = options.headOption.map(infereType)
+        CheckboxWidget(sliderType, options)
       }
       case "slider" => {
         val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        SliderWidget(None, options)
+        val sliderType = options.headOption.map(infereType)
+        SliderWidget(sliderType, options)
       }
       case "dropdown" => {
-        DropdownWidget(None, List(BooleanValue(true), BooleanValue(false)))
+        DropdownWidget(Some(BooleanType), List(BooleanValue(true), BooleanValue(false)))
       }
       case "text" => {
         TextWidget(None)

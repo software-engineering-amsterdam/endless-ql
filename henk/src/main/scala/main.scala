@@ -1,6 +1,7 @@
-import grammar._
-
 import org.antlr.v4.runtime._
+
+import grammar._
+import view._
 
 object Main extends App {
 

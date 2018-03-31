@@ -1,7 +1,7 @@
-package nl.uva.se.sc.niro.model.ql.expressions.answers
+package nl.uva.se.sc.niro.ql.model.ast.expressions.answers
 
 import nl.uva.se.sc.niro.model.ql.evaluation.BasicArithmetics.DecAnswerCanDoBasicArithmetics._
-import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.DecAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.ql.model.ast.evaluation.Orderings.DecAnswerCanDoOrderings._
 
 final case class DecimalAnswer(value: BigDecimal) extends Answer {
 

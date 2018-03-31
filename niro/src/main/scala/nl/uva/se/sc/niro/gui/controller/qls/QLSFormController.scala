@@ -7,9 +7,9 @@ import nl.uva.se.sc.niro.gui.component.Component
 import nl.uva.se.sc.niro.gui.component.qls.QLSComponentFactoryBuilder
 import nl.uva.se.sc.niro.gui.controller.ql.{ QLFormController, QLHomeController }
 import nl.uva.se.sc.niro.gui.widget.qls.QLSWidgetFactory
-import nl.uva.se.sc.niro.model.gui.ql.GUIForm
-import nl.uva.se.sc.niro.model.gui.qls.GUIStylesheet
 import nl.uva.se.sc.niro.ql.model.ast.QLForm
+import nl.uva.se.sc.niro.ql.model.gui.GUIForm
+import nl.uva.se.sc.niro.qls.model.gui.GUIStylesheet
 import nl.uva.se.sc.niro.util.StringUtil
 
 class QLSFormController(homeController: QLHomeController, model: QLForm, guiForm: GUIForm, stylesheet: GUIStylesheet)

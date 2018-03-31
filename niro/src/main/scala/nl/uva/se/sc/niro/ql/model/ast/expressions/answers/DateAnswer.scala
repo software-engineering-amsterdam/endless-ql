@@ -1,8 +1,8 @@
-package nl.uva.se.sc.niro.model.ql.expressions.answers
+package nl.uva.se.sc.niro.ql.model.ast.expressions.answers
 
 import java.time.LocalDate
 
-import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.DateAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.ql.model.ast.evaluation.Orderings.DateAnswerCanDoOrderings._
 
 final case class DateAnswer(value: LocalDate) extends Answer {
 

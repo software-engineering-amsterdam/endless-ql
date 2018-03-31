@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.ql.model.ast.expressions
 
-import nl.uva.se.sc.niro.model.ql.expressions.Conversions._
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }
+import Conversions._
+import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }
 
 object Widener {
   def widen(left: Answer, right: Answer): (Answer, Answer) = (left, right) match {

@@ -1,9 +1,9 @@
 package nl.uva.se.sc.niro.gui.factory
 
 import nl.uva.se.sc.niro.gui.converter.QLToGUIModelBridge
-import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
-import nl.uva.se.sc.niro.model.ql.expressions.{ And, Expression }
 import nl.uva.se.sc.niro.ql.model.ast.Conditional
+import nl.uva.se.sc.niro.ql.model.ast.expressions.{ And, Expression }
+import nl.uva.se.sc.niro.ql.model.gui.GUIQuestion
 
 object GUIConditionalFactory {
 

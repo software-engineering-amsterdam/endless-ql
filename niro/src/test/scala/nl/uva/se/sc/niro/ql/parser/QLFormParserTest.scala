@@ -1,10 +1,11 @@
-package nl.uva.se.sc.niro.parser
+package nl.uva.se.sc.niro.ql.parser
 
 import java.io.IOException
 
-import nl.uva.se.sc.niro.model.ql.expressions._
-import nl.uva.se.sc.niro.model.ql.expressions.answers._
+import nl.uva.se.sc.niro.parser.QLFormParser
 import nl.uva.se.sc.niro.ql.model.ast._
+import nl.uva.se.sc.niro.ql.model.ast.expressions._
+import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ BooleanAnswer, IntegerAnswer, MoneyAnswer }
 import org.antlr.v4.runtime.{ CharStream, CharStreams }
 import org.scalatest.FunSuite
 

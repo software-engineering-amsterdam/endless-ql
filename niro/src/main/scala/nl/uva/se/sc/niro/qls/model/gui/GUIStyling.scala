@@ -1,8 +1,8 @@
-package nl.uva.se.sc.niro.model.gui.qls
+package nl.uva.se.sc.niro.qls.model.gui
 
 import cats.Monoid
-import nl.uva.se.sc.niro.model.gui.qls.style._
 import nl.uva.se.sc.niro.qls.model.ast.Styling
+import nl.uva.se.sc.niro.qls.model.gui.style._
 
 case class GUIStyling(
     widgetStyle: Option[GUIWidgetStyle] = None,

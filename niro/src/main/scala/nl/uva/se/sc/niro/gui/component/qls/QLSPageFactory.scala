@@ -8,9 +8,10 @@ import javafx.scene.layout.VBox
 import javafx.util.Callback
 import nl.uva.se.sc.niro.gui.component.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.gui.controller.qls.QLSFormController
-import nl.uva.se.sc.niro.model.gui.ql.GUIForm
-import nl.uva.se.sc.niro.model.gui.qls.{ GUIStyling, _ }
+import nl.uva.se.sc.niro.qls.model.gui._
 import nl.uva.se.sc.niro.ql.model.ast._
+import nl.uva.se.sc.niro.ql.model.gui.GUIForm
+import nl.uva.se.sc.niro.qls.model.gui.{ GUIPage, GUISection, GUIStylesheet, GUIStyling }
 
 class QLSPageFactory(
     formController: QLSFormController,

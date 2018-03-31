@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro
 
 import nl.uva.se.sc.niro.errors.{ Errors, Warning }
-import nl.uva.se.sc.niro.model.ql.expressions._
-import nl.uva.se.sc.niro.model.ql.expressions.answers._
+import nl.uva.se.sc.niro.ql.model.ast.expressions._
+import nl.uva.se.sc.niro.ql.model.ast.expressions.answers._
 import nl.uva.se.sc.niro.typechecking.ql.CycleDetection.Graph
 
 trait PrettyPrintable[T] {

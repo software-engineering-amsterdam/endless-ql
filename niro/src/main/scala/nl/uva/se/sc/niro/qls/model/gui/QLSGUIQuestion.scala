@@ -1,8 +1,8 @@
-package nl.uva.se.sc.niro.model.gui.qls
+package nl.uva.se.sc.niro.qls.model.gui
 
-import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
-import nl.uva.se.sc.niro.model.ql.expressions.Expression
 import nl.uva.se.sc.niro.ql.model.ast.AnswerType
+import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
+import nl.uva.se.sc.niro.ql.model.gui.GUIQuestion
 
 case class QLSGUIQuestion(
     override val id: String,

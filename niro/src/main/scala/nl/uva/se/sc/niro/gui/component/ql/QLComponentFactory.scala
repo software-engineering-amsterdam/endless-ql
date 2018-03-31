@@ -3,8 +3,8 @@ package nl.uva.se.sc.niro.gui.component.ql
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.gui.component._
 import nl.uva.se.sc.niro.gui.widget._
-import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
 import nl.uva.se.sc.niro.ql.model.ast._
+import nl.uva.se.sc.niro.ql.model.gui.GUIQuestion
 
 class QLComponentFactory(widgetFactory: WidgetFactory) extends ComponentFactory {
 

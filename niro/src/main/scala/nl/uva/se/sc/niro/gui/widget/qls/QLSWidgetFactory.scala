@@ -3,9 +3,9 @@ package nl.uva.se.sc.niro.gui.widget.qls
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.Spinner
 import nl.uva.se.sc.niro.gui.widget.ql.{ QLWidget, QLWidgetFactory }
-import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
-import nl.uva.se.sc.niro.model.gui.qls.QLSGUIQuestion
-import nl.uva.se.sc.niro.model.gui.qls.style.{ GUIComboBoxStyle, GUIRadioStyle, GUISliderStyle, GUISpinBoxStyle }
+import nl.uva.se.sc.niro.qls.model.gui.style.{ GUIComboBoxStyle, GUIRadioStyle, GUISliderStyle, GUISpinBoxStyle }
+import nl.uva.se.sc.niro.ql.model.gui.GUIQuestion
+import nl.uva.se.sc.niro.qls.model.gui.QLSGUIQuestion
 
 class QLSWidgetFactory extends QLWidgetFactory {
 

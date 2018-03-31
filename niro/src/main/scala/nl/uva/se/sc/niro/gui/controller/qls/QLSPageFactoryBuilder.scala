@@ -4,8 +4,8 @@ import javafx.scene.Node
 import javafx.util.Callback
 import nl.uva.se.sc.niro.gui.component.ComponentFactory
 import nl.uva.se.sc.niro.gui.component.qls.{ QLSPageFactory, QLSPageFactoryViewUpdateDecorator }
-import nl.uva.se.sc.niro.model.gui.ql.GUIForm
-import nl.uva.se.sc.niro.model.gui.qls.GUIStylesheet
+import nl.uva.se.sc.niro.ql.model.gui.GUIForm
+import nl.uva.se.sc.niro.qls.model.gui.GUIStylesheet
 
 class QLSPageFactoryBuilder() {
   private var controller: QLSFormController = _

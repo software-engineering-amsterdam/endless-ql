@@ -1,9 +1,8 @@
 package nl.uva.se.sc.niro.gui.converter
 
-import nl.uva.se.sc.niro.model.gui.qls
-import nl.uva.se.sc.niro.model.gui.qls._
-import nl.uva.se.sc.niro.qls.model.ast
+import nl.uva.se.sc.niro.qls.model.{ ast, gui }
 import nl.uva.se.sc.niro.qls.model.ast.{ Page, QLStylesheet, Section, Statement }
+import nl.uva.se.sc.niro.qls.model.gui._
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**
@@ -16,7 +15,7 @@ object QLSToGUIModelBridge {
 
   def convertStylesheet(stylesheet: QLStylesheet): GUIStylesheet = {
     val defaultStyles = stylesheet.defaultStyles.mapValues(GUIStyling(_))
-    qls.GUIStylesheet(
+    GUIStylesheet(
       StringUtil.addSpaceOnCaseChange(stylesheet.name),
       stylesheet.pages.map(convertPage),
       defaultStyles)
@@ -24,19 +23,19 @@ object QLSToGUIModelBridge {
 
   def convertPage(page: Page): GUIPage = {
     val defaultStyles = page.defaultStyles.mapValues(GUIStyling(_))
-    qls.GUIPage(StringUtil.addSpaceOnCaseChange(page.name), page.sections.map(convertSection), defaultStyles)
+    GUIPage(StringUtil.addSpaceOnCaseChange(page.name), page.sections.map(convertSection), defaultStyles)
   }
 
   def convertSection(section: Section): GUISection = {
     val defaultStyles = section.defaultStyles.mapValues(GUIStyling(_))
-    qls.GUISection(section.name, section.statements.map(convertStatement), defaultStyles)
+    GUISection(section.name, section.statements.map(convertStatement), defaultStyles)
   }
 
   def convertStatement(statement: Statement): GUIStatement = {
     statement match {
       case ast.Question(name, styling) => GUIQuestionStyling(name, GUIStyling(styling))
       case Section(name, statements, defaultStyles) =>
-        GUISection(name, statements.map(convertStatement), defaultStyles.mapValues(GUIStyling(_)))
+        gui.GUISection(name, statements.map(convertStatement), defaultStyles.mapValues(GUIStyling(_)))
     }
   }
 

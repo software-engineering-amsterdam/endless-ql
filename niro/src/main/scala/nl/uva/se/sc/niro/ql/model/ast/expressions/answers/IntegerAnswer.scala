@@ -1,7 +1,7 @@
-package nl.uva.se.sc.niro.model.ql.expressions.answers
+package nl.uva.se.sc.niro.ql.model.ast.expressions.answers
 
 import nl.uva.se.sc.niro.model.ql.evaluation.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
-import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.IntAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.ql.model.ast.evaluation.Orderings.IntAnswerCanDoOrderings._
 
 final case class IntegerAnswer(value: BigInt) extends Answer {
 

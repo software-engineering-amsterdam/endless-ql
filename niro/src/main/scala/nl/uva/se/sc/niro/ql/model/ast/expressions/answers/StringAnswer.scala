@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.model.ql.expressions.answers
+package nl.uva.se.sc.niro.ql.model.ast.expressions.answers
 
-import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.StringAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.ql.model.ast.evaluation.Orderings.StringAnswerCanDoOrderings._
 
 final case class StringAnswer(value: String) extends Answer {
 

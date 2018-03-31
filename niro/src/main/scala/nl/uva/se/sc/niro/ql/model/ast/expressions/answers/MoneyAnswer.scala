@@ -1,7 +1,7 @@
-package nl.uva.se.sc.niro.model.ql.expressions.answers
+package nl.uva.se.sc.niro.ql.model.ast.expressions.answers
 
 import nl.uva.se.sc.niro.model.ql.evaluation.BasicArithmetics.MoneyAnswerCanDoBasicArithmetics._
-import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.MoneyAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.ql.model.ast.evaluation.Orderings.MoneyAnswerCanDoOrderings._
 
 final case class MoneyAnswer(value: BigDecimal) extends Answer {
 

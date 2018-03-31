@@ -7,10 +7,10 @@ import nl.uva.se.sc.niro.QLStylesheetFacade
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.controller.ql.QLHomeController
 import nl.uva.se.sc.niro.gui.converter.{ QLSToGUIModelBridge, QLToGUIModelBridge }
-import nl.uva.se.sc.niro.model.gui.ql.GUIForm
-import nl.uva.se.sc.niro.model.gui.qls.GUIStylesheet
 import nl.uva.se.sc.niro.ql.model.ast.QLForm
+import nl.uva.se.sc.niro.ql.model.gui.GUIForm
 import nl.uva.se.sc.niro.qls.model.ast.QLStylesheet
+import nl.uva.se.sc.niro.qls.model.gui.GUIStylesheet
 
 class QLSHomeController extends QLHomeController {
   private var qlFile: File = _

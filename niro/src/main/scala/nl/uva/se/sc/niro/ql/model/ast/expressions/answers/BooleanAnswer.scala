@@ -1,7 +1,7 @@
-package nl.uva.se.sc.niro.model.ql.expressions.answers
+package nl.uva.se.sc.niro.ql.model.ast.expressions.answers
 
 import nl.uva.se.sc.niro.model.ql.evaluation.Logicals.BooleanAnswerCanDoLogicals._
-import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.BooleanAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.ql.model.ast.evaluation.Orderings.BooleanAnswerCanDoOrderings._
 
 final case class BooleanAnswer(value: Boolean) extends Answer {
 

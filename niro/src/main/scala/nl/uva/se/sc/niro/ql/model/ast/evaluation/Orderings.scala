@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.model.ql.evaluation
+package nl.uva.se.sc.niro.ql.model.ast.evaluation
 
-import nl.uva.se.sc.niro.model.ql.expressions.answers._
+import nl.uva.se.sc.niro.ql.model.ast.expressions.answers._
 
 import scala.language.implicitConversions
 

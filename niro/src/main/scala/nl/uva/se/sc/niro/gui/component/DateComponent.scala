@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DateAnswer }
+import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ Answer, DateAnswer }
 
 import scala.collection.mutable
 

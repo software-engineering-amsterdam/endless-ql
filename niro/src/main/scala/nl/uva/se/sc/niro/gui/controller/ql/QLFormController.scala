@@ -15,11 +15,11 @@ import nl.uva.se.sc.niro.gui.component.Component
 import nl.uva.se.sc.niro.gui.component.ql.QLComponentFactoryBuilder
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidgetFactory
-import nl.uva.se.sc.niro.model.gui.ql.{ GUIForm, GUIQuestion }
-import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
-import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
+import nl.uva.se.sc.niro.ql.model.ast.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.ql.model.ast.QLForm
 import nl.uva.se.sc.niro.ql.model.ast.evaluation.QLFormEvaluator
+import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.Answer
+import nl.uva.se.sc.niro.ql.model.gui.{ GUIForm, GUIQuestion }
 import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.{ JavaConverters, mutable }

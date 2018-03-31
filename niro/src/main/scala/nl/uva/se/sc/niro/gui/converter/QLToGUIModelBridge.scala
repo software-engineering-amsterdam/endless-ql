@@ -1,11 +1,10 @@
 package nl.uva.se.sc.niro.gui.converter
 
 import nl.uva.se.sc.niro.gui.factory.{ GUIConditionalFactory, GUIQuestionFactory }
-import nl.uva.se.sc.niro.model.gui.ql
-import nl.uva.se.sc.niro.model.gui.ql.{ GUIForm, GUIQuestion }
-import nl.uva.se.sc.niro.model.ql.expressions.Expression
-import nl.uva.se.sc.niro.model.ql.expressions.answers.BooleanAnswer
+import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
+import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.ql.model.ast.{ Conditional, QLForm, Question, Statement }
+import nl.uva.se.sc.niro.ql.model.gui.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**
@@ -16,7 +15,7 @@ import nl.uva.se.sc.niro.util.StringUtil
   */
 object QLToGUIModelBridge {
   def convertForm(form: QLForm): GUIForm = {
-    ql.GUIForm(StringUtil.addSpaceOnCaseChange(form.formName), convertStatements(BooleanAnswer(true), form.statements))
+    GUIForm(StringUtil.addSpaceOnCaseChange(form.formName), convertStatements(BooleanAnswer(true), form.statements))
   }
 
   def convertStatements(visible: Expression, statements: Seq[Statement]): Seq[GUIQuestion] = {

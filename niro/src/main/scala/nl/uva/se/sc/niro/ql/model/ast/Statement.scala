@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.ql.model.ast
 
-import nl.uva.se.sc.niro.model.ql.expressions._
+import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
 
 // format: off
 sealed trait Statement

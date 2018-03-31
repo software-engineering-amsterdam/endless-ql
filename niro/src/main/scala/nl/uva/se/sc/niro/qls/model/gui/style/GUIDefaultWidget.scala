@@ -1,3 +1,3 @@
-package nl.uva.se.sc.niro.model.gui.qls.style
+package nl.uva.se.sc.niro.qls.model.gui.style
 
 case class GUIDefaultWidget() extends GUIWidgetStyle

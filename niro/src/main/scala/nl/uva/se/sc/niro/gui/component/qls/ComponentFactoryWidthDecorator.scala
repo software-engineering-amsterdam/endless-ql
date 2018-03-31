@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.gui.component.qls
 
 import nl.uva.se.sc.niro.gui.component.{ Component, ComponentFactory }
-import nl.uva.se.sc.niro.model.gui.ql.GUIQuestion
-import nl.uva.se.sc.niro.model.gui.qls.QLSGUIQuestion
+import nl.uva.se.sc.niro.ql.model.gui.GUIQuestion
+import nl.uva.se.sc.niro.qls.model.gui.QLSGUIQuestion
 
 import scala.collection.JavaConverters
 

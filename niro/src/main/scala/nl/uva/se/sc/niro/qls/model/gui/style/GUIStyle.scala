@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.gui.qls.style
+package nl.uva.se.sc.niro.qls.model.gui.style
 
 import nl.uva.se.sc.niro.qls.model.ast.style._
 

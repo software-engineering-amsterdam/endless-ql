@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.ql.expressions
+package nl.uva.se.sc.niro.ql.model.ast.expressions
 
 trait Expression
 trait UnaryExpression extends Expression {

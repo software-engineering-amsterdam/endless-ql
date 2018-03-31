@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.gui.component
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidget
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, BooleanAnswer }
+import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ Answer, BooleanAnswer }
 
 import scala.collection.mutable
 

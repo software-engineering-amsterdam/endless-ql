@@ -30,7 +30,7 @@ import java.util.Map;
 public class StyleEvaluator {
 
     private final StylesheetContext context;
-    private Map<String, WidgetType> defaultTypes = new HashMap<>();
+    private final Map<String, WidgetType> defaultTypes = new HashMap<>();
 
     private Map<String, JPanel> sections = new HashMap<>();
     private List<String> visibleSections = new ArrayList<>();

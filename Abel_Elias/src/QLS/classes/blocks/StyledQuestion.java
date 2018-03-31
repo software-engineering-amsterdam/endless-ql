@@ -31,8 +31,6 @@ public class StyledQuestion extends Element {
         return this.question;
     }
 
-
-
     public String getParentId() {
         return this.parentId;
     }

@@ -17,7 +17,7 @@ import org.uva.qls.validation.QLSValidator;
 import java.util.logging.LogManager;
 
 
-public class App {
+class App {
 
     private App() {
         LogManager.getLogManager().reset();

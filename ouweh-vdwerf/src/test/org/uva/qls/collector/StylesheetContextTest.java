@@ -80,8 +80,8 @@ public class StylesheetContextTest {
         List<Segment> nullId = context.getAllParents(null);
         Assert.assertEquals(nullId.size(), 0);
 
-        List<Segment> nonExisitingId = context.getAllParents("");
-        Assert.assertEquals(nonExisitingId.size(), 0);
+        List<Segment> nonExistingId = context.getAllParents("");
+        Assert.assertEquals(nonExistingId.size(), 0);
 
         List<Segment> testId = context.getAllParents("valueResidue");
         Assert.assertEquals(testId.size(), 3);

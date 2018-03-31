@@ -110,7 +110,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor {
             widget = (Widget) visit(ctx.widget());
         }
 
-        return new QuestionReference(id, style, widget);
+        return new QuestionReference(id, widget);
     }
 
     @Override

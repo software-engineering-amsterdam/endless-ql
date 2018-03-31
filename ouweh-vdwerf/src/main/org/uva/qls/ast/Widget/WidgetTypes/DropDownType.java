@@ -4,14 +4,13 @@ import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.Type;
 import org.uva.qls.visitor.WidgetTypeVisitor;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class DropDownType extends WidgetType {
 
-    private String trueLabel;
-    private String falseLabel;
+    private final String trueLabel;
+    private final String falseLabel;
 
     public DropDownType(String trueLabel, String falseLabel) {
         this.trueLabel = trueLabel;

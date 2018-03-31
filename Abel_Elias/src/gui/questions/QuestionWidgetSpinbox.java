@@ -2,7 +2,7 @@ package gui.questions;
 
 import QL.classes.Question;
 import QL.classes.values.Value;
-import gui.listeners.QuestionListener;
+import gui.listeners.QuestionValueListener;
 
 import javax.swing.*;
 
@@ -36,8 +36,8 @@ public class QuestionWidgetSpinbox extends QuestionPanel {
     }
 
     @Override
-    public void setQuestionChangeListener(QuestionListener questionListener) {
-        spinBox.addChangeListener(questionListener.new SpinBoxListener(super.getQuestion().getId(), spinBox));
+    public void setQuestionChangeListener(QuestionValueListener questionValueListener) {
+        spinBox.addChangeListener(questionValueListener.new SpinBoxListener(super.getQuestion().getId(), spinBox));
 
     }
 

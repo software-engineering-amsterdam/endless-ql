@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Conditional extends Statement {
 
-    private Expression condition;
-    private List<Statement> ifBlock;
-    private List<Statement> elseBlock;
+    private final Expression condition;
+    private final List<Statement> ifBlock;
+    private final List<Statement> elseBlock;
 
     public Conditional(Expression condition, List<Statement> ifBlock, List<Statement> elseBlock) {
         this.condition = condition;

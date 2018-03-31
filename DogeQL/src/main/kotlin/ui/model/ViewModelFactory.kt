@@ -13,8 +13,8 @@ class ViewModelFactory {
             SymbolType.DECIMAL -> DecimalViewModel(question)
             SymbolType.STRING -> StringViewModel(question)
             SymbolType.MONEY -> MoneyViewModel(question)
+            SymbolType.DATE -> DateViewModel(question)
             SymbolType.COLOR -> TODO()
-            SymbolType.DATE -> TODO()
             SymbolType.UNDEFINED -> TODO()
         }
     }

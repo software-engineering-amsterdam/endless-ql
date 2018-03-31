@@ -4,25 +4,25 @@ using QLVisualizer.Elements.Managers.LeafTypes;
 namespace QLVisualizer.Tests.Elements.Managers.Typed
 {
     [TestClass]
-    public class StringWidgetTest : QuestionWidget<StringQuestionManager, string>
-    {
+    public class BoolQuestionManagerTest : QuestionWidget<BoolQuestionManager, bool>
+    {    
         [TestInitialize]
         public void Initialize()
         {
-            Widget = new StringQuestionManager("id", "question", null, null);
+            Widget = new BoolQuestionManager("id", "question", null, null);
         }
 
         [TestMethod]
         public override void AssignTest()
         {
-            Widget.SetAnswer("unittest");
-            Assert.AreEqual("unittest", Widget.Answer.Value);
+            Widget.SetAnswer(true);
+            Assert.IsTrue(Widget.Answer.Value);
         }
 
         [TestMethod]
         public override void ValueTest()
         {
-            Assert.AreEqual(null, Widget.Answer.Value);
+            Assert.AreEqual(false, Widget.Answer.Value);
         }
     }
 }

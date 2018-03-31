@@ -40,7 +40,7 @@ HASHTAG				: '#';
 QTYPE				: 'boolean' | 'money' | 'text' | 'integer' | 'double' | 'hex';
 WIDGETTYPE			: 'checkbox' | 'spinner' | 'radio' | 'textfield';
 
-ID					: [a-zA-Z][a-zA-Z0-9\-B]+;
+ID					: [a-zA-Z][a-zA-Z0-9\-]+;
 TEXT				: '"' .*? '"' ;
 INT					: [0-9]+;		
 PT					: '.';

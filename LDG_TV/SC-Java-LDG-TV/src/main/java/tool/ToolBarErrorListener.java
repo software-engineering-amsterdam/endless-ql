@@ -35,7 +35,5 @@ public class ToolBarErrorListener extends BaseErrorListener {
                     lblErrorField.setTooltip(new Tooltip(sdf.format(cal.getTime())));
                 }
         );
-
-        //super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e);
     }
 }

@@ -17,8 +17,6 @@ public class Row extends HBox {
     @FXML
     private HBox hbAnswer;
 
-    private boolean hide;
-
     public Row(String question, Node answer) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QuestionRow.fxml"));
         fxmlLoader.setRoot(this);
@@ -32,7 +30,6 @@ public class Row extends HBox {
             throw new RuntimeException(e);
         }
 
-        this.hide = hide;
     }
     public Row(String label){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QuestionRow.fxml"));
@@ -47,14 +44,6 @@ public class Row extends HBox {
             throw new RuntimeException(e);
         }
 
-        this.hide = hide;
 
-    }
-    public boolean isHiden() {
-        return hide;
-    }
-
-    public void setHide(boolean hide) {
-        this.hide = hide;
     }
 }

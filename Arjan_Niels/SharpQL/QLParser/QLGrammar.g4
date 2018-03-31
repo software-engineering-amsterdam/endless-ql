@@ -4,9 +4,10 @@
  * Parser Rules
 */
 form					: FORM formName LCURLY (section)* RCURLY;
-section					: computedVariable | question | conditionalBlock;
+section					: question | computedVariable | conditionalBlock;
 question				: TEXT ID COLON QTYPE;
 computedVariable		: TEXT ID COLON QTYPE EQUAL (textConcatination | artithmeticExpression | comparisonExpression);
+
 formName				: ID;
 
 conditionalBlock		: IF logicalExpression LCURLY (section)* RCURLY;

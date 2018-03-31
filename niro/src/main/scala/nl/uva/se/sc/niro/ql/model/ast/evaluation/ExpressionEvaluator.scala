@@ -1,10 +1,10 @@
 package nl.uva.se.sc.niro.model.ql.evaluation
 
-import nl.uva.se.sc.niro.ql.model.ast.expressions.Widener._
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }
 import nl.uva.se.sc.niro.ql.model.ast.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.ql.model.ast.evaluation.QLFormEvaluator.ValueStore
+import nl.uva.se.sc.niro.ql.model.ast.expressions.Widener._
 
 object ExpressionEvaluator {
   implicit class ExpressionOps(e: Expression) {

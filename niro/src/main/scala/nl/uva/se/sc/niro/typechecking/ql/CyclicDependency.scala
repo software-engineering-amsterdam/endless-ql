@@ -4,8 +4,8 @@ import cats.implicits._
 import nl.uva.se.sc.niro.PrettyPrinter.GraphCanPrettyPrint
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
-import nl.uva.se.sc.niro.ql.model.ast.{ QLForm, Symbol }
 import nl.uva.se.sc.niro.ql.model.ast.SymbolTable.SymbolTable
+import nl.uva.se.sc.niro.ql.model.ast.{ QLForm, Symbol }
 import nl.uva.se.sc.niro.typechecking.ql.CycleDetection.{ Edge, Graph, detectCycles }
 import org.apache.logging.log4j.scala.Logging
 

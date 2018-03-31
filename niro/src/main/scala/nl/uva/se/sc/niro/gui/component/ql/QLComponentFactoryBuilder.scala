@@ -1,11 +1,6 @@
 package nl.uva.se.sc.niro.gui.component.ql
 
-import nl.uva.se.sc.niro.gui.component.{
-  ComponentFactory,
-  ComponentFactoryAddValueChangedListenerDecorator,
-  ComponentFactoryBindComponentToQuestion,
-  ComponentFactoryIsReadOnlyDecorator
-}
+import nl.uva.se.sc.niro.gui.component.{ ComponentFactory, ComponentFactoryAddValueChangedListenerDecorator, ComponentFactoryBindComponentToQuestion, ComponentFactoryIsReadOnlyDecorator }
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.gui.widget.WidgetFactory
 

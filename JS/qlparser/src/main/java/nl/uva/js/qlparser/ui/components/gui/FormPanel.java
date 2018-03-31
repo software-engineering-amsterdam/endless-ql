@@ -31,13 +31,12 @@ public class FormPanel extends JPanel {
     private LinkedHashMap<String, LinkedList<Component>> pages;
     private HashMap<DataType, DefaultStyle> defaultStyles;
 
-    public FormPanel(Form form, int viewHeight, int formWidth, int formHeight) {
-        formContent = new JPanel();
+    public FormPanel(int viewHeight, int formWidth, int formHeight) {
+        qlComponentsByName = new LinkedHashMap<>();
+        formContent        = new JPanel();
+
         formContent.setPreferredSize(new Dimension(formWidth, formHeight));
         formContent.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        // Initial setup
-        loadComponents(form);
 
         int panelHeight = viewHeight - 5;
 
@@ -71,6 +70,10 @@ public class FormPanel extends JPanel {
     public void apply(Form form) {
         formContent.removeAll();
         qlComponentsByName.clear();
+
+        if (form == null) {
+            return;
+        }
 
         loadComponents(form);
 

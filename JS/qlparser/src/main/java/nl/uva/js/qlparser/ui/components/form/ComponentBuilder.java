@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.ql.expressions.data.Value;
 import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
+import nl.uva.js.qlparser.models.qls.enums.Property;
+import nl.uva.js.qlparser.models.qls.style.WidgetStyle;
 import nl.uva.js.qlparser.wrappers.arithmetic.CalculatableInteger;
 
 import javax.swing.*;
@@ -170,19 +172,16 @@ public class ComponentBuilder {
         return dropdown;
     }
 
-    public static JSlider buildSlider(Variable variable) {
-        final int min  = 0;
-        final int max  = 100;
-        final int init = 0;
+    public static JSlider buildSlider(Variable variable, WidgetStyle widgetStyle) {
+        int min = Integer.parseInt(getProperty(widgetStyle, Property.MIN));
+        int max = Integer.parseInt(getProperty(widgetStyle, Property.MAX));
+        int init = getInitialValue(variable, min);
 
         JSlider slider = new JSlider(JSlider.HORIZONTAL, min, max, init);
-        slider.setMajorTickSpacing(10);
+        slider.setMajorTickSpacing(max / 5);
         slider.setMinorTickSpacing(1);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
-
-//        Set value if there is any present
-        NonNullRun.consumer(variable.getValue(), value -> slider.setValue(((CalculatableInteger)value.value()).get()));
 
 //        Listen to field changes and update the variable accordingly
         slider.addChangeListener(event -> {
@@ -201,16 +200,13 @@ public class ComponentBuilder {
         return slider;
     }
 
-    public static JSpinner buildSpinbox(Variable variable) {
-        final int min  = 0;
-        final int max  = 100;
-        final int init = 0;
+    public static JSpinner buildSpinbox(Variable variable, WidgetStyle widgetStyle) {
+        int min = Integer.parseInt(getProperty(widgetStyle, Property.MIN));
+        int max = Integer.parseInt(getProperty(widgetStyle, Property.MAX));
+        int init = getInitialValue(variable, min);
 
         SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(init, min, max, 1);
         JSpinner spinner = new JSpinner(spinnerNumberModel);
-
-//        Set value if there is any present
-        NonNullRun.consumer(variable.getValue(), value -> spinner.setValue(((CalculatableInteger)value.value()).get()));
 
 //        Listen to field changes and update the variable accordingly
         spinner.addChangeListener(event -> {
@@ -227,6 +223,15 @@ public class ComponentBuilder {
         });
 
         return spinner;
+    }
+
+    private static int getInitialValue(Variable variable, int min) {
+        Integer initialVal = (((CalculatableInteger) variable.value()).get()) != null ? (((CalculatableInteger) variable.value()).get()) : 0;
+        return initialVal >= min ? initialVal : min;
+    }
+
+    private static String getProperty(WidgetStyle widgetStyle, Property property) {
+        return widgetStyle.getStyleRules().getOrDefault(property, "0");
     }
 
     @RequiredArgsConstructor

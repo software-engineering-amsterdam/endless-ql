@@ -5,6 +5,9 @@ form taxOfficeExample {
     "What is your age?"
     age: integer
 
+    "Rate your current house (0-5):"
+    rating: integer
+
     "Did you sell a house in 2010?"
     hasSoldHouse: boolean
 

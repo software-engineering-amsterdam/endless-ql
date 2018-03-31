@@ -1,8 +1,7 @@
 import ExpressionVisitor from "../visitors/ExpressionVisitor";
-import Expression from "../expressions/Expression";
-import AbstractTreeNode from "../AbstractTreeNode";
+import AbstractLiteral from "./AbstractLiteral";
 
-export default class BooleanLiteral extends AbstractTreeNode implements Expression {
+export default class BooleanLiteral extends AbstractLiteral {
   private value: boolean;
 
   constructor(value: boolean) {

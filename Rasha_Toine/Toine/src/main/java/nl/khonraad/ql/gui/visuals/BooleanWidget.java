@@ -1,17 +1,17 @@
 package nl.khonraad.ql.gui.visuals;
 
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
 
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
-import nl.khonraad.ql.ast.data.Questionnaire;
-import nl.khonraad.ql.gui.QLInterpretor;
+import nl.khonraad.ql.cdiSupport.QuestionnaireAccessor;
 
-@SuppressWarnings("serial") public class BooleanWidget extends JComboBox<String> {
+@SuppressWarnings( "serial" ) 
 
-    public BooleanWidget(JPanel mainPanel, Question question, Questionnaire questionnaire) {
+public class BooleanWidget extends JComboBox<String> implements QuestionnaireAccessor {
+
+    public BooleanWidget( Question question ) {
 
         super( new String[] { new Value( false ).string(), new Value( true ).string() } );
 
@@ -19,14 +19,13 @@ import nl.khonraad.ql.gui.QLInterpretor;
 
         addActionListener( e -> {
 
-            @SuppressWarnings("unchecked")
+            @SuppressWarnings( "unchecked" )
             JComboBox<String> combo = (JComboBox<String>) e.getSource();
 
             String current = (String) combo.getSelectedItem();
 
-            questionnaire.storeAnswer( question.identifier(), new Value( Type.Boolean, current ) );
+            questionnaire().storeAnswer( question.identifier(), new Value( Type.Boolean, current ) );
 
-            QLInterpretor.visualizeQuestionnaire( questionnaire, mainPanel );
         } );
     }
 }

@@ -4,7 +4,7 @@ import org.uva.forcepushql.parser.ast.visitors.ASTExpressionVisitor;
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 import org.uva.forcepushql.parser.ast.elements.ExpressionNode;
 
-public class NegateNode extends ExpressionNode
+public class NotNode extends ExpressionNode
 {
     private ExpressionNode InnerNode;
 

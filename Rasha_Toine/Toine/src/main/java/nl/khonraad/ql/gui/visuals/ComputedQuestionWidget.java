@@ -3,15 +3,15 @@ package nl.khonraad.ql.gui.visuals;
 import java.awt.Font;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Questionnaire;
 
-@SuppressWarnings("serial")
-public class ComputedValue extends JLabel {
+@SuppressWarnings( "serial" )
 
-    public ComputedValue(JPanel mainPanel, Question question, Questionnaire questionnaire) {
+public class ComputedQuestionWidget extends JLabel {
+
+    public ComputedQuestionWidget( Question question, Questionnaire questionnaire ) {
 
         super( question.string() );
 

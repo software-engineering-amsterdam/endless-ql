@@ -3,19 +3,18 @@ package nl.khonraad.ql.gui.visuals;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
-import nl.khonraad.ql.ast.data.Questionnaire;
-import nl.khonraad.ql.gui.QLInterpretor;
+import nl.khonraad.ql.cdiSupport.QuestionnaireAccessor;
 
-@SuppressWarnings("serial")
-public class DateWidget extends JTextField {
+@SuppressWarnings("serial") 
 
-    public DateWidget(JPanel mainPanel, Question question, Questionnaire questionnaire) {
+public class DateWidget extends JTextField implements QuestionnaireAccessor {
+
+    public DateWidget(Question question) {
         super( question.string(), 10 );
 
         addFocusListener( new FocusListener() {
@@ -26,13 +25,12 @@ public class DateWidget extends JTextField {
                 JTextField textField = (JTextField) e.getSource();
                 String current = textField.getText();
 
-                questionnaire.storeAnswer( question.identifier(), new Value( Type.Date, current ) );
-                QLInterpretor.visualizeQuestionnaire( questionnaire, mainPanel );
+                questionnaire().storeAnswer( question.identifier(), new Value( Type.Date, current ) );
             }
 
             @Override
             public void focusGained( FocusEvent e ) {
-                // YAGNI
+                // Do nothing
             }
         } );
     }

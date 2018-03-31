@@ -170,7 +170,7 @@ public class Test_Value {
         qt().forAll( randomBigDecimals(), randomBigDecimals() ).check( ( left,
                 right ) -> guarded_apply( new Value( left ), Operator.Minus, new Value( right ) ).equals( new Value( left.subtract( right ) ) ) );
     }
-    
+
     final long MILLSECONDS_EPOCH_PLUS_100YEARS = 3131202899000L;
 
     @Test

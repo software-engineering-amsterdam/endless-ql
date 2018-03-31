@@ -11,7 +11,7 @@ import nl.khonraad.ql.ast.data.Questionnaire;
 
 public class ComputedQuestionWidget extends JLabel {
 
-    public ComputedQuestionWidget( Question question, Questionnaire questionnaire ) {
+    public ComputedQuestionWidget( Question question ) {
 
         super( question.string() );
 

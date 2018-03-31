@@ -5,7 +5,6 @@ import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.StringAble;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.cdi.Log;
 
 public class Question implements StringAble {
 

@@ -16,7 +16,6 @@ import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
 import nl.khonraad.ql.cdi.Log;
-import nl.khonraad.ql.cdi.Visualizing;
 import nl.khonraad.ql.ast.data.Questionnaire;
 
 @SuppressWarnings( "serial" )
@@ -72,7 +71,7 @@ public class WidgetContainer extends Panel{
 
         if ( behaviouralType == BehaviouralType.COMPUTED ) {
 
-            return addToParent( parentPanel, new ComputedQuestionWidget( question, questionnaire ) );
+            return addToParent( parentPanel, new ComputedQuestionWidget( question ) );
         }
 
         Type type = question.type();

@@ -8,7 +8,6 @@ import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
-import nl.khonraad.ql.cdi.Log;
 
 public class Questions implements Iterable<Question> {
 

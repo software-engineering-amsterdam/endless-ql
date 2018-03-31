@@ -32,7 +32,7 @@ class QLSVisitor(ParseTreeVisitor):
 
             # If error, nothing more is visited
             if self.error_message:
-                return
+                return {}
 
             for key in child_result:
                 if key in result:

@@ -2,7 +2,6 @@ package nl.uva.se.sc.niro.ql.model.ast.expressions.answers
 
 import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
 
-
 trait Answer extends Expression {
 
   type T

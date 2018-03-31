@@ -5,7 +5,17 @@ import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.ql.model.ast.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers._
 import nl.uva.se.sc.niro.ql.model.ast.expressions.{ BinaryExpression, Reference, _ }
-import nl.uva.se.sc.niro.ql.model.ast.{ AnswerType, BooleanType, DateType, DecimalType, IntegerType, MoneyType, QLForm, StringType, Symbol }
+import nl.uva.se.sc.niro.ql.model.ast.{
+  AnswerType,
+  BooleanType,
+  DateType,
+  DecimalType,
+  IntegerType,
+  MoneyType,
+  QLForm,
+  StringType,
+  Symbol
+}
 import nl.uva.se.sc.niro.util.PrettyPrinter._
 import org.apache.logging.log4j.scala.Logging
 

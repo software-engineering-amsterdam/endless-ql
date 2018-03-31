@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.ql.model.gui
 
-import nl.uva.se.sc.niro.gui.component.Component
 import nl.uva.se.sc.niro.ql.model.ast.AnswerType
 import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
+import nl.uva.se.sc.niro.ql.view.component.Component
 
 abstract class GUIQuestion(
     val id: String,

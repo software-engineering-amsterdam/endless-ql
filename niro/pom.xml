@@ -12,14 +12,14 @@
             <id>ql</id>
             <properties>
                 <application.name>ql-forms</application.name>
-                <application.main.class>nl.uva.se.sc.niro.gui.application.QLForms</application.main.class>
+                <application.main.class>nl.uva.se.sc.niro.ql.application.QLForms</application.main.class>
             </properties>
         </profile>
     </profiles>
 
 	<properties>
         <application.name>qls-forms</application.name>
-        <application.main.class>nl.uva.se.sc.niro.gui.application.QLSForms</application.main.class>
+        <application.main.class>nl.uva.se.sc.niro.qls.application.QLSForms</application.main.class>
 
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>

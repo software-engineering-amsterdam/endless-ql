@@ -2,8 +2,8 @@ package nl.uva.se.sc.niro
 
 import java.io.File
 
-import nl.uva.se.sc.niro.ql.QLFormFacade
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ Answer, DateAnswer, IntegerAnswer }
+import nl.uva.se.sc.niro.ql.parser.QLFormFacade
 import org.scalatest.WordSpec
 
 import scala.io.Source

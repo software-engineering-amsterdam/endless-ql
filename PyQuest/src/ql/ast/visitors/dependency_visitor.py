@@ -8,7 +8,7 @@ from ql.ast.nodes.expressions.literals.literal_node import LiteralNode
 from multimethods import multimethod
 
 
-class DependencyVisitor(object):
+class DependencyVisitor:
 
     def __init__(self):
         self.__all_dependencies = []

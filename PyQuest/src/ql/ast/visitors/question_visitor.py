@@ -4,7 +4,7 @@ from ql.ast.nodes.statements.question_node import QuestionNode
 from multimethods import multimethod
 
 
-class QuestionVisitor(object):
+class QuestionVisitor:
 
     def __init__(self):
         self.__questions = []

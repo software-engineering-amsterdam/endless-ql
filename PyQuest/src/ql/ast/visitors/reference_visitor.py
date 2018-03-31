@@ -8,7 +8,7 @@ from ql.ast.nodes.expressions.literals.literal_node import LiteralNode
 from multimethods import multimethod
 
 
-class ReferenceVisitor(object):
+class ReferenceVisitor:
 
     def __init__(self):
         self.__current_block = []

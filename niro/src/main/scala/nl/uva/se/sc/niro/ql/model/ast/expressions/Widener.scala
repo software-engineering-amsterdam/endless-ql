@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.ql.expressions
+package nl.uva.se.sc.niro.ql.model.ast.expressions
 
 import nl.uva.se.sc.niro.model.ql.expressions.Conversions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }

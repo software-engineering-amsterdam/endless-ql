@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.model.ql.evaluation
 
-import nl.uva.se.sc.niro.model.ql.expressions.Widener._
+import nl.uva.se.sc.niro.ql.model.ast.expressions.Widener._
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }
 import nl.uva.se.sc.niro.ql.model.ast.SymbolTable.SymbolTable

@@ -1,6 +1,6 @@
 ﻿namespace QLParser.AST.QL
 {
-    public class QuestionNode : QLNode, IIdentifiedNode
+    public class QuestionNode : QLNode, IQuestionable
     {
         public string ID { get; private set; }
         public string Text { get; private set; }

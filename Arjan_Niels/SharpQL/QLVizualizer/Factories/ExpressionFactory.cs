@@ -63,10 +63,10 @@ namespace QLVisualizer.Factories
             ExpressionOperator expressionOperator = ExpressionOperator.Undefined;
             switch (logicalExpressionNode.Operator)
             {
-                case LogicalOperator.AND:
+                case LogicalOperator.And:
                     expressionOperator = ExpressionOperator.And;
                     break;
-                case LogicalOperator.OR:
+                case LogicalOperator.Or:
                     expressionOperator = ExpressionOperator.Or;
                     break;
                 default:
@@ -86,19 +86,19 @@ namespace QLVisualizer.Factories
             ExpressionOperator expressionOperator = ExpressionOperator.Undefined;
             switch (comparisonExpressionNode.Operator)
             {
-                case ComparisonOperator.EQ:
+                case ComparisonOperator.Equal:
                     expressionOperator = ExpressionOperator.Equals;
                     break;
-                case ComparisonOperator.GE:
+                case ComparisonOperator.GreaterEqual:
                     expressionOperator = ExpressionOperator.GreaterEquals;
                     break;
-                case ComparisonOperator.GT:
+                case ComparisonOperator.GreaterThan:
                     expressionOperator = ExpressionOperator.GreaterThan;
                     break;
-                case ComparisonOperator.LE:
+                case ComparisonOperator.LessEqual:
                     expressionOperator = ExpressionOperator.LessEquals;
                     break;
-                case ComparisonOperator.LT:
+                case ComparisonOperator.LessThan:
                     expressionOperator = ExpressionOperator.LessThan;
                     break;
                 default:
@@ -115,16 +115,16 @@ namespace QLVisualizer.Factories
             ExpressionOperator expressionOperator = ExpressionOperator.Undefined;
             switch (arthimeticExpressionNode.Operator)
             {
-                case ArthimetricOperator.DIV:
+                case ArthimetricOperator.Div:
                     expressionOperator = ExpressionOperator.Divide;
                     break;
-                case ArthimetricOperator.MINUS:
+                case ArthimetricOperator.Minus:
                     expressionOperator = ExpressionOperator.Minus;
                     break;
-                case ArthimetricOperator.PLUS:
+                case ArthimetricOperator.Plus:
                     expressionOperator = ExpressionOperator.Plus;
                     break;
-                case ArthimetricOperator.MULT:
+                case ArthimetricOperator.Mult:
                     expressionOperator = ExpressionOperator.Multiply;
                     break;
                 default:

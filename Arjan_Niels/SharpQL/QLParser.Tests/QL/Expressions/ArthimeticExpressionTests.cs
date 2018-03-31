@@ -32,7 +32,7 @@ namespace QLParser.Tests.QL.Expressions
 
             var arthimetric = comparisonNode.Right as ArthimetricExpressionNode;
             Assert.AreEqual(NodeType.LITERAL, arthimetric.Left.GetNodeType());
-            Assert.AreEqual(ArthimetricOperator.PLUS, arthimetric.Operator);
+            Assert.AreEqual(ArthimetricOperator.Plus, arthimetric.Operator);
             Assert.AreEqual(NodeType.ARTHIMETRIC_EXPRESSION, arthimetric.Right.GetNodeType());
             Assert.AreEqual(QValueType.INTEGER, arthimetric.Right.GetQValueType());
         }
@@ -48,7 +48,7 @@ namespace QLParser.Tests.QL.Expressions
 
             var arthimetric = comparisonNode.Right as ArthimetricExpressionNode;
             Assert.AreEqual(NodeType.ARTHIMETRIC_EXPRESSION, arthimetric.Left.GetNodeType());
-            Assert.AreEqual(ArthimetricOperator.MULT, arthimetric.Operator);
+            Assert.AreEqual(ArthimetricOperator.Mult, arthimetric.Operator);
             Assert.AreEqual(NodeType.LITERAL, arthimetric.Right.GetNodeType());
         }
 
@@ -63,7 +63,7 @@ namespace QLParser.Tests.QL.Expressions
 
             var arthimetric = comparisonNode.Right as ArthimetricExpressionNode;
             Assert.AreEqual(NodeType.IDENTIFIER, arthimetric.Left.GetNodeType());
-            Assert.AreEqual(ArthimetricOperator.MULT, arthimetric.Operator);
+            Assert.AreEqual(ArthimetricOperator.Mult, arthimetric.Operator);
             Assert.AreEqual(NodeType.LITERAL, arthimetric.Right.GetNodeType());
         }
 
@@ -71,28 +71,28 @@ namespace QLParser.Tests.QL.Expressions
         public void ParseArthimetricExpressionMultTest()
         {
             var result = ArthimetricExpressionNode.ParseArthimeticOperator("*");
-            Assert.AreEqual(ArthimetricOperator.MULT, result);
+            Assert.AreEqual(ArthimetricOperator.Mult, result);
         }
 
         [TestMethod]
         public void ParseArthimetricExpressionDivTest()
         {
             var result = ArthimetricExpressionNode.ParseArthimeticOperator("/");
-            Assert.AreEqual(ArthimetricOperator.DIV, result);
+            Assert.AreEqual(ArthimetricOperator.Div, result);
         }
 
         [TestMethod]
         public void ParseArthimetricExpressionPlusTest()
         {
             var result = ArthimetricExpressionNode.ParseArthimeticOperator("+");
-            Assert.AreEqual(ArthimetricOperator.PLUS, result);
+            Assert.AreEqual(ArthimetricOperator.Plus, result);
         }
 
         [TestMethod]
         public void ParseArthimetricExpressionMinusTest()
         {
             var result = ArthimetricExpressionNode.ParseArthimeticOperator("-");
-            Assert.AreEqual(ArthimetricOperator.MINUS, result);
+            Assert.AreEqual(ArthimetricOperator.Minus, result);
         }
     }
 }

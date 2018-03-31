@@ -55,7 +55,7 @@ namespace QL_Parser.Tests.Analysis.Evaluator
         {
             var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.DOUBLE);
             var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.DOUBLE);
-            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.MULT, rhs);
+            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.Mult, rhs);
             Assert.AreEqual(QValueType.DOUBLE, expression.GetQValueType());
         }
 
@@ -64,7 +64,7 @@ namespace QL_Parser.Tests.Analysis.Evaluator
         {
             var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.MONEY);
             var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.DOUBLE);
-            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.MULT, rhs);
+            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.Mult, rhs);
             Assert.AreEqual(QValueType.MONEY, expression.GetQValueType());
         }
 
@@ -73,7 +73,7 @@ namespace QL_Parser.Tests.Analysis.Evaluator
         {
             var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.MONEY);
             var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.INTEGER);
-            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.MULT, rhs);
+            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.Mult, rhs);
             Assert.AreEqual(QValueType.MONEY, expression.GetQValueType());
         }
 
@@ -82,7 +82,7 @@ namespace QL_Parser.Tests.Analysis.Evaluator
         {
             var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.DOUBLE);
             var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.INTEGER);
-            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.MULT, rhs);
+            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.Mult, rhs);
             Assert.AreEqual(QValueType.DOUBLE, expression.GetQValueType());
         }
     }

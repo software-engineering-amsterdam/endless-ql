@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Analysis\Analyser.cs" />
     <Compile Include="Analysis\IQLSAnalyser.cs" />
+    <Compile Include="Analysis\MessageType.cs" />
     <Compile Include="Analysis\QLS\AllIdentifiersAreUsedAnalyser.cs" />
     <Compile Include="Analysis\QLS\DuplicateIdentifiersAnalyser.cs" />
     <Compile Include="Analysis\QLS\UnknownIdentifiersAnalyser.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Exceptions\UnknownNodeTypeException.cs" />
     <Compile Include="Exceptions\UnknownOperatorException.cs" />
     <Compile Include="Exceptions\UnknownQValueTypeException.cs" />
+    <Compile Include="Language.cs" />
     <Compile Include="ParserVisitors\QL\ExpressionVisitors\TextConcatinationVisitor.cs" />
     <Compile Include="QLSParserHelper.cs" />
     <Compile Include="Util.cs" />

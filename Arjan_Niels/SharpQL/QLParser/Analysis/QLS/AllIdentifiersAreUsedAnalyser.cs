@@ -23,7 +23,7 @@ namespace QLParser.Analysis.QLS
             {
                 if (!this._visitedNodes.Select(x => x.ID).Contains(key))
                 {
-                    Analyser.AddMessage(string.Format("Identifier has not been included in QLS: {0}", key), LanguageType.QLS, MessageType.WARNING);
+                    Analyser.AddMessage(string.Format("Identifier has not been included in QLS: {0}", key), Language.QLS, MessageType.WARNING);
                     isValid = false;
                 }
             }

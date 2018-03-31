@@ -21,7 +21,7 @@ namespace QLParser.Analysis.QLS
             {
                 if (!SymbolTable.Instance.TypeMap.Keys.Contains(visitedNode.ID))
                 {
-                    Analyser.AddMessage(string.Format("{0} Unknown identifier in QLS: {1}", visitedNode.Location, visitedNode.ID), LanguageType.QLS, MessageType.ERROR);
+                    Analyser.AddMessage(string.Format("{0} Unknown identifier in QLS: {1}", visitedNode.Location, visitedNode.ID), Language.QLS, MessageType.ERROR);
                     isValid = false;
                 }
             }

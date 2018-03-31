@@ -17,7 +17,7 @@ namespace QLParser.Analysis.QL.Semantic
             var expression = GetExpression(node);
             if (expression != null && AnalyseExpression(expression) == StatementType.Unknown)
             {
-                Analyser.AddMessage(string.Format("{0} - This expression isn't valid.", node.Location), LanguageType.QL, MessageType.ERROR);
+                Analyser.AddMessage(string.Format("{0} - This expression isn't valid.", node.Location), Language.QL, MessageType.ERROR);
                 return false;
             }
 
@@ -102,7 +102,7 @@ namespace QLParser.Analysis.QL.Semantic
 
             switch (node.Operator)
             {
-                case ComparisonOperator.EQ:
+                case ComparisonOperator.Equal:
                     return (left == right) ? StatementType.Boolean : StatementType.Unknown;
                 default:
                     return (left == right && left == StatementType.Numeric) ? StatementType.Boolean : StatementType.Unknown;

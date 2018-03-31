@@ -17,7 +17,7 @@ namespace QLParser.Tests.Analysis.Semantic
             SymbolTable.Add("TestBool", QValueType.BOOLEAN);
             var left = new IdentifierNode(new Location(0, 0), "TestBool");
             var right = new LiteralNode(new Location(0, 0), "false", QValueType.BOOLEAN);
-            var comparisonNode = new LogicalExpressionNode(new Location(0, 0), left, LogicalOperator.OR, right);
+            var comparisonNode = new LogicalExpressionNode(new Location(0, 0), left, LogicalOperator.Or, right);
 
             var analyser = new StatementTypeAnalyser();
             var result = analyser.Analyse(comparisonNode);
@@ -30,7 +30,7 @@ namespace QLParser.Tests.Analysis.Semantic
             SymbolTable.Add("TestBool", QValueType.BOOLEAN);
             var left = new IdentifierNode(new Location(0, 0), "TestBool");
             var right = new LiteralNode(new Location(0, 0), "false", QValueType.INTEGER);
-            var comparisonNode = new LogicalExpressionNode(new Location(0, 0), left, LogicalOperator.OR, right);
+            var comparisonNode = new LogicalExpressionNode(new Location(0, 0), left, LogicalOperator.Or, right);
 
             var analyser = new StatementTypeAnalyser();
             var result = analyser.Analyse(comparisonNode);
@@ -45,8 +45,8 @@ namespace QLParser.Tests.Analysis.Semantic
 
             var five = new LiteralNode(new Location(0, 0), "5", QValueType.INTEGER);
             var ten = new LiteralNode(new Location(0, 0), "10", QValueType.INTEGER);
-            var right = new ComparisonExpressionNode(new Location(0, 0), five, ComparisonOperator.GE, ten);
-            var comparisonNode = new LogicalExpressionNode(new Location(0, 0), left, LogicalOperator.OR, right);
+            var right = new ComparisonExpressionNode(new Location(0, 0), five, ComparisonOperator.GreaterEqual, ten);
+            var comparisonNode = new LogicalExpressionNode(new Location(0, 0), left, LogicalOperator.Or, right);
 
             var analyser = new StatementTypeAnalyser();
             var result = analyser.Analyse(comparisonNode);
@@ -61,8 +61,8 @@ namespace QLParser.Tests.Analysis.Semantic
 
             var five = new LiteralNode(new Location(0, 0), "5", QValueType.INTEGER);
             var ten = new LiteralNode(new Location(0, 0), "blah blah", QValueType.TEXT);
-            var right = new ComparisonExpressionNode(new Location(0, 0), five, ComparisonOperator.GE, ten);
-            var comparisonNode = new LogicalExpressionNode(new Location(0, 0), left, LogicalOperator.OR, right);
+            var right = new ComparisonExpressionNode(new Location(0, 0), five, ComparisonOperator.GreaterEqual, ten);
+            var comparisonNode = new LogicalExpressionNode(new Location(0, 0), left, LogicalOperator.Or, right);
 
             var analyser = new StatementTypeAnalyser();
             var result = analyser.Analyse(comparisonNode);
@@ -76,7 +76,7 @@ namespace QLParser.Tests.Analysis.Semantic
             var x = new IdentifierNode(new Location(0, 0), "x");
 
             var five = new LiteralNode(new Location(0, 0), "5", QValueType.INTEGER);
-            var arthimetricNode = new ArthimetricExpressionNode(new Location(0, 0), x, ArthimetricOperator.MULT, five);
+            var arthimetricNode = new ArthimetricExpressionNode(new Location(0, 0), x, ArthimetricOperator.Mult, five);
 
             var analyser = new StatementTypeAnalyser();
             var result = analyser.Analyse(arthimetricNode);
@@ -90,7 +90,7 @@ namespace QLParser.Tests.Analysis.Semantic
             var x = new IdentifierNode(new Location(0, 0), "x");
 
             var five = new LiteralNode(new Location(0, 0), "5", QValueType.INTEGER);
-            var arthimetricNode = new ArthimetricExpressionNode(new Location(0, 0), x, ArthimetricOperator.MULT, five);
+            var arthimetricNode = new ArthimetricExpressionNode(new Location(0, 0), x, ArthimetricOperator.Mult, five);
 
             var analyser = new StatementTypeAnalyser();
             var result = analyser.Analyse(arthimetricNode);
@@ -104,7 +104,7 @@ namespace QLParser.Tests.Analysis.Semantic
             var x = new IdentifierNode(new Location(0, 0), "x");
 
             var five = new LiteralNode(new Location(0, 0), "5", QValueType.BOOLEAN);
-            var arthimetricNode = new ArthimetricExpressionNode(new Location(0, 0), x, ArthimetricOperator.MULT, five);
+            var arthimetricNode = new ArthimetricExpressionNode(new Location(0, 0), x, ArthimetricOperator.Mult, five);
 
             var analyser = new StatementTypeAnalyser();
             var result = analyser.Analyse(arthimetricNode);
@@ -118,7 +118,7 @@ namespace QLParser.Tests.Analysis.Semantic
             var x = new IdentifierNode(new Location(0, 0), "x");
 
             var five = new LiteralNode(new Location(0, 0), "5.0", QValueType.DOUBLE);
-            var arthimetricNode = new ArthimetricExpressionNode(new Location(0, 0), x, ArthimetricOperator.MULT, five);
+            var arthimetricNode = new ArthimetricExpressionNode(new Location(0, 0), x, ArthimetricOperator.Mult, five);
 
             var analyser = new StatementTypeAnalyser();
             var result = analyser.Analyse(arthimetricNode);
@@ -134,7 +134,7 @@ namespace QLParser.Tests.Analysis.Semantic
             SymbolTable.Add("y", QValueType.BOOLEAN);
             var y = new IdentifierNode(new Location(0, 0), "y");
 
-            var comparisonNode = new ComparisonExpressionNode(new Location(0, 0), x, ComparisonOperator.EQ, y);
+            var comparisonNode = new ComparisonExpressionNode(new Location(0, 0), x, ComparisonOperator.Equal, y);
             var analyser = new StatementTypeAnalyser();
             var result = analyser.Analyse(comparisonNode);
 
@@ -150,7 +150,7 @@ namespace QLParser.Tests.Analysis.Semantic
             SymbolTable.Add("y", QValueType.BOOLEAN);
             var y = new IdentifierNode(new Location(0, 0), "y");
 
-            var comparisonNode = new ComparisonExpressionNode(new Location(0, 0), x, ComparisonOperator.LE, y);
+            var comparisonNode = new ComparisonExpressionNode(new Location(0, 0), x, ComparisonOperator.LessEqual, y);
             var analyser = new StatementTypeAnalyser();
             var result = analyser.Analyse(comparisonNode);
 

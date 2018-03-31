@@ -22,9 +22,9 @@ namespace QLParser.AST.QL.ExpressionNodes
             switch (opr)
             {
                 case AND:
-                    return LogicalOperator.AND;
+                    return LogicalOperator.And;
                 case OR:
-                    return LogicalOperator.OR;
+                    return LogicalOperator.Or;
                 default:
                     throw new UnknownOperatorException(string.Format("QL doesn't know what to do with {0}", opr));
             }

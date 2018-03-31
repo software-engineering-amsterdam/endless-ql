@@ -157,7 +157,7 @@ namespace QLParser.Tests.QL.Expressions
             var rightSide = (IdentifierNode)statement.Right;
 
             Assert.AreEqual("soldAHouse", leftSide.ID);
-            Assert.AreEqual(LogicalOperator.AND, statement.Operator);
+            Assert.AreEqual(LogicalOperator.And, statement.Operator);
             Assert.AreEqual("hasSeenHouseOfCards", rightSide.ID);
         }
 
@@ -171,21 +171,21 @@ namespace QLParser.Tests.QL.Expressions
 
             var leftSide = (LogicalExpressionNode)statement.Left;
             var rightSide = (LogicalExpressionNode)statement.Right;
-            Assert.AreEqual(LogicalOperator.AND, statement.Operator);
+            Assert.AreEqual(LogicalOperator.And, statement.Operator);
 
             // lhs
             var leftLeftValue = (IdentifierNode)leftSide.Left;
             var leftRightValue = (IdentifierNode)leftSide.Right;
 
             Assert.AreEqual("firstArgument", leftLeftValue.ID);
-            Assert.AreEqual(LogicalOperator.OR, leftSide.Operator);
+            Assert.AreEqual(LogicalOperator.Or, leftSide.Operator);
             Assert.AreEqual("secondArgument", leftRightValue.ID);
 
             // rhs
             var rightLeftValue = (IdentifierNode)rightSide.Left;
             var rightRightValue = (IdentifierNode)rightSide.Right;
             Assert.AreEqual("thirdArgument", rightLeftValue.ID);
-            Assert.AreEqual(LogicalOperator.OR, rightSide.Operator);
+            Assert.AreEqual(LogicalOperator.Or, rightSide.Operator);
             Assert.AreEqual("forthArgument", rightRightValue.ID);
         }
     }

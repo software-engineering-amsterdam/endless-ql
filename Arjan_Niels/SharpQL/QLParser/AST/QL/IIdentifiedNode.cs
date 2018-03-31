@@ -1,6 +1,6 @@
 ﻿namespace QLParser.AST.QL
 {
-    public interface IIdentifiedNode
+    public interface IQuestionable
     {
         string ID { get; }
         string Text { get; }

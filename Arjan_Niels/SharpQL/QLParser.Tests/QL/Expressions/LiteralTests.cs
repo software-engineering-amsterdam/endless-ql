@@ -31,7 +31,7 @@ namespace QLParser.Tests.QL.Expressions
 
             Assert.AreEqual("10", left.Value);
             Assert.AreEqual(QValueType.INTEGER, left.QValueType);
-            Assert.AreEqual(ComparisonOperator.LT, opr);
+            Assert.AreEqual(ComparisonOperator.LessThan, opr);
             Assert.AreEqual("5", right.Value);
             Assert.AreEqual(QValueType.INTEGER, left.QValueType);
         }
@@ -51,7 +51,7 @@ namespace QLParser.Tests.QL.Expressions
 
             Assert.AreEqual("10.0", left.Value);
             Assert.AreEqual(QValueType.DOUBLE, left.QValueType);
-            Assert.AreEqual(ComparisonOperator.GT, opr);
+            Assert.AreEqual(ComparisonOperator.GreaterThan, opr);
             Assert.AreEqual("5.5", right.Value);
             Assert.AreEqual(QValueType.DOUBLE, left.QValueType);
         }

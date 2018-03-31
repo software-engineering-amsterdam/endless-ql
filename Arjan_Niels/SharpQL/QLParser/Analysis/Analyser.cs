@@ -24,9 +24,9 @@ namespace QLParser.Analysis
         }
         #endregion
 
-        private List<IQLAnalyser> _qlAnalysers;
-        private List<IQLSAnalyser> _qlsAnalysers;
-        private List<AnalyserMessage> _messages;
+        private IList<IQLAnalyser> _qlAnalysers;
+        private IList<IQLSAnalyser> _qlsAnalysers;
+        private IList<AnalyserMessage> _messages;
 
         private Analyser()
         {
@@ -92,7 +92,7 @@ namespace QLParser.Analysis
             return result;
         }
 
-        public static void AddMessage(string message, LanguageType languageType, MessageType messageType)
+        public static void AddMessage(string message, Language languageType, MessageType messageType)
         {
             Instance._messages.Add(new AnalyserMessage(message, languageType, messageType));
         }

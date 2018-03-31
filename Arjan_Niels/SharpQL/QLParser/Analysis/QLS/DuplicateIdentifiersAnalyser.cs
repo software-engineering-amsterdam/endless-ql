@@ -24,7 +24,7 @@ namespace QLParser.Analysis.QLS
                 if (idCount > 1)
                 {
                     isValid = false;
-                    Analyser.AddMessage(string.Format("{0} Duplicate key in QLS: {1}", visitedNode.Location, visitedNode.ID), LanguageType.QLS, MessageType.WARNING);
+                    Analyser.AddMessage(string.Format("{0} Duplicate key in QLS: {1}", visitedNode.Location, visitedNode.ID), Language.QLS, MessageType.WARNING);
                 }
             }
 

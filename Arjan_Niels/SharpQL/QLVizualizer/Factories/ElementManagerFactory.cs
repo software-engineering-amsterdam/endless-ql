@@ -59,7 +59,7 @@ namespace QLVisualizer.Factories
             throw new NotImplementedException();
         }
 
-        private static ElementManagerLeaf CreateElementManager(IIdentifiedNode identifiedNode, ExpressionBool condition, ElementManagerCollection parent, ElementManagerController elementManagerController, ExpressionValue activationExpression)
+        private static ElementManagerLeaf CreateElementManager(IQuestionable identifiedNode, ExpressionBool condition, ElementManagerCollection parent, ElementManagerController elementManagerController, ExpressionValue activationExpression)
         {
             switch (identifiedNode.ValueType)
             {

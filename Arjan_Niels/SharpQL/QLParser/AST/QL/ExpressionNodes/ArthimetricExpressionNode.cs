@@ -10,7 +10,7 @@ namespace QLParser.AST.QL.ExpressionNodes
         private const string PLUS = "+";
         private const string MINUS = "-";
 
-        public ArthimetricOperator Operator { get; set; }
+        public ArthimetricOperator Operator { get; private set; }
 
         public ArthimetricExpressionNode(Location location, IExpressionNode left, ArthimetricOperator opr, IExpressionNode right)
             : base(location, NodeType.ARTHIMETRIC_EXPRESSION)
@@ -25,13 +25,13 @@ namespace QLParser.AST.QL.ExpressionNodes
             switch (opr)
             {
                 case MULT:
-                    return ArthimetricOperator.MULT;
+                    return ArthimetricOperator.Mult;
                 case DIV:
-                    return ArthimetricOperator.DIV;
+                    return ArthimetricOperator.Div;
                 case PLUS:
-                    return ArthimetricOperator.PLUS;
+                    return ArthimetricOperator.Plus;
                 case MINUS:
-                    return ArthimetricOperator.MINUS;
+                    return ArthimetricOperator.Minus;
                 default:
                     throw new UnknownOperatorException(string.Format("We don't know wat to do with this operator: {0}", opr));
             }

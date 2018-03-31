@@ -35,7 +35,7 @@ namespace QLParser.Tests.QL.Expressions
             var right = comparisonNode.Right as IdentifierNode;
 
             Assert.AreEqual("sellingPrice", left.ID);
-            Assert.AreEqual(ComparisonOperator.LT, opr);
+            Assert.AreEqual(ComparisonOperator.LessThan, opr);
             Assert.AreEqual("buyingPrice", right.ID);
         }
 
@@ -61,7 +61,7 @@ namespace QLParser.Tests.QL.Expressions
             var right = comparisonNode.Right as ArthimetricExpressionNode;
 
             Assert.AreEqual("sellingPrice", left.ID);
-            Assert.AreEqual(ComparisonOperator.LT, opr);
+            Assert.AreEqual(ComparisonOperator.LessThan, opr);
 
             var arthLeft = right.Left as LiteralNode;
             var arthOpr = right.Operator;
@@ -69,7 +69,7 @@ namespace QLParser.Tests.QL.Expressions
 
             Assert.AreEqual("50", arthLeft.Value);
             Assert.AreEqual(QValueType.INTEGER, arthLeft.QValueType);
-            Assert.AreEqual(ArthimetricOperator.MULT, arthOpr);
+            Assert.AreEqual(ArthimetricOperator.Mult, arthOpr);
             Assert.AreEqual("20", arthRight.Value);
             Assert.AreEqual(QValueType.INTEGER, arthRight.QValueType);
         }
@@ -79,35 +79,35 @@ namespace QLParser.Tests.QL.Expressions
         public void ParseComparisonOperatorGTTest()
         {
             var result = ComparisonExpressionNode.ParseComparisonOperator(">");
-            Assert.AreEqual(ComparisonOperator.GT, result);
+            Assert.AreEqual(ComparisonOperator.GreaterThan, result);
         }
 
         [TestMethod]
         public void ParseComparisonOperatorGETest()
         {
             var result = ComparisonExpressionNode.ParseComparisonOperator(">=");
-            Assert.AreEqual(ComparisonOperator.GE, result);
+            Assert.AreEqual(ComparisonOperator.GreaterEqual, result);
         }
 
         [TestMethod]
         public void ParseComparisonOperatorLTTest()
         {
             var result = ComparisonExpressionNode.ParseComparisonOperator("<");
-            Assert.AreEqual(ComparisonOperator.LT, result);
+            Assert.AreEqual(ComparisonOperator.LessThan, result);
         }
 
         [TestMethod]
         public void ParseComparisonOperatorLETest()
         {
             var result = ComparisonExpressionNode.ParseComparisonOperator("<=");
-            Assert.AreEqual(ComparisonOperator.LE, result);
+            Assert.AreEqual(ComparisonOperator.LessEqual, result);
         }
 
         [TestMethod]
         public void ParseComparisonOperatorEQTest()
         {
             var result = ComparisonExpressionNode.ParseComparisonOperator("==");
-            Assert.AreEqual(ComparisonOperator.EQ, result);
+            Assert.AreEqual(ComparisonOperator.Equal, result);
         }
 
         [TestMethod]

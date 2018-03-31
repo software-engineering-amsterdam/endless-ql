@@ -35,7 +35,7 @@ namespace QLParser.Analysis.QL.Semantic
             VisitedIDs.Add(id);
             if (!SymbolTable.Add(id, type))
             {
-                Analyser.AddMessage(string.Format("Duplicate identifier {0} {1}", id, type), LanguageType.QL, MessageType.ERROR);
+                Analyser.AddMessage(string.Format("Duplicate identifier {0} {1}", id, type), Language.QL, MessageType.ERROR);
                 return false;
             }
 

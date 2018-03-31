@@ -20,7 +20,9 @@ class FormFragment : Fragment() {
                     fieldset {
                         children.bind(model.questions) {
                             field(it.label) {
-                                val viewModel = ViewModelFactory().createUiQuestionModel(it)
+                                isManaged = it.visible
+                                isVisible = it.visible
+                                val viewModel = ViewModelFactory().createQuestionViewModel(it)
                                 add(QuestionFieldFactory().createQuestionField(viewModel))
                             }
                         }

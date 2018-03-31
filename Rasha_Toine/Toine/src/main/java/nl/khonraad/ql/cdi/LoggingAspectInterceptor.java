@@ -8,7 +8,7 @@ import javax.interceptor.InvocationContext;
 
 import org.slf4j.Logger;
 
-@Interceptor @Log @Priority( Interceptor.Priority.APPLICATION ) public class LogInterceptor {
+@Interceptor @LoggingAspect @Priority( Interceptor.Priority.APPLICATION ) public class LoggingAspectInterceptor {
 
     @Inject
     Logger logger;

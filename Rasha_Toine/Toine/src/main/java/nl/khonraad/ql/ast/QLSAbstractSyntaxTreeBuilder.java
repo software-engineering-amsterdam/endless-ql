@@ -1,4 +1,4 @@
-package nl.khonraad.ql.ast.data;
+package nl.khonraad.ql.ast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,39 +15,40 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.QLLexer;
-import nl.khonraad.ql.QLParser;
 import nl.khonraad.ql.cdi.SourcePathProvider;
+import nl.khonraad.qls.QLSLexer;
+import nl.khonraad.qls.QLSParser;
 
-public class QLAbstractSyntaxTreeBuilder {
+public class QLSAbstractSyntaxTreeBuilder {
 
     @Inject
-    Logger    logger;
+    Logger           logger;
 
     @Inject
-    SourcePathProvider  qLSource;
+    SourcePathProvider         qLSource;
 
     private ParseTree tree;
 
     public ParseTree getTree() {
         return tree;
     }
+
     @PostConstruct
     public void postConstruct() {
 
-        QLLexer qlLexer;
+        QLSLexer qLsLexer;
 
         try {
 
             InputStream inputStream = getClass().getResourceAsStream( qLSource.getSourcePath() );
 
-            qlLexer = new QLLexer( CharStreams.fromStream( inputStream, StandardCharsets.UTF_8 ) );
+            qLsLexer = new QLSLexer( CharStreams.fromStream( inputStream, StandardCharsets.UTF_8 ) );
 
-            QLParser qlParser = new QLParser( new CommonTokenStream( qlLexer ) );
+            QLSParser qLsParser = new QLSParser( new CommonTokenStream( qLsLexer ) );
 
-            qlParser.addErrorListener( new ErrorListener() );
+            qLsParser.addErrorListener( new ErrorListener() );
 
-            tree = qlParser.form();
+            tree = qLsParser.stylesheet();
 
         } catch (IOException e) {
             logger.info( e.getMessage() );

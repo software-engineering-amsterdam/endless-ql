@@ -10,6 +10,6 @@ import javax.interceptor.InterceptorBinding;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @InterceptorBinding
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Log {
+public @interface LoggingAspect {
 
 }

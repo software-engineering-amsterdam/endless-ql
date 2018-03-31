@@ -15,7 +15,7 @@ import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
-import nl.khonraad.ql.cdi.Log;
+import nl.khonraad.ql.cdi.LoggingAspect;
 import nl.khonraad.ql.ast.data.Questionnaire;
 
 @SuppressWarnings( "serial" )
@@ -37,7 +37,7 @@ public class WidgetContainer extends Panel{
         setLayout( new GridLayout( 0, 2 ) );
     }
 
-    @Log
+    @LoggingAspect
     public void visualize() {
 
         removeAll();
@@ -62,7 +62,7 @@ public class WidgetContainer extends Panel{
         return parentPanel;
     }
 
-    @Log
+    @LoggingAspect
     public JPanel visualizeQuestion( Question question, Questionnaire questionnaire ) {
 
         JPanel parentPanel = new JPanel();

@@ -7,7 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import nl.khonraad.ql.ast.ExtendedQLSBaseVisitor;
-import nl.khonraad.ql.ast.data.QLSAbstractSyntaxTreeBuilder;
+import nl.khonraad.ql.ast.QLSAbstractSyntaxTreeBuilder;
 import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
 

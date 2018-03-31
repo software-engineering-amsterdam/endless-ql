@@ -14,7 +14,7 @@ import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
-import nl.khonraad.ql.ast.data.QLAbstractSyntaxTreeBuilder;
+import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
 import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.ast.data.Repository;
 import nl.khonraad.ql.cdi.LoggerProducer;

@@ -8,6 +8,7 @@ import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.ExpressionReference;
 import nl.uva.js.qlparser.models.qls.elements.Page;
 import nl.uva.js.qlparser.models.qls.elements.Section;
+import nl.uva.js.qlparser.models.qls.enums.Property;
 import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 import nl.uva.js.qlparser.models.qls.style.WidgetStyle;
@@ -88,7 +89,7 @@ public class FormPanel extends JPanel {
         pages         = new LinkedHashMap<>();
         defaultStyles = getDefaultStyles();
 
-        stylesheet.getDefaultStyles().forEach(style -> defaultStyles.put(style.getDataType(), style));
+        stylesheet.getDefaultStyles().forEach(style -> defaultStyles.replace(style.getDataType(), style));
 
         for (Page page : stylesheet.getPages()) {
             pages.put(page.getName(), createPageComponents(page));
@@ -143,18 +144,19 @@ public class FormPanel extends JPanel {
             return;
         }
 
-        Panel formComponent  = (Panel) component;
+        Panel formComponent = (Panel) component;
         Component inputField = formComponent.getComponent(1);
 
-        updateWidgetType(widgetType, variable, formComponent, inputField, widgetStyle);
-        updateWidgetStyle(widgetStyle, formComponent, inputField);
+        Component newWidget = updateWidgetType(widgetType, variable, formComponent, inputField, widgetStyle);
+        updateWidgetStyle(widgetStyle, newWidget, variable.getDataType());
 
         component.revalidate();
         component.repaint();
     }
 
-    private void updateWidgetType(WidgetType widgetType, Variable variable, Panel formComponent, Component input, WidgetStyle widgetStyle) {
+    private Component updateWidgetType(WidgetType widgetType, Variable variable, Panel formComponent, Component input, WidgetStyle widgetStyle) {
         DataType dataType = variable.getDataType();
+        Component newWidget = input;
 
         if (needToReplaceWidget(widgetType, dataType)) {
             formComponent.remove(input);
@@ -163,11 +165,13 @@ public class FormPanel extends JPanel {
             if (widgetType == null) {
                 DefaultStyle defaultStyle = defaultStyles.get(dataType);
                 WidgetType defaultWidgetType = defaultStyle.getWidgetType();
-                formComponent.add(defaultWidgetType.createWidget(variable, widgetStyle));
+                newWidget = defaultWidgetType.createWidget(variable, widgetStyle);
             } else {
-                formComponent.add(widgetType.createWidget(variable, widgetStyle));
+                newWidget = widgetType.createWidget(variable, widgetStyle);
             }
+            formComponent.add(newWidget);
         }
+        return newWidget;
     }
 
     private boolean needToReplaceWidget(WidgetType widgetType, DataType dataType) {
@@ -178,7 +182,55 @@ public class FormPanel extends JPanel {
         return defaultWidgetType != null || widgetType != null;
     }
 
-    private void updateWidgetStyle(WidgetStyle widgetStyle, Panel formComponent, Component inputField) {
-        //TODO
+    private void updateWidgetStyle(WidgetStyle widgetStyle, Component inputField, DataType dataType) {
+        HashMap<Property, String> rules = getRules(widgetStyle, dataType);
+
+        if (rules != null) {
+            if (rules.containsKey(Property.FONTCOLOR)) {
+                inputField.setForeground(Color.decode(rules.get(Property.FONTCOLOR)));
+            }
+
+            if (rules.containsKey(Property.FONTSTYLE) | rules.containsKey(Property.FONTTYPE)) {
+                inputField.setFont(getNewFont(rules));
+            }
+
+            if (rules.containsKey(Property.WIDGETCOLOR)) {
+                inputField.setBackground(Color.decode(rules.get(Property.WIDGETCOLOR)));
+            }
+
+            inputField.revalidate();
+            inputField.repaint();
+        }
+    }
+
+    private HashMap<Property, String> getRules(WidgetStyle widgetStyle, DataType dataType) {
+        if (widgetStyle == null) {
+            DefaultStyle defaultStyle = defaultStyles.get(dataType);
+            return defaultStyle != null ?
+                    defaultStyle.getWidgetStyle() != null ? defaultStyle.getWidgetStyle().getStyleRules() : null : null;
+        } else {
+            return widgetStyle.getStyleRules();
+        }
+    }
+
+    private Font getNewFont(HashMap<Property, String> rules) {
+        String fontType     = rules.getOrDefault(Property.FONTTYPE, new JLabel().getFont().getName());
+        int fontStyle       = Font.PLAIN;
+        int defaultFontSize = 13;
+
+        if (rules.containsKey(Property.FONTSTYLE)) {
+            switch (rules.get(Property.FONTSTYLE).toLowerCase()) {
+                case "bold":
+                    fontStyle = Font.BOLD;
+                    break;
+                case "italic":
+                    fontStyle = Font.ITALIC;
+                    break;
+                case "monospaced":
+                    break;
+            }
+        }
+
+        return new Font(fontType, fontStyle, defaultFontSize);
     }
 }

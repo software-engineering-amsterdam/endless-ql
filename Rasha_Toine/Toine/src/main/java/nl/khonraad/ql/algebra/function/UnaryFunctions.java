@@ -13,11 +13,11 @@ public class UnaryFunctions {
 
     static {
 
-        functionMap.put( UnaryFunction.NotBoolean, ( a ) -> new Value( !isTrue( a ) ) );
-        functionMap.put( UnaryFunction.PlusInteger, ( a ) -> new Value( integer( a ) ) );
-        functionMap.put( UnaryFunction.PlusMoney, ( a ) -> new Value( money( a ) ) );
-        functionMap.put( UnaryFunction.MinusInteger, ( a ) -> new Value( -integer( a ) ) );
-        functionMap.put( UnaryFunction.MinusMoney, ( a ) -> new Value( money( a ).negate() ) );
+        functionMap.put( UnaryFunction.NotBoolean, a -> new Value( !isTrue( a ) ) );
+        functionMap.put( UnaryFunction.PlusInteger, a -> new Value( integer( a ) ) );
+        functionMap.put( UnaryFunction.PlusMoney, a -> new Value( money( a ) ) );
+        functionMap.put( UnaryFunction.MinusInteger, a -> new Value( -integer( a ) ) );
+        functionMap.put( UnaryFunction.MinusMoney, a -> new Value( money( a ).negate() ) );
     }
 
     // consistent name 'boolean' is reserved by Java

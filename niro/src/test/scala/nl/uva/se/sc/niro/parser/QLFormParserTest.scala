@@ -2,9 +2,9 @@ package nl.uva.se.sc.niro.parser
 
 import java.io.IOException
 
-import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers._
+import nl.uva.se.sc.niro.ql.model.ast._
 import org.antlr.v4.runtime.{ CharStream, CharStreams }
 import org.scalatest.FunSuite
 

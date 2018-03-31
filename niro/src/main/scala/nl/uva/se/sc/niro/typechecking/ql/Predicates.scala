@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.typechecking.ql
 import cats.implicits._
 import nl.uva.se.sc.niro.PrettyPrinter.ExpressionCanPrettyPrint
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.ql.model.ast._
 import nl.uva.se.sc.niro.typechecking.ql.StaticTypes._
 import org.apache.logging.log4j.scala.Logging
 

@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.typechecking.ql
 
-import org.apache.logging.log4j.scala.Logging
 import nl.uva.se.sc.niro.PrettyPrinter.GraphCanPrettyPrint
+import org.apache.logging.log4j.scala.Logging
 
 object CycleDetection extends Logging {
 

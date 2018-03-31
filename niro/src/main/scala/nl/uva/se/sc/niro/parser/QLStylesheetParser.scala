@@ -3,9 +3,10 @@ package nl.uva.se.sc.niro.parser
 import java.util
 
 import nl.uva.se.sc.niro.errors.Errors.Error
-import nl.uva.se.sc.niro.model.ql.AnswerType
-import nl.uva.se.sc.niro.model.qls._
-import nl.uva.se.sc.niro.model.qls.style._
+import nl.uva.se.sc.niro.ql.model.ast.AnswerType
+import nl.uva.se.sc.niro.qls.model.ast
+import nl.uva.se.sc.niro.qls.model.ast._
+import nl.uva.se.sc.niro.qls.model.ast.style._
 import org.antlr.v4.runtime.{ CharStream, CommonTokenStream }
 import org.apache.logging.log4j.scala.Logging
 import qls.{ QLSBaseVisitor, QLSLexer, QLSParser }
@@ -31,7 +32,7 @@ object QLStylesheetParser extends Logging {
     override def visitStylesheet(ctx: QLSParser.StylesheetContext): QLStylesheet = {
       val pages = JavaConverters.asScalaBuffer(ctx.page).map(PageVisitor.visit)
       val defaultStyles = collectDefaultStyles(ctx.defaultStyle())
-      QLStylesheet(ctx.name.getText, pages, defaultStyles)
+      ast.QLStylesheet(ctx.name.getText, pages, defaultStyles)
     }
   }
 
@@ -39,7 +40,7 @@ object QLStylesheetParser extends Logging {
     override def visitPage(ctx: QLSParser.PageContext): Page = {
       val sections = JavaConverters.asScalaBuffer(ctx.sections).map(SectionVisitor.visit)
       val defaultStyles = collectDefaultStyles(ctx.defaultStyle())
-      Page(ctx.name.getText, sections, defaultStyles)
+      ast.Page(ctx.name.getText, sections, defaultStyles)
     }
   }
 
@@ -47,12 +48,12 @@ object QLStylesheetParser extends Logging {
     override def visitMultiStatementSection(ctx: QLSParser.MultiStatementSectionContext): Section = {
       val statements = JavaConverters.asScalaBuffer(ctx.statements).map(StatementVisitor.visit)
       val defaultStyles = collectDefaultStyles(ctx.defaultStyle())
-      Section(ctx.name.getText, statements, defaultStyles)
+      ast.Section(ctx.name.getText, statements, defaultStyles)
     }
 
     override def visitSingleStatementSection(ctx: QLSParser.SingleStatementSectionContext): Section = {
       val statement = StatementVisitor.visit(ctx.statement())
-      Section(ctx.name.getText, Seq(statement), Map.empty)
+      ast.Section(ctx.name.getText, Seq(statement), Map.empty)
     }
   }
 

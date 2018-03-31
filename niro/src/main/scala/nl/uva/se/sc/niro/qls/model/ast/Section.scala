@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.model.qls
+package nl.uva.se.sc.niro.qls.model.ast
 
-import nl.uva.se.sc.niro.model.ql.AnswerType
+import nl.uva.se.sc.niro.ql.model.ast.AnswerType
 
 case class Section(name: String, statements: Seq[Statement], defaultStyles: Map[AnswerType, Styling])
     extends Statement {

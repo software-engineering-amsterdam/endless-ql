@@ -2,7 +2,8 @@ package nl.uva.se.sc.niro.gui.converter
 
 import nl.uva.se.sc.niro.model.gui.qls
 import nl.uva.se.sc.niro.model.gui.qls._
-import nl.uva.se.sc.niro.model.qls._
+import nl.uva.se.sc.niro.qls.model.ast
+import nl.uva.se.sc.niro.qls.model.ast.{ Page, QLStylesheet, Section, Statement }
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**
@@ -33,7 +34,7 @@ object QLSToGUIModelBridge {
 
   def convertStatement(statement: Statement): GUIStatement = {
     statement match {
-      case Question(name, styling) => GUIQuestionStyling(name, GUIStyling(styling))
+      case ast.Question(name, styling) => GUIQuestionStyling(name, GUIStyling(styling))
       case Section(name, statements, defaultStyles) =>
         GUISection(name, statements.map(convertStatement), defaultStyles.mapValues(GUIStyling(_)))
     }

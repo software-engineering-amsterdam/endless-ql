@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.typechecking.qls
 
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.ql.QLForm
-import nl.uva.se.sc.niro.model.qls.QLStylesheet
+import nl.uva.se.sc.niro.ql.model.ast.QLForm
+import nl.uva.se.sc.niro.qls.model.ast.QLStylesheet
 
 object QuestionSinglePlacing {
 

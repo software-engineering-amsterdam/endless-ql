@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.model.qls.style
+package nl.uva.se.sc.niro.qls.model.ast.style
 
-import nl.uva.se.sc.niro.model.ql.{ AnswerType, DecimalType, IntegerType, MoneyType }
+import nl.uva.se.sc.niro.ql.model.ast.{ AnswerType, DecimalType, IntegerType, MoneyType }
 
 case class Slider(minimum: Double, maximum: Double) extends WidgetType {
   override def isCompatibleWith(answerType: AnswerType): Boolean =

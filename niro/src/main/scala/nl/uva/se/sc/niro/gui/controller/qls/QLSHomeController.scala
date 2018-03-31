@@ -9,8 +9,8 @@ import nl.uva.se.sc.niro.gui.controller.ql.QLHomeController
 import nl.uva.se.sc.niro.gui.converter.{ QLSToGUIModelBridge, QLToGUIModelBridge }
 import nl.uva.se.sc.niro.model.gui.ql.GUIForm
 import nl.uva.se.sc.niro.model.gui.qls.GUIStylesheet
-import nl.uva.se.sc.niro.model.ql.QLForm
-import nl.uva.se.sc.niro.model.qls.QLStylesheet
+import nl.uva.se.sc.niro.ql.model.ast.QLForm
+import nl.uva.se.sc.niro.qls.model.ast.QLStylesheet
 
 class QLSHomeController extends QLHomeController {
   private var qlFile: File = _
@@ -23,7 +23,7 @@ class QLSHomeController extends QLHomeController {
 
   override def showForm(form: QLForm): Unit = {
     try {
-        QLStylesheetFacade.importQLStylesheetSpecification(form, new File(qlFile.toString + "s")) match {
+      QLStylesheetFacade.importQLStylesheetSpecification(form, new File(qlFile.toString + "s")) match {
         case Right(possibleStylesheet) =>
           possibleStylesheet match {
             case Some(stylesheet) => showForm(form, stylesheet)

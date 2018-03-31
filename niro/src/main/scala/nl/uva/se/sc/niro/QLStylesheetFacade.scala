@@ -4,9 +4,9 @@ import java.io.File
 
 import nl.uva.se.sc.niro.errors.Errors
 import nl.uva.se.sc.niro.errors.Errors.Error
-import nl.uva.se.sc.niro.model.ql.QLForm
-import nl.uva.se.sc.niro.model.qls.QLStylesheet
 import nl.uva.se.sc.niro.parser.QLStylesheetParser
+import nl.uva.se.sc.niro.ql.model.ast.QLForm
+import nl.uva.se.sc.niro.qls.model.ast.QLStylesheet
 import nl.uva.se.sc.niro.typechecking.qls.TypeCheckFacade
 import org.antlr.v4.runtime.CharStreams
 

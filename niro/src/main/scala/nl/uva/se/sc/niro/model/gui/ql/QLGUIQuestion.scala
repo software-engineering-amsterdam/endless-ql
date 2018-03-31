@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.model.gui.ql
 
-import nl.uva.se.sc.niro.model.ql.AnswerType
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
+import nl.uva.se.sc.niro.ql.model.ast.AnswerType
 
 case class QLGUIQuestion(
     override val id: String,

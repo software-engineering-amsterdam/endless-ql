@@ -1,6 +1,7 @@
 package nl.uva.se.sc.niro.model.qls
 
-import nl.uva.se.sc.niro.model.qls.style.Color
+import nl.uva.se.sc.niro.qls.model.ast._
+import nl.uva.se.sc.niro.qls.model.ast.style.Color
 import org.scalatest.WordSpec
 
 class QLStylesheetTest extends WordSpec {

@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.ql
+package nl.uva.se.sc.niro.ql.model.ast
 
 import nl.uva.se.sc.niro.model.ql.expressions._
 

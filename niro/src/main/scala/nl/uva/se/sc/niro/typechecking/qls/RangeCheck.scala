@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.typechecking.qls
 
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.ql.{ AnswerType, IntegerType }
+import nl.uva.se.sc.niro.ql.model.ast.{ AnswerType, IntegerType }
 import nl.uva.se.sc.niro.typechecking.qls.SliderRange.checkIntegerValue
 
 trait RangeCheck {

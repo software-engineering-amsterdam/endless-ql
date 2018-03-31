@@ -1,9 +1,9 @@
-package nl.uva.se.sc.niro.model.ql.evaluation
+package nl.uva.se.sc.niro.ql.model.ast.evaluation
 
-import nl.uva.se.sc.niro.model.ql._
 import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.Answer
+import nl.uva.se.sc.niro.ql.model.ast.QLForm
 
 object QLFormEvaluator {
 

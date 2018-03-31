@@ -1,6 +1,6 @@
-package nl.uva.se.sc.niro.model.qls
+package nl.uva.se.sc.niro.qls.model.ast
 
-import nl.uva.se.sc.niro.model.qls.style._
+import nl.uva.se.sc.niro.qls.model.ast.style._
 
 case class Styling(
     widgetType: Option[WidgetType] = None,

@@ -12,7 +12,7 @@ import nl.uva.se.sc.niro.QLFormFacade
 import nl.uva.se.sc.niro.errors.{ Errors, Warning }
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.converter.QLToGUIModelBridge
-import nl.uva.se.sc.niro.model.ql.QLForm
+import nl.uva.se.sc.niro.ql.model.ast.QLForm
 import org.apache.logging.log4j.scala.Logging
 
 class QLHomeController extends QLBaseController with Logging {

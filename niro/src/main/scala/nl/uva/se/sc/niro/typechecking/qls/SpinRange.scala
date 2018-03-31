@@ -1,9 +1,9 @@
 package nl.uva.se.sc.niro.typechecking.qls
 
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.ql.{ IntegerType, QLForm }
-import nl.uva.se.sc.niro.model.qls.QLStylesheet
-import nl.uva.se.sc.niro.model.qls.style.SpinBox
+import nl.uva.se.sc.niro.ql.model.ast.{ IntegerType, QLForm }
+import nl.uva.se.sc.niro.qls.model.ast.QLStylesheet
+import nl.uva.se.sc.niro.qls.model.ast.style.SpinBox
 
 object SpinRange extends RangeCheck with StepSizeCheck with IntegerValueCheck {
 

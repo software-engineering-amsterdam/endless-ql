@@ -3,10 +3,20 @@ package nl.uva.se.sc.niro.typechecking.ql
 import cats.implicits._
 import nl.uva.se.sc.niro.PrettyPrinter._
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.ql.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.model.ql.expressions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DecimalAnswer, _ }
-import nl.uva.se.sc.niro.model.ql.{ IntegerType, _ }
+import nl.uva.se.sc.niro.ql.model.ast.SymbolTable.SymbolTable
+import nl.uva.se.sc.niro.ql.model.ast.{
+  AnswerType,
+  BooleanType,
+  DateType,
+  DecimalType,
+  IntegerType,
+  MoneyType,
+  QLForm,
+  StringType,
+  Symbol
+}
 import org.apache.logging.log4j.scala.Logging
 
 object StaticTypes extends Logging {

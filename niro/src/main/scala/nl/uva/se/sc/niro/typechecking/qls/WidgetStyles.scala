@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.typechecking.qls
 
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.ql.{ AnswerType, QLForm }
-import nl.uva.se.sc.niro.model.qls.{ QLStylesheet, Styling }
+import nl.uva.se.sc.niro.ql.model.ast.{ AnswerType, QLForm }
+import nl.uva.se.sc.niro.qls.model.ast.{ QLStylesheet, Styling }
 
 object WidgetStyles {
 

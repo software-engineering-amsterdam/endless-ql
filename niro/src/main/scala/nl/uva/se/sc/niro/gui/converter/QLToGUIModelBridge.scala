@@ -5,7 +5,7 @@ import nl.uva.se.sc.niro.model.gui.ql
 import nl.uva.se.sc.niro.model.gui.ql.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.expressions.Expression
 import nl.uva.se.sc.niro.model.ql.expressions.answers.BooleanAnswer
-import nl.uva.se.sc.niro.model.ql.{ Conditional, QLForm, Statement }
+import nl.uva.se.sc.niro.ql.model.ast.{ Conditional, QLForm, Question, Statement }
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**
@@ -22,7 +22,7 @@ object QLToGUIModelBridge {
   def convertStatements(visible: Expression, statements: Seq[Statement]): Seq[GUIQuestion] = {
     statements.flatMap(statement =>
       statement match {
-        case question: nl.uva.se.sc.niro.model.ql.Question =>
+        case question: Question =>
           Seq(GUIQuestionFactory.makeGUIQuestion(visible, question))
         case conditional: Conditional =>
           GUIConditionalFactory.makeGUIConditional(visible, conditional)

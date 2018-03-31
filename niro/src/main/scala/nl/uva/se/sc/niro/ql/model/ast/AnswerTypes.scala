@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.ql
+package nl.uva.se.sc.niro.ql.model.ast
 
 sealed trait AnswerType {
   def getWidest(that: AnswerType): Option[AnswerType] = {

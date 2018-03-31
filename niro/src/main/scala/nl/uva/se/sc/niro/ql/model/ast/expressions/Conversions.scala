@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.model.ql.expressions
 
+import nl.uva.se.sc.niro.model.ql.expressions.Conversions._
 import nl.uva.se.sc.niro.model.ql.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }
-import Conversions._
 
 import scala.language.implicitConversions
 

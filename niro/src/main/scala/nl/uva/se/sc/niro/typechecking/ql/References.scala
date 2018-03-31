@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.typechecking.ql
 import cats.implicits._
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.model.ql.expressions.{ Expression, Reference }
-import nl.uva.se.sc.niro.model.ql.{ QLForm, Statement }
+import nl.uva.se.sc.niro.ql.model.ast.{ QLForm, Statement }
 import org.apache.logging.log4j.scala.Logging
 
 object References extends Logging {

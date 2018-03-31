@@ -1,7 +1,7 @@
 package nl.uva.se.sc.niro.typechecking.ql
 
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
-import nl.uva.se.sc.niro.model.ql._
+import nl.uva.se.sc.niro.ql.model.ast.QLForm
 import org.apache.logging.log4j.scala.Logging
 
 object TypeCheckFacade extends Logging {

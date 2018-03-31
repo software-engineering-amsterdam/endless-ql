@@ -27,7 +27,7 @@ public class Test_CollegeExample {
         weld.select( SourcePathProvider.class ).get().setSourcePath( "/nl/khonraad/qls/integration/CollegeExample.qls" );
         ExtendedQLSBaseVisitor visitor = weld.select( ExtendedQLSBaseVisitor.class ).get();
         QLSAbstractSyntaxTreeBuilder builder = weld.select( QLSAbstractSyntaxTreeBuilder.class ).get();
-        visitor.visit(  builder.tree );
+        visitor.visit(  builder.getTree() );
 
     }
 }

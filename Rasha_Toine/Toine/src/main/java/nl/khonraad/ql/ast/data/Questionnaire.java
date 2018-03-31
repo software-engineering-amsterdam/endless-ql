@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.VisualizeEvent;
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.Value;
@@ -14,6 +13,7 @@ import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
 import nl.khonraad.ql.cdi.SourcePathProvider;
+import nl.khonraad.ql.gui.application.VisualizeEvent;
 
 @ApplicationScoped public class Questionnaire {
 
@@ -37,12 +37,11 @@ import nl.khonraad.ql.cdi.SourcePathProvider;
         try {
             questionRepository.prepare();
 
-            visitor.visit( qLAstBuilder.tree );
+            visitor.visit( qLAstBuilder.getTree() );
 
         } catch (IllegalStateException e) {
 
-            System.out.println( e.getMessage() );
-            System.exit( 1 );
+            logger.info( e.getMessage() );
         }
 
     }

@@ -1,4 +1,4 @@
-package nl.khonraad.ql;
+package nl.khonraad.ql.gui.application;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

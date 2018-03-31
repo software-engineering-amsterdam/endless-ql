@@ -27,7 +27,11 @@ public class QLSAbstractSyntaxTreeBuilder {
     @Inject
     SourcePathProvider         qLSource;
 
-    public ParseTree tree;
+    private ParseTree tree;
+
+    public ParseTree getTree() {
+        return tree;
+    }
 
     @PostConstruct
     public void postConstruct() {
@@ -48,7 +52,6 @@ public class QLSAbstractSyntaxTreeBuilder {
 
         } catch (IOException e) {
             logger.info( e.getMessage() );
-            e.printStackTrace();
         }
 
     }

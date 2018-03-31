@@ -5,7 +5,6 @@ import java.awt.Font;
 import javax.swing.JLabel;
 
 import nl.khonraad.ql.ast.data.Question;
-import nl.khonraad.ql.ast.data.Questionnaire;
 
 @SuppressWarnings( "serial" )
 

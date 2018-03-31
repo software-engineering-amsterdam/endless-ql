@@ -7,7 +7,7 @@ public class QuestionChangeListener {
 
     private GUIHandler guiHandler;
 
-    public void registerGUIHandler(GUIHandler guiHandler){
+    public void registerGUIHandler(GUIHandler guiHandler) {
         this.guiHandler = guiHandler;
     }
 

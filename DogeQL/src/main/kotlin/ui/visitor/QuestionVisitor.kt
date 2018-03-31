@@ -8,13 +8,14 @@ import doge.ast.node.expression.BinaryExpression
 import doge.ast.node.expression.LiteralExpression
 import doge.ast.node.expression.ReferenceExpression
 import doge.ast.node.expression.UnaryExpression
-import doge.common.Name
-import ui.model.domain.Question
 import doge.data.symbol.SymbolTable
 import doge.visitor.EvaluationVisitor
 import doge.visitor.QuestionnaireASTBaseVisitor
+import ui.model.domain.Question
 
 class QuestionVisitor(private val symbolTable: SymbolTable) : QuestionnaireASTBaseVisitor<List<Question>> {
+
+    private var visible = true
 
     override fun visit(form: Form): List<Question> {
         return form.block.accept(this)
@@ -29,17 +30,18 @@ class QuestionVisitor(private val symbolTable: SymbolTable) : QuestionnaireASTBa
     override fun visit(ifStatement: IfStatement): List<Question> {
         val result = ifStatement.expression.accept(EvaluationVisitor.default(symbolTable))
 
-        if (result.booleanValue.value) {
-            return ifStatement.block.accept(this)
-        }
+        visible = result.booleanValue.value
 
-        return listOf()
+        val ifBlock = ifStatement.block.accept(this)
+
+        visible = true
+
+        return ifBlock
     }
 
     override fun visit(questionStatement: QuestionStatement): List<Question> {
         val name = questionStatement.name
         val label = questionStatement.label
-        val type = questionStatement.type
         var value = symbolTable.findSymbol(name.text)
         val readOnly = false
 
@@ -47,23 +49,22 @@ class QuestionVisitor(private val symbolTable: SymbolTable) : QuestionnaireASTBa
             value = questionStatement.expression.accept(EvaluationVisitor.default(symbolTable))
         }
 
-        return listOf(Question(name.text, label.text, value!!, false))
+        return listOf(Question(name.text, label.text, value!!, readOnly, visible))
     }
 
     override fun visit(binaryExpression: BinaryExpression): List<Question> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listOf()
     }
 
     override fun visit(unaryExpression: UnaryExpression): List<Question> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listOf()
     }
 
     override fun visit(referenceExpression: ReferenceExpression): List<Question> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listOf()
     }
 
     override fun visit(literalExpression: LiteralExpression): List<Question> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listOf()
     }
-
 }

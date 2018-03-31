@@ -1,51 +1,65 @@
 package ql.gui;
 
-import ql.evaluator.values.Value;
-import ql.gui.widgets.Widget;
 import ql.ast.statements.Question;
-import ql.evaluator.FormEvaluator;
+import ql.environment.Environment;
+import ql.environment.EnvironmentListener;
+import ql.environment.values.Value;
+import ql.gui.widgets.Widget;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class QuestionUI implements WidgetListener {
+public class QuestionUI implements WidgetListener, EnvironmentListener {
 
     //TODO: Inconsistent with input widgets
-    //TODO: Move Question / formEvaluator field from widget to QuestionUI
+    //TODO: Move Question / environment field from widget to QuestionUI
 
     private final JLabel label;
     private final Widget widget;
     private final JPanel panel;
-    private final FormEvaluator formEvaluator;
+    private final Environment environment;
+    private final Question question;
 
-    public QuestionUI(FormEvaluator formEvaluator, Question question) {
-        this.formEvaluator = formEvaluator;
+    public QuestionUI(Environment environment, Question question) {
+        this.question = question;
+        this.environment = environment;
+
+        environment.registerChangeListener(this);
+
         label = new JLabel(question.getLabel());
-        widget = new WidgetFactory().createWidget(question, formEvaluator);
+        widget = new WidgetFactory().createWidget(question, environment);
         widget.registerChangeListener(this);
-        widget.setVisible(true);
 
         panel = new JPanel(new BorderLayout());
         panel.add(label, BorderLayout.CENTER);
         panel.add(widget.getComponent(), BorderLayout.EAST);
 
         panel.setPreferredSize(new Dimension(600, 50));
-    }
 
-    public void update() {
-        widget.setValue();
+        setVisible(isVisible());
     }
 
     public JComponent getComponent() {
         return panel;
     }
 
+    private boolean isVisible() {
+        return environment.questionIsVisible(question.getId());
+    }
+
     public void setVisible(boolean visible) {
-        panel.setVisible(visible);
+        label.setVisible(visible);
+        widget.setVisible(visible);
     }
 
     @Override
-    public void onQuestionUpdated(Question question, Value value) {
-        formEvaluator.setValue(question.getId(), value);
+    public void onInputValueUpdated(Question question, Value value) {
+        environment.setValue(question.getId(), value);
+    }
+
+    @Override
+    public void onEnvironmentUpdated() {
+        setVisible(isVisible());
+        widget.setValue();
     }
 }

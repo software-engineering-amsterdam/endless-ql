@@ -8,11 +8,12 @@ import QL.classes.values.UndefinedValue;
 import QL.classes.values.Value;
 import QL.parsing.visitors.FormVisitor;
 import QLS.parsing.visitors.StylesheetVisitor;
+import gui.listeners.QuestionValueListener;
 import gui.questions.QuestionPanel;
-import gui.questions.QuestionPanelCheckBox;
-import gui.questions.QuestionPanelDate;
-import gui.questions.text.QuestionPanelTextInt;
-import gui.questions.text.QuestionPanelTextString;
+import gui.questions.QuestionWidgetCheckBox;
+import gui.questions.QuestionWidgetDate;
+import gui.questions.text.QuestionWidgetTextInt;
+import gui.questions.text.QuestionWidgetTextString;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
@@ -35,7 +36,7 @@ public class QLBuilder {
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor;
-    private QuestionChangeListener questionChangeListener;
+    private QuestionValueListener questionValueListener;
 
     public LinkedHashMap<String, QuestionPanel> getQuestionPanelHashMap() {
         return questionPanelHashMap;
@@ -73,9 +74,9 @@ public class QLBuilder {
         }
     }
 
-    public JPanel createMainListPanel(QuestionChangeListener questionChangeListener) {
+    public JPanel createMainListPanel(QuestionValueListener questionValueListener) {
         this.mainListPanel = new JPanel(new GridBagLayout());
-        this.questionChangeListener = questionChangeListener;
+        this.questionValueListener = questionValueListener;
         initQuestionPanels();
         return mainListPanel;
     }
@@ -94,29 +95,29 @@ public class QLBuilder {
 
         switch (question.getValue().getType()) {
             case Value.STRING:
-                qPanel = new QuestionPanelTextString(key, question);
+                qPanel = new QuestionWidgetTextString(key, question);
                 break;
             case Value.BOOLEAN:
-                qPanel = new QuestionPanelCheckBox(key, question);
+                qPanel = new QuestionWidgetCheckBox(key, question);
                 break;
             case Value.DECIMAL:
-                qPanel = new QuestionPanelTextInt(key, question);
+                qPanel = new QuestionWidgetTextInt(key, question);
                 break;
             case Value.MONEY:
-                qPanel = new QuestionPanelTextInt(key, question);
+                qPanel = new QuestionWidgetTextInt(key, question);
                 break;
             case Value.DATE:
-                qPanel = new QuestionPanelDate(key, question);
+                qPanel = new QuestionWidgetDate(key, question);
                 break;
             case Value.INTEGER:
-                qPanel = new QuestionPanelTextInt(key, question);
+                qPanel = new QuestionWidgetTextInt(key, question);
                 break;
             default:
-                qPanel = new QuestionPanelTextInt(key, question);
+                qPanel = new QuestionWidgetTextInt(key, question);
                 break;
         }
 
-        qPanel.setQuestionChangeListener(questionChangeListener);
+        qPanel.setQuestionChangeListener(questionValueListener);
 
         //if the question is marked as fixed, make it non-alterable
         if(question.isFixed()) {

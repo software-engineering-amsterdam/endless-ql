@@ -31,13 +31,12 @@ public class FormPanel extends JPanel {
     private LinkedHashMap<String, LinkedList<Component>> pages;
     private HashMap<DataType, DefaultStyle> defaultStyles;
 
-    public FormPanel(Form form, int viewHeight, int formWidth, int formHeight) {
-        formContent = new JPanel();
+    public FormPanel(int viewHeight, int formWidth, int formHeight) {
+        qlComponentsByName = new LinkedHashMap<>();
+        formContent        = new JPanel();
+
         formContent.setPreferredSize(new Dimension(formWidth, formHeight));
         formContent.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        // Initial setup
-        loadComponents(form);
 
         int panelHeight = viewHeight - 5;
 
@@ -71,6 +70,10 @@ public class FormPanel extends JPanel {
     public void apply(Form form) {
         formContent.removeAll();
         qlComponentsByName.clear();
+
+        if (form == null) {
+            return;
+        }
 
         loadComponents(form);
 
@@ -143,14 +146,14 @@ public class FormPanel extends JPanel {
         Panel formComponent  = (Panel) component;
         Component inputField = formComponent.getComponent(1);
 
-        updateWidgetType(widgetType, variable, formComponent, inputField);
+        updateWidgetType(widgetType, variable, formComponent, inputField, widgetStyle);
         updateWidgetStyle(widgetStyle, formComponent, inputField);
 
         component.revalidate();
         component.repaint();
     }
 
-    private void updateWidgetType(WidgetType widgetType, Variable variable, Panel formComponent, Component input) {
+    private void updateWidgetType(WidgetType widgetType, Variable variable, Panel formComponent, Component input, WidgetStyle widgetStyle) {
         DataType dataType = variable.getDataType();
 
         if (needToReplaceWidget(widgetType, dataType)) {
@@ -160,9 +163,9 @@ public class FormPanel extends JPanel {
             if (widgetType == null) {
                 DefaultStyle defaultStyle = defaultStyles.get(dataType);
                 WidgetType defaultWidgetType = defaultStyle.getWidgetType();
-                formComponent.add(defaultWidgetType.createWidget(variable));
+                formComponent.add(defaultWidgetType.createWidget(variable, widgetStyle));
             } else {
-                formComponent.add(widgetType.createWidget(variable));
+                formComponent.add(widgetType.createWidget(variable, widgetStyle));
             }
         }
     }

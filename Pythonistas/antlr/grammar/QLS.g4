@@ -12,7 +12,7 @@ attributes : BRAL (width | font | fontsize | color | widget)+ BRAR |
                   (width | font | fontsize | color | widget);
 type       : (BOOLEAN | MONEY | ID);
 
-widget   : WIDGET (checkbox | radio | spinbox);
+widget   : WIDGET (checkbox | radio | spinbox | textbox);
 width    : 'width' COL INT;
 font     : 'font' COL STRING;
 fontsize : 'fontsize' COL INT;
@@ -21,6 +21,7 @@ color    : 'color' COL HEX;
 checkbox : CHECKBOX;
 radio    : RADIO choices;
 spinbox  : SPINBOX;
+textbox  : TEXTBOX;
 
 choices : PARL (STRING COM)* STRING PARR;
 
@@ -35,6 +36,7 @@ DEFAULT    : 'default';
 CHECKBOX : 'checkbox';
 RADIO    : 'radio';
 SPINBOX  : 'spinbox';
+TEXTBOX  : 'textbox';
 
 BOOLEAN : 'boolean';
 MONEY   : 'money';

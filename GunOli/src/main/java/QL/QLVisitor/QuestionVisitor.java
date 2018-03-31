@@ -12,16 +12,8 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
     private Expression condition;
 
     public QuestionVisitor(ExpressionTable exprTable, Expression condition){
-        setExpressionTable(exprTable);
-        setCondition(condition);
-    }
-
-    private void setCondition(Expression condition){
-        this.condition = condition;
-    }
-
-    private void setExpressionTable(ExpressionTable exprTable){
         this.expressionTable = exprTable;
+        this.condition = condition;
     }
 
     @Override

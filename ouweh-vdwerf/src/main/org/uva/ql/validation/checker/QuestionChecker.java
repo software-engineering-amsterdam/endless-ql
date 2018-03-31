@@ -10,7 +10,7 @@ import java.util.Set;
 public class QuestionChecker extends Checker {
 
 
-    private List<Question> questions;
+    private final List<Question> questions;
 
     public QuestionChecker(List<Question> questions) {
         this.questions = questions;

@@ -2,18 +2,26 @@ package ui.visitor
 
 import javafx.geometry.Side
 import javafx.scene.Node
+import javafx.scene.control.Label
 import qls.ast.model.*
 import qls.visitor.QlsVisitor
 import tornadofx.*
 import ui.controller.DogeController
+import ui.model.QuestionViewModel
 import ui.model.ViewModelFactory
 import ui.view.QuestionFieldFactory
 
 class StyleVisitor : View(), QlsVisitor<Node> {
+    override fun visit(attributes: Attribute): Node {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val controller: DogeController by inject()
 
     private var padding = 0.0
+
+    var flatLayout = hashMapOf<String, Node>()
+    var questionViewModels = hashMapOf<String, QuestionViewModel>()
 
     override val root = Drawer(Side.LEFT, false, false)
 
@@ -21,13 +29,14 @@ class StyleVisitor : View(), QlsVisitor<Node> {
         styleSheet.pages.forEach {
             it.accept(this)
         }
+        flatLayout[styleSheet.name] = root
         return root
     }
 
     override fun visit(page: Page): Node {
 
         with(root) {
-            item(page.title) {
+            val item = item(page.name) {
                 scrollpane {
                     form {
                         page.styles.forEach {
@@ -36,6 +45,7 @@ class StyleVisitor : View(), QlsVisitor<Node> {
                     }
                 }
             }
+            flatLayout[page.name] = item
         }
 
         return root
@@ -58,11 +68,9 @@ class StyleVisitor : View(), QlsVisitor<Node> {
 
         padding -= 10
 
-        return fieldSet
-    }
+        flatLayout[section.title] = fieldSet
 
-    override fun visit(defaultAttributes: DefaultAttributes): Node {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return fieldSet
     }
 
     override fun visit(question: Question): Node {
@@ -70,19 +78,33 @@ class StyleVisitor : View(), QlsVisitor<Node> {
         val field = Field()
 
         if (controller.hasQuestion(question.name)) {
+
             val dataQuestion = controller.getQuestion(question.name)
 
-            val viewModel = ViewModelFactory().createUiQuestionModel(dataQuestion)
+            val viewModel = ViewModelFactory().createQuestionViewModel(dataQuestion)
             val questionField = QuestionFieldFactory().createQuestionField(viewModel)
 
+            field.isVisible = dataQuestion.visible
             field.text = dataQuestion.label
+
             field.add(questionField)
+
+            questionViewModels[question.name] = viewModel
         }
+
+        flatLayout[question.name] = field
 
         return field
     }
 
     override fun visit(element: Element): Node {
         return element.accept(this)
+    }
+
+    override fun visit(defaultAttributes: DefaultAttributes): Node {
+        val label = Label()// Placeholder
+        label.isManaged = false
+        label.isVisible = false
+        return label
     }
 }

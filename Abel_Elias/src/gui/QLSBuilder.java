@@ -10,7 +10,7 @@ import QLS.classes.widgets.CheckBoxWidget;
 import QLS.classes.widgets.TextWidget;
 import QLS.classes.widgets.WidgetType;
 import QLS.parsing.visitors.StylesheetVisitor;
-import gui.questions.PagePanel;
+import gui.pages.PagePanel;
 import gui.questions.QuestionPanel;
 
 import javax.swing.*;
@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class QLSBuilder {
     private StylesheetVisitor stylesheetVisitor;
-    private LinkedHashMap<StyledQuestion, JPanel> styledQuestions = new LinkedHashMap<>();
+    private LinkedHashMap<String, StyledQuestion> styledQuestions = new LinkedHashMap<>();
     private LinkedHashMap<String, PagePanel> pages = new LinkedHashMap<>();
     private LinkedHashMap<String, JPanel> sections = new LinkedHashMap<>();
 
@@ -57,7 +57,6 @@ public class QLSBuilder {
             border.setBorder(lineBorder);
             pagePanel.setBorder(border);
             pages.put(page.getId(), pagePanel);
-            //styleSheetPanel.add(pagePanel);
             buildSections(page);
         }
     }
@@ -71,7 +70,7 @@ public class QLSBuilder {
     private void buildElements(Section section) {
         for (Element element : section.getElements()) {
             //TODO: replace ugly instance of statements
-            if(element instanceof StyledQuestion) {
+            if (element instanceof StyledQuestion) {
                 buildQuestion((StyledQuestion) element);
             } else if (element instanceof Section) {
                 buildSection((Section) element);
@@ -95,43 +94,50 @@ public class QLSBuilder {
     private void buildQuestion(StyledQuestion question) {
         JPanel questionPanel = new JPanel();
         questionPanel.setLayout(new GridLayout(0, 1));
-        styledQuestions.put(question, questionPanel);
+        styledQuestions.put(question.getName(), question);
     }
 
 
-    public void setWidgets(LinkedHashMap<String, QuestionPanel> formQuestions) {
-
+    public void createStyledForm(LinkedHashMap<String, QuestionPanel> formQuestions) {
         //Remove all existing section panel content
-        for(JPanel panel : sections.values()) {
+        for (JPanel panel : sections.values()) {
             panel.removeAll();
         }
-
         //Add all questions to their parent section
-        for (StyledQuestion styledQuestion : styledQuestions.keySet()) {
+        for (StyledQuestion styledQuestion : styledQuestions.values()) {
             String parentId = styledQuestion.getParentId();
             if (parentId != null && sections.containsKey(parentId)) {
                 JPanel sectionPanel = sections.get(parentId);
                 QuestionPanel panel = formQuestions.get(styledQuestion.getQuestion().getId());
-                if(panel != null) {
+                if (panel != null) {
                     sectionPanel.add(panel);
                 }
             }
         }
-        for(JPanel section : sections.values()) {
-            styleSheetPanel.add(section);
+        for (PagePanel pagePanel : pages.values()) {
+            for (Section section : pagePanel.getPage().getSections()) {
+                setSections(section, pagePanel);
+            }
+            styleSheetPanel.add(pagePanel);
         }
-
-//        for(PagePanel pagePanel : pages.values()) {
-//            for (Map.Entry<String, JPanel> entry : sections.entrySet()) {
-//                for(Section section :pagePanel.getPage().getSections()) {
-//                    if(section.getName().equals(entry.getKey())) {
-//                        pagePanel.add(entry.getValue());
-//                    }
-//                }
-//            }
-//            styleSheetPanel.add(pagePanel);
-//        }
         styleSheetPanel.revalidate();
         styleSheetPanel.repaint();
+    }
+
+
+    private void setSections(Section section, JPanel panel) {
+        JPanel sectionPanel = sections.get(section.getName());
+        for (Element element : section.getElements()) {
+            if (element instanceof Section) {
+                Section section1 = (Section) element;
+                setSections(section1, sectionPanel);
+            }
+        }
+        panel.add(sectionPanel);
+    }
+
+    public WidgetType getWidgetType(Question question) {
+        StyledQuestion styledQuestion = styledQuestions.get(question.getId());
+        return styledQuestion.getWidget().getWidgetType();
     }
 }

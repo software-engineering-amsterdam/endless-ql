@@ -10,9 +10,10 @@ public class TextPanel extends JPanel{
 
     public TextPanel(int width, int height, Color color, boolean editable) {
         this.setBackground(Color.gray);
+        this.setPreferredSize(new Dimension(width, height));
 
         textArea = new TextArea("",0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
-        textArea.setPreferredSize(new Dimension(width, height));
+        textArea.setPreferredSize(new Dimension(width, height-10));
         textArea.setBackground(color);
         textArea.setForeground(Color.white);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));

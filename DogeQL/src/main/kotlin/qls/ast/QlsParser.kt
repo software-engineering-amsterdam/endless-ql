@@ -19,9 +19,7 @@ class QlsParser {
 
             val visitor = QuestionnaireLanguageStyleVisitor()
 
-            val ast = visitor.visit(parser.stylesheet())
-
-            return ast
+            return visitor.visit(parser.stylesheet())
         }
     }
 

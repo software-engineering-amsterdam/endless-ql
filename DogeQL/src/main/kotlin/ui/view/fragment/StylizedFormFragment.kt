@@ -1,49 +1,32 @@
 package ui.view.fragment
 
-import tornadofx.Drawer
-import tornadofx.Fragment
-import tornadofx.onChange
-import tornadofx.vbox
+import tornadofx.*
 import ui.controller.DogeController
 import ui.visitor.StyleVisitor
 
 class StylizedFormFragment : Fragment() {
 
-    val model: DogeController by inject()
-
-    override val root = vbox()
-
-
+    private val controller: DogeController by inject()
+    private val visitor = StyleVisitor()
+    override var root = drawer {  }
 
     init {
-        with(root) {
-            val style = model.style
-            style?.let {
-                val result = it.accept(StyleVisitor())
-                children.add(0, result)
-            }
+        val style = controller.style
+        style?.let {
+            val result = it.accept(visitor)
+            root = result as Drawer
         }
 
+        controller.questions.onChange {
+            controller.questions.forEach { question ->
+                visitor.flatLayout[question.name]?.let {
+                    it.isVisible = question.visible
+                    it.isManaged = question.visible
 
-
-        model.questions.onChange {
-            val style = model.style
-            style?.let {
-                val result = it.accept(StyleVisitor())
-
-                val drawer = root.children.get(0) as Drawer
-
-                val item = drawer.items.first { it.expanded }
-
-                val index = drawer.items.indexOf(item)
-
-                (result as Drawer).items[index] = item
-
-                root.children.remove(0, 1)
-
-                root.children.add(0, drawer)
+                }
+                visitor.questionViewModels[question.name]?.setViewModelValue(question)
             }
         }
-
     }
+
 }

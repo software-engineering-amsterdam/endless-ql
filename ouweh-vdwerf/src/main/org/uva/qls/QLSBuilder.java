@@ -20,13 +20,13 @@ public class QLSBuilder {
     }
 
 
-    public QLSParser getQLSParser(String input) {
+    private QLSParser getQLSParser(String input) {
         CharStream charStream = CharStreams.fromString(input);
         QLSLexer lexer = new QLSLexer(charStream);
         return new QLSParser(new CommonTokenStream(lexer));
     }
 
-    public Stylesheet getStyleSheet(QLSParser parser) {
+    private Stylesheet getStyleSheet(QLSParser parser) {
         ParseTreeVisitor visitor = new ParseTreeVisitor();
         return (Stylesheet) visitor.visit(parser.stylesheet());
     }

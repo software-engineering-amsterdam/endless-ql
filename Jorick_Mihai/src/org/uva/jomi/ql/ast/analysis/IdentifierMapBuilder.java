@@ -75,7 +75,15 @@ public class IdentifierMapBuilder implements Statement.Visitor<Void>, Expression
 
 	@Override
 	public Void visit(ComputedQuestionStatement stmt) {
-		this.map.put(stmt.getName(), stmt.visitExpression(this));
+		String name = stmt.getName();
+		if (this.map.containsKey(name)) {
+			List<String> list = this.map.get(name);
+			list.addAll(stmt.visitExpression(this));
+			this.map.put(name, list);
+		} else {
+			this.map.put(name, stmt.visitExpression(this));
+		}
+
 		return null;
 	}
 

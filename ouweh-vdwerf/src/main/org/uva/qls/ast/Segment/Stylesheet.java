@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Stylesheet extends Segment {
 
-    private String id;
-    private List<Page> pages;
+    private final String id;
+    private final List<Page> pages;
 
     public Stylesheet(String id, List<Page> pages) {
         this.id = id;

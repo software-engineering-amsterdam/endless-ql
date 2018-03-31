@@ -5,7 +5,7 @@ import org.uva.qls.ast.Value.NumberValue;
 
 public class FontSizeProperty extends StyleProperty {
 
-    private NumberValue value;
+    private final NumberValue value;
 
     public FontSizeProperty(NumberValue numberValue) {
         this.value = numberValue;

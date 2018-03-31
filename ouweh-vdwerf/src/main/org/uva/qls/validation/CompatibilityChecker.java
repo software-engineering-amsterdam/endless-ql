@@ -19,12 +19,12 @@ class CompatibilityChecker extends Checker {
 
     private final StylesheetContext stylesheetContext;
 
-    private Map<String, Type> qlQuestionTypes = new HashMap<>();
+    private final Map<String, Type> qlQuestionTypes = new HashMap<>();
 
     public CompatibilityChecker(QuestionContext questionContext, StylesheetContext stylesheetContext) {
         this.stylesheetContext = stylesheetContext;
 
-        for (Question question : questionContext.getQuestions()) {
+        for (Question question : questionContext.getList()) {
             qlQuestionTypes.put(question.getId(), question.getType());
         }
     }

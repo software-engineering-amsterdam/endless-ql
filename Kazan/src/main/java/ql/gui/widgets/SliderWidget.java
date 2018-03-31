@@ -1,10 +1,11 @@
 package ql.gui.widgets;
 
-import ql.gui.WidgetListener;
 import ql.ast.statements.Question;
-import ql.evaluator.FormEvaluator;
-import ql.evaluator.values.DecimalValue;
-import ql.evaluator.values.Value;
+import ql.environment.Environment;
+import ql.environment.values.DecimalValue;
+import ql.environment.values.IntegerValue;
+import ql.environment.values.Value;
+import ql.gui.WidgetListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +14,10 @@ public class SliderWidget extends BaseWidget {
 
     private final JSlider slider;
 
-    public SliderWidget(FormEvaluator evaluator, Question question, boolean isEditable) {
-        super(evaluator, question, isEditable);
+    public SliderWidget(Environment environment, Question question, boolean isEditable) {
+        super(environment, question, isEditable);
 
-        Value value = evaluator.getQuestionValue(question.getId());
+        Value value = environment.getQuestionValue(question.getId());
         Number number = value != null ? (Number) value.getValue() : 0;
         int CURRENT_VALUE = number.intValue();
         int START = 0;
@@ -30,11 +31,14 @@ public class SliderWidget extends BaseWidget {
         slider.setPaintLabels(true);
 
         slider.setPreferredSize(new Dimension(200, 50));
+        setValue();
+        setEditable(isEditable);
     }
 
     @Override
     public void setValue() {
-        //TODO
+        IntegerValue value = (IntegerValue) environment.getQuestionValue(question.getId());
+        slider.setValue(value.getValue());
     }
 
     @Override
@@ -43,11 +47,16 @@ public class SliderWidget extends BaseWidget {
     }
 
     @Override
+    public void setEditable(boolean isEditable) {
+        slider.setEnabled(isEditable);
+    }
+
+    @Override
     public void registerChangeListener(WidgetListener widgetListener) {
         slider.addChangeListener(e -> {
             //wait until user has released slider before updating
-            if (!slider.getValueIsAdjusting()) {
-                widgetListener.onQuestionUpdated(question, new DecimalValue(slider.getValue()));
+            if (!slider.getValueIsAdjusting() && isEditable) {
+                widgetListener.onInputValueUpdated(question, new DecimalValue(slider.getValue()));
             }
         });
     }

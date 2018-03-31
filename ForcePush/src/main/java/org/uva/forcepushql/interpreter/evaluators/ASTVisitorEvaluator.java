@@ -163,7 +163,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
     }
 
 
-    public String visit(NegateNode node)
+    public String visit(NotNode node)
     {
         return "!" + node.getInnerNode().accept(this);
     }

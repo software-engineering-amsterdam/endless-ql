@@ -28,37 +28,25 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStylesheetElement(QLSParser.StylesheetElementContext ctx) { }
+	@Override public void enterPageDefinition(QLSParser.PageDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStylesheetElement(QLSParser.StylesheetElementContext ctx) { }
+	@Override public void exitPageDefinition(QLSParser.PageDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPageDefition(QLSParser.PageDefitionContext ctx) { }
+	@Override public void enterBlockElement(QLSParser.BlockElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPageDefition(QLSParser.PageDefitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPageElement(QLSParser.PageElementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPageElement(QLSParser.PageElementContext ctx) { }
+	@Override public void exitBlockElement(QLSParser.BlockElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -76,18 +64,6 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSectionElement(QLSParser.SectionElementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSectionElement(QLSParser.SectionElementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterQuestionDefinition(QLSParser.QuestionDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -100,25 +76,13 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefaultTypeDefinition(QLSParser.DefaultTypeDefinitionContext ctx) { }
+	@Override public void enterDefaultDefinition(QLSParser.DefaultDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDefaultTypeDefinition(QLSParser.DefaultTypeDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDataTypeDefinionBlock(QLSParser.DataTypeDefinionBlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDataTypeDefinionBlock(QLSParser.DataTypeDefinionBlockContext ctx) { }
+	@Override public void exitDefaultDefinition(QLSParser.DefaultDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -136,73 +100,13 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTypeDeclarationBoolean(QLSParser.TypeDeclarationBooleanContext ctx) { }
+	@Override public void enterDataType(QLSParser.DataTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTypeDeclarationBoolean(QLSParser.TypeDeclarationBooleanContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeDeclarationString(QLSParser.TypeDeclarationStringContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeDeclarationString(QLSParser.TypeDeclarationStringContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeDeclarationInteger(QLSParser.TypeDeclarationIntegerContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeDeclarationInteger(QLSParser.TypeDeclarationIntegerContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeDeclarationDecimal(QLSParser.TypeDeclarationDecimalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeDeclarationDecimal(QLSParser.TypeDeclarationDecimalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeDeclarationMoney(QLSParser.TypeDeclarationMoneyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeDeclarationMoney(QLSParser.TypeDeclarationMoneyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeDeclarationDate(QLSParser.TypeDeclarationDateContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeDeclarationDate(QLSParser.TypeDeclarationDateContext ctx) { }
+	@Override public void exitDataType(QLSParser.DataTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -220,73 +124,13 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWidgetCheckboxDefinition(QLSParser.WidgetCheckboxDefinitionContext ctx) { }
+	@Override public void enterWidget(QLSParser.WidgetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWidgetCheckboxDefinition(QLSParser.WidgetCheckboxDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWidgetDropdownDefinition(QLSParser.WidgetDropdownDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWidgetDropdownDefinition(QLSParser.WidgetDropdownDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWidgetRadioDefinition(QLSParser.WidgetRadioDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWidgetRadioDefinition(QLSParser.WidgetRadioDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWidgetSpinboxDefinition(QLSParser.WidgetSpinboxDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWidgetSpinboxDefinition(QLSParser.WidgetSpinboxDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWidgetSliderDefinition(QLSParser.WidgetSliderDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWidgetSliderDefinition(QLSParser.WidgetSliderDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWidgetTextDefinition(QLSParser.WidgetTextDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWidgetTextDefinition(QLSParser.WidgetTextDefinitionContext ctx) { }
+	@Override public void exitWidget(QLSParser.WidgetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

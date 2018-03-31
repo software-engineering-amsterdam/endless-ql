@@ -18,35 +18,25 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitStylesheet(QLSParser.StylesheetContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#stylesheetElement}.
+	 * Enter a parse tree produced by {@link QLSParser#pageDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void enterStylesheetElement(QLSParser.StylesheetElementContext ctx);
+	void enterPageDefinition(QLSParser.PageDefinitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#stylesheetElement}.
+	 * Exit a parse tree produced by {@link QLSParser#pageDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void exitStylesheetElement(QLSParser.StylesheetElementContext ctx);
+	void exitPageDefinition(QLSParser.PageDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#pageDefition}.
+	 * Enter a parse tree produced by {@link QLSParser#blockElement}.
 	 * @param ctx the parse tree
 	 */
-	void enterPageDefition(QLSParser.PageDefitionContext ctx);
+	void enterBlockElement(QLSParser.BlockElementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#pageDefition}.
+	 * Exit a parse tree produced by {@link QLSParser#blockElement}.
 	 * @param ctx the parse tree
 	 */
-	void exitPageDefition(QLSParser.PageDefitionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLSParser#pageElement}.
-	 * @param ctx the parse tree
-	 */
-	void enterPageElement(QLSParser.PageElementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLSParser#pageElement}.
-	 * @param ctx the parse tree
-	 */
-	void exitPageElement(QLSParser.PageElementContext ctx);
+	void exitBlockElement(QLSParser.BlockElementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLSParser#section}.
 	 * @param ctx the parse tree
@@ -58,16 +48,6 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitSection(QLSParser.SectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#sectionElement}.
-	 * @param ctx the parse tree
-	 */
-	void enterSectionElement(QLSParser.SectionElementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLSParser#sectionElement}.
-	 * @param ctx the parse tree
-	 */
-	void exitSectionElement(QLSParser.SectionElementContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QLSParser#questionDefinition}.
 	 * @param ctx the parse tree
 	 */
@@ -78,25 +58,15 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitQuestionDefinition(QLSParser.QuestionDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#defaultTypeDefinition}.
+	 * Enter a parse tree produced by {@link QLSParser#defaultDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void enterDefaultTypeDefinition(QLSParser.DefaultTypeDefinitionContext ctx);
+	void enterDefaultDefinition(QLSParser.DefaultDefinitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#defaultTypeDefinition}.
+	 * Exit a parse tree produced by {@link QLSParser#defaultDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void exitDefaultTypeDefinition(QLSParser.DefaultTypeDefinitionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLSParser#dataTypeDefinionBlock}.
-	 * @param ctx the parse tree
-	 */
-	void enterDataTypeDefinionBlock(QLSParser.DataTypeDefinionBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLSParser#dataTypeDefinionBlock}.
-	 * @param ctx the parse tree
-	 */
-	void exitDataTypeDefinionBlock(QLSParser.DataTypeDefinionBlockContext ctx);
+	void exitDefaultDefinition(QLSParser.DefaultDefinitionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLSParser#typeDefinitionProperty}.
 	 * @param ctx the parse tree
@@ -108,77 +78,15 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitTypeDefinitionProperty(QLSParser.TypeDefinitionPropertyContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code TypeDeclarationBoolean}
-	 * labeled alternative in {@link QLSParser#dataType}.
+	 * Enter a parse tree produced by {@link QLSParser#dataType}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypeDeclarationBoolean(QLSParser.TypeDeclarationBooleanContext ctx);
+	void enterDataType(QLSParser.DataTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code TypeDeclarationBoolean}
-	 * labeled alternative in {@link QLSParser#dataType}.
+	 * Exit a parse tree produced by {@link QLSParser#dataType}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypeDeclarationBoolean(QLSParser.TypeDeclarationBooleanContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code TypeDeclarationString}
-	 * labeled alternative in {@link QLSParser#dataType}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeDeclarationString(QLSParser.TypeDeclarationStringContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code TypeDeclarationString}
-	 * labeled alternative in {@link QLSParser#dataType}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeDeclarationString(QLSParser.TypeDeclarationStringContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code TypeDeclarationInteger}
-	 * labeled alternative in {@link QLSParser#dataType}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeDeclarationInteger(QLSParser.TypeDeclarationIntegerContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code TypeDeclarationInteger}
-	 * labeled alternative in {@link QLSParser#dataType}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeDeclarationInteger(QLSParser.TypeDeclarationIntegerContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code TypeDeclarationDecimal}
-	 * labeled alternative in {@link QLSParser#dataType}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeDeclarationDecimal(QLSParser.TypeDeclarationDecimalContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code TypeDeclarationDecimal}
-	 * labeled alternative in {@link QLSParser#dataType}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeDeclarationDecimal(QLSParser.TypeDeclarationDecimalContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code TypeDeclarationMoney}
-	 * labeled alternative in {@link QLSParser#dataType}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeDeclarationMoney(QLSParser.TypeDeclarationMoneyContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code TypeDeclarationMoney}
-	 * labeled alternative in {@link QLSParser#dataType}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeDeclarationMoney(QLSParser.TypeDeclarationMoneyContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code TypeDeclarationDate}
-	 * labeled alternative in {@link QLSParser#dataType}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeDeclarationDate(QLSParser.TypeDeclarationDateContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code TypeDeclarationDate}
-	 * labeled alternative in {@link QLSParser#dataType}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeDeclarationDate(QLSParser.TypeDeclarationDateContext ctx);
+	void exitDataType(QLSParser.DataTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLSParser#widgetDefinition}.
 	 * @param ctx the parse tree
@@ -190,77 +98,15 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitWidgetDefinition(QLSParser.WidgetDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code WidgetCheckboxDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Enter a parse tree produced by {@link QLSParser#widget}.
 	 * @param ctx the parse tree
 	 */
-	void enterWidgetCheckboxDefinition(QLSParser.WidgetCheckboxDefinitionContext ctx);
+	void enterWidget(QLSParser.WidgetContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code WidgetCheckboxDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Exit a parse tree produced by {@link QLSParser#widget}.
 	 * @param ctx the parse tree
 	 */
-	void exitWidgetCheckboxDefinition(QLSParser.WidgetCheckboxDefinitionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code WidgetDropdownDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 */
-	void enterWidgetDropdownDefinition(QLSParser.WidgetDropdownDefinitionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code WidgetDropdownDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 */
-	void exitWidgetDropdownDefinition(QLSParser.WidgetDropdownDefinitionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code WidgetRadioDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 */
-	void enterWidgetRadioDefinition(QLSParser.WidgetRadioDefinitionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code WidgetRadioDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 */
-	void exitWidgetRadioDefinition(QLSParser.WidgetRadioDefinitionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code WidgetSpinboxDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 */
-	void enterWidgetSpinboxDefinition(QLSParser.WidgetSpinboxDefinitionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code WidgetSpinboxDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 */
-	void exitWidgetSpinboxDefinition(QLSParser.WidgetSpinboxDefinitionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code WidgetSliderDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 */
-	void enterWidgetSliderDefinition(QLSParser.WidgetSliderDefinitionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code WidgetSliderDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 */
-	void exitWidgetSliderDefinition(QLSParser.WidgetSliderDefinitionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code WidgetTextDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 */
-	void enterWidgetTextDefinition(QLSParser.WidgetTextDefinitionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code WidgetTextDefinition}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 */
-	void exitWidgetTextDefinition(QLSParser.WidgetTextDefinitionContext ctx);
+	void exitWidget(QLSParser.WidgetContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLSParser#booleanParameters}.
 	 * @param ctx the parse tree

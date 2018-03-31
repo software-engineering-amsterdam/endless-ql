@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime.Misc;
-using QLGrammar;
+﻿using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.QL;
 using System;
@@ -9,8 +8,11 @@ namespace QLParser.ParserVisitors.QL
 {
     public class QuestionVisitor : QLGrammarBaseVisitor<QuestionNode>
     {
-        public override QuestionNode VisitQuestion([NotNull] QuestionContext context)
+        public override QuestionNode VisitQuestion(QuestionContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null");
+
             var id = context.ID().GetText();
             var questionRaw = context.TEXT().GetText();
             var question = Util.RemoveQuotes(questionRaw);

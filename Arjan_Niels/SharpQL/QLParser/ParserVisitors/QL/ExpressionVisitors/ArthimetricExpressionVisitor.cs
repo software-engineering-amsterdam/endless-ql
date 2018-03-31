@@ -1,18 +1,21 @@
-﻿using Antlr4.Runtime.Misc;
-using QLGrammar;
+﻿using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
 using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLParser.Exceptions;
+using System;
 using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.ParserVisitors.QL.ExpressionVisitors
 {
     public class ArthimetricExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {
-        public override IExpressionNode VisitArtithmeticExpression([NotNull] ArtithmeticExpressionContext context)
+        public override IExpressionNode VisitArtithmeticExpression(ArtithmeticExpressionContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null");
+
             if (context.ID() != null)
                 return new IdentifierNode(Location.FromContext(context), context.ID().GetText());
 

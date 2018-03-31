@@ -1,21 +1,23 @@
-﻿using Antlr4.Runtime.Misc;
-using QLGrammar;
+﻿using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
 using QLParser.Exceptions;
+using System;
 using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.ParserVisitors.QL.ExpressionVisitors
 {
     public class LogicalExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {
-        public override IExpressionNode VisitLogicalExpression([NotNull] LogicalExpressionContext context)
+        public override IExpressionNode VisitLogicalExpression(LogicalExpressionContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null");
+
             var logicalEntityContext = context.logicalEntity();
             if (logicalEntityContext != null)
                 return VisitLogicalEntity(logicalEntityContext);
-
 
             var logicalExpressionContext = context.logicalExpression();
             if (logicalExpressionContext != null && logicalExpressionContext.Length == 1)
@@ -32,7 +34,7 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
             return new LogicalExpressionNode(Location.FromContext(context), left, opr, right); ;
         }
 
-        public override IExpressionNode VisitLogicalEntity([NotNull] LogicalEntityContext context)
+        public override IExpressionNode VisitLogicalEntity(LogicalEntityContext context)
         {
             if (context.ID() != null)
                 return new IdentifierNode(Location.FromContext(context), context.ID().GetText());

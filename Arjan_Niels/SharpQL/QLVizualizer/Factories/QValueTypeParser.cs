@@ -4,12 +4,10 @@ namespace QLVisualizer.Factories
 {
     public static class QValueTypeParser
     {
-        public static string ParseHexadecimal(string value)
-        {  
-            if (value.StartsWith("#") && value.Length == 7)
-                return value;
-
-            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, "Hexadecimal"));
+        public static Hexadecimal ParseHexadecimal(string value)
+        {
+            // Hexadecimal has its own value check
+            return new Hexadecimal(value);
         }
 
         public static bool ParseBoolean(string value)

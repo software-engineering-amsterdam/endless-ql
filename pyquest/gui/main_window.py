@@ -132,4 +132,4 @@ class MainWindow(QMainWindow):
             dialog.exec_()
 
         except SyntaxError:
-            print('Consult application popup error window for information on what when wrong.')
+            print('Consult application popup error window for information on what went wrong.')

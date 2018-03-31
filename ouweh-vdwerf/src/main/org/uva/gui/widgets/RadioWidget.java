@@ -35,10 +35,10 @@ public class RadioWidget extends QuestionWidget {
         this.trueButton.setEnabled(readOnly);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(1,2));
+        buttonPanel.setLayout(new GridLayout(1, 2));
 
-        buttonPanel.add(this.trueButton,0);
-        buttonPanel.add(this.falseButton,1);
+        buttonPanel.add(this.trueButton, 0);
+        buttonPanel.add(this.falseButton, 1);
 
 
         this.add(buttonPanel, 1);

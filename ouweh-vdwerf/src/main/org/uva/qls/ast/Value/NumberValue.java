@@ -5,7 +5,7 @@ public class NumberValue extends Value {
     private int value = 0;
 
     public NumberValue(String value) {
-        try{
+        try {
             this.value = Integer.parseInt(value);
         } catch (NumberFormatException exception) {
 

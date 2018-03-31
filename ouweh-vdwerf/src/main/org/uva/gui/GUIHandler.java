@@ -60,7 +60,7 @@ public class GUIHandler {
             Value currentValue = formEvaluator.getValueById(question.getId());
             QuestionWidget widget = widgetFactory.makeWidget(question, currentValue, !formEvaluator.questionIsCalculated(question));
 
-            this.styleEvaluator.setWidget(question,widget);
+            this.styleEvaluator.setWidget(question, widget);
         }
         this.frame.add(styleEvaluator.getLayout(this.lastChangedQuestion));
         this.frame.add(getSaveButton());

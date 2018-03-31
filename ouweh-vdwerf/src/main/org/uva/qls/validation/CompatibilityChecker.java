@@ -24,7 +24,7 @@ class CompatibilityChecker extends Checker {
     public CompatibilityChecker(QuestionContext questionContext, StylesheetContext stylesheetContext) {
         this.stylesheetContext = stylesheetContext;
 
-        for (Question question : questionContext.getQuestions()) {
+        for (Question question : questionContext.getList()) {
             qlQuestionTypes.put(question.getId(), question.getType());
         }
     }

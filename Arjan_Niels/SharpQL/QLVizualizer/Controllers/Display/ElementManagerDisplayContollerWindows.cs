@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using QLVisualizer.Expression;
 using QLVisualizer.Factories;
 using QLVisualizer.Properties;
-using QLVisualizer.Style;
-using QLVisualizer.Elements.Managers;
 using QLVisualizer.Elements.Managers.CollectionTypes;
-using QLVisualizer.Widgets;
 
 namespace QLVisualizer.Controllers.Display
 {
-    public class ElementManagerDisplayContollerWindows : WidgetDisplayController<Control, WindowsStyleProperties>
+    public class ElementManagerDisplayContollerWindows : WidgetDisplayController<Control>
     {
         /// <summary>
         /// Control element to add all created controls to
@@ -40,11 +34,10 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         private Form _mainForm;
 
-        public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin, new WindowsStyleProperties { Width = 338 }, new WidgetCreatorWindows())
+        public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin)
         {
             //_elementFactory = new ControlFactory(this);
             ConstructMainWindow();
-            BaseDisplay = _widgetContainer;
         }
 
         /// <summary>
@@ -57,8 +50,9 @@ namespace QLVisualizer.Controllers.Display
 
         protected override void UpdateBaseDisplay(Control newDisplay)
         {
-            BaseDisplay.Controls.Clear();
-            BaseDisplay.Controls.Add(newDisplay);
+            _widgetContainer.Controls.Clear();
+            _widgetContainer.Controls.Add(newDisplay);
+            BaseDisplay = newDisplay;
         }
 
         /// <summary>
@@ -78,6 +72,11 @@ namespace QLVisualizer.Controllers.Display
         {
             base.Reset();
             _widgetContainer.Controls.Clear();
+        }
+
+        protected override Control CreateFormWidget()
+        {
+            return WidgetFactoryWindows.GetBuilder(Form, null).Create();
         }
 
         #region Main window constructors

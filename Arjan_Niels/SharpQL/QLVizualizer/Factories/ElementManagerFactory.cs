@@ -1,15 +1,15 @@
-﻿using QLParser.AST.Nodes;
-using QLVisualizer.Controllers;
-using QLVisualizer.Expression.Types;
-using QLVisualizer.Elements.Managers;
-using QLVisualizer.Elements.Managers.LeafTypes;
-using System;
-using System.Linq;
-using QLVisualizer.Elements.Managers.CollectionTypes;
-using QLVisualizer.Expression.Enums;
+﻿using QLParser.AST.QL;
 using QLParser.AST.QLS;
-using System.Collections.Generic;
 using QLParser.AST.QLS.Enums;
+using QLVisualizer.Controllers;
+using QLVisualizer.Elements.Managers;
+using QLVisualizer.Elements.Managers.CollectionTypes;
+using QLVisualizer.Elements.Managers.LeafTypes;
+using QLVisualizer.Expression.Enums;
+using QLVisualizer.Expression.Types;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace QLVisualizer.Factories
 {
@@ -32,7 +32,7 @@ namespace QLVisualizer.Factories
         /// <param name="node">Node to parse</param>
         /// <param name="condition">Base condition, optional</param>
         /// <returns>Collection of widgets</returns>
-        public static ElementManager ParseChildNode(Node node, ElementManagerController elementManagerController, ElementManagerCollection parent, ExpressionBool condition = null)
+        public static ElementManager ParseChildNode(QLNode node, ElementManagerController elementManagerController, ElementManagerCollection parent, ExpressionBool condition = null)
         {
             switch (node.Type)
             {
@@ -120,7 +120,7 @@ namespace QLVisualizer.Factories
             if (formManager.Identifier != qLSNode.ID)
                 throw new InvalidOperationException("Identifiers do not match!");
             List<ElementManagerLeaf> children = formManager.Children.Select(o => (ElementManagerLeaf)o).ToList();
-            return ReconstructElementCollection(formManager, ref children, qLSNode.Children, controller) as FormManager;
+            return ReconstructElementCollection(formManager, ref children, qLSNode, controller) as FormManager;
         }
 
         /// <summary>
@@ -133,23 +133,24 @@ namespace QLVisualizer.Factories
         /// <param name="qlsChildren">Children of the QLS node that mached the collection node</param>
         /// <param name="controller">ElementManagerController for element creation</param>
         /// <returns>Element manager collection that contains all QLS defined children</returns>
-        private static ElementManagerCollection ReconstructElementCollection(ElementManagerCollection collection, ref List<ElementManagerLeaf> children, IList<QLSNode> qlsChildren, ElementManagerController controller)
+        private static ElementManagerCollection ReconstructElementCollection(ElementManagerCollection collection, ref List<ElementManagerLeaf> children, QLSNode qlsNode, ElementManagerController controller)
         {
             collection.Children.Clear();
+            //collection.SetStyles(new List<IQLSElement>(qlsNode.NodeStyles));
 
-            foreach (QLSNode node in qlsChildren)
+            foreach (QLSNode node in qlsNode.Children)
             {
                 switch (node.NodeType)
                 {
                     case QLSNodeType.Page:
                     case QLSNodeType.Section:
                         ElementManagerCollection collectionChild = QLSToCollection(node, collection, controller);
-                        collectionChild = ReconstructElementCollection(collectionChild, ref children, node.Children, controller);
+                        collectionChild = ReconstructElementCollection(collectionChild, ref children, node, controller);
                         collection.AddChild(collectionChild);
                         break;
                     case QLSNodeType.Question:
                         IEnumerable<ElementManagerLeaf> foundMatches = children.Where(o => o.Identifier == node.ID).Select(o => o as ElementManagerLeaf);
-                        if(foundMatches.Count() != 1)
+                        if (foundMatches.Count() != 1)
                             throw new InvalidOperationException(string.Format("Identifier: {0}, used in QLS, was found {1} times in QL!", node.ID, foundMatches.Count()));
 
                         ElementManagerLeaf child = foundMatches.First();
@@ -158,6 +159,7 @@ namespace QLVisualizer.Factories
                         break;
                 }
             }
+            collection.AddStyle(qlsNode.NodeStyles.ToArray());
             return collection;
         }
 
@@ -169,6 +171,15 @@ namespace QLVisualizer.Factories
         /// <returns>Styled element manager leaf</returns>
         private static ElementManagerLeaf QLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
         {
+            // Leaf retrieval
+            QLSStyle style = new QLSStyle(QValueType.UNKNOWN, new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
+
+            if (node.NodeStyles.Count > 1)
+                throw new InvalidOperationException("MULTIPLE STYLES IN LEAF");
+            else if (node.NodeStyles.Count == 1)
+                style = node.NodeStyles[0];
+
+            leaf.SetStyle(style);
             return leaf;
         }
 

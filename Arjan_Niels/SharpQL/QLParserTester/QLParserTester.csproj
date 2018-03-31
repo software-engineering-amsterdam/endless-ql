@@ -7,7 +7,7 @@
     <ProjectGuid>{A013C465-F47B-44B4-9196-9549AA92EAA7}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>QLParserTester</RootNamespace>
-    <AssemblyName>QL_Parser_Tester</AssemblyName>
+    <AssemblyName>QLParserTester</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

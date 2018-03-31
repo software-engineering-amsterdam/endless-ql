@@ -45,6 +45,8 @@ WIDGETCOLOR: 'widgetcolor';
 FONTCOLOR:   'fontcolor';
 FONTTYPE:    'fonttype';
 FONTSTYLE:   'fontstyle';
+MIN:         'min';
+MAX:         'max';
 
 
 // Expression, page and widget names
@@ -81,6 +83,8 @@ property
     | FONTCOLOR
     | FONTTYPE
     | FONTSTYLE
+    | MIN
+    | MAX
     ;
 
 // Higher level parsing
@@ -106,7 +110,11 @@ widgetStyle
     ;
 
 styleRule
-    : property COLON STRVAL
+    : property COLON styleVal
+    ;
+
+styleVal
+    : (NAME | INTVAL)
     ;
 
 defaultStyle

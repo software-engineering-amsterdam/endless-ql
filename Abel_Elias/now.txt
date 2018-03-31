@@ -1,0 +1,35 @@
+- GUIBUILDER
+    - Formbuilder
+    - Stylesheet builder
+    + QuestionChange listener
+
+
+
+GUIBuilder -> FormBuilder getQuestionPanels
+                    <- FOrmbuilder
+foreach (questionPanel)
+    styleSheetBuilder.addWidgetToList(questionPanel)
+
+stylesheetBuilder buildStylesheet()
+    Page
+      add to panel
+        Section
+            add to panel
+                Question
+                    if(Question in questionPanels from FORMBUILDER)
+                        Add to panel
+return stylesheetPanel
+
+Mainpanel.add(Stylesheet)
+
+
+GUIBUILDER
+MainFrame
+MainPanel
+
+FormBuilder
+MainListPanel
+    QuestionPanels
+
+StyleSheetBuilder
+StylePanel

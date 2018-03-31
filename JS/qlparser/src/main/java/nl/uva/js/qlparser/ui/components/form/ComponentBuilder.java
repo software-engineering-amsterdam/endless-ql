@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.ql.expressions.data.Value;
 import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
+import nl.uva.js.qlparser.models.qls.enums.Property;
+import nl.uva.js.qlparser.models.qls.style.WidgetStyle;
+import nl.uva.js.qlparser.wrappers.arithmetic.CalculatableInteger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -82,7 +85,7 @@ public class ComponentBuilder {
 //        Listen to external changes
         variable.addChangeListener(newValue -> {
             if (!newValue.getName().equals(variable.getName()))
-                checkBox.setSelected(((Boolean) variable.value()));
+                checkBox.setSelected(((Boolean) newValue.value()));
         });
 
         return checkBox;
@@ -144,16 +147,21 @@ public class ComponentBuilder {
     }
 
     public static JComboBox buildDropdown(Variable variable) {
-
-        JComboBox<String> dropdown = new JComboBox<>(new String[]{YES, NO});
-        dropdown.addActionListener(event -> variable.setValue(Value.builder()
-                  .dataType(variable.getDataType())
-                  .value(Objects.requireNonNull(dropdown.getSelectedItem()).equals(YES))
-                  .build()));
+        JComboBox<String> dropdown = new JComboBox<>();
+        dropdown.addItem(YES);
+        dropdown.addItem(NO);
 
 //        Set value if there is any present
         NonNullRun.consumer(variable.getValue(), value ->
                 dropdown.setSelectedItem(((Boolean) value.value()) ? YES : NO));
+
+//        Listen to field changes and update the variable accordingly
+        dropdown.addActionListener(event -> {
+            variable.setValue(Value.builder()
+                    .dataType(variable.getDataType())
+                    .value(Objects.equals(dropdown.getSelectedItem(), YES))
+                    .build());
+        });
 
 //        Listen to external changes
         variable.addChangeListener(newValue -> {
@@ -162,6 +170,73 @@ public class ComponentBuilder {
         });
 
         return dropdown;
+    }
+
+    public static JSlider buildSlider(Variable variable, WidgetStyle widgetStyle) {
+        int min = Integer.parseInt(getProperty(widgetStyle, Property.MIN));
+        int max = Integer.parseInt(getProperty(widgetStyle, Property.MAX));
+        int init = getInitialValue(variable, min);
+
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, min, max, init);
+        slider.setMajorTickSpacing(max / 5);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+
+//        Listen to field changes and update the variable accordingly
+        slider.addChangeListener(event -> {
+            variable.setValue(Value.builder()
+                    .dataType(variable.getDataType())
+                    .value(slider.getValue())
+                    .build());
+        });
+
+//        Listen to external changes
+        variable.addChangeListener(newValue -> {
+            if (!newValue.getName().equals(variable.getName()))
+                slider.setValue((Integer) newValue.value());
+        });
+
+        return slider;
+    }
+
+    public static JSpinner buildSpinbox(Variable variable, WidgetStyle widgetStyle) {
+        int min = Integer.parseInt(getProperty(widgetStyle, Property.MIN));
+        int max = Integer.parseInt(getProperty(widgetStyle, Property.MAX));
+        int init = getInitialValue(variable, min);
+
+        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(init, min, max, 1);
+        JSpinner spinner = new JSpinner(spinnerNumberModel);
+
+//        Listen to field changes and update the variable accordingly
+        spinner.addChangeListener(event -> {
+            variable.setValue(Value.builder()
+                    .dataType(variable.getDataType())
+                    .value(spinner.getValue())
+                    .build());
+        });
+
+//        Listen to external changes
+        variable.addChangeListener(newValue -> {
+            if (!newValue.getName().equals(variable.getName()))
+                spinner.setValue(newValue.value());
+        });
+
+        return spinner;
+    }
+
+    private static int getInitialValue(Variable variable, int min) {
+        try {
+            Integer initialVal = (((CalculatableInteger) variable.value()).get());
+            return initialVal >= min ? initialVal : min;
+
+        } catch (ClassCastException e) {
+            return min;
+        }
+    }
+
+    private static String getProperty(WidgetStyle widgetStyle, Property property) {
+        return widgetStyle.getStyleRules().getOrDefault(property, "0");
     }
 
     @RequiredArgsConstructor

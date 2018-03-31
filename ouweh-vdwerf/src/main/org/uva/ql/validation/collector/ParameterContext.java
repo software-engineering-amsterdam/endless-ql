@@ -25,7 +25,7 @@ public class ParameterContext implements StatementVisitor<Void, String>, Express
         }
     }
 
-    public List<Parameter> getParameters() {
+    public List<Parameter> getList() {
         return parameters;
     }
 

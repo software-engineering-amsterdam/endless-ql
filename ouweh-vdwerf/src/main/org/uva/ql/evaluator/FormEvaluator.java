@@ -51,7 +51,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
 
     public List<Question> getVisibleQuestions(ExpressionEvaluator expressionEvaluator) {
         List<Question> visibleQuestions = new ArrayList<>();
-        for(Question question : this.statementTable.getQuestionsAsList()) {
+        for (Question question : this.statementTable.getQuestionsAsList()) {
             if (this.questionIsVisible(question, expressionEvaluator)) {
                 visibleQuestions.add(question);
             }

@@ -41,7 +41,6 @@ public class StyleEvaluator {
         this.context = new StylesheetContext();
         setDefaultWidgetTypes();
         setDefaultStyle();
-
     }
 
     public void setStylesheet(Stylesheet stylesheet) {
@@ -63,37 +62,38 @@ public class StyleEvaluator {
 
 
     public JComponent getLayout(Question lastChangedQuestion) {
-        //Add all questions to their parent section
-        for (QuestionReference questionReference : this.context.getQuestions()) {
-            Segment parent = this.context.getParent(questionReference.getId());
-            if (parent != null && sections.containsKey(questionReference.getId())) {
-                JPanel sectionPanel = sections.get(questionReference.getId());
-                JPanel parentPanel = sections.get(parent.getId());
-                parentPanel.add(sectionPanel);
-            }
-        }
-
-        //Add all sections to their parent section
-        for (Section section : this.context.getSections()) {
-            Segment parent = this.context.getParent(section.getId());
-            if (parent != null && visibleSections.contains(section.getId())) {
-                JPanel sectionPanel = sections.get(section.getId());
-                JPanel parentPanel = sections.get(parent.getId());
-                parentPanel.add(sectionPanel);
-            }
-        }
-
         List<Page> pages = context.getPages();
 
         JTabbedPane tabbedPane;
         if (pages.size() > 0) {
+
+            //Add all questions to their parent section
+            for (QuestionReference questionReference : this.context.getQuestions()) {
+                Segment parent = this.context.getParent(questionReference.getId());
+                if (parent != null && sections.containsKey(questionReference.getId())) {
+                    JPanel sectionPanel = sections.get(questionReference.getId());
+                    JPanel parentPanel = sections.get(parent.getId());
+                    parentPanel.add(sectionPanel);
+                }
+            }
+
+            //Add all sections to their parent section
+            for (Section section : this.context.getSections()) {
+                Segment parent = this.context.getParent(section.getId());
+                if (parent != null && visibleSections.contains(section.getId())) {
+                    JPanel sectionPanel = sections.get(section.getId());
+                    JPanel parentPanel = sections.get(parent.getId());
+                    parentPanel.add(sectionPanel);
+                }
+            }
+
             tabbedPane = new JTabbedPane();
             for (Page page : pages) {
                 if (visibleSections.contains(page.getId())) {
                     tabbedPane.add(page.getTitle(), sections.get(page.getId()));
                 }
             }
-            if(lastChangedQuestion != null) {
+            if (lastChangedQuestion != null) {
                 tabbedPane.setSelectedComponent(this.getPage(lastChangedQuestion));
             }
         } else {

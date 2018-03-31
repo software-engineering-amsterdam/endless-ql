@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.uva.app.IOHandler;
-import org.uva.gui.widgets.RadioWidget;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.MoneyType;
@@ -13,13 +12,9 @@ import org.uva.qls.QLSBuilder;
 import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.ast.Segment.*;
-import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Widget.WidgetTypes.RadioType;
-import org.uva.qls.ast.Widget.WidgetTypes.SpinboxType;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class StylesheetContextTest {
 

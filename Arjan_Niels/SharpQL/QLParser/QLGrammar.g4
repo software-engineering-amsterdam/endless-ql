@@ -64,7 +64,7 @@ FORM					: 'form';
 QTYPE					: 'boolean' | 'money' | 'text' | 'integer' | 'double' | 'hex';
 TRUE					: 'true';
 FALSE					: 'false';
-ID						: [a-zA-Z][a-zA-Z0-9]+;
+ID						: [a-zA-Z][a-zA-Z0-9\-]+;
 TEXT					: '"' .*? '"' ;
 
 INT						: [0-9]+;		

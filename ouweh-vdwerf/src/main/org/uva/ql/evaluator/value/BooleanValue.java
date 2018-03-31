@@ -8,11 +8,6 @@ public class BooleanValue implements Value {
     }
 
     @Override
-    public String getTypeAsString() {
-        return "BOOLEAN";
-    }
-
-    @Override
     public Boolean getValue() {
         return value;
     }

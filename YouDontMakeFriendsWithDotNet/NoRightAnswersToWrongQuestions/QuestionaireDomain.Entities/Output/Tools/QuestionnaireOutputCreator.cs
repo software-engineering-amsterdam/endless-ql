@@ -9,22 +9,22 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     internal class QuestionnaireOutputCreator : IQuestionnaireOutputCreator
     {
         private readonly IBuildOutputVisitor m_buildOutputVisitor;
-        private readonly IQuestionnaireValidator m_questionnaireValidator;
+        private readonly IQuestionnaireTypeChecker m_questionnaireTypeChecker;
         private readonly ICalculationService m_calculationService;
 
         public QuestionnaireOutputCreator(
             IBuildOutputVisitor buildOutputVisitor,
-            IQuestionnaireValidator questionnaireValidator,
+            IQuestionnaireTypeChecker questionnaireTypeChecker,
             ICalculationService calculationService)
         {
             m_buildOutputVisitor = buildOutputVisitor;
-            m_questionnaireValidator = questionnaireValidator;
+            m_questionnaireTypeChecker = questionnaireTypeChecker;
             m_calculationService = calculationService;
         }
         
         public void CreateOrUpdate(DomainId<IQuestionnaireRootNode> questionnaireRootNode)
         {
-            var isValid = m_questionnaireValidator
+            var isValid = m_questionnaireTypeChecker
                 .Validate(questionnaireRootNode);
             if (isValid)
             {

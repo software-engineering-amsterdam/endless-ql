@@ -18,9 +18,6 @@ class Question:
         self.question_frame = None
         self.attributes = {'color': None, 'font_size': None, 'font': None, 'widget': None}
 
-    def get_data_type(self):
-        return self.data_type
-
     def if_true(self):
         if self.question_frame:
             self.question_frame.setVisible(True)
@@ -37,10 +34,9 @@ class Question:
             self.visibility = False
 
         # Saves the original answer
-        if self.answer == self.default_answer:
-            pass
-        else:
+        if self.answer != self.default_answer:
             self.hidden_answer = self.answer
+
         self.answer = self.default_answer
 
     def set_answer_label(self, label):
@@ -48,16 +44,16 @@ class Question:
         self.answer = label
 
     def create_label(self):
-        # Creates a label as specified by the question's attributes
+        """ Creates a label as specified by the question's attributes """
         question_label = QtWidgets.QLabel(self.question_string)
         color = self.attributes['color']
         font_size = self.attributes['font_size']
         font = self.attributes['font']
-        question_label.setStyleSheet("color: {0}; font-size: {1}px; font-family: {2}".format(color, font_size, font))
+        question_label.setStyleSheet(f"color: {color}; font-size: {font_size}px; font-family: {font}")
         return question_label
 
     def set_attributes(self, attributes):
-        # Sets class attributes that have not been set before
+        """ Sets class attributes that have not been set before """
         if self.data_type in attributes.keys():
             attributes = attributes[self.data_type]
             for key in self.attributes.keys() & attributes.keys():
@@ -94,11 +90,14 @@ class BooleanQuestion(Question):
         self.buttons.append(check_box)
 
     def state_changed(self, state):
-        print(state)
         if state:
             self.set_answer_true()
         else:
             self.set_answer_false()
+
+    def add_if_question(self, question):
+        self.if_questions.append(question)
+        question.visibility = False
 
     def set_answer_false(self):
         self.answer = False
@@ -109,10 +108,6 @@ class BooleanQuestion(Question):
         self.answer = True
         for question in self.if_questions:
             question.if_true()
-
-    def add_if_question(self, question):
-        self.if_questions.append(question)
-        question.visibility = False
 
     def if_true(self):
         if self.question_frame:
@@ -136,9 +131,7 @@ class BooleanQuestion(Question):
 
         # Saves the original answer even when the question is hidden,
         # and even when the False button is pressed multiple times.
-        if self.answer == self.default_answer:
-            pass
-        else:
+        if self.answer != self.default_answer:
             self.hidden_answer = self.answer
         self.answer = self.default_answer
 
@@ -192,12 +185,11 @@ class MoneyQuestion(Question):
         self.attributes['width'] = None
 
     def set_line_edit(self):
+        """ Sets input widget to textbox that only allows numerical input """
         self.text_input_box = QtWidgets.QLineEdit()
-        # Allows only numerical input
         reg_ex = QtCore.QRegExp("[0-9]*")
         input_validator = QtGui.QRegExpValidator(reg_ex, self.text_input_box)
         self.text_input_box.setValidator(input_validator)
-
         self.text_input_box.textEdited.connect(self.update_answer)
 
     def set_spinbox(self):

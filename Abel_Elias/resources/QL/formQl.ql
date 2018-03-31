@@ -1,10 +1,10 @@
 form Box1HouseOwning {
-     hasBoughtHouse: "Did you buy a house in 2010?" boolean
-     if(hasBoughtHouse) {
-        hasBoughtHouse2: "Did you buy a house in 2011?" boolean
-     }
      hasSoldHouse: "Did you sell a house in 2010?" boolean
-     if(hasSoldHouse) {
-        hasSoldHouse2: "Did you sell a house in 2011?" boolean
+     hasBoughtHouse: "Did you buy a house in 2010?" boolean
+     hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?" boolean
+     if (hasSoldHouse) {
+         sellingPrice: "Price the house was sold for:" money
+         privateDebt: "Private debts for the sold house:" money
+         valueResidue: "Value residue:" money (sellingPrice - 50.0)
      }
-}
+ }

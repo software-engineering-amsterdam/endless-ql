@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime.Misc;
+using QLParser.AST;
 using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
@@ -13,7 +14,7 @@ namespace QLParser.ParserVisitors.QLS
         {
             string id = context.ID().GetText();
             var styles = VisitDefaults(context.defaults());
-            var qlsNode = new QLSStructuralNode(QLSNodeType.Stylesheet, id, styles);
+            var qlsNode = new QLSStructuralNode(Location.FromContext(context), QLSNodeType.Stylesheet, id, styles);
 
             foreach (PageContext pageContext in context.page())
                 qlsNode.AddNode(VisitPage(pageContext));
@@ -25,7 +26,7 @@ namespace QLParser.ParserVisitors.QLS
         {
             string id = Util.RemoveQuotes(context.TEXT().GetText());
             var styles = VisitDefaults(context.defaults());
-            var qlsNode = new QLSStructuralNode(QLSNodeType.Page, id, styles);
+            var qlsNode = new QLSStructuralNode(Location.FromContext(context), QLSNodeType.Page, id, styles);
 
             foreach (SectionContext sectionContext in context.section())
                 qlsNode.AddNode(VisitSection(sectionContext));
@@ -37,7 +38,7 @@ namespace QLParser.ParserVisitors.QLS
         {
             string id = Util.RemoveQuotes(context.TEXT().GetText());
             var styles = VisitDefaults(context.defaults());
-            var qlsNode = new QLSStructuralNode(QLSNodeType.Section, id, styles);
+            var qlsNode = new QLSStructuralNode(Location.FromContext(context), QLSNodeType.Section, id, styles);
 
             foreach (SectionContext sectionContext in context.section())
                 qlsNode.AddNode(VisitSection(sectionContext));
@@ -57,12 +58,12 @@ namespace QLParser.ParserVisitors.QLS
                 var widgetSpecificaitonVisitor = new WidgetSpecificationVisitor();
                 var specification = widgetSpecificaitonVisitor.VisitWidgetspecification(context.widgetspecification());
 
-                var qlsNode = new QLSQuestionNode(id, new List<QLSStyle>() { new QLSStyle(QValueType.UNKNOWN, specification) });
+                var qlsNode = new QLSQuestionNode(Location.FromContext(context), id, new List<QLSStyle>() { new QLSStyle(QValueType.UNKNOWN, specification) });
                 return qlsNode;
             }
             else
             {
-                var qlsNode = new QLSQuestionNode(id);
+                var qlsNode = new QLSQuestionNode(Location.FromContext(context), id);
                 return qlsNode;
             }
         }

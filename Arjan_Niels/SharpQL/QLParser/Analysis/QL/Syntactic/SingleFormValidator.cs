@@ -24,9 +24,9 @@ namespace QLParser.Analysis.QL.Syntactic
             this.Visit(node);
 
             if (formNodeCount == 0)
-                Analyser.AddMessage("There has no form been defined", MessageType.ERROR);
+                Analyser.AddMessage("There has no form been defined", LanguageType.QL, MessageType.ERROR);
             else if (formNodeCount > 1)
-                Analyser.AddMessage("There can only be one form", MessageType.ERROR);
+                Analyser.AddMessage("There can only be one form", LanguageType.QL, MessageType.ERROR);
 
             return formNodeCount == 1;
         }

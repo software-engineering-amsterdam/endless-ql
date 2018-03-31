@@ -6,22 +6,22 @@ namespace QLParser.Analysis.QLS
 {
     public class UnknownIdentifiersAnalyser : IQLSAnalyser, IQLSVisitor
     {
-        private IList<string> VisitedIDs;
+        private IList<QLSNode> _visitedNodes;
         public UnknownIdentifiersAnalyser()
         {
-            this.VisitedIDs = new List<string>();
+            this._visitedNodes = new List<QLSNode>();
         }
 
         public bool Analyse(QLSNode node)
         {
-            this.VisitedIDs.Clear();
+            this._visitedNodes.Clear();
             this.Visit(node);
             var isValid = true;
-            foreach (var id in VisitedIDs)
+            foreach (var visitedNode in _visitedNodes)
             {
-                if (!SymbolTable.Instance.TypeMap.Keys.Contains(id))
+                if (!SymbolTable.Instance.TypeMap.Keys.Contains(visitedNode.ID))
                 {
-                    Analyser.AddMessage(string.Format("Unknown identifier in QLS: {0}", id), MessageType.ERROR);
+                    Analyser.AddMessage(string.Format("{0} Unknown identifier in QLS: {1}", visitedNode.Location, visitedNode.ID), LanguageType.QLS, MessageType.ERROR);
                     isValid = false;
                 }
             }
@@ -31,7 +31,7 @@ namespace QLParser.Analysis.QLS
 
         public void Visit(QLSQuestionNode node)
         {
-            this.VisitedIDs.Add(node.ID);
+            this._visitedNodes.Add(node);
             VisitChildren(node);
         }
 

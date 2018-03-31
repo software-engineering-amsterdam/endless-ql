@@ -1,28 +1,29 @@
 ﻿using QLParser.AST.QLS;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QLParser.Analysis.QLS
 {
     public class AllIdentifiersAreUsedAnalyser : IQLSVisitor, IQLSAnalyser
     {
-        private List<string> VisitedIDs;
+        private List<QLSNode> _visitedNodes;
 
         public AllIdentifiersAreUsedAnalyser()
         {
-            this.VisitedIDs = new List<string>();
+            this._visitedNodes = new List<QLSNode>();
         }
 
         public bool Analyse(QLSNode node)
         {
             var isValid = true;
-            this.VisitedIDs.Clear();
+            this._visitedNodes.Clear();
             this.Visit(node);
 
             foreach (var key in SymbolTable.Instance.TypeMap.Keys)
             {
-                if (!this.VisitedIDs.Contains(key))
+                if (!this._visitedNodes.Select(x => x.ID).Contains(key))
                 {
-                    Analyser.AddMessage(string.Format("Identifier has not been included in QLS: {0}", key), MessageType.WARNING);
+                    Analyser.AddMessage(string.Format("Identifier has not been included in QLS: {0}", key), LanguageType.QLS, MessageType.WARNING);
                     isValid = false;
                 }
             }
@@ -32,7 +33,7 @@ namespace QLParser.Analysis.QLS
 
         public void Visit(QLSQuestionNode node)
         {
-            this.VisitedIDs.Add(node.ID);
+            this._visitedNodes.Add(node);
             VisitChildren(node);
         }
 

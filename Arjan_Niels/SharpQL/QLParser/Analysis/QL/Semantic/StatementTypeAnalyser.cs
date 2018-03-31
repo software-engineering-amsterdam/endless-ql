@@ -14,7 +14,7 @@ namespace QLParser.Analysis.QL.Semantic
             var expression = GetExpression(node);
             if (expression != null && AnalyseExpression(expression) == StatementType.UNKNOWN)
             {
-                Analyser.AddMessage(string.Format("{0} - This expression isn't valid.", node.Location), MessageType.ERROR);
+                Analyser.AddMessage(string.Format("{0} - This expression isn't valid.", node.Location), LanguageType.QL, MessageType.ERROR);
                 return false;
             }
 

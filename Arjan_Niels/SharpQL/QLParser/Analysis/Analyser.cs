@@ -91,9 +91,9 @@ namespace QLParser.Analysis
             return result;
         }
 
-        public static void AddMessage(string message, MessageType type)
+        public static void AddMessage(string message, LanguageType languageType, MessageType messageType)
         {
-            Instance._messages.Add(new AnalyserMessage(message, type));
+            Instance._messages.Add(new AnalyserMessage(message, languageType, messageType));
         }
 
         public static List<string> GetErrors()

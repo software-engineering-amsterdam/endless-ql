@@ -12,7 +12,7 @@ namespace QLVisualizer.Controllers
     public abstract class ElementManagerController
     {
         /// <summary>
-        /// Collection of widgets, dictionary on widget identifyer
+        /// Collection of widgets, dictionary on widget identifier
         /// </summary>
         public FormManager Form { get; private set; }
 

@@ -73,7 +73,7 @@
     <Compile Include="Expression\Types\Numeric\NumericUtils.cs" />
     <Compile Include="Factories\ExpressionFactory.cs" />
     <Compile Include="Factories\ElementManagerFactory.cs" />
-    <Compile Include="Factories\QValueTypeParser.cs" />
+    <Compile Include="QValueTypeParser.cs" />
     <Compile Include="Factories\WidgetFactoryWindows.cs" />
     <Compile Include="Hexadecimal.cs" />
     <Compile Include="Program.cs" />

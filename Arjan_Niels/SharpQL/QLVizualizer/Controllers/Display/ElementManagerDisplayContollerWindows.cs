@@ -71,7 +71,7 @@ namespace QLVisualizer.Controllers.Display
 
         protected override Control CreateFormWidget()
         {
-            return WidgetFactoryWindows.GetBuilder(Form, null).Create();
+            return WidgetBuilderFactoryWindows.GetBuilder(Form, null).Create();
         }
 
         #region Main window constructors

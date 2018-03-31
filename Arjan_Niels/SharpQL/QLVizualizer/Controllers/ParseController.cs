@@ -23,7 +23,6 @@ namespace QLVisualizer.Controllers
             FormManager result = ElementManagerFactory.CreateForm(formNode, elementManagerController);
             result = ElementManagerFactory.ApplyQLS(result, qlsNode, elementManagerController, ref errors);
             return result;
-
         }
     }
 }

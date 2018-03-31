@@ -28,7 +28,7 @@ namespace QLVisualizer.Factories
         }
 
         /// <summary>
-        /// Parses (AST)Node recursively
+        /// Parses Node recursively
         /// </summary>
         /// <param name="node">Node to parse</param>
         /// <param name="condition">Base condition, optional</param>
@@ -59,11 +59,6 @@ namespace QLVisualizer.Factories
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Creates widget from QuestionNode
-        /// </summary>
-        /// <param name="identifiedNode">Node to parse</param>
-        /// <returns>Parsed widget</returns>
         private static ElementManagerLeaf CreateElementManager(IIdentifiedNode identifiedNode, ExpressionBool condition, ElementManagerCollection parent, ElementManagerController elementManagerController, ExpressionValue activationExpression)
         {
             switch (identifiedNode.ValueType)
@@ -122,7 +117,7 @@ namespace QLVisualizer.Factories
                 {
                     case QLSNodeType.Page:
                     case QLSNodeType.Section:
-                        ElementManagerCollection collectionChild = QLSToCollection(node, collection, controller);
+                        ElementManagerCollection collectionChild = AddQLSToCollection(node, collection, controller);
                         collectionChild = ReconstructElementCollection(collectionChild, ref children, node, controller);
                         collection.AddChild(collectionChild);
                         break;
@@ -133,7 +128,7 @@ namespace QLVisualizer.Factories
 
                         ElementManagerLeaf child = foundMatches.First();
                         children.Remove(child);
-                        collection.AddChild(QLSToLeaf(node, child));
+                        collection.AddChild(AddQLSToLeaf(node, child));
                         break;
                 }
             }
@@ -141,15 +136,8 @@ namespace QLVisualizer.Factories
             return collection;
         }
 
-        /// <summary>
-        /// Sets style of a specific element manager leaf
-        /// </summary>
-        /// <param name="node">QLS instructions</param>
-        /// <param name="leaf">ElementManagerLeaf to apply style to</param>
-        /// <returns>Styled element manager leaf</returns>
-        private static ElementManagerLeaf QLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
+        private static ElementManagerLeaf AddQLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
         {
-            // Leaf retrieval
             QLSStyle style = new QLSStyle(QValueType.UNKNOWN, new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
 
             if (node.NodeStyles.Count > 1)
@@ -161,14 +149,7 @@ namespace QLVisualizer.Factories
             return leaf;
         }
 
-        /// <summary>
-        /// Creates a ElementManagerCollection that is defined in a QLS node
-        /// </summary>
-        /// <param name="qlsNode">QLS instructions</param>
-        /// <param name="parent">Parent object of the new collection</param>
-        /// <param name="controller">ElementManagerController for object creation</param>
-        /// <returns>ElementManagerCollection as defined by the QLS</returns>
-        private static ElementManagerCollection QLSToCollection(QLSNode qlsNode, ElementManagerCollection parent, ElementManagerController controller)
+        private static ElementManagerCollection AddQLSToCollection(QLSNode qlsNode, ElementManagerCollection parent, ElementManagerController controller)
         {
             switch (qlsNode.NodeType)
             {

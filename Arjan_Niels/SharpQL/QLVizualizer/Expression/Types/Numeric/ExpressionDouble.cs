@@ -12,19 +12,12 @@ namespace QLVisualizer.Expression.Types.Numeric
 
         public ExpressionDouble(LazyElementExpressionLink<double> lazyElementExpressionLink) : base(ExpressionTypes.Numeric, ExpressionOperators.Numeric, ExpressionType.Double, lazyElementExpressionLink) { }
 
-        #region Combine
-        /// <summary>
-        /// Combines with expressionValue
-        /// </summary>
-        /// <param name="item">Right hand side</param>
-        /// <param name="op">Operator</param>
-        /// <returns>Resulting expression</returns>
         public override ExpressionValue Combine(ExpressionValue expressionValue, ExpressionOperator op)
         {
             if (ValidCombine(expressionValue, op))
             {
                 ExpressionDouble expression;
-                switch (expressionValue.Type)
+                switch (expressionValue.ExpressionType)
                 {
                     case ExpressionType.Int:
                         // Double has more precision, convert int to double (implicit)
@@ -41,17 +34,9 @@ namespace QLVisualizer.Expression.Types.Numeric
                 UsedIdentifiers = CombineElements(expressionValue);
                 return this;
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, expressionValue.Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(ExpressionType, expressionValue.ExpressionType, op));
         }
-        #endregion
 
-        #region Compare
-        /// <summary>
-        /// Compares with expression
-        /// </summary>
-        /// <param name="expressionValue">Expression to compare with</param>
-        /// <param name="op">Operator</param>
-        /// <returns>Boolean expression</returns>
         public override TypedExpressionValue<bool> Compare(ExpressionValue expressionValue, ExpressionOperator op)
         {
             if (ValidCompare(expressionValue, op))
@@ -64,20 +49,12 @@ namespace QLVisualizer.Expression.Types.Numeric
                         throw new NotImplementedException();
                 }
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, expressionValue.Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(ExpressionType, expressionValue.ExpressionType, op));
         }
-        #endregion
 
-        /// <summary>
-        /// Combines two expressions
-        /// </summary>
-        /// <param name="item1">Left hand side</param>
-        /// <param name="item2">Right hand side</param>
-        /// <param name="op">Operator</param>
-        /// <returns>Resulting delegate</returns>
         protected override Func<double> CombineExpressions(Func<double> item1, Func<double> item2, ExpressionOperator op)
         {
-            switch(op)
+            switch (op)
             {
                 case ExpressionOperator.Plus:
                     return () => item1() + item2();
@@ -88,14 +65,9 @@ namespace QLVisualizer.Expression.Types.Numeric
                 case ExpressionOperator.Divide:
                     return () => item1() / item2();
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(ExpressionType, ExpressionType, op));
         }
 
-
-        /// <summary>
-        /// Implicit cast to double expression
-        /// </summary>
-        /// <param name="expressionDouble">Double expression</param>
         public static implicit operator ExpressionInt(ExpressionDouble expressionDouble)
         {
             return expressionDouble.ToIntExpression();

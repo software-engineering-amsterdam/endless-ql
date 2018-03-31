@@ -7,14 +7,8 @@
     /// <typeparam name="T">Type of value</typeparam>
     public struct QuestionElementValue<T>
     {
-        /// <summary>
-        /// Value of the widget
-        /// </summary>
         public T Value { get; private set; }
 
-        /// <summary>
-        /// Input was valid value
-        /// </summary>
         public bool IsValid { get; private set; }
 
         public QuestionElementValue(T value, bool isValid)

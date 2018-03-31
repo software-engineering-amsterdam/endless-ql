@@ -6,23 +6,14 @@ namespace QLVisualizer.Elements.Managers
 {
     public abstract class QuestionElementManager<T> : ElementManagerLeaf
     {
-        /// <summary>
-        /// Contains given answer, if not answered contains default value for T
-        /// </summary>
         public QuestionElementValue<T> Answer { get; private set; }
 
-        /// <summary>
-        /// Indication if user gave an answer for this QLWidget
-        /// </summary>
         public bool IsAnswered { get; private set; }
 
-        /// <summary>
-        /// Expression that creates the answer
-        /// </summary>
         private TypedExpressionValue<T> _answerExpression;
 
-        public QuestionElementManager(string identifyer, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) : 
-            base(identifyer, text, "question", parent, controller, activationExpression)
+        public QuestionElementManager(string identifier, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<T> answerExpression = null) :
+            base(identifier, text, "question", parent, controller, activationExpression)
         {
             Answer = new QuestionElementValue<T>(default(T), false);
             IsAnswered = false;
@@ -30,23 +21,14 @@ namespace QLVisualizer.Elements.Managers
             Editable = _answerExpression == null;
         }
 
-        /// <summary>
-        /// Validates the input value
-        /// </summary>
-        /// <param name="input">Input value</param>
-        /// <returns>Correct value obtained from input</returns>
         protected virtual QuestionElementValue<T> Validate(T input)
         {
-            // Default accepts all
+            // Default accepts all input
             return new QuestionElementValue<T>(input, true);
         }
 
         protected abstract QuestionElementValue<T> ParseInput(string input);
 
-        /// <summary>
-        /// Set the value of the AnswerValue
-        /// </summary>
-        /// <param name="answer"></param>
         public void SetAnswer(T answer, bool fromNotify = false)
         {
             SetAnswer(Validate(answer));
@@ -56,7 +38,7 @@ namespace QLVisualizer.Elements.Managers
         public void SetAnswer(string answer)
         {
             QuestionElementValue<T> parsedAnswer = ParseInput(answer);
-            if(parsedAnswer.IsValid)
+            if (parsedAnswer.IsValid)
                 SetAnswer(parsedAnswer);
             TriggerAnwerUpdate(!parsedAnswer.IsValid);
         }
@@ -67,10 +49,6 @@ namespace QLVisualizer.Elements.Managers
             IsAnswered = Answer.IsValid;
         }
 
-        /// <summary>
-        /// Handles incoming updates for Answer values
-        /// </summary>
-        /// <param name="updatedIdentifyer">Updated widgetID</param>
         public override void RegisterListeners()
         {
             base.RegisterListeners();
@@ -95,7 +73,7 @@ namespace QLVisualizer.Elements.Managers
 
         public override string AnswerToString()
         {
-            if(Answer.Value != null)
+            if (Answer.Value != null)
                 return Answer.Value.ToString();
             return string.Empty;
         }

@@ -28,6 +28,8 @@ namespace QLVisualizer.Widgets.Windows.Collection
 
             if (pages.Count > 0)
             {
+
+                // TODO EXRACT
                 Control[] childControls = new Control[result.Controls.Count];
                 result.Controls.CopyTo(childControls, 0);
 

@@ -1,12 +1,12 @@
 ﻿using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
+using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression;
-using QLVisualizer.Expression.Types;
-using System;
-using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLVisualizer.Expression.Enums;
+using QLVisualizer.Expression.Types;
 using QLVisualizer.Expression.Types.Numeric;
+using System;
 
 namespace QLVisualizer.Factories
 {
@@ -32,7 +32,7 @@ namespace QLVisualizer.Factories
                 case ExpressionBool boolExpression:
                     return boolExpression;
                 default:
-                    throw new InvalidOperationException(string.Format("Cannot use expression with type of {0} as a condition.", expression.Type));
+                    throw new InvalidOperationException(string.Format("Cannot use expression with type of {0} as a condition.", expression.ExpressionType));
             }
         }
 
@@ -47,7 +47,7 @@ namespace QLVisualizer.Factories
                 case LogicalExpressionNode logicalNode:
                     return ParseLogicalNode(logicalNode);
                 case IdentifierNode identifierNode:
-                    return ParseIdentifyerNode(identifierNode);
+                    return ParseidentifierNode(identifierNode);
                 case LiteralNode literalNode:
                     return ParseLiteralNode(literalNode);
                 default:
@@ -55,7 +55,6 @@ namespace QLVisualizer.Factories
             }
         }
 
-        // logical expression (&&, ||)
         private ExpressionValue ParseLogicalNode(LogicalExpressionNode logicalExpressionNode)
         {
             ExpressionValue leftExpressionValue = ParseExpressionNode(logicalExpressionNode.Left);
@@ -78,7 +77,7 @@ namespace QLVisualizer.Factories
 
         }
 
-        // compares
+
         private ExpressionValue ParseComparisonNode(ComparisonExpressionNode comparisonExpressionNode)
         {
             ExpressionValue leftExpressionValue = ParseExpressionNode(comparisonExpressionNode.Left);
@@ -135,7 +134,7 @@ namespace QLVisualizer.Factories
             return leftExpressionValue.Combine(rightExpressionValue, expressionOperator);
         }
 
-        private ExpressionValue ParseIdentifyerNode(IdentifierNode identifierNode)
+        private ExpressionValue ParseidentifierNode(IdentifierNode identifierNode)
         {
             switch (identifierNode.GetQValueType())
             {
@@ -155,7 +154,6 @@ namespace QLVisualizer.Factories
             }
         }
 
-        // Absolute values
         private ExpressionValue ParseLiteralNode(LiteralNode literalNode)
         {
             switch (literalNode.GetQValueType())
@@ -165,7 +163,6 @@ namespace QLVisualizer.Factories
                 case QValueType.INTEGER:
                     return new ExpressionInt(new string[0], () => QValueTypeParser.ParseInteger(literalNode.Value));
                 case QValueType.DOUBLE:
-                    return new ExpressionDouble(new string[0], () => QValueTypeParser.ParseMoney(literalNode.Value));
                 case QValueType.MONEY:
                     return new ExpressionDouble(new string[0], () => QValueTypeParser.ParseDouble(literalNode.Value));
                 case QValueType.TEXT:

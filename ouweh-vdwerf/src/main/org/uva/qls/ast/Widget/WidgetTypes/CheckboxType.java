@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CheckboxType extends WidgetType {
 
-    private String label;
+    private final String label;
 
     public CheckboxType(String label) {
         this.label = label;

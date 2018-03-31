@@ -13,7 +13,7 @@ import java.awt.*;
 
 public class SpinBoxWidget extends QuestionWidget {
 
-    private JSpinner spinner;
+    private final JSpinner spinner;
 
     public SpinBoxWidget(Question question, Value value, boolean readOnly, Style style) {
         super(question);

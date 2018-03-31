@@ -15,8 +15,8 @@ public class TypeChecker extends Checker
         implements StatementVisitor<Type, String>, ExpressionVisitor<Type, String>, TypeVisitor<Type, String> {
 
     private final String ERROR_MESSAGE = "Type checking error at: ";
-    private SymbolTable symbolTable;
-    private Form form;
+    private final SymbolTable symbolTable;
+    private final Form form;
     private ValidationResult result;
 
     public TypeChecker(Form form, SymbolTable symbolTable) {

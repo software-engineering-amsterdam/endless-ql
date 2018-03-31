@@ -8,7 +8,7 @@ import java.util.List;
 
 public class QuestionContext implements StatementVisitor<Void, String> {
 
-    private List<Question> questions = new ArrayList<>();
+    private final List<Question> questions = new ArrayList<>();
 
     public QuestionContext(Form form) {
         for (Statement statement : form.getStatements()) {

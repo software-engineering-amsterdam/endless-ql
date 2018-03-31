@@ -9,8 +9,8 @@ import java.util.List;
 
 public class RadioType extends WidgetType {
 
-    private String trueLabel;
-    private String falseLabel;
+    private final String trueLabel;
+    private final String falseLabel;
 
     public RadioType(String trueLabel, String falseLabel) {
         this.trueLabel = trueLabel;

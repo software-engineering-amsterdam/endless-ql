@@ -10,8 +10,8 @@ import java.util.List;
 
 public class QuestionReference extends Segment {
 
-    private String id;
-    private Widget widget;
+    private final String id;
+    private final Widget widget;
 
     public QuestionReference(String id, Widget widget) {
         this.id = id;

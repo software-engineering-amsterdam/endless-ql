@@ -13,7 +13,7 @@ import java.awt.*;
 
 public class IntegerWidget extends QuestionWidget {
 
-    private JTextField textField;
+    private final JTextField textField;
 
     public IntegerWidget(Question question, Value value, boolean readOnly, Style style) {
         super(question);

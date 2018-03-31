@@ -5,8 +5,8 @@ import org.uva.qls.ast.Style.Style;
 
 public class DefaultStyleStatement extends DefaultStatement {
 
-    private Type type;
-    private Style style;
+    private final Type type;
+    private final Style style;
 
     public DefaultStyleStatement(Type type, Style style) {
         this.type = type;

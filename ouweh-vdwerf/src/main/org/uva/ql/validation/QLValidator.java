@@ -12,7 +12,7 @@ import java.util.List;
 
 public class QLValidator {
 
-    private Form form;
+    private final Form form;
 
     public QLValidator(Form form) {
         this.form = form;

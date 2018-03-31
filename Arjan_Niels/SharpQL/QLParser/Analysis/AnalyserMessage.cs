@@ -27,7 +27,7 @@
 
         public override string ToString()
         {
-            return string.Format("[{0}] {1}\t {2}", this.LanguageType, this.MessageType, this.Message);
+            return string.Format("[{0}] {1} {2}", this.LanguageType, this.MessageType, this.Message);
         }
     }
 }

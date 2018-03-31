@@ -5,7 +5,7 @@ using QLParser.AST.QLS;
 namespace QL_Parser.Tests.QLS.DefaultStyles
 {
     [TestClass]
-    public class DefaultStyleTests
+    public class DefaultStyleInStylesheetsTests
     {
         private const string StylesheetDefaultsRaw = "stylesheet TestForm {" +
             "  page \"First page\" {" +

@@ -38,7 +38,6 @@ public class IOHandler {
     }
 
     public String readFile(String location) {
-        System.out.println(location);
         String result = "";
         try {
             byte[] a = Files.readAllBytes(Paths.get(location));

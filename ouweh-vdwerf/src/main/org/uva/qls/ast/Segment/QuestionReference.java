@@ -12,12 +12,10 @@ import java.util.List;
 public class QuestionReference extends Segment {
 
     private String id;
-    private Style style;
     private Widget widget;
 
-    public QuestionReference(String id, Style style, Widget widget) {
+    public QuestionReference(String id, Widget widget) {
         this.id = id;
-        this.style = style;
         this.widget = widget;
     }
 

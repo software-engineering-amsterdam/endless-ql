@@ -34,7 +34,7 @@ public class ReferenceCheckerTest {
         this.inCorrectStylesheet = QLSBuilder.buildAST(new IOHandler().readFile("input/test/qls/incorrectStyleSheetTest.qls"));
 
         ASTBuilder builder = new ASTBuilder();
-        this.form = builder.buildAST(new IOHandler().readFile("input/original.ql"));
+        this.form = builder.buildAST(new IOHandler().readFile("input/default.ql"));
 
     }
 

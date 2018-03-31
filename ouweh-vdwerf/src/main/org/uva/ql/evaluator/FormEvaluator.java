@@ -68,10 +68,7 @@ public class FormEvaluator implements StatementVisitor<Void, String>, TypeVisito
     }
 
     private boolean questionIsVisible(Question question, ExpressionEvaluator expressionEvaluator) {
-        if (this.statementTable.questionIsConditional(question.getId())) {
-            return expressionEvaluator.evaluateCondition(getConditionById(question.getId()), this.valueTable);
-        }
-        return true;
+        return !this.statementTable.questionIsConditional(question.getId()) || expressionEvaluator.evaluateCondition(getConditionById(question.getId()), this.valueTable);
     }
 
     public boolean questionIsCalculated(Question question) {

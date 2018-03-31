@@ -17,7 +17,7 @@ class StyleVisitor : View(), QlsVisitor<Node> {
     private var padding = 0.0
 
     var flatLayout = hashMapOf<String, Node>()
-    var questions = hashMapOf<String, QuestionViewModel>()
+    var questionViewModels = hashMapOf<String, QuestionViewModel>()
 
     override val root = Drawer(Side.LEFT, false, false)
 
@@ -89,7 +89,7 @@ class StyleVisitor : View(), QlsVisitor<Node> {
 
             field.add(questionField)
 
-            questions[question.name] = viewModel
+            questionViewModels[question.name] = viewModel
         }
 
         flatLayout[question.name] = field

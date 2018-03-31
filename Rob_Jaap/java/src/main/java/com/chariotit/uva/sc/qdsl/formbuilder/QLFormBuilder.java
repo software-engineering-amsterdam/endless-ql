@@ -22,13 +22,17 @@ import java.util.Map;
 
 public class QLFormBuilder {
 
-    private static Integer lineHeight = 40;
-    private static Integer lineMargin = 20;
-    private static Integer labelWidth = 200;
-    private static Integer inputWidth = 200;
+    private static Integer lineHeight       = 40;
+    private static Integer lineMargin       = 20;
+    private static Integer labelWidth       = 400;
+    private static Integer inputWidth       = 300;
+    private static Integer contentMargin    = 14;
+
 
     private static Integer frameWidth = 600;
     private static Integer frameHeight = 600;
+
+
 
     private QLAstRoot astRoot;
     private JFrame jFrame;
@@ -71,7 +75,7 @@ public class QLFormBuilder {
 
             if (question.getVisible()) {
 
-                question.getLabel().setBounds(0, currentLine * lineHeight + lineMargin,
+                question.getLabel().setBounds(contentMargin, currentLine * lineHeight + lineMargin,
                         labelWidth, lineHeight);
                 question.getComponent().setBounds(labelWidth, lineHeight * currentLine + lineMargin,
                         inputWidth, lineHeight);
@@ -138,12 +142,17 @@ public class QLFormBuilder {
 
             public void update() {
 
-                SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
+                // only perform this operation if the textfield is not empty
+                if (!textField.getText().isEmpty()) {
 
-                ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
+                    SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
 
-                System.out.println("Generic text field updated");
-                updateForm();
+                    ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
+
+                    System.out.println("Generic text field updated");
+                    updateForm();
+
+                }
             }
         });
 
@@ -197,6 +206,11 @@ public class QLFormBuilder {
 
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
+        System.out.println("updating value: ");
+
+        SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
+        textField.setText(((MoneyExpressionValue) symbol.getExpressionValue()).getValue().toString());
+
         textField.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 update();
@@ -212,13 +226,18 @@ public class QLFormBuilder {
 
             public void update() {
 
-                SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
+                // only perform this operation if the textfield is not empty
+                if (!textField.getText().isEmpty()) {
 
-                ((MoneyExpressionValue) symbol.getExpressionValue()).setValue(Float
-                        .parseFloat(textField.getText()));
+                    SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
 
-                System.out.println("Currency text field updated");
-                updateForm();
+                    ((MoneyExpressionValue) symbol.getExpressionValue()).setValue(Float
+                            .parseFloat(textField.getText()));
+
+                    System.out.println("Currency text field updated");
+                    updateForm();
+
+                }
             }
         });
 
@@ -259,11 +278,15 @@ public class QLFormBuilder {
 
             public void update() {
 
-                SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
+                // only perform this operation if the textfield is not empty
+                if (!textField.getText().isEmpty()) {
 
-                ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
+                    SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
 
-                updateForm();
+                    ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
+
+                    updateForm();
+                }
             }
         });
 

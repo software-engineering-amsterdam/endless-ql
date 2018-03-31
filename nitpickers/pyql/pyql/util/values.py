@@ -2,11 +2,13 @@ from pyql.util import types
 from decimal import Decimal, InvalidOperation
 from multimethods import multimethod
 
+from pyql.util.message import Error
+
 
 class Value:
     def __init__(self, type, value):
         if not self.is_valid_input(value):
-            raise ValueError(str(type) + " does not accept value: " + str(value))
+            raise Error(str(type) + " does not accept value: " + str(value))
 
         self._value = self._parse(value)
         self._type = type

@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from decimal import Decimal, InvalidOperation
 from pyql.util.values import *
 
 
@@ -26,14 +25,8 @@ class IntegerWidget(ValidatingEntry):
             return None
 
     def validate(self, new_value):
-        if new_value == "":
+        if new_value == "" or IntegerValue.is_valid_input(new_value):
             return True
-        try:
-            print(new_value)
-            if int(new_value) == int(new_value):
-                return True
-        except ValueError:
-            return False
         return False
 
     def __repr__(self):
@@ -44,7 +37,6 @@ class DecimalWidget(ValidatingEntry):
 
     def __init__(self, parent, value=""):
         super().__init__(parent)
-        print("widgetValue", value)
         super().insert(0, value)
 
     def get(self):
@@ -54,13 +46,8 @@ class DecimalWidget(ValidatingEntry):
             return None
 
     def validate(self, new_value):
-        if new_value == "":
+        if new_value == "" or DecimalValue.is_valid_input(new_value):
             return True
-        try:
-            if Decimal(new_value) == Decimal(new_value):
-                return True
-        except (ValueError, InvalidOperation):
-            return False
         return False
 
     def __repr__(self):
@@ -80,15 +67,8 @@ class MoneyWidget(ValidatingEntry):
             return None
 
     def validate(self, new_value):
-        if new_value == "":
+        if new_value == "" or MoneyValue.is_valid_input(new_value):
             return True
-        try:
-            is_decimal = Decimal(new_value) == Decimal(new_value)
-            exponent = Decimal(new_value).as_tuple().exponent
-            if is_decimal and exponent >= -2:
-                return True
-        except (ValueError, InvalidOperation):
-            return False
         return False
 
     def __repr__(self):
@@ -107,6 +87,11 @@ class StringWidget(ValidatingEntry):
         except ValueError:
             return None
 
+    def validate(self, new_value):
+        if new_value == "" or StringValue.is_valid_input(new_value):
+            return True
+        return False
+
     def __repr__(self):
         return "StringWidget"
 
@@ -123,7 +108,6 @@ class BooleanWidget(ttk.Checkbutton):
         self.onchange()
 
     def get(self):
-        print("Booleanwidget", self._value.get(), BooleanValue(self._value.get()))
         try:
             return BooleanValue(self._value.get())
         except ValueError:

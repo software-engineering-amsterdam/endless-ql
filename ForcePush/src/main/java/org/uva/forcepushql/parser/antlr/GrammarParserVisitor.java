@@ -1,4 +1,4 @@
-// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/java/org/uva/forcepushql/parser\GrammarParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/java/org/uva/forcepushql/parser\GrammarParser.g4 by ANTLR 4.7
 package org.uva.forcepushql.parser.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 

@@ -1,6 +1,6 @@
 ﻿namespace QuestionnaireDomain.Entities.Validators.Interfaces
 {
-    public interface IUnknownTypeValidator : IValidator
+    public interface IUnknownTypeValidator : IQuestionnairValidator
     {
     }
 }

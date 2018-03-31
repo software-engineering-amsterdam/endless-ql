@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="ControlStyle" TargetType="Control">
+        <Setter Property="Width" Value="{Binding ControlStyle.Width}"/>
+        <Setter Property="FontSize" Value="{Binding ControlStyle.FontSize}"/>
+        <Setter Property="FontFamily" Value="{Binding ControlStyle.FontFamily}"/>
+        <Setter Property="Foreground" Value="{Binding ControlStyle.Foreground}"/>
+    </Style>
+</ResourceDictionary>

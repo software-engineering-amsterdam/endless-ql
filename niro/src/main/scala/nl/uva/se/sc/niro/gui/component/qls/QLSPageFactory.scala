@@ -53,7 +53,7 @@ class QLSPageFactory(
     addSectionHeader(page, section)
 
     section.statements.flatMap({
-      case GUIQuestionStyling(name, style) => {
+      case GUIQuestionStyling(name, style) =>
         form
           .collectQuestionOnName(name)
           .map(question => {
@@ -63,7 +63,6 @@ class QLSPageFactory(
             page.getChildren.add(component)
             component
           })
-      }
       case section: GUISection => makeSection(page, section, defaultStyles)
     })
   }

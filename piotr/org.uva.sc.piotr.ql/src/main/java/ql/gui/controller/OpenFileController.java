@@ -2,6 +2,7 @@ package ql.gui.controller;
 
 import ql.ast.model.Form;
 import ql.ast.model.expressions.Expression;
+import ql.ast.model.expressions.values.Literal;
 import ql.ast.model.expressions.values.VariableReference;
 import ql.ast.model.statements.Question;
 import ql.gui.model.FormModel;
@@ -9,6 +10,7 @@ import ql.gui.view.ErrorMessageView;
 import ql.gui.view.WindowView;
 import ql.gui.view.panels.FormPanel;
 import ql.logic.collectors.CollectConditionsVisitor;
+import ql.logic.collectors.CollectDateLiteralsVisitor;
 import ql.logic.collectors.CollectQuestionsVisitor;
 import ql.logic.collectors.CollectReferencesVisitor;
 import ql.logic.validators.*;
@@ -52,12 +54,14 @@ public class OpenFileController implements ActionListener {
             CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
             CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
             CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
+            CollectDateLiteralsVisitor collectDateLiteralsVisitor = new CollectDateLiteralsVisitor();
 
             // collecting data
             List<VariableReference> references = collectReferencesVisitor.getVariableReferences(form);
             List<Question> questions = collectQuestionsVisitor.getQuestions(form);
             List<Expression> conditions = collectConditionsVisitor.getConditions(form);
             HashMap<Question, List<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap(form);
+            List<Literal> dateLiterals = collectDateLiteralsVisitor.getLiterals(form);
 
             // validators
             Validator[] validators = new Validator[]{
@@ -66,7 +70,8 @@ public class OpenFileController implements ActionListener {
                     new QuestionsDuplicationValidator(questions),
                     new ConditionsValidator(conditions, questions),
                     new QuestionsDependencyValidator(questionsMap),
-                    new QuestionLabelsValidator(questions)
+                    new QuestionLabelsValidator(questions),
+                    new DateFormatValidator(dateLiterals)
             };
 
             // validating

@@ -8,10 +8,10 @@ import java.util.List;
 
 public class Page extends Segment {
 
-    private String id;
-    private List<Segment> segments;
-    private List<DefaultStyleStatement> defaultStyleStatements;
-    private List<DefaultWidgetStatement> defaultWidgetStatements;
+    private final String id;
+    private final List<Segment> segments;
+    private final List<DefaultStyleStatement> defaultStyleStatements;
+    private final List<DefaultWidgetStatement> defaultWidgetStatements;
 
     public Page(String id, List<Segment> segments, List<DefaultStyleStatement> defaultStyleStatements, List<DefaultWidgetStatement> defaultWidgetStatements) {
         this.id = id;

@@ -1,7 +1,8 @@
 ﻿using Antlr4.Runtime;
 using QLGrammar;
 using QLParser.Analysis;
-using QLParser.AST.Nodes;
+using QLParser.AST.QL;
+using QLParser.ParserVisitors.QL;
 using static QLGrammar.QLGrammarParser;
 
 namespace QLParser

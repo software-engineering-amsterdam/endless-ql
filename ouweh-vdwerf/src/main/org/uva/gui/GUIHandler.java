@@ -18,11 +18,11 @@ public class GUIHandler {
 
     private JFrame frame;
 
-    private FormEvaluator formEvaluator;
-    private StyleEvaluator styleEvaluator;
+    private final FormEvaluator formEvaluator;
+    private final StyleEvaluator styleEvaluator;
 
-    private QuestionChangeListener questionChangeListener;
-    private ExpressionEvaluator expressionEvaluator;
+    private final QuestionChangeListener questionChangeListener;
+    private final ExpressionEvaluator expressionEvaluator;
 
     private Question lastChangedQuestion = null;
 
@@ -30,7 +30,8 @@ public class GUIHandler {
         this.formEvaluator = formEvaluator;
         this.styleEvaluator = styleEvaluator;
 
-        this.questionChangeListener = new QuestionChangeListener(this);
+        this.questionChangeListener = new QuestionChangeListener();
+        this.questionChangeListener.registerGUIHandler(this);
         this.expressionEvaluator = new ExpressionEvaluator();
 
         initializeFrame();
@@ -59,7 +60,7 @@ public class GUIHandler {
             Value currentValue = formEvaluator.getValueById(question.getId());
             QuestionWidget widget = widgetFactory.makeWidget(question, currentValue, !formEvaluator.questionIsCalculated(question));
 
-            this.styleEvaluator.setWidget(question,widget);
+            this.styleEvaluator.setWidget(question, widget);
         }
         this.frame.add(styleEvaluator.getLayout(this.lastChangedQuestion));
         this.frame.add(getSaveButton());

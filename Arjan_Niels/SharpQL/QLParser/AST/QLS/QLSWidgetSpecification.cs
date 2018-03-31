@@ -1,5 +1,5 @@
 ﻿using QLParser.AST.QLS.Enums;
-using System;
+using QLParser.Exceptions;
 using System.Collections.Generic;
 
 namespace QLParser.AST.QLS
@@ -12,10 +12,12 @@ namespace QLParser.AST.QLS
         private const string RADIO = "radio";
         private const string SPNNER = "spinner";
         private const string CHECKBOX = "checkbox";
+        private const string TEXTFIELD = "textfield";
 
         public QLSWidgetSpecification()
         {
             this.WidgetTypeArguments = new List<string>();
+            this.WidgetType = WidgetType.DEFAULT;
         }
 
         public QLSWidgetSpecification(WidgetType widgetType, IList<string> widgetTypeArguments)
@@ -34,8 +36,10 @@ namespace QLParser.AST.QLS
                     return WidgetType.CHECKBOX;
                 case SPNNER:
                     return WidgetType.SPINNER;
+                case TEXTFIELD:
+                    return WidgetType.TEXTFIELD;
                 default:
-                    throw new NotImplementedException();
+                    throw new UnknownNodeTypeException();
             }
         }
     }

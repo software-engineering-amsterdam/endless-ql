@@ -1,11 +1,11 @@
 package ui.model
 
-import doge.data.question.Question
+import ui.model.domain.Question
 import doge.data.question.SymbolType
 
 class ViewModelFactory {
 
-    fun createUiQuestionModel(question : Question) : QuestionViewModel {
+    fun createQuestionViewModel(question : Question) : QuestionViewModel {
 
         return when(question.value.type){
             SymbolType.BOOLEAN -> BooleanViewModel(question)
@@ -13,9 +13,8 @@ class ViewModelFactory {
             SymbolType.DECIMAL -> DecimalViewModel(question)
             SymbolType.STRING -> StringViewModel(question)
             SymbolType.MONEY -> MoneyViewModel(question)
-            SymbolType.COLOR -> TODO()
-            SymbolType.DATE -> TODO()
-            SymbolType.UNDEFINED -> TODO()
+            SymbolType.DATE -> DateViewModel(question)
+            else -> throw IllegalArgumentException("${question.value.type} unsupported type")
         }
     }
 }

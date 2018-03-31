@@ -57,6 +57,9 @@ abstract class BaseSymbolValue(val type: SymbolType) : Comparable<BaseSymbolValu
     val moneyValue: MoneyValue
         get() = this as MoneyValue
 
+    val dateValue: DateValue
+        get() = this as DateValue
+
     private fun unsupportedOperation(operator: String, that: BaseSymbolValue? = null): Nothing {
         that?.let {
             throw OperationNotSupportedException("Unable to apply '$operator' to $type and ${that.type}")

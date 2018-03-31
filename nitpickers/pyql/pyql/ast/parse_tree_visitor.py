@@ -8,7 +8,6 @@ from pyql.ast.expression.expressions import *
 from util import values
 from util.types import *
 
-
 # TODO check if can get rid of 'if getChildCount() > 1'
 
 

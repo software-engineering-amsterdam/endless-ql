@@ -178,4 +178,9 @@ public abstract class AbstractASTTraverse<T> implements ASTNodeVisitor<T> {
     public T visit(TypeDeclarationMoney typeDeclarationMoney) {
         return null;
     }
+
+    @Override
+    public T visit(TypeDeclarationDate typeDeclarationDate) {
+        return null;
+    }
 }

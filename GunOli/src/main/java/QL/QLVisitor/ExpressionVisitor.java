@@ -25,52 +25,23 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
         String operator = ctx.operator().getText();
+        System.out.println(operator);
 
-        if (operator.charAt(0) == '+') {
-            return new AdditionExpression(left, right, line);
+        switch(operator){
+            case "+" : return new AdditionExpression(left, right, line);
+            case "-" : return new SubtractExpression(left, right, line);
+            case "*" : return new MultiplicationExpression(left, right, line);
+            case "/" : return new DivisionExpression(left, right, line);
+            case ">" : return new GreaterThanExpression(left, right, line);
+            case ">=": return new GreaterOrEqualExpression(left,right,line);
+            case "<" : return new LessThanExpression(left, right, line);
+            case "<=": return new LessOrEqualExpression(left, right, line);
+            case "==": return new EqualExpression(left, right, line);
+            case "!=": return new NotEqualExpression(left, right, line);
+            case "&&": return new AndExpression(left, right, line);
+            case "||": return new OrExpression(left, right, line);
+            default: throw new IllegalArgumentException("Unable to parse '"+ operator +"': unregonized operator");
         }
-        else if (operator.charAt(0) == '-') {
-            return new SubtractExpression(left, right, line);
-        }
-        else if (operator.charAt(0) == '*') {
-            return new MultiplicationExpression(left, right, line);
-        }
-        else if (operator.charAt(0) == '/') {
-            return new DivisionExpression(left, right, line);
-        }
-
-        else if (operator.charAt(0) == '>') {
-            if (operator.charAt(1) == '=') {
-                return new GreaterOrEqualExpression(left, right, line);
-            }
-            else {
-                return new GreaterThanExpression(left, right, line);
-            }
-        }
-
-        else if (operator.charAt(0) == '<') {
-            if (operator.charAt(1) == '=') {
-                return new LessOrEqualExpression(left, right, line);
-            }
-            else {
-                return new LessThanExpression(left, right, line);
-            }
-        }
-
-        else if (operator.charAt(0) == '=') {
-            return new EqualExpression(left, right, line);
-        }
-        else if (operator.charAt(0) == '!') {
-            return new NotEqualExpression(left, right, line);
-        }
-        else if (operator.charAt(0) == '&') {
-            return new AndExpression(left, right, line);
-        }
-        else if (operator.charAt(0) == '|') {
-            return new OrExpression(left, right, line);
-        }
-
-        return null;//Todo: Make this better, need to return an error or empty object?
     }
 
     @Override
@@ -85,8 +56,7 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
         else if (operator.charAt(0) == '!') {
             return new NotExpression(expr, line);
         }
-
-        return null;//Todo: Make this better, need to return an error or empty object?
+        throw new IllegalArgumentException("Unable to parse '"+ operator +"': unregonized operator");
     }
 
     @Override
@@ -103,7 +73,7 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
     public Expression visitDateConstant(QLParser.DateConstantContext ctx) {
         String dateString = ctx.getText();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate localDate = LocalDate.parse(ctx.getText(), formatter);
+        LocalDate localDate = LocalDate.parse(dateString, formatter);
         return new DateConstant(localDate, ctx.getStart().getLine());
     }
 

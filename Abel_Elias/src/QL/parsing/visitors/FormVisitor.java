@@ -1,6 +1,7 @@
 package QL.parsing.visitors;
 
 import QL.classes.Question;
+import QL.parsing.checkers.Checks;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
 
@@ -17,22 +18,15 @@ public class FormVisitor extends QLBaseVisitor {
         this.questionMap = new LinkedHashMap<>();
         this.blockVisitor = new BlockVisitor(this.questionMap, true);
         this.updateVisitor = new UpdateVisitor(this.questionMap, true);
-        this.form = form;
-    }
-
-    public FormVisitor(QLParser.FormContext form){
-        this.questionMap = new LinkedHashMap<>();
-        this.blockVisitor = new BlockVisitor(this.questionMap, true);
-        this.updateVisitor = new UpdateVisitor(this.questionMap, true);
-        this.form = form;
-        visitForm(this.form);
     }
 
     // Node visitor
     @Override
-    public Object visitForm(QLParser.FormContext ctx) {
-        blockVisitor.visitBlock(ctx.block());
-        return questionMap;
+    public FormVisitor visitForm(QLParser.FormContext form) {
+        Checks.checkForm(form);
+        blockVisitor.visitBlock(form.block());
+        this.form = form;
+        return this;
     }
 
     public LinkedHashMap<String, Question> update(){

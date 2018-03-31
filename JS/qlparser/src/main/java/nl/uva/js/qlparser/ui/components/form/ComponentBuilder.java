@@ -201,6 +201,34 @@ public class ComponentBuilder {
         return slider;
     }
 
+    public static JSpinner buildSpinbox(Variable variable) {
+        final int min  = 0;
+        final int max  = 100;
+        final int init = 0;
+
+        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(init, min, max, 1);
+        JSpinner spinner = new JSpinner(spinnerNumberModel);
+
+//        Set value if there is any present
+        NonNullRun.consumer(variable.getValue(), value -> spinner.setValue(((CalculatableInteger)value.value()).get()));
+
+//        Listen to field changes and update the variable accordingly
+        spinner.addChangeListener(event -> {
+            variable.setValue(Value.builder()
+                    .dataType(variable.getDataType())
+                    .value(spinner.getValue())
+                    .build());
+        });
+
+//        Listen to external changes
+        variable.addChangeListener(newValue -> {
+            if (!newValue.getName().equals(variable.getName()))
+                spinner.setValue(newValue.value());
+        });
+
+        return spinner;
+    }
+
     @RequiredArgsConstructor
     private static class TextFieldListener implements KeyListener {
         @NonNull private JTextField textField;

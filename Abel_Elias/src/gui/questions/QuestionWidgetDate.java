@@ -3,7 +3,7 @@ package gui.questions;
 import QL.classes.Question;
 import QL.classes.values.Value;
 import gui.GUIBuilder;
-import gui.listeners.QuestionListener;
+import gui.listeners.QuestionValueListener;
 import org.jdatepicker.*;
 
 import javax.swing.*;
@@ -42,8 +42,8 @@ public class QuestionWidgetDate extends QuestionPanel {
     }
 
     @Override
-    public void setQuestionChangeListener(QuestionListener questionListener) {
-        picker.addActionListener(questionListener.new DateActionListener(super.getQuestion().getId(), picker));
+    public void setQuestionChangeListener(QuestionValueListener questionValueListener) {
+        picker.addActionListener(questionValueListener.new DateActionListener(super.getQuestion().getId(), picker));
     }
 
     @Override

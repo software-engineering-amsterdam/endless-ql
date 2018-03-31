@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using QlsTransformer.Ast.Nodes;
-using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QlsTransformer.Domain.Ast.Nodes;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 using QuestionnaireDomain.Entities.Validators.MetaData;
 
-namespace QlsTransformer.Validators
+namespace QlsTransformer.Domain.Validators
 {
     public class UnknownQuestionValidator : IUnknownQuestionValidator
     {

@@ -8,7 +8,7 @@ import QL.classes.values.UndefinedValue;
 import QL.classes.values.Value;
 import QL.parsing.visitors.FormVisitor;
 import QLS.parsing.visitors.StylesheetVisitor;
-import gui.listeners.QuestionListener;
+import gui.listeners.QuestionValueListener;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionWidgetCheckBox;
 import gui.questions.QuestionWidgetDate;
@@ -36,7 +36,7 @@ public class QLBuilder {
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor;
-    private QuestionListener questionListener;
+    private QuestionValueListener questionValueListener;
 
     public LinkedHashMap<String, QuestionPanel> getQuestionPanelHashMap() {
         return questionPanelHashMap;
@@ -67,16 +67,13 @@ public class QLBuilder {
 
             //Extract a single question
             Question question = entry.getValue();
-            //If the question is marked as visible, we build a panel
-            if(question.isVisible()) {
-                buildQuestionPanel(question);
-            }
+            buildQuestionPanel(question);
         }
     }
 
-    public JPanel createMainListPanel(QuestionListener questionListener) {
+    public JPanel createMainListPanel(QuestionValueListener questionValueListener) {
         this.mainListPanel = new JPanel(new GridBagLayout());
-        this.questionListener = questionListener;
+        this.questionValueListener = questionValueListener;
         initQuestionPanels();
         return mainListPanel;
     }
@@ -117,13 +114,20 @@ public class QLBuilder {
                 break;
         }
 
-        qPanel.setQuestionChangeListener(questionListener);
+        qPanel.setQuestionChangeListener(questionValueListener);
+
+        if(question.isVisible()) {
+            qPanel.setVisible(true);
+        } else {
+            qPanel.setVisible(false);
+        }
 
         //if the question is marked as fixed, make it non-alterable
         if(question.isFixed()) {
             qPanel.setWidgetFixed();
             qPanel.setValue(value);
         }
+
 
         questionPanelHashMap.put(question.getId(), qPanel);
 
@@ -178,27 +182,17 @@ public class QLBuilder {
         Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<String, Question> entry = entries.next();
-            // Get concerning question
             Question question = entry.getValue();
-            if(question.isVisible()) {
-                //If the panelhashmap has not yet created a panel for this question
-                if (questionPanelHashMap.get(entry.getKey()) == null) {
-                    //build a questionpanel
-                    buildQuestionPanel(question);
-                }
-                if(question.isFixed()) {
+            if (question.isVisible()) {
+                questionPanelHashMap.get(entry.getKey()).setVisible(true);
+                if (question.isFixed()) {
                     questionPanelHashMap.get(entry.getKey()).setValue(question.getValue());
                 }
             } else {
-                // If the question already is placed in a currently visible panel
-                if (questionPanelHashMap.get(entry.getKey()) != null) {
-                    // remove questionpanel
-                    removeQuestionFromPanel(questionPanelHashMap.get(entry.getKey()));
-                    questionPanelHashMap.remove(entry.getKey());
-                }
+                if (questionPanelHashMap.get(entry.getKey()) != null)
+                questionPanelHashMap.get(entry.getKey()).setVisible(false);
             }
         }
-
         mainListPanel.revalidate();
         mainListPanel.repaint();
     }

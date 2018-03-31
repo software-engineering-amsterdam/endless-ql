@@ -6,7 +6,8 @@ from PyQt5.QtWidgets import QTextEdit
 
 from gui.form_window import FormWindow
 from gui.helper import append_file_extension
-from gui.helper import error
+from gui.helper import check_errors
+from gui.helper import warning
 from ql.ast.checkers.dependency_checker import DependencyChecker
 from ql.ast.checkers.question_checker import QuestionChecker
 from ql.ast.checkers.reference_checker import ReferenceChecker
@@ -99,27 +100,38 @@ class MainWindow(QMainWindow):
 
     def create_form(self):
         textbox_value = self.text_edit.toPlainText()
-
         ql_lexer = QLLexer()
         ql_parser = QLParser()
+        empty_form = []
 
-        # Nested checkers versus multiple (potentially irrelevant) dialog windows
+        if not textbox_value:
+            empty_form.append('Empty Form')
 
-        if textbox_value:
+        try:
+            check_errors(empty_form)
             ast = ql_parser.parse(textbox_value, ql_lexer.lexer)
+            parse_errors = ql_parser.errors
 
-            if not ql_parser.errors:
-                invalid_references = ReferenceChecker(extract_identifier_scopes(ast)).errors
-                invalid_dependencies = DependencyChecker(extract_identifier_dependencies(ast)).errors
-                invalid_questions = QuestionChecker(extract_questions(ast)).errors
+            check_errors(parse_errors)
+            reference_errors = ReferenceChecker(extract_identifier_scopes(ast)).errors
 
-                type_visitor = TypeVisitor(extract_identifier_types(ast))
-                type_visitor.visit(ast)
+            check_errors(reference_errors)
+            dependency_errors = DependencyChecker(extract_identifier_dependencies(ast)).errors
 
-                if not invalid_references + invalid_dependencies + invalid_questions + type_visitor.errors:
-                    dialog = FormWindow(extract_gui_model(ast))
-                    dialog.exec_()
-            else:
-                error(ql_parser.errors)
-        else:
-            print('Empty Form')
+            check_errors(dependency_errors)
+            question_errors = QuestionChecker(extract_questions(ast)).errors
+            question_warnings = QuestionChecker(extract_questions(ast)).warnings
+
+            if question_warnings:
+                warning(question_warnings)
+
+            check_errors(question_errors)
+            type_visitor = TypeVisitor(extract_identifier_types(ast))
+            type_visitor.visit(ast)
+            type_errors = type_visitor.errors
+
+            check_errors(type_errors),
+            dialog = FormWindow(extract_gui_model(ast))
+            dialog.exec_()
+        except SyntaxError:
+            print('Consult application popup error window for information on what went wrong.')

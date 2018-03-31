@@ -1,5 +1,5 @@
 // Form with computed question
-form label {
+form testForm {
   "Question?"
     var: boolean = "ADSADsad"
 }

@@ -172,9 +172,9 @@ public class BuildASTExpressionVisitor extends GrammarParserBaseVisitor<Expressi
     @Override
     public ExpressionNode visitUnaryExpression(GrammarParser.UnaryExpressionContext context)
     {
-        NegateNode negateNode = new NegateNode();
-        negateNode.setInnerNode(context.expression().accept(this));
-        negateNode.getInnerNode();
-        return negateNode;
+        NotNode notNode = new NotNode();
+        notNode.setInnerNode(context.expression().accept(this));
+        notNode.getInnerNode();
+        return notNode;
     }
 }

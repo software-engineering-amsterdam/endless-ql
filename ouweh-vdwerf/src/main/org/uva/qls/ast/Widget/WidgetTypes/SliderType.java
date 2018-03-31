@@ -11,9 +11,9 @@ import java.util.List;
 
 public class SliderType extends WidgetType {
 
-    private String start;
-    private String end;
-    private String step;
+    private final String start;
+    private final String end;
+    private final String step;
 
     public SliderType(String start, String end, String step) {
         this.start = start;

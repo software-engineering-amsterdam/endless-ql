@@ -29,7 +29,7 @@ class QLLexer:
         'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'COLON',
         'ASSIGN',
         'LE', 'LT', 'GE', 'GT', 'EQ', 'NE', 'AND', 'OR',  # TODO: expand abbreviation
-        'DOLLAR',
+        'DOLLAR', 'RUBLE',
         'LEFT_BRACE', 'RIGHT_BRACE',
         'LEFT_BRACKET', 'RIGHT_BRACKET',
         'INTEGER_LITERAL', 'DECIMAL_LITERAL',
@@ -75,6 +75,7 @@ class QLLexer:
     t_OR = r'\|\|'
 
     t_DOLLAR = r'\$'
+    t_RUBLE = r'\₽'
 
     t_LEFT_BRACE = r'\{'
     t_RIGHT_BRACE = r'\}'

@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using QlsTransformer.Ast.Nodes;
-using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+using QlsTransformer.Domain.Ast.Nodes;
 using QuestionnaireDomain.Entities.Domain;
-using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Validators;
 using QuestionnaireDomain.Entities.Validators.MetaData;
 
-namespace QlsTransformer.Validators
+namespace QlsTransformer.Domain.Validators
 {
     public class StyleSheetTypeChecker : IStyleSheetTypeChecker
     {
@@ -17,9 +15,9 @@ namespace QlsTransformer.Validators
         public IList<ValidationMetaData> Results { get; set; }
             = new List<ValidationMetaData>();
 
-        public StyleSheetTypeChecker()
+        public StyleSheetTypeChecker(IUnknownQuestionValidator unknownQuestionValidator)
         {
-            //m_validators.Add(cyclicDependencyValidator);
+            m_validators.Add(unknownQuestionValidator);
         }
 
         public bool Validate(DomainId<IStyleSheetRootNode> styleSheet)
@@ -37,6 +35,8 @@ namespace QlsTransformer.Validators
 
     public interface IStyleSheetTypeChecker
     {
-        bool Validate(DomainId<IStyleSheetRootNode> questionnaireRootNode);
+        IList<ValidationMetaData> Results { get; set; }
+        bool Validate(
+            DomainId<IStyleSheetRootNode> questionnaireRootNode);
     }
 }

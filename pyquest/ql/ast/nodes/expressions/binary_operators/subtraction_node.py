@@ -26,4 +26,4 @@ class SubtractionOperatorNode(BinaryOperatorNode):
         return QLUndefined
 
     def evaluate(self):
-        self.value = self.expression_type(self.left_expression.value - self.right_expression.value)
+        self.value = self.left_expression.value - self.right_expression.value

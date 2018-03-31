@@ -1,5 +1,5 @@
 // Empty if conditional
-form label {
+form testForm {
     if () {
         "Question?"
         id : boolean

@@ -37,7 +37,7 @@ public class StyleEvaluatorTest {
         JTabbedPane tabbedPane = (JTabbedPane) styleEvaluator.getLayout(null);
         Assert.assertEquals(1, tabbedPane.getTabCount());
 
-        styleEvaluator.setWidget(new Question("hasMaintLoan","", new MoneyType()), new JPanel());
+        styleEvaluator.setWidget(new Question("hasMainLoan","", new MoneyType()), new JPanel());
         tabbedPane = (JTabbedPane) styleEvaluator.getLayout(null);
         Assert.assertEquals(2, tabbedPane.getTabCount());
     }

@@ -1,5 +1,5 @@
 // Form with question of type decimal
-form label {
+form testForm {
   "Question?"
     var: decimal
 }

@@ -1,13 +1,12 @@
 import ExpressionVisitor from "../visitors/ExpressionVisitor";
-import Expression from "../expressions/Expression";
 import { FieldType } from "../../FieldType";
 import { ValueIsNaNError } from "../../form_errors";
-import AbstractTreeNode from "../AbstractTreeNode";
 import NumberValue from "../../values/NumberValue";
 import { DecimalValue } from "../../values/DecimalValue";
 import IntValue from "../../values/IntValue";
+import AbstractLiteral from "./AbstractLiteral";
 
-export default class NumberLiteral extends AbstractTreeNode implements Expression {
+export default class NumberLiteral extends AbstractLiteral {
   private type: FieldType;
   private value: NumberValue;
 

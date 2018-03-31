@@ -5,7 +5,7 @@ class CalendarWidget(QCalendarWidget):
     def __init__(self):
         super(QCalendarWidget, self).__init__()
 
-    def value(self):
+    def get_value(self):
         date = self.selectedDate()
         return date.day(), date.month(), date.year()
 

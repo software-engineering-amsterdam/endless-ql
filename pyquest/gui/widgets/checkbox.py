@@ -5,7 +5,7 @@ class CheckBox(QCheckBox):
     def __init__(self):
         super(QCheckBox, self).__init__()
 
-    def value(self):
+    def get_value(self):
         return self.isChecked()
 
     def on_change(self, change_event_function):

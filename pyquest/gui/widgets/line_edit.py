@@ -5,7 +5,7 @@ class LineEdit(QLineEdit):
     def __init__(self):
         super(QLineEdit, self).__init__()
 
-    def value(self):
+    def get_value(self):
         return self.text()
 
     def on_change(self, change_event_function):

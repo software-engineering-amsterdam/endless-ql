@@ -11,11 +11,11 @@ import javax.swing.text.DocumentFilter;
 import java.awt.event.ActionListener;
 import java.util.EventListener;
 
-public abstract class QuestionPanelText extends QuestionPanel {
+public abstract class QuestionWidgetText extends QuestionPanel {
 
     private JTextField textField;
 
-    public QuestionPanelText(String key, Question question) {
+    public QuestionWidgetText(String key, Question question) {
         super(key, question);
         createControlWidget(key);
     }

@@ -1,4 +1,4 @@
-package gui;
+package gui.listeners;
 
 import QL.classes.Question;
 import QL.classes.values.BooleanValue;
@@ -6,9 +6,12 @@ import QL.classes.values.IntegerValue;
 import QL.classes.values.StringValue;
 import QL.classes.values.UndefinedValue;
 import QL.classes.values.Value;
+import gui.GUIBuilder;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
@@ -17,11 +20,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class QuestionChangeListener {
+public class QuestionListener {
 
-    private final GUIBuilder GUIBuilder;
+    private final gui.GUIBuilder GUIBuilder;
 
-    public QuestionChangeListener(GUIBuilder GUIBuilder) {
+    public QuestionListener(GUIBuilder GUIBuilder) {
         this.GUIBuilder = GUIBuilder;
     }
 
@@ -30,6 +33,23 @@ public class QuestionChangeListener {
      *ActionListener methods
      ******************************************************************************************
      */
+
+    public class SpinBoxListener implements ChangeListener {
+        private JSpinner spinbox;
+        private String key;
+
+        public SpinBoxListener(String key, JSpinner spinbox) {
+            this.key = key;
+            this.spinbox = spinbox;
+        }
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            GUIBuilder.onQuestionChange(key, new IntegerValue((Integer) spinbox.getValue()));
+        }
+    }
+
+
 
     /**
      * DateActionListener

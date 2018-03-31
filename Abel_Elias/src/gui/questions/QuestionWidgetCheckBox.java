@@ -3,19 +3,19 @@ package gui.questions;
 import QL.classes.Question;
 import QL.classes.values.Value;
 import gui.GUIBuilder;
-import gui.QuestionChangeListener;
+import gui.listeners.QuestionListener;
 
 import javax.swing.*;
 import javax.swing.text.DocumentFilter;
 import java.awt.event.ActionListener;
 import java.util.EventListener;
 
-public class QuestionPanelCheckBox extends QuestionPanel {
+public class QuestionWidgetCheckBox extends QuestionPanel {
 
     private JCheckBox checkBox;
 
 
-    public QuestionPanelCheckBox(String key, Question question) {
+    public QuestionWidgetCheckBox(String key, Question question) {
         super(key, question);
         createControlWidget(key);
     }
@@ -39,8 +39,8 @@ public class QuestionPanelCheckBox extends QuestionPanel {
     }
 
     @Override
-    public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        checkBox.addActionListener(questionChangeListener.new BoolActionListener(super.getQuestion().getId(), checkBox));
+    public void setQuestionChangeListener(QuestionListener questionListener) {
+        checkBox.addActionListener(questionListener.new BoolActionListener(super.getQuestion().getId(), checkBox));
     }
 
     @Override

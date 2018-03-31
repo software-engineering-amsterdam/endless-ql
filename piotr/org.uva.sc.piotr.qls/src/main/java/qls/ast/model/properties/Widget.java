@@ -1,8 +1,10 @@
 package qls.ast.model.properties;
 
-import qls.ast.visitors.ASTNodeVisitor;
-
 public abstract class Widget extends TypeProperty {
+
+    public Widget(MetaInformation metaInformation) {
+        super(metaInformation);
+    }
 
     static public class BooleanParameters {
         String valueTrue;
@@ -44,10 +46,6 @@ public abstract class Widget extends TypeProperty {
         public Integer getStep() {
             return step;
         }
-    }
-
-    public Widget(MetaInformation metaInformation) {
-        super(metaInformation);
     }
 
 }

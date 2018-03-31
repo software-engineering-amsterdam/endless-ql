@@ -52,7 +52,6 @@ class Main {
                 "}\n";
 
 
-
         CharStream charStream = CharStreams.fromString(stylesheetString);
         QLSLexer qlsLexer = new QLSLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlsLexer);

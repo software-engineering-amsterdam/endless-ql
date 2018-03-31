@@ -3,7 +3,7 @@ package qls.ast.model.properties.widgets;
 import qls.ast.model.properties.Widget;
 import qls.ast.visitors.ASTNodeVisitor;
 
-public class CheckboxWidget extends Widget{
+public class CheckboxWidget extends Widget {
 
     private BooleanParameters parameters;
 

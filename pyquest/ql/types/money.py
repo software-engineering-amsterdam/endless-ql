@@ -29,10 +29,13 @@ class QLMoney(QLType):
         return QLMoney(- self.value, self.currency)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value and self.currency == other.currency)
+        if isinstance(other, QLMoney):
+            return QLBoolean(self.value == other.value and self.currency == other.currency)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.value != other.value or self.currency != other.currency)
+        return QLBoolean(not self == other)
 
     def __lt__(self, other):
         return QLBoolean(self.value < other.value and self.currency == other.currency)

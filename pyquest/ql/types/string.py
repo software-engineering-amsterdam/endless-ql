@@ -19,10 +19,13 @@ class QLString(QLType):
         return str(self.value)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value)
+        if isinstance(other, QLString):
+            return QLBoolean(self.value == other.value)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.value != other.value)
+        return QLBoolean(not self == other)
 
     def __lt__(self, other):
         return QLBoolean(len(self.value) < len(other.value))

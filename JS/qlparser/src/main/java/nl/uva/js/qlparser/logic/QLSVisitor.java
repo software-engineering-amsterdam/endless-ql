@@ -119,7 +119,7 @@ public class QLSVisitor extends QLSBaseVisitor{
         return DefaultStyle.builder()
                 .dataType(ctx.dataType().<DataType>accept(this))
                 .widgetType(ctx.widgetType().<WidgetType>accept(this))
-                .style((WidgetStyle) getOptional(ctx.widgetStyle()))
+                .widgetStyle((WidgetStyle) getOptional(ctx.widgetStyle()))
                 .build();
     }
 

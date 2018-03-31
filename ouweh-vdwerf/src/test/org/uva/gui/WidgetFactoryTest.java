@@ -49,7 +49,7 @@ public class WidgetFactoryTest {
     @Test
     public void makeDropdownWidget() {
         WidgetFactory widgetFactory = new WidgetFactory(new QuestionChangeListener(), this.styleEvaluator);
-        Question question = new Question("hasMaintLoan","",new BooleanType());
+        Question question = new Question("hasMainLoan","",new BooleanType());
         QuestionWidget questionWidget = widgetFactory.makeWidget(question, new BooleanValue(true), false);
 
         Assert.assertEquals(DropdownWidget.class, questionWidget.getClass());

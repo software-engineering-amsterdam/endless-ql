@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using QLParser.AST.QLS;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;

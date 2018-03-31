@@ -1,6 +1,4 @@
 ﻿using QLParser.AST.QLS;
-using QLVisualizer.Widgets.Windows;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace QLVisualizer.Widgets.Windows.Style

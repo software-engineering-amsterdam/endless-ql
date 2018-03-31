@@ -1,8 +1,4 @@
-﻿using QLParser.AST.QLS;
-using QLVisualizer.Elements.Managers.CollectionTypes;
-using QLVisualizer.Widgets.Collection;
-using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using QLVisualizer.Elements.Managers.CollectionTypes;
 
 namespace QLVisualizer.Widgets.Windows.Collection
 {

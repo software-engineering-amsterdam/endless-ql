@@ -1,5 +1,4 @@
-﻿using QLParser.AST.QLS;
-using QLVisualizer.Elements.Managers.CollectionTypes;
+﻿using QLVisualizer.Elements.Managers.CollectionTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

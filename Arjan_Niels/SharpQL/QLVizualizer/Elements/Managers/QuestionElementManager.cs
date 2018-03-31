@@ -1,7 +1,6 @@
 ﻿using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace QLVisualizer.Elements.Managers
 {

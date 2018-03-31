@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.CollectionTypes;
-using QLVisualizer.Widgets;
 
 namespace QLVisualizer.Controllers.Display
 {

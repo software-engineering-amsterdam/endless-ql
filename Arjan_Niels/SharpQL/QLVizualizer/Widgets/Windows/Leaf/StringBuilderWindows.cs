@@ -1,8 +1,6 @@
 ﻿using QLParser.AST.QL;
-using QLParser.AST.QLS;
 using QLParser.AST.QLS.Enums;
 using QLVisualizer.Elements.Managers.LeafTypes;
-using QLVisualizer.Widgets.Collection;
 using QLVisualizer.Widgets.Leaf;
 using QLVisualizer.Widgets.Windows.Leaf.InputCreators;
 using System;

@@ -1,8 +1,5 @@
 ﻿using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers;
-using QLVisualizer.Widgets.Collection;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace QLVisualizer.Widgets
 {

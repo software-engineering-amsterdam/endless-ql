@@ -15,11 +15,13 @@ import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
+import nl.khonraad.ql.cdi.Log;
+import nl.khonraad.ql.cdi.Visualizing;
 import nl.khonraad.ql.ast.data.Questionnaire;
 
 @SuppressWarnings( "serial" )
 
-public class WidgetContainer extends Panel {
+public class WidgetContainer extends Panel{
 
     @Inject
     Logger        logger;
@@ -36,6 +38,7 @@ public class WidgetContainer extends Panel {
         setLayout( new GridLayout( 0, 2 ) );
     }
 
+    @Log
     public void visualize() {
 
         removeAll();
@@ -60,7 +63,8 @@ public class WidgetContainer extends Panel {
         return parentPanel;
     }
 
-    private JPanel visualizeQuestion( Question question, Questionnaire questionnaire ) {
+    @Log
+    public JPanel visualizeQuestion( Question question, Questionnaire questionnaire ) {
 
         JPanel parentPanel = new JPanel();
 
@@ -97,4 +101,5 @@ public class WidgetContainer extends Panel {
         throw new RuntimeException( "Do not know how to diplay type: " + type );
 
     }
+
 }

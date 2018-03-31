@@ -14,18 +14,18 @@ import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
-import nl.khonraad.ql.ast.data.QLAstBuilder;
+import nl.khonraad.ql.ast.data.QLAbstractSyntaxTreeBuilder;
 import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.ast.data.Repository;
-import nl.khonraad.ql.cdisupport.LoggerProducer;
-import nl.khonraad.ql.cdisupport.QLSource;
+import nl.khonraad.ql.cdi.LoggerProducer;
+import nl.khonraad.ql.cdi.SourcePathProvider;
 
 public class Test_CollegeExample {
 
     @Rule
     public WeldInitiator weld = WeldInitiator.from( 
-            QLSource.class, 
-            QLAstBuilder.class, 
+            SourcePathProvider.class, 
+            QLAbstractSyntaxTreeBuilder.class, 
             ExtendedQLBaseVisitor.class, 
             Questionnaire.class, 
             Repository.class, 
@@ -35,7 +35,7 @@ public class Test_CollegeExample {
     @Test
     public void test_Calculations() throws Exception {
 
-        weld.select( QLSource.class ).get().setPath( "/nl/khonraad/ql/integration/CollegeExample.ql" );
+        weld.select( SourcePathProvider.class ).get().setSourcePath( "/nl/khonraad/ql/integration/CollegeExample.ql" );
         Questionnaire questionnaire = weld.select( Questionnaire.class ).get();
         ExtendedQLBaseVisitor visitor = weld.select( ExtendedQLBaseVisitor.class ).get();
 

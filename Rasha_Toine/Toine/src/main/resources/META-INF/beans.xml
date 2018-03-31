@@ -5,4 +5,7 @@
 	<scan>
 		<exclude name="org.jboss.weld.**" />
 	</scan>
+	<decorators>
+        <class>nl.khonraad.ql.cdi.QuestionDecorator</class>
+    </decorators>
 </beans>

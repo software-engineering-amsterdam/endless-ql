@@ -13,7 +13,7 @@ import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
-import nl.khonraad.ql.cdisupport.QLSource;
+import nl.khonraad.ql.cdi.SourcePathProvider;
 
 @ApplicationScoped public class Questionnaire {
 
@@ -21,7 +21,7 @@ import nl.khonraad.ql.cdisupport.QLSource;
     Logger                logger;
 
     @Inject
-    QLSource              qLSource;
+    SourcePathProvider              qLSource;
 
     @Inject
     Event<VisualizeEvent> eventQueue;
@@ -30,14 +30,14 @@ import nl.khonraad.ql.cdisupport.QLSource;
     private Repository    questionRepository;
 
     @Inject
-    private QLAstBuilder  qLAstBuilder;
+    private QLAbstractSyntaxTreeBuilder  qLAstBuilder;
 
     public void prepareAndVisit( ExtendedQLBaseVisitor visitor ) {
 
         try {
             questionRepository.prepare();
 
-            visitor.visit( qLAstBuilder.ast );
+            visitor.visit( qLAstBuilder.tree );
 
         } catch (IllegalStateException e) {
 

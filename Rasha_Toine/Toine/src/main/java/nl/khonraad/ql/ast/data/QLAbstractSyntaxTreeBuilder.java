@@ -16,36 +16,35 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.slf4j.Logger;
 
 import nl.khonraad.ql.QLLexer;
-import nl.khonraad.ql.cdisupport.QLSource;
-import nl.khonraad.qls.QLSLexer;
-import nl.khonraad.qls.QLSParser;
+import nl.khonraad.ql.QLParser;
+import nl.khonraad.ql.cdi.SourcePathProvider;
 
-public class QLSAstBuilder {
-
-    public ParseTree ast;
+public class QLAbstractSyntaxTreeBuilder {
 
     @Inject
-    Logger            logger;
+    Logger    logger;
 
     @Inject
-    QLSource          qLSource;
+    SourcePathProvider  qLSource;
+
+    ParseTree tree;
 
     @PostConstruct
     public void postConstruct() {
 
-        QLSLexer qLexer;
+        QLLexer qlLexer;
 
         try {
 
-            InputStream inputStream = getClass().getResourceAsStream( qLSource.getPath() );
+            InputStream inputStream = getClass().getResourceAsStream( qLSource.getSourcePath() );
 
-            qLexer = new QLSLexer( CharStreams.fromStream( inputStream, StandardCharsets.UTF_8 ) );
+            qlLexer = new QLLexer( CharStreams.fromStream( inputStream, StandardCharsets.UTF_8 ) );
 
-            QLSParser qParser = new QLSParser( new CommonTokenStream( qLexer ) );
+            QLParser qlParser = new QLParser( new CommonTokenStream( qlLexer ) );
 
-            qParser.addErrorListener( new ErrorListener() );
+            qlParser.addErrorListener( new ErrorListener() );
 
-            ast = qParser.stylesheet();
+            tree = qlParser.form();
 
         } catch (IOException e) {
             logger.info( e.getMessage() );

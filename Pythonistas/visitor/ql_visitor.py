@@ -74,7 +74,6 @@ class QLVisitor(ParseTreeVisitor):
             self.error_message = ["Error: duplicate question IDs: {}".format(question_id)]
             return
 
-        # todo: remove instanceof
         if data_type == 'boolean':
             question_object = question_classes.BooleanQuestion(question_id, question_string)
 

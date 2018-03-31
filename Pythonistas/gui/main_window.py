@@ -40,25 +40,22 @@ class MainWindow(QtWidgets.QWidget):
 
     def parse(self, ql_text, qls_text):
         """ Parse the GUI user input """
-        ql_data = ParserInterface(ql_text, 'QL')
-        qls_data = ParserInterface(qls_text, 'QLS')
-
         if ql_text:
+            # Init & traverse QL AST
+            ql_data = ParserInterface(ql_text, 'QL')
 
             if ql_data.errors:
                 self.initiate_output_frame(errors=ql_data.errors)
                 return
-
-            # Traverses QL AST
             [question_ids, questions, error_message, warning_message] = visit_ql(ql_data.ast)
 
             if qls_text:
+                # Init & traverses QLS AST
+                qls_data = ParserInterface(qls_text, 'QLS')
 
                 if qls_data.errors:
                     self.initiate_output_frame(errors=qls_data.errors)
                     return
-
-                # Traverses QLS AST
                 error_message = visit_qls(qls_data.ast, question_ids, questions)
 
             # The output_frame is initialized and appropriately filled with questions and their answering tools.

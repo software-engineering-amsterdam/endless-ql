@@ -8,7 +8,7 @@ def visit_qls(tree, question_ids, questions):
     """ Traverse the parsed tree """
     walker = QLSVisitor(question_ids, questions)
     walker.visit(tree)
-    return [walker.error_message]
+    return walker.error_message
     # warning_message = check_duplicate_question_strings(walker.question_ids, walker.questions)
     # return [walker.question_ids, walker.questions, walker.error_message, warning_message]
 
@@ -66,12 +66,6 @@ class QLSVisitor(ParseTreeVisitor):
                 default_attributes = {}
 
             for id in question_ids:
-
-                if id in self.placed_questions:
-                    self.error_message = "Error: question defined multiple times"
-                    return
-                self.placed_questions.append(id)
-
                 question = self.questions[id]
                 question.set_attributes(default_attributes)
 
@@ -83,11 +77,17 @@ class QLSVisitor(ParseTreeVisitor):
 
     def visitQuestion(self, ctx:QLSParser.QuestionContext):
         if not ctx.ID().getText() in self.questions:
-            self.error_message = "Error: undefined reference to QL ID"
+            self.error_message = ["Error: undefined reference to QL ID"]
             return
-        question_id = ctx.ID().getText()
-        question = self.questions[ctx.ID().getText()]
 
+        question_id = ctx.ID().getText()
+
+        if question_id in self.placed_questions:
+            self.error_message = ["Error: question defined multiple times: {}".format(question_id)]
+            return
+        self.placed_questions.append(id)
+
+        question = self.questions[ctx.ID().getText()]
         attributes = self.visitChildren(ctx)
         question.set_attributes(attributes['attributes'])
 

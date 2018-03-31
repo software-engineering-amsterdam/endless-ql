@@ -1,4 +1,5 @@
 from ply.yacc import yacc
+
 from qls.parser.lexer import QLSLexer
 
 

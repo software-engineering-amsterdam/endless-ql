@@ -1,32 +1,43 @@
-from termcolor import colored
-
 from os import listdir
+from os import path
+
+from termcolor import colored
 
 
 class Test:
     def __init__(self, name, directory):
         self.__name = name
         self.directory = directory
-        self.valid_files = sorted(listdir(directory + 'valid'))
-        self.invalid_files = sorted(listdir(directory + 'invalid'))
+        self.valid_files = self.get_directory_files(directory + 'valid')
+        self.invalid_files = self.get_directory_files(directory + 'invalid')
 
     @property
     def name(self):
         return self.__name
+
+    @staticmethod
+    def get_directory_files(directory):
+        if path.exists(directory):
+            return sorted(listdir(directory))
+
+        return []
 
     def test(self):
         successes = 0
         print('-------------------------------------------------------------------------------------------\n')
         print('Performing {} tests.\n'.format(self.name))
         print('-------------------------------------------------------------------------------------------\n')
-        print('Performing valid tests:')
-        successes += self.test_valid_files()
 
-        print()
-        print('Performing invalid tests:')
-        successes += self.test_invalid_files()
+        if self.valid_files:
+            print('Performing valid tests:')
+            successes += self.test_valid_files()
+            print()
 
-        print()
+        if self.invalid_files:
+            print('Performing invalid tests:')
+            successes += self.test_invalid_files()
+            print()
+
         print('{} out of {} {} tests successful.\n'.format(successes, len(self.valid_files) + len(self.invalid_files),
                                                            self.name))
 

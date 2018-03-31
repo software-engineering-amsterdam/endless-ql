@@ -30,7 +30,8 @@ public class GUIHandler {
         this.formEvaluator = formEvaluator;
         this.styleEvaluator = styleEvaluator;
 
-        this.questionChangeListener = new QuestionChangeListener(this);
+        this.questionChangeListener = new QuestionChangeListener();
+        this.questionChangeListener.registerGUIHandler(this);
         this.expressionEvaluator = new ExpressionEvaluator();
 
         initializeFrame();

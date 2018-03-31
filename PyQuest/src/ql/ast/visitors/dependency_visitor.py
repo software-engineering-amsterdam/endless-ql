@@ -1,14 +1,15 @@
+from multimethods import multimethod
+
+from ql.ast.nodes.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
+from ql.ast.nodes.expressions.literals.literal_node import LiteralNode
+from ql.ast.nodes.expressions.unary_operators.unary_operator_node import UnaryOperatorNode
+from ql.ast.nodes.expressions.variable_node import VariableNode
 from ql.ast.nodes.statements.form_node import FormNode
 from ql.ast.nodes.statements.if_node import IfNode
 from ql.ast.nodes.statements.question_node import QuestionNode
-from ql.ast.nodes.expressions.variable_node import VariableNode
-from ql.ast.nodes.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
-from ql.ast.nodes.expressions.unary_operators.unary_operator_node import UnaryOperatorNode
-from ql.ast.nodes.expressions.literals.literal_node import LiteralNode
-from multimethods import multimethod
 
 
-class DependencyVisitor(object):
+class DependencyVisitor:
 
     def __init__(self):
         self.__all_dependencies = []

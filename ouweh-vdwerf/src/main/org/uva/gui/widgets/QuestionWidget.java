@@ -33,7 +33,7 @@ public abstract class QuestionWidget extends JPanel {
     }
 
     public void setWidth(int width) {
-        this.setWidth(width);
+        this.getLayout().preferredLayoutSize(this).width = width;
     }
 
     public void setColor(Color color) {

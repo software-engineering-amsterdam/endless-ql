@@ -1,4 +1,4 @@
-class Metadata(object):
+class Metadata:
     def __init__(self, line, column):
         self.__line = line
         self.__column = column

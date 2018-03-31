@@ -28,14 +28,14 @@ class DogeController : Controller() {
             ast = it.ast
         }
 
-        reload()
+        reloadQuestions()
     }
 
     fun loadStyle(file: File) {
         style = QlsParser().parse(file)
     }
 
-    fun reload() {
+    fun reloadQuestions() {
         symbolTable.let {
             val visitor = QuestionVisitor(symbolTable!!)
             val enabledQuestions = ast!!.accept(visitor)
@@ -58,7 +58,7 @@ class DogeController : Controller() {
         return questions.first { it.name == name }
     }
 
-    // Replacing observable list will break observable
+    // Replacing observable list q  with new list will break observable binding
     // That is why we update internal values
     private fun updateQuestions(newDataQuestions: List<Question>) {
 

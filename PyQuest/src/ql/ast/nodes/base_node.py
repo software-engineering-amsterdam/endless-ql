@@ -1,4 +1,4 @@
-class BaseNode(object):
+class BaseNode:
     def __init__(self, metadata):
         self.__metadata = metadata
 

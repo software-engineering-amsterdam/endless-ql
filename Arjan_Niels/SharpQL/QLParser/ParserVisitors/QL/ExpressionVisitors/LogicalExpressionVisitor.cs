@@ -19,7 +19,6 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
             if (logicalEntityContext != null)
                 return VisitLogicalEntity(logicalEntityContext);
 
-
             var logicalExpressionContext = context.logicalExpression();
             if (logicalExpressionContext != null && logicalExpressionContext.Length == 1)
                 return VisitLogicalExpression(logicalExpressionContext[0]);

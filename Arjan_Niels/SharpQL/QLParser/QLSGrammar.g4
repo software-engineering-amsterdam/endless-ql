@@ -16,7 +16,7 @@ widgettypearguments	: LPAREN TEXT (COMMA TEXT)+ RPAREN;
 
 DOUBLE				: INT PT INT
 					| PT INT;
-HEX					: HASHTAG INT;
+HEX					: HASHTAG ([0-9] | [A-F])+;
 
 /*
  * Lexer rules

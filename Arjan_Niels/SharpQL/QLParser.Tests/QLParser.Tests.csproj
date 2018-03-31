@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="QLS\DefaultStyles\DefaultStyleTests.cs" />
     <Compile Include="QL\Analysis\Evaluator\StatementTypeEvaluatorTests.cs" />
     <Compile Include="QL\Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
     <Compile Include="QL\Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />

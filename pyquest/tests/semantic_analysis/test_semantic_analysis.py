@@ -6,7 +6,7 @@ from ql.ast.extractors.extractor import extract_identifier_scopes
 from ql.ast.extractors.extractor import extract_identifier_types
 from ql.ast.extractors.extractor import extract_questions
 from ql.ast.visitors.type_visitor import TypeVisitor
-from src.test.test import Test
+from tests.test import Test
 
 
 class TestSemanticAnalysis(Test):

@@ -1,9 +1,10 @@
 from ql.parser.lexer import QLLexer
 from ql.parser.parser import QLParser
-from src.test.expression_evaluation.test_expression_evaluation import TestExpressionEvaluation
-from src.test.lexing.test_lexing import TestLexing
-from src.test.parsing.test_parsing import TestParsing
-from src.test.semantic_analysis.test_semantic_analysis import TestSemanticAnalysis
+from tests.expression_evaluation.test_expression_evaluation import TestExpressionEvaluation
+from tests.lexing.test_lexing import TestLexing
+from tests.parsing.test_parsing import TestParsing
+from tests.semantic_analysis.test_semantic_analysis import TestSemanticAnalysis
+
 
 if __name__ == '__main__':
     ql_parser = QLParser()

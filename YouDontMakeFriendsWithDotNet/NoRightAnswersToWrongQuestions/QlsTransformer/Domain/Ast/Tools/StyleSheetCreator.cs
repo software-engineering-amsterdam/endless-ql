@@ -1,8 +1,7 @@
-﻿using System;
-using QlsTransformer.Ast.Nodes;
+﻿using QlsTransformer.Domain.Ast.Nodes;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace QlsTransformer.Ast.Tools
+namespace QlsTransformer.Domain.Ast.Tools
 {
     internal class StyleSheetCreator : IStyleSheetCreator
     {

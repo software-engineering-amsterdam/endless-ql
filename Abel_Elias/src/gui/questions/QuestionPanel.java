@@ -23,6 +23,10 @@ public abstract class QuestionPanel extends JPanel {
         this.setBorder(new MatteBorder(1, 1, 1, 1, Color.GRAY));
     }
 
+    public void setVisiblity(boolean isVisible) {
+        this.setVisible(isVisible);
+    }
+
     public abstract void createControlWidget(String key);
 
     public Question getQuestion() {

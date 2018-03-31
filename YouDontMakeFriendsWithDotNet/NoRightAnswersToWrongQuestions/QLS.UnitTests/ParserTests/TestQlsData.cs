@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using NUnit.Framework;
-using QlsTransformer.Ast.Nodes;
+using QlsTransformer.Domain.Ast.Nodes;
 
 namespace QLS.UnitTests.ParserTests
 {

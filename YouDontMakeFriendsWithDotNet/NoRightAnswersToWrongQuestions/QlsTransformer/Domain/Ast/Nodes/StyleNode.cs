@@ -1,7 +1,7 @@
 ﻿using System;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 
-namespace QlsTransformer.Ast.Nodes
+namespace QlsTransformer.Domain.Ast.Nodes
 {
     internal class StylePropertiesWithDefaults
     {

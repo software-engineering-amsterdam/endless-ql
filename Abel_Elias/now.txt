@@ -33,3 +33,9 @@ MainListPanel
 
 StyleSheetBuilder
 StylePanel
+
+
+
+1. Change Remove/Add hashmap to set Visibility true false with questionpanels
+2. Seperate Widgets and QuestionPanels
+3. Apply the right creation methods in QLBuilder and QLSBuilder

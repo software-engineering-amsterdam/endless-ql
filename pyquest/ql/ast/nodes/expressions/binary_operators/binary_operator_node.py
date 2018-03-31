@@ -14,3 +14,4 @@ class BinaryOperatorNode(ExpressionNode):
     @property
     def right_expression(self):
         return self.__right_expression
+

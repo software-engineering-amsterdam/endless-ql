@@ -39,16 +39,16 @@ class QLParser:
     def __init__(self):
         self.__errors = []
         self.__tokens = QLLexer.tokens
+        self.__parser = None
         self.__precedence = (
             ('left', 'OR'),
             ('left', 'AND'),
-            ('nonassoc', 'EQ', 'NE'),
-            ('nonassoc', 'LE', 'LT', 'GE', 'GT'),
+            ('nonassoc', 'EQUALS', 'NOT_EQUALS'),
+            ('nonassoc', 'LESS_EQUALS', 'LESS_THAN', 'GREATER_EQUALS', 'GREATER_THAN'),
             ('left', 'PLUS', 'MINUS'),
             ('left', 'TIMES', 'DIVIDE'),
             ('right', 'NOT'),
         )
-        self.parser = yacc(module=self)
 
     @property
     def errors(self):
@@ -59,8 +59,15 @@ class QLParser:
         return self.__tokens
 
     @property
+    def parser(self):
+        return self.__parser
+
+    @property
     def precedence(self):
         return self.__precedence
+
+    def build(self):
+        self.__parser = yacc(module=self)
 
     def parse(self, data, lexer):
         self.__errors = []
@@ -181,37 +188,37 @@ class QLParser:
 
     @staticmethod
     def p_equals(production):
-        """expression : expression EQ expression"""
+        """expression : expression EQUALS expression"""
         production[0] = EqualsOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                            production[1], production[3], QLUndefined())
 
     @staticmethod
     def p_not_equals(production):
-        """expression : expression NE expression"""
+        """expression : expression NOT_EQUALS expression"""
         production[0] = NotEqualsOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                               production[1], production[3], QLUndefined())
 
     @staticmethod
     def p_less_equals(production):
-        """expression : expression LE expression"""
+        """expression : expression LESS_EQUALS expression"""
         production[0] = LessEqualsOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                                production[1], production[3], QLUndefined())
 
     @staticmethod
     def p_less_than(production):
-        """expression : expression LT expression"""
+        """expression : expression LESS_THAN expression"""
         production[0] = LessThanOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                              production[1], production[3], QLUndefined())
 
     @staticmethod
     def p_greater_equals(production):
-        """expression : expression GE expression"""
+        """expression : expression GREATER_EQUALS expression"""
         production[0] = GreaterEqualsOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                                   production[1], production[3], QLUndefined())
 
     @staticmethod
     def p_greater_than(production):
-        """expression : expression GT expression"""
+        """expression : expression GREATER_THAN expression"""
         production[0] = GreaterThanOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                                 production[1], production[3], QLUndefined())
 

@@ -1,7 +1,3 @@
-"""
-TODO: Add optimise=1 to the lexer when file is production ready
-"""
-
 from re import findall
 
 from ply.lex import lex
@@ -10,25 +6,44 @@ from ql.types.boolean import QLBoolean
 from ql.types.date import QLDate
 from ql.types.decimal import QLDecimal
 from ql.types.integer import QLInteger
+from ql.types.money import QLMoney
+from ql.types.string import QLString
 
 
 class QLLexer:
     def __init__(self):
-        self.lexer = lex(module=self)
-        self.errors = []
+        self.__errors = []
+        self.__lexer = None
 
-    # @property
-    # def lexer(self):
-    #     return self.__lexer
+    @property
+    def lexer(self):
+        return self.__lexer
 
-    # @property
-    # def errors(self):
-    #     return self.__errors
+    @property
+    def errors(self):
+        return self.__errors
+
+    def build(self):
+        self.__lexer = lex(module=self)
+
+    def tokenize(self, data):
+        self.__errors = []
+        self.lexer.input(data)
+        token = self.lexer.token()
+        tokens = [token]
+
+        while token:
+            token = self.lexer.token()
+            tokens.append(token)
+
+        return tokens
 
     tokens = [
         'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'COLON',
         'ASSIGN',
-        'LE', 'LT', 'GE', 'GT', 'EQ', 'NE', 'AND', 'OR',  # TODO: expand abbreviation
+        'EQUALS', 'NOT_EQUALS',
+        'LESS_EQUALS', 'LESS_THAN', 'GREATER_EQUALS', 'GREATER_THAN',
+        'AND', 'OR',
         'DOLLAR', 'RUBLE',
         'LEFT_BRACE', 'RIGHT_BRACE',
         'LEFT_BRACKET', 'RIGHT_BRACKET',
@@ -65,12 +80,12 @@ class QLLexer:
     t_COLON = r':'
     t_ASSIGN = r'='
 
-    t_LE = r'<='
-    t_LT = r'<'
-    t_GE = r'>='
-    t_GT = r'>'
-    t_EQ = r'=='
-    t_NE = r'!='
+    t_LESS_EQUALS = r'<='
+    t_LESS_THAN = r'<'
+    t_GREATER_EQUALS = r'>='
+    t_GREATER_THAN = r'>'
+    t_EQUALS = r'=='
+    t_NOT_EQUALS = r'!='
     t_AND = r'&&'
     t_OR = r'\|\|'
 
@@ -82,12 +97,6 @@ class QLLexer:
 
     t_LEFT_BRACKET = r'\('
     t_RIGHT_BRACKET = r'\)'
-
-    # Define a rule so we can track line numbers
-    @staticmethod
-    def t_newline(token):
-        r'\n+'
-        token.lexer.lineno += len(token.value)
 
     # Literals
     @staticmethod
@@ -127,13 +136,13 @@ class QLLexer:
     @staticmethod
     def t_STRING_LITERAL(token):
         r'\"(.+?)\"'
-        token.value = token.value[1:-1]
+        token.value = QLString(token.value[1:-1])
         return token
 
     # Other
     def t_IDENTIFIER(self, token):
         r'[a-z][a-zA-Z_0-9]*'
-        token.type = self.reserved_keywords.get(token.value, 'IDENTIFIER')  # Check for reserved words
+        token.type = self.reserved_keywords.get(token.value, 'IDENTIFIER')
         return token
 
     @staticmethod
@@ -141,16 +150,12 @@ class QLLexer:
         r'//.*'
         pass
 
+    @staticmethod
+    def t_newline(token):
+        r'\n+'
+        token.lexer.lineno += len(token.value)
+
     # Error handling
     def t_error(self, token):
         self.errors.append("Illegal character '%s'" % token.value[0])
         token.lexer.skip(1)
-
-    # Test the lexer output
-    def test(self, data):
-        self.errors = []
-        self.lexer.input(data)
-        while True:
-            token = self.lexer.token()
-            if not token:
-                break

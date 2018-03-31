@@ -12,7 +12,6 @@ from ql.types.undefined import QLUndefined
 
 
 class TypeVisitor:
-
     def __init__(self, symbol_table):
         self.__symbol_table = symbol_table
         self.__errors = []
@@ -32,7 +31,7 @@ class TypeVisitor:
 
         if node.condition.expression_type != QLBoolean:
             self.__errors.append('Condition does not evaluate to boolean on line {}.'
-                                 .format(node.position.line))
+                                 .format(node.metadata.line))
 
         for child in node.block:
             child.accept(self)
@@ -46,40 +45,40 @@ class TypeVisitor:
 
             if node.answer_type != result_type:
                 self.__errors.append('Expression not of type {} on line {}'
-                                     .format(node.answer_type, node.answer.position.line))
+                                     .format(node.answer_type, node.answer.metadata.line))
 
     @multimethod(BinaryOperatorNode)
     def visit(self, node):
         node.left_expression.accept(self)
         node.right_expression.accept(self)
 
-        result_type = node.get_result_type(node.left_expression.expression_type, node.right_expression.expression_type)
+        result_type = node.get_result_type()
 
         if result_type == QLUndefined:
             self.__errors.append('Invalid operands: {} and {} not supported for binary operation on line {}'
                                  .format(node.left_expression.expression_type,
                                          node.right_expression.expression_type,
-                                         node.position.line))
+                                         node.metadata.line))
 
-        node.set_expression_type(result_type)
+        node.expression_type = result_type
 
     @multimethod(UnaryOperatorNode)
     def visit(self, node):
         node.expression.accept(self)
 
-        result_type = node.get_result_type(node.expression.expression_type)
+        result_type = node.get_result_type()
 
         if result_type == QLUndefined:
             self.__errors.append('Invalid operand: {} not supported for unary operation on line {}'
-                                 .format(node.set_expression_type, node.position.line))
+                                 .format(node.expression.expression_type, node.metadata.line))
 
-        node.set_expression_type(result_type)
+        node.expression_type = result_type
 
     @multimethod(VariableNode)
     def visit(self, node):
         for row in self.__symbol_table:
             if row['identifier'] == node.identifier:
-                node.set_expression_type(row['answer_type'])
+                node.expression_type = row['answer_type']
 
     @multimethod(LiteralNode)
     def visit(self, node):

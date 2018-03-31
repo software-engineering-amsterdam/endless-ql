@@ -7,7 +7,7 @@ class TestLexing(Test):
         self.lexer = lexer
 
     def test_file(self, file):
-        self.lexer.test(file)
+        self.lexer.tokenize(file)
 
         if self.lexer.errors:
             return False

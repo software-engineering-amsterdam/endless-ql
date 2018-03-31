@@ -8,16 +8,16 @@ from ql.types.undefined import QLUndefined
 class NegativeOperatorNode(UnaryOperatorNode):
     def __init__(self, metadata, expression_type, expression, value):
         super(NegativeOperatorNode, self).__init__(metadata, expression_type, expression, value)
-        self.__valid_types = {QLDecimal: QLDecimal,
-                              QLInteger: QLInteger,
-                              QLMoney: QLMoney}
+        self.__valid_types = {
+            QLDecimal: QLDecimal,
+            QLInteger: QLInteger,
+            QLMoney: QLMoney}
 
-    def get_result_type(self, type):
-        if self.__valid_types.get(type):
-            return self.__valid_types.get(type)
+    def get_result_type(self):
+        if self.__valid_types.get(self.expression.expression_type):
+            return self.__valid_types.get(self.expression.expression_type)
+
         return QLUndefined
 
     def evaluate(self):
-        self.value = self.expression_type(- self.expression.value.value)
-
-
+        self.value = -self.expression.value

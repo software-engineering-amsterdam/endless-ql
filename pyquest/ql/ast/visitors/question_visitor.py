@@ -6,7 +6,6 @@ from ql.ast.nodes.statements.question_node import QuestionNode
 
 
 class QuestionVisitor:
-
     def __init__(self):
         self.__questions = []
 
@@ -26,7 +25,9 @@ class QuestionVisitor:
 
     @multimethod(QuestionNode)
     def visit(self, node):
-        self.__questions.append({'label': node.label,
-                                 'identifier': node.identifier,
-                                 'answer_type': node.answer_type,
-                                 'position': node.position})
+        self.__questions.append({
+            'label': node.label,
+            'identifier': node.identifier,
+            'answer_type': node.answer_type,
+            'metadata': node.metadata,
+        })

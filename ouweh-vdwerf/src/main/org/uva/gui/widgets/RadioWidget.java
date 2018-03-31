@@ -14,7 +14,6 @@ public class RadioWidget extends QuestionWidget {
 
     private final JRadioButton trueButton;
     private final JRadioButton falseButton;
-    private ButtonGroup buttonGroup;
 
     public RadioWidget(Question question, Value value, boolean readOnly, Style style, String trueLabel, String falseLabel) {
         super(question);

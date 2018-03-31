@@ -2,7 +2,6 @@ package nl.uva.se.sc.niro.ql.parser
 
 import java.io.IOException
 
-import nl.uva.se.sc.niro.parser.QLFormParser
 import nl.uva.se.sc.niro.ql.model.ast._
 import nl.uva.se.sc.niro.ql.model.ast.expressions._
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ BooleanAnswer, IntegerAnswer, MoneyAnswer }

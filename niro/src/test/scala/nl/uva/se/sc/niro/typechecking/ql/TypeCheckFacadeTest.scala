@@ -5,6 +5,7 @@ import nl.uva.se.sc.niro.errors.Warning
 import nl.uva.se.sc.niro.ql.model.ast._
 import nl.uva.se.sc.niro.ql.model.ast.expressions._
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers._
+import nl.uva.se.sc.niro.ql.parser.typecheck.TypeCheckFacade
 import org.scalatest.WordSpec
 
 class TypeCheckFacadeTest extends WordSpec {

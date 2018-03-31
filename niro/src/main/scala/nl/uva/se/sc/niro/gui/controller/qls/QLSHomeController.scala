@@ -3,12 +3,12 @@ package nl.uva.se.sc.niro.gui.controller.qls
 import java.io.{ File, IOException }
 
 import javafx.stage.Stage
-import nl.uva.se.sc.niro.QLStylesheetFacade
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.controller.ql.QLHomeController
 import nl.uva.se.sc.niro.gui.converter.{ QLSToGUIModelBridge, QLToGUIModelBridge }
 import nl.uva.se.sc.niro.ql.model.ast.QLForm
 import nl.uva.se.sc.niro.ql.model.gui.GUIForm
+import nl.uva.se.sc.niro.qls.QLStylesheetFacade
 import nl.uva.se.sc.niro.qls.model.ast.QLStylesheet
 import nl.uva.se.sc.niro.qls.model.gui.GUIStylesheet
 

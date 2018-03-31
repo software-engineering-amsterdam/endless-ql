@@ -1,6 +1,6 @@
 package nl.uva.se.sc.niro.ql.model.ast.expressions
 
-import Conversions._
+import nl.uva.se.sc.niro.ql.model.ast.expressions.Conversions._
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }
 
 object Widener {

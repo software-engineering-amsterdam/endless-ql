@@ -1,8 +1,8 @@
 package nl.uva.se.sc.niro.gui.converter
 
-import nl.uva.se.sc.niro.qls.model.{ ast, gui }
 import nl.uva.se.sc.niro.qls.model.ast.{ Page, QLStylesheet, Section, Statement }
 import nl.uva.se.sc.niro.qls.model.gui._
+import nl.uva.se.sc.niro.qls.model.{ ast, gui }
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**

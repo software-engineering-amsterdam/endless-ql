@@ -9,14 +9,14 @@ import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.{ Alert, ButtonType, Label, ScrollPane }
 import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
-import nl.uva.se.sc.niro.QLFormFacade
 import nl.uva.se.sc.niro.gui.application.QLScenes
 import nl.uva.se.sc.niro.gui.component.Component
 import nl.uva.se.sc.niro.gui.component.ql.QLComponentFactoryBuilder
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
 import nl.uva.se.sc.niro.gui.widget.ql.QLWidgetFactory
-import nl.uva.se.sc.niro.ql.model.ast.evaluation.ExpressionEvaluator._
+import nl.uva.se.sc.niro.ql.QLFormFacade
 import nl.uva.se.sc.niro.ql.model.ast.QLForm
+import nl.uva.se.sc.niro.ql.model.ast.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.ql.model.ast.evaluation.QLFormEvaluator
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.Answer
 import nl.uva.se.sc.niro.ql.model.gui.{ GUIForm, GUIQuestion }

@@ -3,6 +3,7 @@ package nl.uva.se.sc.niro.typechecking.qls
 import nl.uva.se.sc.niro.ql.model.ast.{ BooleanType, IntegerType, MoneyType }
 import nl.uva.se.sc.niro.qls.model.ast.Styling
 import nl.uva.se.sc.niro.qls.model.ast.style.{ CheckBox, ComboBox, Radio, SpinBox }
+import nl.uva.se.sc.niro.qls.parser.typecheck.WidgetStyles
 import org.scalatest.WordSpec
 
 class TypeCheckFacadeTest extends WordSpec {

@@ -2,8 +2,8 @@ package nl.uva.se.sc.niro.ql.model.ast.evaluation
 
 import nl.uva.se.sc.niro.ql.model.ast.SymbolTable.SymbolTable
 import nl.uva.se.sc.niro.ql.model.ast.evaluation.QLFormEvaluator.ValueStore
-import nl.uva.se.sc.niro.ql.model.ast.expressions._
 import nl.uva.se.sc.niro.ql.model.ast.expressions.Widener._
+import nl.uva.se.sc.niro.ql.model.ast.expressions._
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ Answer, DecimalAnswer, IntegerAnswer, MoneyAnswer }
 
 object ExpressionEvaluator {

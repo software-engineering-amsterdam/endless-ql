@@ -2,7 +2,6 @@ package org.uva.qls.ast.Segment;
 
 import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
 import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
-import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Widget.Widget;
 import org.uva.qls.visitor.SegmentVisitor;
 

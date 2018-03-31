@@ -27,7 +27,7 @@ public interface ASTVisitor{
     String visit(EqualGreaterNode node);
     String visit(NotEqualNode node);
     String visit(IsEqualNode node);
-    String visit(NegateNode node);
+    String visit(NotNode node);
 
     Question visit(QuestionNode node);
     Question visit(QuestionAssignValueNode node);

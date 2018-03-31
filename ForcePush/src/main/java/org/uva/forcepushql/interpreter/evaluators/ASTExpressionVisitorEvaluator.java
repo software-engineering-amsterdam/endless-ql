@@ -124,7 +124,7 @@ public class ASTExpressionVisitorEvaluator implements ASTExpressionVisitor
     }
 
 
-    public boolean visit(NegateNode node)
+    public boolean visit(NotNode node)
     {
         boolean value = node.getInnerNode().accept(this);
         return !value;

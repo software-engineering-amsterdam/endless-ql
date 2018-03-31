@@ -5,11 +5,11 @@ namespace QLVisualizer.Expression.Types
 {
     public class ExpressionText : TypedExpressionValue<string>
     {
-        public ExpressionText(LazyElementExpressionLink<string> lazyElementExpressionLink) : base(new ExpressionType[] { ExpressionType.Text }, new ExpressionOperator[] { ExpressionOperator.Plus }, ExpressionType.Text, lazyElementExpressionLink)
+        public ExpressionText(LazyElementExpressionLink<string> lazyElementExpressionLink) : base(new ExpressionType[] { ExpressionType.Text }, new ExpressionOperator[] { ExpressionOperator.Plus, ExpressionOperator.Equals }, ExpressionType.Text, lazyElementExpressionLink)
         {
         }
 
-        public ExpressionText(string[] usedWidgetIDs, Func<string> expression) : base(new ExpressionType[] { ExpressionType.Text }, new ExpressionOperator[] { ExpressionOperator.Plus }, ExpressionType.Text, usedWidgetIDs, expression)
+        public ExpressionText(string[] usedWidgetIDs, Func<string> expression) : base(new ExpressionType[] { ExpressionType.Text }, new ExpressionOperator[] { ExpressionOperator.Plus, ExpressionOperator.Equals }, ExpressionType.Text, usedWidgetIDs, expression)
         {
         }
 
@@ -22,7 +22,7 @@ namespace QLVisualizer.Expression.Types
                     case ExpressionText expressionText:
                         AddToChain(expressionText.GetExpression(), op);
                         UsedIdentifiers = CombineElements(expressionText);
-                        break;
+                        return this;
                     default:
                         throw new NotImplementedException();
                 }

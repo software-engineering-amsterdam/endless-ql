@@ -45,9 +45,12 @@ namespace QLVisualizer.Controllers
         protected void HandleInput(string rawQL, string rawQLS)
         {
             Form = HandleQL(rawQL);
-            if (rawQLS != "")
-                Form = HandleQLS(rawQLS);
-            DisplayForm();
+            if (Form != null)
+            {
+                if (rawQLS != "")
+                    Form = HandleQLS(rawQLS);
+                DisplayForm();
+            }
         }
 
 

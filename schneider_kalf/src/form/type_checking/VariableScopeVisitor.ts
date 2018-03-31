@@ -1,19 +1,21 @@
 import FieldVisitor from "../nodes/visitors/FieldVisitor";
-import ComputedField from "../nodes/fields/ComputedField";
+import ComputedField from "../nodes/fields/ComputedFieldNode";
 import QuestionNode from "../nodes/fields/QuestionNode";
 import IfCondition from "../nodes/conditions/IfCondition";
 import FormNode from "../nodes/FormNode";
 import { VariableScopeStack } from "./VariableScopeStack";
 import FieldNode from "../nodes/fields/FieldNode";
 import { FieldAlreadyDeclaredError, VariableNotInScopeError } from "../form_errors";
-import { getUsedVariables } from "../form_helpers";
+import { getUsedVariableIdentifiers } from "../../helpers/form_helpers";
 import Expression from "../nodes/expressions/Expression";
 import { getVariableInformation, VariableInformation } from "../VariableIntformation";
 import FieldNodeDecorator from "../nodes/fields/FieldNodeDecorator";
 
 export interface VariableScopeResult {
-  variables: Map<string, VariableInformation>;
+  variables: VariablesMap;
 }
+
+export type VariablesMap = Map<string, VariableInformation>;
 
 export class VariableScopeVisitor implements FieldVisitor {
   private _stack: VariableScopeStack;
@@ -40,7 +42,7 @@ export class VariableScopeVisitor implements FieldVisitor {
     this.containsAllVariablesOrFail(ifCondition.predicate);
 
     this._stack.moveDown();
-    ifCondition.then.forEach(statement => statement.accept(this));
+    ifCondition.getAllStatements().forEach(statement => statement.accept(this));
     this._stack.moveUp();
   }
 
@@ -50,16 +52,21 @@ export class VariableScopeVisitor implements FieldVisitor {
     this._stack.moveUp();
   }
 
-  run(form: FormNode): VariableScopeResult {
-    this.visitForm(form);
+  public getDeclaredVariables(): VariablesMap {
+    return this._stack.getDeclaredVariables();
+  }
+
+  static run(form: FormNode): VariableScopeResult {
+    const visitor = new VariableScopeVisitor();
+    visitor.visitForm(form);
 
     return {
-      variables: this._stack.getDeclaredVariables()
+      variables: visitor.getDeclaredVariables()
     };
   }
 
   private containsAllVariablesOrFail(expression: Expression) {
-    const variables = getUsedVariables(expression);
+    const variables = getUsedVariableIdentifiers(expression);
 
     variables.forEach(identifier => {
       if (!this._stack.contains(identifier)) {

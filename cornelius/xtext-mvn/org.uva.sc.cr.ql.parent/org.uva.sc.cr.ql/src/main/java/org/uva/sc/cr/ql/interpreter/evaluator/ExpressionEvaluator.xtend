@@ -32,13 +32,20 @@ class ExpressionEvaluator {
 
 	private def String buildExpression(Expression expression) {
 		switch expression {
-			ExpressionOr: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionAnd: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionEquality: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionComparison: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionPlusOrMinus: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionMultiplicationOrDivision: return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
-			ExpressionParanthesis: return ''' ( «buildExpression(expression.expression)» ) '''
+			ExpressionOr:
+				return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionAnd:
+				return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionEquality:
+				return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionComparison:
+				return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionPlusOrMinus:
+				return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionMultiplicationOrDivision:
+				return '''«buildExpression(expression.left)» «expression.op» «buildExpression(expression.right)»'''
+			ExpressionParanthesis:
+				return ''' ( «buildExpression(expression.expression)» ) '''
 			ExpressionNot:
 				return Operation.NOT.literal + buildExpression(expression.expression)
 			ExpressionLiteralString:

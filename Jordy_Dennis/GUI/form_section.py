@@ -1,6 +1,6 @@
 """
-    Pages can be added to a parent class and consist of a scrollFrame (contents), to which
-    questions can be added or removed.
+    Sections can be added to a parent class and consist of a scrollFrame (contents), to which
+    questions and sections can be added or removed.
 
     We track a list of questions, in case questions need to be removed or added
 """
@@ -12,7 +12,7 @@ import copy
 import QLS
 
 
-class Section():
+class Section:
 
     def __init__(self, parent, questionGenerator, page_header='default', color='green'):
         self.questionGenerator = questionGenerator
@@ -60,17 +60,19 @@ class Section():
         color = 'black'
         font = 'Arial'
         fontSize = '15'
+
         if defaults:
-            for default in defaults:
-                for attribute in default.attributes:
-                    if type(attribute) == QLS.StyleWidth:
-                        width = attribute.getWidth()
-                    elif type(attribute) == QLS.StyleFont:
-                        font = attribute.getFont()
-                    elif type(attribute) == QLS.StyleFontSize:
-                        fontSize = attribute.getFontSize()
-                    elif type(attribute) == QLS.StyleColor:
-                        color = attribute.getColor()
+            if questionType in defaults and widgetType in defaults[questionType]:
+                    font = defaults[questionType][widgetType]['font']
+                    fontSize = defaults[questionType][widgetType]['fontSize']
+                    width = defaults[questionType][widgetType]['width']
+                    color = defaults[questionType][widgetType]['color']
+            elif questionType in defaults:
+                if None in defaults[questionType]:
+                    font = defaults[questionType][None]['font']
+                    fontSize = defaults[questionType][None]['fontSize']
+                    width = defaults[questionType][None]['width']
+                    color = defaults[questionType][None]['color']
 
         minVal = 0
         maxVal = 1

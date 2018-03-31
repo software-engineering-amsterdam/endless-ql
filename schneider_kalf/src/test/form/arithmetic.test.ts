@@ -13,7 +13,6 @@ import { DivisionByZeroError } from "../../form/form_errors";
 import Subtraction from "../../form/nodes/expressions/arithmetic/Subtraction";
 import IntValue from "../../form/values/IntValue";
 import { DecimalValue } from "../../form/values/DecimalValue";
-import NumericOperation from "../../form/values/NumericOperation";
 import { FieldType } from "../../form/FieldType";
 
 it('holds that 1 + 1 === 2', () => {

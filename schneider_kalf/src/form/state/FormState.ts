@@ -1,4 +1,5 @@
 import { getTypeString } from "../type_checking/type_assertions";
+import { isNumberValue } from "../values/values_helpers";
 
 export default class FormState {
   store: Map<string, any>;
@@ -44,7 +45,22 @@ export default class FormState {
     return lines.join("\n");
   }
 
-  protected instantiate(newStore?: Map<string, any>): FormState {
+  toJson() {
+    const valueMap = {};
+
+    this.store.forEach((value: any, key: string) => {
+      if (isNumberValue(value)) {
+        valueMap[key] = value.toNumber();
+        return;
+      }
+
+      valueMap[key] = value;
+    });
+
+    return JSON.stringify(valueMap, null, 2);
+  }
+
+  public instantiate(newStore?: Map<string, any>): FormState {
     return new FormState(newStore);
   }
 }

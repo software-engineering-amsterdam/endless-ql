@@ -25,7 +25,7 @@ class ValidatorHelperSpec extends FunSpec with BeforeAndAfter {
         val values = List(BooleanValue(false), BooleanValue(true))
 
         it("should all be valid") {
-          val expected = Some(BooleanType())
+          val expected = Some(BooleanType)
 
           for (op <- operands; lhs <- values; rhs <- values) {
             val evaluant = op(lhs, rhs)
@@ -60,7 +60,7 @@ class ValidatorHelperSpec extends FunSpec with BeforeAndAfter {
         val values = List(IntegerValue(1))
 
         it("should all be valid") {
-          val expected = Some(BooleanType())
+          val expected = Some(BooleanType)
 
           for(op <- operands; rhs <- values; lhs <- values) {
             val evaluant = op(lhs, rhs)
@@ -89,7 +89,7 @@ class ValidatorHelperSpec extends FunSpec with BeforeAndAfter {
         val values = List(StringValue("some"), BooleanValue(false), BooleanValue(true), IntegerValue(1))
 
         it("should all return Boolean valid") {
-          val expected = Some(BooleanType())
+          val expected = Some(BooleanType)
 
           for(op <- operands; value <- values) {
             val evaluant = op(value, value)
@@ -108,7 +108,7 @@ class ValidatorHelperSpec extends FunSpec with BeforeAndAfter {
         val values = List(IntegerValue(1))
 
         it("should all be valid") {
-          val expected = Some(IntegerType())
+          val expected = Some(IntegerType)
 
           for(op <- operands; value <- values) {
             val evaluant = op(value, value)

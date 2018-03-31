@@ -17,7 +17,7 @@ import SmallerThan from './expressions/comparisons/SmallerThan';
 import NotEqual from './expressions/comparisons/NotEqual';
 import SmallerThanOrEqual from './expressions/comparisons/SmallerThanOrEqual';
 import VariableIdentifier from './expressions/VariableIdentifier';
-import ComputedField from "./fields/ComputedField";
+import ComputedField from "./fields/ComputedFieldNode";
 import StringLiteral from "./literals/StringLiteral";
 import DateLiteral from "./literals/DateLiteral";
 

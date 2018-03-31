@@ -1,5 +1,6 @@
 package ql.ast;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import ql.ast.model.ASTNode;
 import ql.ast.model.Form;
 import ql.ast.model.declarations.*;
@@ -20,7 +21,6 @@ import ql.ast.model.statements.Question;
 import ql.ast.model.statements.Statement;
 import ql.grammar.QLBaseVisitor;
 import ql.grammar.QLParser;
-import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -310,9 +310,7 @@ public class ASTBuilder extends QLBaseVisitor<ASTNode> {
 
     private ASTNode.MetaInformation ExtractMetaInformationFromContext(ParserRuleContext ctx) {
         return new ASTNode.MetaInformation(
-                ctx.start.getLine(),
-                ctx.stop.getLine(),
-                ctx.getText()
+                ctx.start.getLine()
         );
     }
 }

@@ -1,11 +1,13 @@
 package ql.gui.controller;
 
+import com.google.gson.Gson;
+import org.antlr.v4.runtime.*;
 import ql.ast.ASTBuilder;
 import ql.ast.model.Form;
 import ql.ast.model.expressions.Expression;
 import ql.ast.model.expressions.values.VariableReference;
 import ql.ast.model.statements.Question;
-import com.google.gson.Gson;
+import ql.error.Error;
 import ql.grammar.QLLexer;
 import ql.grammar.QLParser;
 import ql.gui.model.QuestionModel;
@@ -16,9 +18,6 @@ import ql.logic.collectors.CollectQuestionsVisitor;
 import ql.logic.collectors.CollectReferencesVisitor;
 import ql.logic.evaluators.FormModelExpressionEvaluator;
 import ql.logic.validators.*;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -35,6 +34,7 @@ import java.util.List;
 public class FileOpenActionEvent implements ActionListener {
 
     private JFrame frame;
+    private boolean validated;
 
     public FileOpenActionEvent(JFrame frame) {
         this.frame = frame;
@@ -42,6 +42,8 @@ public class FileOpenActionEvent implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
+
+        this.validated = true;
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
@@ -55,16 +57,46 @@ public class FileOpenActionEvent implements ActionListener {
             try {
                 charStream = CharStreams.fromFileName(selectedFile.getAbsolutePath());
             } catch (IOException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(frame, e.getMessage(), "Fatal error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+
+            final boolean[] proceed = new boolean[2];
+            proceed[0] = true;
+            proceed[1] = true;
 
             // Lexer
             QLLexer qlLexer = new QLLexer(charStream);
+            qlLexer.removeErrorListeners();
+            qlLexer.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e);
+                    JOptionPane.showMessageDialog(frame, msg + ". Line " + line + ", column " + charPositionInLine + ".", "Parse error", JOptionPane.ERROR_MESSAGE);
+                    proceed[0] = false;
+                }
+            });
+
+
             CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
 
             // Parser
             QLParser qlParser = new QLParser(commonTokenStream);
+            qlParser.removeErrorListeners();
+            qlParser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e);
+                    JOptionPane.showMessageDialog(frame, msg + ". Line " + line + ", column " + charPositionInLine + ".", "Parse error", JOptionPane.ERROR_MESSAGE);
+                    proceed[1] = false;
+                }
+            });
+
             QLParser.FormContext formContext = qlParser.form();
+
+            if (!(proceed[0] && proceed[1])) {
+                return;
+            }
 
             // AST Builder
             ASTBuilder astBuilder = new ASTBuilder();
@@ -88,128 +120,96 @@ public class FileOpenActionEvent implements ActionListener {
             HashMap<Question, List<VariableReference>> questionsMap = collectQuestionsVisitor.getQuestionsMap(form);
 
             // Validators
+            Validator[] validators = new Validator[]{
+                    new VariablesReferencesValidator(questions, references),
+                    new TypesValidator(conditions, questions),
+                    new QuestionsDuplicationValidator(questions),
+                    new ConditionsValidator(conditions, questions),
+                    new QuestionsDependencyValidator(questionsMap),
+                    new QuestionLabelsValidator(questions)
+            };
 
-            Boolean validated = true;
 
-            // Validate undeclared variables usage in questions and conditions
-            try {
-                VariablesReferencesValidator.validateVariablesUsage(questions, references);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                validated = false;
-            }
-
-            // Validate duplicate question declarations with different types
-            try {
-                QuestionsValidator.validateDuplicates(questions);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                validated = false;
-            }
-
-            // Validate conditions that are not of the type boolean
-            try {
-                ConditionsValidator.validateConditions(conditions, questions);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                validated = false;
-            }
-
-            // Validate operands of invalid type to operators
-            try {
-                TypesValidator.validateTypes(conditions, questions);
-
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                validated = false;
-            }
-
-            // Validate cyclic dependencies in questions and expressions
-            try {
-                QuestionsDependencyValidator.validateCyclicDependencies(questionsMap);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                validated = false;
-            }
-
-            // Validate duplicate labels (warning)
-            try {
-                QuestionsValidator.validateLabels(questions);
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(frame, e.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
-            }
-
-            if (validated) {
-
-                // hide the initial frame
-                this.frame.setVisible(false);
-
-                // proceed with actual form modelling and rendering
-
-                // start: ONE LIST TO RULE THEM ALL
-                CollectQuestionModelsVisitor collectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
-                List<QuestionModel> questionModels = collectQuestionModelsVisitor.getQuestionModels(form);
-                // end: ONE LIST TO RULE THEM ALL
-
-                FormModelExpressionEvaluator evaluator = new FormModelExpressionEvaluator(questionModels);
-
-                // GUI
-
-                JPanel panel = new JPanel(new GridBagLayout());
-
-                TitledBorder titled = new TitledBorder(form.getName());
-                panel.setBorder(titled);
-
-                JScrollPane scrollFrame = new JScrollPane(panel);
-                panel.setAutoscrolls(true);
-                scrollFrame.setPreferredSize(new Dimension(600, 800));
-
-                GridBagConstraints gridBagConstraints = new GridBagConstraints();
-                gridBagConstraints.anchor = GridBagConstraints.WEST;
-
-                // form controller setup
-                FormController formController = new FormController(questionModels, evaluator);
-
-                // render form questions panels
-                int i = 0;
-                for (QuestionModel questionModel : questionModels) {
-                    gridBagConstraints.gridy = i;
-                    panel.add(new QuestionPanel(questionModel), gridBagConstraints);
-                    i++;
-                }
-
-                // Form submit
-                JButton submit = new JButton("Submit form");
-                submit.addActionListener(submitEvent -> {
-
-                    Gson gson = new Gson();
-                    String jsonResults = gson.toJson(formController.prepareResults());
-
-                    fileChooser.setSelectedFile(new File(form.getName() + "-result.json"));
-                    int returnVal = fileChooser.showSaveDialog(null);
-                    if (returnVal == JFileChooser.APPROVE_OPTION) {
-                        File file = fileChooser.getSelectedFile();
-                        try {
-                            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                            writer.write(jsonResults);
-                            writer.close();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
+            for (Validator validator : validators) {
+                if (!validator.validate()) {
+                    if (validator.getErrorLevel() == Error.Level.CRITICAL) {
+                        JOptionPane.showMessageDialog(frame, validator.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    } else {
+                        JOptionPane.showMessageDialog(frame, validator.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
                     }
-                });
-
-                gridBagConstraints.gridy = i;
-                panel.add(submit, gridBagConstraints);
-
-                // frame rendering
-                this.frame.getContentPane().removeAll();
-                this.frame.getContentPane().add(scrollFrame);
-                this.frame.pack();
-                this.frame.setLocationRelativeTo(null);
-                this.frame.setVisible(true);
-                this.frame.setResizable(false);
+                }
             }
+
+            // hide the initial frame
+            this.frame.setVisible(false);
+
+            // proceed with actual form modelling and rendering
+
+            // start: ONE LIST TO RULE THEM ALL
+            CollectQuestionModelsVisitor collectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
+            List<QuestionModel> questionModels = collectQuestionModelsVisitor.getQuestionModels(form);
+            // end: ONE LIST TO RULE THEM ALL
+
+            FormModelExpressionEvaluator evaluator = new FormModelExpressionEvaluator(questionModels);
+
+            // GUI
+
+            JPanel panel = new JPanel(new GridBagLayout());
+
+            TitledBorder titled = new TitledBorder(form.getName());
+            panel.setBorder(titled);
+
+            JScrollPane scrollFrame = new JScrollPane(panel);
+            panel.setAutoscrolls(true);
+            scrollFrame.setPreferredSize(new Dimension(600, 800));
+
+            GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            gridBagConstraints.anchor = GridBagConstraints.WEST;
+
+            // form controller setup
+            FormController formController = new FormController(questionModels, evaluator);
+
+            // render form questions panels
+            int i = 0;
+            for (QuestionModel questionModel : questionModels) {
+                gridBagConstraints.gridy = i;
+                panel.add(new QuestionPanel(questionModel), gridBagConstraints);
+                i++;
+            }
+
+            // Form submit
+            JButton submit = new JButton("Submit form");
+            submit.addActionListener(submitEvent -> {
+
+                Gson gson = new Gson();
+                String jsonResults = gson.toJson(formController.prepareResults());
+
+                fileChooser.setSelectedFile(new File(form.getName() + "-result.json"));
+                int returnVal = fileChooser.showSaveDialog(null);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    try {
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                        writer.write(jsonResults);
+                        writer.close();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            });
+
+            gridBagConstraints.gridy = i;
+            panel.add(submit, gridBagConstraints);
+
+            // frame rendering
+            this.frame.getContentPane().removeAll();
+            this.frame.getContentPane().add(scrollFrame);
+            this.frame.pack();
+            this.frame.setLocationRelativeTo(null);
+            this.frame.setVisible(true);
+            this.frame.setResizable(false);
+
         }
     }
 }

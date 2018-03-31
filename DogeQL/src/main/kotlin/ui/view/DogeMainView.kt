@@ -1,34 +1,45 @@
 package ui.view
 
-import tornadofx.*
+import javafx.scene.layout.VBox
+import qls.model.Page
+import qls.model.Section
+import qls.model.StyleSheet
 import ui.model.QuestionFormModel
+import tornadofx.*
 
 
 class DogeMainView : View() {
 
     private val model: QuestionFormModel by inject()
 
-    override val root = scrollpane()
+    override val root = VBox()
+
+    private val minHeight = 400.0
+    private val minWidth = 400.0
 
     init {
-        root.minHeight = 400.0
-        root.minWidth = 400.0
+        root.minHeight = minHeight
+        root.minWidth = minWidth
 
         with(root) {
-            form {
-                fieldset {
-                    children.bind(model.questions) {
-                        field(it.item.label) {
-                            add(QuestionField(it))
-                        }
-                    }
-                }
-                button("Save") {
-                    action {
-                        save()
-                    }
-                }
-            }
+            val view = UiRenderer().render(model.questions)
+            add(view)
+
+
+//            form {
+//                fieldset {
+//                    children.bind(model.questions) {
+//                        field(it.item.label) {
+//                            add(ViewFactory().createQuestionField(it))
+//                        }
+//                    }
+//                }
+//                button("Save") {
+//                    action {
+//                        save()
+//                    }
+//                }
+//            }
 
             runAsync {
                 model.load()
@@ -40,4 +51,11 @@ class DogeMainView : View() {
         model.commit()
         model.load()
     }
+
+
+    private fun temp(): StyleSheet {
+        return TODO()
+    }
 }
+
+

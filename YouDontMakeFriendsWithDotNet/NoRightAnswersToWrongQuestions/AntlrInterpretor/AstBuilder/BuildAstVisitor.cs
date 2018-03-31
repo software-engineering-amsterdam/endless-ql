@@ -164,7 +164,7 @@ namespace AntlrInterpretor.AstBuilder
                         leftExpression, 
                         rightExpression);
                 default:
-                    throw new QlParserException(
+                    throw new ParserException(
                         $@"Boolean Type '{context.booleanOperator().chosenOperator.Type}' handled in the parse tree but not by the AST",
                         null);
             }
@@ -180,7 +180,7 @@ namespace AntlrInterpretor.AstBuilder
                 case QlParser.DATETYPE: return typeof(DateTime);
                 case QlParser.DECIMALTYPE: return typeof(decimal);
                 default:
-                    throw new QlParserException(
+                    throw new ParserException(
                         $@"QuestionType '{question.questionType().chosenType.Type}' handled in the parse tree but not by the AST",
                         null);
             }
@@ -220,7 +220,7 @@ namespace AntlrInterpretor.AstBuilder
                         leftExpression,
                         rightExpression);
                 default:
-                    throw new QlParserException(
+                    throw new ParserException(
                         $"The provided operator '{context.@operator.Text}' is not handled within add or subtract in the statement {context.GetText()}.",
                         null);
             }
@@ -249,7 +249,7 @@ namespace AntlrInterpretor.AstBuilder
                         leftExpression,
                         rightExpression);
                 default:
-                    throw new QlParserException(
+                    throw new ParserException(
                         $"The provided operator '{context.@operator.Text}' is not handled within multiply or divide in the statement {context.GetText()}.", 
                         null);
             }
@@ -374,7 +374,7 @@ namespace AntlrInterpretor.AstBuilder
                         leftExpression,
                         rightExpression);
                 default:
-                    throw new QlParserException($"The relative operator '{operatorText}' is not recognized.", null);
+                    throw new ParserException($"The relative operator '{operatorText}' is not recognized.", null);
             }
         }
 
@@ -398,7 +398,7 @@ namespace AntlrInterpretor.AstBuilder
                         leftExpression,
                         rightExpression);
                 default:
-                    throw new QlParserException($"The equality operator '{operatorText}' is not recognized.", null);
+                    throw new ParserException($"The equality operator '{operatorText}' is not recognized.", null);
             }
         }
     }

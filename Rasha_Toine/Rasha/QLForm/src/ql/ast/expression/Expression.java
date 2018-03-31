@@ -16,7 +16,7 @@ public abstract class Expression extends AstNode {
 		Set<String> variables = new HashSet<>();
 		this.accept(new MainVisitor<Void, Void>(){
 			@Override
-			public Void visit(IdentityExpression var, Void unused) {
+			public Void visit(IdentityExpression var, Void ctx) {
 				variables.add(var.getName());
                 return null;
 			}

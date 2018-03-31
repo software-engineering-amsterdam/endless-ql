@@ -21,4 +21,12 @@ export default class PageNode extends AbstractStyleNode implements FormChild {
   getFirstLevelSections(): SectionNode[] | any {
     return this.body.filter(child => child.isSection());
   }
+
+  isEqual(otherPage: PageNode) {
+    return this.name === otherPage.name;
+  }
+
+  isPage(): this is PageNode {
+    return true;
+  }
 }

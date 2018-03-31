@@ -42,7 +42,7 @@ public class PageGUI {
 		return component;
 	}
 
-	public String getName() {
+	public String pageLabel() {
 		return page.getName();
 	}
 }

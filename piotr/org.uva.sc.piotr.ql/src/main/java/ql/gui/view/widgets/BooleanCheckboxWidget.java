@@ -37,6 +37,6 @@ public class BooleanCheckboxWidget extends Widget {
 
     @Override
     public void updateValue() {
-        this.checkbox.setSelected(this.getQuestionModel().getValue().getBooleanValue());
+        this.checkbox.setSelected((Boolean) this.getQuestionModel().getQLDataTypeValue().getValue());
     }
 }

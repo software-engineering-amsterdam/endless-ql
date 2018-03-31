@@ -1,25 +1,27 @@
 package qlviz.gui.viewModel;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
-import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModel;
+import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModelFactory;
+import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
 import qlviz.gui.viewModel.question.*;
-import qlviz.model.booleanExpressions.BooleanExpression;
-import qlviz.model.numericExpressions.NumericExpression;
+import qlviz.interpreter.ConditionCollector;
 import qlviz.model.question.*;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class QuestionViewModelFactoryImpl implements QuestionViewModelFactory, QuestionVisitor<QuestionViewModel> {
-    private Function<NumericExpression, NumericExpressionViewModel> numericExpressionViewModelFactory;
-    private final Function<BooleanExpression, BooleanExpressionViewModel> booleanExpressionViewModelFactory;
-    private final Function<Question, List<BooleanExpression>> conditionCollector;
+    private NumericExpressionViewModelFactory numericExpressionViewModelFactory;
+    private final BooleanExpressionViewModelFactory booleanExpressionViewModelFactory;
+    private final ConditionCollector conditionCollector;
 
+    @Inject
     public QuestionViewModelFactoryImpl(
-            Function<NumericExpression, NumericExpressionViewModel> numericExpressionViewModelFactory,
-            Function<BooleanExpression, BooleanExpressionViewModel> booleanExpressionViewModelFactory,
-            Function<Question, List<BooleanExpression>> conditionCollector) {
+            NumericExpressionViewModelFactory numericExpressionViewModelFactory,
+            BooleanExpressionViewModelFactory booleanExpressionViewModelFactory,
+            @Assisted ConditionCollector conditionCollector) {
         this.numericExpressionViewModelFactory = numericExpressionViewModelFactory;
         this.booleanExpressionViewModelFactory = booleanExpressionViewModelFactory;
         this.conditionCollector = conditionCollector;
@@ -33,19 +35,19 @@ public class QuestionViewModelFactoryImpl implements QuestionViewModelFactory, Q
     @Override
     public QuestionViewModel visit(BooleanQuestion booleanQuestion) {
         List<BooleanExpressionViewModel> conditions =
-                conditionCollector.apply(booleanQuestion)
+                conditionCollector.getConditions(booleanQuestion)
                                     .stream()
-                                    .map(booleanExpressionViewModelFactory)
+                                    .map(booleanExpressionViewModelFactory::create)
                                     .collect(Collectors.toList());
-        return new BooleanQuestionViewModel(booleanQuestion, conditions);
+        return new BooleanQuestionViewModel(booleanQuestion, conditions, booleanExpressionViewModelFactory);
     }
 
     @Override
     public QuestionViewModel visit(DateQuestion dateQuestion) {
         List<BooleanExpressionViewModel> conditions =
-                conditionCollector.apply(dateQuestion)
+                conditionCollector.getConditions(dateQuestion)
                         .stream()
-                        .map(booleanExpressionViewModelFactory)
+                        .map(booleanExpressionViewModelFactory::create)
                         .collect(Collectors.toList());
         return new DateQuestionViewModel(dateQuestion, conditions);
     }
@@ -53,9 +55,9 @@ public class QuestionViewModelFactoryImpl implements QuestionViewModelFactory, Q
     @Override
     public QuestionViewModel visit(DecimalQuestion decimalQuestion) {
         List<BooleanExpressionViewModel> conditions =
-                conditionCollector.apply(decimalQuestion)
+                conditionCollector.getConditions(decimalQuestion)
                         .stream()
-                        .map(booleanExpressionViewModelFactory)
+                        .map(booleanExpressionViewModelFactory::create)
                         .collect(Collectors.toList());
         return new DecimalQuestionViewModel(decimalQuestion, numericExpressionViewModelFactory, conditions);
     }
@@ -63,9 +65,9 @@ public class QuestionViewModelFactoryImpl implements QuestionViewModelFactory, Q
     @Override
     public QuestionViewModel visit(IntegerQuestion integerQuestion) {
         List<BooleanExpressionViewModel> conditions =
-                conditionCollector.apply(integerQuestion)
+                conditionCollector.getConditions(integerQuestion)
                         .stream()
-                        .map(booleanExpressionViewModelFactory)
+                        .map(booleanExpressionViewModelFactory::create)
                         .collect(Collectors.toList());
         return new IntegerQuestionViewModel(integerQuestion, numericExpressionViewModelFactory, conditions);
     }
@@ -73,9 +75,9 @@ public class QuestionViewModelFactoryImpl implements QuestionViewModelFactory, Q
     @Override
     public QuestionViewModel visit(MoneyQuestion moneyQuestion) {
         List<BooleanExpressionViewModel> conditions =
-                conditionCollector.apply(moneyQuestion)
+                conditionCollector.getConditions(moneyQuestion)
                         .stream()
-                        .map(booleanExpressionViewModelFactory)
+                        .map(booleanExpressionViewModelFactory::create)
                         .collect(Collectors.toList());
         return new MoneyQuestionViewModel(moneyQuestion, numericExpressionViewModelFactory, conditions);
     }
@@ -83,9 +85,9 @@ public class QuestionViewModelFactoryImpl implements QuestionViewModelFactory, Q
     @Override
     public QuestionViewModel visit(StringQuestion stringQuestion) {
         List<BooleanExpressionViewModel> conditions =
-                conditionCollector.apply(stringQuestion)
+                conditionCollector.getConditions(stringQuestion)
                         .stream()
-                        .map(booleanExpressionViewModelFactory)
+                        .map(booleanExpressionViewModelFactory::create)
                         .collect(Collectors.toList());
         return new StringQuestionViewModel(stringQuestion, conditions);
     }

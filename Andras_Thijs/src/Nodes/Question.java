@@ -1,6 +1,5 @@
 package Nodes;
 
-import Nodes.Term.QLBoolean;
 import Nodes.Term.Term;
 import QLExceptions.*;
 
@@ -8,12 +7,11 @@ import QLExceptions.*;
  * Contains a parsed question with name, label, type, and an expression if applicable
  */
 public class Question extends ASTNode {
-    private String name;
-    private String label;
-    private Type type;
-    public Expression expression; //TODO: TESTING PURPOSES, THIS SHOULD BE PRIVATE!!!
+    private final String name;
+    private final String label;
+    private final Type type;
+    private Expression expression;
 
-    private boolean isDisplayed = false;
     private Term result;
 
     /**
@@ -48,6 +46,7 @@ public class Question extends ASTNode {
      */
     public void setParents(ASTNode parent) {
         setParent(parent);
+        // Not every Question has an Expression!
         if(expression != null)
             expression.setParents(this);
     }
@@ -86,12 +85,13 @@ public class Question extends ASTNode {
      * Evaluates the expression of the question
      * @throws TypeException when the Types don't match
      */
-    // This function evaluates the expression (which also does typechecking) and stores the resulting value
+    // This function evaluates the expression (which also does type checking) and stores the resulting value
     public void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();
+            // TODO code smell! remove if possible
             switch(result.getType()) {
-                case BOOL: if(type == Type.BOOL) return;
+                case BOOL: if(type == Type.BOOL) break;
                 case DECIMAL: if(type == Type.DECIMAL || type == Type.INT || type == Type.MONEY) break;
                 case STRING: if(type == Type.STRING || type == Type.DATE) break;
                 default: throw new TypeException(this, type, Type.getByCode(result.toString()));
@@ -99,20 +99,19 @@ public class Question extends ASTNode {
             this.result = result;
         } catch(OtherException e) {
             // This Exception is thrown when a Variable isn't set yet.
-            result = null;
+            this.result = null;
         }
     }
 
-    public void setDisplayed(boolean displayed) {
-        isDisplayed = displayed;
+    public boolean isAvailable() throws SyntaxException, TypeException {
+        return this.getParent().isAvailable();
     }
 
-    public boolean isDisplayed() {
-        return isDisplayed;
+    public void updateTerm(Term term){
+        this.result = term;
     }
 
-    // TODO implement recursive function to check expressions up the hiearchy
-    public boolean isAvailable() {
-        return true;
+    public boolean hasExpression(){
+        return (this.expression != null);
     }
 }

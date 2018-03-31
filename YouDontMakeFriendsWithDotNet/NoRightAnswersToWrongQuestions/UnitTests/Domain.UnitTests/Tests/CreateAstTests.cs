@@ -4,6 +4,8 @@ using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using QL.UnitTests.Domain.UnitTests.Data;
+using QL.UnitTests.Domain.UnitTests.Utilities;
 using QuestionnaireDomain.Entities;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
@@ -15,10 +17,8 @@ using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
-using UnitTests.Domain.UnitTests.Data;
-using UnitTests.Domain.UnitTests.Utilities;
 
-namespace UnitTests.Domain.UnitTests.Tests
+namespace QL.UnitTests.Domain.UnitTests.Tests
 {
     [TestFixture]
     public class CreateAstTests
@@ -48,9 +48,9 @@ namespace UnitTests.Domain.UnitTests.Tests
         [Test]
         public void WhenGivenMalformedLexableDefinition_ThrowsParserException()
         {
-            var constraint = Is.TypeOf<QlParserException>()
+            var constraint = Is.TypeOf<ParserException>()
                 .And
-                .Property(nameof(QlParserException.ParseErrorDetails))
+                .Property(nameof(ParserException.ParseErrorDetails))
                 .EqualTo(
                     @"'gobbldygook' was not recognized at line 1, position 0, giving the following error: missing 'form' at 'gobbldygook' ")
                 .And
@@ -91,7 +91,7 @@ namespace UnitTests.Domain.UnitTests.Tests
         public void WhenGivenBadlyFormedForm_ThrowsException(
             string invalidDescription)
         {
-            Assert.Throws<QlParserException>(
+            Assert.Throws<ParserException>(
                 code: () => CreateForm(invalidDescription),
                 message:$"Should not have created a form from this definition: '{invalidDescription}'");
         }
@@ -116,7 +116,7 @@ namespace UnitTests.Domain.UnitTests.Tests
         public void WhenGivenBadlyFormedComments_ThrowsException(
             string invalidDescription)
         {
-            Assert.Throws<QlParserException>(
+            Assert.Throws<ParserException>(
                 code:() => CreateForm(invalidDescription),
                 message: $"the following description with comments should not have parsed correctly: '{invalidDescription}'");
         }
@@ -143,9 +143,9 @@ namespace UnitTests.Domain.UnitTests.Tests
             string invalidName)
         {
             var constraint = Is
-                .TypeOf<QlParserException>()
+                .TypeOf<ParserException>()
                 .And
-                .Property(nameof(QlParserException.ParseErrorDetails))
+                .Property(nameof(ParserException.ParseErrorDetails))
                 .Contains(invalidName);
 
             Assert.Throws(

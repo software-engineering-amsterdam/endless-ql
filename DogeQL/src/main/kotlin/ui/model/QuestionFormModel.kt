@@ -1,10 +1,10 @@
 package ui.model
 
-import data.question.Question
+import doge.data.question.Question
+import ui.controller.DogeController
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import tornadofx.ItemViewModel
-import ui.controller.DogeController
 
 class QuestionFormModel : ItemViewModel<QuestionModel>() {
 
@@ -31,15 +31,20 @@ class QuestionFormModel : ItemViewModel<QuestionModel>() {
 
 
     private fun updateViewModel(newDataQuestions: List<Question>) {
-        val toAdd = newDataQuestions - dataQuestions
+        val modelFactory = ViewModelFactory()
 
-        questions.removeIf { q ->
-            q.item !in newDataQuestions
+        val toAdd = newDataQuestions.filter { question ->
+            question !in dataQuestions || question.readOnly
+        }
+
+        questions.removeIf { question ->
+            question.item !in newDataQuestions || question.item.readOnly
         }
 
         // Only add new questions, leave old questions as is
-        toAdd.forEach { q ->
-            questions.add(newDataQuestions.indexOf(q), QuestionModel(q))
+        toAdd.forEach { question ->
+            questions.add(newDataQuestions.indexOf(question), modelFactory.createUiQuestionModel(question))
         }
+
     }
 }

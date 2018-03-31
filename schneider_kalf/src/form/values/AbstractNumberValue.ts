@@ -23,6 +23,10 @@ export default abstract class AbstractNumberValue implements NumberValue {
 
   abstract divide(other: NumberValue): NumberValue;
 
+  abstract increment(): NumberValue;
+
+  abstract decrement(): NumberValue;
+
   abstract getValue();
 
   abstract getPriority(): number;
@@ -34,4 +38,6 @@ export default abstract class AbstractNumberValue implements NumberValue {
   abstract smallerThan(other: NumberValue): boolean;
 
   abstract largerThan(other: NumberValue): boolean;
+
+  abstract toNumber(): number;
 }

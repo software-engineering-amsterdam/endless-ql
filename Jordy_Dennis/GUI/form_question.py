@@ -50,7 +50,7 @@ class Question:
         label.pack()
 
     """
-        Get the widget according to the question type
+        Get the widget according to the question type, and widget in case of QLS
     """
 
     def createInputUser(self, questionType, widgetType="default", **kwargs):
@@ -70,7 +70,7 @@ class Question:
         return self.frame
 
     def getAnswer(self):
-        if ((self.questionType == float or self.questionType == int) and (self.answer.get() == "")):
+        if (self.questionType == float or self.questionType == int) and (self.answer.get() == ""):
             return 0
         else:
             return self.answer.get()

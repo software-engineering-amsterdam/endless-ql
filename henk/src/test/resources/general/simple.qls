@@ -1,0 +1,7 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    question hasSoldHouse  
+  }
+}

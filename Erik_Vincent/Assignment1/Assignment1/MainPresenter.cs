@@ -40,12 +40,22 @@ namespace Assignment1
             try
             {
                 var astForm = TextToQLAST.ParseString(File.ReadAllText(inputFile));
-                QLTypeChecker typechecker = new QLTypeChecker();
-                typechecker.TypeCheckQuestionForm(astForm);
-                var renderForm = QLASTToRenderTree.Convert(astForm);
-                IQuestionFormRenderer renderer = new QuestionFormRenderer(renderForm);
-                _view.SetFormControl(renderer.Render());
-                _view.SetWarnings(typechecker.Warnings);
+                var messages = new MessageContainer();
+                messages.Add(QLASTDuplicateChecker.CheckDuplicates(astForm));
+                messages.Add(QLASTScopeChecker.CheckReferenceScopes(astForm));
+                if (messages.Errors.Any())
+                {
+                    _view.SetErrors(messages.Errors);
+                }
+                else
+                {
+                    messages.Add(QLASTCyclicDependencyChecker.CheckForCycles(astForm));
+                    QLTypeChecker typechecker = new QLTypeChecker();
+                    typechecker.TypeCheckQuestionForm(astForm);
+                    var renderer = new QLRenderer(astForm);
+                    _view.SetFormControl(renderer.Render());
+                }
+                _view.SetWarnings(messages.Warnings);
             }
             catch (QLParseException exception)
             {

@@ -1,9 +1,10 @@
 package ql.validator;
 
 import ql.ast.Form;
-import ql.validator.issuetracker.IssueTracker;
-
-import java.util.logging.Logger;
+import ql.validator.checkers.Checker;
+import ql.validator.checkers.CyclicDependencyChecker;
+import ql.validator.checkers.ExpressionChecker;
+import ql.validator.checkers.QuestionDuplicationChecker;
 
 
 /**
@@ -11,45 +12,41 @@ import java.util.logging.Logger;
  */
 public class Validator {
 
-    private final static Logger LOGGER = Logger.getLogger(Validator.class.getName());
-    private final IssueTracker issueTracker;
-    private final QuestionDuplicationChecker questionDuplicationChecker;
-    private final ExpressionChecker expressionChecker;
-    private final CyclicDependencyChecker cyclicDependencyChecker;
-    private final SymbolTable symbolTable;
+    private static final Checker questionDuplicationChecker = new QuestionDuplicationChecker();
+    private static final Checker expressionChecker = new ExpressionChecker();
+    private static final Checker cyclicDependencyChecker = new CyclicDependencyChecker();
 
+    public static boolean passesTypeChecks(Form form) {
 
-    public Validator() {
-        issueTracker = new IssueTracker();
-        questionDuplicationChecker = new QuestionDuplicationChecker(issueTracker);
-        expressionChecker = new ExpressionChecker(issueTracker);
-        cyclicDependencyChecker = new CyclicDependencyChecker(issueTracker);
-        symbolTable = new SymbolTable();
-    }
-
-    public boolean passesTypeChecks(Form form) {
+        //TODO: passesTests return issuetracker. No global tracker, no singleton
 
         //Check for duplicate question identifiers and labels
-        if (!questionDuplicationChecker.passesTests(form, symbolTable)) {
-            issueTracker.getErrors().forEach(issue -> LOGGER.severe(issue.toString()));
+        if (!questionDuplicationChecker.passesTests(form)) {
+            questionDuplicationChecker.logErrors();
             return false;
         }
 
         //Check for reference to undefined questions, non-boolean conditionals, and invalid operand types
-        if (!expressionChecker.passesTests(form, symbolTable)) {
-            issueTracker.getErrors().forEach(issue -> LOGGER.severe(issue.toString()));
+        if (!expressionChecker.passesTests(form)) {
+            expressionChecker.logErrors();
             return false;
         }
 
         //Check cyclic dependencies between questions
         if (!cyclicDependencyChecker.passesTests(form)) {
-            issueTracker.getErrors().forEach(issue -> LOGGER.severe(issue.toString()));
+            cyclicDependencyChecker.logErrors();
             return false;
         }
 
-        issueTracker.getWarnings().forEach(issue -> LOGGER.warning(issue.toString()));
+        logWarnings();
 
         return true;
+    }
+
+    private static void logWarnings() {
+        questionDuplicationChecker.logWarnings();
+        expressionChecker.logWarnings();
+        cyclicDependencyChecker.logWarnings();
     }
 
 }

@@ -17,18 +17,18 @@ import org.uva.sc.cr.ql.qL.Expression
 class BindingBuilder {
 
 	@Inject
-	private var ExpressionEvaluator evaluator
+	var ExpressionEvaluator evaluator
 
 	@Inject
-	private var ExpressionEvaluatorMoney evaluatorMoney
+	var ExpressionEvaluatorMoney evaluatorMoney
 
-	private List<Binding> bindings;
+	List<Binding> bindings;
 
 	new() {
 		bindings = new ArrayList();
 	}
 
-	public def invalidateBindings() {
+	def invalidateBindings() {
 		bindings.forEach [
 			it.invalidate()
 		]

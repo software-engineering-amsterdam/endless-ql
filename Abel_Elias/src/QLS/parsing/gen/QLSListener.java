@@ -28,25 +28,25 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitPage(QLSParser.PageContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#block}.
+	 * Enter a parse tree produced by {@link QLSParser#section}.
 	 * @param ctx the parse tree
 	 */
-	void enterBlock(QLSParser.BlockContext ctx);
+	void enterSection(QLSParser.SectionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#block}.
+	 * Exit a parse tree produced by {@link QLSParser#section}.
 	 * @param ctx the parse tree
 	 */
-	void exitBlock(QLSParser.BlockContext ctx);
+	void exitSection(QLSParser.SectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#lineInBlock}.
+	 * Enter a parse tree produced by {@link QLSParser#element}.
 	 * @param ctx the parse tree
 	 */
-	void enterLineInBlock(QLSParser.LineInBlockContext ctx);
+	void enterElement(QLSParser.ElementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#lineInBlock}.
+	 * Exit a parse tree produced by {@link QLSParser#element}.
 	 * @param ctx the parse tree
 	 */
-	void exitLineInBlock(QLSParser.LineInBlockContext ctx);
+	void exitElement(QLSParser.ElementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLSParser#question}.
 	 * @param ctx the parse tree
@@ -57,16 +57,6 @@ public interface QLSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitQuestion(QLSParser.QuestionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLSParser#section}.
-	 * @param ctx the parse tree
-	 */
-	void enterSection(QLSParser.SectionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLSParser#section}.
-	 * @param ctx the parse tree
-	 */
-	void exitSection(QLSParser.SectionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLSParser#defaultWidget}.
 	 * @param ctx the parse tree

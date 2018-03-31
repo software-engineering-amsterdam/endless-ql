@@ -1,19 +1,19 @@
 package ui.controller
 
-import ast.DogeParser
-import data.question.Question
+import doge.ast.DogeParser
+import doge.data.question.Question
+import qls.ast.QlsParser
 import tornadofx.Controller
 
 class DogeController: Controller() {
 
     private val tree = DogeParser().parse()
+    private val qlsTree = QlsParser().parse()
 
     fun getQuestions(): List<Question> {
-        tree.symbolTable.evaluateTable()
-        return tree.getEnabledQuestions()
+        return tree
     }
 
     fun updateQuestion(question: Question){
-        tree.updateQuestion(question)
     }
 }

@@ -18,6 +18,11 @@ object FormHelper {
     StatementCollector.getIfStatements(form)
   }
 
+  def getElseStatements(location: URL): List[ElseStatement] = {
+    val form = QLParser.getForm(location)
+    StatementCollector.getElseStatements(form)
+  }
+
   def getExpressions(location: URL): List[Expression] = {
     val form = QLParser.getForm(location)
     ExpressionCollector.getExpressions(form)

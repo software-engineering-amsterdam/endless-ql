@@ -1,16 +1,16 @@
 package org.uva.app;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
 import java.util.logging.Logger;
 
 public class IOHandler {
@@ -31,9 +31,10 @@ public class IOHandler {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             return readFile(chooser.getSelectedFile().getName());
         } else {
-            logger.severe("File selection unsuccessful");
+            logger.info("No file selected");
+            System.exit(0);
         }
-        return "";
+        return null;
     }
 
     public String readFile(String location) {
@@ -65,8 +66,7 @@ public class IOHandler {
             FileWriter file = new FileWriter(location);
             file.write(jsonArray.toString(4));
             file.close();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             logger.severe("Result output unsuccessful");
             e.printStackTrace();
         }

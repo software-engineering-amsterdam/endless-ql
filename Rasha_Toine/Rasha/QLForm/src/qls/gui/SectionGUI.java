@@ -16,7 +16,7 @@ public class SectionGUI {
 	
 	private JComponent component;
 	private Section section;
-	private List<QuestionGUI> questions; //TODO review, might not be needed
+	private List<QuestionGUI> questions; //TODO review, might not be needed as property
 
 	//construction
 	public SectionGUI(Section section, List<QuestionGUI> questions) {

@@ -3,7 +3,7 @@ package qlviz.style;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.junit.Assert;
 import org.junit.Test;
-import qlviz.QLSBaseVisitor;
+import qlviz.QLSVisitor;
 import qlviz.QLSParser;
 import qlviz.interpreter.style.StylesheetVisitor;
 import qlviz.model.style.Page;
@@ -20,7 +20,7 @@ public class StylesheetVisitorTest {
     @Test
     public void testVisitStylesheet() {
         // Arrange
-        QLSBaseVisitor<Page> pageVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<Page> pageVisitorMock = mock(QLSVisitor.class);
         QLSParser.StylesheetContext contextMock = mock(QLSParser.StylesheetContext.class);
         StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(pageVisitorMock);
         TerminalNode identifierMock = mock(TerminalNode.class);
@@ -40,7 +40,7 @@ public class StylesheetVisitorTest {
     public void testName() {
         // Arrange
         final String name = "test_name";
-        QLSBaseVisitor<Page> pageVisitorMock = mock(QLSBaseVisitor.class);
+        QLSVisitor<Page> pageVisitorMock = mock(QLSVisitor.class);
         QLSParser.StylesheetContext contextMock = mock(QLSParser.StylesheetContext.class);
         StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(pageVisitorMock);
         TerminalNode identifierMock = mock(TerminalNode.class);

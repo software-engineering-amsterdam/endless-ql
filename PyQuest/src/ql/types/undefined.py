@@ -1,7 +1,7 @@
-from ql.types.type import QLType
-from ql.types.boolean import QLBoolean
-from ql.ast.expressions.literals.undefined_node import UndefinedNode
 from gui.widgets.label import Label
+from ql.ast.nodes.expressions.literals.undefined_node import UndefinedNode
+from ql.types.boolean import QLBoolean
+from ql.types.type import QLType
 
 
 class QLUndefined(QLType):
@@ -20,6 +20,9 @@ class QLUndefined(QLType):
 
     def __ne__(self, other):
         return QLBoolean(self.value != other.value)
+
+    def get_json_value(self):
+        return None
 
     @property
     def value(self):

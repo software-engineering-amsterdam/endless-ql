@@ -4,9 +4,7 @@ import ql.ast.model.declarations.TypeDeclaration;
 import ql.ast.model.expressions.Expression;
 import ql.gui.controller.FormController;
 import ql.gui.view.QuestionPanel;
-import ql.logic.type.MixedValue;
-
-import java.math.BigDecimal;
+import ql.logic.type.QLDataTypeWrapper;
 
 public class QuestionModel {
 
@@ -18,7 +16,7 @@ public class QuestionModel {
     private final Expression assignedExpression;
 
     private Boolean visibility;
-    private MixedValue value;
+    private QLDataTypeWrapper qlDataTypeWrapperValue;
 
     private FormController formController;
     private QuestionPanel panel;
@@ -33,7 +31,7 @@ public class QuestionModel {
         this.visibility = true;
 
         this.assignedExpression = assignedExpression;
-        this.value = MixedValue.createValue(this.originalDataTypeDeclaration.toDataType(), "");
+        this.qlDataTypeWrapperValue = QLDataTypeWrapper.createValue(this.originalDataTypeDeclaration.toDataType(), "");
     }
 
     public String getLabel() {
@@ -64,60 +62,21 @@ public class QuestionModel {
         this.visibility = visibility;
     }
 
-    public MixedValue getValue() {
-        return value;
+    public QLDataTypeWrapper getQLDataTypeValue() {
+        return qlDataTypeWrapperValue;
     }
 
     public Object getJavaTypedValue() {
-        switch (this.value.getType()) {
-            case INTEGER:
-                return this.value.getIntegerValue();
-            case DECIMAL:
-                return this.value.getDecimalValue();
-            case BOOLEAN:
-                return this.value.getBooleanValue();
-            case STRING:
-                return this.value.getStringValue();
-            default:
-                return null;
-        }
+        return this.qlDataTypeWrapperValue.getValue();
     }
 
-    public void setValue(MixedValue value) {
-        this.value = value;
+    public void setQlTypedValue(QLDataTypeWrapper value) {
+        this.qlDataTypeWrapperValue = value;
     }
 
-    public void changeValue(Boolean value) {
-        this.value.setBooleanValue(value);
+    public void changeValue(Object value) {
+        this.qlDataTypeWrapperValue.setValue(value);
         this.formController.processQuestionModelChange(this);
-    }
-
-    public void changeValue(BigDecimal value) {
-        this.value.setDecimalValue(value);
-        this.formController.processQuestionModelChange(this);
-    }
-
-    public void changeValue(Integer value) {
-        this.value.setIntegerValue(value);
-        this.formController.processQuestionModelChange(this);
-    }
-
-    public void changeValue(String value) {
-        this.value.setStringValue(value);
-        this.formController.processQuestionModelChange(this);
-    }
-
-    @Override
-    public String toString() {
-        return "QuestionModel{" +
-                "label='" + label + '\'' +
-                ", variableName='" + variableName + '\'' +
-                ", originalDataTypeDeclaration=" + originalDataTypeDeclaration +
-                ", visibilityCondition=" + visibilityCondition +
-                ", assignedExpression=" + assignedExpression +
-                ", visibility=" + visibility +
-                ", value=" + value +
-                '}';
     }
 
     public void registerController(FormController formController) {

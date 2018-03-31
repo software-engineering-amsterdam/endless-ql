@@ -10,37 +10,11 @@ import java.util.List;
  * A parsed condition that can contain questions and other conditions
  */
 public class Condition extends ASTNode {
-    public Expression expression; //TODO: TESTING PURPOSES, THIS SHOULD BE PRIVATE!!!
-    private List<Question> questions;
-    private List<Condition> conditions;
+    private final Expression expression;
+    private final List<Question> questions;
+    private final List<Condition> conditions;
 
     private QLBoolean result;
-
-    /**
-     * Creates an empty condition with just an expression
-     * @param expression contains an Expression
-     */
-    public Condition(Expression expression){
-        this.expression = expression;
-    }
-
-    /**
-     * Creates a condition with an expression and a list of questions or conditions
-     * @param expression contains an Expression
-     * @param nodes contains either a list of Questions, or a list of Conditions
-     * @throws SyntaxException when the type is not Question or Condition
-     */
-    public Condition(Expression expression, List<? extends ASTNode> nodes) throws SyntaxException {
-        this.expression = expression;
-        ASTNode first = nodes.get(0);
-        if(first instanceof Question) {
-            this.questions = (List<Question>) nodes;
-        } else if(first instanceof Condition) {
-            this.conditions = (List<Condition>) nodes;
-        } else {
-            throw new SyntaxException("Received a List that doesn't contain Questions or Conditions", this);
-        }
-    }
 
     /**
      * Creates a condition with an expression, a list of questions, and a list of conditions
@@ -62,21 +36,11 @@ public class Condition extends ASTNode {
         setParent(parent);
         expression.setParents(this);
 
-        if(questions != null)
-            for(Question q : questions)
-                q.setParents(this);
+        for(Question q : questions)
+            q.setParents(this);
 
-        if(conditions != null)
-            for(Condition c : conditions)
-                c.setParents(this);
-    }
-
-    /**
-     * Returns the condition's evaluable expression
-     * @return The expression
-     */
-    public Expression getExpression() {
-        return expression;
+        for(Condition c : conditions)
+            c.setParents(this);
     }
 
     /**
@@ -95,24 +59,27 @@ public class Condition extends ASTNode {
         return questions;
     }
 
-    public QLBoolean getResult() { return result; }
-
     /**
      * Evaluates the expression of the question
      * @throws TypeException when the resulting Term is not QLBoolean.
      */
-    // This function evaluates the expression (which also does typechecking) and stores the resulting value
-    public void getExpressionValue() throws TypeException, SyntaxException {
+    // This function evaluates the expression (which also does type checking) and stores the resulting value
+    private void getExpressionValue() throws TypeException, SyntaxException {
         try {
             Term result = expression.getTerm();
-            if(result.getType() == Type.BOOL) {
+            if(result.getType() == Type.BOOL)
                 this.result = (QLBoolean) result;
-            } else {
+            else
                 throw new TypeException(this, Type.BOOL, Type.getByCode(result.toString()));
-            }
         } catch(OtherException e) {
             // This is thrown when a Variable isn't set yet.
-            result = null;
+            this.result = null;
         }
+    }
+
+    @Override
+    public boolean isAvailable() throws SyntaxException, TypeException {
+        getExpressionValue();
+        return this.result != null && this.getParent().isAvailable() && this.result.getBoolean();
     }
 }

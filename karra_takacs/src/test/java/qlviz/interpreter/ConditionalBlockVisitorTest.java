@@ -3,9 +3,9 @@ package qlviz.interpreter;
 import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
-import qlviz.QLBaseVisitor;
+import qlviz.QLVisitor;
 import qlviz.QLParser;
-import qlviz.model.booleanExpressions.BooleanExpression;
+import qlviz.model.expressions.booleanExpressions.BooleanExpression;
 import qlviz.model.ConditionalBlock;
 import qlviz.model.QuestionBlock;
 
@@ -24,8 +24,8 @@ public class ConditionalBlockVisitorTest {
         when(conditionalContextMock.booleanExpression()).thenReturn(booleanExpressionContextMock);
         when(conditionalContextMock.questionBlock()).thenReturn(Lists.newArrayList(questionBlockContextMock, questionBlockContextMock));
 
-        QLBaseVisitor<BooleanExpression> booleanVisitorMock = (QLBaseVisitor<BooleanExpression>) mock(QLBaseVisitor.class);
-        QLBaseVisitor<QuestionBlock> questionBlockVisitor = (QLBaseVisitor<QuestionBlock>) mock(QLBaseVisitor.class);
+        QLVisitor<BooleanExpression> booleanVisitorMock = (QLVisitor<BooleanExpression>) mock(QLVisitor.class);
+        QLVisitor<QuestionBlock> questionBlockVisitor = (QLVisitor<QuestionBlock>) mock(QLVisitor.class);
         when(booleanVisitorMock.visitBooleanExpression(booleanExpressionContextMock)).thenReturn(mock(BooleanExpression.class));
 
         ConditionalBlockVisitor visitor = new ConditionalBlockVisitor(booleanVisitorMock, questionBlockVisitor);

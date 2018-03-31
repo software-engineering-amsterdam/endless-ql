@@ -6,7 +6,8 @@ package org.uva.sea.languages.ql.parser.antlr;
 
 import org.uva.sea.languages.ql.parser.elements.*;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
+import org.uva.sea.languages.ql.baseEvaluator.evaluate.valueTypes.MoneyType;
 
 }
 
@@ -29,12 +30,11 @@ statements returns [Statements result]
     })*
     ;
 
-statement returns [ASTNode result]
+statement returns [Statement result]
     : quest=question { $result = $quest.result; }
     | cont=condition { $result = $cont.result; }
     ;
 
-//TODO: .text is used to check if it is not null
 question returns [Question result]
     : lab=label var=variable ':' t=type ('=' ex=expression)? {
         $result = new Question($lab.start, $lab.result, $var.result, $t.result,$ex.text == null ? null : $ex.result);
@@ -56,36 +56,35 @@ type returns [Type result]
     };
 
 condition returns [IfStatement result]
-    : i='if' '(' expr=expression ')' then=block (e='else' elseBlock=block)? {
+    : i='if' '(' expr=expression ')' thenBlock=block (e='else' elseBlock=block)? {
         Statements elseBlock = $elseBlock.text != null ? $elseBlock.result : null;
-        $result = new IfStatement($i, $expr.result, $then.result, elseBlock);
+        $result = new IfStatement($i, $expr.result, $thenBlock.result, elseBlock);
     };
 
 block returns [Statements result]
     @init  { Statements statements = new Statements(); }
     @after { $result = statements; }
     : '{' stms=statements '}' {statements = $stms.result; }
-    //| stm=statement {statements.addStatement($stm.result);}
     ;
 
-expression returns [ASTNode result]
+expression returns [Expression result]
     : expr=orExpr {
         $result = $expr.result;
     };
 
-orExpr returns [ASTNode result]
+orExpr returns [Expression result]
     : leftHandSide=andExpr { $result = $leftHandSide.result; } ( or='||' rightHandSide=andExpr {
         $result = new Or($or, $result, $rightHandSide.result);
        })*
     ;
 
-andExpr returns [ASTNode result]
+andExpr returns [Expression result]
     :   leftHandSide=relExpr { $result=$leftHandSide.result; } ( and='&&' rightHandSide=relExpr {
         $result = new And($and, $result, $rightHandSide.result);
     } )*
     ;
 
-relExpr returns [ASTNode result]
+relExpr returns [Expression result]
     :   leftHandSide=addExpr { $result=$leftHandSide.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rightHandSide=addExpr
     {
       if ($op.text.equals("<")) {
@@ -109,7 +108,7 @@ relExpr returns [ASTNode result]
     })*
     ;
 
-addExpr returns [ASTNode result]
+addExpr returns [Expression result]
     :   leftHandSide=mulExpr { $result=$leftHandSide.result; } ( op=('+' | '-') rightHandSide=mulExpr
     {
       if ($op.text.equals("+")) {
@@ -121,7 +120,7 @@ addExpr returns [ASTNode result]
     })*
     ;
 
-mulExpr returns [ASTNode result]
+mulExpr returns [Expression result]
     :   leftHandSide=unExpr { $result=$leftHandSide.result; } ( op=( '*' | '/' ) rightHandSide=unExpr
     {
       if ($op.text.equals("*")) {
@@ -133,7 +132,7 @@ mulExpr returns [ASTNode result]
     })*
     ;
 
-unExpr returns [ASTNode result]
+unExpr returns [Expression result]
     :  plus='+' x=unExpr {
         $result = new Positive($plus, $x.result);
     }
@@ -146,7 +145,7 @@ unExpr returns [ASTNode result]
     |  p=primary    { $result = $p.result; }
     ;
 
-primary returns [ASTNode result]
+primary returns [Expression result]
     : bool {$result = $bool.result; }
     | money { $result = $money.result; }
     | variable { $result = $variable.result; }
@@ -157,7 +156,7 @@ primary returns [ASTNode result]
     | '(' expression ')' {$result = $expression.result;}
     ;
 
-bool returns [ASTNode result]
+bool returns [Expression result]
     : BOOLEAN_TRUE {
         $result = new Bool($BOOLEAN_TRUE, true);
     }
@@ -165,28 +164,28 @@ bool returns [ASTNode result]
         $result = new Bool($BOOLEAN_FALSE, false);
     };
 
-num returns [ASTNode result]
+num returns [Expression result]
     : INT {
         $result = new Int($INT, $INT.text);
     };
 
-dec returns [ASTNode result]
+dec returns [Expression result]
     : DECIMAL {
         $result = new Decimal($DECIMAL, $DECIMAL.text);
     };
 
-str returns [ASTNode result]
+str returns [Expression result]
     : STR {
         $result = new Str($STR, $STR.text);
     };
 
-money returns [ASTNode result]
+money returns [Expression result]
     : c=('$' | '€') v=DECIMAL {
-        $result = new Money($v, $c.text, $v.text);
+        $result = new Money($v, MoneyType.fromString($c.text), $v.text);
     }
 
     | c=('$' | '€') v=INT {
-        $result = new Money($v, $c.text, $v.text);
+        $result = new Money($v, MoneyType.fromString($c.text), $v.text);
     };
 
 date returns [DateExpr result]

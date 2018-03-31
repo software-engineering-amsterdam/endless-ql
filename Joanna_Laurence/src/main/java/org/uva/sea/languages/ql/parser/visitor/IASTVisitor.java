@@ -1,10 +1,13 @@
 package org.uva.sea.languages.ql.parser.visitor;
 
-import org.uva.sea.languages.ql.parser.elements.*;
+import org.uva.sea.languages.ql.parser.elements.Form;
+import org.uva.sea.languages.ql.parser.elements.IfStatement;
+import org.uva.sea.languages.ql.parser.elements.Question;
+import org.uva.sea.languages.ql.parser.elements.Statements;
 import org.uva.sea.languages.ql.parser.elements.expressions.*;
-import org.uva.sea.languages.ql.parser.elements.types.*;
+import org.uva.sea.languages.ql.parser.elements.expressions.types.*;
 import org.uva.sea.languages.ql.parser.nodeTypes.BinaryOperator;
-import org.uva.sea.languages.ql.parser.nodeTypes.SingleNode;
+import org.uva.sea.languages.ql.parser.nodeTypes.SingleOperator;
 
 public interface IASTVisitor<T> {
     T visit(Addition node);
@@ -63,5 +66,5 @@ public interface IASTVisitor<T> {
 
     T visit(BinaryOperator node);
 
-    T visit(SingleNode node);
+    T visit(SingleOperator node);
 }

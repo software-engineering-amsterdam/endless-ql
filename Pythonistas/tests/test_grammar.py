@@ -1,10 +1,9 @@
 import sys
 import os
-import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
 
-from grammar.debug_grammar import GrammarDebugger
+from antlr.parser import ParserInterface
 
 
 def test_all_ql_pass_forms():
@@ -14,8 +13,10 @@ def test_all_ql_pass_forms():
     for form in os.listdir(path):
         if form.endswith(".ql"):
             print(form)
-            g_debug = GrammarDebugger(path + form)
-            g_debug.debug_grammar()
+            parser = ParserInterface(path + form)
+            if parser.errors:
+                print(parser.errors)
+                assert False
         else:
             assert True
 
@@ -27,9 +28,10 @@ def test_all_ql_fail_forms():
     for form in os.listdir(path):
         if form.endswith(".ql"):
             print(form)
-            g_debug = GrammarDebugger(path + form)
-            with pytest.raises(Exception) as e:
-                g_debug.debug_grammar()
+            parser = ParserInterface(path + form)
+            if not parser.errors:
+                print(parser.errors)
+                assert False
         else:
             assert True
 
@@ -41,8 +43,10 @@ def test_all_qls_pass_forms():
     for form in os.listdir(path):
         if form.endswith(".qls"):
             print(form)
-            g_debug = GrammarDebugger(path + form)
-            g_debug.debug_grammar()
+            parser = ParserInterface(path + form)
+            if parser.errors:
+                print(parser.errors)
+                assert False
         else:
             assert True
 
@@ -54,8 +58,9 @@ def test_all_qls_fail_forms():
     for form in os.listdir(path):
         if form.endswith(".qls"):
             print(form)
-            g_debug = GrammarDebugger(path + form)
-            with pytest.raises(Exception) as e:
-                g_debug.debug_grammar()
+            parser = ParserInterface(path + form)
+            if not parser.errors:
+                print(parser.errors)
+                assert False
         else:
             assert True

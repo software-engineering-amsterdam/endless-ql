@@ -9,4 +9,5 @@ public interface WidgetVisitor<T, U> {
 	public T visit(AstRadioBtn widget, U ctx);
 	public T visit(AstSpinbox widget, U ctx);
 	public T visit(AstSlider widget, U ctx);
+	public T visit(AstWidgetDefault widget, U ctx);
 }

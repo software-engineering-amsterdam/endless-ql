@@ -1,6 +1,6 @@
 ﻿namespace Assignment1.Model.QL.RenderTree.Value
 {
-    public class AnswerValue<T> : IAnswerValuable<T>
+    public class AnswerValue<T> : IAnswerValuable
     {
         private T _value;
         private AnswerType _type;

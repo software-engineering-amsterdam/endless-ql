@@ -3,8 +3,13 @@ import Statement from "../Statement";
 import NodeVisitor from "../visitors/NodeVisitor";
 import Expression from "../expressions/Expression";
 import AbstractTreeNode from "../AbstractTreeNode";
+import StatementCollection from "../../collection/StatementCollection";
 
-export default abstract class Condition extends AbstractTreeNode implements TreeNode {
+export default abstract class Condition extends AbstractTreeNode implements TreeNode, Statement {
+  set otherwise(value: Statement[]) {
+    this._otherwise = value;
+  }
+
   set then(value: Statement[]) {
     this._then = value;
   }
@@ -14,9 +19,6 @@ export default abstract class Condition extends AbstractTreeNode implements Tree
   }
 
   get otherwise(): Statement[] {
-    if (this._otherwise === undefined) {
-      return [];
-    }
     return this._otherwise;
   }
 
@@ -26,14 +28,20 @@ export default abstract class Condition extends AbstractTreeNode implements Tree
 
   private _predicate: Expression;
   private _then: Statement[];
-  private _otherwise: Statement[] | undefined;
+  private _otherwise: Statement[];
 
   constructor(predicate: Expression, then: Statement[], otherwise?: Statement[]) {
     super();
     this._predicate = predicate;
     this._then = then;
-    this._otherwise = otherwise;
+    this._otherwise = (otherwise) ? otherwise : [];
+  }
+
+  public getAllStatements() {
+    return this.then.concat(this.otherwise);
   }
 
   abstract accept(visitor: NodeVisitor): any;
+
+  abstract addToCollection(collection: StatementCollection);
 }

@@ -4,12 +4,12 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import qlviz.gui.viewModel.booleanExpressions.BooleanExpressionViewModel;
 import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModel;
-import qlviz.model.numericExpressions.NumericExpression;
+import qlviz.gui.viewModel.numericExpressions.NumericExpressionViewModelFactory;
+import qlviz.model.expressions.NumericExpressionGetter;
 import qlviz.model.question.NumericQuestion;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.function.Function;
 
 public abstract class NumericQuestionViewModel extends BaseQuestionViewModel {
 
@@ -19,14 +19,14 @@ public abstract class NumericQuestionViewModel extends BaseQuestionViewModel {
 
     protected NumericQuestionViewModel(
             NumericQuestion question,
-            Function<NumericExpression,
-            NumericExpressionViewModel> viewModelFactory,
+            NumericExpressionViewModelFactory viewModelFactory,
             List<BooleanExpressionViewModel> conditions) {
         super(question, conditions);
         this.question = question;
         this.value = new SimpleObjectProperty<>(BigDecimal.ZERO);
         if (question.getValueExpression() != null) {
-            this.expression = viewModelFactory.apply(question.getValueExpression());
+            this.expression = viewModelFactory.create(
+                    question.getValueExpression().accept(new NumericExpressionGetter()));
             this.value.bind(this.expression.valueProperty());
         }
         else

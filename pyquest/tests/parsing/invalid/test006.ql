@@ -1,5 +1,5 @@
 // Question with invalid type
-form label {
+form testForm {
     "Question?"
     var : cows
 }

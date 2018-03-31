@@ -100,36 +100,38 @@ class MainWindow(QMainWindow):
 
     def create_form(self):
         textbox_value = self.text_edit.toPlainText()
-
         ql_lexer = QLLexer()
         ql_parser = QLParser()
+        empty_form = []
+
+        if not textbox_value:
+            empty_form.append('Empty Form')
 
         try:
-            check_errors(condition=not textbox_value, message=["Empty Form"])
+            check_errors(empty_form)
             ast = ql_parser.parse(textbox_value, ql_lexer.lexer)
             parse_errors = ql_parser.errors
 
-            check_errors(condition=parse_errors, message=parse_errors)
+            check_errors(parse_errors)
             reference_errors = ReferenceChecker(extract_identifier_scopes(ast)).errors
 
-            check_errors(condition=reference_errors, message=reference_errors)
+            check_errors(reference_errors)
             dependency_errors = DependencyChecker(extract_identifier_dependencies(ast)).errors
 
-            check_errors(condition=dependency_errors, message=dependency_errors)
+            check_errors(dependency_errors)
             question_errors = QuestionChecker(extract_questions(ast)).errors
             question_warnings = QuestionChecker(extract_questions(ast)).warnings
 
             if question_warnings:
                 warning(question_warnings)
 
-            check_errors(condition=question_errors, message=question_errors)
+            check_errors(question_errors)
             type_visitor = TypeVisitor(extract_identifier_types(ast))
             type_visitor.visit(ast)
             type_errors = type_visitor.errors
 
-            check_errors(condition=type_errors, message=type_errors),
+            check_errors(type_errors),
             dialog = FormWindow(extract_gui_model(ast))
             dialog.exec_()
-
         except SyntaxError:
             print('Consult application popup error window for information on what went wrong.')

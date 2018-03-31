@@ -17,7 +17,7 @@ def warning(warnings):
     QMessageBox.warning(QMessageBox(), 'Warning', message, QMessageBox.Close, QMessageBox.Escape)
 
 
-def check_errors(condition, message):
-    if condition:
-        error(message)
+def check_errors(errors):
+    if errors:
+        error(errors)
         raise SyntaxError

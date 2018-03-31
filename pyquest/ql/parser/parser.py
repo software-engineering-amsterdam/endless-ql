@@ -252,7 +252,8 @@ class QLParser:
     # Currencies
     @staticmethod
     def p_currency(production):
-        """currency : DOLLAR"""
+        """currency : DOLLAR
+                    | RUBLE"""
         production[0] = production[1]
 
     # Types

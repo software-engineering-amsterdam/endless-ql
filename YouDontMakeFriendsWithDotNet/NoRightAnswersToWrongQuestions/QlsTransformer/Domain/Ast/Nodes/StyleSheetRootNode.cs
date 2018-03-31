@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace QlsTransformer.Ast.Nodes
+namespace QlsTransformer.Domain.Ast.Nodes
 {
     internal class StyleSheetRootNode : StyleSheetCompartmentBase, IStyleSheetRootNode
     {

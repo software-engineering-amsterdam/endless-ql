@@ -3,7 +3,7 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace QlsTransformer.Ast.Nodes
+namespace QlsTransformer.Domain.Ast.Nodes
 {
     public interface IDefaultStyle 
     {

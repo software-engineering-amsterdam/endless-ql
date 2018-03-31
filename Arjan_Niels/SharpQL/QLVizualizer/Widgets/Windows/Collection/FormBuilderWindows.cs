@@ -26,15 +26,17 @@ namespace QLVisualizer.Widgets.Windows.Collection
                 if (child.GetElementManager() as PageManager != null)
                     pages.Add(child.GetElementManager() as PageManager);
 
-            Control[] childControls = new Control[result.Controls.Count];
-            result.Controls.CopyTo(childControls, 0);
+            if (pages.Count > 0)
+            {
+                Control[] childControls = new Control[result.Controls.Count];
+                result.Controls.CopyTo(childControls, 0);
 
-            result.Controls.Clear();
-            result.Controls.Add(CreatePageBrowser(pages));
-            result.Controls.AddRange(childControls);
+                result.Controls.Clear();
+                result.Controls.Add(CreatePageBrowser(pages));
+                result.Controls.AddRange(childControls);
 
-            ActivatePage(0, pages);
-
+                ActivatePage(0, pages);
+            }
             return result;
         }
 

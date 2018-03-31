@@ -1,6 +1,7 @@
 ﻿using QLVisualizer.Elements.Managers;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using System;
+using System.Collections.Generic;
 
 namespace QLVisualizer.Controllers
 {
@@ -44,19 +45,32 @@ namespace QLVisualizer.Controllers
 
         protected void HandleInput(string rawQL, string rawQLS)
         {
-            Form = HandleQL(rawQL);
-            if (Form != null)
+            List<string> errors = new List<string>();
+            try
             {
-                if (rawQLS != "")
-                    Form = HandleQLS(rawQLS);
-                DisplayForm();
+                Form = HandleQL(rawQL);
+                if (Form != null)
+                {
+                    if (rawQLS != "")
+                        Form = HandleQLS(rawQLS, ref errors);
+                    DisplayForm();
+                }
+            }
+            catch (Exception e)
+            {
+                errors.Add(string.Format("A fatal error occured:{0}\n parsing will terminate", e.Message));
+            }
+            finally
+            {
+                if (errors.Count > 0)
+                    ShowError(errors.ToArray());
             }
         }
 
 
-        private FormManager HandleQLS(string rawQLS)
+        private FormManager HandleQLS(string rawQLS, ref List<string> errors)
         {
-            return _parseController.ParseQLS(rawQLS, Form, this).Item2;
+            return _parseController.ParseQLS(rawQLS, Form, this, ref errors).Item2;
         }
 
         /// <summary>

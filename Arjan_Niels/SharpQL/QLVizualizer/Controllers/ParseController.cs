@@ -5,6 +5,7 @@ using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Factories;
 using System;
+using System.Collections.Generic;
 
 namespace QLVisualizer.Controllers
 {
@@ -22,10 +23,10 @@ namespace QLVisualizer.Controllers
             return new Tuple<string[], FormManager>(new string[0], formManager);
         }
 
-        public Tuple<string[], FormManager> ParseQLS(string rawQLS, FormManager form, ElementManagerController elementManagerController)
+        public Tuple<string[], FormManager> ParseQLS(string rawQLS, FormManager form, ElementManagerController elementManagerController, ref List<string> errors)
         {
             QLSNode qlsNode = QLSParserHelper.Parse(rawQLS);
-            form = ElementManagerFactory.ApplyQLS(form, qlsNode, elementManagerController);
+            form = ElementManagerFactory.ApplyQLS(form, qlsNode, elementManagerController, ref errors);
             return new Tuple<string[], FormManager>(new string[0], form);
         }
     }

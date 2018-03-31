@@ -89,10 +89,13 @@ namespace QLVisualizer.Factories
         /// <param name="qLSNode">Styling for the form</param>
         /// <param name="controller">Controller for object creation</param>
         /// <returns>Styled form</returns>
-        public static FormManager ApplyQLS(FormManager formManager, QLSNode qLSNode, ElementManagerController controller)
+        public static FormManager ApplyQLS(FormManager formManager, QLSNode qLSNode, ElementManagerController controller, ref List<string> errors)
         {
             if (formManager.Identifier != qLSNode.ID)
-                throw new InvalidOperationException("Identifiers do not match!");
+            {
+                errors.Add("Identifiers of ql and qls do not match!");
+                return formManager;
+            }
 
             List<ElementManagerLeaf> children = formManager.Children.Select(o => (ElementManagerLeaf)o).ToList();
 
@@ -150,7 +153,7 @@ namespace QLVisualizer.Factories
             QLSStyle style = new QLSStyle(QValueType.UNKNOWN, new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
 
             if (node.NodeStyles.Count > 1)
-                throw new InvalidOperationException("MULTIPLE STYLES IN LEAF");
+                throw new InvalidOperationException("Multiple styles in leaf node");
             else if (node.NodeStyles.Count == 1)
                 style = node.NodeStyles[0];
 

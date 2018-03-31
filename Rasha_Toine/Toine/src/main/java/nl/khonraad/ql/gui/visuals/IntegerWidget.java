@@ -8,10 +8,10 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
-import nl.khonraad.ql.dynamics.Question;
-import nl.khonraad.ql.dynamics.Questionnaire;
+import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.ast.data.Question;
+import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.gui.QLInterpretor;
 
 @SuppressWarnings("serial")
@@ -19,7 +19,7 @@ public class IntegerWidget extends JSpinner {
 
     public IntegerWidget(JPanel mainPanel, Question question, Questionnaire questionnaire) {
 
-        super( new SpinnerNumberModel( new Integer( question.getValue().getText() ), null, null, 1 ) );
+        super( new SpinnerNumberModel( new Integer( question.string() ), null, null, 1 ) );
 
         JSpinner.NumberEditor editor = (JSpinner.NumberEditor) getEditor();
 
@@ -37,7 +37,7 @@ public class IntegerWidget extends JSpinner {
 
             String c = s.getModel().getValue().toString();
 
-            questionnaire.storeAnswer( question.getIdentifier(), new Value( Type.Integer, c ) );
+            questionnaire.storeAnswer( question.identifier(), new Value( Type.Integer, c ) );
             QLInterpretor.visualizeQuestionnaire( questionnaire, mainPanel );
         } );
     }

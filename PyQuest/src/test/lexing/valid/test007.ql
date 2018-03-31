@@ -1,0 +1,2 @@
+// Money type token
+money

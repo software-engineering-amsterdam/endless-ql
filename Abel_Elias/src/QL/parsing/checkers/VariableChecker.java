@@ -5,12 +5,14 @@ import QL.parsing.checkers.errors.UndeclaredVarError;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class VariableChecker extends QLBaseVisitor {
-    private ArrayList<String> variableList;
+    private LinkedHashMap<String, String> variableMap;
 
-    public VariableChecker(){
-        variableList = new ArrayList();
+    VariableChecker(){
+        this.variableMap = new LinkedHashMap<>();
     }
 
     public void checkForm(QLParser.FormContext form){
@@ -20,32 +22,34 @@ public class VariableChecker extends QLBaseVisitor {
     @Override
     public Object visitNormalQuestion(QLParser.NormalQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        checkVariableDuplication(id);
+        String type = ctx.type().getText();
+        checkVariableDuplication(id, type);
 
-        this.variableList.add(id);
+        this.variableMap.put(id,type);
         return true;
     }
 
     @Override
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx){
         String id = ctx.IDENTIFIER().getText();
-        checkVariableDuplication(id);
+        String type = ctx.type().getText();
+        checkVariableDuplication(id, type);
         visit(ctx.expression());
 
-        this.variableList.add(id);
+        this.variableMap.put(id,type);
         return true;
     }
 
     @Override
-    public Object visitIdentifier(QLParser.IdentifierContext ctx)  {
+    public Boolean visitIdentifier(QLParser.IdentifierContext ctx)  {
         checkVariableExistence(ctx.getText());
-        return super.visitIdentifier(ctx);
+        return true;
     }
 
     @Override
-    public Object visitIfStatement(QLParser.IfStatementContext ctx) {
-        ArrayList<String> backtrack = new ArrayList();
-        backtrack.addAll(variableList);
+    public Boolean visitIfStatement(QLParser.IfStatementContext ctx) {
+        LinkedHashMap<String, String> backtrack = new LinkedHashMap<>();
+        backtrack.putAll(variableMap);
         visit(ctx.expression());
 
         visitBlock(ctx.ifBlock);
@@ -53,18 +57,18 @@ public class VariableChecker extends QLBaseVisitor {
             visitBlock(ctx.elseBlock);
         }
 
-        this.variableList = backtrack;
+        this.variableMap = backtrack;
         return true;
     }
 
-    private void checkVariableDuplication(String id) {
-        if(variableList.contains(id)){
+    private void checkVariableDuplication(String id, String type) {
+        if(variableMap.containsKey(id) && !variableMap.get(id).equals(type)){
             throw new DuplicateVarError(id);
         }
     }
 
     private void checkVariableExistence(String id) {
-        if(!variableList.contains(id)) {
+        if(!variableMap.containsKey(id)) {
             throw new UndeclaredVarError(id);
         }
     }

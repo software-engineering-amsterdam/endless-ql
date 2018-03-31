@@ -1,9 +1,9 @@
 package ui.model
 
-import doge.data.question.Question
+import ui.model.domain.Question
 import javafx.beans.property.SimpleIntegerProperty
 
-class IntegerViewModel(question: Question) : QuestionModel(question) {
+class IntegerViewModel(question: Question) : QuestionViewModel(question) {
 
     var integerProperty = bind { SimpleIntegerProperty(item.value.integerValue.value) }
 

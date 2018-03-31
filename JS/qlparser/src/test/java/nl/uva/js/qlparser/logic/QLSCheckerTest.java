@@ -11,8 +11,8 @@ import static org.junit.Assert.assertEquals;
 
 public class QLSCheckerTest {
 
-    private static final String QL_BASE = "src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql";
-    private static final String QLS_BASE = "src/test/java/nl/uva/js/qlparser/logic/testdata/qls_input.jsqls";
+    private static final String QL_BASE = "src/test/resources/ql_input.jsql";
+    private static final String QLS_BASE = "src/test/resources/qls_input.jsqls";
 
     private QLSChecker checker;
 

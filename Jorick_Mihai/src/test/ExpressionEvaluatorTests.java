@@ -17,11 +17,11 @@ import org.uva.jomi.ui.interpreter.value.StringValue;
 
 public class ExpressionEvaluatorTests {
 
-	private class StmtInterpreter implements Statement.Visitor<Void> {
+	private class StatementInterpreter implements Statement.Visitor<Void> {
 
 		private ExpressionEvaluator exprEvaluator;
 
-		public StmtInterpreter() {
+		public StatementInterpreter() {
 			exprEvaluator = new ExpressionEvaluator();
 		}
 
@@ -31,45 +31,44 @@ public class ExpressionEvaluatorTests {
 			}
 		}
 
-		private void execute(Statement stmt) {
-			stmt.accept(this);
+		private void execute(Statement statement) {
+			statement.accept(this);
 		}
 
-
 		@Override
-		public Void visit(FormStatement stmt) {
-			stmt.visitBlockStmt(this);
+		public Void visit(FormStatement form) {
+			form.visitBlockStatement(this);
 			return null;
 		}
 
 		@Override
-		public Void visit(BlockStatement stmt) {
-			stmt.getStatements().forEach( statement -> statement.accept(this));
+		public Void visit(BlockStatement block) {
+			block.getStatements().forEach( statement -> statement.accept(this));
 			return null;
 		}
 
 		@Override
-		public Void visit(QuestionStatement stmt) {
-			// TODO Interpret QuestionStmt.
+		public Void visit(QuestionStatement Statement) {
+			// TODO Interpret QuestionStatement.
 			return null;
 		}
 
 		@Override
-		public Void visit(ComputedQuestionStatement stmt) {
-			GenericValue value = stmt.getExpression().accept(exprEvaluator);
-			String name = stmt.getName();
+		public Void visit(ComputedQuestionStatement question) {
+			GenericValue value = question.visitExpression(exprEvaluator);
+			String name = question.getName();
 			SymbolTable.getInstance().put(name, value);
 			return null;
 		}
 
 		@Override
-		public Void visit(IfStatement stmt) {
-			// TODO Interpret IfStmt.
+		public Void visit(IfStatement Statement) {
+			// TODO Interpret IfStatement.
 			return null;
 		}
 
 		@Override
-		public Void visit(IfElseStatement stmt) {
+		public Void visit(IfElseStatement Statement) {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -80,13 +79,13 @@ public class ExpressionEvaluatorTests {
 	 * The interpreter detects inconsistencies based on the operation type and values of the operands.
 	 */
 
-	StmtInterpreter interpreter = new StmtInterpreter();
+	StatementInterpreter interpreter = new StatementInterpreter();
 
 	// Addition tests.
 
 	String testSource1 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 1 + 2\n"
+			+ "\"question1\" q1: integer = 1 + 2\n"
 			+ "}";
 
 	@Test
@@ -98,8 +97,8 @@ public class ExpressionEvaluatorTests {
 
 	String testSource2 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 1\n"
-			+ "\"question2\" q2: integer q1 + 2\n"
+			+ "\"question1\" q1: integer = 1\n"
+			+ "\"question2\" q2: integer = q1 + 2\n"
 			+ "}";
 
 	@Test
@@ -111,7 +110,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource3 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: string \"one\" + \" plus \" + \"two\"\n"
+			+ "\"question1\" q1: string = \"one\" + \" plus \" + \"two\"\n"
 			+ "}";
 
 	@Test
@@ -125,7 +124,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource4 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 2 - 1\n"
+			+ "\"question1\" q1: integer = 2 - 1\n"
 			+ "}";
 
 	@Test
@@ -137,7 +136,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource5 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 1 - 2\n"
+			+ "\"question1\" q1: integer = 1 - 2\n"
 			+ "}";
 
 	@Test
@@ -151,7 +150,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource6 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 1 * 2\n"
+			+ "\"question1\" q1: integer = 1 * 2\n"
 			+ "}";
 
 	@Test
@@ -163,7 +162,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource7 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 2 * 4 - 1\n"
+			+ "\"question1\" q1: integer = 2 * 4 - 1\n"
 			+ "}";
 
 	@Test
@@ -177,7 +176,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource8 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 4 / 2\n"
+			+ "\"question1\" q1: integer = 4 / 2\n"
 			+ "}";
 
 	@Test
@@ -189,7 +188,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource9 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 2 / 4\n"
+			+ "\"question1\" q1: integer = 2 / 4\n"
 			+ "}";
 
 	@Test
@@ -203,7 +202,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource10 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true && true\n"
+			+ "\"question1\" q1: boolean = true && true\n"
 			+ "}";
 
 	@Test
@@ -215,7 +214,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource11 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false && true\n"
+			+ "\"question1\" q1: boolean = false && true\n"
 			+ "}";
 
 	@Test
@@ -227,7 +226,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource12 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true && false\n"
+			+ "\"question1\" q1: boolean = true && false\n"
 			+ "}";
 
 	@Test
@@ -239,7 +238,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource13 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false && false\n"
+			+ "\"question1\" q1: boolean = false && false\n"
 			+ "}";
 
 	@Test
@@ -253,7 +252,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource14 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true || true\n"
+			+ "\"question1\" q1: boolean = true || true\n"
 			+ "}";
 
 	@Test
@@ -265,7 +264,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource15 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false || true\n"
+			+ "\"question1\" q1: boolean = false || true\n"
 			+ "}";
 
 	@Test
@@ -277,7 +276,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource16 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true || false\n"
+			+ "\"question1\" q1: boolean = true || false\n"
 			+ "}";
 
 	@Test
@@ -289,7 +288,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource17 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false || false\n"
+			+ "\"question1\" q1: boolean = false || false\n"
 			+ "}";
 
 	@Test
@@ -303,7 +302,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource18 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 < 2\n"
+			+ "\"question1\" q1: boolean = 1 < 2\n"
 			+ "}";
 
 	@Test
@@ -315,7 +314,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource19 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 < 1\n"
+			+ "\"question1\" q1: boolean = 2 < 1\n"
 			+ "}";
 
 	@Test
@@ -327,7 +326,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource20 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 < 2\n"
+			+ "\"question1\" q1: boolean = 2 < 2\n"
 			+ "}";
 
 	@Test
@@ -341,7 +340,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource21 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 <= 2\n"
+			+ "\"question1\" q1: boolean = 1 <= 2\n"
 			+ "}";
 
 	@Test
@@ -353,7 +352,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource22 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 <= 1\n"
+			+ "\"question1\" q1: boolean = 2 <= 1\n"
 			+ "}";
 
 	@Test
@@ -365,7 +364,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource23 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 <= 2\n"
+			+ "\"question1\" q1: boolean = 2 <= 2\n"
 			+ "}";
 
 	@Test
@@ -379,7 +378,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource24 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 > 2\n"
+			+ "\"question1\" q1: boolean = 1 > 2\n"
 			+ "}";
 
 	@Test
@@ -391,7 +390,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource25 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 > 1\n"
+			+ "\"question1\" q1: boolean = 2 > 1\n"
 			+ "}";
 
 	@Test
@@ -403,7 +402,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource26 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 > 2\n"
+			+ "\"question1\" q1: boolean = 2 > 2\n"
 			+ "}";
 
 	@Test
@@ -417,7 +416,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource27 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 >= 2\n"
+			+ "\"question1\" q1: boolean = 1 >= 2\n"
 			+ "}";
 
 	@Test
@@ -429,7 +428,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource28 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 >= 1\n"
+			+ "\"question1\" q1: boolean = 2 >= 1\n"
 			+ "}";
 
 	@Test
@@ -441,7 +440,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource29 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 >= 2\n"
+			+ "\"question1\" q1: boolean = 2 >= 2\n"
 			+ "}";
 
 	@Test
@@ -455,7 +454,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource30 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 == 1\n"
+			+ "\"question1\" q1: boolean = 1 == 1\n"
 			+ "}";
 
 	@Test
@@ -467,7 +466,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource31 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 == 2\n"
+			+ "\"question1\" q1: boolean = 1 == 2\n"
 			+ "}";
 
 	@Test
@@ -479,7 +478,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource32 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true == false\n"
+			+ "\"question1\" q1: boolean = true == false\n"
 			+ "}";
 
 	@Test
@@ -491,7 +490,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource33 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true == true\n"
+			+ "\"question1\" q1: boolean = true == true\n"
 			+ "}";
 
 	@Test
@@ -503,7 +502,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource34 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false == false\n"
+			+ "\"question1\" q1: boolean = false == false\n"
 			+ "}";
 
 	@Test
@@ -515,7 +514,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource35 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean \"one\" == \"one\"\n"
+			+ "\"question1\" q1: boolean = \"one\" == \"one\"\n"
 			+ "}";
 
 	@Test
@@ -527,7 +526,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource36 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean \"one\" == \"two\"\n"
+			+ "\"question1\" q1: boolean = \"one\" == \"two\"\n"
 			+ "}";
 
 	@Test
@@ -541,7 +540,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource37 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 != 1\n"
+			+ "\"question1\" q1: boolean = 1 != 1\n"
 			+ "}";
 
 	@Test
@@ -553,7 +552,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource38 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 != 2\n"
+			+ "\"question1\" q1: boolean = 1 != 2\n"
 			+ "}";
 
 	@Test
@@ -565,7 +564,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource39 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true != false\n"
+			+ "\"question1\" q1: boolean = true != false\n"
 			+ "}";
 
 	@Test
@@ -577,7 +576,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource40 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true != true\n"
+			+ "\"question1\" q1: boolean = true != true\n"
 			+ "}";
 
 	@Test
@@ -589,7 +588,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource41 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false != false\n"
+			+ "\"question1\" q1: boolean = false != false\n"
 			+ "}";
 
 	@Test
@@ -601,7 +600,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource42 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean \"one\" != \"one\"\n"
+			+ "\"question1\" q1: boolean = \"one\" != \"one\"\n"
 			+ "}";
 
 	@Test
@@ -613,7 +612,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource43 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean \"one\" != \"two\"\n"
+			+ "\"question1\" q1: boolean = \"one\" != \"two\"\n"
 			+ "}";
 
 	@Test
@@ -627,7 +626,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource44 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean !true\n"
+			+ "\"question1\" q1: boolean = !true\n"
 			+ "}";
 
 	@Test
@@ -639,7 +638,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource45 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean !false\n"
+			+ "\"question1\" q1: boolean = !false\n"
 			+ "}";
 
 	@Test
@@ -651,7 +650,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource46 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean !(3 > 2) && ( 1 == 6)\n"
+			+ "\"question1\" q1: boolean = !(3 > 2) && ( 1 == 6)\n"
 			+ "}";
 
 	@Test
@@ -663,7 +662,7 @@ public class ExpressionEvaluatorTests {
 
 	String testSource47 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean !(1 > 2) && (15 != 6)\n"
+			+ "\"question1\" q1: boolean = !(1 > 2) && (15 != 6)\n"
 			+ "}";
 
 	@Test
@@ -675,7 +674,7 @@ public class ExpressionEvaluatorTests {
 
 	// Automatically generated negative tests.
 
-	String generatedSource1 = "form Form1 {\"\" q0: integer 1 + true }";
+	String generatedSource1 = "form Form1 {\"\" q0: integer = 1 + true }";
 
 	@Test
 	public void generatedTest1() throws Exception {
@@ -684,12 +683,13 @@ public class ExpressionEvaluatorTests {
 			interpreter.interpret(ast);
 			fail("Test Failed");
 		}
+
 		catch (Exception e) {
 			assertTrue(e.getMessage().equals("RuntimeError: Cannot add a IntegerValue and a BooleanValue"));
 		}
 	}
 
-	String generatedSource2 = "form Form1 {\"\" q0: integer true + true }";
+	String generatedSource2 = "form Form1 {\"\" q0: integer = true + true }";
 
 	@Test
 	public void generatedTest2() throws Exception {
@@ -704,7 +704,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource3 = "form Form1 {\"\" q0: integer true + \"string\" }";
+	String generatedSource3 = "form Form1 {\"\" q0: integer = true + \"string\" }";
 
 	@Test
 	public void generatedTest3() throws Exception {
@@ -719,7 +719,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource4 = "form Form1 {\"\" q0: integer 1 - true }";
+	String generatedSource4 = "form Form1 {\"\" q0: integer = 1 - true }";
 
 	@Test
 	public void generatedTest4() throws Exception {
@@ -734,7 +734,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource5 = "form Form1 {\"\" q0: integer 1 - \"string\" }";
+	String generatedSource5 = "form Form1 {\"\" q0: integer = 1 - \"string\" }";
 
 	@Test
 	public void generatedTest5() throws Exception {
@@ -749,7 +749,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource6 = "form Form1 {\"\" q0: integer true - true }";
+	String generatedSource6 = "form Form1 {\"\" q0: integer = true - true }";
 
 	@Test
 	public void generatedTest6() throws Exception {
@@ -764,7 +764,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource7 = "form Form1 {\"\" q0: integer true - \"string\" }";
+	String generatedSource7 = "form Form1 {\"\" q0: integer = true - \"string\" }";
 
 	@Test
 	public void generatedTest7() throws Exception {
@@ -779,7 +779,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource8 = "form Form1 {\"\" q0: integer \"string\" - \"string\" }";
+	String generatedSource8 = "form Form1 {\"\" q0: integer = \"string\" - \"string\" }";
 
 	@Test
 	public void generatedTest8() throws Exception {
@@ -794,7 +794,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource9 = "form Form1 {\"\" q0: integer 1 * true }";
+	String generatedSource9 = "form Form1 {\"\" q0: integer = 1 * true }";
 
 	@Test
 	public void generatedTest9() throws Exception {
@@ -809,7 +809,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource10 = "form Form1 {\"\" q0: integer 1 * \"string\" }";
+	String generatedSource10 = "form Form1 {\"\" q0: integer = 1 * \"string\" }";
 
 	@Test
 	public void generatedTest10() throws Exception {
@@ -824,7 +824,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource11 = "form Form1 {\"\" q0: integer true * true }";
+	String generatedSource11 = "form Form1 {\"\" q0: integer = true * true }";
 
 	@Test
 	public void generatedTest11() throws Exception {
@@ -839,7 +839,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource12 = "form Form1 {\"\" q0: integer true * \"string\" }";
+	String generatedSource12 = "form Form1 {\"\" q0: integer = true * \"string\" }";
 
 	@Test
 	public void generatedTest12() throws Exception {
@@ -854,7 +854,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource13 = "form Form1 {\"\" q0: integer \"string\" * \"string\" }";
+	String generatedSource13 = "form Form1 {\"\" q0: integer = \"string\" * \"string\" }";
 
 	@Test
 	public void generatedTest13() throws Exception {
@@ -869,7 +869,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource14 = "form Form1 {\"\" q0: integer 1 / true }";
+	String generatedSource14 = "form Form1 {\"\" q0: integer = 1 / true }";
 
 	@Test
 	public void generatedTest14() throws Exception {
@@ -884,7 +884,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource15 = "form Form1 {\"\" q0: integer 1 / \"string\" }";
+	String generatedSource15 = "form Form1 {\"\" q0: integer = 1 / \"string\" }";
 
 	@Test
 	public void generatedTest15() throws Exception {
@@ -899,7 +899,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource16 = "form Form1 {\"\" q0: integer true / true }";
+	String generatedSource16 = "form Form1 {\"\" q0: integer = true / true }";
 
 	@Test
 	public void generatedTest16() throws Exception {
@@ -914,7 +914,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource17 = "form Form1 {\"\" q0: integer true / \"string\" }";
+	String generatedSource17 = "form Form1 {\"\" q0: integer = true / \"string\" }";
 
 	@Test
 	public void generatedTest17() throws Exception {
@@ -929,7 +929,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource18 = "form Form1 {\"\" q0: integer \"string\" / \"string\" }";
+	String generatedSource18 = "form Form1 {\"\" q0: integer = \"string\" / \"string\" }";
 
 	@Test
 	public void generatedTest18() throws Exception {
@@ -944,7 +944,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource19 = "form Form1 {\"\" q0: integer 1 && 1 }";
+	String generatedSource19 = "form Form1 {\"\" q0: integer = 1 && 1 }";
 
 	@Test
 	public void generatedTest19() throws Exception {
@@ -959,7 +959,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource20 = "form Form1 {\"\" q0: integer 1 && true }";
+	String generatedSource20 = "form Form1 {\"\" q0: integer = 1 && true }";
 
 	@Test
 	public void generatedTest20() throws Exception {
@@ -974,7 +974,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource21 = "form Form1 {\"\" q0: integer 1 && \"string\" }";
+	String generatedSource21 = "form Form1 {\"\" q0: integer = 1 && \"string\" }";
 
 	@Test
 	public void generatedTest21() throws Exception {
@@ -989,7 +989,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource22 = "form Form1 {\"\" q0: integer true && \"string\" }";
+	String generatedSource22 = "form Form1 {\"\" q0: integer = true && \"string\" }";
 
 	@Test
 	public void generatedTest22() throws Exception {
@@ -1004,7 +1004,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource23 = "form Form1 {\"\" q0: integer \"string\" && \"string\" }";
+	String generatedSource23 = "form Form1 {\"\" q0: integer = \"string\" && \"string\" }";
 
 	@Test
 	public void generatedTest23() throws Exception {
@@ -1019,7 +1019,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource24 = "form Form1 {\"\" q0: integer 1 || 1 }";
+	String generatedSource24 = "form Form1 {\"\" q0: integer = 1 || 1 }";
 
 	@Test
 	public void generatedTest24() throws Exception {
@@ -1034,7 +1034,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource25 = "form Form1 {\"\" q0: integer 1 || true }";
+	String generatedSource25 = "form Form1 {\"\" q0: integer = 1 || true }";
 
 	@Test
 	public void generatedTest25() throws Exception {
@@ -1049,7 +1049,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource26 = "form Form1 {\"\" q0: integer 1 || \"string\" }";
+	String generatedSource26 = "form Form1 {\"\" q0: integer = 1 || \"string\" }";
 
 	@Test
 	public void generatedTest26() throws Exception {
@@ -1064,7 +1064,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource27 = "form Form1 {\"\" q0: integer true || \"string\" }";
+	String generatedSource27 = "form Form1 {\"\" q0: integer = true || \"string\" }";
 
 	@Test
 	public void generatedTest27() throws Exception {
@@ -1079,7 +1079,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource28 = "form Form1 {\"\" q0: integer \"string\" || \"string\" }";
+	String generatedSource28 = "form Form1 {\"\" q0: integer = \"string\" || \"string\" }";
 
 	@Test
 	public void generatedTest28() throws Exception {
@@ -1094,7 +1094,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource29 = "form Form1 {\"\" q0: integer 1 > true }";
+	String generatedSource29 = "form Form1 {\"\" q0: integer = 1 > true }";
 
 	@Test
 	public void generatedTest29() throws Exception {
@@ -1109,7 +1109,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource30 = "form Form1 {\"\" q0: integer true > true }";
+	String generatedSource30 = "form Form1 {\"\" q0: integer = true > true }";
 
 	@Test
 	public void generatedTest30() throws Exception {
@@ -1124,7 +1124,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource31 = "form Form1 {\"\" q0: integer true > \"string\" }";
+	String generatedSource31 = "form Form1 {\"\" q0: integer = true > \"string\" }";
 
 	@Test
 	public void generatedTest31() throws Exception {
@@ -1139,7 +1139,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource32 = "form Form1 {\"\" q0: integer 1 >= true }";
+	String generatedSource32 = "form Form1 {\"\" q0: integer = 1 >= true }";
 
 	@Test
 	public void generatedTest32() throws Exception {
@@ -1154,7 +1154,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource33 = "form Form1 {\"\" q0: integer true >= true }";
+	String generatedSource33 = "form Form1 {\"\" q0: integer = true >= true }";
 
 	@Test
 	public void generatedTest33() throws Exception {
@@ -1169,7 +1169,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource34 = "form Form1 {\"\" q0: integer true >= \"string\" }";
+	String generatedSource34 = "form Form1 {\"\" q0: integer = true >= \"string\" }";
 
 	@Test
 	public void generatedTest34() throws Exception {
@@ -1184,7 +1184,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource35 = "form Form1 {\"\" q0: integer 1 < true }";
+	String generatedSource35 = "form Form1 {\"\" q0: integer = 1 < true }";
 
 	@Test
 	public void generatedTest35() throws Exception {
@@ -1199,7 +1199,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource36 = "form Form1 {\"\" q0: integer true < true }";
+	String generatedSource36 = "form Form1 {\"\" q0: integer = true < true }";
 
 	@Test
 	public void generatedTest36() throws Exception {
@@ -1214,7 +1214,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource37 = "form Form1 {\"\" q0: integer true < \"string\" }";
+	String generatedSource37 = "form Form1 {\"\" q0: integer = true < \"string\" }";
 
 	@Test
 	public void generatedTest37() throws Exception {
@@ -1229,7 +1229,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource38 = "form Form1 {\"\" q0: integer 1 <= true }";
+	String generatedSource38 = "form Form1 {\"\" q0: integer = 1 <= true }";
 
 	@Test
 	public void generatedTest38() throws Exception {
@@ -1244,7 +1244,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource39 = "form Form1 {\"\" q0: integer true <= true }";
+	String generatedSource39 = "form Form1 {\"\" q0: integer = true <= true }";
 
 	@Test
 	public void generatedTest39() throws Exception {
@@ -1259,7 +1259,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource40 = "form Form1 {\"\" q0: integer true <= \"string\" }";
+	String generatedSource40 = "form Form1 {\"\" q0: integer = true <= \"string\" }";
 
 	@Test
 	public void generatedTest40() throws Exception {
@@ -1274,7 +1274,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource41 = "form Form1 {\"\" q0: integer 1 == true }";
+	String generatedSource41 = "form Form1 {\"\" q0: integer = 1 == true }";
 
 	@Test
 	public void generatedTest41() throws Exception {
@@ -1289,7 +1289,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource42 = "form Form1 {\"\" q0: integer 1 == \"string\" }";
+	String generatedSource42 = "form Form1 {\"\" q0: integer = 1 == \"string\" }";
 
 	@Test
 	public void generatedTest42() throws Exception {
@@ -1304,7 +1304,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource43 = "form Form1 {\"\" q0: integer true == \"string\" }";
+	String generatedSource43 = "form Form1 {\"\" q0: integer = true == \"string\" }";
 
 	@Test
 	public void generatedTest43() throws Exception {
@@ -1319,7 +1319,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource44 = "form Form1 {\"\" q0: integer 1 != true }";
+	String generatedSource44 = "form Form1 {\"\" q0: integer = 1 != true }";
 
 	@Test
 	public void generatedTest44() throws Exception {
@@ -1334,7 +1334,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource45 = "form Form1 {\"\" q0: integer 1 != \"string\" }";
+	String generatedSource45 = "form Form1 {\"\" q0: integer = 1 != \"string\" }";
 
 	@Test
 	public void generatedTest45() throws Exception {
@@ -1349,7 +1349,7 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource46 = "form Form1 {\"\" q0: integer true != \"string\" }";
+	String generatedSource46 = "form Form1 {\"\" q0: integer = true != \"string\" }";
 
 	@Test
 	public void generatedTest46() throws Exception {

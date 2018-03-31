@@ -4,20 +4,19 @@ stylesheet taxOfficeExample
   {
     section "Buying"
     {
-      question hasBoughtHouse
+      question fuckBTC
     }
-    section "Loaning"
-      question hasMaintLoan
   }
 
-  page Selling
+  page NonHousing
   {
     section "Selling"
     {
       question hasSoldHouse
+
       section "You sold a house"
       {
-        question sellingPrice
+        question intQ
       }
     }
   }

@@ -79,6 +79,7 @@ namespace Assignment1.Rendering.QLS
         {
             var defaultStyles = page.Statements.OfType<DefaultStyle>().ToArray();
             AddDefaultStyles(defaultStyles);
+            _currentPage = page.Id;
             if (_pages.ContainsKey(page.Id))
                 _pages[page.Id].Controls.Clear();
             else
@@ -97,7 +98,6 @@ namespace Assignment1.Rendering.QLS
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 FlowDirection = FlowDirection.TopDown
             });
-            _currentPage = page.Id;
             tabPage.Controls.Add(_pages[_currentPage]);
             _controlContainer.Controls.Add(tabPage);
         }

@@ -1,9 +1,9 @@
 package ui.model
 
-import doge.data.question.Question
+import ui.model.domain.Question
 import javafx.beans.property.SimpleStringProperty
 
-class StringViewModel(question: Question) : QuestionModel(question) {
+class StringViewModel(question: Question) : QuestionViewModel(question) {
 
     var stringProperty = bind { SimpleStringProperty(item.value.stringValue.value) }
 

@@ -1,20 +1,16 @@
 package ui.view
 
-import ui.model.BooleanViewModel
-import javafx.scene.control.CheckBox
 import tornadofx.bind
+import tornadofx.checkbox
+import ui.model.BooleanViewModel
 
 class CheckBox(question: BooleanViewModel) : QuestionField() {
 
-    override val root = CheckBox()
+    override val root = checkbox {
+        bind(question.booleanValue)
 
-    init {
-        with(root){
-            bind(question.booleanValue)
-
-            selectedProperty().addListener({ _, _, _ ->
-                question.update()
-            })
-        }
+        selectedProperty().addListener({ _, _, _ ->
+            question.update()
+        })
     }
 }

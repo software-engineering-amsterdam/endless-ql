@@ -4,7 +4,7 @@ stylesheet EditOrNotToEdit {
             question stringVariable
             question booleanVariable widget radio("Yes", "No")
             question booleanNotExpression
-            question integerVariable widget spinbox
+            question integerVariable widget spinbox (-100, 100, 10)
             question decimalVariable color: #00FFFF
             question moneyVariable
             question dateVariable
@@ -22,14 +22,6 @@ stylesheet EditOrNotToEdit {
         }
     }
     page PageTwo {
-        section "Variables" {
-            question booleanVariable
-            question booleanNotExpression
-            question stringVariable
-        }
-        section "Expressions" {
-            question stringExpression
-        }
         section "Constants" {
             question stringConstant
             question booleanConstant
@@ -38,11 +30,6 @@ stylesheet EditOrNotToEdit {
         default boolean widget combo("Ja", "Nee")
     }
     page PageThree {
-        section "Variables" {
-            question booleanVariable
-            question booleanNotExpression
-            question stringVariable
-        }
         section "Constants" {
             question decimalConstant
             question moneyConstant
@@ -50,7 +37,6 @@ stylesheet EditOrNotToEdit {
         }
         section "Expressions" {
             question decimalExpression
-            question stringExpression
             question moneyExpression
             question dateExpression
         }

@@ -1,61 +1,50 @@
 package ui.view
 
-import javafx.scene.layout.VBox
-import qls.model.Page
-import qls.model.Section
-import qls.model.StyleSheet
-import ui.model.QuestionFormModel
+import javafx.stage.FileChooser
 import tornadofx.*
-
+import ui.controller.DogeController
+import ui.view.fragment.FormFragment
+import ui.view.fragment.StylizedFormFragment
 
 class DogeMainView : View() {
 
-    private val model: QuestionFormModel by inject()
-
-    override val root = VBox()
+    private val model: DogeController by inject()
 
     private val minHeight = 400.0
     private val minWidth = 400.0
 
-    init {
-        root.minHeight = minHeight
-        root.minWidth = minWidth
+    private val fragment = FormFragment()
 
-        with(root) {
-            val view = UiRenderer().render(model.questions)
-            add(view)
+    override val root = vbox {
+        minHeight = this@DogeMainView.minHeight
+        minWidth = this@DogeMainView.minWidth
 
-
-//            form {
-//                fieldset {
-//                    children.bind(model.questions) {
-//                        field(it.item.label) {
-//                            add(ViewFactory().createQuestionField(it))
-//                        }
-//                    }
-//                }
-//                button("Save") {
-//                    action {
-//                        save()
-//                    }
-//                }
-//            }
-
-            runAsync {
-                model.load()
+        menubar {
+            menu("Import"){
+                item("Language").action { loadDogeQl() }
+                item("Style").action { loadStyle() }
             }
+        }
+
+        add(fragment)
+    }
+
+
+    private fun loadDogeQl(){
+        val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire file", "*.doge")))
+
+        if (files.isNotEmpty()){
+            model.loadQuestionnaire(files.first())
         }
     }
 
-    private fun save() {
-        model.commit()
-        model.load()
+    private fun loadStyle(){
+        val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire style file", "*.shiba")))
+
+        if (files.isNotEmpty()){
+            model.loadStyle(files.first())
+            fragment.replaceWith(StylizedFormFragment())
+        }
     }
 
-
-    private fun temp(): StyleSheet {
-        return TODO()
-    }
 }
-
-

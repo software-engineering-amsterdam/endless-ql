@@ -17,6 +17,7 @@ import org.uva.jomi.ql.ast.statements.Statement;
 import org.uva.jomi.ql.parser.antlr.QLLexer;
 import org.uva.jomi.ql.parser.antlr.QLParser;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
+import org.uva.jomi.ql.parser.antlr.QLParserErrorListener;
 import org.uva.jomi.ui.elements.ElementBuilder;
 import org.uva.jomi.ui.elements.core.Panel;
 import org.uva.jomi.ui.elements.panel.ErrorPanel;
@@ -25,6 +26,7 @@ import org.uva.jomi.ui.elements.panel.PanelElement;
 public class QLForm {
 
 	private QLParser parser;
+	private QLParserErrorListener parserErrorListener;
 	private List<Statement> ast;
 
 	public QLForm(String filePath) {
@@ -38,14 +40,22 @@ public class QLForm {
 
 			this.parser = new QLParser(tokens);
 
+			// Create a instance of the custom error listener.
+			parserErrorListener = new QLParserErrorListener();
+			this.parser.removeErrorListeners();
+			this.parser.addErrorListener(parserErrorListener);
+
 			ParseContext cst = parser.parse();
 
-			AstBuilder builder = new AstBuilder(true);
-			this.ast = builder.visit(cst);
+			if (parser.getNumberOfSyntaxErrors() == 0) {
+				AstBuilder builder = new AstBuilder(true);
+				this.ast = builder.visit(cst);
 
-			if (builder.getNumberOfErros() > 0) {
-				System.err.println("Failed to build the AST");
+				if (builder.getNumberOfErros() > 0) {
+					System.err.println("Failed to build the AST");
+				}
 			}
+
 		} catch(IOException e) {
 			System.err.println("Source file was not found: " + e.getMessage());
 		}
@@ -73,10 +83,17 @@ public class QLForm {
 
 	private List<String> getErrors() {
 		List<String> errors = new ArrayList<String>();
-		errors.addAll(this.errorsOfCyclicDependency());
-		errors.addAll(this.errorsOfIdentifier());
-		errors.addAll(this.errorsOfTypeResolver());
-		errors.addAll(this.errorsOfDuplicatedLabel());
+
+		// Make sure there are no parsing errors.
+		if (parser.getNumberOfSyntaxErrors() > 0) {
+			errors.addAll(this.errorsOfParser());
+		} else {
+			errors.addAll(this.errorsOfCyclicDependency());
+			errors.addAll(this.errorsOfIdentifier());
+			errors.addAll(this.errorsOfTypeResolver());
+			errors.addAll(this.errorsOfDuplicatedLabel());
+		}
+
 		return errors;
 	}
 
@@ -89,6 +106,10 @@ public class QLForm {
 
 	private int numberOfSyntaxErrors() {
 		return parser.getNumberOfSyntaxErrors();
+	}
+
+	private List<String> errorsOfParser() {
+		return parserErrorListener.getErrors();
 	}
 
 
@@ -134,9 +155,4 @@ public class QLForm {
 		labelChecker.check(this.ast);
 		return labelChecker.getWarnings();
 	}
-
-	private int numberOfDuplicatedLabelErrors() {
-		return this.errorsOfDuplicatedLabel().size();
-	}
-
 }

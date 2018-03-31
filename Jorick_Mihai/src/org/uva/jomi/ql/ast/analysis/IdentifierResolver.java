@@ -79,7 +79,7 @@ public class IdentifierResolver implements Expression.Visitor<Void>, Statement.V
 
 	@Override
 	public Void visit(FormStatement stmt) {
-		stmt.visitBlockStmt(this);
+		stmt.visitBlockStatement(this);
 		return null;
 	}
 

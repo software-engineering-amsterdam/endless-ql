@@ -12,18 +12,19 @@ import org.uva.forcepushql.parser.ast.visitors.BuildASTExpressionVisitor;
 
 import javax.swing.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class EventChecker extends Observer {
 
-    private HashMap<String,JPanel> conditionals;
+    private LinkedHashMap<String,JPanelGUI> conditionals;
     private HashMap<String,String> calculations;
     private HashMap<String,Boolean> booleanValues;
     private HashMap<String,Double> numberValues;
     private HashMap<String,JPanelGUI> calculationPanel;
 
     public EventChecker(){
-        conditionals = new HashMap<>();
+        conditionals = new LinkedHashMap<>();
         calculations = new HashMap<>();
         booleanValues = new HashMap<>();
         numberValues = new HashMap<>();
@@ -46,7 +47,7 @@ public class EventChecker extends Observer {
         calculationPanel.put(question,jPanelGUI);
     }
 
-    public void addCondition(String condition, JPanel panel)
+    public void addCondition(String condition, JPanelGUI panel)
     {
         conditionals.put(condition,panel);
         condition = allTogether(condition);
@@ -54,7 +55,7 @@ public class EventChecker extends Observer {
 
         for (String s : result)
         {
-            booleanValues.put(s, false);
+            booleanValues.put(s, null);
         }
 
     }
@@ -78,18 +79,17 @@ public class EventChecker extends Observer {
 
     private void checkCondition()
     {
-        for (Map.Entry<String, JPanel> condition: conditionals.entrySet()) {
+        for (Map.Entry<String,JPanelGUI> condition: conditionals.entrySet()) {
             String toTest = condition.getKey();
 
             for (Map.Entry<String, Boolean> bv : booleanValues.entrySet()) {
-                toTest = toTest.replaceAll(bv.getKey(), String.valueOf(bv.getValue()));
+                if (bv.getValue() != null && toTest.contains(bv.getKey())) {
+                    toTest = toTest.replaceAll(bv.getKey(), String.valueOf(bv.getValue()));
+                    boolean result = createAST(toTest).accept(new ASTExpressionVisitorEvaluator());
+                    condition.getValue().getPanel().setVisible(result);
+                }
             }
-
-            boolean result = createAST(toTest).accept(new ASTExpressionVisitorEvaluator());
-
-            condition.getValue().setVisible(result);
         }
-
     }
 
     private void checkCalculation()
@@ -162,5 +162,14 @@ public class EventChecker extends Observer {
         return true;
     }
 
+    private boolean everyPanelFalse(){
+        boolean result = false;
+        for (Map.Entry<String, JPanelGUI> s: conditionals.entrySet()) {
+            if(!s.getKey().equals(""))
+                result = result || s.getValue().getPanel().isVisible();
+        }
+
+        return !result;
+    }
 
 }

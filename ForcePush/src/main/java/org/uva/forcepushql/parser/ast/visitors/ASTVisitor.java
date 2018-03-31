@@ -1,5 +1,6 @@
 package org.uva.forcepushql.parser.ast.visitors;
 
+import org.uva.forcepushql.parser.ast.elements.ConditionalNode;
 import org.uva.forcepushql.parser.ast.elements.NumberNode;
 import org.uva.forcepushql.parser.ast.elements.QuestionAssignValueNode;
 import org.uva.forcepushql.parser.ast.elements.QuestionNode;
@@ -14,8 +15,7 @@ public interface ASTVisitor{
 
     LinkedList<JPanel> visit(FormNode node);
 
-    LinkedList<JPanelGUI> visit(ConditionalIfNode node);
-    JPanelGUI visit(ConditionalElseNode node);
+    LinkedList<JPanelGUI> visit(ConditionalNode node);
 
     String visit(AdditionNode node);
     String visit(SubtractionNode node);

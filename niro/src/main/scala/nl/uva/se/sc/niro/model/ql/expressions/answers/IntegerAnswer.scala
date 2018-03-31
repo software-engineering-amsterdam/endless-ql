@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.model.ql.expressions.answers
 import nl.uva.se.sc.niro.model.ql.evaluation.BasicArithmetics.IntAnswerCanDoBasicArithmetics._
 import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.IntAnswerCanDoOrderings._
 
-final case class IntegerAnswer(possibleValue: Option[BigInt]) extends Answer {
+final case class IntegerAnswer(value: BigInt) extends Answer {
 
   type T = BigInt
 
@@ -18,10 +18,4 @@ final case class IntegerAnswer(possibleValue: Option[BigInt]) extends Answer {
   override def greaterThen(right: Answer): Answer = this > right
   override def notEquals(right: Answer): Answer = this !== right
   override def equals(right: Answer): Answer = this === right
-}
-
-object IntegerAnswer {
-  def apply() = new IntegerAnswer(None)
-  def apply(value: BigInt) = new IntegerAnswer(Option(value))
-  def apply(value: java.math.BigInteger) = new IntegerAnswer(Option(value))
 }

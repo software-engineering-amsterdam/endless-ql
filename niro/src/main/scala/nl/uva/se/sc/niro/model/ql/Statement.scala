@@ -2,11 +2,11 @@ package nl.uva.se.sc.niro.model.ql
 
 import nl.uva.se.sc.niro.model.ql.expressions._
 
+// format: off
 sealed trait Statement
-
-case class Question(id: String, label: String, answerType: AnswerType, expression: Option[Expression]) extends Statement
-
-case class Conditional(predicate: Expression, thenStatements: Seq[Statement]) extends Statement
+case class Question     (id: String, label: String, answerType: AnswerType, expression: Option[Expression]) extends Statement
+case class Conditional  (predicate: Expression, thenStatements: Seq[Statement])                             extends Statement
+// format: on
 
 object Statement {
 

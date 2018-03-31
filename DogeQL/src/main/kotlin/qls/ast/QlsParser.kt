@@ -1,25 +1,28 @@
 package qls.ast
 
-import org.antlr.v4.runtime.ANTLRInputStream
 import QuestionnaireLanguageStyleGrammarLexer
-import org.antlr.v4.runtime.CommonTokenStream
 import QuestionnaireLanguageStyleGrammarParser
+import org.antlr.v4.runtime.ANTLRInputStream
+import org.antlr.v4.runtime.CommonTokenStream
+import qls.ast.node.QlsNode
+import java.io.File
+import java.io.FileInputStream
 
 
-class QlsParser(){
-    fun parse() {
-        val fileStream = javaClass.getResource("/sample/Style.shiba").openStream()
+class QlsParser {
+    fun parse(file: File): QlsNode {
+        FileInputStream(file).use {
+            val stream = ANTLRInputStream(it)
+            val lexer = QuestionnaireLanguageStyleGrammarLexer(stream)
+            val tokens = CommonTokenStream(lexer)
+            val parser = QuestionnaireLanguageStyleGrammarParser(tokens)
 
-        val stream = ANTLRInputStream(fileStream)
-        val lexer = QuestionnaireLanguageStyleGrammarLexer(stream)
-        val tokens = CommonTokenStream(lexer)
-        val parser = QuestionnaireLanguageStyleGrammarParser(tokens)
+            val visitor = QuestionnaireLanguageStyleVisitor()
 
-        val visitor = QuestionnaireLanguageStyleVisitor()
+            val ast = visitor.visit(parser.stylesheet())
 
-        val ast = visitor.visit(parser.stylesheet())
-
-        return TODO()
+            return ast
+        }
     }
 
 }

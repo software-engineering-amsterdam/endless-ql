@@ -13,7 +13,8 @@ namespace QL_Visualizer.Tests.Widgets
     [TestClass]
     public class WidgetCreatorWindowsTest
     {
-        private WidgetCreatorWindows _widgetCreatorWindows;
+        // TODO: RE-IMPLEMENT
+        /*private WidgetCreatorWindows _widgetCreatorWindows;
 
         [TestInitialize]
         public void Initialize()
@@ -58,6 +59,6 @@ namespace QL_Visualizer.Tests.Widgets
             Assert.AreEqual(widget.Controls[0].GetType(), typeof(Label));
             Assert.AreEqual(widget.Controls[0].Text, stringQuestionManager.Text);
             Assert.AreEqual(widget.Controls[1].GetType(), typeof(TextBox));
-        }
+        }*/
     }
 }

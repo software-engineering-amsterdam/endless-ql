@@ -66,7 +66,7 @@ public class DuplicatedLabelChecker implements Statement.Visitor<Void> {
 
 	@Override
 	public Void visit(FormStatement stmt) {
-		stmt.visitBlockStmt(this);
+		stmt.visitBlockStatement(this);
 		return null;
 	}
 

@@ -9,12 +9,13 @@ import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.{ Alert, ButtonType, Label, ScrollPane }
 import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
-import nl.uva.se.sc.niro.QLFormService
+import nl.uva.se.sc.niro.QLFormFacade
 import nl.uva.se.sc.niro.gui.application.QLScenes
-import nl.uva.se.sc.niro.gui.control.Component
-import nl.uva.se.sc.niro.gui.factory.ql.QLComponentFactory
+import nl.uva.se.sc.niro.gui.component.Component
+import nl.uva.se.sc.niro.gui.component.ql.QLComponentFactoryBuilder
 import nl.uva.se.sc.niro.gui.listener.ComponentChangedListener
-import nl.uva.se.sc.niro.model.gui.{ GUIForm, GUIQuestion }
+import nl.uva.se.sc.niro.gui.widget.ql.QLWidgetFactory
+import nl.uva.se.sc.niro.model.gui.ql.{ GUIForm, GUIQuestion }
 import nl.uva.se.sc.niro.model.ql.QLForm
 import nl.uva.se.sc.niro.model.ql.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator
@@ -26,13 +27,15 @@ import scala.collection.{ JavaConverters, mutable }
 class QLFormController(homeController: QLHomeController, model: QLForm, guiForm: GUIForm)
     extends QLBaseController
     with ComponentChangedListener
+    with ViewUpdater
     with Logging {
 
-  // TODO align naming!
   type ValueStore = mutable.Map[String, Answer]
+
   protected val valuesForQuestions: ValueStore = mutable.Map[String, Answer]()
   protected var questionComponents: Seq[Component[_]] = _ // The actual components that handle the user interaction
 
+  // These three variables get their values injected by the FXML loader. Therefor they must be (and stay) defined as 'var'
   @FXML protected var topBox: VBox = _
   @FXML protected var formName: Label = _
   @FXML protected var questionArea: ScrollPane = _
@@ -52,7 +55,7 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
     val file = fileChooser.showSaveDialog(getActiveStage)
 
     if (file != null) {
-      QLFormService.saveMemoryTableToCSV(valuesForQuestions.toMap, file)
+      QLFormFacade.saveMemoryTableToCSV(valuesForQuestions.toMap, file)
       showSavedMessage()
       cancel(event)
     }
@@ -76,7 +79,13 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
     val questionBox = new VBox()
     questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
 
-    questionComponents = guiForm.questions.map(QLComponentFactory(this).make)
+    val componentFactory = QLComponentFactoryBuilder
+      .buildWithBind()
+      .buildWithIsReadonly()
+      .buildWith(this)
+      .buildWith(new QLWidgetFactory()).build()
+
+    questionComponents = guiForm.questions.map(componentFactory.make)
 
     questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questionComponents))
     questionArea.setContent(questionBox)
@@ -115,7 +124,7 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
   }
 
   def showSavedMessage(): Unit = {
-    val alert = new Alert(AlertType.INFORMATION, "The file has successfuly been saved.", ButtonType.OK)
+    val alert = new Alert(AlertType.INFORMATION, "The data has successfuly been saved.", ButtonType.OK)
     alert.setTitle("Save results")
     alert.showAndWait()
   }

@@ -2,52 +2,47 @@ package doge.ast
 
 import QuestionnaireLanguageGrammarLexer
 import QuestionnaireLanguageGrammarParser
-import doge.data.question.Question
+import doge.ast.node.QLNode
+import doge.data.symbol.SymbolTable
 import doge.typechecker.TypeChecker
-import doge.visitor.UiVisitor
+import doge.visitor.ValueUpdateVisitor
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
+import java.io.File
+import java.io.FileInputStream
 
+
+data class DogeParseResult(val ast: QLNode, val symbolTable: SymbolTable)
 
 class DogeParser {
 
-    fun parse(): List<Question> {
-        val fileName = "/sample/TestQuestionare.doge"
-        val fileStream = javaClass.getResource(fileName).openStream()
+    fun parse(file: File): DogeParseResult? {
+        val fileName = file.path
 
-        val stream = ANTLRInputStream(fileStream)
-        val lexer = QuestionnaireLanguageGrammarLexer(stream)
-        val tokens = CommonTokenStream(lexer)
-        val parser = QuestionnaireLanguageGrammarParser(tokens)
+        var errors = mutableListOf<String>()
 
-        val visitor = QuestionnaireLanguageVisitor()
+        FileInputStream(fileName).use {
+            val stream = ANTLRInputStream(it)
+            val lexer = QuestionnaireLanguageGrammarLexer(stream)
+            val tokens = CommonTokenStream(lexer)
+            val parser = QuestionnaireLanguageGrammarParser(tokens)
+            val visitor = QuestionnaireLanguageVisitor()
+            val ast = visitor.visit(parser.form())
 
-        val ast = visitor.visit(parser.form())
+            val symbolTable = SymbolTable()
+            errors = TypeChecker(fileName, symbolTable, ast).check()
 
-        fileStream.close()
 
-        TypeChecker(fileName, ast).check()
+            if (errors.isEmpty()) {
+                ValueUpdateVisitor.default(symbolTable).visit(ast)
 
-        val questions = UiVisitor().visit(ast)
+                return DogeParseResult(ast, symbolTable)
+            }
 
-//
-//        CircularDependencyVisitor().visit(ast)
 
-//        val listener = DogeListener()
+        }
 
-//        walker.walk(listener, parser.form())
-
-//        val tree = listener.getParsedDogeLanguage()
-
-//        val result = TypeChecker(listener.symbolTable).check(tree)
-
-//        if (result.hasErrors()) {
-//            result.printErrors()
-//
-//            throw Exception() // TODO: fix this flow
-//        }
-
-        return questions
+        return null
     }
 
 }

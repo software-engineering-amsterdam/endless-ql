@@ -8,6 +8,7 @@ import org.uva.qls.ast.Style.Style;
 import org.uva.qls.ast.Style.StyleProperty.StyleProperty;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 public class SpinboxWidget extends QuestionWidget {
@@ -17,11 +18,11 @@ public class SpinboxWidget extends QuestionWidget {
     public SpinboxWidget(Question question, Value value, boolean readOnly, Style style) {
         super(question);
 
-        spinner = new JSpinner();
-        spinner.setValue(value.getValue());
-        spinner.setEnabled(readOnly);
+        this.spinner = new JSpinner();
+        this.spinner.setValue(value.getValue());
+        this.spinner.setEnabled(readOnly);
 
-        this.add(spinner, 1);
+        this.add(this.spinner, 1);
 
         for (StyleProperty property : style.getStyleProperties()) {
             property.apply(this);
@@ -32,6 +33,19 @@ public class SpinboxWidget extends QuestionWidget {
 
     @Override
     public void setQuestionChangeListener(QuestionChangeListener questionChangeListener) {
-        spinner.addChangeListener(e -> questionChangeListener.onQuestionChanged(question, new IntegerValue((int) spinner.getValue())));
+        this.spinner.addChangeListener(e -> questionChangeListener.onQuestionChanged(question, new IntegerValue((int) this.spinner.getValue())));
+    }
+
+    @Override
+    public void setFontSize(int fontSize) {
+        super.setFontSize(fontSize);
+        Font newFont = questionLabel.getFont().deriveFont((float) fontSize);
+        this.spinner.setFont(newFont);
+    }
+
+    @Override
+    public void setFont(String font) {
+        super.setFont(font);
+        this.spinner.setFont(this.questionLabel.getFont());
     }
 }

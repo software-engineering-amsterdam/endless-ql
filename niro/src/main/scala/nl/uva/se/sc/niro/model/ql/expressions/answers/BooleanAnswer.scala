@@ -3,11 +3,11 @@ package nl.uva.se.sc.niro.model.ql.expressions.answers
 import nl.uva.se.sc.niro.model.ql.evaluation.Logicals.BooleanAnswerCanDoLogicals._
 import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.BooleanAnswerCanDoOrderings._
 
-final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
+final case class BooleanAnswer(value: Boolean) extends Answer {
 
   type T = Boolean
 
-  override def isTrue: Boolean = possibleValue.getOrElse(false)
+  override def isTrue: Boolean = value
 
   override def lessThan(right: Answer): Answer = this < right
   override def lessThanEquals(right: Answer): Answer = this <= right
@@ -19,9 +19,4 @@ final case class BooleanAnswer(possibleValue: Option[Boolean]) extends Answer {
   override def and(right: Answer): Answer = this && right
   override def or(right: Answer): Answer = this || right
   override def negate: Answer = !this
-}
-
-object BooleanAnswer {
-  def apply() = new BooleanAnswer(None)
-  def apply(value: Boolean) = new BooleanAnswer(Option(value))
 }

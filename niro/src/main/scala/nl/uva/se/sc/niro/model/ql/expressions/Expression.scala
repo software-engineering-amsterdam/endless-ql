@@ -1,7 +1,5 @@
 package nl.uva.se.sc.niro.model.ql.expressions
 
-import nl.uva.se.sc.niro.model.ql.Operators._
-
 trait Expression
 trait UnaryExpression extends Expression {
   val right: Expression
@@ -10,21 +8,24 @@ trait BinaryExpression extends Expression {
   val left: Expression
   val right: Expression
 }
-final case class Reference(questionId: String) extends Expression
-final case class Addition(left: Expression, right: Expression) extends BinaryExpression
-final case class Subtract(left: Expression, right: Expression) extends BinaryExpression
-final case class Multiply(left: Expression, right: Expression) extends BinaryExpression
-final case class Divide(left: Expression, right: Expression) extends BinaryExpression
-final case class Minus(right: Expression) extends UnaryExpression
-final case class LessThan(left: Expression, right: Expression) extends BinaryExpression
-final case class LessThanEqual(left: Expression, right: Expression) extends BinaryExpression
-final case class GreaterThenEqual(left: Expression, right: Expression) extends BinaryExpression
-final case class GreaterThen(left: Expression, right: Expression) extends BinaryExpression
-final case class NotEqual(left: Expression, right: Expression) extends BinaryExpression
-final case class Equal(left: Expression, right: Expression) extends BinaryExpression
-final case class Or(left: Expression, right: Expression) extends BinaryExpression
-final case class And(left: Expression, right: Expression) extends BinaryExpression
-final case class Negate(right: Expression) extends UnaryExpression
+
+// format: off
+final case class Reference        (questionId: String)                  extends Expression
+final case class Addition         (left: Expression, right: Expression) extends BinaryExpression
+final case class Subtract         (left: Expression, right: Expression) extends BinaryExpression
+final case class Multiply         (left: Expression, right: Expression) extends BinaryExpression
+final case class Divide           (left: Expression, right: Expression) extends BinaryExpression
+final case class Minus            (right: Expression)                   extends UnaryExpression
+final case class LessThan         (left: Expression, right: Expression) extends BinaryExpression
+final case class LessThanEqual    (left: Expression, right: Expression) extends BinaryExpression
+final case class GreaterThenEqual (left: Expression, right: Expression) extends BinaryExpression
+final case class GreaterThen      (left: Expression, right: Expression) extends BinaryExpression
+final case class NotEqual         (left: Expression, right: Expression) extends BinaryExpression
+final case class Equal            (left: Expression, right: Expression) extends BinaryExpression
+final case class Or               (left: Expression, right: Expression) extends BinaryExpression
+final case class And              (left: Expression, right: Expression) extends BinaryExpression
+final case class Negate           (right: Expression)                   extends UnaryExpression
+// format: on
 
 object Expression {
   def apply(operator: String, left: Expression): Expression = operator match {

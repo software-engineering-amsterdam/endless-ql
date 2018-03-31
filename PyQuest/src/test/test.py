@@ -1,7 +1,7 @@
-from termcolor import colored
-
 from os import listdir
 from os import path
+
+from termcolor import colored
 
 
 class Test:

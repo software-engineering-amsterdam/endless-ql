@@ -2,8 +2,10 @@
 TODO: Add optimise=1 to the lexer when file is production ready
 """
 
-from ply.lex import lex
 from re import findall
+
+from ply.lex import lex
+
 from ql.types.boolean import QLBoolean
 from ql.types.date import QLDate
 from ql.types.decimal import QLDecimal

@@ -1,7 +1,8 @@
+from multimethods import multimethod
+
 from ql.ast.nodes.statements.form_node import FormNode
 from ql.ast.nodes.statements.if_node import IfNode
 from ql.ast.nodes.statements.question_node import QuestionNode
-from multimethods import multimethod
 
 
 class IdentifierVisitor:

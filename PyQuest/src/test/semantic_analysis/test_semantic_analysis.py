@@ -1,12 +1,12 @@
-from src.test.test import Test
 from ql.ast.checkers.dependency_checker import DependencyChecker
 from ql.ast.checkers.question_checker import QuestionChecker
 from ql.ast.checkers.reference_checker import ReferenceChecker
-from ql.ast.visitors.type_visitor import TypeVisitor
 from ql.ast.extractors.extractor import extract_identifier_dependencies
 from ql.ast.extractors.extractor import extract_identifier_scopes
 from ql.ast.extractors.extractor import extract_identifier_types
 from ql.ast.extractors.extractor import extract_questions
+from ql.ast.visitors.type_visitor import TypeVisitor
+from src.test.test import Test
 
 
 class TestSemanticAnalysis(Test):

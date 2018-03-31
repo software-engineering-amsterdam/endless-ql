@@ -1,7 +1,5 @@
 from ply.yacc import yacc
-from ql.parser.lexer import QLLexer
-from ql.parser.metadata import Metadata
-from ql.ast.nodes.expressions.variable_node import VariableNode
+
 from ql.ast.nodes.expressions.binary_operators.addition_node import AdditionOperatorNode
 from ql.ast.nodes.expressions.binary_operators.and_node import AndOperatorNode
 from ql.ast.nodes.expressions.binary_operators.division_node import DivisionOperatorNode
@@ -16,20 +14,23 @@ from ql.ast.nodes.expressions.binary_operators.or_node import OrOperatorNode
 from ql.ast.nodes.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
 from ql.ast.nodes.expressions.literals.boolean_node import BooleanNode
 from ql.ast.nodes.expressions.literals.date_node import DateNode
-from ql.ast.nodes.expressions.literals.integer_node import IntegerNode
 from ql.ast.nodes.expressions.literals.decimal_node import DecimalNode
+from ql.ast.nodes.expressions.literals.integer_node import IntegerNode
 from ql.ast.nodes.expressions.literals.string_node import StringNode
 from ql.ast.nodes.expressions.unary_operators.negation_node import NegationOperatorNode
 from ql.ast.nodes.expressions.unary_operators.negative_node import NegativeOperatorNode
+from ql.ast.nodes.expressions.variable_node import VariableNode
 from ql.ast.nodes.statements.form_node import FormNode
 from ql.ast.nodes.statements.if_node import IfNode
 from ql.ast.nodes.statements.question_node import QuestionNode
+from ql.parser.lexer import QLLexer
+from ql.parser.metadata import Metadata
 from ql.types.boolean import QLBoolean
-from ql.types.integer import QLInteger
-from ql.types.string import QLString
 from ql.types.date import QLDate
-from ql.types.money import QLMoney
 from ql.types.decimal import QLDecimal
+from ql.types.integer import QLInteger
+from ql.types.money import QLMoney
+from ql.types.string import QLString
 from ql.types.undefined import QLUndefined
 
 

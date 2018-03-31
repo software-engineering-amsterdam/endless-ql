@@ -1,5 +1,5 @@
-from ql.ast.nodes.base_node import BaseNode
 from gui.model.question import QuestionModel
+from ql.ast.nodes.base_node import BaseNode
 
 
 class QuestionNode(BaseNode):

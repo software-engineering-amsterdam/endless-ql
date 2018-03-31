@@ -1,8 +1,9 @@
-from ql.ast.nodes.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
-from ql.ast.nodes.expressions.unary_operators.unary_operator_node import UnaryOperatorNode
-from ql.ast.nodes.expressions.literals.literal_node import LiteralNode
-from ql.ast.nodes.expressions.variable_node import VariableNode
 from multimethods import multimethod
+
+from ql.ast.nodes.expressions.binary_operators.binary_operator_node import BinaryOperatorNode
+from ql.ast.nodes.expressions.literals.literal_node import LiteralNode
+from ql.ast.nodes.expressions.unary_operators.unary_operator_node import UnaryOperatorNode
+from ql.ast.nodes.expressions.variable_node import VariableNode
 
 
 class ExpressionEvaluator:

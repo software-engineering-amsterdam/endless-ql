@@ -1,3 +1,5 @@
+from json import loads
+
 from ql.ast.extractors.extractor import extract_gui_model
 from ql.ast.extractors.extractor import extract_identifier_types
 from ql.ast.visitors.expression_evaluator import ExpressionEvaluator
@@ -9,8 +11,6 @@ from ql.types.integer import QLInteger
 from ql.types.money import QLMoney
 from ql.types.string import QLString
 from src.test.test import Test
-
-from json import loads
 
 
 class TestExpressionEvaluation(Test):

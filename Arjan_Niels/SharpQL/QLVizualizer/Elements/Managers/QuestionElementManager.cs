@@ -1,7 +1,6 @@
 ﻿using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace QLVisualizer.Elements.Managers
 {
@@ -104,7 +103,9 @@ namespace QLVisualizer.Elements.Managers
 
         public override string AnswerToString()
         {
-            return Answer.Value.ToString();
+            if(Answer.Value != null)
+                return Answer.Value.ToString();
+            return string.Empty;
         }
     }
 }

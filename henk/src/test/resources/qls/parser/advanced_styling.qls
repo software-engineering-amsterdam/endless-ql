@@ -1,0 +1,22 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Buying"
+    {
+      question hasBoughtHouse
+        widget checkbox
+
+      question hasSoldHouse
+        widget checkbox("first", "second")
+    }
+    section "Loaning"  
+      question hasMaintLoan {
+        width: 400
+        font: "Arial" 
+        fontsize: 14
+        color: #999999
+        widget spinbox
+      }      
+  }
+}

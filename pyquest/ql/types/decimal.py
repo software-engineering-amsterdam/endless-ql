@@ -64,9 +64,6 @@ class QLDecimal(QLType):
 
         return QLDecimal(self.value * other.value)
 
-    def __floordiv__(self, other):
-        return QLDecimal(self.value // other.value)
-
     def __truediv__(self, other):
         if isinstance(other, QLMoney):
             return QLMoney(other.value / self.value, other.currency)

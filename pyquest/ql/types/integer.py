@@ -70,9 +70,6 @@ class QLInteger(QLType):
 
         return other * self
 
-    def __floordiv__(self, other):
-        return QLInteger(self.value // other.value)
-
     def __truediv__(self, other):
         if isinstance(other, QLMoney):
             return QLMoney(other.value / self.value, other.currency)

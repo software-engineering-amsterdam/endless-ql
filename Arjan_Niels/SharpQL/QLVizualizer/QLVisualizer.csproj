@@ -48,14 +48,12 @@
     <Compile Include="Controllers\Display\ElementManagerDisplayContollerWindows.cs" />
     <Compile Include="Controllers\ElementManagerController.cs" />
     <Compile Include="Controllers\ParseController.cs" />
-    <Compile Include="Elements\ElementUtils.cs" />
     <Compile Include="Elements\Managers\CollectionTypes\ElementManagerSubCollection.cs" />
     <Compile Include="Elements\Managers\CollectionTypes\FormManager.cs" />
     <Compile Include="Elements\Managers\CollectionTypes\PageManager.cs" />
     <Compile Include="Elements\Managers\CollectionTypes\SectionManager.cs" />
     <Compile Include="Elements\Managers\ElementManagerCollection.cs" />
     <Compile Include="Elements\Managers\ElementManager.cs" />
-    <Compile Include="Elements\ElementTypes.cs" />
     <Compile Include="Elements\Managers\IStylable.cs" />
     <Compile Include="Elements\Managers\LeafTypes\DoubleQuestionManager.cs" />
     <Compile Include="Expression\Enums\ExpressionOperators.cs" />
@@ -71,7 +69,7 @@
     <Compile Include="Factories\ExpressionFactory.cs" />
     <Compile Include="Factories\ElementManagerFactory.cs" />
     <Compile Include="Factories\QValueTypeParser.cs" />
-    <Compile Include="Factories\WidgetFactory.cs" />
+    <Compile Include="Factories\WidgetFactoryWindows.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\Display\ElementManagerDisplayController.cs" />
@@ -88,7 +86,7 @@
     <Compile Include="Widgets\ICreatable.cs" />
     <Compile Include="Widgets\Style\IStyler.cs" />
     <Compile Include="Widgets\Leaf\IInputCreator.cs" />
-    <Compile Include="Widgets\Style\Windows\WindowsStyler.cs" />
+    <Compile Include="Widgets\Windows\Style\WindowsStyler.cs" />
     <Compile Include="Widgets\Windows\Collection\FormBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Collection\PageBuilder.cs" />
     <Compile Include="Widgets\Windows\Collection\SectionBuilderWindows.cs" />
@@ -106,7 +104,7 @@
     <Compile Include="Widgets\Windows\Leaf\MoneyBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Leaf\StringBuilderWindows.cs" />
     <Compile Include="Widgets\Windows\Leaf\WidgetLeafBuilderWindows.cs" />
-    <Compile Include="Widgets\Style\Windows\StyleParserWindows.cs" />
+    <Compile Include="Widgets\Windows\Style\StyleParserWindows.cs" />
     <Compile Include="Widgets\Style\StyleProperty.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

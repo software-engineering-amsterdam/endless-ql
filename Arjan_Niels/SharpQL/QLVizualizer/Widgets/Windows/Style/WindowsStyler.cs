@@ -3,7 +3,7 @@ using QLVisualizer.Widgets.Windows;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace QLVisualizer.Widgets
+namespace QLVisualizer.Widgets.Windows.Style
 {
     public class WindowsStyler : IStyler<Control>, IStyleParser
     {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace QLVisualizer.Widgets.Windows
+namespace QLVisualizer.Widgets.Windows.Style
 {
     public class StyleParserWindows : IStyleParser
     {

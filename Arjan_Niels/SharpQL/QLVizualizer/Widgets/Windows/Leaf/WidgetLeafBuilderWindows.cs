@@ -3,6 +3,7 @@ using QLParser.AST.QLS.Enums;
 using QLVisualizer.Elements.Managers;
 using QLVisualizer.Widgets.Collection;
 using QLVisualizer.Widgets.Leaf;
+using QLVisualizer.Widgets.Windows.Style;
 using System.Collections.Generic;
 using System.Windows.Forms;
 

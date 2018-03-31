@@ -59,6 +59,12 @@ class QLMoney(QLType):
             return QLMoney(self.value - other.value, self.currency)
         return NotImplemented
 
+    def __mul__(self, other):
+        return other * self
+
+    def __truediv__(self, other):
+        return other / self
+
     def get_json_value(self):
         return {'value': round(self.value, 2), 'currency': self.currency}
 

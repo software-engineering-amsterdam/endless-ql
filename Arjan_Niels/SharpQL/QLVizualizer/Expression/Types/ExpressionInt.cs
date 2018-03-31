@@ -29,7 +29,7 @@ namespace QLVisualizer.Expression.Types
                         // Combine the two integers
                         ExpressionInt expression = expressionValue as ExpressionInt;
                         AddToChain(expression.GetExpression(), op);
-                        UsedIdentifiers = CombineWidgets(expressionValue);
+                        UsedIdentifiers = CombineElements(expressionValue);
                         return this;
                     case ExpressionType.Double:
                         // Convert to double to continue combination
@@ -78,15 +78,15 @@ namespace QLVisualizer.Expression.Types
             switch (op)
             {
                 case ExpressionOperator.GreaterThan:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Result > item.Result; });
+                    return new ExpressionBool(CombineElements(item), () => { return Result > item.Result; });
                 case ExpressionOperator.GreaterEquals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Result >= item.Result; });
+                    return new ExpressionBool(CombineElements(item), () => { return Result >= item.Result; });
                 case ExpressionOperator.LessThan:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Result < item.Result; });
+                    return new ExpressionBool(CombineElements(item), () => { return Result < item.Result; });
                 case ExpressionOperator.LessEquals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Result <= item.Result; });
+                    return new ExpressionBool(CombineElements(item), () => { return Result <= item.Result; });
                 case ExpressionOperator.Equals:
-                    return new ExpressionBool(CombineWidgets(item), () => { return Result == item.Result; });
+                    return new ExpressionBool(CombineElements(item), () => { return Result == item.Result; });
             }
             throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, item.Type, op));
         }

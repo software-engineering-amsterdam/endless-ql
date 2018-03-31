@@ -54,7 +54,7 @@ namespace QLVisualizer.Expression.Types
         /// </summary>
         /// <param name="expressionValue">Expression to combine with</param>
         /// <returns>Combined widgetIDs</returns>
-        protected string[] CombineWidgets(ExpressionValue expressionValue)
+        protected string[] CombineElements(ExpressionValue expressionValue)
         {
             // Create a list of unique widgetIDs
             return UsedIdentifiers.Concat(expressionValue.UsedIdentifiers).Distinct().ToArray();

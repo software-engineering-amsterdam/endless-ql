@@ -4,6 +4,7 @@
     {
         Int,
         Double,
-        Bool
+        Bool,
+        Hex
     }
 }

@@ -37,7 +37,7 @@ namespace QLVisualizer.Expression.Types
                 }
 
                 AddToChain(expression.GetExpression(), op);
-                UsedIdentifiers = CombineWidgets(expressionValue);
+                UsedIdentifiers = CombineElements(expressionValue);
                 return this;
             }
             throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, expressionValue.Type, op));
@@ -64,7 +64,7 @@ namespace QLVisualizer.Expression.Types
                 }
 
                     AddToChain(expression.GetExpression(), op);
-                    UsedIdentifiers = CombineWidgets(expressionValue);
+                    UsedIdentifiers = CombineElements(expressionValue);
                     return this;
                 
             }

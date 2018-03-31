@@ -1,6 +1,5 @@
 from antlr4 import ParseTreeVisitor
 from antlr.generated.QLSParser import QLSParser
-import re
 
 
 # This class defines a complete generic visitor for a parse tree produced by QLSParser.

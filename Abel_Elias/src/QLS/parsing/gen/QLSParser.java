@@ -1,4 +1,4 @@
-// Generated from /home/ajm/Desktop/newEndless/endless-ql/Abel_Elias/src/QLS/parsing/QLS.g4 by ANTLR 4.7
+// Generated from /home/ajm/Desktop/endless-sunday/endless-ql/Abel_Elias/src/QLS/parsing/QLS.g4 by ANTLR 4.7
 package QLS.parsing.gen;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -293,7 +293,7 @@ public class QLSParser extends Parser {
 
 	public static class SectionContext extends ParserRuleContext {
 		public TerminalNode SECTION() { return getToken(QLSParser.SECTION, 0); }
-		public TerminalNode IDENTIFIER() { return getToken(QLSParser.IDENTIFIER, 0); }
+		public TerminalNode STR() { return getToken(QLSParser.STR, 0); }
 		public TerminalNode CURLY_BRACE_L() { return getToken(QLSParser.CURLY_BRACE_L, 0); }
 		public TerminalNode CURLY_BRACE_R() { return getToken(QLSParser.CURLY_BRACE_R, 0); }
 		public List<ElementContext> element() {
@@ -336,7 +336,7 @@ public class QLSParser extends Parser {
 			setState(86);
 			match(SECTION);
 			setState(87);
-			match(IDENTIFIER);
+			match(STR);
 			setState(88);
 			match(CURLY_BRACE_L);
 			setState(92);
@@ -1974,7 +1974,7 @@ public class QLSParser extends Parser {
 		"\2\2\2DB\3\2\2\2EF\7\33\2\2FG\7\2\2\3G\3\3\2\2\2HI\7\25\2\2IJ\7!\2\2J"+
 		"N\7\32\2\2KM\5\6\4\2LK\3\2\2\2MP\3\2\2\2NL\3\2\2\2NO\3\2\2\2OQ\3\2\2\2"+
 		"PN\3\2\2\2QU\7\33\2\2RT\7&\2\2SR\3\2\2\2TW\3\2\2\2US\3\2\2\2UV\3\2\2\2"+
-		"V\5\3\2\2\2WU\3\2\2\2XY\7\26\2\2YZ\7!\2\2Z^\7\32\2\2[]\5\b\5\2\\[\3\2"+
+		"V\5\3\2\2\2WU\3\2\2\2XY\7\26\2\2YZ\7\"\2\2Z^\7\32\2\2[]\5\b\5\2\\[\3\2"+
 		"\2\2]`\3\2\2\2^\\\3\2\2\2^_\3\2\2\2_a\3\2\2\2`^\3\2\2\2ae\7\33\2\2bd\7"+
 		"&\2\2cb\3\2\2\2dg\3\2\2\2ec\3\2\2\2ef\3\2\2\2f\7\3\2\2\2ge\3\2\2\2hl\5"+
 		"\6\4\2ik\7&\2\2ji\3\2\2\2kn\3\2\2\2lj\3\2\2\2lm\3\2\2\2m~\3\2\2\2nl\3"+

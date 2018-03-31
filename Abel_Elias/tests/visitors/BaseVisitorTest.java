@@ -1,4 +1,4 @@
-package tests.parsing.visitors;
+package tests.visitors;
 
 import org.junit.Test;
 

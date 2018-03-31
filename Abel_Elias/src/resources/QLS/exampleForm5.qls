@@ -1,0 +1,31 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Buying"
+    {
+      question hasBoughtHouse
+        widget checkbox
+    }
+    section "Loaning"
+      question hasMaintLoan
+        widget checkbox
+  }
+  page Selling
+  {
+    section "Selling"
+    {
+      question hasSoldHouse
+        widget checkbox
+      section "You sold a house"
+      {
+        question sellingPrice
+          widget text
+        question privateDebt
+          widget text
+        question valueResidue
+          widget text
+      }
+    }
+  }
+}

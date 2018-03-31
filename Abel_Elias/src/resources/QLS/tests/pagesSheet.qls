@@ -1,17 +1,9 @@
 stylesheet taxOfficeExample
 {
-  page Housing
+  page firstPage
   {
-    section Buying
-    {
-      question hasBoughtHouse
-        widget checkbox
-    }
-    section Loaning
-      question hasMaintLoan
-        widget checkbox
   }
-  page Selling
+  page secondPage
   {
     section Selling
     {

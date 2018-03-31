@@ -1,4 +1,4 @@
-package tests.parsing.visitors;
+package tests.visitors;
 
 import QL.classes.Form;
 import QL.classes.Question;

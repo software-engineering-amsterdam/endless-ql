@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime.Misc;
-using QLGrammar;
+﻿using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
@@ -12,7 +11,7 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
 {
     public class ArthimetricExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {
-        public override IExpressionNode VisitArtithmeticExpression([NotNull] ArtithmeticExpressionContext context)
+        public override IExpressionNode VisitArtithmeticExpression(ArtithmeticExpressionContext context)
         {
             if (context == null)
                 throw new ArgumentNullException("Context can't be null");

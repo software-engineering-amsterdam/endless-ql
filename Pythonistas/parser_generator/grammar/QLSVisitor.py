@@ -34,8 +34,53 @@ class QLSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by QLSParser#default.
+    def visitDefault(self, ctx:QLSParser.DefaultContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#type.
+    def visitType(self, ctx:QLSParser.TypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#attributes.
+    def visitAttributes(self, ctx:QLSParser.AttributesContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#width.
+    def visitWidth(self, ctx:QLSParser.WidthContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#font.
+    def visitFont(self, ctx:QLSParser.FontContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#fontsize.
+    def visitFontsize(self, ctx:QLSParser.FontsizeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#color.
+    def visitColor(self, ctx:QLSParser.ColorContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by QLSParser#checkbox.
     def visitCheckbox(self, ctx:QLSParser.CheckboxContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#radio.
+    def visitRadio(self, ctx:QLSParser.RadioContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#spinbox.
+    def visitSpinbox(self, ctx:QLSParser.SpinboxContext):
         return self.visitChildren(ctx)
 
 

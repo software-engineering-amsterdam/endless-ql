@@ -1,22 +1,24 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Input from "reactstrap/lib/Input";
-import { FormComponent } from "./rendering/components/form_component/FormComponent";
 import Form from "./form/Form";
-import QuestionForm from "./form/QuestionForm";
 import Alert from "reactstrap/lib/Alert";
 import { getParserErrorMessage } from "./parsing/parsing_helpers";
-import { QlParserPipeline, QlParserResult } from "./parsing/QlParserPipeline";
-import FormState from "./form/state/FormState";
-import { QlsTest } from "./modules/styling/rendering/components/qls_test/QlsTest";
 import VisibleFieldsVisitor from "./form/evaluation/VisibleFieldsVisitor";
+import { QlsParserPipeline, QlsParserResult } from "./modules/styling/parsing/QlsParserPipeline";
+import StyledForm from "./modules/styling/form/StyledForm";
+import PagedFormState from "./modules/styling/form/PagedFormState";
+import { StyledFormContainer } from "./modules/styling/rendering/components/styled_form_container/StyledFormContainer";
+import QuestionForm from "./form/QuestionForm";
+import PageNode from "./modules/styling/form/nodes/containers/PageNode";
 
 export interface AppComponentProps {
 }
 
 export interface AppComponentState {
   qlInput?: string;
-  form: Form | null;
+  qlsInput: string;
+  form: Form | any | null;
   parserError: Error | null;
 }
 
@@ -26,28 +28,32 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
     this.state = {
       qlInput: require("!raw-loader!./mock/sample.ql.txt"),
+      qlsInput: require("!raw-loader!./modules/styling/mock/sample.qls.txt"),
       form: null,
       parserError: null
     };
 
-    this.onChange = this.onChange.bind(this);
+    this.onChangeAnswer = this.onChangeAnswer.bind(this);
+    this.onChangePage = this.onChangePage.bind(this);
   }
 
   componentDidMount() {
-    this.onChangeQuestionnaire(require("!raw-loader!./mock/sample.ql.txt"));
+    this.onChangeQlSource(require("!raw-loader!./mock/sample.ql.txt"));
   }
 
-  onChangeQuestionnaire(text: string) {
+  onChangeQlSource(text: string) {
     try {
-      const parseResults: QlParserResult[] = (new QlParserPipeline(text)).run();
+      const parseResult: QlsParserResult = (new QlsParserPipeline(text, this.state.qlsInput)).run();
+      console.log(parseResult.styles);
+
+      const form = new QuestionForm(parseResult.node, this.getFormState());
 
       this.setState({
-        form: new QuestionForm(parseResults[0].node, this.getFormState()),
+        form: new StyledForm(form, parseResult.styleNode),
         parserError: null,
         qlInput: text
       });
     } catch (error) {
-      console.error(error);
       this.setState({
         parserError: error,
         qlInput: text
@@ -57,20 +63,29 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
 
   getFormState() {
     if (!this.state.form) {
-      return new FormState();
+      return new PagedFormState();
     }
 
     return this.state.form.getState();
-
   }
 
-  onChange(identifier: string, value: any) {
+  onChangeAnswer(identifier: string, value: any) {
     if (!this.state.form) {
       return;
     }
 
     this.setState({
       form: this.state.form.setAnswer(identifier, value)
+    });
+  }
+
+  onChangePage(nextPage: PageNode) {
+    if (!this.state.form) {
+      return;
+    }
+
+    this.setState({
+      form: this.state.form.setActivePage(nextPage)
     });
   }
 
@@ -94,30 +109,35 @@ class App extends React.Component<AppComponentProps, AppComponentState> {
     }
 
     return (
+        <StyledFormContainer
+            onChange={this.onChangeAnswer}
+            onChangePage={this.onChangePage}
+            form={this.state.form}
+            visibleFields={VisibleFieldsVisitor.run(this.state.form)}
+        />
+    );
+
+    /*
+    return (
         <FormComponent
             onChange={this.onChange}
             form={this.state.form}
             visibleFields={VisibleFieldsVisitor.run(this.state.form)}
         />
-    );
+    );*/
   }
 
   render() {
     return (
-        /**
-         * The lines below only demonstrate the behaviour of the DSL and will be replaced by
-         * the real formula.
-         */
         <div className="app container">
           <h1>NEWSKQL</h1>
           <div className="row ql-sample-output">
             <div className="col-md-6">
-              <QlsTest/>
               <Input
                   valid={!this.state.parserError}
                   type="textarea"
                   value={this.state.qlInput}
-                  onChange={e => this.onChangeQuestionnaire(e.target.value)}
+                  onChange={e => this.onChangeQlSource(e.target.value)}
                   name="ql_input"
               />
             </div>

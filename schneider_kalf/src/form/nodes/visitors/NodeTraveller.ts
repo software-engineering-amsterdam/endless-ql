@@ -1,5 +1,5 @@
 import NodeVisitor from "./NodeVisitor";
-import Question from "../fields/Question";
+import QuestionNode from "../fields/QuestionNode";
 import ComputedField from "../fields/ComputedField";
 import IfCondition from "../conditions/IfCondition";
 import FormNode from "../FormNode";
@@ -25,6 +25,7 @@ import VisitorCallback from "./VisitorCallback";
 import TreeNode from "../TreeNode";
 import Statement from "../Statement";
 import DateLiteral from "../literals/DateLiteral";
+import FieldNodeDecorator from "../fields/FieldNodeDecorator";
 
 export default class NodeTraveller implements NodeVisitor {
   private post: VisitorCallback;
@@ -55,7 +56,7 @@ export default class NodeTraveller implements NodeVisitor {
     this.post(node);
   }
 
-  visitQuestion(question: Question): any {
+  visitQuestion(question: QuestionNode): any {
     this.visitPreAndPost(question);
   }
 
@@ -67,6 +68,9 @@ export default class NodeTraveller implements NodeVisitor {
     this.pre(ifCondition);
     ifCondition.predicate.accept(this);
     ifCondition.then.forEach((statement: Statement) => {
+      statement.accept(this);
+    });
+    ifCondition.otherwise.forEach((statement: Statement) => {
       statement.accept(this);
     });
     this.post(ifCondition);
@@ -156,4 +160,9 @@ export default class NodeTraveller implements NodeVisitor {
     return this.visitPreAndPost(dateLiteral);
   }
 
+  visitFieldDecorator(fieldDecorator: FieldNodeDecorator) {
+    this.pre(fieldDecorator);
+    fieldDecorator.getBaseField().accept(this);
+    this.post(fieldDecorator);
+  }
 }

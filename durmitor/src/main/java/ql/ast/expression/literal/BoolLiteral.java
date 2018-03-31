@@ -39,6 +39,11 @@ public class BoolLiteral extends Literal<Boolean> {
     public Type getType() {
         return new Bool();
     }
+    
+    @Override
+    public boolean isBoolean() {
+        return true;
+    }
 
     @Override
     public Literal<?> accept(ValueVisitor visitor) {

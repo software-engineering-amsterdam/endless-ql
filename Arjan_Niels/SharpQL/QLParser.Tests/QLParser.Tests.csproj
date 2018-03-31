@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Evaluator\StatementTypeEvaluatorTests.cs" />
     <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
     <Compile Include="Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />
     <Compile Include="Analysis\Semantic\StatementTypeAnalyserTests.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AST\QuestionTest.cs" />
     <Compile Include="AST\ConditionalTest.cs" />
+    <Compile Include="QLS\QLSWidgetTypeTest.cs" />
     <Compile Include="QLTest.cs" />
     <Compile Include="AST\InvalidTreeTests.cs" />
   </ItemGroup>

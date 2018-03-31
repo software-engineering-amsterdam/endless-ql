@@ -7,9 +7,32 @@ class DefaultStyle:
         self.line = line
         self.varDict = None
         self.type = defaultType
+        self.widgetType = None
 
-    def getDefaults(defaultDict):
+    def checkDefaults(self, defaultDict):
+        print("---------")
+        print(self.type)
         pass
+
+    """
+        Check if all the defaults are correct
+    """
+    def checkDefaultsQuestion(self, defaultDict):
+        # If the entry is already present
+        if self.type in defaultDict and self.widgetType in defaultDict[self.type]:
+            errorstring = "Double declaration of default with types (" + str(self.type) + \
+            ", " + str(self.widgetType) + ") near line " + str(self.line)
+            throwError(errorstring)
+
+        # If the type is present but the combination of (type, widget) is not, add it
+        elif self.type in defaultDict:
+            defaultDict[self.type][self.widgetType] = self
+        else:
+            defaultDict[self.type] = {}
+            defaultDict[self.type][self.widgetType] = self
+        return defaultDict
+
+        
 
     """
         Check if the attribute types only occur once. 
@@ -17,7 +40,7 @@ class DefaultStyle:
 
         We check the widgets by using a boolean
     """
-    def checkTypes(self):
+    def checkTypes(self, isQuestion=False):
         styleTypes = []
         hasWidget = False
         widgetType = None
@@ -45,7 +68,7 @@ class DefaultStyle:
             else:
                 throwError("Internal error, unknown attribute in default")
 
-        if hasWidget == False:
+        if hasWidget == False and isQuestion == True:
             errorstring = "Missing declaration of widget in default near line " + str(self.line)
             throwError(errorstring)
 
@@ -59,6 +82,17 @@ class DefaultStyle:
 
         return self.type, widgetType
 
+    """
+        Check the attributes for a widget (there can only be one), set your own widget if needed,
+        and return the widget
+    """
+    def getWidget(self):
+        for attribute in self.attributes:
+            attType = attribute.getAttributeType()
+            if attType == 'widget':
+                return attribute
+        throwError(("Could not find widget in default near line " + str(self.line)))
+
 
     """
         An attribute can be a widget or a styling class
@@ -68,6 +102,12 @@ class DefaultStyle:
 
     def addVarDict(self, varDict):
         self.varDict = varDict
+
+    def setWidgetType(self, widgetType):
+        self.widgetType = widgetType
+
+    def getWidgetType(self):
+        return self.widgetType
 
     def __repr__(self):
         return "DefaultStyle attributes: {}".format(self.attributes)

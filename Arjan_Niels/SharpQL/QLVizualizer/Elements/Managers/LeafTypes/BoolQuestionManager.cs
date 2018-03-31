@@ -5,12 +5,12 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
 {
     public class BoolQuestionManager : QuestionElementManager<bool>
     {
-        public BoolQuestionManager(string identifyer, string text, ElementManager parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<bool> answerExpression = null) : 
+        public BoolQuestionManager(string identifyer, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<bool> answerExpression = null) : 
             base(identifyer, text, parent, controller, activationExpression, answerExpression)
         {
         }
 
-        public override QuestionElementValue<bool> ParseInput(string input)
+        protected override QuestionElementValue<bool> ParseInput(string input)
         {
             bool result = false;
             bool valid = bool.TryParse(input, out result);

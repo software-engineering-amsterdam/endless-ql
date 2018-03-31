@@ -8,7 +8,8 @@ import expression.visitor.evaluation.TypeVisitor
 import expression.visitor.reference.ReferenceCollector
 import expression.visitor.reference.ReferenceVisitor
 
-class UnaryExpression(val next: Expression, val operation: UnaryOperation) : Expression {
+class UnaryExpression(val next: Expression, val operation: UnaryOperation, sourceLocation: SourceLocation)
+    : Expression(sourceLocation) {
 
     override fun accept(visitor: EvaluationVisitor): BaseSymbolValue {
         return visitor.visit(this)

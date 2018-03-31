@@ -8,7 +8,7 @@ import NodeLocation from "../location/NodeLocation";
  * Decorator for Fields that makes the Field "decoratable" for future usage.
  */
 export default class FieldNodeDecorator implements FieldNode {
-  private fieldToBeDecorated: FieldNode;
+  protected fieldToBeDecorated: FieldNode;
 
   get identifier(): string {
     return this.fieldToBeDecorated.identifier;
@@ -27,7 +27,7 @@ export default class FieldNodeDecorator implements FieldNode {
   }
 
   accept(visitor: NodeVisitor) {
-    return this.fieldToBeDecorated.accept(visitor);
+    return visitor.visitFieldDecorator(this);
   }
 
   isReadOnly(): boolean {
@@ -44,5 +44,9 @@ export default class FieldNodeDecorator implements FieldNode {
 
   getLocation(): NodeLocation {
     return this.fieldToBeDecorated.getLocation();
+  }
+
+  getBaseField(): FieldNode {
+    return this.fieldToBeDecorated;
   }
 }

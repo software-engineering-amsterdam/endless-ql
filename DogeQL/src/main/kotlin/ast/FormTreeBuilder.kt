@@ -3,6 +3,7 @@ package ast
 import common.Name
 import data.question.Question
 import data.symbol.SymbolTable
+import expression.SourceLocation
 import node.ExpressionNode
 import node.Node
 import node.QuestionNode
@@ -21,8 +22,8 @@ class FormTreeBuilder(var symbolTable: SymbolTable) {
         nodeStack.first.addChild(QuestionNode(symbolTable, question))
     }
 
-    fun pushExpression(reference: Name) {
-        nodeStack.push(ExpressionNode(symbolTable, reference))
+    fun pushExpression(reference: Name, sourceLocation: SourceLocation) {
+        nodeStack.push(ExpressionNode(symbolTable, reference, sourceLocation))
     }
 
     fun build(): Node {

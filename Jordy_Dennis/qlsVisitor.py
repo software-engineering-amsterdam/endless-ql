@@ -50,6 +50,7 @@ class QLSVisitor(QLSGrammarVisitor):
         self.logger.debug("SECTION")
 
         sectionName = ctx.STRING().getText()
+        sectionName = sectionName.replace("\"", "")
         section = Section(sectionName)
 
         # sections
@@ -72,26 +73,28 @@ class QLSVisitor(QLSGrammarVisitor):
     # Visit a parse tree produced by QLSGrammarParser#question.
     def visitQuestion(self, ctx: QLSGrammarParser.QuestionContext):
         self.logger.debug("QUESTION")
+        self.isQuestion = True
         question = None
         questionName = ctx.ID().getText()
 
         if (ctx.widget()):
             widget = self.visit(ctx.widget())
-            question = Question(questionName, widget, ctx.start.line)
-        
+            question = Question(questionName, widget, widget.getWidget(), ctx.start.line)
+
         elif (ctx.default_style()):
             default = self.visit(ctx.default_style())
-            question = Question(questionName, None, ctx.start.line, default)
-        
+            question = Question(questionName, default.getWidget(), default.getWidgetType(), ctx.start.line, default)
+
+        self.isQuestion = False
         return question
 
     # Visit a parse tree produced by QLSGrammarParser#widget.
     def visitWidget(self, ctx: QLSGrammarParser.WidgetContext):
         # Actual widget types: BOOL
-        if(ctx.CHECKBOX()):
+        if (ctx.CHECKBOX()):
             return CheckBoxWidget()
         elif ctx.RADIO():
-            return RadioWidget(ctx.STRING()[0].getText(), ctx.STRING()[1].getText())
+            return RadioWidget(ctx.STRING()[0].getText().replace("\"", ""), ctx.STRING()[1].getText().replace("\"", ""))
         elif ctx.DROPDOWN():
             return DropdownWidget()
 
@@ -99,29 +102,42 @@ class QLSVisitor(QLSGrammarVisitor):
         elif ctx.TEXT():
             return TextWidget()
         elif ctx.SLIDER():
-            return SliderWidget(0, 10)
+            return SliderWidget(ctx.INT()[0], ctx.INT()[1])
         elif ctx.SPINBOX():
-            return SpinboxWidget(0, 10)
-        
+            return SpinboxWidget(ctx.INT()[0], ctx.INT()[1])
+
         # Styling classes
         elif ctx.WIDTH():
-            return StyleWidth(ctx.INT().getText())
+            return StyleWidth(ctx.INT()[0].getText())
         elif ctx.FONTSIZE():
-            return StyleFontSize(ctx.INT().getText())
+            return StyleFontSize(ctx.INT()[0].getText())
         elif ctx.FONT():
-            return StyleFont(ctx.STRING()[0].getText())
+            font = ctx.STRING()[0].getText()
+            font = font.replace("\"", "")
+            return StyleFont(font)
         elif ctx.COLOR():
             return StyleColor(ctx.HEXCOLOR().getText())
-
 
     # Visit a parse tree produced by QLSGrammarParser#default_style.
     def visitDefault_style(self, ctx: QLSGrammarParser.Default_styleContext):
         self.logger.debug("DEFAULT_STYLE")
         defaultType = self.visit(ctx.types())
         default = DefaultStyle(defaultType, ctx.start.line)
+        hasWidget = False
         for widget in ctx.widget():
             widgetObject = self.visit(widget)
+            if widgetObject.getAttributeType() == 'widget':
+                if hasWidget:
+                    errorstring = "Double declaration of widget in default style near line " + str(ctx.start.line)
+                    throwError(errorstring)
+                else:
+                    hasWidget = True
+                default.setWidgetType(widgetObject.getWidget())
             default.addAttribute(widgetObject)
+
+        if not hasWidget and self.isQuestion:
+            errorstring = "Default style missing widget declaration near line " + str(ctx.start.line)
+            throwError(errorstring)
 
         return default
 
@@ -132,3 +148,12 @@ class QLSVisitor(QLSGrammarVisitor):
 
 
 del QLSGrammarParser
+
+import sys
+
+
+# Throw an exception without printing the python stacktrace
+def throwError(text):
+    print("QLS Interpreter error:")
+    print(text)
+    sys.exit(1)

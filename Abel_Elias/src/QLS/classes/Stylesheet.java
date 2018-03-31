@@ -13,7 +13,6 @@ public class Stylesheet {
         this.pages = pages;
     }
 
-
     public List<Page> getPages() {
         return this.pages;
     }

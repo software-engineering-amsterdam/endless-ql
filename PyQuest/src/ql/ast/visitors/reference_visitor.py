@@ -16,9 +16,12 @@ from ql.ast.expressions.binary_operators.or_node import OrOperatorNode
 from ql.ast.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
 from ql.ast.expressions.unary_operators.negation import NegationOperatorNode
 from ql.ast.expressions.unary_operators.negative import NegativeOperatorNode
-from ql.ast.expressions.literals.integer_node import IntegerNode
+from ql.ast.expressions.literals.boolean_node import BooleanNode
 from ql.ast.expressions.literals.decimal_node import DecimalNode
+from ql.ast.expressions.literals.integer_node import IntegerNode
+from ql.ast.expressions.literals.string_node import StringNode
 from ql.ast.expressions.literals.date_node import DateNode
+from ql.ast.expressions.literals.money_node import MoneyNode
 from ql.ast.visitors.visitor_helper import on, when
 
 
@@ -27,7 +30,6 @@ class ReferenceVisitor(object):
     def __init__(self):
         self.__current_block = []
         self.__current_scope = {}
-        self.__scope_id = 0
 
     @property
     def identifier_scopes(self):
@@ -40,8 +42,7 @@ class ReferenceVisitor(object):
 
     @when(FormNode)
     def visit(self, node):
-        self.__current_scope = {'id': self.__scope_id,
-                                'content': [],
+        self.__current_scope = {'content': [],
                                 'children': []}
 
         self.__current_block = []
@@ -60,8 +61,7 @@ class ReferenceVisitor(object):
         previous_block = self.__current_block
 
         self.__current_block = []
-        self.__current_scope = {'id': self.__scope_id,
-                                'content': [],
+        self.__current_scope = {'content': [],
                                 'children': []}
 
         for child in node.block:
@@ -151,7 +151,11 @@ class ReferenceVisitor(object):
     def visit(self, node):
         node.expression.accept(self)
 
-    @when(IntegerNode)
+    @when(BooleanNode)
+    def visit(self, node):
+        pass
+
+    @when(DateNode)
     def visit(self, node):
         pass
 
@@ -159,7 +163,15 @@ class ReferenceVisitor(object):
     def visit(self, node):
         pass
 
-    @when(DateNode)
+    @when(IntegerNode)
+    def visit(self, node):
+        pass
+
+    @when(MoneyNode)
+    def visit(self, node):
+        pass
+
+    @when(StringNode)
     def visit(self, node):
         pass
 

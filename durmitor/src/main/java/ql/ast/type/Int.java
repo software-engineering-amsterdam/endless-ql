@@ -1,5 +1,6 @@
 package ql.ast.type;
 
+import ql.ast.expression.literal.IntLiteral;
 import ql.ast.expression.literal.Literal;
 import ql.evaluator.value.parse.ToInt;
 import ql.visitors.interfaces.TypeVisitor;
@@ -22,12 +23,16 @@ public class Int extends Numeric {
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
     
     @Override
-    public Literal<?> parse(Literal<?> value) {
-        return value.accept(new ToInt());
+    public IntLiteral parse(Literal<?> value) {
+        return (IntLiteral) value.accept(new ToInt());
+    }
+    
+    public static IntLiteral parseInt(Literal<?> value) {
+        return new Int().parse(value);
     }
 }

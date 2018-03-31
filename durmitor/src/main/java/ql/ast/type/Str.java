@@ -29,12 +29,12 @@ public class Str extends Type {
     }
     
     @Override
-    public void accept(TypeVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
     
     @Override
-    public Literal<?> parse(Literal<?> value) {
-        return value.accept(new ToStr());
+    public StrLiteral parse(Literal<?> value) {
+        return (StrLiteral) value.accept(new ToStr());
     }
 }

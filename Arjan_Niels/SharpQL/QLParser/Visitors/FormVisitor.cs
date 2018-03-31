@@ -1,16 +1,17 @@
 ﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
+using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.Nodes;
 using QLParser.Visitors;
 using System.Linq;
-using static QLanguage.QLanguageParser;
+using static QLGrammar.QLGrammarParser;
 
 namespace QLParser
 {
-    public class FormVisitor : QLanguage.QLanguageBaseVisitor<FormNode>
+    public class FormVisitor : QLGrammarBaseVisitor<FormNode>
     {
-        public override FormNode VisitFormDeclaration([NotNull] FormDeclarationContext context)
+        public override FormNode VisitForm([NotNull] FormContext context)
         {
             if (context.children.Any(x => x.GetType() == typeof(ErrorNodeImpl)))
                 return null;

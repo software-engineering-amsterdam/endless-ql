@@ -32,7 +32,7 @@ class QLFormController(homeController: QLHomeController, val form: QLForm)
   type ValueStore = mutable.Map[String, Answer]
   protected val valuesForQuestions: ValueStore = mutable.Map[String, Answer]()
   protected var guiForm: GUIForm = _ // Needed because it contains the GUI questions that hold the visibility expression
-  protected var questions: Seq[Component[_]] = _ // The actual components that handle the user interaction
+  protected var questionComponents: Seq[Component[_]] = _ // The actual components that handle the user interaction
 
   @FXML protected var topBox: VBox = _ // FIXME Is only used by QLSFormController
   @FXML protected var formName: Label = _
@@ -71,9 +71,9 @@ class QLFormController(homeController: QLHomeController, val form: QLForm)
     questionBox.setPadding(new Insets(0.0, 20.0, 0.0, 20.0))
 
     guiForm = GUIModelFactory.makeFrom(form)
-    questions = guiForm.questions.map(QLComponentFactory.make)
-    questions.foreach(_.addComponentChangedListener(this))
-    questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questions))
+    questionComponents = guiForm.questions.map(QLComponentFactory.make)
+    questionComponents.foreach(_.addComponentChangedListener(this))
+    questionBox.getChildren.addAll(JavaConverters.seqAsJavaList(questionComponents))
     questionArea.setContent(questionBox)
 
     getActiveStage.setTitle("QL forms")
@@ -95,7 +95,7 @@ class QLFormController(homeController: QLHomeController, val form: QLForm)
   }
 
   def updateValues(): Unit = {
-    questions.foreach(_.updateValue(valuesForQuestions))
+    questionComponents.foreach(_.updateValue(valuesForQuestions))
   }
 
   def updateVisibility(): Unit = {

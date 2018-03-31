@@ -1,6 +1,7 @@
 """
-    These are style settings that can be applied to the text label of a question. 
+    Base classes with some necessary methods
 """
+
 class AttributeDefault:
 
     def getAttributeType(self):
@@ -12,6 +13,11 @@ class WidgetDefault:
 
     def getWidget(self):
         return self.widget
+
+
+"""
+    These are style settings that can be applied to the text label of a question. 
+"""
 
 class StyleWidth(AttributeDefault):
     def __init__(self, width=200):
@@ -68,8 +74,8 @@ class StyleColor(AttributeDefault):
 
 class RadioWidget(AttributeDefault, WidgetDefault):
     def __init__(self, trueVal, falseVal):
-        self.trueVal = trueVal
-        self.falseVal = falseVal
+        self.minVal = trueVal
+        self.maxVal = falseVal
         self.type = [bool]
         self.attType = 'widget'
         self.widget = 'radio'
@@ -78,7 +84,7 @@ class RadioWidget(AttributeDefault, WidgetDefault):
         return self.options
 
     def __repr__(self):
-        return "RadioWidget: T:{} F:{}".format(self.trueVal, self.falseVal)
+        return "RadioWidget: T:{} F:{}".format(self.minVal, self.maxVal)
 
 class CheckBoxWidget(AttributeDefault, WidgetDefault):
     def __init__(self):
@@ -103,15 +109,15 @@ class DropdownWidget(AttributeDefault, WidgetDefault):
     Integer and Text Widgets
 """
 class SpinboxWidget(AttributeDefault, WidgetDefault):
-    def __init__(self, min, max):
-        self.min = min
-        self.max = max
+    def __init__(self, minVal, maxVal):
+        self.minVal = minVal
+        self.maxVal = maxVal
         self.type = [int, float]
         self.attType = 'widget'
         self.widget = 'spinbox'
 
     def __repr__(self):
-        return "SpinBoxWidget: {},{}".format(self.min, self.max)
+        return "SpinBoxWidget: {},{}".format(self.minVal, self.maxVal)
 
 class TextWidget(AttributeDefault, WidgetDefault):
     def __init__(self):
@@ -123,14 +129,14 @@ class TextWidget(AttributeDefault, WidgetDefault):
         return "TextWidget"
 
 class SliderWidget(AttributeDefault, WidgetDefault):
-    def __init__(self, min, max):
-        self.min = min
-        self.max = max
+    def __init__(self, minVal, maxVal):
+        self.minVal = minVal
+        self.maxVal = maxVal
         self.type = [int, float]
         self.attType = 'widget'
         self.widget = 'slider'
 
     def __repr__(self):
-        return "SpinBoxWidget: {},{}".format(self.min, self.max)
+        return "SpinBoxWidget: {},{}".format(self.minVal, self.maxVal)
 
 

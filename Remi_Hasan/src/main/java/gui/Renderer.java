@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Set;
 
 public class Renderer extends Application {
     private StyleSheet qlsStyleSheet;
@@ -32,6 +33,11 @@ public class Renderer extends Application {
             this.qlForm = qlFormBuilder.buildForm(new FileInputStream(qlFile));
             this.symbolTable = qlFormBuilder.getSymbolTable();
 
+            // Check for warning messages
+            Set<String> warnings = qlFormBuilder.getWarnings(this.qlForm);
+            if(!warnings.isEmpty()) {
+                showWarningAlert(String.join("\n", warnings));
+            }
 
             QLSFormBuilder qlsFormBuilder = new QLSFormBuilder(this.qlForm, this.symbolTable);
             this.qlsStyleSheet = qlsFormBuilder.parseStyleSheet(new FileInputStream(qlsFile));
@@ -67,6 +73,12 @@ public class Renderer extends Application {
         e.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
         alert.setContentText(e.getMessage());
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
+    }
+
+    private void showWarningAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, message);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }

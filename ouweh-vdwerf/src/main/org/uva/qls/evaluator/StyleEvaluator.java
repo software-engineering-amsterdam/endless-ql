@@ -5,8 +5,14 @@ import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.ast.type.MoneyType;
 import org.uva.ql.ast.type.StringType;
+import org.uva.qls.ast.DefaultStatement.DefaultStyleStatement;
+import org.uva.qls.ast.DefaultStatement.DefaultWidgetStatement;
 import org.uva.qls.ast.Segment.*;
 import org.uva.qls.ast.Style.Style;
+import org.uva.qls.ast.Style.StyleProperty.*;
+import org.uva.qls.ast.Value.ColorValue;
+import org.uva.qls.ast.Value.NumberValue;
+import org.uva.qls.ast.Value.StringValue;
 import org.uva.qls.ast.Widget.WidgetTypes.CheckboxType;
 import org.uva.qls.ast.Widget.WidgetTypes.TextType;
 import org.uva.qls.ast.Widget.WidgetTypes.WidgetType;
@@ -20,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 public class StyleEvaluator {
 
@@ -31,9 +38,12 @@ public class StyleEvaluator {
     private Map<String, JPanel> sections = new HashMap<>();
     private List<String> visibleSections = new ArrayList<>();
 
+    private Style defaultStyle;
+
     public StyleEvaluator() {
         setDefaultWidgetTypes();
-        setDefaultSection();
+        setDefaultStyle();
+
     }
 
     public void setStylesheet(Stylesheet stylesheet) {
@@ -94,17 +104,32 @@ public class StyleEvaluator {
         return null;
     }
 
-    public Style getStyle(QuestionReference questionReference) {
-        return new Style(null, null);
+    public Style getStyle(Question question) {
+        QuestionReference questionReference = this.context.getQuestionReference(question);
+        for (Segment segment: this.context.getAllParents(questionReference.getId())){
+            for(DefaultStyleStatement defaultStyleStatement: segment.getDefaultStyleStatements()){
+                if (defaultStyleStatement.getType().getClass().equals(question.getType().getClass())){
+                    return defaultStyleStatement.getStyle();
+                }
+            }
+        }
+        return defaultStyle;
     }
 
     public WidgetType getWidgetType(Question question) {
-        if (stylesheet != null) {
-            QuestionReference questionReference = this.context.getQuestion(question.getId());
-            if (questionReference != null && questionReference.getWidget() != null) {
-                return questionReference.getWidget().getType();
+        QuestionReference questionReference = this.context.getQuestionReference(question);
+        if (questionReference.getWidget() != null) {
+            return questionReference.getWidget().getType();
+        }
+
+        for(Segment segment: this.context.getAllParents(questionReference.getId())) {
+            for (DefaultWidgetStatement defaultWidgetStatement : segment.getDefaultWidgetStatements()) {
+                if (defaultWidgetStatement.getType().getClass().equals(question.getType().getClass())){
+                    return defaultWidgetStatement.getWidget().getType();
+                }
             }
         }
+
 
         //TODO select scope specific defaults
 
@@ -141,8 +166,14 @@ public class StyleEvaluator {
         }
     }
 
-    private void setDefaultSection() {
 
+    private void setDefaultStyle() {
+        List<StyleProperty> properties = new ArrayList<>();
+        properties.add(new ColorProperty(new ColorValue("#eeeeee")));
+        properties.add(new FontProperty(new StringValue("Comic Sans MS")));
+        properties.add(new FontSizeProperty(new NumberValue("25")));
+        properties.add(new WidthProperty(new NumberValue("100")));
+        this.defaultStyle = new Style(properties, null);
     }
 
 }

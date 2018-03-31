@@ -19,7 +19,7 @@ public class NegationExpression extends UnaryExpression {
 
     @Override
     public Constant evaluate(){
-        if(!this.getExpression().isArithmetic()){
+        if(!this.getExpression().evaluate().isArithmetic()){
             return new UndefinedConstant();
         }
 

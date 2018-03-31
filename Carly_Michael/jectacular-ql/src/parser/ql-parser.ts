@@ -194,7 +194,7 @@ function peg$parse(input, options) {
   const peg$c35 = "!=";
   const peg$c36 = peg$literalExpectation("!=", false);
   const peg$c37 = function(head, tail) {
-        return new ast.InEqualExpression(head, tail[3], location());
+        return new ast.UnequalExpression(head, tail[3], location());
   };
   const peg$c38 = ">";
   const peg$c39 = peg$literalExpectation(">", false);
@@ -255,18 +255,18 @@ function peg$parse(input, options) {
   const peg$c74 = peg$classExpectation([["a", "z"], ["A", "Z"], ["0", "9"], " ", "+", "-", "/", "*", ">", "<", "="], false, false);
   const peg$c75 = /^[0-9]/;
   const peg$c76 = peg$classExpectation([["0", "9"]], false, false);
-  const peg$c77 = function() { return new ast.Literal(ast.ExpressionType.NUMBER, parseInt(text(), 10), location()); };
+  const peg$c77 = function() { return new ast.NumberLiteral(parseInt(text(), 10), location()); };
   const peg$c78 = "true";
   const peg$c79 = peg$literalExpectation("true", false);
   const peg$c80 = "false";
   const peg$c81 = peg$literalExpectation("false", false);
-  const peg$c82 = function(val) { return new ast.Literal(ast.ExpressionType.BOOLEAN, val, location()); };
+  const peg$c82 = function(val) { return new ast.BooleanLiteral(val, location()); };
   const peg$c83 = function(day, month, year) {
     const javascriptMonth = parseInt(month[0] + month[1], 10)-1;
-    return new ast.Literal(ast.ExpressionType.DATE, new Date(Date.UTC(year[0] + year[1] + year[2] + year[3],
+    return new ast.DateLiteral(new Date(Date.UTC(year[0] + year[1] + year[2] + year[3],
       javascriptMonth, day[0] + day[1], 0, 0, 0, 0)), location());
   };
-  const peg$c84 = function(val) { return new ast.Literal(ast.ExpressionType.STRING, val, location()); };
+  const peg$c84 = function(val) { return new ast.StringLiteral(val, location()); };
   const peg$c85 = function(val) { return new ast.Variable(val, location()); };
   const peg$c86 = /^[a-zA-Z0-9:?\\\/.,;!]/;
   const peg$c87 = peg$classExpectation([["a", "z"], ["A", "Z"], ["0", "9"], ":", "?", "\\", "/", ".", ",", ";", "!"], false, false);
@@ -1514,7 +1514,7 @@ function peg$parse(input, options) {
     }
 
     s0 = peg$currPos;
-    s1 = peg$parseinEqualExpression();
+    s1 = peg$parseunequalExpression();
     if (s1 !== peg$FAILED) {
       s2 = peg$currPos;
       s3 = peg$parsewhitespace();
@@ -1563,7 +1563,7 @@ function peg$parse(input, options) {
     }
     if (s0 === peg$FAILED) {
       s0 = peg$currPos;
-      s1 = peg$parseinEqualExpression();
+      s1 = peg$parseunequalExpression();
       if (s1 !== peg$FAILED) {
         peg$savedPos = s0;
         s1 = peg$c28(s1);
@@ -1576,7 +1576,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parseinEqualExpression() {
+  function peg$parseunequalExpression() {
     let s0, s1, s2, s3, s4, s5, s6;
 
     const key = peg$currPos * 38 + 9;
@@ -1604,7 +1604,7 @@ function peg$parse(input, options) {
         if (s4 !== peg$FAILED) {
           s5 = peg$parsewhitespace();
           if (s5 !== peg$FAILED) {
-            s6 = peg$parseinEqualExpression();
+            s6 = peg$parseunequalExpression();
             if (s6 !== peg$FAILED) {
               s3 = [s3, s4, s5, s6];
               s2 = s3;

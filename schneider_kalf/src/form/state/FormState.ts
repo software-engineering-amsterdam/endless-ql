@@ -15,7 +15,7 @@ export default class FormState {
     const newStore = new Map(this.store);
     newStore.set(identifier, value);
 
-    return new FormState(newStore);
+    return this.instantiate(newStore);
   }
 
   get(identifier: string): any | null {
@@ -26,6 +26,14 @@ export default class FormState {
     return this.store.has(identifier);
   }
 
+  hasValueFor(identifier: string): boolean {
+    if (!this.has(identifier)) {
+      return false;
+    }
+
+    return typeof this.get(identifier) !== 'undefined' && this.get(identifier) !== null;
+  }
+
   toString() {
     const lines: string[] = [];
 
@@ -34,5 +42,9 @@ export default class FormState {
     });
 
     return lines.join("\n");
+  }
+
+  protected instantiate(newStore?: Map<string, any>): FormState {
+    return new FormState(newStore);
   }
 }

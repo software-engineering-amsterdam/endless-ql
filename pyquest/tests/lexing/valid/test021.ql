@@ -1,2 +1,2 @@
 // Not token
-!
+not

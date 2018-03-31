@@ -43,6 +43,7 @@ class QLLexer:
     reserved_keywords = {
         'form':     'FORM',
         'if':       'IF',
+        'not':      'NOT',
 
         # Types
         'boolean':  'BOOLEAN',
@@ -73,8 +74,6 @@ class QLLexer:
     t_NE = r'!='
     t_AND = r'&&'
     t_OR = r'\|\|'
-
-    t_NOT = r'\!'
 
     t_DOLLAR = r'\$'
 

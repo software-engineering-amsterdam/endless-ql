@@ -7,8 +7,8 @@ class SpinBox(QSpinBox):
         self.setMaximum(2**31 - 1)
         self.setMinimum(- self.maximum())
 
-    def get_value(self):
-        return self.value()
+    def get_value(self, ql_type):
+        return ql_type(self.value())
 
     def on_change(self, change_event_function):
         self.valueChanged.connect(lambda: change_event_function(self))

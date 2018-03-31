@@ -1,4 +1,5 @@
 from pyql.gui.widgets.widgets import *
+from util.types import *
 
 
 class WidgetFactory:

@@ -5,8 +5,9 @@ from util.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.form.ql_statements import *
 from pyql.ast.expression.expressions import *
-from util.values import *
+from util import values
 from util.types import *
+
 
 # TODO check if can get rid of 'if getChildCount() > 1'
 
@@ -109,19 +110,19 @@ class ParseTreeVisitor(QLVisitor):
         return self.visitChildren(ctx)
 
     def visitMoneyLiteral(self, ctx: QLParser.MoneyLiteralContext):
-        return Literal(self.location(ctx), MoneyValue(self.trimLeadingZeros(ctx.getText()[1:])))
+        return Literal(self.location(ctx), values.MoneyValue(self.trimLeadingZeros(ctx.getText()[1:])))
 
     def visitDecimalLiteral(self, ctx: QLParser.DecimalLiteralContext):
-        return Literal(self.location(ctx), DecimalValue(self.trimLeadingZeros(ctx.getText())))
+        return Literal(self.location(ctx), values.DecimalValue(self.trimLeadingZeros(ctx.getText())))
 
     def visitIntLiteral(self, ctx: QLParser.IntLiteralContext):
-        return Literal(self.location(ctx), IntegerValue(self.trimLeadingZeros(ctx.getText())))
+        return Literal(self.location(ctx), values.IntegerValue(self.trimLeadingZeros(ctx.getText())))
 
     def visitStringLiteral(self, ctx: QLParser.StringLiteralContext):
-        return Literal(self.location(ctx), StringValue(ctx.getText()))
+        return Literal(self.location(ctx), values.StringValue(ctx.getText()))
 
     def visitBoolLiteral(self, ctx: QLParser.BoolLiteralContext):
-        return Literal(self.location(ctx), BooleanValue(ctx.getText()))
+        return Literal(self.location(ctx), values.BooleanValue(ctx.getText()))
 
     def visitIdentifier(self, ctx: QLParser.IdentifierContext):
         return Identifier(self.location(ctx), ctx.getText())
@@ -148,7 +149,7 @@ class ParseTreeVisitor(QLVisitor):
     def unaryExpressionFactory(self, location, expression, operator):
         switcher = {
             "!": Not(location, expression),
-            "-": Subtraction(location, Literal(location, IntegerValue("0")), expression)
+            "-": Subtraction(location, Literal(location, values.IntegerValue("0")), expression)
         }
         return switcher.get(operator)
 

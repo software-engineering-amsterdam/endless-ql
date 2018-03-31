@@ -30,7 +30,7 @@ class ParseTreeVisitor(QLSVisitor):
         return Block(self.location(ctx), [x.accept(self) for x in ctx.pageStatement()])
 
     def visitSingleStatementSection(self, ctx: QLSParser.SingleStatementSectionContext):
-        return Section(self.location(ctx), ctx.STRING(), [ctx.identifier().accept(self)])
+        return InlineSection(self.location(ctx), ctx.STRING(), ctx.identifier().accept(self))
 
     def visitMultiStatementSection(self, ctx: QLSParser.MultiStatementSectionContext):
         return Section(self.location(ctx), ctx.STRING(), ctx.sectionBlock().accept(self))
@@ -100,15 +100,3 @@ class ParseTreeVisitor(QLSVisitor):
 
     def location(self, context):
         return CodeLocation(context.start.line, context.start.column)
-
-
-if __name__ == "__main__":
-    input = FileStream("../antlr/example.qls")
-    lexer = QLSLexer(input)
-    stream = CommonTokenStream(lexer)
-    parser = QLSParser(stream)
-    parse_tree = parser.styleSheet()
-
-    visitor = ParseTreeVisitor()
-    ast = parse_tree.accept(visitor)
-    print("End")

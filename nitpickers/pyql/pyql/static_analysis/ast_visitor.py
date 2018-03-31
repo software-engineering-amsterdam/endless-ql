@@ -7,7 +7,7 @@ from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
 from util.ast import ASTNode
 from pyql.ast.expression.expressions import Identifier
-from util import Type
+from util.types import Type
 from pyql.static_analysis.expression_evaluator import ExpressionVisitor
 
 

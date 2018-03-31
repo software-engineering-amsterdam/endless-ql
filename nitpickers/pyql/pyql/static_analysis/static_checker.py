@@ -20,11 +20,9 @@ class StaticChecker:
         cdbz = CheckDivisionByZero()
         cdbz.check(tree)
 
-        print("")
+        print("****** CyclicDependenciesChecker ******")
         cdc = CyclicDependenciesChecker()
         cdc.check(tree)
-
-        print(self.messages())
 
     def messages(self):
         return MessageHandler().messages

@@ -29,6 +29,7 @@ namespace QLVisualizer.Elements.Managers
         /// <param name="elementManager">ElementManager to add as child</param>
         public virtual void AddChild(ElementManager elementManager)
         {
+            //elementManager.OnActiveChange += (string id, bool isActive) => InvokeActiveChange(id, isActive);
             Children.Add(elementManager);
             elementManager.Parent = this;
         }

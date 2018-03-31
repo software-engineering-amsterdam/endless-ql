@@ -32,6 +32,9 @@ namespace QLVisualizer.Widgets.Windows.Leaf
             switch (widgetType)
             {
                 case WidgetType.DEFAULT:
+                case WidgetType.SPINNER:
+                    inputCreator = new SpinnerCreator<double>();
+                    break;
                 case WidgetType.TEXTFIELD:
                     inputCreator = new TextBoxCreator<double>();
                     break;

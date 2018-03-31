@@ -22,7 +22,7 @@ namespace QLVisualizer.Widgets.Windows.Collection
             Control result = base.Create(children);
             List<PageManager> pages = new List<PageManager>();
 
-            foreach(IWidgetBuilder child in children.Keys)
+            foreach (IWidgetBuilder child in children.Keys)
                 if (child.GetElementManager() as PageManager != null)
                     pages.Add(child.GetElementManager() as PageManager);
 
@@ -32,6 +32,9 @@ namespace QLVisualizer.Widgets.Windows.Collection
             result.Controls.Clear();
             result.Controls.Add(CreatePageBrowser(pages));
             result.Controls.AddRange(childControls);
+
+            ActivatePage(0, pages);
+
             return result;
         }
 
@@ -39,24 +42,14 @@ namespace QLVisualizer.Widgets.Windows.Collection
         {
             ComboBox pagesHolder = new ComboBox();
             pagesHolder.Items.AddRange(pageManagers.Select(pageManager => pageManager.Text).ToArray());
-            pagesHolder.SelectedIndexChanged += delegate (object sender, EventArgs eventArgs)
-            {
-                foreach (PageManager pageManager in pageManagers)
-                    pageManager.SetActive(false);
-                pageManagers[pagesHolder.SelectedIndex].SetActive(true);
-            };
-            
+            pagesHolder.SelectedIndexChanged += (object sender, EventArgs eventArgs) => ActivatePage(pagesHolder.SelectedIndex, pageManagers);
             return _styler.StyleElement(pagesHolder);
         }
 
-        //private void ActivatePage(PageManager pageManager, List<PageMan)
-        //{
-
-// }
-/*        private void ActivatePage(int targetIndex, List<PageManager> pageManagers)
- {
-     for (int i = 0; i < pageManagers.Count; i++)
-         pageManagers[i].SetActive(i == targetIndex);
- }*/
-}
+        private void ActivatePage(int targetIndex, List<PageManager> pageManagers)
+        {
+            for (int i = 0; i < pageManagers.Count; i++)
+                pageManagers[i].SetActive(i == targetIndex);
+        }
+    }
 }

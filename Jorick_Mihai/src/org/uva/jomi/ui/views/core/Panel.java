@@ -1,4 +1,4 @@
-package org.uva.jomi.ui.elements.core;
+package org.uva.jomi.ui.views.core;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;

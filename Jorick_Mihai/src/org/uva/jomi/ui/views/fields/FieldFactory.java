@@ -1,4 +1,4 @@
-package org.uva.jomi.ui.elements.fields;
+package org.uva.jomi.ui.views.fields;
 
 public class FieldFactory {
 	

@@ -1,14 +1,17 @@
-package org.uva.jomi.ui.elements.fields;
+package org.uva.jomi.ui.views.fields;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 
 import javax.swing.JFormattedTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-import org.uva.jomi.ui.elements.core.Panel;
+import org.uva.jomi.ui.interpreter.value.EmptyValue;
 import org.uva.jomi.ui.interpreter.value.GenericValue;
 import org.uva.jomi.ui.interpreter.value.IntegerValue;
+import org.uva.jomi.ui.views.core.Panel;
 
 public class IntegerField extends InputField implements PropertyChangeListener  {
 
@@ -19,6 +22,12 @@ public class IntegerField extends InputField implements PropertyChangeListener  
 		NumberFormat numberFormat = NumberFormat.getNumberInstance();
 		this.textfield = new JFormattedTextField(numberFormat);
 		this.textfield.addPropertyChangeListener("value", this);
+	}
+	
+	private void valueDidChange() {
+		if(this.listener != null) {
+			this.listener.valueDidChange(this);
+		}
 	}
 
 	@Override
@@ -35,14 +44,12 @@ public class IntegerField extends InputField implements PropertyChangeListener  
 		if(this.textfield.getValue() != null) {
 			return new IntegerValue(((Number)this.textfield.getValue()).intValue());
 		}
-		return null;
+		return new EmptyValue();
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if(this.listener != null && this.getValue() != null) {
-			this.listener.valueDidChange(this);
-		}
+		this.valueDidChange();
 	}
 
 	@Override
@@ -54,6 +61,13 @@ public class IntegerField extends InputField implements PropertyChangeListener  
 	@Override
 	public void setEnabled(boolean enabled) {
 		this.textfield.setEnabled(enabled);
+	}
+
+	@Override
+	public void clearValue() {
+		this.textfield.removePropertyChangeListener("value", this);
+		this.textfield.setValue(null);		
+		this.textfield.addPropertyChangeListener("value", this);
 	}
 
 }

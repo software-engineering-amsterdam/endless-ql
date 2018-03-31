@@ -1,12 +1,10 @@
-package org.uva.jomi.ui.elements.panel;
+package org.uva.jomi.ui.views;
 
 import java.util.List;
 
-import org.uva.jomi.ui.elements.BaseElement;
-import org.uva.jomi.ui.elements.core.Panel;
-import org.uva.jomi.ui.elements.question.Label;
+import org.uva.jomi.ui.views.core.Panel;
 
-public class ErrorPanel implements BaseElement {
+public class ErrorPanel implements ViewGenerator {
 
 	private List<String> errors;
 	

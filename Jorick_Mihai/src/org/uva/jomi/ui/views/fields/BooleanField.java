@@ -1,12 +1,12 @@
-package org.uva.jomi.ui.elements.fields;
+package org.uva.jomi.ui.views.fields;
 
 import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.uva.jomi.ui.elements.core.Panel;
 import org.uva.jomi.ui.interpreter.value.BooleanValue;
 import org.uva.jomi.ui.interpreter.value.GenericValue;
+import org.uva.jomi.ui.views.core.Panel;
 
 public class BooleanField extends InputField implements ChangeListener {
 
@@ -47,6 +47,11 @@ public class BooleanField extends InputField implements ChangeListener {
 	@Override
 	public void setEnabled(boolean enabled) {
 		this.checkbox.setEnabled(enabled);
+	}
+
+	@Override
+	public void clearValue() {
+		this.checkbox.setSelected(false);
 	}
 
 }

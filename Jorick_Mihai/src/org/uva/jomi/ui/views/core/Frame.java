@@ -1,4 +1,4 @@
-package org.uva.jomi.ui.elements.core;
+package org.uva.jomi.ui.views.core;
 
 import java.awt.Dimension;
 import javax.swing.JFrame;

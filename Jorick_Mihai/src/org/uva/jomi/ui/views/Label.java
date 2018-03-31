@@ -1,11 +1,10 @@
-package org.uva.jomi.ui.elements.question;
+package org.uva.jomi.ui.views;
 
 import javax.swing.JLabel;
 
-import org.uva.jomi.ui.elements.BaseElement;
-import org.uva.jomi.ui.elements.core.Panel;
+import org.uva.jomi.ui.views.core.Panel;
 
-public class Label implements BaseElement {
+public class Label implements ViewGenerator {
 
 	private String text;
 	

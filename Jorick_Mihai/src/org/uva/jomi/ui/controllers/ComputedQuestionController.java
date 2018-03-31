@@ -1,25 +1,19 @@
-package org.uva.jomi.ui.elements.question;
+package org.uva.jomi.ui.controllers;
 
 import java.util.List;
 
-import org.uva.jomi.ql.ast.expressions.Expression;
-import org.uva.jomi.ui.elements.core.Panel;
-import org.uva.jomi.ui.interpreter.SymbolTableListener;
 import org.uva.jomi.ui.interpreter.ExpressionEvaluator;
 import org.uva.jomi.ui.interpreter.IdentifierFinder;
 import org.uva.jomi.ui.interpreter.SymbolTable;
 import org.uva.jomi.ui.interpreter.value.EmptyValue;
 import org.uva.jomi.ui.interpreter.value.GenericValue;
+import org.uva.jomi.ui.models.Question;
+import org.uva.jomi.ui.views.core.Panel;
 
-public class ComputedQuestionElement extends QuestionElement implements SymbolTableListener {
-
-	private Expression expression;
-
-	public ComputedQuestionElement(String identifier, String question, String type, Expression expression) {
-		super(identifier, question, type);
-		this.expression = expression;
-
-		SymbolTable.getInstance().addWatcher(this);
+public class ComputedQuestionController extends QuestionController {
+	
+	public ComputedQuestionController(Question question) {
+		super(question);
 	}
 
 	@Override
@@ -32,21 +26,23 @@ public class ComputedQuestionElement extends QuestionElement implements SymbolTa
 
 	@Override
 	public void update(String key, GenericValue value) {
+		super.update(key, value);
+		
 		// Check if an identifier where the expression depends on is updated.
-		List<String> internalIdentifiers = new IdentifierFinder().find(this.expression);
+		List<String> internalIdentifiers = new IdentifierFinder().find(this.question.getExpression());
 		if(internalIdentifiers.contains(key)) {
 			this.computeAnswer();			
 		}
 	}
 	
 	private void computeAnswer() {
-		GenericValue genericValue = new ExpressionEvaluator().execute(this.expression);
+		GenericValue genericValue = new ExpressionEvaluator().execute(this.question.getExpression());
 		if(genericValue instanceof EmptyValue) {
 			return;
 		}
 
 		// Store computed variable as result of the question
-		SymbolTable.getInstance().put(this.identifier, genericValue);
+		SymbolTable.getInstance().put(this.question.getIdentifier(), genericValue);
 
 		this.inputField.setValue(genericValue);
 	}

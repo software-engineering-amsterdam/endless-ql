@@ -1,12 +1,12 @@
-package org.uva.jomi.ui.elements.fields;
+package org.uva.jomi.ui.views.fields;
 
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.uva.jomi.ui.elements.core.Panel;
 import org.uva.jomi.ui.interpreter.value.GenericValue;
 import org.uva.jomi.ui.interpreter.value.StringValue;
+import org.uva.jomi.ui.views.core.Panel;
 
 public class TextField extends InputField implements DocumentListener {
 
@@ -61,5 +61,10 @@ public class TextField extends InputField implements DocumentListener {
 	@Override
 	public void setEnabled(boolean enabled) {
 		this.textfield.setEnabled(enabled);
+	}
+
+	@Override
+	public void clearValue() {
+		this.textfield.setText(null);		
 	}
 }

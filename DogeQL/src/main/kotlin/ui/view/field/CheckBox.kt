@@ -8,7 +8,6 @@ class CheckBox(question: BooleanViewModel) : QuestionField(question) {
 
     override val root = checkbox {
         bind(question.booleanValue)
-
         attachListener(selectedProperty())
     }
 }

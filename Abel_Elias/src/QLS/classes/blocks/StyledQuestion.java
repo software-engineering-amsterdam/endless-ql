@@ -2,15 +2,16 @@ package QLS.classes.blocks;
 
 import QL.classes.Question;
 import QLS.classes.widgets.Widget;
+import QLS.classes.widgets.WidgetType;
 
 public class StyledQuestion extends Element {
 
     private String name;
-    private Widget widget;
+    private WidgetType widget;
     private Question question;
     private String parentId;
 
-    public StyledQuestion(String name, Widget widget, Question question, String parentId) {
+    public StyledQuestion(String name, WidgetType widget, Question question, String parentId) {
         super();
         this.name = name;
         this.widget = widget;
@@ -23,7 +24,7 @@ public class StyledQuestion extends Element {
         return this.name;
     }
 
-    public Widget getWidget() {
+    public WidgetType getWidget() {
         return this.widget;
     }
 

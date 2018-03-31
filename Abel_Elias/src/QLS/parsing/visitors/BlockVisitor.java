@@ -64,7 +64,12 @@ public class BlockVisitor extends QLSBaseVisitor {
     @Override
     public StyledQuestion visitQuestion(QLSParser.QuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        Widget widget = widgetVisitor.visitWidget(ctx.widget());
+
+        WidgetType widget = null;
+        if(ctx.widget() != null){
+            widget = widgetVisitor.visitWidget(ctx.widget());
+        }
+
         StyledQuestion question = new StyledQuestion(id, widget, questions.get(id), currentParentId);
         styledQuestions.put(id, question);
         return question;

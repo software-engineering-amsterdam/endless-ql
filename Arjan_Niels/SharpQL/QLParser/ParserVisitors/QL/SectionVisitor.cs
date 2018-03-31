@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime.Misc;
-using QLParser.AST.QL;
+﻿using QLParser.AST.QL;
 using System;
 using static QLGrammar.QLGrammarParser;
 
@@ -7,8 +6,11 @@ namespace QLParser.ParserVisitors.QL
 {
     public class SectionVisitor : QLGrammar.QLGrammarBaseVisitor<QLNode>
     {
-        public override QLNode VisitSection([NotNull] SectionContext context)
+        public override QLNode VisitSection(SectionContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null");
+
             // If the Section is a Question, process it.
             var questionContext = context.question();
             if (questionContext != null)

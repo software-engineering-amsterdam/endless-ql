@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime.Misc;
-using QLParser.AST;
+﻿using QLParser.AST;
 using QLParser.AST.QL;
 using QLParser.ParserVisitors.QL.ExpressionVisitors;
 using System;
@@ -9,8 +8,11 @@ namespace QLParser.ParserVisitors.QL
 {
     public class ComputedVariableVisitor : QLGrammar.QLGrammarBaseVisitor<ComputedNode>
     {
-        public override ComputedNode VisitComputedVariable([NotNull] ComputedVariableContext context)
+        public override ComputedNode VisitComputedVariable(ComputedVariableContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null");
+
             var id = context.ID().GetText();
             var textRaw = context.TEXT().GetText();
             var text = textRaw.Substring(1, textRaw.Length - 2);

@@ -5,6 +5,7 @@ using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
 using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLParser.Exceptions;
+using System;
 using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.ParserVisitors.QL.ExpressionVisitors
@@ -13,6 +14,9 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
     {
         public override IExpressionNode VisitArtithmeticExpression([NotNull] ArtithmeticExpressionContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null");
+
             if (context.ID() != null)
                 return new IdentifierNode(Location.FromContext(context), context.ID().GetText());
 

@@ -1,8 +1,8 @@
-﻿using Antlr4.Runtime.Misc;
-using Antlr4.Runtime.Tree;
+﻿using Antlr4.Runtime.Tree;
 using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.QL;
+using System;
 using System.Linq;
 using static QLGrammar.QLGrammarParser;
 
@@ -10,8 +10,11 @@ namespace QLParser.ParserVisitors.QL
 {
     public class FormVisitor : QLGrammarBaseVisitor<FormNode>
     {
-        public override FormNode VisitForm([NotNull] FormContext context)
+        public override FormNode VisitForm(FormContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null");
+
             if (context.children.Any(x => x.GetType() == typeof(ErrorNodeImpl)))
                 return null;
 

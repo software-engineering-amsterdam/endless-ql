@@ -3,14 +3,18 @@ using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
+using System;
 using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.ParserVisitors.QL.ExpressionVisitors
 {
     public class ComparisonExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {
-        public override IExpressionNode VisitComparisonExpression([NotNull] ComparisonExpressionContext context)
+        public override IExpressionNode VisitComparisonExpression(ComparisonExpressionContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null");
+
             // If ( expression )
             var comparisonoContext = context.comparisonExpression();
             if (comparisonoContext != null)

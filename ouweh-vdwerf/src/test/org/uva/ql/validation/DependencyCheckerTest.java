@@ -25,7 +25,7 @@ public class DependencyCheckerTest {
 
     @Test
     public void runCheckTestInput() {
-        String input = new IOHandler().readFile("input/test/circularDependency.ql");
+        String input = new IOHandler().readFile("input/test/ql/circularDependency.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 

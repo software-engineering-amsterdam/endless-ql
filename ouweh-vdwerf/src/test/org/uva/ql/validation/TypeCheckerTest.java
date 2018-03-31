@@ -31,7 +31,7 @@ public class TypeCheckerTest {
 
     @Test
     public void runCheckTestInputCalculation() {
-        String input = new IOHandler().readFile("input/test/typeCalculation.ql");
+        String input = new IOHandler().readFile("input/test/ql/typeCalculation.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
@@ -44,7 +44,7 @@ public class TypeCheckerTest {
 
     @Test
     public void runCheckTestInputConditional() {
-        String input = new IOHandler().readFile("input/test/typeConditional.ql");
+        String input = new IOHandler().readFile("input/test/ql/typeConditional.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 

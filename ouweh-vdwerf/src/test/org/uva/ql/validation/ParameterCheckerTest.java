@@ -32,7 +32,7 @@ public class ParameterCheckerTest {
 
     @Test
     public void runCheckTestInputCalculation() {
-        String input = new IOHandler().readFile("input/test/parameterCalculation.ql");
+        String input = new IOHandler().readFile("input/test/ql/parameterCalculation.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
@@ -45,7 +45,7 @@ public class ParameterCheckerTest {
 
     @Test
     public void runCheckTestInputConditional() {
-        String input = new IOHandler().readFile("input/test/parameterConditional.ql");
+        String input = new IOHandler().readFile("input/test/ql/parameterConditional.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 

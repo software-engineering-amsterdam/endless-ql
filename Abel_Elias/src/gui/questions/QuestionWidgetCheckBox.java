@@ -3,7 +3,7 @@ package gui.questions;
 import QL.classes.Question;
 import QL.classes.values.Value;
 import gui.GUIBuilder;
-import gui.listeners.QuestionListener;
+import gui.listeners.QuestionValueListener;
 
 import javax.swing.*;
 import javax.swing.text.DocumentFilter;
@@ -39,8 +39,8 @@ public class QuestionWidgetCheckBox extends QuestionPanel {
     }
 
     @Override
-    public void setQuestionChangeListener(QuestionListener questionListener) {
-        checkBox.addActionListener(questionListener.new BoolActionListener(super.getQuestion().getId(), checkBox));
+    public void setQuestionChangeListener(QuestionValueListener questionValueListener) {
+        checkBox.addActionListener(questionValueListener.new BoolActionListener(super.getQuestion().getId(), checkBox));
     }
 
     @Override

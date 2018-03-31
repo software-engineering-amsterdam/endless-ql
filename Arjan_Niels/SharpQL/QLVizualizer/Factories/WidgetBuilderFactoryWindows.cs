@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace QLVisualizer.Factories
 {
-    public class WidgetFactoryWindows
+    public class WidgetBuilderFactoryWindows
     {
         public static WidgetBuilder<Control> GetBuilder(ElementManager elementManager, IWidgetCollectionBuilder parent)
         {

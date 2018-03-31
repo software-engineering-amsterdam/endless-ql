@@ -1,9 +1,8 @@
-﻿using System;
+﻿using QLVisualizer.Factories;
+using QLVisualizer.Properties;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using QLVisualizer.Factories;
-using QLVisualizer.Properties;
-using QLVisualizer.Elements.Managers.CollectionTypes;
 
 namespace QLVisualizer.Controllers.Display
 {
@@ -34,9 +33,8 @@ namespace QLVisualizer.Controllers.Display
         /// </summary>
         private Form _mainForm;
 
-        public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin)
+        public ElementManagerDisplayContollerWindows()
         {
-            //_elementFactory = new ControlFactory(this);
             ConstructMainWindow();
         }
 
@@ -55,19 +53,16 @@ namespace QLVisualizer.Controllers.Display
             BaseDisplay = newDisplay;
         }
 
-        /// <summary>
-        /// Shows message box with error(s) to user
-        /// </summary>
-        /// <param name="errors">One or more errors</param>
         public override void ShowError(params string[] errors)
         {
-            // Show message box
-            MessageBox.Show(string.Join("\n", errors), errors.Length > 1 ? "Errors occured" : "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(
+                string.Join("\n", errors),
+                errors.Length > 1 ? "Errors occured" : "Error occured",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            );
         }
 
-        /// <summary>
-        /// Resets all values that define its state
-        /// </summary>
         public override void Reset()
         {
             base.Reset();
@@ -76,13 +71,11 @@ namespace QLVisualizer.Controllers.Display
 
         protected override Control CreateFormWidget()
         {
-            return WidgetFactoryWindows.GetBuilder(Form, null).Create();
+            return WidgetBuilderFactoryWindows.GetBuilder(Form, null).Create();
         }
 
         #region Main window constructors
-        /// <summary>
-        /// Construct view and assigns it to _mainForm
-        /// </summary>
+
         private void ConstructMainWindow()
         {
             // Create form
@@ -107,16 +100,14 @@ namespace QLVisualizer.Controllers.Display
             _mainForm.PerformLayout();
         }
 
-        /// <summary>
-        /// Creates form element
-        /// </summary>
-        /// <returns>Form object</returns>
         private Form CreateForm()
         {
             return new Form
             {
                 AutoScaleDimensions = new SizeF(6f, 13f),
                 AutoScaleMode = AutoScaleMode.Font,
+                FormBorderStyle = FormBorderStyle.FixedSingle,
+                MaximizeBox = false,
                 ClientSize = new Size(738, 700),
                 Icon = (Icon)Resources.ResourceManager.GetObject("MainIcon"),
                 Name = "Visualizer",
@@ -124,10 +115,6 @@ namespace QLVisualizer.Controllers.Display
             };
         }
 
-        /// <summary>
-        /// Creates widget panel
-        /// </summary>
-        /// <returns>Widget panel</returns>
         private Panel CreateWidgetPanel()
         {
             return new Panel
@@ -139,10 +126,6 @@ namespace QLVisualizer.Controllers.Display
             };
         }
 
-        /// <summary>
-        /// Creates QL input textbox
-        /// </summary>
-        /// <returns>QL inputfield</returns>
         private TextBox CreateInputTextBox()
         {
             return new TextBox

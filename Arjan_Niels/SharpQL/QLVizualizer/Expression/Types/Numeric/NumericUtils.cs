@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using QLVisualizer.Expression.Enums;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QLVisualizer.Expression.Enums;
 
 namespace QLVisualizer.Expression.Types.Numeric
 {
@@ -28,7 +25,7 @@ namespace QLVisualizer.Expression.Types.Numeric
                 case ExpressionOperator.Equals:
                     return new ExpressionBool(elementIDs, () => { return left.Result == right.Result; });
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(left.Type, right.Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(left.ExpressionType, right.ExpressionType, op));
         }
     }
 }

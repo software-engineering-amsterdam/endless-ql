@@ -1,5 +1,5 @@
-﻿using System;
-using QLVisualizer.Expression.Enums;
+﻿using QLVisualizer.Expression.Enums;
+using System;
 
 namespace QLVisualizer.Expression.Types
 {
@@ -27,7 +27,7 @@ namespace QLVisualizer.Expression.Types
                         throw new NotImplementedException();
                 }
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, expressionValue.Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(ExpressionType, expressionValue.ExpressionType, op));
         }
 
         public override TypedExpressionValue<bool> Compare(ExpressionValue expressionValue, ExpressionOperator op)
@@ -42,7 +42,7 @@ namespace QLVisualizer.Expression.Types
                         throw new NotImplementedException();
                 }
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, expressionValue.Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(ExpressionType, expressionValue.ExpressionType, op));
         }
 
         private ExpressionBool CompareWith(ExpressionText expressionText, ExpressionOperator op)
@@ -55,7 +55,6 @@ namespace QLVisualizer.Expression.Types
                     throw new NotImplementedException();
             }
         }
-
 
         protected override Func<string> CombineExpressions(Func<string> expression1, Func<string> expression2, ExpressionOperator op)
         {

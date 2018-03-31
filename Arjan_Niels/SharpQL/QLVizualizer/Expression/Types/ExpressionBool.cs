@@ -16,18 +16,12 @@ namespace QLVisualizer.Expression.Types
 
         public ExpressionBool(LazyElementExpressionLink<bool> lazyElementExpressionLink) : base(ExpressionTypes.Logical, ExpressionOperators.Logical, ExpressionType.Bool, lazyElementExpressionLink) { }
 
-        /// <summary>
-        /// Combines with expressionValue
-        /// </summary>
-        /// <param name="expressionValue">Right hand side</param>
-        /// <param name="op">Operator</param>
-        /// <returns>Resulting expression</returns>
         public override ExpressionValue Combine(ExpressionValue expressionValue, ExpressionOperator op)
         {
             if (ValidCombine(expressionValue, op))
             {
                 ExpressionBool expression;
-                switch (expressionValue.Type)
+                switch (expressionValue.ExpressionType)
                 {
                     case ExpressionType.Bool:
                         expression = expressionValue as ExpressionBool;
@@ -40,21 +34,15 @@ namespace QLVisualizer.Expression.Types
                 UsedIdentifiers = CombineElements(expressionValue);
                 return this;
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, expressionValue.Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(ExpressionType, expressionValue.ExpressionType, op));
         }
 
-        /// <summary>
-        /// Compares with expression
-        /// </summary>
-        /// <param name="expressionValue">Expression to compare with</param>
-        /// <param name="op">Operator</param>
-        /// <returns>Boolean expression</returns>
         public override TypedExpressionValue<bool> Compare(ExpressionValue expressionValue, ExpressionOperator op)
         {
             if (ValidCompare(expressionValue, op))
             {
                 ExpressionBool expression;
-                switch(expressionValue.Type)
+                switch (expressionValue.ExpressionType)
                 {
                     case ExpressionType.Bool:
                         expression = expressionValue as ExpressionBool;
@@ -63,21 +51,14 @@ namespace QLVisualizer.Expression.Types
                         throw new NotImplementedException();
                 }
 
-                    AddToChain(expression.GetExpression(), op);
-                    UsedIdentifiers = CombineElements(expressionValue);
-                    return this;
-                
+                AddToChain(expression.GetExpression(), op);
+                UsedIdentifiers = CombineElements(expressionValue);
+                return this;
+
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, expressionValue.Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(ExpressionType, expressionValue.ExpressionType, op));
         }
 
-        /// <summary>
-        /// Combines two boolean expressions
-        /// </summary>
-        /// <param name="item1">Left hand side</param>
-        /// <param name="item2">Right hand side</param>
-        /// <param name="op">Operator</param>
-        /// <returns>Resulting delegate</returns>
         protected override Func<bool> CombineExpressions(Func<bool> item1, Func<bool> item2, ExpressionOperator op)
         {
             switch (op)
@@ -90,7 +71,7 @@ namespace QLVisualizer.Expression.Types
                     return () => item1() == item2();
             }
 
-            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(ExpressionType, ExpressionType, op));
         }
     }
 }

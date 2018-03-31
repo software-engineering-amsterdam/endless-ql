@@ -16,20 +16,20 @@ namespace QLVisualizer.Widgets.Leaf
         public override void ApplyParentStyle(params QLSStyle[] styles)
         {
             QLSStyle style;
-            if (!ContainsValidStyle(styles, out style))
+            if (!RetrieveValidStyle(styles, out style))
                 return;
 
-            _style = style.CombineWith(_style);  
+            _style = style.CombineWith(_style);
 
             string[] errors = new string[0];
             _styleParser?.ParseStyle(_style, out errors);
         }
 
-        private bool ContainsValidStyle(QLSStyle[] styles, out QLSStyle style)
+        private bool RetrieveValidStyle(QLSStyle[] styles, out QLSStyle style)
         {
             style = null;
-            foreach(QLSStyle qlsStyle in styles)
-                if(qlsStyle.QValueType == GetQValueType())
+            foreach (QLSStyle qlsStyle in styles)
+                if (qlsStyle.QValueType == GetQValueType())
                 {
                     style = qlsStyle;
                     return true;
@@ -39,6 +39,5 @@ namespace QLVisualizer.Widgets.Leaf
         }
 
         protected abstract QValueType GetQValueType();
-
     }
 }

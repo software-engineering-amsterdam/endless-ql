@@ -17,7 +17,7 @@ namespace QLVisualizer.Expression.Types.Numeric
         {
             if(ValidCombine(expressionValue, op))
             {
-                switch (expressionValue.Type)
+                switch (expressionValue.ExpressionType)
                 {
                     case ExpressionType.Hex:
                         ExpressionHex expression = expressionValue as ExpressionHex;
@@ -32,7 +32,7 @@ namespace QLVisualizer.Expression.Types.Numeric
                         throw new NotImplementedException();
                 }
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(Type, expressionValue.Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoCombination(ExpressionType, expressionValue.ExpressionType, op));
         }
 
         public override TypedExpressionValue<bool> Compare(ExpressionValue expressionValue, ExpressionOperator op)
@@ -47,7 +47,7 @@ namespace QLVisualizer.Expression.Types.Numeric
                         throw new NotImplementedException();
                 }
             }
-            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, expressionValue.Type, op));
+            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(ExpressionType, expressionValue.ExpressionType, op));
             
         }
 

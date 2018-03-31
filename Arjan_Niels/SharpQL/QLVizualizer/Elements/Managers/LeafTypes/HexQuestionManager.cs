@@ -5,8 +5,8 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
 {
     public class HexQuestionManager : QuestionElementManager<Hexadecimal>
     {
-        public HexQuestionManager(string identifyer, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<Hexadecimal> answerExpression = null) 
-            : base(identifyer, text, parent, controller, activationExpression, answerExpression)
+        public HexQuestionManager(string identifier, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<Hexadecimal> answerExpression = null)
+            : base(identifier, text, parent, controller, activationExpression, answerExpression)
         {
         }
 
@@ -16,13 +16,13 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
             bool isValid = true;
             try
             {
-                value = new Hexadecimal(input);
+                value = Hexadecimal.FromString(input);
             }
             catch
             {
-                // TODO: WHAT TO DO? throw error or return value with 'valid = false'
                 isValid = false;
             }
+
             return new QuestionElementValue<Hexadecimal>(value, isValid);
         }
     }

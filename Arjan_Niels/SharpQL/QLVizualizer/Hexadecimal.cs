@@ -12,27 +12,27 @@ namespace QLVisualizer
             _value = value;
         }
 
-        public Hexadecimal(string value)
+        public static Hexadecimal FromString(string value)
         {
             if (IsValid(value))
-                _value = StringToByte(value);
+                return new Hexadecimal(StringToInt(value));
             else
-                throw new InvalidCastException("Cannot parse hexadecimal value from: " + _value);
+                throw new InvalidCastException("Cannot parse hexadecimal value from: " + value);
         }
 
-        private bool IsValid(string value)
+        private static bool IsValid(string value)
         {
             return value.StartsWith("#");
         }
 
-        private int StringToByte(string value)
+        private static int StringToInt(string value)
         {
             return Convert.ToInt32(value.Substring(1), 16);
         }
 
         public override string ToString()
         {
-            return string.Format("#{0}",_value.ToString("X4"));
+            return string.Format("#{0}", _value.ToString("X4"));
         }
 
         public int ToInteger()

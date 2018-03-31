@@ -1,4 +1,4 @@
-package ql.evaluator.values;
+package ql.environment.values;
 
 public class BooleanValue implements Value<Boolean> {
 
@@ -7,6 +7,15 @@ public class BooleanValue implements Value<Boolean> {
 
     public BooleanValue(Boolean value) {
         this.value = value;
+    }
+
+    public BooleanValue(String input) {
+        if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("true")) {
+            value = true;
+        } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("false")) {
+            value = false;
+        }
+        throw new IllegalArgumentException();
     }
 
     @Override

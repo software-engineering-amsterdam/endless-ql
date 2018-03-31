@@ -1,4 +1,4 @@
-package ql.evaluator.values;
+package ql.environment.values;
 
 public interface Value<T> {
 
@@ -8,7 +8,6 @@ public interface Value<T> {
         throw new UnsupportedOperationException(getValue().toString());
     }
 
-    //refactor: value
     default Value add(MoneyValue value) {
         throw new UnsupportedOperationException(getValue().toString());
     }

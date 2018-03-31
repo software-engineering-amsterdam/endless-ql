@@ -66,40 +66,40 @@ public class ToolController implements Consumer, LoaderErrorListener {
 
         Utilities.ofEmptyString(taSourceCodeQL.getText())
                 .ifPresentOrElse(
-                        qlText -> {
-                            FormNode fn = qlBuilder.toFormNode(qlText);
-                            boolean fnIsSet = fn != null;
-
-                            if(fnIsSet){
-                                this.formNode = qlBuilder.toFormNode(qlText);
-                            } else {
-                                showAlertBox("Error on parsing QL");
-
-                            }
-                        },
+                        qlText -> parseQLFromText(qlBuilder, qlText),
                         () -> showAlertBox("Please import or add QL code")
                 );
 
         Utilities.ofEmptyString(taSourceCodeQLS.getText())
                 .ifPresentOrElse(
-                        qlsText -> {
-                            Stylesheet ss = qlBuilder.toStylesheet(qlsText, this.formNode);
-                            boolean ssIsSet = ss != null;
-                            if(ssIsSet) {
-                                this.formNode.setStylesheet(ss);
-                                this.qlsEnabled = true;
-                                buildQLS();
-                            } else {
-                                showAlertBox("Error on parsing QLS");
-                            }
-                        },
-                        () -> {
-                            this.qlsEnabled = false;
-                            buildQL();
-                        }
+                        qlsText -> parseStyleSheetFromText(qlBuilder, qlsText),
+                        this::buildQL
                 );
 
         printInfoMessage("Build ended");
+    }
+
+    private void parseQLFromText(QLBuilder qlBuilder, String qlText) {
+        FormNode fn = qlBuilder.toFormNode(qlText);
+        boolean fnIsSet = fn != null;
+
+        if(fnIsSet){
+            this.formNode = qlBuilder.toFormNode(qlText);
+        } else {
+            showAlertBox("Error on parsing QL");
+        }
+    }
+
+    private void parseStyleSheetFromText(QLBuilder qlBuilder, String qlsText) {
+        Stylesheet ss = qlBuilder.toStylesheet(qlsText, this.formNode);
+        boolean ssIsSet = ss != null;
+        if(ssIsSet) {
+            this.formNode.setStylesheet(ss);
+            this.qlsEnabled = true;
+            buildQLS();
+        } else {
+            showAlertBox("Error on parsing QLS");
+        }
     }
 
     /**
@@ -144,6 +144,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
     }
 
     private void buildQL(){
+        this.qlsEnabled = false;
         ListView lvQuestionnaire = new ListView();
         List<ASTNode> astNodes = this.formNode.getASTNodes();
         List<QuestionNode> questions = getAllQuestions(astNodes);
@@ -187,7 +188,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
         drawQuestions(temp, lView, false);
     }
 
-    private void drawQuestions(List<QuestionNode> questionNodes, ListView lView, boolean clearView){
+    private void drawQuestions(List<QuestionNode> questionNodes, ListView<Row> lView, boolean clearView){
         Visitor uiVisitor = new UIVisitor();
         if(clearView){
             lView.getItems().clear();
@@ -240,6 +241,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
         Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage);
         alert.showAndWait();
     }
+
     private void printInfoMessage(String message){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -247,17 +249,19 @@ public class ToolController implements Consumer, LoaderErrorListener {
         lblErrorField.setTooltip(new Tooltip(sdf.format(cal.getTime())));
         lblErrorField.setText(message);
     }
+
     private FileChooser getFileChooser(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open QL File");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Questionnaire Language File (*.ql)", "*.ql"),
-                new FileChooser.ExtensionFilter("Questionnaire Language File (*.qls)", "*.qls"),
+                new FileChooser.ExtensionFilter("Questionnaire Stylesheet Language File (*.qls)", "*.qls"),
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
 
         return fileChooser;
     }
+
     private void redrawAll(){
         List<QuestionNode> questions = getAllQuestions(this.formNode.getASTNodes());
         if (!qlsEnabled){

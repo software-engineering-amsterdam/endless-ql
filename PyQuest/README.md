@@ -17,13 +17,16 @@ Python version 3 or higher.
 - PLY
 - PyQt5
 - termcolor
+- multimethods
 
 ## Setup
 ```
-pip install ply
-pip install pyqt5
-pip install termcolor
+sudo pip3 install ply
+sudo pip3 install pyqt5
+sudo pip3 install termcolor
+sudo pip3 install multimethods
 ```
+
 
 ## Running
 ```

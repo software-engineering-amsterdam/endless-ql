@@ -7,24 +7,18 @@ import scala.language.implicitConversions
 // format: off
 object Logicals {
   trait BooleanAnswerCanDoLogicals extends Logicals[BooleanAnswer] {
-    def and(x: BooleanAnswer, y: Answer): BooleanAnswer = y match {
-      case b: BooleanAnswer => BooleanAnswer(x.combine(b)(_ && _))
-      case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
-    }
-    def or(x: BooleanAnswer, y: Answer): BooleanAnswer = y match {
-      case b: BooleanAnswer => BooleanAnswer(x.combine(b)(_ || _))
-      case _ => throw new IllegalArgumentException(s"Can't perform operation $x + $y")
-    }
-    def neg(x: BooleanAnswer): BooleanAnswer = BooleanAnswer(x.possibleValue.map(!_))
+    def and(left: BooleanAnswer, right: Answer): BooleanAnswer = right match { case b: BooleanAnswer => BooleanAnswer(left.value && b.value) }
+    def or(left: BooleanAnswer, right: Answer): BooleanAnswer = right match { case b: BooleanAnswer => BooleanAnswer(left.value || b.value) }
+    def neg(left: BooleanAnswer): BooleanAnswer = BooleanAnswer(!left.value)
   }
   implicit object BooleanAnswerCanDoLogicals extends BooleanAnswerCanDoLogicals
 }
 // format: on
 
 trait Logicals[SubType <: Answer] {
-  def and(x: SubType, y: Answer): BooleanAnswer
-  def or(x: SubType, y: Answer): BooleanAnswer
-  def neg(x: SubType): BooleanAnswer
+  def and(left: SubType, right: Answer): BooleanAnswer
+  def or(left: SubType, right: Answer): BooleanAnswer
+  def neg(left: SubType): BooleanAnswer
 
   class Ops(left: SubType) {
     def &&(right: Answer): BooleanAnswer = and(left, right)

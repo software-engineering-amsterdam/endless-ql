@@ -1,4 +1,4 @@
-package org.uva.forcepushql.interpreter.TypeChecker;
+/*package org.uva.forcepushql.interpreter.TypeChecker;
 
 
 import org.uva.forcepushql.interpreter.TypeChecker.Helpers.Messages;
@@ -54,4 +54,4 @@ public class TypeCheck extends BuildASTVisitor implements TypeCheckInterface {
             return checker.doCheck(node);
         }
     }
-}
+}*/

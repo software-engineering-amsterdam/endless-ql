@@ -10,15 +10,15 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean
         protected BooleanBinaryNodeBase(
             Guid id, 
             string definition, 
-            Reference<IBooleanLogicNode> leftExpression, 
-            Reference<IBooleanLogicNode> rightExpression) 
+            DomainId<IBooleanLogicNode> leftExpression, 
+            DomainId<IBooleanLogicNode> rightExpression) 
             : base(id, definition)
         {
             LeftExpression = leftExpression;
             RightExpression = rightExpression;
         }
 
-        public Reference<IBooleanLogicNode> LeftExpression { get; }
-        public Reference<IBooleanLogicNode> RightExpression { get; }
+        public DomainId<IBooleanLogicNode> LeftExpression { get; }
+        public DomainId<IBooleanLogicNode> RightExpression { get; }
     }
 }

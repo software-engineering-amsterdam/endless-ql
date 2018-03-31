@@ -13,8 +13,6 @@ import ql.ast.model.expressions.values.Literal;
 import ql.ast.visitors.AbstractASTTraverse;
 import ql.logic.type.QLBoolean;
 import ql.logic.type.QLDataTypeWrapper;
-import ql.logic.type.QLNumeric;
-import ql.logic.type.QLSummable;
 
 public abstract class AbstractExpressionEvaluator extends AbstractASTTraverse<QLDataTypeWrapper> {
 
@@ -25,36 +23,36 @@ public abstract class AbstractExpressionEvaluator extends AbstractASTTraverse<QL
     }
 
     @Override
-    public QLNumeric visit(Minus minus) {
-        QLNumeric result = (QLNumeric) minus.getExpression().accept(this);
+    public QLDataTypeWrapper visit(Minus minus) {
+        QLDataTypeWrapper result = minus.getExpression().accept(this);
         return result.negate();
     }
 
     @Override
-    public QLSummable visit(Addition addition) {
-        QLSummable lhs = (QLSummable) addition.getLeftSide().accept(this);
-        QLSummable rhs = (QLSummable) addition.getRightSide().accept(this);
+    public QLDataTypeWrapper visit(Addition addition) {
+        QLDataTypeWrapper lhs = addition.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = addition.getRightSide().accept(this);
         return lhs.add(rhs);
     }
 
     @Override
-    public QLNumeric visit(Subtraction subtraction) {
-        QLNumeric lhs = (QLNumeric) subtraction.getLeftSide().accept(this);
-        QLNumeric rhs = (QLNumeric) subtraction.getRightSide().accept(this);
+    public QLDataTypeWrapper visit(Subtraction subtraction) {
+        QLDataTypeWrapper lhs = subtraction.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = subtraction.getRightSide().accept(this);
         return lhs.subtract(rhs);
     }
 
     @Override
-    public QLNumeric visit(Division division) {
-        QLNumeric lhs = (QLNumeric) division.getLeftSide().accept(this);
-        QLNumeric rhs = (QLNumeric) division.getRightSide().accept(this);
+    public QLDataTypeWrapper visit(Division division) {
+        QLDataTypeWrapper lhs = division.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = division.getRightSide().accept(this);
         return lhs.divide(rhs);
     }
 
     @Override
-    public QLNumeric visit(Multiplication multiplication) {
-        QLNumeric lhs = (QLNumeric) multiplication.getLeftSide().accept(this);
-        QLNumeric rhs = (QLNumeric) multiplication.getRightSide().accept(this);
+    public QLDataTypeWrapper visit(Multiplication multiplication) {
+        QLDataTypeWrapper lhs = multiplication.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = multiplication.getRightSide().accept(this);
         return lhs.multiply(rhs);
     }
 
@@ -67,36 +65,36 @@ public abstract class AbstractExpressionEvaluator extends AbstractASTTraverse<QL
 
     @Override
     public QLBoolean visit(GreaterEqual greaterEqual) {
-        QLNumeric lhs = (QLNumeric) greaterEqual.getLeftSide().accept(this);
-        QLNumeric rhs = (QLNumeric) greaterEqual.getRightSide().accept(this);
+        QLDataTypeWrapper lhs = greaterEqual.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = greaterEqual.getRightSide().accept(this);
         return lhs.greaterEqual(rhs);
     }
 
     @Override
     public QLBoolean visit(GreaterThan greaterThan) {
-        QLNumeric lhs = (QLNumeric) greaterThan.getLeftSide().accept(this);
-        QLNumeric rhs = (QLNumeric) greaterThan.getRightSide().accept(this);
+        QLDataTypeWrapper lhs = greaterThan.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = greaterThan.getRightSide().accept(this);
         return lhs.greaterThan(rhs);
     }
 
     @Override
     public QLBoolean visit(LessEqual lessEqual) {
-        QLNumeric lhs = (QLNumeric) lessEqual.getLeftSide().accept(this);
-        QLNumeric rhs = (QLNumeric) lessEqual.getRightSide().accept(this);
+        QLDataTypeWrapper lhs = lessEqual.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = lessEqual.getRightSide().accept(this);
         return lhs.lessEqual(rhs);
     }
 
     @Override
     public QLBoolean visit(LessThan lessThan) {
-        QLNumeric lhs = (QLNumeric) lessThan.getLeftSide().accept(this);
-        QLNumeric rhs = (QLNumeric) lessThan.getRightSide().accept(this);
+        QLDataTypeWrapper lhs = lessThan.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = lessThan.getRightSide().accept(this);
         return lhs.lessThan(rhs);
     }
 
     @Override
     public QLBoolean visit(NotEqual notEqual) {
-        QLNumeric lhs = (QLNumeric) notEqual.getLeftSide().accept(this);
-        QLNumeric rhs = (QLNumeric) notEqual.getRightSide().accept(this);
+        QLDataTypeWrapper lhs = notEqual.getLeftSide().accept(this);
+        QLDataTypeWrapper rhs = notEqual.getRightSide().accept(this);
         return lhs.notEquals(rhs);
     }
 

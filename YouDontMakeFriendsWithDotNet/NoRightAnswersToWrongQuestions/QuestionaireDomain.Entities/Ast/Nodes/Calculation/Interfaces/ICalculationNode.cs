@@ -6,6 +6,6 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces
 {
     public interface ICalculationNode : IAstNode
     {
-        IEnumerable<Reference<ICalculationNode>> Children { get; }
+        IEnumerable<DomainId<ICalculationNode>> Children { get; }
     }
 }

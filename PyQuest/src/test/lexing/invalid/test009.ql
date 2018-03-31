@@ -1,4 +1,2 @@
-form label {
-    "Question?"
-    _var : boolean
-}
+// Illegal character (_)
+_

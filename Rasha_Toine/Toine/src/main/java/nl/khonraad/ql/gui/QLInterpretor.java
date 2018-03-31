@@ -12,16 +12,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import nl.khonraad.ql.algebra.Type;
-import nl.khonraad.ql.dynamics.Question;
-import nl.khonraad.ql.dynamics.Question.BehaviouralType;
+import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.ast.data.Question;
+import nl.khonraad.ql.ast.data.Questionnaire;
+import nl.khonraad.ql.ast.data.Question.BehaviouralType;
 import nl.khonraad.ql.gui.visuals.BooleanWidget;
 import nl.khonraad.ql.gui.visuals.ComputedValue;
 import nl.khonraad.ql.gui.visuals.DateWidget;
 import nl.khonraad.ql.gui.visuals.IntegerWidget;
 import nl.khonraad.ql.gui.visuals.MoneyWidget;
 import nl.khonraad.ql.gui.visuals.StringWidget;
-import nl.khonraad.ql.dynamics.Questionnaire;
 
 public class QLInterpretor {
 
@@ -72,7 +72,7 @@ public class QLInterpretor {
 
         for ( Question question : questionnaire.getQuestionList() ) {
 
-            mainPanel.add( new JLabel( question.getLabel() ) );
+            mainPanel.add( new JLabel( question.label() ) );
             mainPanel.add( visualizeQuestion( mainPanel, question, questionnaire ) );
         }
 
@@ -93,7 +93,7 @@ public class QLInterpretor {
 
         BehaviouralType behaviouralType = question.getBehaviouralType();
 
-        Type type = question.getValue().getType();
+        Type type = question.type();
 
         JPanel container = new JPanel();
 

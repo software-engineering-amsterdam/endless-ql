@@ -6,7 +6,8 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
-import nl.khonraad.ql.dynamics.Questionnaire;
+import nl.khonraad.ql.algebra.Identifier;
+import nl.khonraad.ql.ast.data.Questionnaire;
 
 public class Test_QLCalculator {
 
@@ -19,9 +20,8 @@ public class Test_QLCalculator {
 
         questionnaire.visit();
 
-        assertEquals( "a", 14, Integer.parseInt( questionnaire.findComputed( "a" ).getValue().getText() ) );
-        assertEquals( "b", 20, Integer.parseInt( questionnaire.findComputed( "b" ).getValue().getText() ) );
-        assertEquals( "c", true, Boolean.parseBoolean( questionnaire.findComputed( "c" ).getValue().getText() ) );
-
+        assertEquals( "a", 14, Integer.parseInt( questionnaire.findComputed( new Identifier( "a" ) ).value().string() ) );
+        assertEquals( "b", 20, Integer.parseInt( questionnaire.findComputed( new Identifier( "b" ) ).value().string() ) );
+        assertEquals( "c", true, Boolean.parseBoolean( questionnaire.findComputed( new Identifier( "c" ) ).value().string() ) );
     }
 }

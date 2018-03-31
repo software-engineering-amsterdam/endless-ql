@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ASTExpressionEvaluator extends AbstractExpressionEvaluator {
 
-    private HashMap<String, QLDataTypeWrapper> variablesRegister = new HashMap<>();
+    private final HashMap<String, QLDataTypeWrapper> variablesRegister = new HashMap<>();
 
     public ASTExpressionEvaluator(List<Question> questions) {
         // default empty values for variables register

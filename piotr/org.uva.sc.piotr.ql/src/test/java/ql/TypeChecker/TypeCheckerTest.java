@@ -18,9 +18,9 @@ import ql.logic.validators.*;
 
 public class TypeCheckerTest {
 
-    private CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
-    private CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
-    private CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
+    private final CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
+    private final CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
+    private final CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
 
     private Form getAstFormFromString(String formString) {
         CharStream charStream = CharStreams.fromString(formString);
@@ -36,7 +36,7 @@ public class TypeCheckerTest {
     public final ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void checkReferenceToUndefinedQuestionTest() throws Exception {
+    public void checkReferenceToUndefinedQuestionTest() {
 
         String fileContent = "form wrongForm1 {\n" +
                 "\"How much money do you have?\"\n" +
@@ -56,7 +56,7 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void checkDuplicateDefinitionsTest() throws Exception {
+    public void checkDuplicateDefinitionsTest() {
 
         String fileContent = "form wrongForm2 {\n" +
                 "\"How much money do you have?\"\n" +
@@ -94,7 +94,7 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void checkConditionsEvaluationTypeTest() throws Exception {
+    public void checkConditionsEvaluationTypeTest() {
 
         String fileContent = "form wrongForm4 {\n" +
                 "  \"What is your age?\"\n" +
@@ -143,7 +143,6 @@ public class TypeCheckerTest {
                 this.collectQuestionsVisitor.getQuestions(form)
         );
 
-        boolean x = validator.validate();
         Assert.assertFalse(validator.validate());
     }
 

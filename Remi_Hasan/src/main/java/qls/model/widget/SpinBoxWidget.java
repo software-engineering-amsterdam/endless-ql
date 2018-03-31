@@ -9,6 +9,6 @@ public class SpinBoxWidget extends Widget {
 
     @Override
     public <T> T accept(IQLSVisitor<T> visitor) {
-        return null;
+        return visitor.visit(this);
     }
 }

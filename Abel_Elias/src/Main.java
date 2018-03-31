@@ -58,13 +58,7 @@ public class Main {
             QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
             stylesheetVisitor.visitStylesheet(stylesheetContext);
-
-            //Evaluate
-//            TestPrinter testprinter = new TestPrinter();
-//            testprinter.printQLSStyleSheet(stylesheet);
-
-            GUIBuilder GUIBuilder = new GUIBuilder(coreVisitor, stylesheetVisitor);
-//            GUIBuilder.initComponents();
+            new GUIBuilder(coreVisitor, stylesheetVisitor);
 
         } catch (IOException e) {
             e.printStackTrace();

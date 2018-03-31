@@ -1,6 +1,5 @@
 from antlr4 import ParseTreeVisitor
 from antlr.generated.QLSParser import QLSParser
-import re
 
 
 # This class defines a complete generic visitor for a parse tree produced by QLSParser.
@@ -8,9 +7,7 @@ def visit_qls(tree, question_ids, questions):
     """ Traverse the parsed tree """
     walker = QLSVisitor(question_ids, questions)
     walker.visit(tree)
-    return [walker.error_message]
-    # warning_message = check_duplicate_question_strings(walker.question_ids, walker.questions)
-    # return [walker.question_ids, walker.questions, walker.error_message, warning_message]
+    return walker.error_message
 
 
 class QLSVisitor(ParseTreeVisitor):
@@ -34,6 +31,7 @@ class QLSVisitor(ParseTreeVisitor):
             # child.accept() calls the visitType function from the QLSVisitor class; form.accept() returns visitForm()
             child_result = c.accept(self)
 
+            # If error, nothing more is visited
             if self.error_message:
                 return
 
@@ -66,12 +64,6 @@ class QLSVisitor(ParseTreeVisitor):
                 default_attributes = {}
 
             for id in question_ids:
-
-                if id in self.placed_questions:
-                    self.error_message = "Error: question defined multiple times"
-                    return
-                self.placed_questions.append(id)
-
                 question = self.questions[id]
                 question.set_attributes(default_attributes)
 
@@ -83,11 +75,17 @@ class QLSVisitor(ParseTreeVisitor):
 
     def visitQuestion(self, ctx:QLSParser.QuestionContext):
         if not ctx.ID().getText() in self.questions:
-            self.error_message = "Error: undefined reference to QL ID"
+            self.error_message = ["Error: undefined reference to QL ID"]
             return
-        question_id = ctx.ID().getText()
-        question = self.questions[ctx.ID().getText()]
 
+        question_id = ctx.ID().getText()
+
+        if question_id in self.placed_questions:
+            self.error_message = ["Error: question defined multiple times: {}".format(question_id)]
+            return
+        self.placed_questions.append(id)
+
+        question = self.questions[ctx.ID().getText()]
         attributes = self.visitChildren(ctx)
         question.set_attributes(attributes['attributes'])
 
@@ -106,8 +104,8 @@ class QLSVisitor(ParseTreeVisitor):
 
 
     def visitType(self, ctx:QLSParser.TypeContext):
-        result = self.visitChildren(ctx)  # todo: remove, if it is redundant
-        result = {'data_type': ctx.getText()}
+        result = self.visitChildren(ctx)
+        result.update({'data_type': ctx.getText()})
         return result
 
 
@@ -155,5 +153,6 @@ class QLSVisitor(ParseTreeVisitor):
 
     def visitChoices(self, ctx:QLSParser.ChoicesContext):
         result = self.visitChildren(ctx)
-        result.update({'choices': ( re.split('\W+', ctx.getText()) )[1:3]})
+        choices = ctx.getText().replace("'","\"").split("\"")
+        result.update({'choices': [choices[1],choices[3]]})
         return result

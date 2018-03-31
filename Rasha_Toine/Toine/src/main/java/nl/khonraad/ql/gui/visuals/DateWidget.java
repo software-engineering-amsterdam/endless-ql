@@ -6,17 +6,17 @@ import java.awt.event.FocusListener;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
-import nl.khonraad.ql.dynamics.Question;
-import nl.khonraad.ql.dynamics.Questionnaire;
+import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.ast.data.Question;
+import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.gui.QLInterpretor;
 
 @SuppressWarnings("serial")
 public class DateWidget extends JTextField {
 
     public DateWidget(JPanel mainPanel, Question question, Questionnaire questionnaire) {
-        super( question.getValue().getText(), 10 );
+        super( question.string(), 10 );
 
         addFocusListener( new FocusListener() {
 
@@ -26,7 +26,7 @@ public class DateWidget extends JTextField {
                 JTextField textField = (JTextField) e.getSource();
                 String current = textField.getText();
 
-                questionnaire.storeAnswer( question.getIdentifier(), new Value( Type.Date, current ) );
+                questionnaire.storeAnswer( question.identifier(), new Value( Type.Date, current ) );
                 QLInterpretor.visualizeQuestionnaire( questionnaire, mainPanel );
             }
 

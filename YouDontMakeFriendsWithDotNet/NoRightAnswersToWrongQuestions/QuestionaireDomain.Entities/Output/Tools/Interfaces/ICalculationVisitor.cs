@@ -5,6 +5,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
     public interface ICalculationVisitor
     {
-        decimal Calculate(Reference<ICalculationNode> calculationNode);
+        decimal Calculate(DomainId<ICalculationNode> calculationNode);
     }
 }

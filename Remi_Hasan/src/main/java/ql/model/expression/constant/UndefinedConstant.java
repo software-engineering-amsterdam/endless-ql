@@ -6,11 +6,12 @@ import ql.visitor.IQLVisitor;
 public class UndefinedConstant extends Constant<ReturnType> {
 
     public UndefinedConstant(ReturnType value) {
+        // Store the question type corresponding to the undefined value, so we can type check it
         super(value);
     }
 
     public ReturnType getReturnType() {
-        return this.value;
+        return this.getValue();
     }
 
     @Override

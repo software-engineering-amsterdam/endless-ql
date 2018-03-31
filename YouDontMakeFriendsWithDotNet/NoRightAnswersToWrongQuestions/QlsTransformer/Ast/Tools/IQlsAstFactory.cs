@@ -1,28 +1,41 @@
 ﻿using System.Collections.Generic;
 using QlsTransformer.Ast.Nodes;
+using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 
 namespace QlsTransformer.Ast.Tools
 {
     public interface IQlsAstFactory
     {
-        Reference<IStyleSheetRootNode> CreateStyleSheet(
+        DomainId<IStyleSheetRootNode> CreateStyleSheet(
             string definition, 
             string styleSheetName,
-            IEnumerable<Reference<IPageNode>> pages);
+            IEnumerable<IDefaultStyle> defaultStyles,
+            IEnumerable<DomainId<IPageNode>> pages);
 
-        Reference<IPageNode> CreatePage(
+        DomainId<IPageNode> CreatePage(
             string definition,
             string pageName,
-            IEnumerable<Reference<ISectionNode>> pages);
+            IEnumerable<IDefaultStyle> defaultStyles,
+            IEnumerable<DomainId<ISectionNode>> sections);
 
-        Reference<ISectionNode> CreateSection(
+        DomainId<ISectionNode> CreateSection(
             string definition,
             string sectionName,
-            IEnumerable<Reference<IQlsQuestionNode>> questions);
+            IEnumerable<IDefaultStyle> defaultStyles,
+            IEnumerable<DomainId<IQlsQuestionNode>> questions);
         
-        Reference<IQlsQuestionNode> CreateQuestion(
+        DomainId<IQlsQuestionNode> CreateQuestion(
             string definition,
-            string questionName);
+            string questionName,
+            DomainId<IStyleNode> questionStyle);
+
+        DomainId<IAstNode> CreateStyle(
+            string definition, 
+            IWidget widget, 
+            int? width, 
+            decimal? fontSize, 
+            string font, 
+            string color);
     }
 }

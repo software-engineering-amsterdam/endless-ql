@@ -17,6 +17,7 @@ import org.uva.jomi.ql.ast.statements.Statement;
 import org.uva.jomi.ql.parser.antlr.QLLexer;
 import org.uva.jomi.ql.parser.antlr.QLParser;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
+import org.uva.jomi.ql.parser.antlr.QLParserErrorListener;
 import org.uva.jomi.ui.elements.ElementBuilder;
 import org.uva.jomi.ui.elements.core.Panel;
 import org.uva.jomi.ui.elements.panel.ErrorPanel;
@@ -25,6 +26,7 @@ import org.uva.jomi.ui.elements.panel.PanelElement;
 public class QLForm {
 
 	private QLParser parser;
+	private QLParserErrorListener parserErrorListener;
 	private List<Statement> ast;
 
 	public QLForm(String filePath) {
@@ -38,14 +40,22 @@ public class QLForm {
 
 			this.parser = new QLParser(tokens);
 
+			// Create a instance of the custom error listener.
+			parserErrorListener = new QLParserErrorListener();
+			this.parser.removeErrorListeners();
+			this.parser.addErrorListener(parserErrorListener);
+
 			ParseContext cst = parser.parse();
 
-			AstBuilder builder = new AstBuilder(true);
-			this.ast = builder.visit(cst);
+			if (parser.getNumberOfSyntaxErrors() == 0) {
+				AstBuilder builder = new AstBuilder(true);
+				this.ast = builder.visit(cst);
 
-			if (builder.getNumberOfErros() > 0) {
-				System.err.println("Failed to build the AST");
+				if (builder.getNumberOfErros() > 0) {
+					System.err.println("Failed to build the AST");
+				}
 			}
+
 		} catch(IOException e) {
 			System.err.println("Source file was not found: " + e.getMessage());
 		}
@@ -60,23 +70,30 @@ public class QLForm {
 		ElementBuilder builder = new ElementBuilder();
 		return builder.build(this.ast);
 	}
-	
+
 	private Panel errorPanels() {
 		PanelElement panel = new PanelElement();
-	
+
 		if(this.hasErrors()) {
 			panel.addElement(new ErrorPanel(this.getErrors()));
 		}
-		
+
 		return panel.build();
 	}
-	
+
 	private List<String> getErrors() {
 		List<String> errors = new ArrayList<String>();
-		errors.addAll(this.errorsOfCyclicDependency());
-		errors.addAll(this.errorsOfIdentifier());
-		errors.addAll(this.errorsOfTypeResolver());
-		errors.addAll(this.errorsOfDuplicatedLabel());
+
+		// Make sure there are no parsing errors.
+		if (parser.getNumberOfSyntaxErrors() > 0) {
+			errors.addAll(this.errorsOfParser());
+		} else {
+			errors.addAll(this.errorsOfCyclicDependency());
+			errors.addAll(this.errorsOfIdentifier());
+			errors.addAll(this.errorsOfTypeResolver());
+			errors.addAll(this.errorsOfDuplicatedLabel());
+		}
+
 		return errors;
 	}
 
@@ -86,29 +103,33 @@ public class QLForm {
 				(this.numberOfIdentifierErrors() > 0) ||
 				(this.numberOfTypeResolverErrors() > 0);
 	}
-	
+
 	private int numberOfSyntaxErrors() {
 		return parser.getNumberOfSyntaxErrors();
 	}
-	
-	
+
+	private List<String> errorsOfParser() {
+		return parserErrorListener.getErrors();
+	}
+
+
 	private List<String> errorsOfCyclicDependency() {
 		// Check for cyclic references between questions.
 		CyclicDependencyChecker cyclicChecker = new CyclicDependencyChecker();
 
-		// Build an identifier map instance that will be used to generate a mapping bewteen questions.
+		// Build an identifier map instance that will be used to generate a mapping between questions.
 		IdentifierMapBuilder identifierMap = new IdentifierMapBuilder();
 
 		// Build the identifier map and check for cycles.
 		cyclicChecker.check(identifierMap.buildMap(this.ast));
-		
+
 		return cyclicChecker.getErrors();
 	}
 
 	private int numberOfCyclicErrors() {
 		return this.errorsOfCyclicDependency().size();
 	}
-	
+
 	private List<String> errorsOfIdentifier() {
 		IdentifierResolver identifierResolver = new IdentifierResolver();
 		identifierResolver.resolve(this.ast);
@@ -118,7 +139,7 @@ public class QLForm {
 	private int numberOfIdentifierErrors() {
 		return this.errorsOfIdentifier().size();
 	}
-	
+
 	private List<String> errorsOfTypeResolver() {
 		TypeResolver typeResolver = new TypeResolver();
 		typeResolver.resolve(this.ast);
@@ -128,15 +149,10 @@ public class QLForm {
 	private int numberOfTypeResolverErrors() {
 		return this.errorsOfTypeResolver().size();
 	}
-	
+
 	private List<String> errorsOfDuplicatedLabel() {
 		DuplicatedLabelChecker labelChecker = new DuplicatedLabelChecker();
 		labelChecker.check(this.ast);
-		return labelChecker.getErrors();
+		return labelChecker.getWarnings();
 	}
-
-	private int numberOfDuplicatedLabelErrors() {
-		return this.errorsOfDuplicatedLabel().size();
-	}
-
 }

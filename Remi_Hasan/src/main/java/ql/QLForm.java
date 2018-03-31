@@ -11,6 +11,7 @@ import ql.builder.FormBuilder;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.SymbolTable;
 import ql.evaluation.value.Value;
+import ql.export.ResultsExporter;
 import ql.model.Form;
 import ql.model.expression.Expression;
 
@@ -38,6 +39,8 @@ public class QLForm {
 
     private Form buildForm(InputStream stream) throws IOException {
         QLLexer lexer = new QLLexer(CharStreams.fromStream(stream));
+
+        // Add own error listener so we can handle lexing/parse exceptions
         lexer.removeErrorListeners();
         lexer.addErrorListener(ParseErrorListener.INSTANCE);
 
@@ -83,6 +86,6 @@ public class QLForm {
     }
 
     public void exportResults(File exportFile) throws IOException {
-        QLExporter.export(this, exportFile);
+        ResultsExporter.export(this, exportFile);
     }
 }

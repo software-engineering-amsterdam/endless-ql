@@ -4,6 +4,7 @@ import StyleAttribute from "../StyleAttribute";
 import StyleNodeVisitor from "../../visitors/StyleNodeVisitor";
 import SectionNode from "../containers/SectionNode";
 import FieldNode from "../../../../../form/nodes/fields/FieldNode";
+import { VariableInformation } from "../../../../../form/VariableIntformation";
 
 export default class QuestionStyleNode extends AbstractStyleNode implements SectionChild {
   readonly identifier: string;
@@ -29,6 +30,10 @@ export default class QuestionStyleNode extends AbstractStyleNode implements Sect
 
   isQuestionStyle(): this is QuestionStyleNode {
     return true;
+  }
+
+  isVariable(variable: VariableInformation) {
+    return variable.identifier === this.identifier;
   }
 
   appliesToField(field: FieldNode) {

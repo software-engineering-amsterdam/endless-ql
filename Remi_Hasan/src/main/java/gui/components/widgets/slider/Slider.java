@@ -6,6 +6,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public abstract class Slider extends HBox implements GUIWidget {
     javafx.scene.control.Slider slider;
@@ -28,7 +31,7 @@ public abstract class Slider extends HBox implements GUIWidget {
 
     private void addValueLabel() {
         // Show label next to slider with the current value
-        Label valueLabel = new Label("0.0");
+        Label valueLabel = new Label(String.valueOf(this.slider.getMin()));
         valueLabel.setPadding(new Insets(0, 0, 0, 5));
         this.slider.valueProperty().addListener((obs, oldVal, newVal) -> valueLabel.setText(newVal.toString()));
         this.valueLabel = valueLabel;
@@ -42,26 +45,30 @@ public abstract class Slider extends HBox implements GUIWidget {
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        slider.valueProperty().addListener(invalidationListener);
+        this.slider.valueProperty().addListener(invalidationListener);
     }
 
     @Override
     public void setColor(String color) {
-
+        this.valueLabel.setTextFill(Color.web(color));
     }
 
     @Override
     public void setFont(String font) {
-
+        Font currentFont = this.valueLabel.getFont();
+        this.valueLabel.setFont(Font.font(font, FontWeight.NORMAL, currentFont.getSize()));
     }
 
     @Override
     public void setFontSize(int fontSize) {
-
+        Font currentFont = this.valueLabel.getFont();
+        this.valueLabel.setFont(Font.font(currentFont.getFamily(), FontWeight.NORMAL, fontSize));
     }
 
     @Override
     public void setWidth(int width) {
-
+        // setPrefWidth does not work, so set min and max to requested width
+        this.slider.setMinWidth(width);
+        this.slider.setMaxWidth(width);
     }
 }

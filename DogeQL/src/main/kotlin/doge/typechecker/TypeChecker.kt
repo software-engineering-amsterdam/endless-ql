@@ -1,6 +1,7 @@
 package doge.typechecker
 
 import doge.ast.node.QLNode
+import doge.data.symbol.SymbolTable
 import doge.typechecker.circular.CircularDependencyErrorContext
 import doge.typechecker.circular.CircularDependencyVisitor
 import doge.typechecker.circular.QuestionLookupVisitor
@@ -8,17 +9,30 @@ import doge.typechecker.duplication.DuplicateQuestionVisitor
 import doge.typechecker.duplication.DuplicationErrorContext
 import doge.typechecker.scope.ScopeErrorContext
 import doge.typechecker.scope.ScopeVisitor
+import doge.typechecker.type.TypeErrorContext
+import doge.typechecker.type.TypeVisitor
 
-class TypeChecker(private val fileName: String, private val root: QLNode) {
+class TypeChecker(private val fileName: String, private val symbolTable: SymbolTable, private val root: QLNode) {
 
-    fun check() {
-        val duplicateErrors = checkDuplicates().collect()
-        val circularErrors = checkCircularDependencies().collect()
-        val undefinedErrors = checkUndefinedReferences().collect()
-        val allErrors = duplicateErrors + circularErrors + undefinedErrors
-        val formattedErrors = collectFormattedErrors(allErrors)
+    fun check(): MutableList<String> {
+        val allErrors = mutableListOf<String>()
 
-        formattedErrors.forEach { println(it) }
+        allErrors += checkDuplicates().collect()
+        allErrors += checkCircularDependencies().collect()
+        allErrors += checkUndefinedReferences().collect()
+
+        if (allErrors.isNotEmpty()) {
+            printErrors(allErrors)
+            return allErrors
+        }
+
+        allErrors += checkTypes().collect()
+
+        if (allErrors.isNotEmpty()) {
+            printErrors(allErrors)
+        }
+
+        return allErrors
     }
 
     private fun checkDuplicates(): DuplicationErrorContext {
@@ -41,6 +55,27 @@ class TypeChecker(private val fileName: String, private val root: QLNode) {
         }
     }
 
+    private fun checkTypes(): TypeErrorContext {
+        return TypeErrorContext().apply {
+            TypeVisitor(
+                    this,
+                    { reference ->
+                        symbolTable.findSymbol(reference)?.let {
+                            it
+                        } ?: run {
+                            QuestionLookupVisitor(reference).visit(root)?.let {
+                                symbolTable.registerSymbol(it.name.text, it.type.type.getDefaultInstance())
+                                symbolTable.findSymbol(reference)
+                            }
+                        }
+                    },
+                    { name, value ->
+                        symbolTable.registerSymbol(name, value)
+                    }
+            ).visit(root)
+        }
+    }
+
     private fun collectFormattedErrors(errors: List<String>): List<String> {
         val indexTextLength = errors.size.toString().length
 
@@ -49,6 +84,10 @@ class TypeChecker(private val fileName: String, private val root: QLNode) {
         return errors.mapIndexed { index, error ->
             errorFormat.format(index + 1, errors.size, error)
         }
+    }
+
+    private fun printErrors(errors: List<String>) {
+        collectFormattedErrors(errors).forEach { println(it) }
     }
 
 }

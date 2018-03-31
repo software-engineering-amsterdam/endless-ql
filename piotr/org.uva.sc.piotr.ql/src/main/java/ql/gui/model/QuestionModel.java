@@ -2,48 +2,42 @@ package ql.gui.model;
 
 import ql.ast.model.declarations.TypeDeclaration;
 import ql.ast.model.expressions.Expression;
+import ql.ast.model.statements.Question;
 import ql.gui.controller.FormController;
-import ql.gui.view.QuestionPanel;
+import ql.gui.view.QuestionView;
 import ql.logic.type.QLDataTypeWrapper;
 
 public class QuestionModel {
 
-    private final String label;
-    private final String variableName;
-    private final TypeDeclaration originalDataTypeDeclaration;
+    private final Question question;
 
     private final Expression visibilityCondition;
-    private final Expression assignedExpression;
 
     private Boolean visibility;
     private QLDataTypeWrapper qlDataTypeWrapperValue;
 
+    private QuestionView questionView;
     private FormController formController;
-    private QuestionPanel panel;
 
-    public QuestionModel(String label, String variableName, TypeDeclaration originalDataTypeDeclaration, Expression visibilityCondition, Expression assignedExpression) {
+    public QuestionModel(Question question, Expression visibilityCondition) {
 
-        this.label = label;
-        this.variableName = variableName;
-        this.originalDataTypeDeclaration = originalDataTypeDeclaration;
-
+        this.question = question;
         this.visibilityCondition = visibilityCondition;
         this.visibility = true;
 
-        this.assignedExpression = assignedExpression;
-        this.qlDataTypeWrapperValue = QLDataTypeWrapper.createValue(this.originalDataTypeDeclaration.toDataType(), "");
+        this.qlDataTypeWrapperValue = QLDataTypeWrapper.createValue(this.question.getVariableType().toDataType(), "");
     }
 
-    public String getLabel() {
-        return label;
+    public String getQuestionLabel() {
+        return this.question.getLabel();
     }
 
     public String getVariableName() {
-        return variableName;
+        return this.question.getVariableName();
     }
 
     public TypeDeclaration getOriginalDataTypeDeclaration() {
-        return originalDataTypeDeclaration;
+        return this.question.getVariableType();
     }
 
     public Expression getVisibilityCondition() {
@@ -51,7 +45,7 @@ public class QuestionModel {
     }
 
     public Expression getAssignedExpression() {
-        return assignedExpression;
+        return question.getAssignedExpression();
     }
 
     public Boolean getVisibility() {
@@ -76,18 +70,19 @@ public class QuestionModel {
 
     public void changeValue(Object value) {
         this.qlDataTypeWrapperValue.setValue(value);
+        // inform the controller
         this.formController.processQuestionModelChange(this);
+    }
+
+    public void setQuestionView(QuestionView questionView) {
+        this.questionView = questionView;
+    }
+
+    public QuestionView getQuestionView() {
+        return questionView;
     }
 
     public void registerController(FormController formController) {
         this.formController = formController;
-    }
-
-    public void setPanel(QuestionPanel panel) {
-        this.panel = panel;
-    }
-
-    public QuestionPanel getPanel() {
-        return panel;
     }
 }

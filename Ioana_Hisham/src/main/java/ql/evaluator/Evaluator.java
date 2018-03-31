@@ -1,6 +1,7 @@
 package ql.evaluator;
 
 import ql.ast.Form;
+import ql.ast.expressions.GroupExpression;
 import ql.ast.expressions.binary.*;
 import ql.ast.expressions.Identifier;
 import ql.ast.expressions.literals.BooleanLiteral;
@@ -31,16 +32,35 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
     //<editor-fold desc="StatementVisitor">
     @Override
     public Void visit(CalculableQuestion calculableQuestion) {
+        if (!valueTable.exists(calculableQuestion.getIdentifier())) {
+            valueTable.add(calculableQuestion.getIdentifier(),
+                    calculableQuestion.getCalculableValue().accept(this));
+        }
+        questions.add(calculableQuestion);
         return null;
     }
 
     @Override
     public Void visit(IfThen ifThen) {
+        if (ifThen.getCondition().accept(this).toBoolean()) {
+            for (Statement statement : ifThen.getThenStatements()) {
+                statement.accept(this);
+            }
+        }
         return null;
     }
 
     @Override
     public Void visit(IfThenElse ifThenElse) {
+        if (ifThenElse.getCondition().accept(this).toBoolean()) {
+            for (Statement statement : ifThenElse.getThenStatements()) {
+                statement.accept(this);
+            }
+        } else {
+            for (Statement statement : ifThenElse.getElseStatements()) {
+                statement.accept(this);
+            }
+        }
         return null;
     }
 
@@ -145,6 +165,11 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
 
     public Value visit(StringLiteral stringLiteral) {
         return new StringValue(stringLiteral.getValue());
+    }
+
+    @Override
+    public Value visit(GroupExpression groupExpression) {
+        return groupExpression.getExpression().accept(this);
     }
     //</editor-fold>
 

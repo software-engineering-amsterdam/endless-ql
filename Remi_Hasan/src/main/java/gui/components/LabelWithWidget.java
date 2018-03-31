@@ -33,17 +33,17 @@ public class LabelWithWidget extends VBox implements ILabelWithWidget {
 
     @Override
     public Expression getExpressionValue() {
-        return guiWidget.getExpressionValue();
+        return this.guiWidget.getExpressionValue();
     }
 
     @Override
     public void setValue(Value value) {
-        guiWidget.setValue(value);
+        this.guiWidget.setValue(value);
     }
 
     @Override
     public void setChangeListener(InvalidationListener invalidationListener) {
-        guiWidget.setChangeListener(invalidationListener);
+        this.guiWidget.setChangeListener(invalidationListener);
     }
 
     @Override
@@ -53,24 +53,24 @@ public class LabelWithWidget extends VBox implements ILabelWithWidget {
 
     @Override
     public void setColor(String color) {
-        label.setTextFill(Color.web(color));
-        guiWidget.setColor(color);
+        this.label.setTextFill(Color.web(color));
+        this.guiWidget.setColor(color);
     }
 
     @Override
     public void setFont(String fontFamily) {
-        label.setFont(Font.font(fontFamily, label.getFont().getSize()));
-        guiWidget.setFont(fontFamily);
+        this.label.setFont(Font.font(fontFamily, label.getFont().getSize()));
+        this.guiWidget.setFont(fontFamily);
     }
 
     @Override
     public void setFontSize(int fontSize) {
-        label.setFont(new Font(label.getFont().getFamily(), fontSize));
-        guiWidget.setFontSize(fontSize);
+        this.label.setFont(new Font(this.label.getFont().getFamily(), fontSize));
+        this.guiWidget.setFontSize(fontSize);
     }
 
     @Override
     public void setWidth(int width) {
-        guiWidget.setWidth(width);
+        this.guiWidget.setWidth(width);
     }
 }

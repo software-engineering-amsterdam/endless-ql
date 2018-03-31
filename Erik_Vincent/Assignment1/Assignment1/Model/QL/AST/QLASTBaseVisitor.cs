@@ -22,7 +22,7 @@ namespace Assignment1.Model.QL.AST
             VisitStatements(questionForm.Statements);
         }
 
-        private void VisitStatements(IEnumerable<Statement> statements)
+        protected void VisitStatements(IEnumerable<Statement> statements)
         {
             statements = statements.ToArray();
             var questions = statements.OfType<Question>().ToArray();

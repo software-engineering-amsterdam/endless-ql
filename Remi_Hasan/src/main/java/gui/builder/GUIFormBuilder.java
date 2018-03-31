@@ -22,7 +22,7 @@ public class GUIFormBuilder {
 
     public GUIFormWithStyling buildQLSForm(Form form, StyleSheet styleSheet) {
         // Translate all form Questions to GUIQuestions
-        List<GUIQuestion> guiQuestions = getGUIQuestions(form);
+        List<GUIQuestion> guiQuestions = this.getGUIQuestions(form);
 
         // Map all questions with the same identifier, which can be used by the QLS GUI elements
         // to retrieve the placed questions by identifier
@@ -35,7 +35,7 @@ public class GUIFormBuilder {
             pages.add(guiPageBuilder.visit(page));
         }
 
-        return new GUIFormWithStyling(styleSheet.getIdentifier(), pages);
+        return new GUIFormWithStyling(styleSheet.getIdentifier(), guiQuestions, pages);
     }
 
     private List<GUIQuestion> getGUIQuestions(Form form) {

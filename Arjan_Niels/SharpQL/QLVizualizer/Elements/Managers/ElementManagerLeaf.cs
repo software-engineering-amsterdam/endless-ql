@@ -1,4 +1,5 @@
-﻿using QLVisualizer.Controllers;
+﻿using QLParser.AST.QLS;
+using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 using System.Collections.Generic;
 
@@ -11,6 +12,8 @@ namespace QLVisualizer.Elements.Managers
         public delegate void AnswerValueUpdate(ElementManagerLeaf elementManagerLeaf, bool calculated);
 
         public event AnswerValueUpdate OnAnswerValueUpdate;
+
+        private QLSStyle _style;
 
 
         public ElementManagerLeaf(string identifyer, string text, string xmlName, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null) : 
@@ -30,5 +33,15 @@ namespace QLVisualizer.Elements.Managers
         }
 
         public abstract string AnswerToString();
+
+        public override void SetStyle(QLSStyle style)
+        {
+            _style = style;
+        }
+
+        public override QLSStyle GetStyle()
+        {
+            return _style;
+        }
     }
 }

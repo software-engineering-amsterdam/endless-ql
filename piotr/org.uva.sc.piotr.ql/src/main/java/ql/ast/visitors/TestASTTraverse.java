@@ -17,7 +17,7 @@ import ql.ast.model.statements.IfStatement;
 import ql.ast.model.statements.Question;
 import ql.ast.model.statements.Statement;
 
-public class TestASTTraverse extends AbstractASTTraverse {
+public class TestASTTraverse extends AbstractASTTraverse<Object> {
 
     public TestASTTraverse() {
         System.out.println("TestVisitor created");
@@ -89,7 +89,7 @@ public class TestASTTraverse extends AbstractASTTraverse {
 
     @Override
     public Object visit(Division division) {
-        System.out.println("Visiting divistion " + division.getClass().getSimpleName() + " :" + division.getMetaInformation().getStartLine());
+        System.out.println("Visiting division " + division.getClass().getSimpleName() + " :" + division.getMetaInformation().getStartLine());
         return super.visit(division);
     }
 
@@ -175,5 +175,11 @@ public class TestASTTraverse extends AbstractASTTraverse {
     public Object visit(TypeDeclarationString typeDeclarationString) {
         System.out.println("Visiting typeDeclarationString " + typeDeclarationString.getClass().getSimpleName() + " :" + typeDeclarationString.getMetaInformation().getStartLine());
         return super.visit(typeDeclarationString);
+    }
+
+    @Override
+    public Object visit(TypeDeclarationDate typeDeclarationDate) {
+        System.out.println("Visiting typeDeclarationDate " + typeDeclarationDate.getClass().getSimpleName() + " :" + typeDeclarationDate.getMetaInformation().getStartLine());
+        return super.visit(typeDeclarationDate);
     }
 }

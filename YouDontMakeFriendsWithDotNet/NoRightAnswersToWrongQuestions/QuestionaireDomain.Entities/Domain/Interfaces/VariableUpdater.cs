@@ -22,7 +22,7 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
             m_calculationService = calculationService;
         }
 
-        public void Update(Reference<IQuestionNode> node, dynamic value)
+        public void Update(DomainId<IQuestionNode> node, dynamic value)
         {
             m_symbolTable.Update(node.Id, value);
             m_calculationService.UpdateCalculations();

@@ -10,16 +10,16 @@ question        : label=STRING identifier=IDENTIFIER ':' (type | type '=' expres
 // Expressions, prioritized from top to bottom
 // label them for easier evaluation
 // inspired by: https://stackoverflow.com/a/23092428
-expression      : '(' expr=expression ')'                                   # parenExpr
-                | MINUS expr=expression                                     # negExpr
-                | NOT expr=expression                                       # notExpr
-                | left=expression op=(MUL | DIV) right=expression           # opExpr
-                | left=expression op=(PLUS | MINUS) right=expression        # opExpr
-                | left=expression op=(LE | LT | GE | GT) right=expression   # boolExpr
-                | left=expression op=(EQ | NE) right=expression             # compExpr
-                | left=expression op=AND right=expression                   # andOrExpr
-                | left=expression op=OR right=expression                    # andOrExpr
-                | constant                                                  # constExpr
+expression      : '(' expression ')'                                                # parenthesesExpression
+                | MINUS expression                                                  # negationExpression
+                | NOT expression                                                    # notExpression
+                | left=expression operator=(MUL | DIV) right=expression             # arithmeticExpression
+                | left=expression operator=(PLUS | MINUS) right=expression          # arithmeticExpression
+                | left=expression operator=(LE | LT | GE | GT) right=expression     # booleanExpression
+                | left=expression operator=(EQ | NE) right=expression               # comparisonExpression
+                | left=expression operator=AND right=expression                     # andOrExpression
+                | left=expression operator=OR right=expression                      # andOrExpression
+                | constant                                                          # constantExpression
                 ;
 
 type            : BOOLEANTYPE

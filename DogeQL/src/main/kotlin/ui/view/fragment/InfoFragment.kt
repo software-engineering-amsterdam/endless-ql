@@ -8,6 +8,5 @@ class InfoFragment : View() {
 
     private val controller: DogeController by inject()
 
-    override val root = listview(controller.infoMessages) {
-    }
+    override val root = listview(controller.infoMessages)
 }

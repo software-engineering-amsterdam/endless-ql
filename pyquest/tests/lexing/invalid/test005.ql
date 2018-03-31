@@ -1,2 +1,2 @@
-// Illegal character ($)
-$
+// Illegal character (€)
+€

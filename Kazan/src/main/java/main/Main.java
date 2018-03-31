@@ -1,8 +1,8 @@
 package main;
 
+import ql.ast.Form;
 import ql.gui.FormUI;
 import ql.gui.FormUIFactory;
-import ql.ast.Form;
 import ql.parser.FormBuilder;
 import ql.validator.Validator;
 import qls.ast.Stylesheet;
@@ -17,9 +17,9 @@ public class Main {
 
         //TODO: pass file (non-string) instead of filecontents to formbuilder
 
-        // String qlFileName = "src/input/ql/correct/if.ql";
-        String qlFileName = "src/input/ql/correct/gui/dependentValue.ql";
-        // String qlFileName = "src/input/ql/correct/gui/allComputedQuestions.ql";
+        String qlFileName = "src/input/ql/correct/if.ql";
+        // String qlFileName = "src/input/ql/correct/gui/dependentValue.ql";
+        // String qlFileName = "src/input/ql/correct/gui/allComputedQuestionTypes.ql";
         String qlFile = new FileScanner().loadFile(qlFileName);
 
         FormBuilder formBuilder = new FormBuilder();

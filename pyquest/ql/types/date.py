@@ -17,10 +17,13 @@ class QLDate(QLType):
         return '{}-{}-{}'.format(self.day, self.month, self.year)
 
     def __eq__(self, other):
-        return QLBoolean(self.day == other.day and self.month == other.month and self.year == other.year)
+        if isinstance(other, QLDate):
+            return QLBoolean(self.day == other.day and self.month == other.month and self.year == other.year)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.day != other.day or self.month != other.month or self.year != other.year)
+        return QLBoolean(not self == other)
 
     def __lt__(self, other):
         return QLBoolean(self.year < other.year or (self.month < other.month and self.year == other.year) or
@@ -53,7 +56,7 @@ class QLDate(QLType):
 
     @staticmethod
     def get_literal_node(date=(1, 1, 2018)):
-        return DateNode(None, QLDate, QLDate(date))
+        return DateNode(None, QLDate, date)
 
     @staticmethod
     def pyqt5_default_widget():

@@ -24,10 +24,13 @@ class QLBoolean(QLType):
         return str(self.value)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value)
+        if isinstance(other, QLBoolean):
+            return QLBoolean(self.value == other.value)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.value != other.value)
+        return QLBoolean(not self == other)
 
     def get_json_value(self):
         return self.value

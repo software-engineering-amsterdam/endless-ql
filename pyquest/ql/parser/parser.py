@@ -16,6 +16,7 @@ from ql.ast.nodes.expressions.literals.boolean_node import BooleanNode
 from ql.ast.nodes.expressions.literals.date_node import DateNode
 from ql.ast.nodes.expressions.literals.decimal_node import DecimalNode
 from ql.ast.nodes.expressions.literals.integer_node import IntegerNode
+from ql.ast.nodes.expressions.literals.money_node import MoneyNode
 from ql.ast.nodes.expressions.literals.string_node import StringNode
 from ql.ast.nodes.expressions.unary_operators.negation_node import NegationOperatorNode
 from ql.ast.nodes.expressions.unary_operators.negative_node import NegativeOperatorNode
@@ -237,9 +238,22 @@ class QLParser:
         production[0] = DecimalNode(Metadata(production.lineno(1), production.lexpos(1)), QLDecimal, production[1])
 
     @staticmethod
+    def p_money_literal(production):
+        """expression   : currency DECIMAL_LITERAL
+                        | currency INTEGER_LITERAL"""
+        production[0] = MoneyNode(Metadata(production.lineno(1), production.lexpos(1)), QLMoney,
+                                  QLMoney(production[2], production[1]))
+
+    @staticmethod
     def p_string_literal(production):
         """expression : STRING_LITERAL"""
         production[0] = StringNode(Metadata(production.lineno(1), production.lexpos(1)), QLString, QLString([1]))
+
+    # Currencies
+    @staticmethod
+    def p_currency(production):
+        """currency : DOLLAR"""
+        production[0] = production[1]
 
     # Types
     @staticmethod

@@ -13,12 +13,10 @@ class QuestionnaireLanguageStyleVisitor : QuestionnaireLanguageStyleGrammarBaseV
         val name = context.NAME().text
 
         val pages = context.page().map {
-            visit(it) as Page
+            it.accept(this) as Page
         }
 
-        val styleSheet = StyleSheet(pages, name)
-
-        return styleSheet
+        return StyleSheet(pages, name)
     }
 
     override fun visitPage(ctx: QuestionnaireLanguageStyleGrammarParser.PageContext?): QlsNode {
@@ -27,7 +25,7 @@ class QuestionnaireLanguageStyleVisitor : QuestionnaireLanguageStyleGrammarBaseV
         val name = context.NAME().text
 
         val styles = context.style().map {
-            visit(it) as Style
+            it.accept(this) as Style
         }
 
         return Page(styles, name)
@@ -38,14 +36,14 @@ class QuestionnaireLanguageStyleVisitor : QuestionnaireLanguageStyleGrammarBaseV
 
 
         context.defaultAttributes()?.let {
-            return visit(it) as DefaultAttributes
+            return it.accept(this) as DefaultAttributes
         }
 
         context.section()?.let {
-            return visit(it) as Section
+            return it.accept(this) as Section
         }
 
-        return TODO() // should be unreachable
+        throw IllegalStateException("Unreachable state")
     }
 
     override fun visitSection(ctx: QuestionnaireLanguageStyleGrammarParser.SectionContext?): QlsNode {
@@ -76,9 +74,7 @@ class QuestionnaireLanguageStyleVisitor : QuestionnaireLanguageStyleGrammarBaseV
             return visit(it)
         }
 
-
-
-        return TODO()
+        throw IllegalStateException("Unreachable state")
     }
 
     override fun visitQuestion(ctx: QuestionnaireLanguageStyleGrammarParser.QuestionContext?): QlsNode {

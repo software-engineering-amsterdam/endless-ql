@@ -1,20 +1,18 @@
 package ql.gui.widgets;
 
 import ql.ast.statements.Question;
-import ql.evaluator.FormEvaluator;
-import ql.evaluator.values.Value;
-
-import javax.swing.*;
+import ql.environment.Environment;
+import ql.environment.values.Value;
 
 public abstract class BaseWidget implements Widget {
 
-    //TODO: remove evaluator reference from baseWidget (circular)
-    protected final FormEvaluator evaluator;
+    //TODO: remove environment reference from baseWidget (circular)
+    protected final Environment environment;
     protected final Question question;
     protected final boolean isEditable;
 
-    protected BaseWidget(FormEvaluator evaluator, Question question, boolean isEditable) {
-        this.evaluator = evaluator;
+    protected BaseWidget(Environment environment, Question question, boolean isEditable) {
+        this.environment = environment;
         this.question = question;
         this.isEditable = isEditable;
     }
@@ -22,16 +20,6 @@ public abstract class BaseWidget implements Widget {
     @Override
     public Value getValue() {
         return null;
-    }
-
-    @Override
-    public JComponent getComponent() {
-        return null;
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-
     }
 
 }

@@ -4,13 +4,10 @@ import tornadofx.bind
 import tornadofx.checkbox
 import ui.model.BooleanViewModel
 
-class CheckBox(question: BooleanViewModel) : QuestionField() {
+class CheckBox(question: BooleanViewModel) : QuestionField(question) {
 
     override val root = checkbox {
         bind(question.booleanValue)
-
-        selectedProperty().addListener({ _, _, _ ->
-            question.update()
-        })
+        attachListener(selectedProperty())
     }
 }

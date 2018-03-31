@@ -11,24 +11,33 @@ This repository contains code implementing a Questionnaire Language (QL) in Pyth
 
 ## Dependencies
 ### Python
-Python version 3 or higher.
+Python version 3
 
 #### Packages
+- multimethods
 - PLY
 - PyQt5
 - termcolor
-- multimethods
-
 ## Setup
 ```
+sudo pip3 install multimethods
 sudo pip3 install ply
 sudo pip3 install pyqt5
 sudo pip3 install termcolor
-sudo pip3 install multimethods
 ```
 
 
 ## Running
 ```
-python GUI/app.py
+python3 pyquest.py
 ```
+
+## Shortkeys
+
+| Shortkey | Action |
+| ------ | ------ |
+| `Ctrl+N`| Create a new .ql file |
+| `Ctrl+O`| Open a .ql file |
+| `Ctrl+S`| Save current .ql file |
+| `Shift+Ctrl+S`| Save as current .ql file |   
+| `Ctrl+R` | Run current .ql file |

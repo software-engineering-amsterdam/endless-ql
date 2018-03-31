@@ -13,10 +13,9 @@ class GreaterEqualsOperatorNode(BinaryOperatorNode):
         self.__valid_types = [(QLDate, QLDate),
                               (QLDecimal, QLDecimal),
                               (QLDecimal, QLInteger),
-                              (QLDecimal, QLMoney),
                               (QLInteger, QLInteger),
-                              (QLInteger, QLMoney),
-                              (QLMoney, QLMoney)]
+                              (QLMoney, QLMoney),
+                              ]
 
     def get_result_type(self, type1, type2):
         if (type1, type2) in self.__valid_types or (type2, type1) in self.__valid_types:

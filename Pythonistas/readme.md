@@ -1,13 +1,10 @@
 # Software Construction 
 
 ```
-Sjoerd van den Heijden
+Sjoerd van den Heijden - 10336001
 Dylan Bartels - 10607072
 ```
 
-# Introduction
-
-need to do
 
 # Requirements
 
@@ -42,23 +39,21 @@ alias grun='java org.antlr.v4.gui.TestRig'
 # Running
 
 ```
-usage: run_app.py [-h] [-l {debug,info,warn,error,critical}] [-v] [file_name]
+usage: Python Questionnaire Language Parser [-h] [-v] [-t] [-g path]
+                                            [-p {QL,QLS}]
 
-Python Questionnaire Language
-
-positional arguments:
-  file_name             Python input file
+CLI tool of the python QL/QLS parser with gui. No arguments runs GUI
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -l {debug,info,warn,error,critical}, --log-level {debug,info,warn,error,critical}
-                        Log level. Only log messages with a level higher or
-                        equal than this will be printed. Default: 'warn'
-  -v, --version         Prints the program version.
-  -t, --test            Runs the testsuite.
+  -h, --help                      show this help message and exit
+  -v, --version                   Prints the program version.
+  -t, --test                      Runs the testsuite.
+  -g path, --grammar path         Debug grammar. example: python run_app.py
+                                  tests/forms/ql/pass/money_declare.ql
+  -p {QL,QLS}, --parser {QL,QLS}  Generate antlr4 parser.
 ```
 
-example: python run_app.py forms/simple.ql
+run_main: python run_app.py
 
 # Testing
 

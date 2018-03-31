@@ -1,7 +1,5 @@
 package ui.view
 
-import javafx.beans.binding.BooleanBinding
-import javafx.beans.property.SimpleBooleanProperty
 import javafx.stage.FileChooser
 import tornadofx.*
 import ui.controller.DogeController

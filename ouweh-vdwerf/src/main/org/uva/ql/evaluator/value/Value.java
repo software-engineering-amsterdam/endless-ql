@@ -4,8 +4,6 @@ public interface Value {
 
     Object getValue();
 
-    String getTypeAsString();
-
     default Value add(Value value) {
         throw new UnsupportedOperationException(value.toString());
     }

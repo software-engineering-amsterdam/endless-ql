@@ -29,10 +29,13 @@ class QLInteger(QLType):
         return QLInteger(- self.value)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value)
+        if isinstance(other, QLInteger):
+            return QLBoolean(self.value == other.value)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.value != other.value)
+        return QLBoolean(not self == other)
 
     def __lt__(self, other):
         return QLBoolean(self.value < other.value)

@@ -2,6 +2,7 @@ package nl.uva.js.qlparser.models.qls.enums;
 
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
+import nl.uva.js.qlparser.models.qls.style.WidgetStyle;
 import nl.uva.js.qlparser.ui.components.form.ComponentBuilder;
 
 import java.awt.*;
@@ -12,38 +13,38 @@ import static nl.uva.js.qlparser.models.ql.enums.DataType.*;
 public enum WidgetType {
     CHECKBOX {
         @Override
-        public Component createWidget(Variable variable) {
+        public Component createWidget(Variable variable, WidgetStyle widgetStyle) {
             return ComponentBuilder.buildCheckBox(variable);
         }
     },
     RADIO {
         @Override
-        public Component createWidget(Variable variable) {
+        public Component createWidget(Variable variable, WidgetStyle widgetStyle) {
             return ComponentBuilder.buildRadioButtons(variable);
         }
     },
     DROPDOWN {
         @Override
-        public Component createWidget(Variable variable) {
+        public Component createWidget(Variable variable, WidgetStyle widgetStyle) {
             return ComponentBuilder.buildDropdown(variable);
         }
     },
     TEXT {
         @Override
-        public Component createWidget(Variable variable) {
+        public Component createWidget(Variable variable, WidgetStyle widgetStyle) {
             return ComponentBuilder.buildTextField(variable);
         }
     },
     SLIDER {
         @Override
-        public Component createWidget(Variable variable) {
-            return ComponentBuilder.buildTextField(variable); //TODO
+        public Component createWidget(Variable variable, WidgetStyle widgetStyle) {
+            return ComponentBuilder.buildSlider(variable, widgetStyle);
         }
     },
     SPINBOX {
         @Override
-        public Component createWidget(Variable variable) {
-            return ComponentBuilder.buildTextField(variable); //TODO
+        public Component createWidget(Variable variable, WidgetStyle widgetStyle) {
+            return ComponentBuilder.buildSpinbox(variable, widgetStyle);
         }
     };
 
@@ -66,5 +67,5 @@ public enum WidgetType {
         mapDataTypeToWidget.put(STRING, stringWidgets);
     }
 
-    public abstract Component createWidget(Variable variable);
+    public abstract Component createWidget(Variable variable, WidgetStyle widgetStyle);
 }

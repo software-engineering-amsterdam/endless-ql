@@ -93,7 +93,7 @@ public class StyleEvaluator {
                     tabbedPane.add(page.getTitle(), sections.get(page.getId()));
                 }
             }
-            if(lastChangedQuestion != null) {
+            if (lastChangedQuestion != null) {
                 tabbedPane.setSelectedComponent(this.getPage(lastChangedQuestion));
             }
         } else {

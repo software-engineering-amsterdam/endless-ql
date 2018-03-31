@@ -16,6 +16,7 @@ import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -32,26 +33,26 @@ public class ParameterCheckerTest {
 
     @Test
     public void runCheckTestInputCalculation() {
-        String input = new IOHandler().readFile("input/test/parameterCalculation.ql");
+        String input = new IOHandler().readFile("input/test/ql/parameterCalculation.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
         SymbolTable symbolTable = new SymbolTable(form);
 
-        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getParameters());
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getList());
 
         assertTrue(parameterChecker.runCheck().hasErrors());
     }
 
     @Test
     public void runCheckTestInputConditional() {
-        String input = new IOHandler().readFile("input/test/parameterConditional.ql");
+        String input = new IOHandler().readFile("input/test/ql/parameterConditional.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
         SymbolTable symbolTable = new SymbolTable(form);
 
-        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getParameters());
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getList());
 
         assertTrue(parameterChecker.runCheck().hasErrors());
     }
@@ -59,7 +60,7 @@ public class ParameterCheckerTest {
     @Test
     public void runCheckEmptySymbolTable() {
         List<Statement> statements;
-        statements = new ArrayList<>(Arrays.asList(
+        statements = new ArrayList<>(Collections.singletonList(
                 new CalculatedQuestion(
                         "name",
                         "content",
@@ -69,7 +70,7 @@ public class ParameterCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(form), new ParameterContext(form).getParameters());
+        ParameterChecker parameterChecker = new ParameterChecker(new SymbolTable(form), new ParameterContext(form).getList());
 
         assertTrue(parameterChecker.runCheck().hasErrors());
     }
@@ -77,7 +78,7 @@ public class ParameterCheckerTest {
     @Test
     public void runCheckInSymbolTable() {
         List<Statement> statements;
-        statements = new ArrayList<>(Arrays.asList(
+        statements = new ArrayList<>(Collections.singletonList(
                 new CalculatedQuestion(
                         "name",
                         "content",
@@ -89,7 +90,7 @@ public class ParameterCheckerTest {
 
         SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new BooleanType());
-        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getParameters());
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, new ParameterContext(form).getList());
         parameterChecker.runCheck();
 
         assertFalse(parameterChecker.runCheck().hasWarnings());

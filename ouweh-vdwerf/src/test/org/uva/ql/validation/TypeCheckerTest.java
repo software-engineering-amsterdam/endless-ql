@@ -15,6 +15,7 @@ import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -31,7 +32,7 @@ public class TypeCheckerTest {
 
     @Test
     public void runCheckTestInputCalculation() {
-        String input = new IOHandler().readFile("input/test/typeCalculation.ql");
+        String input = new IOHandler().readFile("input/test/ql/typeCalculation.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
@@ -44,7 +45,7 @@ public class TypeCheckerTest {
 
     @Test
     public void runCheckTestInputConditional() {
-        String input = new IOHandler().readFile("input/test/typeConditional.ql");
+        String input = new IOHandler().readFile("input/test/ql/typeConditional.ql");
         ASTBuilder builder = new ASTBuilder();
         Form form = builder.buildAST(input);
 
@@ -58,7 +59,7 @@ public class TypeCheckerTest {
     @Test
     public void correctTypesRunCheck() {
         List<Statement> statements;
-        statements = new ArrayList<>(Arrays.asList(
+        statements = new ArrayList<>(Collections.singletonList(
                 new CalculatedQuestion(
                         "name",
                         "content",
@@ -80,7 +81,7 @@ public class TypeCheckerTest {
     @Test
     public void incorrectTypesRunCheck() {
         List<Statement> statements;
-        statements = new ArrayList<>(Arrays.asList(
+        statements = new ArrayList<>(Collections.singletonList(
                 new CalculatedQuestion(
                         "name",
                         "content",

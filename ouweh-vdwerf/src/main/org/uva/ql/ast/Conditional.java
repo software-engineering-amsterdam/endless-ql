@@ -49,10 +49,10 @@ public class Conditional extends Statement {
 
     @Override
     public String toString() {
-        String conditional = String.format("If %s \n", this.condition);
+        StringBuilder conditional = new StringBuilder(String.format("If %s \n", this.condition));
         for (Statement statement : ifBlock) {
-            conditional += String.format("\t\t%s\n", statement);
+            conditional.append(String.format("\t\t%s\n", statement));
         }
-        return conditional;
+        return conditional.toString();
     }
 }

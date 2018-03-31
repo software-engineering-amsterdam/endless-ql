@@ -5,6 +5,7 @@ import org.uva.ql.ast.type.Type;
 import org.uva.qls.visitor.WidgetTypeVisitor;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class RadioType extends WidgetType {
@@ -27,7 +28,7 @@ public class RadioType extends WidgetType {
 
     @Override
     public List<Class<? extends Type>> getCompatibleTypes() {
-        return Arrays.asList(BooleanType.class);
+        return Collections.singletonList(BooleanType.class);
     }
 
     @Override

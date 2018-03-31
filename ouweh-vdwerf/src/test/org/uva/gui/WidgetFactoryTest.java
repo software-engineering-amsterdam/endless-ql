@@ -7,20 +7,14 @@ import org.uva.app.IOHandler;
 import org.uva.gui.widgets.*;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.BooleanType;
-import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.ast.type.MoneyType;
 import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.IntegerValue;
 import org.uva.qls.QLSBuilder;
 import org.uva.qls.ast.Segment.Stylesheet;
-import org.uva.qls.ast.Widget.Widget;
-import org.uva.qls.ast.Widget.WidgetTypes.SpinboxType;
-import org.uva.qls.collector.StylesheetContext;
 import org.uva.qls.evaluator.StyleEvaluator;
 
 import java.awt.*;
-
-import static org.junit.Assert.*;
 
 public class WidgetFactoryTest {
 
@@ -49,7 +43,7 @@ public class WidgetFactoryTest {
     @Test
     public void makeDropdownWidget() {
         WidgetFactory widgetFactory = new WidgetFactory(new QuestionChangeListener(), this.styleEvaluator);
-        Question question = new Question("hasMaintLoan","",new BooleanType());
+        Question question = new Question("hasMainLoan","",new BooleanType());
         QuestionWidget questionWidget = widgetFactory.makeWidget(question, new BooleanValue(true), false);
 
         Assert.assertEquals(DropdownWidget.class, questionWidget.getClass());

@@ -12,7 +12,7 @@ public class SymbolTable {
     private final HashMap<String, Type> table;
 
     public SymbolTable(Form form) {
-        List<Question> questions = new QuestionContext(form).getQuestions();
+        List<Question> questions = new QuestionContext(form).getList();
 
         this.table = new HashMap<>();
         for (Question question : questions) {

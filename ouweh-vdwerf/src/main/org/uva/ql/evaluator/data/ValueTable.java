@@ -18,7 +18,7 @@ public class ValueTable {
     }
 
     public Value getValueByID(String name) {
-        if ( name != null) {
+        if (name != null) {
             return values.get(name);
         }
         return null;

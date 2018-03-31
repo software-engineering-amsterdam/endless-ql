@@ -43,12 +43,12 @@ class SimpleQLSGrammarParserSpec extends FunSpec with BeforeAndAfter {
       assert(listener.node_count("section") == 2)
     }
 
-    it("'question' node count should be 2") {
-      assert(listener.node_count("question") == 2)
+    it("'question' node count should be 3") {
+      assert(listener.node_count("question") == 3)
     }
 
-    it("'identifier' node count should be 4") {
-      assert(listener.node_count("identifier") == 4)
+    it("'identifier' node count should be 5") {
+      assert(listener.node_count("identifier") == 5)
     }
   }
 }

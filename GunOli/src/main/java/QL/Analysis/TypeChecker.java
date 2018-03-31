@@ -41,6 +41,15 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
         else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-numeric argument passed at line: "  + expression.getLineNumber());}
     }
 
+    private EvaluationType checkComparisonExpression(BinaryExpression expression, String operator){
+        EvaluationType leftType = expression.getExprLeft().accept(this);
+        EvaluationType rightType = expression.getExprRight().accept(this);
+        boolean validType = leftType.isArithmetic() && rightType.isArithmetic();
+
+        if(validType){ return EvaluationType.Boolean;}
+        else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-boolean argument passed at line: " + expression.getLineNumber());}
+    }
+
     private EvaluationType checkLogicalExpression(BinaryExpression expression, String operator){
         EvaluationType leftType = expression.getExprLeft().accept(this);
         EvaluationType rightType = expression.getExprRight().accept(this);
@@ -72,7 +81,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
     public EvaluationType visit(EqualExpression expression) {
         boolean validType = expression.getExprLeft().accept(this) == expression.getExprRight().accept(this);
 
-        if(validType){ return expression.accept(this);}
+        if(validType){ return expression.getExprLeft().accept(this);}
         else { throw new IllegalArgumentException("Invalid '==' expression: incompatible types." + expression.getLineNumber());}
     }
 
@@ -80,28 +89,28 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
     public EvaluationType visit(NotEqualExpression expression){
         boolean validType = expression.getExprLeft().accept(this) == expression.getExprRight().accept(this);
 
-        if(validType){ return expression.accept(this);}
+        if(validType){ return expression.getExprLeft().accept(this);}
         else { throw new IllegalArgumentException("Invalid '!=' expression: incompatible types." + expression.getLineNumber());}
     }
 
     @Override
     public EvaluationType visit(GreaterOrEqualExpression expression) {
-        return checkLogicalExpression(expression, ">=");
+        return checkComparisonExpression(expression, ">=");
     }
 
     @Override
     public EvaluationType visit(GreaterThanExpression expression) {
-        return checkLogicalExpression(expression, ">");
+        return checkComparisonExpression(expression, ">");
     }
 
     @Override
     public EvaluationType visit(LessOrEqualExpression expression) {
-        return checkLogicalExpression(expression, "<=");
+        return checkComparisonExpression(expression, "<=");
     }
 
     @Override
     public EvaluationType visit(LessThanExpression expression) {
-        return checkLogicalExpression(expression, "<");
+        return checkComparisonExpression(expression, "<");
     }
 
     @Override
@@ -121,17 +130,17 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
 
     @Override
     public EvaluationType visit(NegationExpression expression) {
-        boolean validType = expression.accept(this).isArithmetic();
+        boolean validType = expression.getExpression().accept(this).isArithmetic();
 
-        if(validType) { return expression.accept(this);}
+        if(validType) { return expression.getExpression().accept(this);}
         else { throw new IllegalArgumentException("Invalid Negation ('-' <Number>) expression: non-numeric argument passed. at:" + expression.getLineNumber());}
     }
 
     @Override
     public EvaluationType visit(NotExpression expression) {
-        boolean validType = expression.accept(this).isLogical();
+        boolean validType = expression.getExpression().accept(this).isLogical();
 
-        if(validType) { return expression.accept(this);}
+        if(validType) { return expression.getExpression().accept(this);}
         else { throw new IllegalArgumentException("Invalid Not ('!' <Boolean>) expression: non-boolean argument passed. at:" + expression.getLineNumber());}
     }
 

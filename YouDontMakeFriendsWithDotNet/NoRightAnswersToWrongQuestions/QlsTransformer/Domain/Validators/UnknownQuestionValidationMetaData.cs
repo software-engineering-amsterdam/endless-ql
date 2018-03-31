@@ -1,7 +1,7 @@
 ﻿using QuestionnaireDomain.Entities.Validators;
 using QuestionnaireDomain.Entities.Validators.MetaData;
 
-namespace QlsTransformer.Validators
+namespace QlsTransformer.Domain.Validators
 {
     public class UnknownQuestionValidationMetaData : ValidationMetaData
     {

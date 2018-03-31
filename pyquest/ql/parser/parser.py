@@ -227,22 +227,22 @@ class QLParser:
     def p_boolean_literal(production):
         """expression   : FALSE
                         | TRUE"""
-        production[0] = BooleanNode(Metadata(production.lineno(1)), QLBoolean, production[1])
+        production[0] = BooleanNode(Metadata(production.lineno(1)), QLBoolean, QLBoolean(production[1]))
 
     @staticmethod
     def p_date_literal(production):
         """expression : DATE_LITERAL"""
-        production[0] = DateNode(Metadata(production.lineno(1)), QLDate, production[1])
+        production[0] = DateNode(Metadata(production.lineno(1)), QLDate, QLDate(production[1]))
 
     @staticmethod
     def p_integer_literal(production):
         """expression : INTEGER_LITERAL"""
-        production[0] = IntegerNode(Metadata(production.lineno(1)), QLInteger, production[1])
+        production[0] = IntegerNode(Metadata(production.lineno(1)), QLInteger, QLInteger(production[1]))
 
     @staticmethod
     def p_decimal_literal(production):
         """expression : DECIMAL_LITERAL"""
-        production[0] = DecimalNode(Metadata(production.lineno(1)), QLDecimal, production[1])
+        production[0] = DecimalNode(Metadata(production.lineno(1)), QLDecimal, QLDecimal(production[1]))
 
     @staticmethod
     def p_money_literal(production):

@@ -12,11 +12,11 @@ from tests.test import Test
 class TestSemanticAnalysis(Test):
     def __init__(self, directory, lexer, parser):
         super(TestSemanticAnalysis, self).__init__('semantic analysis', directory)
-        self.lexer = lexer
-        self.parser = parser
+        self.__lexer = lexer
+        self.__parser = parser
 
     def test_file(self, file):
-        ast = self.parser.parse(file, self.lexer.lexer)
+        ast = self.__parser.parse(file, self.__lexer.lexer)
 
         reference_errors = ReferenceChecker(extract_identifier_scopes(ast)).errors
         if reference_errors:

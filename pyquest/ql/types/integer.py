@@ -11,17 +11,12 @@ class QLInteger(QLType):
         super(QLInteger, self).__init__()
         self.__value = int(value)
 
+    @property
+    def value(self):
+        return self.__value
+
     def __repr__(self):
         return str(self.value)
-
-    def __bool__(self):
-        return bool(self.value)
-
-    def __float__(self):
-        return float(self.value)
-
-    def __int__(self):
-        return int(self.value)
 
     def __str__(self):
         return str(self.value)
@@ -70,10 +65,6 @@ class QLInteger(QLType):
 
     def get_json_value(self):
         return self.value
-
-    @property
-    def value(self):
-        return self.__value
 
     @staticmethod
     def get_literal_node(value):

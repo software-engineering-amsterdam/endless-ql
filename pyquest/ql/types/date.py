@@ -10,6 +10,18 @@ class QLDate(QLType):
         date = tuple(map(int, date))
         self.__day, self.__month, self.__year = date
 
+    @property
+    def day(self):
+        return self.__day
+
+    @property
+    def month(self):
+        return self.__month
+
+    @property
+    def year(self):
+        return self.__year
+
     def __repr__(self):
         return '{}-{}-{}'.format(self.day, self.month, self.year)
 
@@ -41,18 +53,6 @@ class QLDate(QLType):
 
     def get_json_value(self):
         return {'day': self.day, 'month': self.month, 'year': self.year}
-
-    @property
-    def day(self):
-        return self.__day
-
-    @property
-    def month(self):
-        return self.__month
-
-    @property
-    def year(self):
-        return self.__year
 
     @staticmethod
     def get_literal_node(value):

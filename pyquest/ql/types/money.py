@@ -10,17 +10,16 @@ class QLMoney(QLType):
         self.__value = float(value)
         self.__currency = currency
 
+    @property
+    def value(self):
+        return self.__value
+
+    @property
+    def currency(self):
+        return self.__currency
+
     def __repr__(self):
         return '{}{:.2f}'.format(self.currency, self.value)
-
-    def __bool__(self):
-        return bool(self.value)
-
-    def __float__(self):
-        return float(self.value)
-
-    def __int__(self):
-        return int(self.value)
 
     def __str__(self):
         return '{}{:.2f}'.format(self.currency, self.value)
@@ -68,19 +67,10 @@ class QLMoney(QLType):
     def get_json_value(self):
         return {'value': round(self.value, 2), 'currency': self.currency}
 
-    @property
-    def value(self):
-        return self.__value
-
-    @property
-    def currency(self):
-        return self.__currency
-
     @staticmethod
     def get_literal_node(value):
         return MoneyNode(None, QLMoney, value)
 
     @staticmethod
     def pyqt5_default_widget():
-        widget = MoneySpinbox()
-        return widget
+        return MoneySpinbox()

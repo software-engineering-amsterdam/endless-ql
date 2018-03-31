@@ -2,13 +2,6 @@ from re import findall
 
 from ply.lex import lex
 
-from ql.types.boolean import QLBoolean
-from ql.types.date import QLDate
-from ql.types.decimal import QLDecimal
-from ql.types.integer import QLInteger
-from ql.types.money import QLMoney
-from ql.types.string import QLString
-
 
 class QLLexer:
     def __init__(self):
@@ -102,13 +95,13 @@ class QLLexer:
     @staticmethod
     def t_FALSE(token):
         r'False'
-        token.value = QLBoolean(False)
+        token.value = False
         return token
 
     @staticmethod
     def t_TRUE(token):
         r'True'
-        token.value = QLBoolean(True)
+        token.value = True
         return token
 
     def t_DATE_LITERAL(self, token):
@@ -116,7 +109,7 @@ class QLLexer:
         numbers = findall(r'\d\d*', token.value)
 
         try:
-            token.value = QLDate(numbers)
+            token.value = numbers
             return token
         except SyntaxError:
             self.errors.append('Invalid date.')
@@ -124,19 +117,19 @@ class QLLexer:
     @staticmethod
     def t_DECIMAL_LITERAL(token):
         r'\d+[.]\d+'
-        token.value = QLDecimal(token.value)
+        token.value = token.value
         return token
 
     @staticmethod
     def t_INTEGER_LITERAL(token):
         r'\d+'
-        token.value = QLInteger(token.value)
+        token.value = token.value
         return token
 
     @staticmethod
     def t_STRING_LITERAL(token):
         r'\"(.+?)\"'
-        token.value = QLString(token.value[1:-1])
+        token.value = token.value[1:-1]
         return token
 
     # Other

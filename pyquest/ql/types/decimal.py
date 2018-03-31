@@ -71,8 +71,8 @@ class QLDecimal(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value=0.0):
-        return DecimalNode(None, QLDecimal, QLDecimal(value))
+    def get_literal_node(value):
+        return DecimalNode(None, QLDecimal, value)
 
     @staticmethod
     def pyqt5_default_widget():

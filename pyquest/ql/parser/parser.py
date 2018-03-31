@@ -98,7 +98,7 @@ class QLParser:
     def p_question(production):
         """question : STRING_LITERAL IDENTIFIER COLON type"""
         production[0] = QuestionNode(Metadata(production.lineno(1), production.lexpos(1)), production[1], production[2],
-                                     production[4], production[4].get_literal_node(), False)
+                                     production[4], production[4].get_literal_node(production[4]()), False)
 
     @staticmethod
     def p_question_computed(production):

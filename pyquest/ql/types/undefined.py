@@ -32,8 +32,8 @@ class QLUndefined(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value=None):
-        return UndefinedNode(None, QLUndefined, QLUndefined(value))
+    def get_literal_node(value):
+        return UndefinedNode(None, QLUndefined, QLUndefined())
 
     @staticmethod
     def pyqt5_default_widget():

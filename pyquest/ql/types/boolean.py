@@ -40,8 +40,8 @@ class QLBoolean(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value=False):
-        return BooleanNode(None, QLBoolean, QLBoolean(value))
+    def get_literal_node(value):
+        return BooleanNode(None, QLBoolean, value)
 
     @staticmethod
     def pyqt5_default_widget():

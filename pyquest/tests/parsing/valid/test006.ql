@@ -1,5 +1,5 @@
 // Form with question of type string
-form label {
+form testForm {
   "Question?"
     var: string
 }

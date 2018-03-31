@@ -3,7 +3,7 @@ package gui;
 import QL.classes.values.Value;
 import QLS.parsing.visitors.StylesheetVisitor;
 import QL.parsing.visitors.FormVisitor;
-import gui.listeners.QuestionListener;
+import gui.listeners.QuestionValueListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ public class GUIBuilder {
 
     private QLBuilder qlBuilder;
     private QLSBuilder qlsBuilder;
-    private QuestionListener questionListener;
+    private QuestionValueListener questionValueListener;
 
     private int frameHeight = 800; //The height of the GUI
     private int frameWidth = 800; //The width of the GUI
@@ -27,7 +27,7 @@ public class GUIBuilder {
      */
     public GUIBuilder(FormVisitor coreVisitor) {
         this.qlBuilder = new QLBuilder(coreVisitor);
-        this.questionListener = new QuestionListener(this);
+        this.questionValueListener = new QuestionValueListener(this);
         //this.coreVisitor = coreVisitor;
         initFrame();
         initComponents();
@@ -35,7 +35,7 @@ public class GUIBuilder {
 
     public GUIBuilder(FormVisitor coreVisitor, StylesheetVisitor stylesheetVisitor) {
         this.qlBuilder = new QLBuilder(coreVisitor);
-        this.questionListener = new QuestionListener(this);
+        this.questionValueListener = new QuestionValueListener(this);
         this.qlsBuilder = new QLSBuilder(stylesheetVisitor);
         initFrame();
         initComponents(true);
@@ -59,7 +59,7 @@ public class GUIBuilder {
 
     public void initComponents() {
         //Add a scroll pane to the form
-        mainPanel.add(new JScrollPane(qlBuilder.createMainListPanel(questionListener)));
+        mainPanel.add(new JScrollPane(qlBuilder.createMainListPanel(questionValueListener)));
 
         //Add the panel to the frame, and set some properties
         mainFrame.add(mainPanel);
@@ -75,7 +75,7 @@ public class GUIBuilder {
 
     public void initComponents(boolean a)  {
         //initStyleSheet(stylesheetVisitor);
-        qlBuilder.createMainListPanel(questionListener);
+        qlBuilder.createMainListPanel(questionValueListener);
         qlsBuilder.createStyledForm(qlBuilder.getQuestionPanelHashMap());
         mainPanel.add(qlsBuilder.getStyleSheetPanel());
     }

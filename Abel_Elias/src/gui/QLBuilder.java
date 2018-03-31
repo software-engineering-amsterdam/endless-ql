@@ -8,7 +8,7 @@ import QL.classes.values.UndefinedValue;
 import QL.classes.values.Value;
 import QL.parsing.visitors.FormVisitor;
 import QLS.parsing.visitors.StylesheetVisitor;
-import gui.listeners.QuestionListener;
+import gui.listeners.QuestionValueListener;
 import gui.questions.QuestionPanel;
 import gui.questions.QuestionWidgetCheckBox;
 import gui.questions.QuestionWidgetDate;
@@ -36,7 +36,7 @@ public class QLBuilder {
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor;
-    private QuestionListener questionListener;
+    private QuestionValueListener questionValueListener;
 
     public LinkedHashMap<String, QuestionPanel> getQuestionPanelHashMap() {
         return questionPanelHashMap;
@@ -74,9 +74,9 @@ public class QLBuilder {
         }
     }
 
-    public JPanel createMainListPanel(QuestionListener questionListener) {
+    public JPanel createMainListPanel(QuestionValueListener questionValueListener) {
         this.mainListPanel = new JPanel(new GridBagLayout());
-        this.questionListener = questionListener;
+        this.questionValueListener = questionValueListener;
         initQuestionPanels();
         return mainListPanel;
     }
@@ -117,7 +117,7 @@ public class QLBuilder {
                 break;
         }
 
-        qPanel.setQuestionChangeListener(questionListener);
+        qPanel.setQuestionChangeListener(questionValueListener);
 
         //if the question is marked as fixed, make it non-alterable
         if(question.isFixed()) {

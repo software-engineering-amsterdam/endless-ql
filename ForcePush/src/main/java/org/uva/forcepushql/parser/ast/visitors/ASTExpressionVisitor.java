@@ -17,7 +17,7 @@ public interface ASTExpressionVisitor {
     boolean visit(EqualGreaterNode node);
     boolean visit(NotEqualNode node);
     boolean visit(IsEqualNode node);
-    boolean visit(NegateNode node);
+    boolean visit(NotNode node);
 
     double visit(NumberNode node);
     boolean visit(VariableNode node);

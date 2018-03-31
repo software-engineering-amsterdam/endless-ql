@@ -1,6 +1,7 @@
 from gui.widgets.double_spinbox import DoubleSpinBox
 from ql.ast.nodes.expressions.literals.decimal_node import DecimalNode
 from ql.types.boolean import QLBoolean
+from ql.types.money import QLMoney
 from ql.types.type import QLType
 
 
@@ -11,6 +12,9 @@ class QLDecimal(QLType):
 
     def __repr__(self):
         return str(self.value)
+
+    def __coerce__(self, other):
+        return self, QLDecimal(other)
 
     def __bool__(self):
         return bool(self.value)
@@ -55,12 +59,15 @@ class QLDecimal(QLType):
         return QLDecimal(self.value - other.value)
 
     def __mul__(self, other):
+        if isinstance(other, QLMoney):
+            return QLMoney(self.value * other.value, other.currency)
+
         return QLDecimal(self.value * other.value)
 
-    def __floordiv__(self, other):
-        return QLDecimal(self.value // other.value)
-
     def __truediv__(self, other):
+        if isinstance(other, QLMoney):
+            return QLMoney(other.value / self.value, other.currency)
+
         return QLDecimal(self.value / other.value)
 
     def get_json_value(self):

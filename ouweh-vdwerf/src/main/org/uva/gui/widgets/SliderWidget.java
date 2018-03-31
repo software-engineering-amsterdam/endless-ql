@@ -15,8 +15,8 @@ import java.awt.*;
 
 public class SliderWidget extends QuestionWidget implements ChangeListener {
 
-    private JSlider slider;
-    private JLabel label;
+    private final JSlider slider;
+    private final JLabel label;
     private QuestionChangeListener questionChangeListener;
 
     public SliderWidget(Question question, Value value, boolean readOnly, Style style, int start, int end, int steps) {

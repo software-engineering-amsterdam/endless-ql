@@ -1,5 +1,5 @@
 // Question identifier with quotation marks
-form label {
+form testForm {
     "Question?"
     "var" : boolean
 }

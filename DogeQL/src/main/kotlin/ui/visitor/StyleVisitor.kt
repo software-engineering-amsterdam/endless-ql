@@ -2,6 +2,7 @@ package ui.visitor
 
 import javafx.geometry.Side
 import javafx.scene.Node
+import javafx.scene.control.Label
 import qls.ast.model.*
 import qls.visitor.QlsVisitor
 import tornadofx.*
@@ -11,6 +12,9 @@ import ui.model.ViewModelFactory
 import ui.view.QuestionFieldFactory
 
 class StyleVisitor : View(), QlsVisitor<Node> {
+    override fun visit(attributes: Attribute): Node {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val controller: DogeController by inject()
 
@@ -98,6 +102,9 @@ class StyleVisitor : View(), QlsVisitor<Node> {
     }
 
     override fun visit(defaultAttributes: DefaultAttributes): Node {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val label = Label()// Placeholder
+        label.isManaged = false
+        label.isVisible = false
+        return label
     }
 }

@@ -53,7 +53,7 @@ class QuestionnaireLanguageStyleVisitor : QuestionnaireLanguageStyleGrammarBaseV
 
 
         val elements = context.element().element().map {
-            visit(it) as Element
+            it.accept(this) as Element
         }
 
         return Section(name, elements)
@@ -63,15 +63,15 @@ class QuestionnaireLanguageStyleVisitor : QuestionnaireLanguageStyleGrammarBaseV
         val context = ctx!!
 
         context.defaultAttributes()?.let {
-            return visit(it)
+            return it.accept(this)
         }
 
         context.question()?.let {
-            return visit(it)
+            return it.accept(this)
         }
 
         context.section()?.let {
-            return visit(it)
+            return it.accept(this)
         }
 
         throw IllegalStateException("Unreachable state")
@@ -83,5 +83,35 @@ class QuestionnaireLanguageStyleVisitor : QuestionnaireLanguageStyleGrammarBaseV
         val name = context.NAME().text
 
         return Question(name)
+    }
+
+    override fun visitDefaultAttributes(ctx: QuestionnaireLanguageStyleGrammarParser.DefaultAttributesContext?): QlsNode {
+        val context = ctx!!
+
+        val type = context.TYPE().text
+
+        val attributes = context.attributes().attribute().map {
+            it.accept(this) as Attribute
+        }
+
+        return DefaultAttributes(type, attributes)
+    }
+
+    override fun visitPair(ctx: QuestionnaireLanguageStyleGrammarParser.PairContext?): QlsNode {
+        val context = ctx!!
+
+        val name = context.NAME().text
+
+        return AttributePair(name, context.literal().text)
+    }
+
+    override fun visitWidget(ctx: QuestionnaireLanguageStyleGrammarParser.WidgetContext?): QlsNode {
+        val context = ctx!!
+
+        val name = context.NAME().text
+
+        val type = WidgetType.valueOf(name)
+
+        return Widget(type)
     }
 }

@@ -8,7 +8,9 @@ Dylan Bartels - 10607072
 
 # Requirements
 
-- Python 3.6.4
+- python 3.6.4
+- antlr4
+- pip
 
 # Setup MacOs
 

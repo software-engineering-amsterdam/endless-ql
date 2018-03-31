@@ -12,9 +12,8 @@ import java.awt.*;
 
 public class RadioWidget extends QuestionWidget {
 
-    private JRadioButton trueButton;
-    private JRadioButton falseButton;
-    private ButtonGroup buttonGroup;
+    private final JRadioButton trueButton;
+    private final JRadioButton falseButton;
 
     public RadioWidget(Question question, Value value, boolean readOnly, Style style, String trueLabel, String falseLabel) {
         super(question);
@@ -35,10 +34,10 @@ public class RadioWidget extends QuestionWidget {
         this.trueButton.setEnabled(readOnly);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(1,2));
+        buttonPanel.setLayout(new GridLayout(1, 2));
 
-        buttonPanel.add(this.trueButton,0);
-        buttonPanel.add(this.falseButton,1);
+        buttonPanel.add(this.trueButton, 0);
+        buttonPanel.add(this.falseButton, 1);
 
 
         this.add(buttonPanel, 1);

@@ -5,7 +5,7 @@ stylesheet taxOfficeExample
     question hasBoughtHouse
         widget checkbox
 
-    question hasMaintLoan
+    question hasMainLoan
         widget dropdown("I think so", "I don't know")
 
     question hasSoldHouse

@@ -1,19 +1,20 @@
-package ql.gui.controller;
+package qls.gui.controller;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import ql.ast.ASTBuilder;
-import ql.ast.model.Form;
-import ql.grammar.QLLexer;
-import ql.grammar.QLParser;
+import ql.gui.controller.SyntaxErrorNotificationController;
 import ql.gui.view.ErrorMessageView;
 import ql.gui.view.WindowView;
+import qls.ast.ASTBuilder;
+import qls.ast.model.Stylesheet;
+import qls.grammar.QLSLexer;
+import qls.grammar.QLSParser;
 
 import java.io.IOException;
 
-final public class BuildFormController {
-    public static Form buildForm(String selectedFilePath, WindowView windowView) {
+public final class BuildStylesheetController {
+    public static Stylesheet buildStylesheet(String selectedFilePath, WindowView windowView) {
         CharStream charStream;
 
         try {
@@ -27,18 +28,18 @@ final public class BuildFormController {
                 = new SyntaxErrorNotificationController(windowView);
 
         // Lexer
-        QLLexer qlLexer = new QLLexer(charStream);
-        qlLexer.removeErrorListeners();
-        qlLexer.addErrorListener(syntaxErrorNotificationController);
+        QLSLexer qlsLexer = new QLSLexer(charStream);
+        qlsLexer.removeErrorListeners();
+        qlsLexer.addErrorListener(syntaxErrorNotificationController);
 
-        CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
+        CommonTokenStream commonTokenStream = new CommonTokenStream(qlsLexer);
 
         // Parser
-        QLParser qlParser = new QLParser(commonTokenStream);
-        qlParser.removeErrorListeners();
-        qlParser.addErrorListener(syntaxErrorNotificationController);
+        QLSParser qlsParser = new QLSParser(commonTokenStream);
+        qlsParser.removeErrorListeners();
+        qlsParser.addErrorListener(syntaxErrorNotificationController);
 
-        QLParser.FormContext formContext = qlParser.form();
+        QLSParser.StylesheetContext stylesheetContext = qlsParser.stylesheet();
 
         // if found syntax error -> stop
         if (syntaxErrorNotificationController.getFoundSyntaxError()) {
@@ -47,6 +48,6 @@ final public class BuildFormController {
 
         // AST Builder
         ASTBuilder astBuilder = new ASTBuilder();
-        return astBuilder.visitForm(formContext);
+        return astBuilder.visitStylesheet(stylesheetContext);
     }
 }

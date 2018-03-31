@@ -89,9 +89,11 @@
     <Compile Include="DataProvider\QuestionnaireDataProvider.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />
+    <Compile Include="ViewModels\IQuestionViewModel.cs" />
     <Compile Include="ViewModels\ISectionViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\IStyledQuestionnaireViewModel.cs" />
+    <Compile Include="ViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\SectionViewModel.cs" />
     <Compile Include="ViewModels\StyledQuestionnaireViewModel.cs" />
     <Compile Include="Views\PageView.xaml.cs">
@@ -163,6 +165,10 @@
     <ProjectReference Include="..\AntlrInterpretor\AntlrInterpretor.csproj">
       <Project>{7676F4F1-42FC-4A13-8A20-8826B139C98B}</Project>
       <Name>AntlrInterpretor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QlsParser\QlsParser.csproj">
+      <Project>{7B1CE303-25CF-426A-9EB8-2CE377AC7DF7}</Project>
+      <Name>QlsParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\QlsTransformer\QlsTransformer.csproj">
       <Project>{4214F8B0-A5FA-4426-B71C-16CED6FA0A63}</Project>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using QlsGrammar;
-using QlsTransformer.Ast.Nodes;
-using QlsTransformer.Ast.Tools;
+using QlsTransformer.Domain.Ast.Nodes;
+using QlsTransformer.Domain.Ast.Tools;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;

@@ -1,4 +1,4 @@
-from src.test.test import Test
+from tests.test import Test
 
 
 class TestParsing(Test):

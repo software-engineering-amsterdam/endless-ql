@@ -22,7 +22,7 @@ widget              : WIDGET RADIO '(' trueLabel=STRING ',' falseLabel=STRING ')
                     | WIDGET CHECKBOX                                                           # checkBoxWidget
                     | WIDGET SPINBOX                                                            # spinBoxWidget
                     | WIDGET TEXTBOX                                                            # textBoxWidget
-                    | WIDGET SLIDER '(' min=INTEGER ',' max=INTEGER ')' # sliderWidget
+                    | WIDGET SLIDER '(' min=INTEGER ',' max=INTEGER ')'                         # sliderWidget
                     ;
 
 type                : BOOLEANTYPE

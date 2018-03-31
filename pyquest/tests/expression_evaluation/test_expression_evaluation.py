@@ -10,7 +10,7 @@ from ql.types.decimal import QLDecimal
 from ql.types.integer import QLInteger
 from ql.types.money import QLMoney
 from ql.types.string import QLString
-from src.test.test import Test
+from tests.test import Test
 
 
 class TestExpressionEvaluation(Test):

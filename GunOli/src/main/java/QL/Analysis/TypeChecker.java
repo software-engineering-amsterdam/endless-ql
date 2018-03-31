@@ -33,16 +33,18 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
     }
 
     private EvaluationType checkArithmeticExpression(BinaryExpression expression, String operator){
-        //TODO: clean up, improve exception message
-        boolean validType = expression.getExprLeft().accept(this).isArithmetic() && expression.getExprRight().accept(this).isArithmetic();
+        EvaluationType leftType = expression.getExprLeft().accept(this);
+        EvaluationType rightType = expression.getExprRight().accept(this);
+        boolean validType = leftType.isArithmetic() && rightType.isArithmetic();
 
-        if(validType){ return expression.getExprLeft().accept(this);}
+        if(validType){ return leftType.hasPriority(rightType);}
         else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-numeric argument passed at line: "  + expression.getLineNumber());}
     }
 
     private EvaluationType checkLogicalExpression(BinaryExpression expression, String operator){
-        //TODO: clean up, improve exception message
-        boolean validType = expression.getExprLeft().accept(this).isLogical() && expression.getExprRight().accept(this).isLogical();
+        EvaluationType leftType = expression.getExprLeft().accept(this);
+        EvaluationType rightType = expression.getExprRight().accept(this);
+        boolean validType = leftType.isLogical() && rightType.isLogical();
 
         if(validType){ return EvaluationType.Boolean;}
         else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-boolean argument passed at line: " + expression.getLineNumber());}
@@ -119,7 +121,6 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
 
     @Override
     public EvaluationType visit(NegationExpression expression) {
-        //TODO: change manner in which arithmetic check is done, shouldn't evaluate beforehand
         boolean validType = expression.accept(this).isArithmetic();
 
         if(validType) { return expression.accept(this);}
@@ -128,7 +129,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
 
     @Override
     public EvaluationType visit(NotExpression expression) {
-        boolean validType = expression.accept(this) == EvaluationType.Boolean;
+        boolean validType = expression.accept(this).isLogical();
 
         if(validType) { return expression.accept(this);}
         else { throw new IllegalArgumentException("Invalid Not ('!' <Boolean>) expression: non-boolean argument passed. at:" + expression.getLineNumber());}

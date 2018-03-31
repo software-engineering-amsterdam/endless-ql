@@ -78,6 +78,9 @@ class BooleanValue(Value):
     def __init__(self, value):
         super().__init__(types.Boolean, value)
 
+    def __bool__(self):
+        return self.value
+
 
 class MoneyValue(Value):
 
@@ -144,7 +147,7 @@ class Multiplication:
         [(IntegerValue, MoneyValue), (DecimalValue, MoneyValue), (MoneyValue, IntegerValue), (MoneyValue, DecimalValue),
          (MoneyValue, MoneyValue)])
     def evaluate(self, left, right):
-        return DecimalValue(left.value * right.value)
+        return MoneyValue(left.value * right.value)
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):

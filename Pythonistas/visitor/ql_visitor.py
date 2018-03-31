@@ -6,10 +6,10 @@ from PyQt5 import QtCore
 from gui import question_classes
 
 
-def visit_ql(tree):
-    """ Traverse the parsed tree """
+def visit_ql(ast):
+    """ Traverse the parsed AST """
     walker = QLVisitor()
-    walker.visit(tree)
+    walker.visit(ast)
     warning_message = check_duplicate_question_strings(walker.question_ids, walker.questions)
     return [walker.question_ids, walker.questions, walker.error_message, warning_message]
 
@@ -39,15 +39,13 @@ class QLVisitor(ParseTreeVisitor):
         return []
 
     def visitChildren(self, node):
+        """ Top down traversal """
         result = self.defaultResult()
-        n = node.getChildCount()
-        for i in range(n):
-            if not self.shouldVisitNextChild(node, result):
-                return
-
-            c = node.getChild(i)
-            # child.accept() calls the visit%type function from the QLVisitor class; form.accept() returns visitForm()
-            child_result = c.accept(self)
+        child_count = node.getChildCount()
+        for i in range(child_count):
+            child = node.getChild(i)
+            # child.accept() calls the visit function for the particular node type of child
+            child_result = child.accept(self)
             if self.error_message:
                 return
             result.extend(child_result)
@@ -64,8 +62,8 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
     def visitQuestion(self, ctx: QLParser.QuestionContext):
-        # Gets necessary information from the node
-        # todo: give node as input to Question?
+        """ Initiates question object """
+        # todo: instead of initiating question, simply save the ID and node to lists
         question_string = ctx.STRING().getText()
         question_id = ctx.ID().getText()
         data_type = ctx.type().getText()
@@ -76,10 +74,8 @@ class QLVisitor(ParseTreeVisitor):
 
         if data_type == 'boolean':
             question_object = question_classes.BooleanQuestion(question_id, question_string)
-
         elif data_type == 'money':
             question_object = question_classes.MoneyQuestion(question_id, question_string)
-
         else:
             self.error_message = ["Error: unknown data_type: {}".format(data_type)]
             return

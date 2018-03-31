@@ -1,27 +1,22 @@
 package ui.view.fragment
 
-import tornadofx.Fragment
-import tornadofx.onChange
-import tornadofx.vbox
+import tornadofx.*
 import ui.controller.DogeController
 import ui.visitor.StyleVisitor
 
 class StylizedFormFragment : Fragment() {
 
     private val controller: DogeController by inject()
+    private val visitor = StyleVisitor()
+    override var root = drawer {  }
 
-    override val root = vbox {
-        val visitor = StyleVisitor()
-
+    init {
         val style = controller.style
         style?.let {
             val result = it.accept(visitor)
-            add(result)
+            root = result as Drawer
         }
 
-
-        // We can not bind this view to questions (there is nothing to bind)
-        // That's why we manually change state
         controller.questions.onChange {
             controller.questions.forEach { question ->
                 visitor.flatLayout[question.name]?.let {
@@ -29,8 +24,9 @@ class StylizedFormFragment : Fragment() {
                     it.isManaged = question.visible
 
                 }
-                visitor.questions[question.name]?.setViewModelValue(question)
+                visitor.questionViewModels[question.name]?.setViewModelValue(question)
             }
         }
     }
+
 }

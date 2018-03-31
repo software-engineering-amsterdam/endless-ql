@@ -26,7 +26,7 @@ namespace QLParser.Analysis.QL.Semantic
             }
             else
             {
-                Analyser.AddMessage(string.Format("Unknown identifier '{0}' in statement", node.ID), MessageType.ERROR);
+                Analyser.AddMessage(string.Format("{0} Unknown identifier '{1}' in statement", node.Location, node.ID), LanguageType.QL, MessageType.ERROR);
                 return false;
             }
         }

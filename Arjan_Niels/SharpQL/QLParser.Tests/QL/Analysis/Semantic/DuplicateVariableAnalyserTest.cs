@@ -40,7 +40,7 @@ namespace QLParser.Tests.Analysis.Semantic
 
             Assert.IsFalse(hasSucceded);
             Assert.AreEqual(1, Analyser.GetErrors().Count);
-            Assert.AreEqual("ERROR Duplicate identifier boughtAHouse BOOLEAN", Analyser.GetErrors()[0]);
+            Assert.AreEqual("[QL] ERROR	 Duplicate identifier boughtAHouse BOOLEAN", Analyser.GetErrors()[0]);
         }
 
         [TestMethod]

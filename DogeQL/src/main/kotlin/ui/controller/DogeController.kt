@@ -50,6 +50,14 @@ class DogeController : Controller() {
         }
     }
 
+    fun hasQuestion(name: String) : Boolean{
+        return questions.any { it.name == name }
+    }
+
+    fun getQuestion(name : String) : Question{
+        return questions.first { it.name == name }
+    }
+
     // Replacing observable list will break observable
     // That is why we update internal values
     private fun updateQuestions(newDataQuestions: List<Question>) {

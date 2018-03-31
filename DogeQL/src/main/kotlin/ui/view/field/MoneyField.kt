@@ -1,4 +1,4 @@
-package ui.view
+package ui.view.field
 
 import ui.model.MoneyViewModel
 import tornadofx.bind

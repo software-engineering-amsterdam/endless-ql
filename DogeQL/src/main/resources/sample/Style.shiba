@@ -4,7 +4,7 @@ stylesheet taxOfficeExample
   {
     section "Buying"
     {
-      question hasBoughtHouse
+      question fuckBTC
     }
   }
 
@@ -13,9 +13,10 @@ stylesheet taxOfficeExample
     section "Selling"
     {
       question hasSoldHouse
+
       section "You sold a house"
       {
-        question sellingPrice
+        question intQ
       }
     }
   }

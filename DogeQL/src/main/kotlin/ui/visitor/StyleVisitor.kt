@@ -1,13 +1,17 @@
-package ui.view.fragment
+package ui.visitor
 
 import javafx.geometry.Side
 import javafx.scene.Node
-import javafx.scene.control.TextField
 import qls.ast.model.*
 import qls.visitor.QlsVisitor
 import tornadofx.*
+import ui.controller.DogeController
+import ui.model.ViewModelFactory
+import ui.view.QuestionFieldFactory
 
-class FormFactory : View(), QlsVisitor<Node> {
+class StyleVisitor : View(), QlsVisitor<Node> {
+
+    private val controller: DogeController by inject()
 
     private var padding = 0.0
 
@@ -27,7 +31,7 @@ class FormFactory : View(), QlsVisitor<Node> {
                 scrollpane {
                     form {
                         page.styles.forEach {
-                            add(it.accept(this@FormFactory))
+                            add(it.accept(this@StyleVisitor))
                         }
                     }
                 }
@@ -62,11 +66,18 @@ class FormFactory : View(), QlsVisitor<Node> {
     }
 
     override fun visit(question: Question): Node {
-        val field = Field(question.name)
 
-        field.add(
-                TextField()
-        )
+        val field = Field()
+
+        if (controller.hasQuestion(question.name)) {
+            val dataQuestion = controller.getQuestion(question.name)
+
+            val viewModel = ViewModelFactory().createUiQuestionModel(dataQuestion)
+            val questionField = QuestionFieldFactory().createQuestionField(viewModel)
+
+            field.text = dataQuestion.label
+            field.add(questionField)
+        }
 
         return field
     }

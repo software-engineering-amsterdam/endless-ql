@@ -1,4 +1,4 @@
-package ui.view
+package ui.view.field
 
 import javafx.beans.property.StringProperty
 import javafx.scene.control.TextField

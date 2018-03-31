@@ -4,9 +4,9 @@ import org.uva.ql.ast.type.Type;
 import org.uva.ql.visitor.StatementVisitor;
 
 public class Question extends Statement {
-    private String id;
-    private String content;
-    private Type type;
+    private final String id;
+    private final String content;
+    private final Type type;
 
     public Question(String id, String content, Type type) {
         this.id = id;

@@ -14,8 +14,7 @@ class ViewModelFactory {
             SymbolType.STRING -> StringViewModel(question)
             SymbolType.MONEY -> MoneyViewModel(question)
             SymbolType.DATE -> DateViewModel(question)
-            SymbolType.COLOR -> TODO()
-            SymbolType.UNDEFINED -> TODO()
+            else -> throw IllegalArgumentException("${question.value.type} unsupported type")
         }
     }
 }

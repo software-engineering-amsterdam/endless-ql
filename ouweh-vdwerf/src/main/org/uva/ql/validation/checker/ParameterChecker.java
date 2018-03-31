@@ -8,8 +8,8 @@ import java.util.List;
 
 public class ParameterChecker extends Checker {
 
-    private SymbolTable symbolTable;
-    private List<Parameter> parameters;
+    private final SymbolTable symbolTable;
+    private final List<Parameter> parameters;
 
     public ParameterChecker(SymbolTable symbolTable, List<Parameter> parameters) {
         this.symbolTable = symbolTable;

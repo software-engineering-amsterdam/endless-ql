@@ -24,10 +24,13 @@ class QLBoolean(QLType):
         return str(self.value)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value)
+        if isinstance(other, QLBoolean):
+            return QLBoolean(self.value == other.value)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.value != other.value)
+        return QLBoolean(not self == other)
 
     def get_json_value(self):
         return self.value
@@ -37,8 +40,8 @@ class QLBoolean(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value=False):
-        return BooleanNode(None, QLBoolean, QLBoolean(value))
+    def get_literal_node(value):
+        return BooleanNode(None, QLBoolean, value)
 
     @staticmethod
     def pyqt5_default_widget():

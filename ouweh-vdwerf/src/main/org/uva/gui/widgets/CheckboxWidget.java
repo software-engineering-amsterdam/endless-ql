@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class CheckboxWidget extends QuestionWidget {
 
-    private JCheckBox checkBox;
+    private final JCheckBox checkBox;
 
     public CheckboxWidget(Question question, Value value, boolean readOnly, Style style, String label) {
         super(question);

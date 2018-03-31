@@ -1,9 +1,6 @@
 package org.uva.forcepushql.parser.ast.visitors;
 
-import org.uva.forcepushql.parser.ast.elements.ConditionalNode;
-import org.uva.forcepushql.parser.ast.elements.NumberNode;
-import org.uva.forcepushql.parser.ast.elements.QuestionAssignValueNode;
-import org.uva.forcepushql.parser.ast.elements.QuestionNode;
+import org.uva.forcepushql.parser.ast.elements.*;
 import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 import org.uva.forcepushql.interpreter.gui.JPanelGUI;
 import org.uva.forcepushql.interpreter.gui.questions.Question;

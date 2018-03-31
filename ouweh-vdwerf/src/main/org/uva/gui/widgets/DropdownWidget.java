@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class DropdownWidget extends QuestionWidget {
 
-    private JComboBox<String> comboBox;
+    private final JComboBox<String> comboBox;
 
     public DropdownWidget(Question question, Value value, boolean readOnly, Style style, String trueLabel, String falseLabel) {
         super(question);

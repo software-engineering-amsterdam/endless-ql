@@ -29,10 +29,13 @@ class QLInteger(QLType):
         return QLInteger(- self.value)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value)
+        if isinstance(other, QLInteger):
+            return QLBoolean(self.value == other.value)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.value != other.value)
+        return QLBoolean(not self == other)
 
     def __lt__(self, other):
         return QLBoolean(self.value < other.value)
@@ -69,8 +72,8 @@ class QLInteger(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value=0):
-        return IntegerNode(None, QLInteger, QLInteger(value))
+    def get_literal_node(value):
+        return IntegerNode(None, QLInteger, value)
 
     @staticmethod
     def pyqt5_default_widget():

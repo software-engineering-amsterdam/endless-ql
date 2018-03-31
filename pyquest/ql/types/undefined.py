@@ -16,10 +16,13 @@ class QLUndefined(QLType):
         return 'Undefined'
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value)
+        if isinstance(other, QLUndefined):
+            return QLBoolean(self.value == other.value)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.value != other.value)
+        return QLBoolean(not self == other)
 
     def get_json_value(self):
         return None
@@ -29,8 +32,8 @@ class QLUndefined(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value=None):
-        return UndefinedNode(None, QLUndefined, QLUndefined(value))
+    def get_literal_node(value):
+        return UndefinedNode(None, QLUndefined, QLUndefined())
 
     @staticmethod
     def pyqt5_default_widget():

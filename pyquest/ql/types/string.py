@@ -19,10 +19,13 @@ class QLString(QLType):
         return str(self.value)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value)
+        if isinstance(other, QLString):
+            return QLBoolean(self.value == other.value)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.value != other.value)
+        return QLBoolean(not self == other)
 
     def __lt__(self, other):
         return QLBoolean(len(self.value) < len(other.value))
@@ -47,8 +50,8 @@ class QLString(QLType):
         return self.__value
 
     @staticmethod
-    def get_literal_node(value=''):
-        return StringNode(None, QLString, QLString(value))
+    def get_literal_node(value):
+        return StringNode(None, QLString, value)
 
     @staticmethod
     def pyqt5_default_widget():

@@ -15,7 +15,7 @@ import ui.model.domain.Question
 
 class QuestionVisitor(private val symbolTable: SymbolTable) : QuestionnaireASTBaseVisitor<List<Question>> {
 
-    var visible = true
+    private var visible = true
 
     override fun visit(form: Form): List<Question> {
         return form.block.accept(this)
@@ -53,19 +53,18 @@ class QuestionVisitor(private val symbolTable: SymbolTable) : QuestionnaireASTBa
     }
 
     override fun visit(binaryExpression: BinaryExpression): List<Question> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listOf()
     }
 
     override fun visit(unaryExpression: UnaryExpression): List<Question> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listOf()
     }
 
     override fun visit(referenceExpression: ReferenceExpression): List<Question> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listOf()
     }
 
     override fun visit(literalExpression: LiteralExpression): List<Question> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listOf()
     }
-
 }

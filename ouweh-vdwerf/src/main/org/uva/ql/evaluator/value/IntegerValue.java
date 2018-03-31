@@ -9,11 +9,6 @@ public class IntegerValue implements Value {
     }
 
     @Override
-    public String getTypeAsString() {
-        return "INTEGER";
-    }
-
-    @Override
     public String toString() {
         return Integer.toString(this.value);
     }

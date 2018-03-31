@@ -73,6 +73,7 @@ public class SliderWidget extends QuestionWidget implements ChangeListener {
 
     @Override
     public void setFontSize(int fontSize) {
+        super.setFontSize(fontSize);
         Font newFont = questionLabel.getFont().deriveFont((float) fontSize);
         this.label.setFont(newFont);
     }

@@ -2,7 +2,6 @@
 using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
-using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
 using QuestionnaireDomain.Entities.Validators.MetaData;
 

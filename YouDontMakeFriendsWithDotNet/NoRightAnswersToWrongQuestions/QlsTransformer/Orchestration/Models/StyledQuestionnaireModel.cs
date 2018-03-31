@@ -17,7 +17,6 @@ namespace QlsTransformer.Orchestration.Models
 
         public Guid QuestionnaireId { get; }
         public string QuestionnaireDisplayName { get; }
-        public IList<PageModel> Pages { get; }
-            = new List<PageModel>();
+        public IList<PageModel> Pages { get; } = new List<PageModel>();
     }
 }

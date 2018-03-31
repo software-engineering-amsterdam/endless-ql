@@ -1,8 +1,9 @@
-﻿using QlsTransformer.Ast.Nodes;
+﻿using QlsTransformer.Domain.Ast.Nodes;
 using QuestionnaireDomain.Entities.Validators.Interfaces;
 
-namespace QlsTransformer.Validators
+namespace QlsTransformer.Domain.Validators
 {
     public interface IStyleSheetValidator : IValidator<IStyleSheetRootNode>
-    { }
+    {
+    }
 }

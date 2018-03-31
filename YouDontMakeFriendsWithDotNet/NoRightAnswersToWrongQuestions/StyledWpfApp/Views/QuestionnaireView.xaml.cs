@@ -10,8 +10,8 @@ namespace StyledWpfApp.Views
     {
         public QuestionnaireView(IStyledQuestionnaireViewModel viewModel)
         {
-                InitializeComponent();
-                DataContext = viewModel;
+            InitializeComponent();
+            DataContext = viewModel;
         }
     }
 }

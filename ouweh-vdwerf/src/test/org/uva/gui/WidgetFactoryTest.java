@@ -7,20 +7,14 @@ import org.uva.app.IOHandler;
 import org.uva.gui.widgets.*;
 import org.uva.ql.ast.Question;
 import org.uva.ql.ast.type.BooleanType;
-import org.uva.ql.ast.type.IntegerType;
 import org.uva.ql.ast.type.MoneyType;
 import org.uva.ql.evaluator.value.BooleanValue;
 import org.uva.ql.evaluator.value.IntegerValue;
 import org.uva.qls.QLSBuilder;
 import org.uva.qls.ast.Segment.Stylesheet;
-import org.uva.qls.ast.Widget.Widget;
-import org.uva.qls.ast.Widget.WidgetTypes.SpinboxType;
-import org.uva.qls.collector.StylesheetContext;
 import org.uva.qls.evaluator.StyleEvaluator;
 
 import java.awt.*;
-
-import static org.junit.Assert.*;
 
 public class WidgetFactoryTest {
 

@@ -15,7 +15,6 @@ import org.uva.qls.evaluator.StyleEvaluator;
 import org.uva.qls.validation.QLSValidator;
 
 import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 
 public class App {

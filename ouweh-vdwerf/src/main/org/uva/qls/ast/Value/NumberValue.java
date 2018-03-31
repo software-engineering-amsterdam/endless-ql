@@ -7,7 +7,7 @@ public class NumberValue extends Value {
     public NumberValue(String value) {
         try {
             this.value = Integer.parseInt(value);
-        } catch (NumberFormatException exception) {
+        } catch (NumberFormatException ignored) {
 
         }
     }

@@ -15,6 +15,7 @@ import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -58,7 +59,7 @@ public class TypeCheckerTest {
     @Test
     public void correctTypesRunCheck() {
         List<Statement> statements;
-        statements = new ArrayList<>(Arrays.asList(
+        statements = new ArrayList<>(Collections.singletonList(
                 new CalculatedQuestion(
                         "name",
                         "content",
@@ -80,7 +81,7 @@ public class TypeCheckerTest {
     @Test
     public void incorrectTypesRunCheck() {
         List<Statement> statements;
-        statements = new ArrayList<>(Arrays.asList(
+        statements = new ArrayList<>(Collections.singletonList(
                 new CalculatedQuestion(
                         "name",
                         "content",

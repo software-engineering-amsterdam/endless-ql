@@ -1,6 +1,7 @@
 package qls.visitors
 
 import grammar._
+
 import qls.models.ast._
 
 import scala.collection.JavaConversions._

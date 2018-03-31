@@ -1,5 +1,6 @@
 package qls.models.ast
 
+import ql.models.ast.{ BooleanType, StringType, IntegerType, NodeType }
 import qls.models._
 
 sealed trait DisplayItem

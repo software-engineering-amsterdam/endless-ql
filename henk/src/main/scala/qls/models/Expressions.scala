@@ -1,6 +1,6 @@
 package qls.models.ast
 
-import qls.models._
+import ql.models.ast.{ NodeType }
 
 sealed trait Expression
 

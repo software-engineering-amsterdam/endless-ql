@@ -1,6 +1,8 @@
 package qls.visitors
 
 import grammar._
+
+import ql.models.ast.{ BooleanType, StringType, IntegerType }
 import qls.models.ast._
 
 import scala.collection.JavaConversions._

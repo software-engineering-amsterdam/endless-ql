@@ -1,3 +1,4 @@
+import ql.models.ast.{ BooleanType, StringType, IntegerType }
 import qls.models.ast._
 import qls.spec.helpers._
 

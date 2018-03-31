@@ -2,9 +2,9 @@
 using System;
 
 
-namespace QLVisualizer.Expression.Types
+namespace QLVisualizer.Expression.Types.Numeric
 {
-    public class ExpressionDouble : TypedExpressionValue<double>
+    public class ExpressionDouble : TypedExpressionValue<double>, IExpressionNumeric
     {
         public ExpressionDouble(string[] usedWidgetIDs, Func<double> expression) : base(ExpressionTypes.Numeric, ExpressionOperators.Numeric, ExpressionType.Double, usedWidgetIDs, expression)
         {
@@ -56,44 +56,18 @@ namespace QLVisualizer.Expression.Types
         {
             if (ValidCompare(expressionValue, op))
             {
-                switch (expressionValue.Type)
+                switch (expressionValue)
                 {
-                    case ExpressionType.Int:
-                        return CompareWith(expressionValue as ExpressionInt, op);
-                    case ExpressionType.Double:
-                        return CompareWith(expressionValue as ExpressionDouble, op);
+                    case IExpressionNumeric expressionNumeric:
+                        return NumericUtils.Compare(this, expressionNumeric, op);
                     default:
                         throw new NotImplementedException();
                 }
             }
             throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, expressionValue.Type, op));
         }
-
-        /// <summary>
-        /// Compares expression with double expression
-        /// </summary>
-        /// <param name="item">double expression</param>
-        /// <param name="op">Compare operator</param>
-        /// <returns>Boolean expression</returns>
-        private ExpressionBool CompareWith(ExpressionDouble item, ExpressionOperator op)
-        {
-            switch (op)
-            {
-                case ExpressionOperator.GreaterEquals:
-                    return new ExpressionBool(CombineElements(item), () => { return Result >= item.Result; });
-                case ExpressionOperator.GreaterThan:
-                    return new ExpressionBool(CombineElements(item), () => { return Result > item.Result; });
-                case ExpressionOperator.LessEquals:
-                    return new ExpressionBool(CombineElements(item), () => { return Result <= item.Result; });
-                case ExpressionOperator.LessThan:
-                    return new ExpressionBool(CombineElements(item), () => { return Result < item.Result; });
-                case ExpressionOperator.Equals:
-                    return new ExpressionBool(CombineElements(item), () => { return Result == item.Result; });
-            }
-
-            throw new InvalidOperationException(UserMessages.ExceptionNoComparison(Type, item.Type, op));
-        }
         #endregion
+
         /// <summary>
         /// Combines two expressions
         /// </summary>
@@ -130,6 +104,11 @@ namespace QLVisualizer.Expression.Types
         private ExpressionInt ToIntExpression()
         {
             return new ExpressionInt(UsedIdentifiers, () => (int)Result);
+        }
+
+        public ExpressionDouble ToDoubleExpression()
+        {
+            return this;
         }
     }
 }

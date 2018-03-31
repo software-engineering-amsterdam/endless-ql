@@ -35,6 +35,11 @@ namespace QLVisualizer
             return string.Format("{0:x}", _value);
         }
 
+        public int ToInteger()
+        {
+            return _value;
+        }
+
         public Color ToColor()
         {
             ColorConverter colorConverter = new ColorConverter();
@@ -67,6 +72,16 @@ namespace QLVisualizer
         public static Hexadecimal operator /(Hexadecimal left, Hexadecimal right)
         {
             return new Hexadecimal(left._value / right._value);
+        }
+
+        public static bool operator <(Hexadecimal left, Hexadecimal right)
+        {
+            return left._value < right._value;
+        }
+
+        public static bool operator >(Hexadecimal left, Hexadecimal right)
+        {
+            return left._value > right._value;
         }
     }
 }

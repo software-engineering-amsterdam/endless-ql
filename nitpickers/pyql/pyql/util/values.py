@@ -1,11 +1,14 @@
 from pyql.util import types
-import decimal
+from decimal import Decimal, InvalidOperation
 from multimethods import multimethod
 
 
 class Value:
     def __init__(self, type, value):
-        self._value = value
+        if not self.is_valid_input(value):
+            raise ValueError(str(type) + " does not accept value: " + str(value))
+
+        self._value = self._parse(value)
         self._type = type
 
     def __add__(self, other):
@@ -49,6 +52,14 @@ class Value:
     def type(self):
         return self._type
 
+    @staticmethod
+    def is_valid_input(self):
+        return True
+
+    @staticmethod
+    def parse(value):
+        return value
+
     def __repr__(self):
         return str(self.value)
 
@@ -60,23 +71,63 @@ class StringValue(Value):
     def __init__(self, value):
         super().__init__(types.String, value)
 
+    @staticmethod
+    def _parse(value):
+        return str(value)
+
 
 class IntegerValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Integer, int(value))
+        super().__init__(types.Integer, value)
+
+    @staticmethod
+    def _parse(value):
+        return int(value)
+
+    @staticmethod
+    def is_valid_input(value):
+        try:
+            is_digit = str(value).isdigit()
+            return is_digit
+        except (ValueError, InvalidOperation):
+            return False
 
 
 class DecimalValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Decimal, decimal.Decimal(value))
+        super().__init__(types.Decimal, value)
+
+    @staticmethod
+    def _parse(value):
+        return Decimal(value)
+
+    @staticmethod
+    def is_valid_input(value):
+        try:
+            is_decimal = Decimal(value) == Decimal(str(value))
+            return is_decimal
+        except (ValueError, InvalidOperation):
+            return False
 
 
 class BooleanValue(Value):
 
     def __init__(self, value):
         super().__init__(types.Boolean, value)
+
+    @staticmethod
+    def _parse(value):
+        return value is True
+
+    @staticmethod
+    def is_valid_input(value):
+        try:
+            is_boolean = value is True or value is False
+            return is_boolean
+        except (ValueError, InvalidOperation):
+            return False
 
     def __bool__(self):
         return self.value
@@ -85,7 +136,22 @@ class BooleanValue(Value):
 class MoneyValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Money, round(decimal.Decimal(value), 2))
+        super().__init__(types.Money, value)
+
+    @staticmethod
+    def _parse(value):
+        return round(Decimal(value), 2)
+
+    @staticmethod
+    def is_valid_input(value):
+        try:
+            is_decimal_string = Decimal(value) == Decimal(str(value))
+            exponent = Decimal(value).as_tuple().exponent
+            if is_decimal_string and exponent >= -2:
+                return True
+        except (ValueError, InvalidOperation):
+            return False
+        return False
 
     def __repr__(self):
         return "$" + str(self.value)

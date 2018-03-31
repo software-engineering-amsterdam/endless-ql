@@ -41,6 +41,10 @@ namespace QLParser.Analysis.QL.Semantic
                     var arthimetric = (ArthimetricExpressionNode)node;
                     return Analyze(arthimetric);
 
+                case NodeType.TEXT_CONCATINATION:
+                    var textNode = (TextConcatinationNode)node;
+                    return Analyze(textNode);
+
                 case NodeType.LITERAL:
                 case NodeType.IDENTIFIER:
                     return StatementTypeEvaluator.GetStatementType(node);
@@ -71,6 +75,14 @@ namespace QLParser.Analysis.QL.Semantic
                 default:
                     return null;
             }
+        }
+
+        private StatementType Analyze(TextConcatinationNode node)
+        {
+            StatementType left = AnalyseExpression(node.Left);
+            StatementType right = AnalyseExpression(node.Right);
+
+            return left == right && left == StatementType.TEXT ? StatementType.TEXT : StatementType.UNKNOWN;
         }
 
         private StatementType Analyze(ComparisonExpressionNode node)

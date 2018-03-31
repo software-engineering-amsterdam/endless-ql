@@ -14,7 +14,6 @@ namespace QLParser.Analysis.QL.Semantic
             this.Visit(node);
 
             return isValid;
-
         }
 
         private bool IsIdentiierInSymbolTable(IdentifierNode node)
@@ -38,6 +37,7 @@ namespace QLParser.Analysis.QL.Semantic
                 case NodeType.LOGICAL_EXPRESSION:
                 case NodeType.COMPARISON_EXPRESSION:
                 case NodeType.ARTHIMETRIC_EXPRESSION:
+                case NodeType.TEXT_CONCATINATION:
                     var statementNode = (ExpressionNode)node;
                     var leftResult = AnalyseExpression(statementNode.Left);
                     var rightResult = AnalyseExpression(statementNode.Right);

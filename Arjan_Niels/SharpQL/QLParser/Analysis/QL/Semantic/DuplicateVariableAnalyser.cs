@@ -6,8 +6,7 @@ using System.Linq;
 namespace QLParser.Analysis.QL.Semantic
 {
     /// <summary>
-    /// The TypeAnalyser walks over the tree and looks if all the variable type
-    /// are in compliance with the language.
+    /// The DuplicateVariableAnalyser walks over the tree and looks if their aren't any duplicate variable names.
     /// </summary>
     public class DuplicateVariableAnalyser : IQLAnalyser, IQLVisitor
     {

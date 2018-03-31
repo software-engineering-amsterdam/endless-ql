@@ -12,9 +12,8 @@ import java.awt.*;
 
 public class RadioWidget extends QuestionWidget {
 
-    private JRadioButton trueButton;
-    private JRadioButton falseButton;
-    private ButtonGroup buttonGroup;
+    private final JRadioButton trueButton;
+    private final JRadioButton falseButton;
 
     public RadioWidget(Question question, Value value, boolean readOnly, Style style, String trueLabel, String falseLabel) {
         super(question);

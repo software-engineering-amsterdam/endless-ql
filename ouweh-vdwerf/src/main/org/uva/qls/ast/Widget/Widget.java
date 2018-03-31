@@ -6,7 +6,7 @@ import org.uva.qls.ast.Widget.WidgetTypes.WidgetType;
 
 public class Widget extends TreeNode {
 
-    private WidgetType type;
+    private final WidgetType type;
 
     public Widget(WidgetType type) {
         this.type = type;

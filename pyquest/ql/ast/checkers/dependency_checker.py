@@ -11,7 +11,7 @@ class DependencyChecker:
         for (identifier, identifier_children, identifier_position) in combinations:
             children = self.__find_children(identifier, combinations)
             if identifier in children:
-                self.__errors.append('Cyclic dependency detected in question identifiers on lines {}'
+                self.__errors.append('Cyclic dependency detected in question identifiers on line(s) {}'
                                      .format(str(self.__find_positions(children, combinations))[1:-1]))
 
     def __find_children(self, identifier, combinations):

@@ -11,11 +11,11 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class SpinboxWidget extends QuestionWidget {
+public class SpinBoxWidget extends QuestionWidget {
 
-    private JSpinner spinner;
+    private final JSpinner spinner;
 
-    public SpinboxWidget(Question question, Value value, boolean readOnly, Style style) {
+    public SpinBoxWidget(Question question, Value value, boolean readOnly, Style style) {
         super(question);
 
         this.spinner = new JSpinner();

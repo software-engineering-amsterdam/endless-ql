@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 class ReferenceChecker extends Checker {
 
-    private List<String> qlQuestionIds;
-    private List<String> qlsQuestionIds;
+    private final List<String> qlQuestionIds;
+    private final List<String> qlsQuestionIds;
 
     ReferenceChecker(QuestionContext questionContext, StylesheetContext stylesheetContext) {
         this.qlQuestionIds = questionContext.getList().stream().map(Question::getId).collect(Collectors.toList());

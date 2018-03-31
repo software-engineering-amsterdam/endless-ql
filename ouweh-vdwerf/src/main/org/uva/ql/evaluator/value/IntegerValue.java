@@ -113,13 +113,4 @@ public class IntegerValue implements Value {
         return value.lessThanEqualTo(this);
     }
 
-    @Override
-    public Value negate(IntegerValue value) {
-        return new IntegerValue(-value.getValue());
-    }
-
-    @Override
-    public Value negate(Value value) {
-        return value.negate(this);
-    }
 }

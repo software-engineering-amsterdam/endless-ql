@@ -8,10 +8,10 @@ import java.awt.*;
 
 public abstract class QuestionWidget extends JPanel {
 
-    protected final Question question;
-    protected JLabel questionLabel;
+    final Question question;
+    final JLabel questionLabel;
 
-    public QuestionWidget(Question question) {
+    QuestionWidget(Question question) {
         this.question = question;
 
         this.setLayout(new GridLayout(1, 2));

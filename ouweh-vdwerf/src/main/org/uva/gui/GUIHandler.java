@@ -18,11 +18,11 @@ public class GUIHandler {
 
     private JFrame frame;
 
-    private FormEvaluator formEvaluator;
-    private StyleEvaluator styleEvaluator;
+    private final FormEvaluator formEvaluator;
+    private final StyleEvaluator styleEvaluator;
 
-    private QuestionChangeListener questionChangeListener;
-    private ExpressionEvaluator expressionEvaluator;
+    private final QuestionChangeListener questionChangeListener;
+    private final ExpressionEvaluator expressionEvaluator;
 
     private Question lastChangedQuestion = null;
 

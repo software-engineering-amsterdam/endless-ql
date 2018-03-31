@@ -20,10 +20,6 @@ public class SymbolTable {
         }
     }
 
-    public int size() {
-        return this.table.size();
-    }
-
     public void add(String name, Type type) {
         this.table.put(name, type);
     }

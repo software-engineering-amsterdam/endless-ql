@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class ColorProperty extends StyleProperty {
 
-    private ColorValue colorValue;
+    private final ColorValue colorValue;
 
     public ColorProperty(ColorValue colorValue) {
         this.colorValue = colorValue;

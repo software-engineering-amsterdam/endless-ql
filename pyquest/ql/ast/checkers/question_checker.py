@@ -8,6 +8,7 @@ class QuestionChecker:
     def errors(self):
         return self.__errors
 
+    @property
     def warnings(self):
         return self.__warnings
 

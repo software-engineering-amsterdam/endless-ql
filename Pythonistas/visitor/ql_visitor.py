@@ -3,7 +3,7 @@ from antlr.generated.QLParser import QLParser
 
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
-from gui import question_classes
+from visitor import question_classes
 
 
 def visit_ql(ast):

@@ -42,7 +42,8 @@ namespace QLVisualizer
             try
             {
                 return (Color)colorConverter.ConvertFromString(ToString());
-            } catch(Exception e)
+            }
+            catch
             {
                 throw new InvalidCastException(string.Format("Cannot convert hexadecimal value: {0} to a color", ToString()));
             }

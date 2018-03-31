@@ -1,11 +1,11 @@
-from gui.widgets.double_spinbox import DoubleSpinBox
+from gui.widgets.money_spinbox import MoneySpinbox
 from ql.ast.nodes.expressions.literals.money_node import MoneyNode
 from ql.types.boolean import QLBoolean
 from ql.types.type import QLType
 
 
 class QLMoney(QLType):
-    def __init__(self, value=0.0, currency=''):
+    def __init__(self, value=0.0, currency='$'):
         super(QLMoney, self).__init__()
         self.__value = float(value)
         self.__currency = currency
@@ -68,11 +68,10 @@ class QLMoney(QLType):
         return self.__currency
 
     @staticmethod
-    def get_literal_node(value=0.0):
-        return MoneyNode(None, QLMoney, QLMoney(value))
+    def get_literal_node(value=0.0, currency='$'):
+        return MoneyNode(None, QLMoney, QLMoney(value, currency))
 
     @staticmethod
     def pyqt5_default_widget():
-        widget = DoubleSpinBox()
-        widget.setMinimum(0)
+        widget = MoneySpinbox()
         return widget

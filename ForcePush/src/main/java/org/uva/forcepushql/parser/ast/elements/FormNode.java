@@ -1,4 +1,4 @@
-package org.uva.forcepushql.parser.ast.elements.expressionnodes;
+package org.uva.forcepushql.parser.ast.elements;
 
 import org.uva.forcepushql.parser.ast.elements.Node;
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
@@ -26,7 +26,7 @@ public class FormNode extends Node
         this.questions = questions;
     }
 
-    public void setOneQuestion(Node question)
+    public void addOneQuestion(Node question)
     {
         if (question != null)
             questions.add(question);

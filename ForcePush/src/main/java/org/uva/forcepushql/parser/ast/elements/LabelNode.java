@@ -1,4 +1,4 @@
-package org.uva.forcepushql.parser.ast.elements.expressionnodes;
+package org.uva.forcepushql.parser.ast.elements;
 
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 import org.uva.forcepushql.parser.ast.elements.Node;

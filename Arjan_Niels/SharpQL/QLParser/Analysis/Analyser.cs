@@ -52,6 +52,8 @@ namespace QLParser.Analysis
 
         public static bool Analyse(QLNode node)
         {
+            Reset();
+
             if (node == null)
                 return false;
 

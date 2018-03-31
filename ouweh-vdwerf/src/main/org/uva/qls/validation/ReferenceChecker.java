@@ -7,10 +7,7 @@ import org.uva.ql.validation.collector.QuestionContext;
 import org.uva.qls.ast.Segment.QuestionReference;
 import org.uva.qls.collector.StylesheetContext;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 class ReferenceChecker extends Checker {
@@ -31,7 +28,7 @@ class ReferenceChecker extends Checker {
     public ValidationResult runCheck() {
         ValidationResult result = new ValidationResult();
 
-        HashSet uniqueIds = new HashSet();
+        Set<String> uniqueIds = new HashSet<>();
         List<String> duplicateIds = this.qlsQuestionIds.stream()
                 .filter(e -> !uniqueIds.add(e))
                 .collect(Collectors.toList());
@@ -39,7 +36,7 @@ class ReferenceChecker extends Checker {
             result.addError(String.format("Questions: %s are referenced multiple times by the QLS", duplicateIds.toString()));
         }
 
-        List qlsQuestionIdsCopy = new ArrayList(qlsQuestionIds);
+        List<String> qlsQuestionIdsCopy = new ArrayList<>(qlsQuestionIds);
         qlsQuestionIdsCopy.removeAll(qlQuestionIds);
 
         if (qlsQuestionIdsCopy.size() > 0) {

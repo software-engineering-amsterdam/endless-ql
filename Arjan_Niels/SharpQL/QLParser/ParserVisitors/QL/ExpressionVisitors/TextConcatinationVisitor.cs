@@ -16,7 +16,7 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
             IExpressionNode left = GetTerminal(context);
             IExpressionNode right = VisitTextConcatination(context.textConcatination());
 
-            return new TextConcatinationNode(Location.FromContext(context), left, right, NodeType.TEXT_CONCATINATION);
+            return new TextConcatinationNode(Location.FromContext(context), left, right, NodeType.TextConcatination);
         }
 
         private IExpressionNode GetTerminal(QLGrammarParser.TextConcatinationContext context)
@@ -25,7 +25,7 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
             if (context.ID() != null)
                 return new IdentifierNode(location, context.ID().GetText());
             else if (context.TEXT() != null)
-                return new LiteralNode(location, Util.RemoveQuotes(context.TEXT().GetText()), QValueType.TEXT);
+                return new LiteralNode(location, Util.RemoveQuotes(context.TEXT().GetText()), QValueType.Text);
 
             throw new InvalidOperationException("We shouldn't be able to reach this line of code! Everything should be handled by the statements above");
         }

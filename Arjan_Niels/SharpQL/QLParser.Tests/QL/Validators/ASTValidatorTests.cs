@@ -16,8 +16,8 @@ namespace QLParser.Tests.QL.Validators
         public void Initialize()
         {
             _validAST = new FormNode(new Location(0, 0), "ValidForm");
-            var firstQuestion = new QuestionNode(Location.Empty, "Q1", "Do you like puppies?", QValueType.BOOLEAN);
-            var secondQuestion = new QuestionNode(Location.Empty, "Q2", "Do you like kittens?", QValueType.BOOLEAN);
+            var firstQuestion = new QuestionNode(Location.Empty, "Q1", "Do you like puppies?", QValueType.Boolean);
+            var secondQuestion = new QuestionNode(Location.Empty, "Q2", "Do you like kittens?", QValueType.Boolean);
 
             _validAST.AddNode(firstQuestion);
             _validAST.AddNode(secondQuestion);

@@ -53,7 +53,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf
 
         protected override QValueType GetQValueType()
         {
-            return QValueType.HEX;
+            return QValueType.Hex;
         }
     }
 }

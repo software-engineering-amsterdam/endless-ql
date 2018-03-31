@@ -22,7 +22,7 @@ namespace QLParser.Analysis.QL.Semantic
         private bool IsIdentiierInSymbolTable(IdentifierNode node)
         {
             var valueType = SymbolTable.Get(node.ID);
-            if (valueType != QValueType.UNKNOWN)
+            if (valueType != QValueType.Unknown)
             {
                 return true;
             }
@@ -37,17 +37,17 @@ namespace QLParser.Analysis.QL.Semantic
         {
             switch (node.GetNodeType())
             {
-                case NodeType.LOGICAL_EXPRESSION:
-                case NodeType.COMPARISON_EXPRESSION:
-                case NodeType.ARTHIMETRIC_EXPRESSION:
-                case NodeType.TEXT_CONCATINATION:
+                case NodeType.LogicalExpression:
+                case NodeType.ComparisonExpression:
+                case NodeType.ArthimetricExpression:
+                case NodeType.TextConcatination:
                     var statementNode = (ExpressionNode)node;
                     var leftResult = AnalyseExpression(statementNode.Left);
                     var rightResult = AnalyseExpression(statementNode.Right);
                     return leftResult == rightResult;
-                case NodeType.LITERAL:
+                case NodeType.Literal:
                     return true;
-                case NodeType.IDENTIFIER:
+                case NodeType.Identifier:
                     var valueNode = (IdentifierNode)node;
                     return IsIdentiierInSymbolTable(valueNode);
                 default:

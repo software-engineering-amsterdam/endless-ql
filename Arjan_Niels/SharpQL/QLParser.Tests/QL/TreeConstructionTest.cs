@@ -14,8 +14,8 @@ namespace QLParser.Tests.QL
         public void Initialize()
         {
             AST = new FormNode(new Location(0, 0), "TestForm");
-            var firstQuestion = new QuestionNode(new Location(0, 0), "Q1", "Do you like puppies?", QValueType.BOOLEAN);
-            var secondQuestion = new QuestionNode(new Location(0, 0), "Q2", "Do you like kittens?", QValueType.BOOLEAN);
+            var firstQuestion = new QuestionNode(new Location(0, 0), "Q1", "Do you like puppies?", QValueType.Boolean);
+            var secondQuestion = new QuestionNode(new Location(0, 0), "Q2", "Do you like kittens?", QValueType.Boolean);
 
             AST.AddNode(firstQuestion);
             AST.AddNode(secondQuestion);
@@ -24,7 +24,7 @@ namespace QLParser.Tests.QL
         [TestMethod]
         public void RootIsFormTest()
         {
-            Assert.AreEqual(NodeType.FORM, AST.Type);
+            Assert.AreEqual(NodeType.Form, AST.Type);
         }
 
         [TestMethod]

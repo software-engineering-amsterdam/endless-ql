@@ -53,7 +53,7 @@ namespace QLParser.Analysis
             if (Instance.TypeMap.ContainsKey(identifier))
                 return Instance.TypeMap[identifier];
             else
-                return QValueType.UNKNOWN;
+                return QValueType.Unknown;
         }
 
         public static void Reset()

@@ -58,7 +58,7 @@ namespace QLParser.ParserVisitors.QLS
                 var widgetSpecificaitonVisitor = new WidgetSpecificationVisitor();
                 var specification = widgetSpecificaitonVisitor.VisitWidgetspecification(context.widgetspecification());
 
-                var qlsNode = new QLSQuestionNode(Location.FromContext(context), id, new List<QLSStyle>() { new QLSStyle(QValueType.UNKNOWN, specification) });
+                var qlsNode = new QLSQuestionNode(Location.FromContext(context), id, new List<QLSStyle>() { new QLSStyle(QValueType.Unknown, specification) });
                 return qlsNode;
             }
             else

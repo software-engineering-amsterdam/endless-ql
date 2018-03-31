@@ -138,16 +138,16 @@ namespace QLVisualizer.Factories
         {
             switch (identifierNode.GetQValueType())
             {
-                case QValueType.BOOLEAN:
+                case QValueType.Boolean:
                     return new ExpressionBool(new LazyElementExpressionLink<bool>(_elementManagerController, identifierNode.ID));
-                case QValueType.INTEGER:
+                case QValueType.Integer:
                     return new ExpressionInt(new LazyElementExpressionLink<int>(_elementManagerController, identifierNode.ID));
-                case QValueType.DOUBLE:
-                case QValueType.MONEY:
+                case QValueType.Double:
+                case QValueType.Money:
                     return new ExpressionDouble(new LazyElementExpressionLink<double>(_elementManagerController, identifierNode.ID));
-                case QValueType.TEXT:
+                case QValueType.Text:
                     return new ExpressionText(new LazyElementExpressionLink<string>(_elementManagerController, identifierNode.ID));
-                case QValueType.HEX:
+                case QValueType.Hex:
                     return new ExpressionHex(new LazyElementExpressionLink<Hexadecimal>(_elementManagerController, identifierNode.ID));
                 default:
                     throw new NotImplementedException();
@@ -158,16 +158,16 @@ namespace QLVisualizer.Factories
         {
             switch (literalNode.GetQValueType())
             {
-                case QValueType.BOOLEAN:
+                case QValueType.Boolean:
                     return new ExpressionBool(new string[0], () => QValueTypeParser.ParseBoolean(literalNode.Value));
-                case QValueType.INTEGER:
+                case QValueType.Integer:
                     return new ExpressionInt(new string[0], () => QValueTypeParser.ParseInteger(literalNode.Value));
-                case QValueType.DOUBLE:
-                case QValueType.MONEY:
+                case QValueType.Double:
+                case QValueType.Money:
                     return new ExpressionDouble(new string[0], () => QValueTypeParser.ParseDouble(literalNode.Value));
-                case QValueType.TEXT:
+                case QValueType.Text:
                     return new ExpressionText(new string[0], () => QValueTypeParser.ParseText(literalNode.Value));
-                case QValueType.HEX:
+                case QValueType.Hex:
                     return new ExpressionHex(new string[0], () => QValueTypeParser.ParseHexadecimal(literalNode.Value));
                 default:
                     throw new NotImplementedException();

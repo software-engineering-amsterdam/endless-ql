@@ -5,7 +5,7 @@
         public string Value { get; private set; }
         public QValueType QValueType { get; set; }
 
-        public LiteralNode(Location location, string value, QValueType qValueType) : base(location, NodeType.LITERAL)
+        public LiteralNode(Location location, string value, QValueType qValueType) : base(location, NodeType.Literal)
         {
             this.Value = value;
             this.QValueType = qValueType;

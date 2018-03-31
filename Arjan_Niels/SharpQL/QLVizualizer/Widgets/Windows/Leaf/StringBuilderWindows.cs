@@ -51,7 +51,7 @@ namespace QLVisualizer.Widgets.Windows.Leaf
 
         protected override QValueType GetQValueType()
         {
-            return QValueType.TEXT;
+            return QValueType.Text;
         }
     }
 }

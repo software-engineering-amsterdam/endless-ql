@@ -10,10 +10,10 @@ namespace QLParser.AST.QL.ExpressionNodes
 
         public LogicalOperator Operator { get; private set; }
 
-        public LogicalExpressionNode(Location location, IExpressionNode left, LogicalOperator opr, IExpressionNode right) : base(location, NodeType.LOGICAL_EXPRESSION)
+        public LogicalExpressionNode(Location location, IExpressionNode left, LogicalOperator op, IExpressionNode right) : base(location, NodeType.LogicalExpression)
         {
             this.Left = left;
-            this.Operator = opr;
+            this.Operator = op;
             this.Right = right;
         }
 

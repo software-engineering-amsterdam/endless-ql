@@ -12,11 +12,11 @@ namespace QLParser.AST.QL.ExpressionNodes
 
         public ArthimetricOperator Operator { get; private set; }
 
-        public ArthimetricExpressionNode(Location location, IExpressionNode left, ArthimetricOperator opr, IExpressionNode right)
-            : base(location, NodeType.ARTHIMETRIC_EXPRESSION)
+        public ArthimetricExpressionNode(Location location, IExpressionNode left, ArthimetricOperator op, IExpressionNode right)
+            : base(location, NodeType.ArthimetricExpression)
         {
             this.Left = left;
-            this.Operator = opr;
+            this.Operator = op;
             this.Right = right;
         }
 

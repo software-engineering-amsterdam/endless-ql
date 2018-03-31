@@ -12,7 +12,7 @@ namespace QLParser.AST.QLS
 
         public QLSStyle()
         {
-            this.QValueType = QValueType.UNKNOWN;
+            this.QValueType = QValueType.Unknown;
             this.StylingValues = new List<QLSValue>();
             this.WidgetSpecification = new QLSWidgetSpecification();
         }

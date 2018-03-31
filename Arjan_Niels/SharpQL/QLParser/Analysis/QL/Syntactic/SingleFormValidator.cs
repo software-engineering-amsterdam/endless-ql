@@ -16,7 +16,7 @@ namespace QLParser.Analysis.QL.Syntactic
         {
             //Reset the formNodeCount
             formNodeCount = 0;
-            if (node.Type == NodeType.FORM)
+            if (node.Type == NodeType.Form)
                 this.Visit(node as FormNode);
             else
                 this.Visit(node);

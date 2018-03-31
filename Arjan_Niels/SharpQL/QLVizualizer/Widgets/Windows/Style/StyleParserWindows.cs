@@ -15,15 +15,15 @@ namespace QLVisualizer.Widgets.Windows.Style
             {
                 return new Dictionary<string, Tuple<StyleProperty, QValueType>>()
                 {
-                    {"height", new Tuple<StyleProperty, QValueType>(StyleProperty.Height,                   QValueType.INTEGER) },
-                    {"width", new Tuple<StyleProperty, QValueType>(StyleProperty.Width,                     QValueType.INTEGER) },
-                    {"margin-top", new Tuple<StyleProperty, QValueType>(StyleProperty.MarginTop,            QValueType.INTEGER) },
-                    {"margin-bottom", new Tuple<StyleProperty, QValueType>(StyleProperty.MarginBottom,      QValueType.INTEGER) },
-                    {"background-color", new Tuple<StyleProperty, QValueType>(StyleProperty.BackgroundColor, QValueType.HEX) },
-                    {"font", new Tuple<StyleProperty, QValueType>(StyleProperty.Font,                       QValueType.TEXT) },
-                    {"font-size", new Tuple<StyleProperty, QValueType>(StyleProperty.FontSize,               QValueType.INTEGER) },
-                    {"text-color", new Tuple<StyleProperty, QValueType>(StyleProperty.TextColor,             QValueType.HEX) },
-                    {"auto-size", new Tuple<StyleProperty, QValueType>(StyleProperty.AutoSize,               QValueType.BOOLEAN) }
+                    {"height", new Tuple<StyleProperty, QValueType>(StyleProperty.Height,                   QValueType.Integer) },
+                    {"width", new Tuple<StyleProperty, QValueType>(StyleProperty.Width,                     QValueType.Integer) },
+                    {"margin-top", new Tuple<StyleProperty, QValueType>(StyleProperty.MarginTop,            QValueType.Integer) },
+                    {"margin-bottom", new Tuple<StyleProperty, QValueType>(StyleProperty.MarginBottom,      QValueType.Integer) },
+                    {"background-color", new Tuple<StyleProperty, QValueType>(StyleProperty.BackgroundColor, QValueType.Hex) },
+                    {"font", new Tuple<StyleProperty, QValueType>(StyleProperty.Font,                       QValueType.Text) },
+                    {"font-size", new Tuple<StyleProperty, QValueType>(StyleProperty.FontSize,               QValueType.Integer) },
+                    {"text-color", new Tuple<StyleProperty, QValueType>(StyleProperty.TextColor,             QValueType.Hex) },
+                    {"auto-size", new Tuple<StyleProperty, QValueType>(StyleProperty.AutoSize,               QValueType.Boolean) }
                 };
             }
         }

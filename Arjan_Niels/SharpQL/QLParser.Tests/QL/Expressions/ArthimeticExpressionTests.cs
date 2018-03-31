@@ -26,15 +26,15 @@ namespace QLParser.Tests.QL.Expressions
         {
             FormNode form = QLParserHelper.Parse(_simpleComparionWithNumbersFormRaw);
             var comparisonNode = form.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as ComparisonExpressionNode;
 
             var arthimetric = comparisonNode.Right as ArthimetricExpressionNode;
-            Assert.AreEqual(NodeType.LITERAL, arthimetric.Left.GetNodeType());
+            Assert.AreEqual(NodeType.Literal, arthimetric.Left.GetNodeType());
             Assert.AreEqual(ArthimetricOperator.Plus, arthimetric.Operator);
-            Assert.AreEqual(NodeType.ARTHIMETRIC_EXPRESSION, arthimetric.Right.GetNodeType());
-            Assert.AreEqual(QValueType.INTEGER, arthimetric.Right.GetQValueType());
+            Assert.AreEqual(NodeType.ArthimetricExpression, arthimetric.Right.GetNodeType());
+            Assert.AreEqual(QValueType.Integer, arthimetric.Right.GetQValueType());
         }
 
         [TestMethod]
@@ -42,14 +42,14 @@ namespace QLParser.Tests.QL.Expressions
         {
             FormNode form = QLParserHelper.Parse(_simpleComparionWithNumbersAndParensFormRaw);
             var comparisonNode = form.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as ComparisonExpressionNode;
 
             var arthimetric = comparisonNode.Right as ArthimetricExpressionNode;
-            Assert.AreEqual(NodeType.ARTHIMETRIC_EXPRESSION, arthimetric.Left.GetNodeType());
+            Assert.AreEqual(NodeType.ArthimetricExpression, arthimetric.Left.GetNodeType());
             Assert.AreEqual(ArthimetricOperator.Mult, arthimetric.Operator);
-            Assert.AreEqual(NodeType.LITERAL, arthimetric.Right.GetNodeType());
+            Assert.AreEqual(NodeType.Literal, arthimetric.Right.GetNodeType());
         }
 
         [TestMethod]
@@ -57,14 +57,14 @@ namespace QLParser.Tests.QL.Expressions
         {
             FormNode form = QLParserHelper.Parse(_simpleComparionWithNumbersAndVarsFormRaw);
             var comparisonNode = form.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as ComparisonExpressionNode;
 
             var arthimetric = comparisonNode.Right as ArthimetricExpressionNode;
-            Assert.AreEqual(NodeType.IDENTIFIER, arthimetric.Left.GetNodeType());
+            Assert.AreEqual(NodeType.Identifier, arthimetric.Left.GetNodeType());
             Assert.AreEqual(ArthimetricOperator.Mult, arthimetric.Operator);
-            Assert.AreEqual(NodeType.LITERAL, arthimetric.Right.GetNodeType());
+            Assert.AreEqual(NodeType.Literal, arthimetric.Right.GetNodeType());
         }
 
         [TestMethod]

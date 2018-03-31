@@ -13,10 +13,10 @@ namespace QLParser.AST.QL.ExpressionNodes
 
         public ComparisonOperator Operator { get; private set; }
 
-        public ComparisonExpressionNode(Location location, IExpressionNode left, ComparisonOperator opr, IExpressionNode right) : base(location, NodeType.COMPARISON_EXPRESSION)
+        public ComparisonExpressionNode(Location location, IExpressionNode left, ComparisonOperator op, IExpressionNode right) : base(location, NodeType.ComparisonExpression)
         {
             this.Left = left;
-            this.Operator = opr;
+            this.Operator = op;
             this.Right = right;
         }
 

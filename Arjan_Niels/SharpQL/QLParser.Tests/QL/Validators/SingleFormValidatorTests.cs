@@ -15,11 +15,11 @@ namespace QLParser.Tests.QL
         [TestInitialize]
         public void Initialize()
         {
-            var firstQuestion = new QuestionNode(Location.Empty, "Q1", "Do you like puppies?", QValueType.BOOLEAN);
-            var secondQuestion = new QuestionNode(Location.Empty, "Q2", "Do you like kittens?", QValueType.BOOLEAN);
+            var firstQuestion = new QuestionNode(Location.Empty, "Q1", "Do you like puppies?", QValueType.Boolean);
+            var secondQuestion = new QuestionNode(Location.Empty, "Q2", "Do you like kittens?", QValueType.Boolean);
             var thirdQuestion = new ConditionalNode(Location.Empty, null);
             thirdQuestion.AddNode(new FormNode(Location.Empty, "InvalidFormInLowerLayer"));
-            var forthQuestion = new QuestionNode(Location.Empty, "Q4", "Is this the forthQuestion?", QValueType.BOOLEAN);
+            var forthQuestion = new QuestionNode(Location.Empty, "Q4", "Is this the forthQuestion?", QValueType.Boolean);
 
             _validAST = new FormNode(Location.Empty, "TestForm");
             _validAST.AddNode(firstQuestion);

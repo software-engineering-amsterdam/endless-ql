@@ -4,7 +4,7 @@
     {
         public IExpressionNode Expression { get; private set; }
 
-        public ConditionalNode(Location location, IExpressionNode statementNode) : base(location, NodeType.CONDITIONAL)
+        public ConditionalNode(Location location, IExpressionNode statementNode) : base(location, NodeType.Conditional)
         {
             this.Expression = statementNode;
         }

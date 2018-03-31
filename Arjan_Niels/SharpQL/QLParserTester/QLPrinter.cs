@@ -11,13 +11,13 @@ namespace QLParserTester
             foreach (QLNode section in form.Children)
                 switch (section.GetNodeType())
                 {
-                    case NodeType.QUESTION:
+                    case NodeType.Question:
                         PrintSection(section as QuestionNode);
                         break;
-                    case NodeType.COMPUTED:
+                    case NodeType.Computed:
                         PrintSection(section as ComputedNode);
                         break;
-                    case NodeType.CONDITIONAL:
+                    case NodeType.Conditional:
                         PrintSection(section as ConditionalNode);
                         break;
                     default:

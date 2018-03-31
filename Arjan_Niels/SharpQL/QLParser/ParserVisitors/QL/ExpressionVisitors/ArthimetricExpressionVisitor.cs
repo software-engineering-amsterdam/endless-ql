@@ -20,10 +20,10 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
                 return new IdentifierNode(Location.FromContext(context), context.ID().GetText());
 
             if (context.DOUBLE() != null)
-                return new LiteralNode(Location.FromContext(context), context.DOUBLE().GetText(), QValueType.DOUBLE);
+                return new LiteralNode(Location.FromContext(context), context.DOUBLE().GetText(), QValueType.Double);
 
             if (context.INT() != null)
-                return new LiteralNode(Location.FromContext(context), context.INT().GetText(), QValueType.INTEGER);
+                return new LiteralNode(Location.FromContext(context), context.INT().GetText(), QValueType.Integer);
 
             if (context.MULT() != null || context.DIV() != null || context.PLUS() != null || context.MINUS() != null)
             {

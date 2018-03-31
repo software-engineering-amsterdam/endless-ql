@@ -39,24 +39,24 @@ namespace QLParser.Analysis.QL.Semantic
         {
             switch (node.GetNodeType())
             {
-                case NodeType.LOGICAL_EXPRESSION:
+                case NodeType.LogicalExpression:
                     var logicalNode = (LogicalExpressionNode)node;
                     return Analyze(logicalNode);
 
-                case NodeType.COMPARISON_EXPRESSION:
+                case NodeType.ComparisonExpression:
                     var comparisonNode = (ComparisonExpressionNode)node;
                     return Analyze(comparisonNode);
 
-                case NodeType.ARTHIMETRIC_EXPRESSION:
+                case NodeType.ArthimetricExpression:
                     var arthimetric = (ArthimetricExpressionNode)node;
                     return Analyze(arthimetric);
 
-                case NodeType.TEXT_CONCATINATION:
+                case NodeType.TextConcatination:
                     var textNode = (TextConcatinationNode)node;
                     return Analyze(textNode);
 
-                case NodeType.LITERAL:
-                case NodeType.IDENTIFIER:
+                case NodeType.Literal:
+                case NodeType.Identifier:
                     return StatementTypeEvaluator.GetStatementType(node);
             }
 
@@ -72,15 +72,15 @@ namespace QLParser.Analysis.QL.Semantic
         {
             switch (node.GetNodeType())
             {
-                case NodeType.CONDITIONAL:
+                case NodeType.Conditional:
                     var conditional = (ConditionalNode)node;
                     return conditional.Expression;
-                case NodeType.COMPUTED:
+                case NodeType.Computed:
                     var computed = (ComputedNode)node;
                     return computed.Expression;
-                case NodeType.ARTHIMETRIC_EXPRESSION:
-                case NodeType.COMPARISON_EXPRESSION:
-                case NodeType.LOGICAL_EXPRESSION:
+                case NodeType.ArthimetricExpression:
+                case NodeType.ComparisonExpression:
+                case NodeType.LogicalExpression:
                     return node as IExpressionNode;
                 default:
                     return null;

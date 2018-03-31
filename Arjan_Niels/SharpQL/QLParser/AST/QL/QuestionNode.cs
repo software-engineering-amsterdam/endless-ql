@@ -6,7 +6,7 @@
         public string Text { get; private set; }
         public QValueType ValueType { get; private set; }
 
-        public QuestionNode(Location location, string id, string text, QValueType questionType) : base(location, NodeType.QUESTION)
+        public QuestionNode(Location location, string id, string text, QValueType questionType) : base(location, NodeType.Question)
         {
             this.ID = id;
             this.Text = text;

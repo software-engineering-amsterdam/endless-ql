@@ -26,7 +26,7 @@ namespace QLParser.Tests.QL.Expressions
             FormNode form = QLParserHelper.Parse(_simpleComparisonFormRaw);
 
             var comparisonNode = form.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as ComparisonExpressionNode;
 
@@ -52,7 +52,7 @@ namespace QLParser.Tests.QL.Expressions
         {
             FormNode form = QLParserHelper.Parse(_simpleComparionWithNumbersFormRaw);
             var comparisonNode = form.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as ComparisonExpressionNode;
 
@@ -68,10 +68,10 @@ namespace QLParser.Tests.QL.Expressions
             var arthRight = right.Right as LiteralNode;
 
             Assert.AreEqual("50", arthLeft.Value);
-            Assert.AreEqual(QValueType.INTEGER, arthLeft.QValueType);
+            Assert.AreEqual(QValueType.Integer, arthLeft.QValueType);
             Assert.AreEqual(ArthimetricOperator.Mult, arthOpr);
             Assert.AreEqual("20", arthRight.Value);
-            Assert.AreEqual(QValueType.INTEGER, arthRight.QValueType);
+            Assert.AreEqual(QValueType.Integer, arthRight.QValueType);
         }
 
         #region Operator tests

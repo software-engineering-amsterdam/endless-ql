@@ -7,7 +7,7 @@
         public QValueType ValueType { get; private set; }
         public IExpressionNode Expression { get; private set; }
 
-        public ComputedNode(Location location, string id, string text, QValueType valueType, IExpressionNode expression) : base(location, NodeType.COMPUTED)
+        public ComputedNode(Location location, string id, string text, QValueType valueType, IExpressionNode expression) : base(location, NodeType.Computed)
         {
             this.ID = id;
             this.Text = text;

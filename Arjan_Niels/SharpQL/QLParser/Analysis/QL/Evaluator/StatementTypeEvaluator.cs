@@ -14,16 +14,16 @@ namespace QLParser.Analysis.QL.Evaluator
         {
             switch (node.GetQValueType())
             {
-                case QValueType.BOOLEAN:
+                case QValueType.Boolean:
                     return StatementType.Boolean;
-                case QValueType.TEXT:
+                case QValueType.Text:
                     return StatementType.Text;
-                case QValueType.MONEY:
-                case QValueType.INTEGER:
-                case QValueType.DOUBLE:
-                case QValueType.HEX:
+                case QValueType.Money:
+                case QValueType.Integer:
+                case QValueType.Double:
+                case QValueType.Hex:
                     return StatementType.Numeric;
-                case QValueType.UNKNOWN:
+                case QValueType.Unknown:
                     return StatementType.Unknown;
             }
 
@@ -32,19 +32,19 @@ namespace QLParser.Analysis.QL.Evaluator
 
         public static QValueType GetStatementResultType(IExpressionNode left, IExpressionNode right)
         {
-            if (left.GetQValueType() == QValueType.TEXT || right.GetQValueType() == QValueType.TEXT)
-                return QValueType.TEXT;
+            if (left.GetQValueType() == QValueType.Text || right.GetQValueType() == QValueType.Text)
+                return QValueType.Text;
 
-            if (left.GetQValueType() == QValueType.BOOLEAN || right.GetQValueType() == QValueType.BOOLEAN)
-                return QValueType.BOOLEAN;
+            if (left.GetQValueType() == QValueType.Boolean || right.GetQValueType() == QValueType.Boolean)
+                return QValueType.Boolean;
 
-            if (left.GetQValueType() == QValueType.MONEY || right.GetQValueType() == QValueType.MONEY)
-                return QValueType.MONEY;
+            if (left.GetQValueType() == QValueType.Money || right.GetQValueType() == QValueType.Money)
+                return QValueType.Money;
 
-            if (left.GetQValueType() == QValueType.DOUBLE || right.GetQValueType() == QValueType.DOUBLE)
-                return QValueType.DOUBLE;
+            if (left.GetQValueType() == QValueType.Double || right.GetQValueType() == QValueType.Double)
+                return QValueType.Double;
 
-            return QValueType.INTEGER;
+            return QValueType.Integer;
         }
     }
 }

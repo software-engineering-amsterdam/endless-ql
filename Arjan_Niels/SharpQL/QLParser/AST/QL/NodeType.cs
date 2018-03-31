@@ -2,17 +2,17 @@
 {
     public enum NodeType
     {
-        FORM,
-        QUESTION,
-        CONDITIONAL,
-        COMPUTED,
-        IDENTIFIER,
-        LITERAL,
+        Form,
+        Question,
+        Conditional,
+        Computed,
+        Identifier,
+        Literal,
 
         // Expression
-        LOGICAL_EXPRESSION,
-        COMPARISON_EXPRESSION,
-        ARTHIMETRIC_EXPRESSION,
-        TEXT_CONCATINATION
+        LogicalExpression,
+        ComparisonExpression,
+        ArthimetricExpression,
+        TextConcatination
     }
 }

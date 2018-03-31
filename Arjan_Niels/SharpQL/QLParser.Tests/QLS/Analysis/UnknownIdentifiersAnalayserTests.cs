@@ -35,7 +35,7 @@ namespace QL_Parser.Tests.QLS.Analysis
         [TestMethod]
         public void UnknownIdentifierTests()
         {
-            SymbolTable.Add("soldHouseIn2010", QValueType.BOOLEAN);
+            SymbolTable.Add("soldHouseIn2010", QValueType.Boolean);
             QLSNode node = QLSParserHelper.Parse(simpleQLS);
             var analyser = new UnknownIdentifiersAnalyser();
             var isValid = analyser.Analyse(node);
@@ -46,7 +46,7 @@ namespace QL_Parser.Tests.QLS.Analysis
         [TestMethod]
         public void UnknownIdentifierWithTypoTests()
         {
-            SymbolTable.Add("soldHouseIn2010", QValueType.BOOLEAN);
+            SymbolTable.Add("soldHouseIn2010", QValueType.Boolean);
             QLSNode node = QLSParserHelper.Parse(simpleWithTypoInQLS);
             var analyser = new UnknownIdentifiersAnalyser();
             var isValid = analyser.Analyse(node);

@@ -63,15 +63,15 @@ namespace QLVisualizer.Factories
         {
             switch (identifiedNode.ValueType)
             {
-                case QValueType.BOOLEAN:
+                case QValueType.Boolean:
                     return new BoolQuestionManager(identifiedNode.ID, identifiedNode.Text, parent, elementManagerController, condition, activationExpression as ExpressionBool);
-                case QValueType.INTEGER:
+                case QValueType.Integer:
                     return new IntQuestionManager(identifiedNode.ID, identifiedNode.Text, parent, elementManagerController, condition, activationExpression as ExpressionInt);
-                case QValueType.TEXT:
+                case QValueType.Text:
                     return new StringQuestionManager(identifiedNode.ID, identifiedNode.Text, parent, elementManagerController, condition, activationExpression as ExpressionText);
-                case QValueType.MONEY:
+                case QValueType.Money:
                     return new MoneyQuestionManager(identifiedNode.ID, identifiedNode.Text, parent, elementManagerController, condition, activationExpression as ExpressionDouble);
-                case QValueType.HEX:
+                case QValueType.Hex:
                     return new HexQuestionManager(identifiedNode.ID, identifiedNode.Text, parent, elementManagerController, condition, activationExpression as ExpressionHex);
             }
             throw new InvalidOperationException("Unsupported type: " + identifiedNode.ValueType);
@@ -138,7 +138,7 @@ namespace QLVisualizer.Factories
 
         private static ElementManagerLeaf AddQLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
         {
-            QLSStyle style = new QLSStyle(QValueType.UNKNOWN, new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
+            QLSStyle style = new QLSStyle(QValueType.Unknown, new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
 
             if (node.NodeStyles.Count > 1)
                 throw new InvalidOperationException("Multiple styles in leaf node");

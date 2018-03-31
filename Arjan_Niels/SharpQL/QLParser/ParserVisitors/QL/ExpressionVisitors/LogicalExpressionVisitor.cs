@@ -40,10 +40,10 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
                 return new IdentifierNode(Location.FromContext(context), context.ID().GetText());
 
             if (context.TRUE() != null)
-                return new LiteralNode(Location.FromContext(context), context.TRUE().GetText(), QValueType.BOOLEAN);
+                return new LiteralNode(Location.FromContext(context), context.TRUE().GetText(), QValueType.Boolean);
 
             if (context.FALSE() != null)
-                return new LiteralNode(Location.FromContext(context), context.FALSE().GetText(), QValueType.BOOLEAN);
+                return new LiteralNode(Location.FromContext(context), context.FALSE().GetText(), QValueType.Boolean);
 
             // Throw an exception if we reach this line, because it should not be possible.
             throw new UnknownLogicalEntity("We don't know what to do with this entity");

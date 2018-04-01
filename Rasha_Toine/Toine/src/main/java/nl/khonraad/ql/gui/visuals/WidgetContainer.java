@@ -13,13 +13,13 @@ import org.slf4j.Logger;
 
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
+import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
 import nl.khonraad.ql.cdi.LoggingAspect;
 import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
 import nl.khonraad.qls.ast.data.Styles;
 import nl.khonraad.qls.ast.data.Stylesionnaire;
-import nl.khonraad.ql.ast.data.Questionnaire;
 
 @SuppressWarnings( "serial" )
 
@@ -54,10 +54,10 @@ public class WidgetContainer extends Panel {
 
         removeAll();
 
-        questionnaire.prepareAndVisit( extendedQLBaseVisitor );
-        stylesionnaire.prepareAndVisit2( extendedQLSBaseVisitor );
+        questionnaire.visitSource( extendedQLBaseVisitor );
+        stylesionnaire.visitSource( extendedQLSBaseVisitor );
 
-        for ( Question question : questionnaire.getQuestionList() ) {
+        for ( Question question : questionnaire.questions() ) {
 
             add( new JLabel( question.label() ) );
             add( visualizeQuestion( question ) );

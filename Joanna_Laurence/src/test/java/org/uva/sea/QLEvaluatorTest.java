@@ -5,15 +5,16 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.uva.sea.ql.interpreter.Interpreter;
-import org.uva.sea.ql.interpreter.dataObject.InterpreterResult;
-import org.uva.sea.ql.interpreter.dataObject.questionData.QuestionData;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.ErrorValue;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
-import org.uva.sea.ql.interpreter.exceptions.EvaluationException;
-import org.uva.sea.ql.interpreter.exceptions.StaticAnalysisError;
-import org.uva.sea.ql.interpreter.evaluate.SymbolTable;
-import org.uva.sea.ql.parser.visitor.BaseValueVisitor;
+import org.junit.runners.Parameterized.Parameters;
+import org.uva.sea.languages.ql.interpreter.Evaluator;
+import org.uva.sea.languages.ql.interpreter.dataObject.EvaluationResult;
+import org.uva.sea.languages.ql.interpreter.dataObject.MessageTypes;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.interpreter.evaluate.SymbolTable;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.ErrorValue;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.languages.ql.interpreter.exceptions.EvaluationException;
+import org.uva.sea.languages.ql.parser.visitor.BaseValueVisitor;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -21,26 +22,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RunWith(Parameterized.class)
 public class QLEvaluatorTest extends TestCase {
 
-    private static TestFileHelper testFileHelper = new TestFileHelper();
+    private static final TestFileHelper testFileHelper = new TestFileHelper();
     //Parameters for every test
-    private String testFile;
-    private int correctQuestions;
-    private boolean hasRuntimeError;
-    private boolean hasWarnings;
+    private final String testFile;
+    private final int correctQuestions;
+    private final boolean hasRuntimeError;
+    private final boolean hasWarnings;
 
-    /**
-     * Constructor for every test
-     *
-     * @param testFile
-     * @param correctQuestions
-     */
     public QLEvaluatorTest(String testFile, int correctQuestions, boolean hasRuntimeError, boolean hasWarnings) {
         this.testFile = testFile;
         this.correctQuestions = correctQuestions;
@@ -48,67 +42,46 @@ public class QLEvaluatorTest extends TestCase {
         this.hasWarnings = hasWarnings;
     }
 
-    /**
-     * Test generator
-     *
-     * @return Test parameters
-     */
-    @Parameterized.Parameters(name = "{index}: {0}")
+    @Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
-        Collection<Object[]> testFiles = new ArrayList<Object[]>();
-        testFiles.addAll(getTestFiles("src/test/resources/calculateQL/", false, false));
-        testFiles.addAll(getTestFiles("src/test/resources/runtimeErrorsQl/", true, false));
-        testFiles.addAll(getTestFiles("src/test/resources/runtimeWarningsQl/", false, true));
+        Collection<Object[]> testFiles = new ArrayList<>();
+        testFiles.addAll(QLEvaluatorTest.getTestFiles("src/test/resources/calculateQL/", false, false));
+        testFiles.addAll(QLEvaluatorTest.getTestFiles("src/test/resources/runtimeErrorsQl/", true, false));
+        testFiles.addAll(QLEvaluatorTest.getTestFiles("src/test/resources/runtimeWarningsQl/", false, true));
 
         return testFiles;
 
     }
 
-    /**
-     * @param folderLocation Location of the ql files
-     * @return Map of test files and if they should be interpretable
-     */
     private static Collection<Object[]> getTestFiles(String folderLocation, boolean hasRuntimeError, boolean hasWarnings) {
-        Collection<Object[]> testFiles = new ArrayList<Object[]>();
+        Collection<Object[]> testFiles = new ArrayList<>();
 
-        Collection<String> locations = testFileHelper.getTestFiles(folderLocation);
+        Collection<String> locations = QLEvaluatorTest.testFileHelper.getTestFiles(folderLocation);
         for (String location : locations) {
-            testFiles.add(new Object[]{location, determineExpectedTests(location), hasRuntimeError, hasWarnings});
+            testFiles.add(new Object[]{location, QLEvaluatorTest.determineExpectedTests(location), hasRuntimeError, hasWarnings});
         }
 
         return testFiles;
     }
 
-    /**
-     * Extract correct tests from file
-     *
-     * @param location
-     * @return
-     */
     private static int determineExpectedTests(String location) {
         try (FileInputStream inputStream = new FileInputStream(location)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String firstLine = reader.readLine();
 
-            Pattern pattern = Pattern.compile("\\/\\/Q=([0-9]*)");
+            Pattern pattern = Pattern.compile("\\/\\/AssertDisplayedQuestions=([0-9]*)");
             Matcher matcher = pattern.matcher(firstLine);
             if (matcher.find()) {
                 String match = matcher.group(1);
                 return Integer.parseInt(match);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
+            return 0;
         }
 
         return 0;
     }
 
-    /**
-     * Extracts the symbol table from the test file
-     *
-     * @param location Location of the test file
-     * @return The Symbol table
-     */
     private SymbolTable getSymbolTableForTest(String location) throws ReflectiveOperationException, IOException {
 
         SymbolTable symbolTable = new SymbolTable();
@@ -125,7 +98,7 @@ public class QLEvaluatorTest extends TestCase {
                 String variableType = matcher.group(2);
                 String variableValue = matcher.group(3);
 
-                Class dynamicClass = Class.forName("org.uva.sea.ql.interpreter.evaluate.valueTypes." + variableType);
+                Class dynamicClass = Class.forName("org.uva.sea.languages.ql.interpreter.evaluate.valueTypes." + variableType);
                 Value value = (Value) dynamicClass.getDeclaredConstructor(String.class).newInstance(variableValue);
 
                 symbolTable.addOrUpdateValue(variableName, value);
@@ -135,33 +108,20 @@ public class QLEvaluatorTest extends TestCase {
         return symbolTable;
     }
 
-
-    /**
-     * Compiles the file and checks result
-     *
-     * @param fileName The location of the ql file
-     * @return If the script is interpretable
-     */
-    private InterpreterResult getDisplayedQuestions(String fileName) throws IOException, EvaluationException, StaticAnalysisError, ReflectiveOperationException {
+    private EvaluationResult getDisplayedQuestions(String fileName) throws IOException, EvaluationException, ReflectiveOperationException {
 
         SymbolTable symbolTable = this.getSymbolTableForTest(fileName);
-        Interpreter qlSpecificationEvaluator = new Interpreter();
-        InterpreterResult questions = qlSpecificationEvaluator.generate(fileName, symbolTable);
+        Evaluator qlSpecificationEvaluator = new Evaluator();
+        EvaluationResult questions = qlSpecificationEvaluator.evaluate(fileName, symbolTable);
 
-        if (checkForRuntimeErrors(questions.getQuestions())) {
+        if (this.checkForRuntimeErrors(questions.getQuestions())) {
             throw new EvaluationException("Exception during evaluation");
         }
 
         return questions;
     }
 
-    /**
-     * Check if there was an error
-     *
-     * @param questions All the questions
-     * @return
-     */
-    private boolean checkForRuntimeErrors(List<QuestionData> questions) {
+    private boolean checkForRuntimeErrors(Iterable<QuestionData> questions) {
         for (QuestionData question : questions) {
             if (question.getValue() == null)
                 continue;
@@ -171,7 +131,7 @@ public class QLEvaluatorTest extends TestCase {
                     return true;
                 }
             });
-            if (error != null && error)
+            if ((error != null) && error)
                 return true;
         }
         return false;
@@ -179,16 +139,16 @@ public class QLEvaluatorTest extends TestCase {
 
 
     @Test
-    public void testFile() throws IOException, ReflectiveOperationException, StaticAnalysisError {
+    public void testFile() throws IOException, ReflectiveOperationException {
         try {
             System.out.println("Testing: " + this.testFile);
-            InterpreterResult interpreterResult = this.getDisplayedQuestions(this.testFile);
+            EvaluationResult interpreterResult = this.getDisplayedQuestions(this.testFile);
 
             Assert.assertEquals(this.correctQuestions, interpreterResult.getQuestions().size());
-            Assert.assertEquals(this.hasRuntimeError, false);
-            Assert.assertEquals(this.hasWarnings, interpreterResult.getWarnings().hasMessagePresent());
-        } catch (EvaluationException e) {
-            Assert.assertEquals(this.hasRuntimeError, true);
+            Assert.assertFalse(this.hasRuntimeError);
+            Assert.assertEquals(this.hasWarnings, interpreterResult.getMessages().hasMessagePresent(MessageTypes.WARNING));
+        } catch (EvaluationException ignored) {
+            Assert.assertTrue(this.hasRuntimeError);
         }
     }
 }

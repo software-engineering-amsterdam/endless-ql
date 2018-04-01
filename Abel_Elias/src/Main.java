@@ -1,85 +1,85 @@
-import gui.FormBuilder;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import parsing.AST_Visitor;
-import parsing.gen.QLLexer;
-import parsing.gen.QLParser;
-import typechecking.TypeChecker;
+import QL.classes.Question;
+import QL.classes.values.BooleanValue;
+import QL.classes.values.DateValue;
+import QL.classes.values.IntegerValue;
+import QL.classes.values.StringValue;
+import QLS.classes.Stylesheet;
+import QLS.parsing.gen.QLSParser;
+import QLS.parsing.visitors.StylesheetVisitor;
+import gui.GUIBuilder;
+import QL.parsing.TreeBuilder;
+import QL.parsing.checkers.Checks;
+import QL.parsing.gen.QLParser;
+import QL.parsing.visitors.FormVisitor;
+import gui.GUIBuilder;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Main {
+    
+    /**
+     * parseAndBuildQL() method
+     *
+     * @param inputStream fileInput (Ql)
+     */
+    private void parseAndBuildQL(InputStream inputStream) {
+        try {
+            QLParser.FormContext form = new TreeBuilder().build(inputStream);
+            Checks.checkForm(form);
+            FormVisitor coreVisitor = new FormVisitor().visitForm(form);
+            //Pass the relevant questions to the UI builder
+            GUIBuilder GUIBuilder = new GUIBuilder(coreVisitor);
+            GUIBuilder.initComponents();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
-     * parse and build the form file
-     * @param inputStream - input stream of the given form file
-     */
-    public void parseAndBuild(InputStream inputStream){
-        try{
-            //Call the lexer and get the tokens
-            QLLexer lexer = new QLLexer(CharStreams.fromStream(inputStream));
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
+     * parseAndBuildQLS() method
+     *
+     * */
+    private void parseAndBuildQLS() {
+        try {
+            // QL
+            FileInputStream qlInputStream = new FileInputStream("src/resources/QL/formQl.ql");
+            QLParser.FormContext form = new TreeBuilder().build(qlInputStream);
+            FormVisitor coreVisitor = new FormVisitor().visitForm(form);
 
-            //Parse the tokens/tree
-            QLParser parser = new QLParser(tokens);
-            QLParser.FormContext tree = parser.form();
-
-            //Call the visitor and build the tree
-            AST_Visitor builder = new AST_Visitor();
-            HashMap memory = (HashMap) builder.visit(tree);
-
-            //Test output
-            //Iterator it = memory.entrySet().iterator();
-            //while (it.hasNext()) {
-            //      Map.Entry pair = (Map.Entry)it.next();
-            //      System.out.println(pair.getKey() + " = " + pair.getValue());
-            //      it.remove();
-            //}
-            System.out.println("done");
-
-            //Construct the form
-            //ParseTree parseTree = parser.form();
-            //Form form = (Form) parseTree.accept(builder);
-
-            //Call parse tree inspector: Show the tree
-            //Trees.inspect(tree, parser);
-
-            //Do typechecking
-            TypeChecker typeChecker = new TypeChecker();
-            //typeChecker.initTypeChecking(form);
-
-            //Pass the relevant questions to the UI builder
-            FormBuilder formBuilder = new FormBuilder(builder);
-            formBuilder.initComponents(memory);
+            // QLS
+            FileInputStream qlsInputStream = new FileInputStream("src/resources/QLS/exampleForm5.qls");
+            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
+            StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
+            stylesheetVisitor.visitStylesheet(stylesheetContext);
+            new GUIBuilder(coreVisitor, stylesheetVisitor);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
      * Main method
+     *
      * @param args given arguments
      */
     public static void main(String[] args) {
-        try{
-            if(args.length == 0){
-                new Main().parseAndBuild(System.in);
+        try {
+            if (args.length == 0) {
+                new Main().parseAndBuildQLS();
             } else if (args.length == 1) {
-                FileInputStream fileInputStream = new FileInputStream(args[0]);
-                new Main().parseAndBuild(fileInputStream);
-            } else {
-                System.out.println("Invalid arguments were given");
+                    FileInputStream fileInputStream = new FileInputStream(args[0]);
+                    new Main().parseAndBuildQL(fileInputStream);
             }
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
         }
-
     }
 
 }

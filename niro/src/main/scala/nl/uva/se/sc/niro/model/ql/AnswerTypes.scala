@@ -1,13 +1,41 @@
 package nl.uva.se.sc.niro.model.ql
 
-sealed abstract class AnswerType
+sealed trait AnswerType {
+  def getWidest(that: AnswerType): Option[AnswerType] = {
+    if (this == that) Some(this) else None
+  }
+}
 
 case object BooleanType extends AnswerType
-case object IntegerType extends AnswerType
-case object StringType extends AnswerType
-case object DecimalType extends AnswerType
-case object MoneyType extends AnswerType
 case object DateType extends AnswerType
+case object DecimalType extends AnswerType {
+  override def getWidest(that: AnswerType): Option[AnswerType] = that match {
+    case IntegerType => Some(DecimalType)
+    case DecimalType => Some(DecimalType)
+    case MoneyType   => Some(MoneyType)
+    case _           => None
+  }
+}
+
+case object IntegerType extends AnswerType {
+  override def getWidest(that: AnswerType): Option[AnswerType] = that match {
+    case IntegerType => Some(IntegerType)
+    case DecimalType => Some(DecimalType)
+    case MoneyType   => Some(MoneyType)
+    case _           => None
+  }
+}
+
+case object MoneyType extends AnswerType {
+  override def getWidest(that: AnswerType): Option[AnswerType] = that match {
+    case IntegerType => Some(MoneyType)
+    case DecimalType => Some(MoneyType)
+    case MoneyType   => Some(MoneyType)
+    case _           => None
+  }
+}
+
+case object StringType extends AnswerType
 
 object AnswerType {
   def apply(answerType: String): AnswerType = answerType match {

@@ -40,12 +40,12 @@ class QLExpressionEvaluatorTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 		validationTestHelper.assertNoErrors(result)
 
-		val expression = result.body.blocks.head.expression
+		val expression = result.body.blocks.head().expression
 
-		val arguments = new HashMap<String, Object>
+		val arguments = new HashMap<String, Object>()
 		var Boolean expressionResult = null
 
 		arguments.put("q1", false)
@@ -83,12 +83,12 @@ class QLExpressionEvaluatorTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 		validationTestHelper.assertNoErrors(result)
 
-		val expression = result.body.blocks.head.expression
+		val expression = result.body.blocks.head().expression
 
-		val arguments = new HashMap<String, Object>
+		val arguments = new HashMap<String, Object>()
 		var Boolean expressionResult = null
 
 		arguments.put("q1", false)
@@ -123,18 +123,18 @@ class QLExpressionEvaluatorTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 		validationTestHelper.assertNoErrors(result)
 
 		val expression = result.body.questions.get(2).expression
 
-		val arguments = new HashMap<String, Object>
+		val arguments = new HashMap<String, Object>()
 		var Double expressionResult = null
 
 		arguments.put("q1", 3)
 		arguments.put("q2", 6)
 		expressionResult = expressionEvaluator.evaluateExpression(expression, arguments, Double)
-		Assert.assertEquals(28, expressionResult.intValue)
+		Assert.assertEquals(28, expressionResult.intValue())
 
 	}
 
@@ -148,18 +148,18 @@ class QLExpressionEvaluatorTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 		validationTestHelper.assertNoErrors(result)
 
 		val expression = result.body.questions.get(2).expression
 
-		val arguments = new HashMap<String, Object>
+		val arguments = new HashMap<String, Object>()
 		var Double expressionResult = null
 
 		arguments.put("q1", 3.5)
 		arguments.put("q2", 9.8)
 		expressionResult = expressionEvaluator.evaluateExpression(expression, arguments, Double)
-		Assert.assertEquals(24.7666, expressionResult.doubleValue, 0.0001)
+		Assert.assertEquals(24.7666, expressionResult.doubleValue(), 0.0001)
 	}
 	
 	@Test
@@ -175,13 +175,13 @@ class QLExpressionEvaluatorTest {
 			}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 		validationTestHelper.assertNoErrors(result)
 
-		val block = result.body.blocks.head
+		val block = result.body.blocks.head()
 
-		val arguments = new HashMap<String, Object>
-		arguments.put("q1", Random.newInstance.nextBoolean)
+		val arguments = new HashMap<String, Object>()
+		arguments.put("q1", Random.newInstance().nextBoolean())
 		
 		val expressionResultIf = expressionEvaluator.evaluateExpression(block.expression, arguments, Boolean)
 		val expressionElse = ExpressionUtil.buildElseBlockExpression(block.expression)

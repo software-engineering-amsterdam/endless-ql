@@ -1,11 +1,12 @@
-﻿using QLVisualizer.Controllers;
+﻿using QLParser.AST.QLS;
+using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace QLVisualizer.Elements.Managers
 {
-    public abstract class ElementManager
+    public abstract class ElementManager : IStylable
     {
         /// <summary>
         /// Unique identifyer of the Element & ElementManager
@@ -25,12 +26,12 @@ namespace QLVisualizer.Elements.Managers
         /// <summary>
         /// Indication if the Element should be shown
         /// </summary>
-        public bool Active { get; protected set; }
+        public bool Active { get; private set; }
 
         /// <summary>
         /// Parent of this manager
         /// </summary>
-        public ElementManager Parent;
+        public ElementManagerCollection Parent;
 
         /// <summary>
         /// Expression for activation evaluation
@@ -57,25 +58,35 @@ namespace QLVisualizer.Elements.Managers
             Active = activationExpression == null;
         }
 
+        
         public virtual void RegisterListeners()
         {
-            Dictionary<string, ElementManager> targets = _elementManagerController.Form.FindByID(GetActivationTargetIDs());
-            foreach (ElementManager manager in targets.Values)
-                manager.OnActiveChange += ActivationUpdate;
+            Dictionary<string, ElementManagerLeaf> targets = _elementManagerController.Form.FindLeafsByID(GetActivationTargetIDs().ToArray());
+            foreach (ElementManagerLeaf manager in targets.Values)
+                manager.OnAnswerValueUpdate += ActivationUpdate;
         }
 
 
         public abstract IEnumerable<string> GetActivationTargetIDs();
 
-        public virtual void ActivationUpdate(string identifier, bool isActive)
+        public virtual void ActivationUpdate(ElementManagerLeaf elementManagerLeaf, bool isActive)
         {
             bool oldActive = Active;
 
-            if (_activationExpression != null && _activationExpression.UsedIdentifiers.Contains(identifier))
+            if (_activationExpression != null && _activationExpression.UsedIdentifiers.Contains(elementManagerLeaf.Identifier))
                 Active = _activationExpression.Result;
 
             if (oldActive != Active && OnActiveChange != null)
                 OnActiveChange.Invoke(Identifier, Active);
+        }
+
+        public void SetActive(bool value)
+        {
+            if(Active != value)
+            {
+                Active = value;
+                OnActiveChange?.Invoke(Identifier, Active);
+            }
         }
 
         /// <summary>
@@ -83,5 +94,9 @@ namespace QLVisualizer.Elements.Managers
         /// </summary>
         /// <returns>XML representation of the element</returns>
         public abstract string ToXML();
+
+        public abstract void SetStyle(QLSStyle style);
+
+        public abstract QLSStyle GetStyle();
     }
 }

@@ -1,41 +1,15 @@
 package Nodes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Contains a parsed QL form with the appropriate questions and conditions
  */
 public class QLForm extends ASTNode {
-    private String name;
-    private List<Question> questions;
-    private List<Condition> conditions;
-
-
-    /**
-     * Creates a QLForm with just a name
-     * @param name contains the name of the form
-     */
-    public QLForm(String name){
-        this.name = name;
-    }
-
-    /**
-     * Creates a QL form with a name and a set of questions
-     * @param name contains the name of the form
-     * @param nodes contains either a list of Questions or a list of Conditions
-     * @throws UnsupportedOperationException when the type is not Questions or Conditions
-     */
-    public QLForm(String name, List<? extends ASTNode> nodes) {
-        this.name = name;
-        ASTNode first = nodes.get(0);
-        if (first instanceof Question) {
-            this.questions = (List<Question>) nodes;
-        } else if (first instanceof Condition) {
-            this.conditions = (List<Condition>) nodes;
-        } else {
-            throw new UnsupportedOperationException();
-        }
-    }
+    private final String name;
+    private final List<Question> questions;
+    private final List<Condition> conditions;
 
     /**
      * Creates a QL form with a name, a set of questions, and a set of conditions
@@ -50,11 +24,22 @@ public class QLForm extends ASTNode {
     }
 
     /**
+     * Initiates the parent variable for every child ASTNode.
+     */
+    public void setParents() {
+        for(Question q : questions)
+            q.setParents(this);
+
+        for(Condition c : conditions)
+            c.setParents(this);
+    }
+
+    /**
      * Returns the name of the QL form
      * @return the name of this form
      */
     public String getName() {
-        return this.name;
+        return name;
     }
 
     /**
@@ -62,7 +47,7 @@ public class QLForm extends ASTNode {
      * @return the list of Questions of this Form
      */
     public List<Question> getQuestions() {
-        return this.questions;
+        return questions;
     }
 
     /**
@@ -74,10 +59,18 @@ public class QLForm extends ASTNode {
     }
 
     /**
-     * Adds a question to the QL form
-     * @param question the Question that needs to be added
+     * Returns all Questions in a QLForm.
+     * @return the complete list of Questions.
      */
-    public void addQuestion(Question question){
-        this.questions.add(question);
+    public List<Question> getAllQuestions() {
+        List<Question> allQuestions = new ArrayList<>(questions);
+        List<Condition> allConditions = new ArrayList<>(conditions);
+
+        for(Condition c : allConditions) {
+            allQuestions.addAll(c.getQuestions());
+            allConditions.addAll(c.getConditions());
+        }
+
+        return allQuestions;
     }
 }

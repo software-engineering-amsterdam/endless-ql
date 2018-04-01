@@ -1,87 +1,57 @@
 package org.uva.ql.validation;
 
-import org.uva.app.LogHandler;
-import org.uva.ql.ast.*;
-import org.uva.ql.visitor.StatementVisitor;
+import org.uva.ql.ast.Form;
+import org.uva.ql.ast.Question;
+import org.uva.ql.validation.checker.*;
+import org.uva.ql.validation.collector.ParameterContext;
+import org.uva.ql.validation.collector.QuestionContext;
+import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
+import java.util.List;
 
-public class QLValidator implements StatementVisitor<Void, String> {
+public class QLValidator {
 
-    private final LogHandler handler;
-    private Form form;
-
-
-    private ArrayList<Question> questions = new ArrayList<>();
-    private SymbolTable symbolTable = new SymbolTable();
+    private final Form form;
 
     public QLValidator(Form form) {
         this.form = form;
-        this.handler = (LogHandler) Logger.getGlobal().getHandlers()[0];
-
-        for (Statement statement : form.getStatements()) {
-            statement.accept(this, null);
-        }
-
-        for (Question question : this.questions) {
-            this.symbolTable.add(question.getName(), question.getType());
-        }
     }
 
-    private ArrayList<Checker> getCheckers() {
-        ArrayList<Checker> checkers = new ArrayList<>();
+    private List<Checker> getCheckers() {
+        List<Question> questions = new QuestionContext(form).getList();
+        SymbolTable symbolTable = new SymbolTable(form);
+        ParameterContext parameterContext = new ParameterContext(form);
 
-        QuestionChecker questionChecker = new QuestionChecker(this.questions);
+
+        List<Checker> checkers = new ArrayList<>();
+
+        QuestionChecker questionChecker = new QuestionChecker(questions);
         checkers.add(questionChecker);
 
-        ParameterChecker parameterChecker = new ParameterChecker(this.form, this.symbolTable);
+        ParameterChecker parameterChecker = new ParameterChecker(symbolTable, parameterContext.getList());
         checkers.add(parameterChecker);
 
-        DependencyChecker dependencyChecker = new DependencyChecker(parameterChecker.getExpressions());
+        DependencyChecker dependencyChecker = new DependencyChecker(parameterContext.getDependencyMapping());
         checkers.add(dependencyChecker);
 
-        TypeChecker typeChecker = new TypeChecker(this.form, this.symbolTable);
+        TypeChecker typeChecker = new TypeChecker(form, symbolTable);
         checkers.add(typeChecker);
 
         return checkers;
     }
 
-    public void run() {
+    public ValidationResult run() {
+        ValidationResult result = new ValidationResult();
+
         for (Checker checker : getCheckers()) {
-            if (handler.hasErrors()) {
+            result = result.merge(checker.runCheck());
+
+            if (result.hasErrors()) {
                 break;
             }
-            checker.runCheck();
-        }
-    }
-
-    @Override
-    public Void visit(Question question, String context) {
-        this.questions.add(question);
-        return null;
-    }
-
-    @Override
-    public Void visit(Conditional conditional, String context) {
-        for (Statement statement : conditional.getIfSide()) {
-            statement.accept(this, null);
         }
 
-        for (Statement statement : conditional.getElseSide()) {
-            statement.accept(this, null);
-        }
-        return null;
-    }
-
-    @Override
-    public Void visit(CalculatedQuestion question, String context) {
-        this.questions.add(question);
-        this.symbolTable.add(question.getName(), question.getType());
-        return null;
-    }
-
-    public ArrayList<Question> getQuestions () {
-        return this.questions;
+        return result;
     }
 }

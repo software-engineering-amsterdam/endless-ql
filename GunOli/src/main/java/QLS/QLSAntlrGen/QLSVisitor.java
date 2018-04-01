@@ -1,5 +1,4 @@
-// Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QLS.g4 by ANTLR 4.7
-package QLS.QLSAntlrGen;
+package QLS.QLSAntlrGen;// Generated from /Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/antlr/QLS.g4 by ANTLR 4.7
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -68,33 +67,33 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSpinWidget(QLSParser.SpinWidgetContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code widthWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Visit a parse tree produced by the {@code widthStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitWidthWidget(QLSParser.WidthWidgetContext ctx);
+	T visitWidthStyle(QLSParser.WidthStyleContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code fontWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Visit a parse tree produced by the {@code fontStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFontWidget(QLSParser.FontWidgetContext ctx);
+	T visitFontStyle(QLSParser.FontStyleContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code fontSizeWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Visit a parse tree produced by the {@code fontSizeStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFontSizeWidget(QLSParser.FontSizeWidgetContext ctx);
+	T visitFontSizeStyle(QLSParser.FontSizeStyleContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code colorWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Visit a parse tree produced by the {@code colorStyle}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitColorWidget(QLSParser.ColorWidgetContext ctx);
+	T visitColorStyle(QLSParser.ColorStyleContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLSParser#type}.
 	 * @param ctx the parse tree

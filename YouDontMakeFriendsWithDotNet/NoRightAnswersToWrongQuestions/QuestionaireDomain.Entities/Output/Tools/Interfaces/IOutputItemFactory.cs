@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
@@ -7,14 +8,14 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
     public interface IOutputItemFactory
     {
-        Reference<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
+        DomainId<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
+            DomainId<IQuestionnaireRootNode> variable,
             string displayName,
-            IList<Reference<IQuestionOutputItem>> questions);
+            IList<DomainId<IQuestionOutputItem>> questions);
 
-        Reference<IQuestionOutputItem> CreateQuestionOutputItem(
-            string text,
+        DomainId<IQuestionOutputItem> CreateQuestionOutputItem(
+            DomainId<IQuestionNode> variable,
             string value,
-            Type type,
             bool isVisible,
             bool isReadonly);
    }

@@ -6,7 +6,7 @@ import org.uva.sc.cr.ql.qL.Question
 
 class ControlWrapperDate extends ControlWrapper {
 
-	private var DatePicker control
+	var DatePicker control
 
 	new(Question question, BooleanBinding binding) {
 		super(question, binding)
@@ -21,7 +21,7 @@ class ControlWrapperDate extends ControlWrapper {
 	}
 
 	override protected buildControl() {
-		control = new DatePicker
+		control = new DatePicker()
 	}
 
 }

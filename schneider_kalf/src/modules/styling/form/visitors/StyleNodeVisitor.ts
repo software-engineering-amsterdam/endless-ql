@@ -1,15 +1,15 @@
-import DefaultStyle from "../nodes/children/DefaultStyle";
-import Section from "../nodes/containers/Section";
-import Page from "../nodes/containers/Page";
+import DefaultStyle from "../nodes/children/DefaultStyleNode";
+import Section from "../nodes/containers/SectionNode";
+import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheet";
-import QuestionStyle from "../nodes/children/QuestionStyle";
+import StyleSheetNode from "../nodes/StyleSheetNode";
+import QuestionStyleNode from "../nodes/children/QuestionStyleNode";
 
 export default interface StyleNodeVisitor {
   visitDefaultStyle(defaultStyle: DefaultStyle): any;
 
-  visitQuestionStyle(question: QuestionStyle): any;
+  visitQuestionStyle(question: QuestionStyleNode): any;
 
   visitSection(section: Section): any;
 
@@ -19,5 +19,5 @@ export default interface StyleNodeVisitor {
 
   visitBaseAttribute(baseAttribute: BaseAttribute): any;
 
-  visitStyleSheet(stylesheet: Stylesheet): any;
+  visitStyleSheet(styleSheet: StyleSheetNode): any;
 }

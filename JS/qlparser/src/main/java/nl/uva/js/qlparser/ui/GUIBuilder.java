@@ -1,79 +1,109 @@
 package nl.uva.js.qlparser.ui;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.uva.js.qlparser.exceptions.ParseException;
+import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.logic.FormBuilder;
+import nl.uva.js.qlparser.logic.QLSChecker;
+import nl.uva.js.qlparser.logic.StylesheetBuilder;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
+import nl.uva.js.qlparser.models.qls.Stylesheet;
+import nl.uva.js.qlparser.models.qls.elements.Page;
+import nl.uva.js.qlparser.ui.components.form.ComponentBuilder;
+import nl.uva.js.qlparser.ui.components.gui.ButtonBar;
 import nl.uva.js.qlparser.ui.components.gui.FormPanel;
 import nl.uva.js.qlparser.ui.components.gui.TextPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+import static nl.uva.js.qlparser.ui.components.gui.ButtonBar.BUTTON_HEIGHT;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class GUIBuilder {
 
     private static final int FORM_VIEW_HEIGHT = 700;
+    private static final int LOG_HEIGHT       = 100;
+    private static final int INPUT_HEIGHT     = FORM_VIEW_HEIGHT - 50;
+    private static final int FOOTER_HEIGHT    = BUTTON_HEIGHT + LOG_HEIGHT;
 
-    private static final int BUTTON_HEIGHT = 50;
-    private static final int LOG_HEIGHT    = 100;
-    private static final int FOOTER_HEIGHT = BUTTON_HEIGHT + LOG_HEIGHT;
-
-    private static final int FORM_HEIGHT = 3000; // TODO: Dynamic height
-    private static final int FORM_WIDTH  = 700;
-    private static final int INPUT_WIDTH = 500;
+    private static final int PAGE_BUTTON_WIDTH = 100;
+    private static final int FORM_HEIGHT       = 2000;
+    public  static final int FORM_WIDTH        = 700;
+    public  static final int INPUT_WIDTH       = 350;
+    private static final int CONTROL_WIDTH     = 250;
 
     private static final int FULL_HEIGHT = FORM_VIEW_HEIGHT + FOOTER_HEIGHT;
-    private static final int FULL_WIDTH  = FORM_WIDTH + INPUT_WIDTH;
+    public  static final int FULL_WIDTH  = INPUT_WIDTH + FORM_WIDTH + INPUT_WIDTH;
 
-    private static Frame mainFrame;
-    private static TextPanel inputPanel;
+    private static Form globalForm;
+
+    private static Frame guiFrame;
+    private static JPanel    topPanel;
+    private static JPanel    bottomPanel;
+    private static TextPanel qlPanel;
     private static FormPanel formPanel;
-    private static JPanel bottomPanel;
-    private static JPanel topPanel;
+    private static TextPanel qlsPanel;
     private static TextPanel console;
 
-    public static Frame getGUI(Form form) {
-        inputPanel = new TextPanel(INPUT_WIDTH, FORM_VIEW_HEIGHT, Color.darkGray, true);
-        inputPanel.setText(loadDefaultFileContent());
+    private static QLSChecker qlsChecker;
 
-        formPanel = new FormPanel(form, FORM_VIEW_HEIGHT, FORM_WIDTH, FORM_HEIGHT);
+    public static Frame getGUI() {
+        qlsChecker = new QLSChecker();
+        formPanel  = new FormPanel(FORM_VIEW_HEIGHT, FORM_WIDTH, FORM_HEIGHT);
 
+        guiFrame    = getGuiFrame();
+        topPanel    = getTopPanel(null);
         bottomPanel = getBottomPanel();
-        topPanel = getTopPanel();
+        qlPanel     = getInputPanelWithPreset("ql.file");
+        qlsPanel    = getInputPanelWithPreset("qls.file");
 
-        mainFrame = getMainFrame();
-        mainFrame.add(topPanel, BorderLayout.PAGE_START);
-        mainFrame.add(inputPanel, BorderLayout.LINE_START);
-        mainFrame.add(formPanel, BorderLayout.CENTER);
-        mainFrame.add(bottomPanel, BorderLayout.PAGE_END);
+        guiFrame.add(topPanel,    BorderLayout.PAGE_START);
+        guiFrame.add(qlPanel,     BorderLayout.LINE_START);
+        guiFrame.add(formPanel,   BorderLayout.CENTER);
+        guiFrame.add(qlsPanel,    BorderLayout.LINE_END);
+        guiFrame.add(bottomPanel, BorderLayout.PAGE_END);
 
-        formPanel.setVisible(true);
-        bottomPanel.setVisible(true);
-
-        mainFrame.addWindowListener(new WindowAdapter() {
+        guiFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                mainFrame.dispose();
+                guiFrame.dispose();
             }
         });
 
-        mainFrame.setTitle(form.getHumanizedName());
-
-        return mainFrame;
+        return guiFrame;
     }
 
-    private static String loadDefaultFileContent() {
-        try {
-            String file = GUIBuilder.class.getClassLoader().getResource(System.getProperty("ql.file")).getFile();
-            return new String(Files.readAllBytes(Paths.get(file)));
-        } catch (IOException | ParseException e) {
-            log(e.getMessage());
-        }
-        return "";
+    private static TextPanel getInputPanelWithPreset(String property) {
+        TextPanel inputPanel = new TextPanel(INPUT_WIDTH, INPUT_HEIGHT, Color.darkGray, true);
+        inputPanel.setText(loadDefaultFile(property));
+
+        return inputPanel;
+    }
+
+    private static String loadDefaultFile(String property) {
+        return NonNullRun.function(System.getProperty(property), file -> {
+            try {
+                Path filePath = Paths.get(GUIBuilder.class.getClassLoader().getResource(file).getFile());
+                return new String(Files.readAllBytes(filePath));
+
+            } catch (IOException | ParseException e) {
+                return "";
+            }
+        });
     }
 
     private static void log(String message) {
@@ -82,108 +112,66 @@ public class GUIBuilder {
         console.repaint();
     }
 
-    private static Frame getMainFrame() {
-        Frame mainFrame = new Frame();
+    private static Frame getGuiFrame() {
+        Frame frame = new Frame();
 
-        mainFrame.setSize(new Dimension(FULL_WIDTH, FULL_HEIGHT));
-        mainFrame.setResizable(false);
-        mainFrame.setLayout(new BorderLayout());
+        frame.setSize(new Dimension(FULL_WIDTH, FULL_HEIGHT));
+        frame.setResizable(false);
+        frame.setLayout(new BorderLayout());
 
-        return mainFrame;
+        return frame;
     }
 
     private static JPanel getBottomPanel() {
         JPanel bottomPanel = new JPanel();
 
-        JPanel menuButtons = getMenuButtons();
         console = new TextPanel(FULL_WIDTH, LOG_HEIGHT, Color.black, false);
-
+        console.setTextColor(new Color(225, 110, 110));
 
         bottomPanel.setLayout(new BorderLayout());
-        bottomPanel.add(menuButtons, BorderLayout.PAGE_START);
+        bottomPanel.add(getBottomButtons(), BorderLayout.PAGE_START);
         bottomPanel.add(console, BorderLayout.PAGE_END);
-        console.setVisible(true);
 
         return bottomPanel;
     }
 
-    private static JPanel getTopPanel() {
-        JPanel topPanel = new JPanel();
+    private static JPanel getTopPanel(LinkedList<Page> pages) {
+        ButtonBar topPanel = new ButtonBar();
 
-        int numberOfPages = 5; //TODO
-        JPanel topButtons = getTopButtons(numberOfPages);
+        if (pages != null) {
+            for (Page page : pages) {
+                JButton pageButton = getButton(page.getName(), PAGE_BUTTON_WIDTH);
+                pageButton.addActionListener(e -> formPanel.setPage(page.getName()));
 
-        topPanel.setLayout(new BorderLayout());
-        topPanel.add(topButtons, BorderLayout.LINE_START);
+                topPanel.centerPanel.add(pageButton);
+            }
+        }
 
         return topPanel;
     }
 
-    private static JPanel getTopButtons(int numberOfPages) {
-        JPanel topBar = getButtonPanel(FULL_WIDTH);
-        topBar.setLayout(new BorderLayout());
+    private static JPanel getBottomButtons() {
+        ButtonBar buttonBar = new ButtonBar();
 
-        JPanel togglePanel = getButtonPanel(INPUT_WIDTH);
+        JButton renderButton = getButton("Render form", CONTROL_WIDTH);
+        renderButton.addActionListener(GUIBuilder::renderForm);
 
-        JButton qlModeButton = getButton("QL mode", 150);
-        qlModeButton.addActionListener(e -> {}); // Toggle mode QL
+        JButton exportButton = getButton("Export form", CONTROL_WIDTH);
+        exportButton.addActionListener(GUIBuilder::exportForm);
 
-        JButton qlsModeButton = getButton("QLS mode", 150);
-        qlsModeButton.addActionListener(e -> {}); // Toggle mode QLS
+        buttonBar.leftPanel.add(ComponentBuilder.buildSectionHeader("QL"));
+        buttonBar.centerPanel.add(renderButton);
+        buttonBar.centerPanel.add(exportButton);
+        buttonBar.rightPanel.add(ComponentBuilder.buildSectionHeader("QLS"));
 
-        togglePanel.add(qlModeButton);
-        togglePanel.add(qlsModeButton);
-        togglePanel.add(getButtonPanel(300));
-
-        topBar.add(togglePanel, BorderLayout.LINE_START);
-
-        JPanel pagesPanel = new JPanel();
-        pagesPanel.setPreferredSize(new Dimension(FORM_WIDTH, BUTTON_HEIGHT));
-        pagesPanel.setBackground(Color.GRAY);
-
-        for (int i = 1; i <= numberOfPages; i++) {
-            int pageNumber = i;
-            JButton pageButton = getButton(String.valueOf (pageNumber),50);
-            pageButton.addActionListener(e -> {
-                System.out.println(pageNumber);
-            });
-            pagesPanel.add(pageButton);
-        }
-        topBar.add(pagesPanel, BorderLayout.LINE_END);
-
-        return topBar;
+        return buttonBar;
     }
 
-    private static JPanel getMenuButtons() {
-        JPanel menuBar = getButtonPanel(FULL_WIDTH);
-
-        JButton loadButton = getButton("Load QL", 150);
-        loadButton.addActionListener(e -> {});
-
-        JButton saveButton = getButton("Save QL", 150);
-        saveButton.addActionListener(e -> {});
-
-        JButton processButton = getButton("Process QL", 150);
-        processButton.addActionListener(e -> {
-            try {
-                Form form = FormBuilder.parseFormFromString(inputPanel.getText());
-                formPanel.reload(form);
-                mainFrame.setTitle(form.getHumanizedName());
-            } catch (ParseException exception) {
-                log(exception.getMessage());
-            }
-        });
-
-        JButton exportButton = getButton("Load QL", 250);
-        exportButton.addActionListener(e -> {});
-
-        menuBar.add(loadButton);
-        menuBar.add(saveButton);
-        menuBar.add(processButton);
-        menuBar.add(getButtonPanel(210));
-        menuBar.add(exportButton);
-        menuBar.add(getButtonPanel(220));
-        return menuBar;
+    private static void setPageButtons(LinkedList<Page> pages) {
+        topPanel.removeAll();
+        topPanel.add(getTopPanel(pages));
+        topPanel.revalidate();
+        topPanel.repaint();
     }
 
     private static JButton getButton(String text, int width) {
@@ -192,10 +180,48 @@ public class GUIBuilder {
         return button;
     }
 
-    private static JPanel getButtonPanel(int width) {
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(width, BUTTON_HEIGHT));
-        panel.setBackground(Color.gray);
-        return panel;
+    private static void renderForm(ActionEvent e) {
+        try {
+            globalForm = FormBuilder.parseFormFromString(qlPanel.getText());
+            formPanel.apply(globalForm);
+            guiFrame.setTitle(globalForm != null ? globalForm.getHumanizedName() : "");
+
+            setPageButtons(null);
+
+            ArrayList<String> errors = new ArrayList<>();
+            Stylesheet stylesheet = null;
+
+            if (!isEmpty(qlsPanel.getText()) && globalForm != null) {
+                stylesheet = StylesheetBuilder.parseStylesheetFromString(qlsPanel.getText());
+                errors = qlsChecker.checkForErrors(globalForm, stylesheet);
+            }
+
+            if (globalForm == null) {
+                errors.add("No QL entered.");
+            }
+
+            if (errors.size() == 0) {
+                if (stylesheet != null) {
+                    formPanel.apply(stylesheet);
+                    setPageButtons(stylesheet.getPages());
+                }
+            }
+            errors.forEach(GUIBuilder::log);
+
+        } catch (ParseException exception) {
+            log(exception.getMessage());
+        }
+    }
+
+    private static void exportForm(ActionEvent e) {
+        try {
+            ObjectMapper mapper = new ObjectMapper()
+                    .registerModule(new JavaTimeModule())
+                    .registerModule(new Jdk8Module());
+            mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+            System.out.println(mapper.writer().writeValueAsString(globalForm));
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
+        }
     }
 }

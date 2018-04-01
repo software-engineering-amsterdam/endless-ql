@@ -1,18 +1,21 @@
 package nl.uva.js.qlparser.logic;
 
+import nl.uva.js.qlparser.models.ql.enums.ArithOp;
+import nl.uva.js.qlparser.models.ql.enums.CompOp;
+import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.ql.expressions.data.Combinator;
 import nl.uva.js.qlparser.models.ql.expressions.data.Value;
 import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
-import nl.uva.js.qlparser.models.ql.enums.ArithOp;
-import nl.uva.js.qlparser.models.ql.enums.CompOp;
-import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
 import nl.uva.js.qlparser.models.ql.expressions.form.IfBlock;
 import nl.uva.js.qlparser.models.ql.expressions.form.Question;
+import nl.uva.js.qlparser.wrappers.arithmetic.CalculatableDouble;
+import nl.uva.js.qlparser.wrappers.arithmetic.CalculatableMoney;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -20,82 +23,125 @@ import static org.junit.Assert.assertEquals;
 
 public class FormBuilderTest {
 
-    private static final String INPUT_BASIC_FILE = "src/test/java/nl/uva/js/qlparser/logic/testdata/ql_input.jsql";
-    private static final String INPUT_NULL_TEST = "src/test/java/nl/uva/js/qlparser/logic/testdata/null_test.jsql";
+    private static final String INPUT_BASIC_FILE = "src/test/resources/ql_input.jsql";
+    private static final String INPUT_NULL_TEST = "src/test/resources/null_test.jsql";
 
     @Test
     public void testGetFormFromLocation() throws IOException {
         // Questions
+        Question name = Question.builder()
+                .variable(Variable.<String, Value<String>>builder()
+                        .name("name")
+                        .dataType(DataType.STRING)
+                        .build())
+                .question("What is your name?")
+                .build();
+
+        Question age = Question.builder()
+                .variable(Variable.<String, Value<String>>builder()
+                        .name("age")
+                        .dataType(DataType.INTEGER)
+                        .build())
+                .question("What is your age?")
+                .build();
+
         Question hasSoldHouse = Question.builder()
-                .name("hasSoldHouse")
+                .variable(Variable.<Boolean, Value<Boolean>>builder()
+                        .name("hasSoldHouse")
+                        .dataType(DataType.BOOLEAN)
+                        .build())
                 .question("Did you sell a house in 2010?")
-                .dataType(DataType.BOOLEAN)
                 .build();
 
         Question hasBoughtHouse = Question.builder()
-                .name("hasBoughtHouse")
+                .variable(Variable.<Boolean, Combinator<Boolean>>builder()
+                        .name("hasBoughtHouse")
+                        .dataType(DataType.BOOLEAN)
+                        .value(Combinator.<Boolean>builder()
+                                .operator(CompOp.EQ)
+                                .left(Value.<Boolean>builder().dataType(DataType.BOOLEAN).value(Boolean.TRUE).build())
+                                .right(Value.<Boolean>builder().dataType(DataType.BOOLEAN).value(Boolean.TRUE).build())
+                                .build())
+                        .build())
                 .question("Did you buy a house in 2010?")
-                .dataType(DataType.BOOLEAN)
-                .value(Combinator.builder()
-                        .operator(CompOp.EQ)
-                        .left(Value.builder().dataType(DataType.BOOLEAN).value(true).build())
-                        .right(Value.builder().dataType(DataType.BOOLEAN).value(true).build())
-                        .build()) // TODO: Makes no sense
                 .build();
 
         Question hasMaintLoan = Question.builder()
-                .name("hasMaintLoan")
+                .variable(Variable.builder()
+                        .name("hasMaintLoan")
+                        .dataType(DataType.BOOLEAN)
+                        .value(hasBoughtHouse.getVariable())
+                        .build())
                 .question("Did you enter a loan?")
-                .dataType(DataType.BOOLEAN)
                 .build();
 
-        // Conditional questions
+        // Conditional expressionReferences
+        Question sellingDate = Question.builder()
+                .variable(Variable.<LocalDate, Value<LocalDate>>builder()
+                        .name("sellingDate")
+                        .dataType(DataType.DATE)
+                        .build())
+                .question("When was the house sold?")
+                .build();
+
         Question sellingPrice = Question.builder()
-                .name("sellingPrice")
+                .variable(Variable.<CalculatableMoney, Value<CalculatableMoney>>builder()
+                        .name("sellingPrice")
+                        .dataType(DataType.MONEY)
+                        .value(Value.<CalculatableMoney>builder()
+                                .dataType(DataType.MONEY)
+                                .value(new CalculatableMoney("EUR3000.00"))
+                                .build())
+                        .build())
                 .question("What was the selling price?")
-                .dataType(DataType.MONEY)
                 .build();
 
         Question privateDebt = Question.builder()
-                .name("privateDebt")
+                .variable(Variable.<CalculatableMoney, Value<CalculatableMoney>>builder()
+                        .name("privateDebt")
+                        .dataType(DataType.MONEY)
+                        .value(Value.<CalculatableMoney>builder()
+                                .dataType(DataType.MONEY)
+                                .value(new CalculatableMoney("EUR1000.0"))
+                                .build())
+                        .build())
                 .question("Private debts for the sold house:")
-                .dataType(DataType.MONEY)
-                .value(Value.builder().dataType(DataType.MONEY).value(1000.0).build())
                 .build();
 
         Question valueResidue = Question.builder()
-                .name("valueResidue")
-                .question("Value residue:")
-                .dataType(DataType.MONEY)
-                .value(Combinator.builder()
-                        .left(Variable.builder().dataType(DataType.MONEY).name("sellingPrice").build())
-                        .operator(ArithOp.MIN)
-                        .right(Variable.builder().dataType(DataType.MONEY).name("privateDebt").build())
+                .variable(Variable.<CalculatableMoney, Combinator<CalculatableMoney>>builder()
+                        .name("valueResidue")
+                        .dataType(DataType.MONEY)
+                        .value(Combinator.<CalculatableMoney>builder()
+                                .left(sellingPrice.getVariable())
+                                .operator(ArithOp.MIN)
+                                .right(privateDebt.getVariable())
+                                .build())
                         .build())
+                .question("Value residue:")
                 .build();
 
         IfBlock ifBlock = IfBlock.builder()
-                .condition(Variable.builder()
-                        .dataType(DataType.BOOLEAN)
-                        .name("hasSoldHouse")
-                        .build())
-                .expressions(new LinkedList<>(Arrays.asList(
-                        sellingPrice,
-                        privateDebt,
-                        valueResidue)))
+                .name("blockSold")
+                .condition(hasSoldHouse.getVariable())
+                .expressions(new LinkedList<>(Arrays.asList(sellingDate, sellingPrice, privateDebt, valueResidue)))
                 .build();
 
-        LinkedList<FormExpression> expectedExpressions =
-                new LinkedList<>(Arrays.asList(
-                                hasSoldHouse,
-                                hasBoughtHouse,
-                                hasMaintLoan,
-                                ifBlock
-                ));
+        Question grade = Question.builder()
+                .variable(Variable.<CalculatableDouble, Value<CalculatableDouble>>builder()
+                        .name("grade")
+                        .dataType(DataType.DECIMAL)
+                        .value(Value.<CalculatableDouble>builder()
+                                .dataType(DataType.DECIMAL)
+                                .value(new CalculatableDouble("10.0"))
+                                .build())
+                        .build())
+                .question("How would you rate this questionnaire?")
+                .build();
 
         Form expectedForm = Form.builder()
                 .name("taxOfficeExample")
-                .formExpressions(expectedExpressions)
+                .formExpressions(new LinkedList<>(Arrays.asList(name, age, hasSoldHouse, hasBoughtHouse, hasMaintLoan, ifBlock, grade)))
                 .build();
 
         Form actualForm = FormBuilder.parseFormFromLocation(INPUT_BASIC_FILE);
@@ -107,17 +153,24 @@ public class FormBuilderTest {
     public void testNullValue() throws IOException {
         // Questions
         Question presetValue = Question.builder()
-                .name("currentMonth")
+                .variable(Variable.<String, Value<String>>builder()
+                        .name("currentMonth")
+                        .dataType(DataType.STRING)
+                        .value(Value.<String>builder()
+                                .dataType(DataType.STRING)
+                                .value("February")
+                                .build())
+                        .build())
                 .question("The current month is")
-                .dataType(DataType.STRING)
-                .value(Value.builder().dataType(DataType.STRING).value("February").build())
                 .build();
 
         // Questions
         Question nullValue = Question.builder()
-                .name("favoriteMonth")
+                .variable(Variable.<String , Value<String>>builder()
+                        .name("favoriteMonth")
+                        .dataType(DataType.STRING)
+                        .build())
                 .question("What is your favorite month?")
-                .dataType(DataType.STRING)
                 .build();
 
         LinkedList<FormExpression> expectedExpressions =

@@ -1,54 +1,48 @@
 package ql.validator;
 
 import ql.ast.Form;
-import ql.validator.issuetracker.IssueTracker;
-
-import java.util.logging.Logger;
+import ql.validator.checkers.Checker;
+import ql.validator.checkers.CyclicDependencyChecker;
+import ql.validator.checkers.ExpressionChecker;
+import ql.validator.checkers.QuestionDuplicationChecker;
 
 
 /**
- * Performs validation for the AST by checking invalid references, expressions, duplications, and cyclic dependencies
+ * The validator detects:
+ * <p>
+ * - reference to undefined questions
+ * - duplicate question declarations with different types
+ * - conditions that are not of the type boolean
+ * - operands of invalid type to operators
+ * - cyclic dependencies between questions
+ * - duplicate labels (warning)
  */
 public class Validator {
 
-    private final static Logger LOGGER = Logger.getLogger(Validator.class.getName());
-    private final IssueTracker issueTracker;
-    private final QuestionDuplicationChecker questionDuplicationChecker;
-    private final ExpressionChecker expressionChecker;
-    private final CyclicDependencyChecker cyclicDependencyChecker;
-    private final SymbolTable symbolTable;
+    public static boolean passesChecks(Form form) {
 
-
-    public Validator() {
-        issueTracker = new IssueTracker();
-        questionDuplicationChecker = new QuestionDuplicationChecker(issueTracker);
-        expressionChecker = new ExpressionChecker(issueTracker);
-        cyclicDependencyChecker = new CyclicDependencyChecker(issueTracker);
-        symbolTable = new SymbolTable();
-    }
-
-    public boolean passesTypeChecks(Form form) {
+        Checker questionDuplicationChecker = new QuestionDuplicationChecker();
+        Checker expressionChecker = new ExpressionChecker();
+        Checker cyclicDependencyChecker = new CyclicDependencyChecker();
 
         //Check for duplicate question identifiers and labels
-        if (!questionDuplicationChecker.passesTests(form, symbolTable)) {
-            issueTracker.getErrors().forEach(issue -> LOGGER.severe(issue.toString()));
-            return false;
-        }
+        if (detectsErrors(questionDuplicationChecker, form)) return false;
 
         //Check for reference to undefined questions, non-boolean conditionals, and invalid operand types
-        if (!expressionChecker.passesTests(form, symbolTable)) {
-            issueTracker.getErrors().forEach(issue -> LOGGER.severe(issue.toString()));
-            return false;
-        }
+        if (detectsErrors(expressionChecker, form)) return false;
 
         //Check cyclic dependencies between questions
-        if (!cyclicDependencyChecker.passesTests(form)) {
-            issueTracker.getErrors().forEach(issue -> LOGGER.severe(issue.toString()));
+        if (detectsErrors(cyclicDependencyChecker, form)) return false;
+
+        return true;
+    }
+
+    private static boolean detectsErrors(Checker checker, Form form) {
+        if (checker.passesTests(form)) {
+            checker.logWarnings();
             return false;
         }
-
-        issueTracker.getWarnings().forEach(issue -> LOGGER.warning(issue.toString()));
-
+        checker.logErrors();
         return true;
     }
 

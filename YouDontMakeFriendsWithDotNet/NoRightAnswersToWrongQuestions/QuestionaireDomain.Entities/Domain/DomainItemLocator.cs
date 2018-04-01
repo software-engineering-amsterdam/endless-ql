@@ -20,10 +20,10 @@ namespace QuestionnaireDomain.Entities.Domain
             return m_registry.Find<TDomainItem>(id);
         }
 
-        public Reference<TDomainItem> GetRef<TDomainItem>(Guid id) where TDomainItem : IDomainItem
+        public DomainId<TDomainItem> GetRef<TDomainItem>(Guid id) where TDomainItem : IDomainItem
         {
             var domainItem = m_registry.Find<TDomainItem>(id);
-            return new Reference<TDomainItem>(domainItem.Id);
+            return new DomainId<TDomainItem>(domainItem.Id);
         }
 
         public IEnumerable<TDomainItem> GetAll<TDomainItem>() where TDomainItem : IDomainItem
@@ -31,11 +31,11 @@ namespace QuestionnaireDomain.Entities.Domain
             return m_registry.GetAll<TDomainItem>();
         }
 
-        public IEnumerable<Reference<TDomainItem>> GetAllRefs<TDomainItem>() where TDomainItem : IDomainItem
+        public IEnumerable<DomainId<TDomainItem>> GetAllRefs<TDomainItem>() where TDomainItem : IDomainItem
         {
             return m_registry
                 .GetAll<TDomainItem>()
-                .Select(x => new Reference<TDomainItem>(x.Id));
+                .Select(x => new DomainId<TDomainItem>(x.Id));
         }
 
         public bool Exists<TDomainItem>(Guid id) where TDomainItem : IDomainItem
@@ -50,9 +50,9 @@ namespace QuestionnaireDomain.Entities.Domain
             }
         }
 
-        public Reference<IQuestionnaireRootNode> GetRoot(Reference<IQuestionNode> node)
+        public DomainId<IQuestionnaireRootNode> GetRoot(DomainId<IQuestionNode> node)
         {
-            //Hack for now - assuming just one questionnaire, however will have to put parent into astnodes
+            // ToDo: Hack for now - assuming just one questionnaire, however will have to put parent into astnodes
             // to do this properly
             return GetAllRefs<IQuestionnaireRootNode>().FirstOrDefault();
         }

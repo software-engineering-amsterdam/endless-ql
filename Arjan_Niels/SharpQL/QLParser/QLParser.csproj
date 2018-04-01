@@ -8,8 +8,8 @@
     <ProjectGuid>{AED597D7-3472-4D95-9D15-7BA9B8BBE89E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QL_Parser</RootNamespace>
-    <AssemblyName>QL_Parser</AssemblyName>
+    <RootNamespace>QLParser</RootNamespace>
+    <AssemblyName>QLParser</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -50,61 +50,92 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Analyser.cs" />
-    <Compile Include="Analysis\IAnalyser.cs" />
-    <Compile Include="Analysis\ParseMessage.cs" />
-    <Compile Include="Analysis\Semantic\StatementTypeAnalyser.cs" />
-    <Compile Include="Analysis\Semantic\OnlyInitialisedVarsAnalyser.cs" />
-    <Compile Include="Analysis\Semantic\DuplicateVariableAnalyser.cs" />
+    <Compile Include="Analysis\IQLSAnalyser.cs" />
+    <Compile Include="Analysis\QLS\AllIdentifiersAreUsedAnalyser.cs" />
+    <Compile Include="Analysis\QLS\DuplicateIdentifiersAnalyser.cs" />
+    <Compile Include="Analysis\QLS\UnknownIdentifiersAnalyser.cs" />
+    <Compile Include="Analysis\QL\Evaluator\StatementType.cs" />
+    <Compile Include="Analysis\QL\Evaluator\StatementTypeEvaluator.cs" />
+    <Compile Include="Analysis\IQLAnalyser.cs" />
+    <Compile Include="Analysis\AnalyserMessage.cs" />
+    <Compile Include="Analysis\QL\Semantic\StatementTypeAnalyser.cs" />
+    <Compile Include="Analysis\QL\Semantic\OnlyInitialisedVarsAnalyser.cs" />
+    <Compile Include="Analysis\QL\Semantic\DuplicateVariableAnalyser.cs" />
     <Compile Include="AST\Location.cs" />
-    <Compile Include="AST\Nodes\ComputedNode.cs" />
-    <Compile Include="AST\Nodes\ConditionalNode.cs" />
-    <Compile Include="AST\Nodes\ExpressionNodes\ArthimetricExpressionNode.cs" />
-    <Compile Include="AST\Nodes\ExpressionNodes\Enums\ArthimetricOperator.cs" />
-    <Compile Include="AST\Nodes\ExpressionNodes\ComparisonExpressionNode.cs" />
-    <Compile Include="AST\Nodes\ExpressionNodes\Enums\ComparisonOperator.cs" />
-    <Compile Include="AST\Nodes\ExpressionNodes\Enums\LogicalOperator.cs" />
-    <Compile Include="AST\Nodes\ExpressionNodes\ExpressionNode.cs" />
-    <Compile Include="AST\Nodes\ExpressionNodes\LogicalExpressionNode.cs" />
-    <Compile Include="AST\Nodes\FormNode.cs" />
-    <Compile Include="AST\Nodes\IExpressionNode.cs" />
-    <Compile Include="AST\Nodes\Node.cs" />
-    <Compile Include="AST\Nodes\NodeType.cs" />
-    <Compile Include="AST\Nodes\QuestionNode.cs" />
-    <Compile Include="AST\Nodes\StatementNode.cs" />
+    <Compile Include="AST\QLS\QLSStructuralNode.cs" />
+    <Compile Include="AST\QLS\IQLSTraversable.cs" />
+    <Compile Include="AST\QLS\QLSQuestionNode.cs" />
+    <Compile Include="AST\QL\ComputedNode.cs" />
+    <Compile Include="AST\QL\ConditionalNode.cs" />
+    <Compile Include="AST\QL\ExpressionNodes\ArthimetricExpressionNode.cs" />
+    <Compile Include="AST\QL\ExpressionNodes\Enums\ArthimetricOperator.cs" />
+    <Compile Include="AST\QL\ExpressionNodes\ComparisonExpressionNode.cs" />
+    <Compile Include="AST\QL\ExpressionNodes\Enums\ComparisonOperator.cs" />
+    <Compile Include="AST\QL\ExpressionNodes\Enums\LogicalOperator.cs" />
+    <Compile Include="AST\QL\ExpressionNodes\ExpressionNode.cs" />
+    <Compile Include="AST\QL\ExpressionNodes\LogicalExpressionNode.cs" />
+    <Compile Include="AST\QL\FormNode.cs" />
+    <Compile Include="AST\QL\IExpressionNode.cs" />
+    <Compile Include="AST\QL\IQLTraversable.cs" />
+    <Compile Include="AST\QL\IQLVisitor.cs" />
+    <Compile Include="AST\QL\QLNode.cs" />
+    <Compile Include="AST\QL\NodeType.cs" />
+    <Compile Include="AST\QL\QuestionNode.cs" />
+    <Compile Include="AST\QL\StatementNode.cs" />
     <Compile Include="Analysis\SymbolTable.cs" />
-    <Compile Include="Analysis\Syntactic\QuestionHasNoChildrenValidator.cs" />
-    <Compile Include="Analysis\Syntactic\SingleFormValidator.cs" />
-    <Compile Include="AST\Nodes\QValueType.cs" />
-    <Compile Include="AST\Nodes\IdentifierNode.cs" />
+    <Compile Include="Analysis\QL\Syntactic\QuestionHasNoChildrenValidator.cs" />
+    <Compile Include="Analysis\QL\Syntactic\SingleFormValidator.cs" />
+    <Compile Include="AST\QL\QValueType.cs" />
+    <Compile Include="AST\QL\IdentifierNode.cs" />
+    <Compile Include="AST\QLS\Enums\QLSNodeType.cs" />
+    <Compile Include="AST\QLS\Enums\WidgetType.cs" />
+    <Compile Include="AST\QLS\IQLSElement.cs" />
+    <Compile Include="AST\QLS\QLSNode.cs" />
+    <Compile Include="AST\QLS\QLSStyle.cs" />
+    <Compile Include="AST\QLS\QLSValue.cs" />
+    <Compile Include="AST\QLS\QLSWidgetSpecification.cs" />
     <Compile Include="Exceptions\UnknownLogicalEntity.cs" />
     <Compile Include="Exceptions\UnknownNodeTypeException.cs" />
     <Compile Include="Exceptions\UnknownOperatorException.cs" />
     <Compile Include="Exceptions\UnknownQValueTypeException.cs" />
-    <Compile Include="Visitors\ExpressionVisitors\ArthimetricExpressionVisitor.cs" />
-    <Compile Include="Visitors\ComputedVariableVisitor.cs" />
-    <Compile Include="Visitors\ConditionalBlockVisitor.cs" />
-    <Compile Include="Visitors\ExpressionVisitors\ComparisonExpressionVisitor.cs" />
-    <Compile Include="Visitors\ExpressionVisitors\LogicalExpressionVisitor.cs" />
-    <Compile Include="Visitors\FormVisitor.cs" />
+    <Compile Include="QLSParserHelper.cs" />
+    <Compile Include="Util.cs" />
+    <Compile Include="ParserVisitors\QL\ExpressionVisitors\ArthimetricExpressionVisitor.cs" />
+    <Compile Include="ParserVisitors\QL\ComputedVariableVisitor.cs" />
+    <Compile Include="ParserVisitors\QL\ConditionalBlockVisitor.cs" />
+    <Compile Include="ParserVisitors\QL\ExpressionVisitors\ComparisonExpressionVisitor.cs" />
+    <Compile Include="ParserVisitors\QL\ExpressionVisitors\LogicalExpressionVisitor.cs" />
+    <Compile Include="ParserVisitors\QL\FormVisitor.cs" />
     <Compile Include="QLParserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Visitors\QuestionVisitor.cs" />
-    <Compile Include="Visitors\SectionVisitor.cs" />
+    <Compile Include="ParserVisitors\QLS\DefaultsVisitor.cs" />
+    <Compile Include="ParserVisitors\QLS\StylesheetVisitor.cs" />
+    <Compile Include="ParserVisitors\QLS\WidgetSpecificationVisitor.cs" />
+    <Compile Include="ParserVisitors\QL\QuestionVisitor.cs" />
+    <Compile Include="ParserVisitors\QL\SectionVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Antlr4 Include="QLanguage.g4">
+    <Antlr4 Include="QLSGrammar.g4">
       <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>QLanguage</CustomToolNamespace>
+      <CustomToolNamespace>QLSGrammar</CustomToolNamespace>
     </Antlr4>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AST\Nodes\LiteralNode.cs" />
+    <Antlr4 Include="QLGrammar.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>QLGrammar</CustomToolNamespace>
+    </Antlr4>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AST\QL\LiteralNode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AST\QLS\IQLSVisitor.cs" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

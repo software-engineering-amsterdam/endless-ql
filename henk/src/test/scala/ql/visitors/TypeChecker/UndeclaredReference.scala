@@ -1,8 +1,6 @@
 import ql.models.ast._
-import ql.grammar._
-import ql.visitors._
 import ql.validators._
-import ql.parsers._
+import ql.spec.helpers._
 
 import scala.io.Source
 import scala.util.{ Try, Success, Failure }
@@ -15,70 +13,61 @@ import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree._
 
 class UndeclaredReferenceSpec extends FunSpec with BeforeAndAfter {
-  // maybe extract method to general helper class
-  private def getForm(location: String): ASTNode = {
-    return QlFormParser.parseFromURL(getClass.getResource(location))
-  }
+  val resourceDir = "ql/typechecking"
+  val validator = new IdentifierValidator()
 
   describe("when typechecking a simple valid form") {
-    val filename = "ql/typechecking/simple.ql"
-    val form = getForm(filename)
-    val typechecker = new TypeChecker(form)
+    val filename = s"${resourceDir}/simple.ql"
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
-    it("check method should return true") {
-      assert(typechecker.check() == true)
+    it("check should not return an option exception") {
+      validator.check(form) match {
+        case None => succeed
+        case Some(IdentifierNotDeclared(e)) => fail(e)
+        case other => fail("ConditionalValidator should not have thrown an error")
+      }
     }
 
-    it("checkVarDecls method should not throw an exception") {
-      noException should be thrownBy IdentifierValidator.validate(form)
+    it("checkFound should return None on empty list") {
+      validator.checkFound(List(), List()) match {
+        case None => succeed
+        case Some(IdentifierNotDeclared(e)) => fail(e)
+        case other => fail("ConditionalValidator should not have thrown an error")
+      }
+    }
+
+    it("checkFound should Throw on empty declared list") {
+      validator.checkFound(List(Identifier("wat")), List()) match {
+        case None => fail()
+        case Some(IdentifierNotDeclared(e)) => succeed
+        case other => fail("wrong error thrown")
+      }
     }
   }
 
   describe("when typechecking a form with a single undeclared identifier") {
-    val filename = "ql/typechecking/single_undeclared_identifier.ql"
-    val form = getForm(filename)
-    val typechecker = new TypeChecker(form)
+    val filename = s"${resourceDir}/single_undeclared_identifier.ql"
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
-    it("check method should return false") {
-      assert(typechecker.check() == false)
-    }
-
-    it("checkVarDecls method should throw an IdentifierNotDeclared exception") {
-      IdentifierValidator.validate(form) match {
-        case Failure(e) => e shouldBe a [IdentifierNotDeclared]
-        case Success(_) => fail()
+    it("check should return an option exception") {
+      validator.check(form) match {
+        case None => fail()
+        case Some(IdentifierNotDeclared(e)) => succeed
+        case other => fail("wrong error thrown")
       }
-    }
-
-    it("typechecker should contain appropriate error message") {
-      val expectedMessage =
-        "Identifier with name 'undeclaredIdentifier' is not declared!"
-
-      assert(typechecker.errorMessage == expectedMessage)
     }
   }
 
   describe("when typechecking a form with multiple undeclared identifiers") {
-    val filename = "ql/typechecking/multiple_undeclared_identifiers.ql"
-    val form = getForm(filename)
-    val typechecker = new TypeChecker(form)
+    val filename = s"${resourceDir}/multiple_undeclared_identifiers.ql"
+    val form = FormHelper.getRoot(getClass.getResource(filename))
 
-    it("check method should return false") {
-      assert(typechecker.check() == false)
-    }
-
-    it("checkVarDecls should throw an IdentifierNotDeclared exception") {
-      IdentifierValidator.validate(form) match {
-        case Failure(e) => e shouldBe a [IdentifierNotDeclared]
-        case Success(_) => fail()
+    it("check should return an option exception") {
+      validator.check(form) match {
+        case None => fail()
+        case Some(IdentifierNotDeclared(e)) => succeed
+        case other => fail("wrong error thrown")
       }
-    }
-
-    it("error message should contain name first found undeclared identifier") {
-      val expectedMessage =
-        "Identifier with name 'firstUndeclaredIdentifier' is not declared!"
-
-      assert(typechecker.errorMessage == expectedMessage)
     }
   }
 }

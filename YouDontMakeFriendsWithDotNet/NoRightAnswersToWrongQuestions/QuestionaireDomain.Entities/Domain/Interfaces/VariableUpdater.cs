@@ -8,22 +8,26 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
         private readonly ISymbolTable m_symbolTable;
         private readonly IQuestionnaireOutputCreator m_questionnaireOutputCreator;
         private readonly IDomainItemLocator m_domainItemLocator;
+        private readonly ICalculationService m_calculationService;
 
         public VariableUpdater(
             ISymbolTable symbolTable,
             IQuestionnaireOutputCreator questionnaireOutputCreator,
-            IDomainItemLocator domainItemLocator)
+            IDomainItemLocator domainItemLocator,
+            ICalculationService calculationService)
         {
             m_symbolTable = symbolTable;
             m_questionnaireOutputCreator = questionnaireOutputCreator;
             m_domainItemLocator = domainItemLocator;
+            m_calculationService = calculationService;
         }
 
-        public void Update<T>(Reference<IQuestionNode> node, T value)
+        public void Update(DomainId<IQuestionNode> node, dynamic value)
         {
             m_symbolTable.Update(node.Id, value);
+            m_calculationService.UpdateCalculations();
             var root = m_domainItemLocator.GetRoot(node);
-            m_questionnaireOutputCreator.Create(root);
+            m_questionnaireOutputCreator.CreateOrUpdate(root);
         }
     }
 }

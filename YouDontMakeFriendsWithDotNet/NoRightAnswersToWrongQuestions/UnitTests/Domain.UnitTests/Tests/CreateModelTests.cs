@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using QL.UnitTests.Domain.UnitTests.Data;
 using QuestionnaireDomain.Entities;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
@@ -15,9 +14,8 @@ using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireInfrastructure;
 using QuestionnaireInfrastructure.API;
-using UnitTests.Domain.UnitTests.Data;
 
-namespace UnitTests.Domain.UnitTests.Tests
+namespace QL.UnitTests.Domain.UnitTests.Tests
 {
     [TestFixture]
     public class CreateModelTests
@@ -56,7 +54,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             string validDescription,
             string expectedQuestionnaireName)
         {
-            CreateForm(validDescription);
+            CreateOutputForm(validDescription);
 
             var actualDisplayName = m_domainItemLocator
                 .GetAll<IQuestionnaireOutputItem>()
@@ -75,7 +73,7 @@ namespace UnitTests.Domain.UnitTests.Tests
            string validDefinition,
            Type questionType) 
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var domainItem = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .FirstOrDefault();
@@ -93,7 +91,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             string validDefinition,
             string questionValue)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var outputItem = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .FirstOrDefault();
@@ -113,7 +111,7 @@ namespace UnitTests.Domain.UnitTests.Tests
             int expectedVisible,
             int expectedInvisible)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualVisibleCount = GetVisibleCount();
             var actualInvisibleCount = GetInvisibleCount();
 
@@ -133,12 +131,12 @@ namespace UnitTests.Domain.UnitTests.Tests
             int newValueVariable1,
             int newValueVariable2)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateIntVariable(@"q1", newValueVariable1);
-            UpdateIntVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -157,12 +155,12 @@ namespace UnitTests.Domain.UnitTests.Tests
             int newValueVariable1,
             int newValueVariable2)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateIntVariable(@"q1", newValueVariable1);
-            UpdateIntVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -181,12 +179,12 @@ namespace UnitTests.Domain.UnitTests.Tests
             decimal newValueVariable1,
             decimal newValueVariable2)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateDecimalVariable(@"q1", newValueVariable1);
-            UpdateDecimalVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -205,12 +203,12 @@ namespace UnitTests.Domain.UnitTests.Tests
             decimal newValueVariable1,
             decimal newValueVariable2)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateDecimalVariable(@"q1", newValueVariable1);
-            UpdateDecimalVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -221,7 +219,6 @@ namespace UnitTests.Domain.UnitTests.Tests
             Assert.AreEqual(expected: 2, actual: actualNewInvisibleCount);
         }
 
-
         [TestCaseSource(
             typeof(TestModelCreationData),
             nameof(TestModelCreationData.CalculationDateVariableTrueToFalseValues))]
@@ -230,12 +227,12 @@ namespace UnitTests.Domain.UnitTests.Tests
             DateTime newValueVariable1,
             DateTime newValueVariable2)
         {
-            CreateForm(validDefinition);
+            CreateOutputForm(validDefinition);
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
-            UpdateDateVariable(@"q1", newValueVariable1);
-            UpdateDateVariable(@"q2", newValueVariable2);
+            UpdateVariable(@"q1", newValueVariable1);
+            UpdateVariable(@"q2", newValueVariable2);
 
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
@@ -246,7 +243,48 @@ namespace UnitTests.Domain.UnitTests.Tests
             Assert.AreEqual(expected: 1, actual: actualNewInvisibleCount);
         }
 
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.CalculatedValues))]
+        public void GivenCalculatedValue_ReturnsCorrectReadonlyValue(
+            string validDefinition,
+            decimal expectedValue)
+        {
+            CreateOutputForm(validDefinition);
+            var outputQuestion = m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .FirstOrDefault(x => x.QuestionText == "\"x\"");
 
+            Assert.IsTrue(outputQuestion.ReadOnly);
+            Assert.AreEqual(
+                expected: expectedValue,
+                actual: decimal.Parse(outputQuestion.Value));
+        }
+
+        [TestCaseSource(
+            typeof(TestModelCreationData),
+            nameof(TestModelCreationData.UpdateCalculatedValues))]
+        public void GivenVariableValueChange_CalculatedValueIsUpdated(
+            string validDefinition,
+            int newValueVariable1,
+            string expectedCalculatedValue)
+        {
+            CreateOutputForm(validDefinition);
+            UpdateVariable(@"f1", newValueVariable1);
+            var actualCalcualteValue = GetCalculatedValue("\"ctext1\"");
+            Assert.AreEqual(
+                expected: expectedCalculatedValue, 
+                actual: actualCalcualteValue);
+        }
+
+        private string GetCalculatedValue(string questionText)
+        {
+            return m_domainItemLocator
+                .GetAll<IQuestionOutputItem>()
+                .FirstOrDefault(x => x.QuestionText == questionText)
+                ?.Value;
+        }
+        
         private int GetVisibleCount()
         {
             return GetVisibilityCount(x => x.Visible);
@@ -263,8 +301,14 @@ namespace UnitTests.Domain.UnitTests.Tests
                 .GetAll<IQuestionOutputItem>()
                 .Count(predicate);
         }
+        
+        private void UpdateVariable(string variableName, dynamic value)
+        {
+            var questionItem = GetQuestionByName(variableName);
+            m_variableUpdater.Update(questionItem, value);
+        }
 
-        private void UpdateIntVariable(string variableName, int value)
+        private DomainId<IQuestionNode> GetQuestionByName(string variableName)
         {
             var variableItem = m_domainItemLocator
                 .GetAll<IVariableNode>()
@@ -273,45 +317,13 @@ namespace UnitTests.Domain.UnitTests.Tests
             var questionItem = m_domainItemLocator
                 .GetAll<IQuestionNode>()
                 .Where(x => x.QuestionName == variableItem.VariableName)
-                .Select(x => new Reference<IQuestionNode>(x.Id))
+                .Select(x => new DomainId<IQuestionNode>(x.Id))
                 .FirstOrDefault();
 
-            m_variableUpdater.Update(questionItem, value.ToString(CultureInfo.InvariantCulture));
+            return questionItem;
         }
 
-
-        private void UpdateDecimalVariable(string variableName, decimal value)
-        {
-            var variableItem = m_domainItemLocator
-                .GetAll<IVariableNode>()
-                .FirstOrDefault(x => x.VariableName == variableName);
-
-            var questionItem = m_domainItemLocator
-                .GetAll<IQuestionNode>()
-                .Where(x => x.QuestionName == variableItem.VariableName)
-                .Select(x => new Reference<IQuestionNode>(x.Id))
-                .FirstOrDefault();
-
-            m_variableUpdater.Update(questionItem, value.ToString(CultureInfo.InvariantCulture));
-        }
-
-
-        private void UpdateDateVariable(string variableName, DateTime value)
-        {
-            var variableItem = m_domainItemLocator
-                .GetAll<IVariableNode>()
-                .FirstOrDefault(x => x.VariableName == variableName);
-
-            var questionItem = m_domainItemLocator
-                .GetAll<IQuestionNode>()
-                .Where(x => x.QuestionName == variableItem.VariableName)
-                .Select(x => new Reference<IQuestionNode>(x.Id))
-                .FirstOrDefault();
-
-            m_variableUpdater.Update(questionItem, value.ToString(CultureInfo.InvariantCulture));
-        }
-
-        private void CreateForm(string validText)
+        private void CreateOutputForm(string validText)
         {
             var questionnaireCreator = m_serviceProvider
                 .GetService<IQuestionnaireAstCreator>();
@@ -323,11 +335,8 @@ namespace UnitTests.Domain.UnitTests.Tests
 
             foreach (var questionnaireRootNode in questionnaireNodes)
             {
-                var questionnaireRef = new Reference<IQuestionnaireRootNode>(questionnaireRootNode.Id);
-                if (m_outputCreator.Validate(questionnaireRef))
-                {
-                    m_outputCreator.Create(questionnaireRef);
-                }
+                var questionnaireRef = new DomainId<IQuestionnaireRootNode>(questionnaireRootNode.Id);
+                m_outputCreator.CreateOrUpdate(questionnaireRef);
             }
         }
     }

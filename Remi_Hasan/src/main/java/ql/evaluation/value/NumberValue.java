@@ -3,7 +3,7 @@ package ql.evaluation.value;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class NumberValue extends Value<BigDecimal> {
 
@@ -25,7 +25,7 @@ public class NumberValue extends Value<BigDecimal> {
     }
 
     @Override
-    public Integer getIntValue() {
+    public Integer getIntegerValue() {
         return this.value.intValue();
     }
 
@@ -36,7 +36,7 @@ public class NumberValue extends Value<BigDecimal> {
 
     @Override
     public BigDecimal getMoneyValue() {
-        return this.value.setScale(2, RoundingMode.CEILING);
+        return this.value.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     @Override
@@ -45,13 +45,14 @@ public class NumberValue extends Value<BigDecimal> {
     }
 
     @Override
-    public Date getDateValue() {
+    public LocalDate getDateValue() {
         throw new UnsupportedOperationException("Cannot cast number to date");
     }
 
     @Override
     public Value divide(Value right) {
-        if (right.isUndefined())
+        // Prevent division by zero
+        if (right.isUndefined() || right.getDecimalValue() == 0.0)
             return new UndefinedValue();
 
         NumberValue rightValue = (NumberValue) right;
@@ -91,7 +92,7 @@ public class NumberValue extends Value<BigDecimal> {
             return new UndefinedValue();
 
         NumberValue rightValue = (NumberValue) right;
-        return new BooleanValue(this.value.equals(rightValue.value));
+        return new BooleanValue(this.value.compareTo(rightValue.value) == 0);
     }
 
     @Override

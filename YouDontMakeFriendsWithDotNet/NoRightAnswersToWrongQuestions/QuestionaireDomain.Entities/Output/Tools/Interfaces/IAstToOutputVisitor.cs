@@ -10,6 +10,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
         where TAst : IAstNode
         where TOutput : IOutputItem
     {
-        Reference<TOutput> Visit(Reference<TAst> node);
+        DomainId<TOutput> Visit(DomainId<TAst> node);
     }
 }

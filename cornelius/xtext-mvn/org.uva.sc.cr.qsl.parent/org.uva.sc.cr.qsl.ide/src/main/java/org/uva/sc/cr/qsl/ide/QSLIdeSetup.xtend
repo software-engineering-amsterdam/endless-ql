@@ -14,7 +14,7 @@ import org.uva.sc.cr.qsl.QSLStandaloneSetup
 class QSLIdeSetup extends QSLStandaloneSetup {
 
 	override createInjector() {
-		Guice.createInjector(Modules2.mixin(new QSLRuntimeModule, new QSLIdeModule))
+		return Guice.createInjector(Modules2.mixin(new QSLRuntimeModule(), new QSLIdeModule()))
 	}
 	
 }

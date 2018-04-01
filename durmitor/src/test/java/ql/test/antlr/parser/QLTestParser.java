@@ -32,12 +32,12 @@ public class QLTestParser {
         return parser.identifier().accept(visitor);
     }
     
-    public Object parseExpr(String expr) {
-        
-        QLParser parser = new QLParser(new CommonTokenStream(new QLLexer(CharStreams.fromString(expr))));
-        
-        return parser.expr().accept(visitor);
-    }
+//    public Object parseExpr(String expr) {
+//        
+//        QLParser parser = new QLParser(new CommonTokenStream(new QLLexer(CharStreams.fromString(expr))));
+//        
+//        return parser.expr().accept(visitor);
+//    }
     
     public Object parseType(String expr) {
         

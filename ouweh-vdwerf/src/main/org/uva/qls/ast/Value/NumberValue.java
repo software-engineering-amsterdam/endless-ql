@@ -2,13 +2,17 @@ package org.uva.qls.ast.Value;
 
 public class NumberValue extends Value {
 
-    private String value;
+    private int value = 0;
 
-    public NumberValue(String value){
-        this.value = value;
+    public NumberValue(String value) {
+        try {
+            this.value = Integer.parseInt(value);
+        } catch (NumberFormatException ignored) {
+
+        }
     }
 
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 }

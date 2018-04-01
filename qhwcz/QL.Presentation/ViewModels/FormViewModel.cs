@@ -3,30 +3,14 @@ using System.Windows.Input;
 
 namespace Presentation.ViewModels
 {
-    internal class FormViewModel : ReactiveObject
+    internal abstract class FormViewModel : ReactiveObject
     {
-        private string _formName;
-        private PagesViewModel _pagesViewModel;
-
-        internal FormViewModel()
+        protected FormViewModel(string name)
         {
-            _formName = string.Empty;
+            Name = name;
         }
 
-        internal FormViewModel(string formName)
-        {
-            _formName = formName;
-        }
-
-        public string FormName => _formName;
-
-        public IReactiveList<QuestionViewModel> Questions { get; } = new ReactiveList<QuestionViewModel>();
-
-        public PagesViewModel Pages
-        {
-            get { return _pagesViewModel; }
-            set { this.RaiseAndSetIfChanged(ref _pagesViewModel, value); }
-        }
+        public string Name { get; }
 
         public ICommand QuestionValueAssignedCommand { get; set; }
     }

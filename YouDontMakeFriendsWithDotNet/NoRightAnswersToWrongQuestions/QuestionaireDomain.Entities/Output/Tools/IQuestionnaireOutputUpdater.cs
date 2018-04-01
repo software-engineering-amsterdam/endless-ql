@@ -5,7 +5,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 {
     public interface IQuestionnaireOutputUpdater
     {
-        bool OutputExistsFor(Reference<IQuestionnaireRootNode> questionnaireRootNode);
-        void DeleteOutputFor(Reference<IQuestionnaireRootNode> questionnaireRootNode);
+        bool OutputExistsFor(DomainId<IQuestionnaireRootNode> questionnaireRootNode);
     }
 }

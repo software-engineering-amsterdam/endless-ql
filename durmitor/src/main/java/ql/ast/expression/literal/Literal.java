@@ -101,4 +101,8 @@ public abstract class Literal<T>  extends Primary implements ValueVisitable, Ope
     public Literal<?> or(Literal<?> secondOperand) {
         return new UndefinedLiteral();
     }
+
+    public boolean isBoolean() {
+        return false;
+    }
 }

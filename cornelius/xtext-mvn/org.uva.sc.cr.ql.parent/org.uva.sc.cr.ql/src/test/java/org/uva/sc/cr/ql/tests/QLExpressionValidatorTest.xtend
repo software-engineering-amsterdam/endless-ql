@@ -105,7 +105,7 @@ class QLExpressionValidatorTest {
 						}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		switch operation {
 			case OR:
@@ -150,7 +150,7 @@ class QLExpressionValidatorTest {
 						}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 		validationTestHelper.assertError(result, QLPackage.eINSTANCE.block,
 			QLExpressionValidator.BLOCK_INVALID_EXPRESSION)
 	}
@@ -165,7 +165,7 @@ class QLExpressionValidatorTest {
 						}
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 		validationTestHelper.assertError(result, QLPackage.eINSTANCE.question, QLExpressionValidator.TYPE_NOT_EXPECTED)
 	}
 

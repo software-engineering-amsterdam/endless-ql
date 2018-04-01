@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuestionaireOrchestration.Models;
+using QuestionnaireOrchestration.Models;
 
-namespace QuestionaireOrchestration.QueryServices.Interfaces
+namespace QuestionnaireOrchestration.QueryServices.Interfaces
 {
     public interface IModelQueryService<out TModel> where TModel : DomainItemModel
     {

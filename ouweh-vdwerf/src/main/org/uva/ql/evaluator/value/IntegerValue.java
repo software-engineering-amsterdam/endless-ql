@@ -9,11 +9,6 @@ public class IntegerValue implements Value {
     }
 
     @Override
-    public String getTypeAsString() {
-        return "INTEGER";
-    }
-
-    @Override
     public String toString() {
         return Integer.toString(this.value);
     }
@@ -74,13 +69,8 @@ public class IntegerValue implements Value {
     }
 
     @Override
-    public Value notEqualTo(IntegerValue value) {
-        return new BooleanValue(value.getValue() != this.value);
-    }
-
-    @Override
     public Value notEqualTo(Value value) {
-        return value.notEqualTo(this);
+        return new BooleanValue(!value.getValue().equals(this.value));
     }
 
     @Override
@@ -123,13 +113,4 @@ public class IntegerValue implements Value {
         return value.lessThanEqualTo(this);
     }
 
-    @Override
-    public Value negate(IntegerValue value) {
-        return new IntegerValue(-value.getValue());
-    }
-
-    @Override
-    public Value negate(Value value) {
-        return value.negate(this);
-    }
 }

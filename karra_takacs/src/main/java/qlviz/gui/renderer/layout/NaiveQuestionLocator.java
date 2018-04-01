@@ -1,5 +1,6 @@
 package qlviz.gui.renderer.layout;
 
+import com.google.inject.Inject;
 import qlviz.gui.viewModel.question.QuestionViewModel;
 import qlviz.model.style.Page;
 import qlviz.model.style.Scope;
@@ -18,6 +19,7 @@ public class NaiveQuestionLocator implements QuestionLocator{
 
     private final Stylesheet stylesheet;
 
+    @Inject
     public NaiveQuestionLocator(Stylesheet stylesheet) {
         this.stylesheet = stylesheet;
     }

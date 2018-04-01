@@ -4,12 +4,12 @@ import Multiplication from "../form/nodes/expressions/arithmetic/Multiplication"
 import Equals from "../form/nodes/expressions/comparisons/Equals";
 import FormNode from "../form/nodes/FormNode";
 import EvaluationVisitor from "../form/evaluation/EvaluationVisitor";
-import Question from "../form/nodes/fields/Question";
+import QuestionNode from "../form/nodes/fields/QuestionNode";
 import Variable from "../form/nodes/expressions/VariableIdentifier";
 import BooleanLiteral from "../form/nodes/literals/BooleanLiteral";
 import IfCondition from "../form/nodes/conditions/IfCondition";
 import Negation from "../form/nodes/expressions/boolean_expressions/Negation";
-import ComputedField from "../form/nodes/fields/ComputedField";
+import ComputedField from "../form/nodes/fields/ComputedFieldNode";
 import { FieldType } from "../form/FieldType";
 
 export const testExpressionStuff = () => {
@@ -37,16 +37,16 @@ export const testExpressionStuff = () => {
   );
 
   const form1 = new FormNode("MyForm1", [
-    new Question("q1", "Is q1 true?", FieldType.Boolean),
+    new QuestionNode("q1", "Is q1 true?", FieldType.Boolean),
     new ComputedField("q2", "Is q1 false?", FieldType.Boolean, new Equals(
         new Variable("q1"),
         new BooleanLiteral(true)
     )),
     new IfCondition(new Negation(new Variable("q1")), [
-      new Question("q3", "Only visible if q1  is false?", FieldType.Boolean),
+      new QuestionNode("q3", "Only visible if q1  is false?", FieldType.Boolean),
     ]),
     new IfCondition(new Negation(new Variable("q2")), [
-      new Question("q3", "Only visible if q1  is false?", FieldType.Boolean),
+      new QuestionNode("q3", "Only visible if q1  is false?", FieldType.Boolean),
     ])
   ]);
 

@@ -1,9 +1,9 @@
 package qlviz.interpreter.linker;
 
-import qlviz.model.booleanExpressions.BinaryBooleanOperation;
-import qlviz.model.booleanExpressions.BooleanLiteral;
-import qlviz.model.booleanExpressions.Negation;
-import qlviz.model.booleanExpressions.NumericComparison;
+import qlviz.model.expressions.booleanExpressions.BinaryBooleanOperation;
+import qlviz.model.expressions.booleanExpressions.BooleanLiteral;
+import qlviz.model.expressions.booleanExpressions.Negation;
+import qlviz.model.expressions.booleanExpressions.NumericComparison;
 import qlviz.model.question.BooleanQuestionReference;
 
 public interface TypedBooleanExpressionVisitor<T> {

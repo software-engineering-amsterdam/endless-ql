@@ -11,113 +11,113 @@ namespace QuestionnaireDomain.Entities.Ast.Tools.Interfaces
 {
     public interface IAstFactory
     {
-        Reference<IQuestionnaireRootNode> CreateQuestionnaire(
+        DomainId<IQuestionnaireRootNode> CreateQuestionnaire(
             string definition,
-            string questionaireName,
-            IEnumerable<Reference<IStatementNode>> statements);
+            string questionnaireName,
+            IEnumerable<DomainId<IStatementNode>> statements);
 
-        Reference<IConditionalStatementNode> CreateConditional(
+        DomainId<IConditionalStatementNode> CreateConditional(
             string definition,
-            Reference<IBooleanLogicNode> predicate,
-            IEnumerable<Reference<IStatementNode>> consequent,
-            IEnumerable<Reference<IStatementNode>> alternative);
+            DomainId<IBooleanLogicNode> predicate,
+            IEnumerable<DomainId<IStatementNode>> consequent,
+            IEnumerable<DomainId<IStatementNode>> alternative);
 
-        Reference<IUserInputQuestionNode> CreateUserInputQuestion(
+        DomainId<IUserInputQuestionNode> CreateUserInputQuestion(
             string definition,
             string questionName,
             string questionText, 
             Type questionType);
 
-        Reference<ICalculatedQuestionNode> CreateCalculatedQuestion(
+        DomainId<ICalculatedQuestionNode> CreateCalculatedQuestion(
             string definition, 
             string questionName,
             string questionText,
             Type questionType,
-            Reference<ICalculationNode> calculation);
+            DomainId<ICalculationNode> calculation);
 
-        Reference<INumberNode> CreateNumber(string numberText);
+        DomainId<INumberNode> CreateNumber(string numberText);
 
-        Reference<ICalculationVariableNode> CreateNumberVariableName(string variableName);
+        DomainId<ICalculationVariableNode> CreateNumberVariableName(string variableName);
 
-        Reference<IBooleanVariableNode> CreateBooleanVariableName(
+        DomainId<IBooleanVariableNode> CreateBooleanVariableName(
             string variableName);
 
-        Reference<IBooleanLiteralNode> CreateBooleanLiteral(
+        DomainId<IBooleanLiteralNode> CreateBooleanLiteral(
             string booleanString);
 
-        Reference<IAndNode> CreateAndOperation(
+        DomainId<IAndNode> CreateAndOperation(
             string definition,
-            Reference<IBooleanLogicNode> leftExpression,
-            Reference<IBooleanLogicNode> rightExpression);
+            DomainId<IBooleanLogicNode> leftExpression,
+            DomainId<IBooleanLogicNode> rightExpression);
 
-        Reference<IOrNode> CreateOrOperation(
+        DomainId<IOrNode> CreateOrOperation(
             string definition,
-            Reference<IBooleanLogicNode> leftExpression,
-            Reference<IBooleanLogicNode> rightExpression);
+            DomainId<IBooleanLogicNode> leftExpression,
+            DomainId<IBooleanLogicNode> rightExpression);
 
-        Reference<INegateNode> CreateNegationOperation(
+        DomainId<INegateNode> CreateNegationOperation(
             string definition,
-            Reference<IBooleanLogicNode> childExpression);
+            DomainId<IBooleanLogicNode> childExpression);
 
-        Reference<IEqualityNode> CreateEqualityOperation(
+        DomainId<IEqualityNode> CreateEqualityOperation(
             string definition,
-            Reference<IAstNode> leftExpression, 
-            Reference<IAstNode> rightExpression);
+            DomainId<IAstNode> leftExpression, 
+            DomainId<IAstNode> rightExpression);
 
-        Reference<IAstNode> CreateMultiplicationOperation(
+        DomainId<IAstNode> CreateMultiplicationOperation(
             string definition,
-            Reference<ICalculationNode> leftExpression, 
-            Reference<ICalculationNode> rightExpression);
+            DomainId<ICalculationNode> leftExpression, 
+            DomainId<ICalculationNode> rightExpression);
 
-        Reference<IAstNode> CreateDivisionOperation(
+        DomainId<IAstNode> CreateDivisionOperation(
             string definition,
-            Reference<ICalculationNode> leftExpression, 
-            Reference<ICalculationNode> rightExpression);
+            DomainId<ICalculationNode> leftExpression, 
+            DomainId<ICalculationNode> rightExpression);
 
-        Reference<IAstNode> CreateAdditionOperation(
+        DomainId<IAstNode> CreateAdditionOperation(
             string definition, 
-            Reference<ICalculationNode> leftExpression, 
-            Reference<ICalculationNode> rightExpression);
+            DomainId<ICalculationNode> leftExpression, 
+            DomainId<ICalculationNode> rightExpression);
 
-        Reference<IAstNode> CreateSubtractionOperation(
+        DomainId<IAstNode> CreateSubtractionOperation(
             string definition, 
-            Reference<ICalculationNode> leftExpression, 
-            Reference<ICalculationNode> rightExpression);
+            DomainId<ICalculationNode> leftExpression, 
+            DomainId<ICalculationNode> rightExpression);
 
-        Reference<IAstNode> CreateInequalityOperation(
+        DomainId<IAstNode> CreateInequalityOperation(
             string definition, 
-            Reference<IAstNode> leftExpression, 
-            Reference<IAstNode> rightExpression);
+            DomainId<IAstNode> leftExpression, 
+            DomainId<IAstNode> rightExpression);
 
-        Reference<IAstNode> CreateDate(string dateText);
+        DomainId<IAstNode> CreateDate(string dateText);
 
-        Reference<IAstNode> CreateDateVariableName(string dateText);
+        DomainId<IAstNode> CreateDateVariableName(string dateVariableName);
 
-        Reference<IAstNode> CreateText(string text);
+        DomainId<IAstNode> CreateText(string text);
 
-        Reference<IAstNode> CreateTextVariableName(string text);
+        DomainId<IAstNode> CreateTextVariableName(string textVariableName);
 
-        Reference<IAstNode> CreateGreaterThanOperation(
+        DomainId<IAstNode> CreateGreaterThanOperation(
             string definition, 
-            Reference<IAstNode> leftExpression, 
-            Reference<IAstNode> rightExpression);
+            DomainId<IAstNode> leftExpression, 
+            DomainId<IAstNode> rightExpression);
 
-        Reference<IAstNode> CreateGreaterOrEqualOperation(
+        DomainId<IAstNode> CreateGreaterOrEqualOperation(
             string definition, 
-            Reference<IAstNode> leftExpression, 
-            Reference<IAstNode> rightExpression);
+            DomainId<IAstNode> leftExpression, 
+            DomainId<IAstNode> rightExpression);
 
-        Reference<IAstNode> CreateLessThanOperation(
+        DomainId<IAstNode> CreateLessThanOperation(
             string definition, 
-            Reference<IAstNode> leftExpression, 
-            Reference<IAstNode> rightExpression);
+            DomainId<IAstNode> leftExpression, 
+            DomainId<IAstNode> rightExpression);
 
-        Reference<IAstNode> CreateLessOrEqualOperation(
+        DomainId<IAstNode> CreateLessOrEqualOperation(
             string definition, 
-            Reference<IAstNode> leftExpression, 
-            Reference<IAstNode> rightExpression);
+            DomainId<IAstNode> leftExpression, 
+            DomainId<IAstNode> rightExpression);
 
-        Reference<IUntypedVariableNode> CreateUntypedVariableName(
+        DomainId<IUntypedVariableNode> CreateUntypedVariableName(
             string variableName);
     }
 }

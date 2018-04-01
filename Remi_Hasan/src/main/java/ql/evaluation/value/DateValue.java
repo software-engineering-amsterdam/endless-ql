@@ -1,10 +1,10 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
-public class DateValue extends Value<Date> {
-    public DateValue(Date value) {
+public class DateValue extends Value<LocalDate> {
+    public DateValue(LocalDate value) {
         super(value);
     }
 
@@ -14,7 +14,7 @@ public class DateValue extends Value<Date> {
     }
 
     @Override
-    public Integer getIntValue() {
+    public Integer getIntegerValue() {
         throw new UnsupportedOperationException("Cannot cast date to integer.");
     }
 
@@ -34,7 +34,7 @@ public class DateValue extends Value<Date> {
     }
 
     @Override
-    public Date getDateValue() {
+    public LocalDate getDateValue() {
         return this.value;
     }
 

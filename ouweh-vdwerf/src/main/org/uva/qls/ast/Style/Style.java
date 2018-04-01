@@ -8,12 +8,16 @@ import java.util.List;
 
 public class Style extends TreeNode {
 
-    List<StyleProperty> styleProperties;
-    Widget widget;
+    private final List<StyleProperty> styleProperties;
+    private final Widget widget;
 
-    public Style(List<StyleProperty> styleProperties, Widget widget){
+    public Style(List<StyleProperty> styleProperties, Widget widget) {
         this.styleProperties = styleProperties;
         this.widget = widget;
+    }
+
+    public List<StyleProperty> getStyleProperties() {
+        return styleProperties;
     }
 
     public Widget getWidget() {

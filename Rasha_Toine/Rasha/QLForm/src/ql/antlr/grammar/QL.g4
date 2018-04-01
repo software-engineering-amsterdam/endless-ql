@@ -29,7 +29,7 @@ literal returns [Literal result] // atom
    | BOOLEAN { $result = addCodeReference($ctx, new BooleanLiteral(Boolean.valueOf($BOOLEAN.text))); }
    | STRING { $result = addCodeReference($ctx, new StringLiteral(String.valueOf($STRING))); }
    | DATE { $result = addCodeReference($ctx, new DateLiteral(Date.valueOf($DATE.text))); }
-   | DECIMAL { $result = addCodeReference($ctx, new DecimalLiteral(Double.valueOf($DECIMAL))); }
+   | DECIMAL { $result = addCodeReference($ctx, new DecimalLiteral(Double.valueOf($DECIMAL.text))); }
   ;
 
 identifier returns [Identifier result]
@@ -74,7 +74,7 @@ statement returns [Statement result]
 
 question  returns [Question result]
   : identifier ':' STRING questionType  // question to be answered
-    {$result = addCodeReference($ctx, new NormalQuestion($identifier.result, $STRING.text, $questionType.result));}
+    {$result = addCodeReference($ctx, new AnswerableQuestion($identifier.result, $STRING.text, $questionType.result));}
   | identifier ':' STRING questionType '(' expr ')' // question to be computed
     {$result = addCodeReference($ctx, new ComputedQuestion($identifier.result, $STRING.text, $questionType.result, $expr.result));}
  ;

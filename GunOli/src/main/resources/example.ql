@@ -1,11 +1,23 @@
-form Box1HouseOwning{
-    hasSoldHouse: "Did you sell a house in 2010?" boolean
-    hasBoughtHouse: "Did you buy a house in 2010?" boolean
-    hasMaintLoan: "Did you enter a loan for maintenance/reconstruction?" boolean
-    if(hasSoldHouse){
-        sellingPrice: "Price the house was sold for:" money
-        testBool : "This is a test checkbox." boolean
-        privateDebt: "Private debts for the sold house:" money
-        valueResidue: "Value residue:" money = (sellingPrice - privateDebt)
+form testForm {
+    q1: "View the questions?" boolean
+    if(q1){
+        qq: "Are you sure?" boolean
+        if(qq){
+            qqq: "Do you want to give your birthdate?" boolean
+            if(q1 && qq){
+                q2: "What is your name?" string = "Mr. Sugarnips"
+                qw: "What is your name?" string
+                q3: "What is your favorite number?" integer
+                q5: "Favorite decimal (really..)?" decimal
+                q6: "How much money do you have?" money
+                q7: "How much money do you want" money
+                q8: "You need this much: " money = (q7 - q6)
+            }
+            if(qqq){
+                q4: "What is your birthdate?" date
+            } else {
+                q9: "You hate birthdays?" boolean
+            }
+        }
     }
 }

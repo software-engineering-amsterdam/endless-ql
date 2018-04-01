@@ -9,10 +9,10 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
         TDomainItem Get<TDomainItem>(Guid id) where TDomainItem : IDomainItem;
         IEnumerable<TDomainItem> GetAll<TDomainItem>() where TDomainItem : IDomainItem;
 
-        Reference<TDomainItem> GetRef<TDomainItem>(Guid id) where TDomainItem : IDomainItem;
-        IEnumerable<Reference<TDomainItem>> GetAllRefs<TDomainItem>() where TDomainItem : IDomainItem;
+        DomainId<TDomainItem> GetRef<TDomainItem>(Guid id) where TDomainItem : IDomainItem;
+        IEnumerable<DomainId<TDomainItem>> GetAllRefs<TDomainItem>() where TDomainItem : IDomainItem;
 
         bool Exists<TDomainItem>(Guid id) where TDomainItem : IDomainItem;
-        Reference<IQuestionnaireRootNode> GetRoot(Reference<IQuestionNode> node);
+        DomainId<IQuestionnaireRootNode> GetRoot(DomainId<IQuestionNode> node);
     }
 }

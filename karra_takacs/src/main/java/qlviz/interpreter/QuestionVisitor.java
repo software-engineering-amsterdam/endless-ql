@@ -1,9 +1,9 @@
 package qlviz.interpreter;
 
+import com.google.inject.Inject;
 import qlviz.QLBaseVisitor;
 import qlviz.QLParser;
-import qlviz.model.booleanExpressions.BooleanExpression;
-import qlviz.model.numericExpressions.NumericExpression;
+import qlviz.model.expressions.Expression;
 import qlviz.model.question.*;
 
 public class QuestionVisitor extends QLBaseVisitor<Question> {
@@ -12,6 +12,7 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
     private final NumericExpressionParser numericExpressionParser;
     private final BooleanExpressionParser booleanExpressionParser;
 
+    @Inject
     public QuestionVisitor(QuestionTypeTranslator questionTypeTranslator,
                            NumericExpressionParser numericExpressionParser,
                            BooleanExpressionParser booleanExpressionParser) {
@@ -21,37 +22,38 @@ public class QuestionVisitor extends QLBaseVisitor<Question> {
     }
 
     @Override
-    public Question visitQuestion(QLParser.QuestionContext ctx) {
-        QuestionType type =
+    public Question visitQuestion(QLParser.QuestionContext ctx) throws IllegalArgumentException{
+    	
+    	QuestionType type =
                 questionTypeTranslator.translate(ctx.QUESTION_TYPE());
         String text = ctx.questionText().getText();
+        text = text.substring(1, text.length()-1); // Remove ""
         String name = ctx.questionName().getText();
-        NumericExpression computedValue = null;
-        BooleanExpression computedBoolean = null;
+        Expression expression = null;
         if (ctx.computedValue() != null)
         {
-            if (type == QuestionType.Integer || type == QuestionType.Money || type == QuestionType.Decimal){
-                computedValue = numericExpressionParser.visitNumericExpression(ctx.computedValue().numericExpression());
+            if (ctx.computedValue().numericExpression() != null){
+                expression = numericExpressionParser.visitNumericExpression(ctx.computedValue().numericExpression());
             }
-            else if (type == QuestionType.Boolean)
+            else if (ctx.computedValue().booleanExpression() != null)
             {
-                computedBoolean = booleanExpressionParser.visitBooleanExpression(ctx.computedValue().booleanExpression());
+                expression = booleanExpressionParser.visitBooleanExpression(ctx.computedValue().booleanExpression());
             }
 
         }
         switch (type){
             case Boolean:
-                return new BooleanQuestion(name, text, type, computedBoolean, ctx);
+                return new BooleanQuestion(name, text, type, expression, ctx);
             case Money:
-                return new MoneyQuestion(name, text, type, computedValue, ctx);
+                return new MoneyQuestion(name, text, type, expression, ctx);
             case String:
                 return new StringQuestion(name, text, type, ctx);
             case Integer:
-                return new IntegerQuestion(name, text, type, computedValue, ctx);
+                return new IntegerQuestion(name, text, type, expression, ctx);
             case Date:
                 return new DateQuestion(name, text, type, ctx);
             case Decimal:
-                return new DecimalQuestion(name, text, type, computedValue, ctx);
+                return new DecimalQuestion(name, text, type, expression, ctx);
         }
         return null;
         

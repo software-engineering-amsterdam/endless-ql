@@ -17,8 +17,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ICalculationVisitor m_calculationVisitor;
         private readonly ISymbolTable m_lookup;
-
-
+        
         public BooleanEvaluatorVisitor(
             IDomainItemLocator domainItemLocator,
             ICalculationVisitor calculationVisitor,
@@ -29,7 +28,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             m_lookup = lookup;
         }
 
-        public bool Evaluate(Reference<IBooleanLogicNode> predicate)
+        public bool Evaluate(DomainId<IBooleanLogicNode> predicate)
         {
             var node = m_domainItemLocator.Get<IBooleanLogicNode>(predicate.Id);
             dynamic d = node;
@@ -69,8 +68,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 
             return question.Id;
         }
-
-
+        
         public object Evaluate(IUntypedVariableNode node)
         {
             var question = m_domainItemLocator
@@ -106,7 +104,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             dynamic d = expresion;
             return !Evaluate(d);
         }
-        
         
         public DateTime Evaluate(IDateNode node)
         {
@@ -150,7 +147,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 
         public decimal Evaluate(ICalculationNode node)
         {
-            return m_calculationVisitor.Calculate(new Reference<ICalculationNode>(node.Id));
+            return m_calculationVisitor.Calculate(new DomainId<ICalculationNode>(node.Id));
         }
 
         private dynamic EvaluateRight(IBinaryExpressionNode node)

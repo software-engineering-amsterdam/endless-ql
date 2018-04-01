@@ -15,11 +15,14 @@ public class FormBuilder {
 
     @SneakyThrows(IOException.class)
     public static Form parseFormFromLocation(String location) {
-        String content = new String(Files.readAllBytes(Paths.get(location)));
-        return parseFormFromString(content);
+        return parseFormFromString(new String(Files.readAllBytes(Paths.get(location))));
     }
 
     public static Form parseFormFromString(String qlInput) {
+        if (qlInput.isEmpty()) {
+           return null;
+        }
+
         ErrorListener errorListener = new ErrorListener();
 
         QLLexer lexer = new QLLexer(CharStreams.fromString(qlInput));

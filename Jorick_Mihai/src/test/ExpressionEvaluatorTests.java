@@ -17,59 +17,58 @@ import org.uva.jomi.ui.interpreter.value.StringValue;
 
 public class ExpressionEvaluatorTests {
 
-	private class StmtInterpreter implements Stmt.Visitor<Void> {
+	private class StatementInterpreter implements Statement.Visitor<Void> {
 
 		private ExpressionEvaluator exprEvaluator;
 
-		public StmtInterpreter() {
+		public StatementInterpreter() {
 			exprEvaluator = new ExpressionEvaluator();
 		}
 
-		public void interpret(List<Stmt> statements) {
-			for (Stmt statement : statements) {
+		public void interpret(List<Statement> statements) {
+			for (Statement statement : statements) {
 				execute(statement);
 			}
 		}
 
-		private void execute(Stmt stmt) {
-			stmt.accept(this);
+		private void execute(Statement statement) {
+			statement.accept(this);
 		}
 
-
 		@Override
-		public Void visit(FormStmt stmt) {
-			stmt.visitBlockStmt(this);
+		public Void visit(FormStatement form) {
+			form.visitBlockStatement(this);
 			return null;
 		}
 
 		@Override
-		public Void visit(BlockStmt stmt) {
-			stmt.getStatements().forEach( statement -> statement.accept(this));
+		public Void visit(BlockStatement block) {
+			block.getStatements().forEach( statement -> statement.accept(this));
 			return null;
 		}
 
 		@Override
-		public Void visit(QuestionStmt stmt) {
-			// TODO Interpret QuestionStmt.
+		public Void visit(QuestionStatement Statement) {
+			// TODO Interpret QuestionStatement.
 			return null;
 		}
 
 		@Override
-		public Void visit(ComputedQuestionStmt stmt) {
-			GenericValue value = stmt.getExp().accept(exprEvaluator);
-			String name = stmt.getName();
+		public Void visit(ComputedQuestionStatement question) {
+			GenericValue value = question.visitExpression(exprEvaluator);
+			String name = question.getName();
 			SymbolTable.getInstance().put(name, value);
 			return null;
 		}
 
 		@Override
-		public Void visit(IfStmt stmt) {
-			// TODO Interpret IfStmt.
+		public Void visit(IfStatement Statement) {
+			// TODO Interpret IfStatement.
 			return null;
 		}
 
 		@Override
-		public Void visit(IfElseStmt stmt) {
+		public Void visit(IfElseStatement Statement) {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -80,43 +79,43 @@ public class ExpressionEvaluatorTests {
 	 * The interpreter detects inconsistencies based on the operation type and values of the operands.
 	 */
 
-	StmtInterpreter interpreter = new StmtInterpreter();
+	StatementInterpreter interpreter = new StatementInterpreter();
 
 	// Addition tests.
 
 	String testSource1 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 1 + 2\n"
+			+ "\"question1\" q1: integer = 1 + 2\n"
 			+ "}";
 
 	@Test
 	public void test1() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource1);
+		List<Statement> ast = TestUtilities.buildAst(testSource1);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(3));
 	}
 
 	String testSource2 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 1\n"
-			+ "\"question2\" q2: integer q1 + 2\n"
+			+ "\"question1\" q1: integer = 1\n"
+			+ "\"question2\" q2: integer = q1 + 2\n"
 			+ "}";
 
 	@Test
 	public void test2() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource2);
+		List<Statement> ast = TestUtilities.buildAst(testSource2);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q2")).getValue().equals(3));
 	}
 
 	String testSource3 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: string \"one\" + \" plus \" + \"two\"\n"
+			+ "\"question1\" q1: string = \"one\" + \" plus \" + \"two\"\n"
 			+ "}";
 
 	@Test
 	public void test3() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource3);
+		List<Statement> ast = TestUtilities.buildAst(testSource3);
 		interpreter.interpret(ast);
 		assertTrue(((StringValue) SymbolTable.getInstance().get("q1")).getValue().equals("one plus two"));
 	}
@@ -125,24 +124,24 @@ public class ExpressionEvaluatorTests {
 
 	String testSource4 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 2 - 1\n"
+			+ "\"question1\" q1: integer = 2 - 1\n"
 			+ "}";
 
 	@Test
 	public void test4() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource4);
+		List<Statement> ast = TestUtilities.buildAst(testSource4);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(1));
 	}
 
 	String testSource5 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 1 - 2\n"
+			+ "\"question1\" q1: integer = 1 - 2\n"
 			+ "}";
 
 	@Test
 	public void test5() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource5);
+		List<Statement> ast = TestUtilities.buildAst(testSource5);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(-1));
 	}
@@ -151,24 +150,24 @@ public class ExpressionEvaluatorTests {
 
 	String testSource6 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 1 * 2\n"
+			+ "\"question1\" q1: integer = 1 * 2\n"
 			+ "}";
 
 	@Test
 	public void test6() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource6);
+		List<Statement> ast = TestUtilities.buildAst(testSource6);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(2));
 	}
 
 	String testSource7 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 2 * 4 - 1\n"
+			+ "\"question1\" q1: integer = 2 * 4 - 1\n"
 			+ "}";
 
 	@Test
 	public void test7() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource7);
+		List<Statement> ast = TestUtilities.buildAst(testSource7);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(7));
 	}
@@ -177,24 +176,24 @@ public class ExpressionEvaluatorTests {
 
 	String testSource8 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 4 / 2\n"
+			+ "\"question1\" q1: integer = 4 / 2\n"
 			+ "}";
 
 	@Test
 	public void test8() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource8);
+		List<Statement> ast = TestUtilities.buildAst(testSource8);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(2));
 	}
 
 	String testSource9 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: integer 2 / 4\n"
+			+ "\"question1\" q1: integer = 2 / 4\n"
 			+ "}";
 
 	@Test
 	public void test9() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource9);
+		List<Statement> ast = TestUtilities.buildAst(testSource9);
 		interpreter.interpret(ast);
 		assertTrue(((IntegerValue) SymbolTable.getInstance().get("q1")).getValue().equals(0));
 	}
@@ -203,48 +202,48 @@ public class ExpressionEvaluatorTests {
 
 	String testSource10 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true && true\n"
+			+ "\"question1\" q1: boolean = true && true\n"
 			+ "}";
 
 	@Test
 	public void test10() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource10);
+		List<Statement> ast = TestUtilities.buildAst(testSource10);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource11 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false && true\n"
+			+ "\"question1\" q1: boolean = false && true\n"
 			+ "}";
 
 	@Test
 	public void test11() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource11);
+		List<Statement> ast = TestUtilities.buildAst(testSource11);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource12 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true && false\n"
+			+ "\"question1\" q1: boolean = true && false\n"
 			+ "}";
 
 	@Test
 	public void test12() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource12);
+		List<Statement> ast = TestUtilities.buildAst(testSource12);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource13 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false && false\n"
+			+ "\"question1\" q1: boolean = false && false\n"
 			+ "}";
 
 	@Test
 	public void test13() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource13);
+		List<Statement> ast = TestUtilities.buildAst(testSource13);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
@@ -253,48 +252,48 @@ public class ExpressionEvaluatorTests {
 
 	String testSource14 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true || true\n"
+			+ "\"question1\" q1: boolean = true || true\n"
 			+ "}";
 
 	@Test
 	public void test14() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource14);
+		List<Statement> ast = TestUtilities.buildAst(testSource14);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource15 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false || true\n"
+			+ "\"question1\" q1: boolean = false || true\n"
 			+ "}";
 
 	@Test
 	public void test15() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource15);
+		List<Statement> ast = TestUtilities.buildAst(testSource15);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource16 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true || false\n"
+			+ "\"question1\" q1: boolean = true || false\n"
 			+ "}";
 
 	@Test
 	public void test16() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource16);
+		List<Statement> ast = TestUtilities.buildAst(testSource16);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource17 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false || false\n"
+			+ "\"question1\" q1: boolean = false || false\n"
 			+ "}";
 
 	@Test
 	public void test17() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource17);
+		List<Statement> ast = TestUtilities.buildAst(testSource17);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
@@ -303,36 +302,36 @@ public class ExpressionEvaluatorTests {
 
 	String testSource18 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 < 2\n"
+			+ "\"question1\" q1: boolean = 1 < 2\n"
 			+ "}";
 
 	@Test
 	public void test18() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource18);
+		List<Statement> ast = TestUtilities.buildAst(testSource18);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource19 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 < 1\n"
+			+ "\"question1\" q1: boolean = 2 < 1\n"
 			+ "}";
 
 	@Test
 	public void test19() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource19);
+		List<Statement> ast = TestUtilities.buildAst(testSource19);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource20 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 < 2\n"
+			+ "\"question1\" q1: boolean = 2 < 2\n"
 			+ "}";
 
 	@Test
 	public void test20() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource20);
+		List<Statement> ast = TestUtilities.buildAst(testSource20);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
@@ -341,36 +340,36 @@ public class ExpressionEvaluatorTests {
 
 	String testSource21 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 <= 2\n"
+			+ "\"question1\" q1: boolean = 1 <= 2\n"
 			+ "}";
 
 	@Test
 	public void test21() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource21);
+		List<Statement> ast = TestUtilities.buildAst(testSource21);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource22 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 <= 1\n"
+			+ "\"question1\" q1: boolean = 2 <= 1\n"
 			+ "}";
 
 	@Test
 	public void test22() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource22);
+		List<Statement> ast = TestUtilities.buildAst(testSource22);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource23 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 <= 2\n"
+			+ "\"question1\" q1: boolean = 2 <= 2\n"
 			+ "}";
 
 	@Test
 	public void test23() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource23);
+		List<Statement> ast = TestUtilities.buildAst(testSource23);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
@@ -379,36 +378,36 @@ public class ExpressionEvaluatorTests {
 
 	String testSource24 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 > 2\n"
+			+ "\"question1\" q1: boolean = 1 > 2\n"
 			+ "}";
 
 	@Test
 	public void test24() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource24);
+		List<Statement> ast = TestUtilities.buildAst(testSource24);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource25 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 > 1\n"
+			+ "\"question1\" q1: boolean = 2 > 1\n"
 			+ "}";
 
 	@Test
 	public void test25() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource25);
+		List<Statement> ast = TestUtilities.buildAst(testSource25);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource26 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 > 2\n"
+			+ "\"question1\" q1: boolean = 2 > 2\n"
 			+ "}";
 
 	@Test
 	public void test26() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource26);
+		List<Statement> ast = TestUtilities.buildAst(testSource26);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
@@ -417,36 +416,36 @@ public class ExpressionEvaluatorTests {
 
 	String testSource27 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 >= 2\n"
+			+ "\"question1\" q1: boolean = 1 >= 2\n"
 			+ "}";
 
 	@Test
 	public void test27() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource27);
+		List<Statement> ast = TestUtilities.buildAst(testSource27);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource28 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 >= 1\n"
+			+ "\"question1\" q1: boolean = 2 >= 1\n"
 			+ "}";
 
 	@Test
 	public void test28() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource28);
+		List<Statement> ast = TestUtilities.buildAst(testSource28);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource29 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 2 >= 2\n"
+			+ "\"question1\" q1: boolean = 2 >= 2\n"
 			+ "}";
 
 	@Test
 	public void test29() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource29);
+		List<Statement> ast = TestUtilities.buildAst(testSource29);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
@@ -455,84 +454,84 @@ public class ExpressionEvaluatorTests {
 
 	String testSource30 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 == 1\n"
+			+ "\"question1\" q1: boolean = 1 == 1\n"
 			+ "}";
 
 	@Test
 	public void test30() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource30);
+		List<Statement> ast = TestUtilities.buildAst(testSource30);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource31 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 == 2\n"
+			+ "\"question1\" q1: boolean = 1 == 2\n"
 			+ "}";
 
 	@Test
 	public void test31() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource31);
+		List<Statement> ast = TestUtilities.buildAst(testSource31);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource32 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true == false\n"
+			+ "\"question1\" q1: boolean = true == false\n"
 			+ "}";
 
 	@Test
 	public void test32() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource32);
+		List<Statement> ast = TestUtilities.buildAst(testSource32);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource33 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true == true\n"
+			+ "\"question1\" q1: boolean = true == true\n"
 			+ "}";
 
 	@Test
 	public void test33() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource33);
+		List<Statement> ast = TestUtilities.buildAst(testSource33);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource34 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false == false\n"
+			+ "\"question1\" q1: boolean = false == false\n"
 			+ "}";
 
 	@Test
 	public void test34() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource34);
+		List<Statement> ast = TestUtilities.buildAst(testSource34);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource35 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean \"one\" == \"one\"\n"
+			+ "\"question1\" q1: boolean = \"one\" == \"one\"\n"
 			+ "}";
 
 	@Test
 	public void test35() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource35);
+		List<Statement> ast = TestUtilities.buildAst(testSource35);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource36 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean \"one\" == \"two\"\n"
+			+ "\"question1\" q1: boolean = \"one\" == \"two\"\n"
 			+ "}";
 
 	@Test
 	public void test36() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource36);
+		List<Statement> ast = TestUtilities.buildAst(testSource36);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
@@ -541,84 +540,84 @@ public class ExpressionEvaluatorTests {
 
 	String testSource37 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 != 1\n"
+			+ "\"question1\" q1: boolean = 1 != 1\n"
 			+ "}";
 
 	@Test
 	public void test37() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource37);
+		List<Statement> ast = TestUtilities.buildAst(testSource37);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource38 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean 1 != 2\n"
+			+ "\"question1\" q1: boolean = 1 != 2\n"
 			+ "}";
 
 	@Test
 	public void test38() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource38);
+		List<Statement> ast = TestUtilities.buildAst(testSource38);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource39 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true != false\n"
+			+ "\"question1\" q1: boolean = true != false\n"
 			+ "}";
 
 	@Test
 	public void test39() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource39);
+		List<Statement> ast = TestUtilities.buildAst(testSource39);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource40 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean true != true\n"
+			+ "\"question1\" q1: boolean = true != true\n"
 			+ "}";
 
 	@Test
 	public void test40() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource40);
+		List<Statement> ast = TestUtilities.buildAst(testSource40);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource41 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean false != false\n"
+			+ "\"question1\" q1: boolean = false != false\n"
 			+ "}";
 
 	@Test
 	public void test41() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource41);
+		List<Statement> ast = TestUtilities.buildAst(testSource41);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource42 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean \"one\" != \"one\"\n"
+			+ "\"question1\" q1: boolean = \"one\" != \"one\"\n"
 			+ "}";
 
 	@Test
 	public void test42() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource42);
+		List<Statement> ast = TestUtilities.buildAst(testSource42);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource43 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean \"one\" != \"two\"\n"
+			+ "\"question1\" q1: boolean = \"one\" != \"two\"\n"
 			+ "}";
 
 	@Test
 	public void test43() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource43);
+		List<Statement> ast = TestUtilities.buildAst(testSource43);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
@@ -627,73 +626,74 @@ public class ExpressionEvaluatorTests {
 
 	String testSource44 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean !true\n"
+			+ "\"question1\" q1: boolean = !true\n"
 			+ "}";
 
 	@Test
 	public void test44() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource44);
+		List<Statement> ast = TestUtilities.buildAst(testSource44);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource45 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean !false\n"
+			+ "\"question1\" q1: boolean = !false\n"
 			+ "}";
 
 	@Test
 	public void test45() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource45);
+		List<Statement> ast = TestUtilities.buildAst(testSource45);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	String testSource46 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean !(3 > 2) && ( 1 == 6)\n"
+			+ "\"question1\" q1: boolean = !(3 > 2) && ( 1 == 6)\n"
 			+ "}";
 
 	@Test
 	public void test46() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource46);
+		List<Statement> ast = TestUtilities.buildAst(testSource46);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(false));
 	}
 
 	String testSource47 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean !(1 > 2) && (15 != 6)\n"
+			+ "\"question1\" q1: boolean = !(1 > 2) && (15 != 6)\n"
 			+ "}";
 
 	@Test
 	public void test47() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(testSource47);
+		List<Statement> ast = TestUtilities.buildAst(testSource47);
 		interpreter.interpret(ast);
 		assertTrue(((BooleanValue) SymbolTable.getInstance().get("q1")).getValue().equals(true));
 	}
 
 	// Automatically generated negative tests.
 
-	String generatedSource1 = "form Form1 {\"\" q0: integer 1 + true }";
+	String generatedSource1 = "form Form1 {\"\" q0: integer = 1 + true }";
 
 	@Test
 	public void generatedTest1() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource1);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource1);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
 		}
+
 		catch (Exception e) {
 			assertTrue(e.getMessage().equals("RuntimeError: Cannot add a IntegerValue and a BooleanValue"));
 		}
 	}
 
-	String generatedSource2 = "form Form1 {\"\" q0: integer true + true }";
+	String generatedSource2 = "form Form1 {\"\" q0: integer = true + true }";
 
 	@Test
 	public void generatedTest2() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource2);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource2);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -704,11 +704,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource3 = "form Form1 {\"\" q0: integer true + \"string\" }";
+	String generatedSource3 = "form Form1 {\"\" q0: integer = true + \"string\" }";
 
 	@Test
 	public void generatedTest3() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource3);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource3);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -719,11 +719,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource4 = "form Form1 {\"\" q0: integer 1 - true }";
+	String generatedSource4 = "form Form1 {\"\" q0: integer = 1 - true }";
 
 	@Test
 	public void generatedTest4() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource4);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource4);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -734,11 +734,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource5 = "form Form1 {\"\" q0: integer 1 - \"string\" }";
+	String generatedSource5 = "form Form1 {\"\" q0: integer = 1 - \"string\" }";
 
 	@Test
 	public void generatedTest5() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource5);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource5);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -749,11 +749,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource6 = "form Form1 {\"\" q0: integer true - true }";
+	String generatedSource6 = "form Form1 {\"\" q0: integer = true - true }";
 
 	@Test
 	public void generatedTest6() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource6);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource6);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -764,11 +764,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource7 = "form Form1 {\"\" q0: integer true - \"string\" }";
+	String generatedSource7 = "form Form1 {\"\" q0: integer = true - \"string\" }";
 
 	@Test
 	public void generatedTest7() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource7);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource7);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -779,11 +779,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource8 = "form Form1 {\"\" q0: integer \"string\" - \"string\" }";
+	String generatedSource8 = "form Form1 {\"\" q0: integer = \"string\" - \"string\" }";
 
 	@Test
 	public void generatedTest8() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource8);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource8);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -794,11 +794,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource9 = "form Form1 {\"\" q0: integer 1 * true }";
+	String generatedSource9 = "form Form1 {\"\" q0: integer = 1 * true }";
 
 	@Test
 	public void generatedTest9() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource9);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource9);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -809,11 +809,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource10 = "form Form1 {\"\" q0: integer 1 * \"string\" }";
+	String generatedSource10 = "form Form1 {\"\" q0: integer = 1 * \"string\" }";
 
 	@Test
 	public void generatedTest10() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource10);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource10);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -824,11 +824,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource11 = "form Form1 {\"\" q0: integer true * true }";
+	String generatedSource11 = "form Form1 {\"\" q0: integer = true * true }";
 
 	@Test
 	public void generatedTest11() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource11);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource11);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -839,11 +839,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource12 = "form Form1 {\"\" q0: integer true * \"string\" }";
+	String generatedSource12 = "form Form1 {\"\" q0: integer = true * \"string\" }";
 
 	@Test
 	public void generatedTest12() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource12);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource12);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -854,11 +854,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource13 = "form Form1 {\"\" q0: integer \"string\" * \"string\" }";
+	String generatedSource13 = "form Form1 {\"\" q0: integer = \"string\" * \"string\" }";
 
 	@Test
 	public void generatedTest13() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource13);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource13);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -869,11 +869,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource14 = "form Form1 {\"\" q0: integer 1 / true }";
+	String generatedSource14 = "form Form1 {\"\" q0: integer = 1 / true }";
 
 	@Test
 	public void generatedTest14() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource14);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource14);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -884,11 +884,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource15 = "form Form1 {\"\" q0: integer 1 / \"string\" }";
+	String generatedSource15 = "form Form1 {\"\" q0: integer = 1 / \"string\" }";
 
 	@Test
 	public void generatedTest15() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource15);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource15);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -899,11 +899,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource16 = "form Form1 {\"\" q0: integer true / true }";
+	String generatedSource16 = "form Form1 {\"\" q0: integer = true / true }";
 
 	@Test
 	public void generatedTest16() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource16);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource16);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -914,11 +914,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource17 = "form Form1 {\"\" q0: integer true / \"string\" }";
+	String generatedSource17 = "form Form1 {\"\" q0: integer = true / \"string\" }";
 
 	@Test
 	public void generatedTest17() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource17);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource17);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -929,11 +929,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource18 = "form Form1 {\"\" q0: integer \"string\" / \"string\" }";
+	String generatedSource18 = "form Form1 {\"\" q0: integer = \"string\" / \"string\" }";
 
 	@Test
 	public void generatedTest18() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource18);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource18);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -944,11 +944,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource19 = "form Form1 {\"\" q0: integer 1 && 1 }";
+	String generatedSource19 = "form Form1 {\"\" q0: integer = 1 && 1 }";
 
 	@Test
 	public void generatedTest19() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource19);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource19);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -959,11 +959,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource20 = "form Form1 {\"\" q0: integer 1 && true }";
+	String generatedSource20 = "form Form1 {\"\" q0: integer = 1 && true }";
 
 	@Test
 	public void generatedTest20() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource20);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource20);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -974,11 +974,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource21 = "form Form1 {\"\" q0: integer 1 && \"string\" }";
+	String generatedSource21 = "form Form1 {\"\" q0: integer = 1 && \"string\" }";
 
 	@Test
 	public void generatedTest21() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource21);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource21);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -989,11 +989,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource22 = "form Form1 {\"\" q0: integer true && \"string\" }";
+	String generatedSource22 = "form Form1 {\"\" q0: integer = true && \"string\" }";
 
 	@Test
 	public void generatedTest22() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource22);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource22);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1004,11 +1004,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource23 = "form Form1 {\"\" q0: integer \"string\" && \"string\" }";
+	String generatedSource23 = "form Form1 {\"\" q0: integer = \"string\" && \"string\" }";
 
 	@Test
 	public void generatedTest23() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource23);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource23);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1019,11 +1019,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource24 = "form Form1 {\"\" q0: integer 1 || 1 }";
+	String generatedSource24 = "form Form1 {\"\" q0: integer = 1 || 1 }";
 
 	@Test
 	public void generatedTest24() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource24);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource24);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1034,11 +1034,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource25 = "form Form1 {\"\" q0: integer 1 || true }";
+	String generatedSource25 = "form Form1 {\"\" q0: integer = 1 || true }";
 
 	@Test
 	public void generatedTest25() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource25);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource25);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1049,11 +1049,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource26 = "form Form1 {\"\" q0: integer 1 || \"string\" }";
+	String generatedSource26 = "form Form1 {\"\" q0: integer = 1 || \"string\" }";
 
 	@Test
 	public void generatedTest26() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource26);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource26);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1064,11 +1064,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource27 = "form Form1 {\"\" q0: integer true || \"string\" }";
+	String generatedSource27 = "form Form1 {\"\" q0: integer = true || \"string\" }";
 
 	@Test
 	public void generatedTest27() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource27);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource27);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1079,11 +1079,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource28 = "form Form1 {\"\" q0: integer \"string\" || \"string\" }";
+	String generatedSource28 = "form Form1 {\"\" q0: integer = \"string\" || \"string\" }";
 
 	@Test
 	public void generatedTest28() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource28);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource28);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1094,11 +1094,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource29 = "form Form1 {\"\" q0: integer 1 > true }";
+	String generatedSource29 = "form Form1 {\"\" q0: integer = 1 > true }";
 
 	@Test
 	public void generatedTest29() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource29);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource29);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1109,11 +1109,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource30 = "form Form1 {\"\" q0: integer true > true }";
+	String generatedSource30 = "form Form1 {\"\" q0: integer = true > true }";
 
 	@Test
 	public void generatedTest30() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource30);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource30);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1124,11 +1124,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource31 = "form Form1 {\"\" q0: integer true > \"string\" }";
+	String generatedSource31 = "form Form1 {\"\" q0: integer = true > \"string\" }";
 
 	@Test
 	public void generatedTest31() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource31);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource31);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1139,11 +1139,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource32 = "form Form1 {\"\" q0: integer 1 >= true }";
+	String generatedSource32 = "form Form1 {\"\" q0: integer = 1 >= true }";
 
 	@Test
 	public void generatedTest32() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource32);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource32);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1154,11 +1154,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource33 = "form Form1 {\"\" q0: integer true >= true }";
+	String generatedSource33 = "form Form1 {\"\" q0: integer = true >= true }";
 
 	@Test
 	public void generatedTest33() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource33);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource33);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1169,11 +1169,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource34 = "form Form1 {\"\" q0: integer true >= \"string\" }";
+	String generatedSource34 = "form Form1 {\"\" q0: integer = true >= \"string\" }";
 
 	@Test
 	public void generatedTest34() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource34);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource34);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1184,11 +1184,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource35 = "form Form1 {\"\" q0: integer 1 < true }";
+	String generatedSource35 = "form Form1 {\"\" q0: integer = 1 < true }";
 
 	@Test
 	public void generatedTest35() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource35);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource35);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1199,11 +1199,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource36 = "form Form1 {\"\" q0: integer true < true }";
+	String generatedSource36 = "form Form1 {\"\" q0: integer = true < true }";
 
 	@Test
 	public void generatedTest36() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource36);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource36);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1214,11 +1214,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource37 = "form Form1 {\"\" q0: integer true < \"string\" }";
+	String generatedSource37 = "form Form1 {\"\" q0: integer = true < \"string\" }";
 
 	@Test
 	public void generatedTest37() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource37);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource37);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1229,11 +1229,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource38 = "form Form1 {\"\" q0: integer 1 <= true }";
+	String generatedSource38 = "form Form1 {\"\" q0: integer = 1 <= true }";
 
 	@Test
 	public void generatedTest38() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource38);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource38);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1244,11 +1244,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource39 = "form Form1 {\"\" q0: integer true <= true }";
+	String generatedSource39 = "form Form1 {\"\" q0: integer = true <= true }";
 
 	@Test
 	public void generatedTest39() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource39);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource39);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1259,11 +1259,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource40 = "form Form1 {\"\" q0: integer true <= \"string\" }";
+	String generatedSource40 = "form Form1 {\"\" q0: integer = true <= \"string\" }";
 
 	@Test
 	public void generatedTest40() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource40);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource40);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1274,11 +1274,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource41 = "form Form1 {\"\" q0: integer 1 == true }";
+	String generatedSource41 = "form Form1 {\"\" q0: integer = 1 == true }";
 
 	@Test
 	public void generatedTest41() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource41);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource41);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1289,11 +1289,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource42 = "form Form1 {\"\" q0: integer 1 == \"string\" }";
+	String generatedSource42 = "form Form1 {\"\" q0: integer = 1 == \"string\" }";
 
 	@Test
 	public void generatedTest42() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource42);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource42);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1304,11 +1304,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource43 = "form Form1 {\"\" q0: integer true == \"string\" }";
+	String generatedSource43 = "form Form1 {\"\" q0: integer = true == \"string\" }";
 
 	@Test
 	public void generatedTest43() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource43);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource43);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1319,11 +1319,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource44 = "form Form1 {\"\" q0: integer 1 != true }";
+	String generatedSource44 = "form Form1 {\"\" q0: integer = 1 != true }";
 
 	@Test
 	public void generatedTest44() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource44);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource44);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1334,11 +1334,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource45 = "form Form1 {\"\" q0: integer 1 != \"string\" }";
+	String generatedSource45 = "form Form1 {\"\" q0: integer = 1 != \"string\" }";
 
 	@Test
 	public void generatedTest45() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource45);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource45);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");
@@ -1349,11 +1349,11 @@ public class ExpressionEvaluatorTests {
 		}
 	}
 
-	String generatedSource46 = "form Form1 {\"\" q0: integer true != \"string\" }";
+	String generatedSource46 = "form Form1 {\"\" q0: integer = true != \"string\" }";
 
 	@Test
 	public void generatedTest46() throws Exception {
-		List<Stmt> ast = TestUtilities.buildAst(generatedSource46);
+		List<Statement> ast = TestUtilities.buildAst(generatedSource46);
 		try {
 			interpreter.interpret(ast);
 			fail("Test Failed");

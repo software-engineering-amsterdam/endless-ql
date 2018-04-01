@@ -1,12 +1,12 @@
-﻿namespace UnitTests.Domain.UnitTests.Utilities
+﻿namespace QL.UnitTests.Domain.UnitTests.Utilities
 {
     public struct RelationalOperatorCount
     {
-        public int EqualityCount;
-        public int InequalityCount;
-        public int GreaterThanCount;
-        public int GreaterOrEqualCount;
-        public int LessThanCount;
-        public int LessOrEqualCount;
+        public int EqualityCount { get; set; }
+        public int InequalityCount { get; set; }
+        public int GreaterThanCount { get; set; }
+        public int GreaterOrEqualCount { get; set; }
+        public int LessThanCount { get; set; }
+        public int LessOrEqualCount { get; set; }
     }
 }

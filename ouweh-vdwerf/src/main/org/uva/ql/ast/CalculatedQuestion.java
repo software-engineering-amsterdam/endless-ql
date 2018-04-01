@@ -5,7 +5,7 @@ import org.uva.ql.ast.type.Type;
 import org.uva.ql.visitor.StatementVisitor;
 
 public class CalculatedQuestion extends Question {
-    private Expression expression;
+    private final Expression expression;
 
     public CalculatedQuestion(String name, String content, Type type, Expression expression) {
         super(name, content, type);
@@ -18,7 +18,7 @@ public class CalculatedQuestion extends Question {
 
     @Override
     public String toString() {
-        return String.format("%s\t%s:%s = %s", this.getContent(), this.getName(), this.getType(), this.expression);
+        return String.format("\"%s\"\t%s:%s = %s", this.getContent(), this.getId(), this.getType(), this.expression);
     }
 
     @Override

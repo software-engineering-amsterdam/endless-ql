@@ -1,5 +1,6 @@
 package qlviz.gui.renderer.javafx;
 
+import com.google.inject.Inject;
 import javafx.event.EventType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -18,6 +19,7 @@ public class JavafxQuestionRenderer implements QuestionRenderer, QuestionViewMod
 
 	private final Pane target;
 
+	@Inject
 	public JavafxQuestionRenderer(Pane target) {
 		this.target = target;
 	}

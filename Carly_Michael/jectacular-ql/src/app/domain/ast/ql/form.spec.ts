@@ -1,4 +1,4 @@
-import {Form, Question, QuestionType} from './index';
+import {Form, QlQuestion} from './index';
 import {BooleanQuestion} from '../../angular-questions/boolean-question';
 import {InputQuestion} from '../../angular-questions/input-question';
 import {Statement} from './index';
@@ -6,15 +6,19 @@ import {If} from './if';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Variable} from './expressions/variable';
 import * as astMock from './ast-mock';
+import {BooleanQuestionType, DateQuestionType, IntQuestionType, StringQuestionType} from '../question-type';
+import {ConvertToFormQuestionsVisitor} from './visitors/convert-to-form-questions-visitor';
+import {CheckStatementTypeVisitor} from './visitors/check-statement-type-visitor';
+import {CollectQuestionsVisitor} from './visitors/collect-questions-visitor';
 
 describe('Form', () => {
 
   const questions: Statement[] = [
-    new Question('intQuestion', 'intQuestion?', QuestionType.INT, astMock.emptyLoc),
-    new Question('booleanQuestion', 'booleanQuestion?', QuestionType.BOOLEAN, astMock.emptyLoc),
-    new Question('booleanQuestion2', 'booleanQuestion2?', QuestionType.BOOLEAN, astMock.emptyLoc),
-    new Question('stringQuestion', 'stringQuestion?', QuestionType.STRING, astMock.emptyLoc),
-    new Question('dateQuestion', 'dateQuestion?', QuestionType.DATE, astMock.emptyLoc)
+    new QlQuestion('intQuestion', 'intQuestion?', new IntQuestionType(), astMock.emptyLoc),
+    new QlQuestion('booleanQuestion', 'booleanQuestion?', new BooleanQuestionType(), astMock.emptyLoc),
+    new QlQuestion('booleanQuestion2', 'booleanQuestion2?', new BooleanQuestionType(), astMock.emptyLoc),
+    new QlQuestion('stringQuestion', 'stringQuestion?', new StringQuestionType(), astMock.emptyLoc),
+    new QlQuestion('dateQuestion', 'dateQuestion?', new DateQuestionType(), astMock.emptyLoc)
   ];
 
   const ifs = [
@@ -22,7 +26,7 @@ describe('Form', () => {
       [
         new If
         (new Variable('booleanQuestion2', astMock.emptyLoc),
-          [new Question('intQuestion2', 'intQuestion2?', QuestionType.INT, astMock.emptyLoc)],
+          [new QlQuestion('intQuestion2', 'intQuestion2?', new IntQuestionType(), astMock.emptyLoc)],
           [],
           astMock.emptyLoc)
       ],
@@ -31,7 +35,7 @@ describe('Form', () => {
   ];
 
   it('should return the proper QuestionBase questions', () => {
-    const formQuestions = new Form('test', questions, astMock.emptyLoc).toFormQuestion();
+    const formQuestions = ConvertToFormQuestionsVisitor.visit(new Form('test', questions, astMock.emptyLoc));
     expect(formQuestions.length).toBe(5);
     expect(formQuestions[0].key).toBe('intQuestion');
     expect(formQuestions[0].label).toBe('intQuestion?');
@@ -45,7 +49,10 @@ describe('Form', () => {
   });
 
   it('should check condition of both ifs when nested', () => {
-    const formQuestions = new Form('test', questions.concat(ifs), astMock.emptyLoc).toFormQuestion();
+    const form = new Form('test', questions.concat(ifs), astMock.emptyLoc);
+    const allQuestions = CollectQuestionsVisitor.visit(form);
+    CheckStatementTypeVisitor.visit(allQuestions, form);
+    const formQuestions = ConvertToFormQuestionsVisitor.visit(form);
 
     expect(formQuestions.length).toBe(6);
 

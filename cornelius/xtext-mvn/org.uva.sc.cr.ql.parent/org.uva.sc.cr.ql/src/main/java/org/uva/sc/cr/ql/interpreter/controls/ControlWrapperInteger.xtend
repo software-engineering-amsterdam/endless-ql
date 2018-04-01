@@ -9,15 +9,15 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class ControlWrapperInteger extends ControlWrapper {
 
-	private static val DEFAULT_VALUE = 0
+	static val DEFAULT_VALUE = 0
 
 	@Accessors(PUBLIC_GETTER)
-	private var TextField textField
+	var TextField textField
 
 	new(Question question, StringBinding binding) {
 		super(question, binding)
 		if (question.expression !== null) {
-			textField.textProperty.bind(binding)
+			textField.textProperty().bind(binding)
 		} else {
 			textField.text = "" + DEFAULT_VALUE
 		}
@@ -32,8 +32,8 @@ class ControlWrapperInteger extends ControlWrapper {
 	}
 
 	override protected buildControl() {
-		textField = new TextField
-		textField.textFormatter = new TextFormatter(new IntegerStringConverter)
+		textField = new TextField()
+		textField.textFormatter = new TextFormatter(new IntegerStringConverter())
 	}
 
 }

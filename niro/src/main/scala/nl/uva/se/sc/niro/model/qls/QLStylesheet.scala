@@ -1,9 +1,14 @@
 package nl.uva.se.sc.niro.model.qls
 
-case class QLStylesheet(name: String, pages: Seq[Page])
+import nl.uva.se.sc.niro.model.ql.AnswerType
 
-case class Page(name: String, sections: Seq[Section])
+/**
+  * QLS AST
+  */
+case class QLStylesheet(name: String, pages: Seq[Page], defaultStyles: Map[AnswerType, Styling]) {
 
-case class Section(name: String, questions: Seq[Question])
+  def collectAllQuestions(): Seq[Question] = pages.flatMap(_.collectAllQuestions())
 
-case class Question(name: String)
+  def collectQuestionsForPage(pageName: String): Seq[Question] =
+    pages.filter(_.name == pageName).flatten(_.collectAllQuestions())
+}

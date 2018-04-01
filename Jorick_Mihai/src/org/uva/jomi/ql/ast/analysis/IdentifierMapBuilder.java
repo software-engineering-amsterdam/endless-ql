@@ -4,183 +4,191 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.uva.jomi.ql.ast.expressions.AdditionExpr;
-import org.uva.jomi.ql.ast.expressions.AndExpr;
-import org.uva.jomi.ql.ast.expressions.BinaryExpr;
-import org.uva.jomi.ql.ast.expressions.BooleanExpr;
-import org.uva.jomi.ql.ast.expressions.DivisionExpr;
-import org.uva.jomi.ql.ast.expressions.EqualExpr;
-import org.uva.jomi.ql.ast.expressions.Expr;
-import org.uva.jomi.ql.ast.expressions.GreaterThanExpr;
-import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpr;
-import org.uva.jomi.ql.ast.expressions.GroupingExpr;
-import org.uva.jomi.ql.ast.expressions.IdentifierExpr;
-import org.uva.jomi.ql.ast.expressions.IntegerExpr;
-import org.uva.jomi.ql.ast.expressions.LessThanExpr;
-import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpr;
-import org.uva.jomi.ql.ast.expressions.MultiplicationExpr;
-import org.uva.jomi.ql.ast.expressions.NotEqualExpr;
-import org.uva.jomi.ql.ast.expressions.OrExpr;
-import org.uva.jomi.ql.ast.expressions.StringExpr;
-import org.uva.jomi.ql.ast.expressions.SubtractionExpr;
-import org.uva.jomi.ql.ast.expressions.UnaryNotExpr;
-import org.uva.jomi.ql.ast.statements.BlockStmt;
-import org.uva.jomi.ql.ast.statements.ComputedQuestionStmt;
-import org.uva.jomi.ql.ast.statements.FormStmt;
-import org.uva.jomi.ql.ast.statements.IfElseStmt;
-import org.uva.jomi.ql.ast.statements.IfStmt;
-import org.uva.jomi.ql.ast.statements.QuestionStmt;
-import org.uva.jomi.ql.ast.statements.Stmt;
+import org.uva.jomi.ql.ast.expressions.AdditionExpression;
+import org.uva.jomi.ql.ast.expressions.AndExpression;
+import org.uva.jomi.ql.ast.expressions.BinaryExpression;
+import org.uva.jomi.ql.ast.expressions.BooleanExpression;
+import org.uva.jomi.ql.ast.expressions.DivisionExpression;
+import org.uva.jomi.ql.ast.expressions.EqualExpression;
+import org.uva.jomi.ql.ast.expressions.Expression;
+import org.uva.jomi.ql.ast.expressions.GreaterThanExpression;
+import org.uva.jomi.ql.ast.expressions.GreaterThanOrEqualExpression;
+import org.uva.jomi.ql.ast.expressions.GroupingExpression;
+import org.uva.jomi.ql.ast.expressions.IdentifierExpression;
+import org.uva.jomi.ql.ast.expressions.IntegerExpression;
+import org.uva.jomi.ql.ast.expressions.LessThanExpression;
+import org.uva.jomi.ql.ast.expressions.LessThanOrEqualExpression;
+import org.uva.jomi.ql.ast.expressions.MultiplicationExpression;
+import org.uva.jomi.ql.ast.expressions.NotEqualExpression;
+import org.uva.jomi.ql.ast.expressions.OrExpression;
+import org.uva.jomi.ql.ast.expressions.StringExpression;
+import org.uva.jomi.ql.ast.expressions.SubtractionExpression;
+import org.uva.jomi.ql.ast.expressions.UnaryNotExpression;
+import org.uva.jomi.ql.ast.statements.BlockStatement;
+import org.uva.jomi.ql.ast.statements.ComputedQuestionStatement;
+import org.uva.jomi.ql.ast.statements.FormStatement;
+import org.uva.jomi.ql.ast.statements.IfElseStatement;
+import org.uva.jomi.ql.ast.statements.IfStatement;
+import org.uva.jomi.ql.ast.statements.QuestionStatement;
+import org.uva.jomi.ql.ast.statements.Statement;
 
-public class IdentifierMapBuilder implements Stmt.Visitor<Void>, Expr.Visitor<List<String>> {
-	
+public class IdentifierMapBuilder implements Statement.Visitor<Void>, Expression.Visitor<List<String>> {
+
 	private HashMap<String, List<String>> map;
-	
+
 	public IdentifierMapBuilder() {
 		this.map = new HashMap<>();
 	}
-	
-	public HashMap<String, List<String>> buildMap(List<Stmt> statements) {
+
+	public HashMap<String, List<String>> buildMap(List<Statement> statements) {
 		// Clear the contents of the map.
 		this.map.clear();
 		statements.forEach( statement -> statement.accept(this));
 		return this.map;
 	}
-	
-	private List<String> visitBinaryExpression(BinaryExpr expr) {
-		List<String> left = expr.visitLeftExpr(this);
-		List<String> right = expr.visitRightExpr(this);
+
+	private List<String> visitBinaryExpression(BinaryExpression expr) {
+		List<String> left = expr.visitLeftExpression(this);
+		List<String> right = expr.visitRightExpression(this);
 		// Append the contents of the right list to the left one.
 		left.addAll(right);
 		return left;
 	}
-	
+
 	@Override
-	public Void visit(FormStmt stmt) {
-		stmt.visitBlockStmt(this);
+	public Void visit(FormStatement stmt) {
+		stmt.visitBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(BlockStmt stmt) {
+	public Void visit(BlockStatement stmt) {
 		stmt.getStatements().forEach( statement -> statement.accept(this));
 		return null;
 	}
 
 	@Override
-	public Void visit(QuestionStmt stmt) {
+	public Void visit(QuestionStatement stmt) {
 		this.map.put(stmt.getName(), new ArrayList<>());
 		return null;
 	}
 
 	@Override
-	public Void visit(ComputedQuestionStmt stmt) {
-		this.map.put(stmt.getName(), stmt.visitExpr(this));
+	public Void visit(ComputedQuestionStatement stmt) {
+		String name = stmt.getName();
+		if (this.map.containsKey(name)) {
+			List<String> list = this.map.get(name);
+			list.addAll(stmt.visitExpression(this));
+			this.map.put(name, list);
+		} else {
+			this.map.put(name, stmt.visitExpression(this));
+		}
+
 		return null;
 	}
 
 	@Override
-	public Void visit(IfStmt stmt) {
-		stmt.visitIfBlockStmt(this);
+	public Void visit(IfStatement stmt) {
+		stmt.visitIfBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfElseStmt stmt) {
-		stmt.visitIfBlockStmt(this);
-		stmt.visitElseBlockStmt(this);
+	public Void visit(IfElseStatement stmt) {
+		stmt.visitIfBlockStatement(this);
+		stmt.visitElseBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public List<String> visit(IdentifierExpr expr) {
+	public List<String> visit(IdentifierExpression expr) {
 		List<String> list = new ArrayList<String>();
 		list.add(expr.getName());
 		return list;
 	}
 
 	@Override
-	public List<String> visit(GroupingExpr expr) {
-		return expr.visitInnerExpr(this);
+	public List<String> visit(GroupingExpression expr) {
+		return expr.visitInnerExpression(this);
 	}
 
 	@Override
-	public List<String> visit(AdditionExpr expr) {
+	public List<String> visit(AdditionExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(SubtractionExpr expr) {
+	public List<String> visit(SubtractionExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(MultiplicationExpr expr) {
+	public List<String> visit(MultiplicationExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(DivisionExpr expr) {
+	public List<String> visit(DivisionExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(LessThanExpr expr) {
+	public List<String> visit(LessThanExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(LessThanOrEqualExpr expr) {
+	public List<String> visit(LessThanOrEqualExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(GreaterThanExpr expr) {
+	public List<String> visit(GreaterThanExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(GreaterThanOrEqualExpr expr) {
+	public List<String> visit(GreaterThanOrEqualExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(NotEqualExpr expr) {
+	public List<String> visit(NotEqualExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(EqualExpr expr) {
+	public List<String> visit(EqualExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(AndExpr expr) {
+	public List<String> visit(AndExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(OrExpr expr) {
+	public List<String> visit(OrExpression expr) {
 		return visitBinaryExpression(expr);
 	}
 
 	@Override
-	public List<String> visit(UnaryNotExpr expr) {
-		return expr.visitRightExpr(this);
+	public List<String> visit(UnaryNotExpression expr) {
+		return expr.visitRightExpression(this);
 	}
 
 	@Override
-	public List<String> visit(IntegerExpr expr) {
+	public List<String> visit(IntegerExpression expr) {
 		return new ArrayList<>();
 	}
 
 	@Override
-	public List<String>  visit(StringExpr expr) {
+	public List<String>  visit(StringExpression expr) {
 		return new ArrayList<>();
 	}
 
 	@Override
-	public List<String>  visit(BooleanExpr expr) {
+	public List<String>  visit(BooleanExpression expr) {
 		return new ArrayList<>();
 	}
 

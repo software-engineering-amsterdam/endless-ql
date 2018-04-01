@@ -1,5 +1,7 @@
 grammar QL;
 
+import LexerRules;
+
 @parser::header {
 	package org.uva.jomi.ql.parser.antlr;
 }
@@ -8,63 +10,32 @@ grammar QL;
 	package org.uva.jomi.ql.parser.antlr;
 }
 
-parse: formStmt* EOF ;
+parse: formStatement* EOF ;
 
-formStmt: 'form' IDENTIFIER blockStmt ;
+formStatement: 'form' IDENTIFIER blockStatement ;
 
-blockStmt: '{' command* '}' ;
+blockStatement: '{' command* '}' ;
 
-command: questionStmt
-	   | ifStmt
-	   | ifElseStmt
+command: questionStatement
+	   | ifStatement
+	   | ifElseStatement
 	   ;
 
-questionStmt: LABEL IDENTIFIER ':' TYPE (expression)? ;
-ifStmt: 'if' '(' expression ')' blockStmt ;
-ifElseStmt: 'if' '(' expression ')' ifBlock=blockStmt 'else' elseBlock=blockStmt;
+questionStatement: LABEL IDENTIFIER ':' TYPE ('=' expression)? ;
+ifStatement: 'if' '(' expression ')' blockStatement ;
+ifElseStatement: 'if' '(' expression ')' ifBlock=blockStatement 'else' elseBlock=blockStatement;
 
-expression: BOOLEAN # BooleanExpr
-		  | LABEL  # StringExpr
-		  | INTEGER # IntegerExpr
-		  | IDENTIFIER # IdentifierExpr
-		  | operator='!' expression # UnaryExpr
-          | '(' expression ')' # GroupingExpr
-          | left=expression operator=('*'|'/') right=expression # MultiplicationOrDivisionExpr
- 	   	  | left=expression operator=('+'|'-') right=expression # AdditionOrSubtractionExpr
-		  | left=expression operator=('>'|'>='|'<'|'<=') right=expression # ComparisonExpr
- 	      | left=expression operator=('!='|'==') right=expression # EqualityExpr
- 	      | left=expression operator='&&' right=expression # AndExpr
- 	      | left=expression operator='||' right=expression # OrExpr
+expression: BOOLEAN # BooleanExpression
+		  | LABEL  # StringExpression
+		  | INTEGER # IntegerExpression
+		  | IDENTIFIER # IdentifierExpression
+		  | operator='!' expression # UnaryExpression
+          | '(' expression ')' # GroupingExpression
+          | left=expression operator=('*'|'/') right=expression # MultiplicationOrDivisionExpression
+ 	   	  | left=expression operator=('+'|'-') right=expression # AdditionOrSubtractionExpression
+		  | left=expression operator=('>'|'>='|'<'|'<=') right=expression # ComparisonExpression
+ 	      | left=expression operator=('!='|'==') right=expression # EqualityExpression
+ 	      | left=expression operator='&&' right=expression # AndExpression
+ 	      | left=expression operator='||' right=expression # OrExpression
 		  ;
- 
-BOOLEAN: TRUE | FALSE ;
-TYPE: 'boolean' | 'string' | 'integer' | 'decimal' | 'date' | 'money';
- 
-TRUE: 'true' ;
-FALSE: 'false' ;
-STAR: '*' ;
-SLASH: '/' ;
-PLUS: '+' ;
-MINUS: '-' ;
-BANG: '!' ;
-GREATER: '>' ;
-GREATER_EQUAL: '>=' ;
-LESS: '<' ;
-LESS_EQUAL: '<=' ;
-BANG_EQUAL: '!=' ;
-EQUAL_EQUAL: '==' ;
-AND: '&&' ;
-OR: '||' ;
-INTEGER: ('-')? DIGIT+ ;
-LABEL: '"' .*? '"' ;
-
-LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ;
-COMMENT : '/*' .*? '*/' -> skip ;
-WS: [ \t\r\n] -> skip ;
-IDENTIFIER: LETTER+ (LETTER|DIGIT)*  ;
- 
-// Fragments (Prefix the rule with 'fragment': the rule will be used ONLY by other rules.)
-fragment
-DIGIT:	[0-9];
-fragment
-LETTER: [a-zA-Z];
+		  

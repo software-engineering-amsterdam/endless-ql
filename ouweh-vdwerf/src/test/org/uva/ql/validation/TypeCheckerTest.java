@@ -2,17 +2,20 @@ package org.uva.ql.validation;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.app.LogHandler;
+import org.uva.app.IOHandler;
 import org.uva.ql.ast.CalculatedQuestion;
 import org.uva.ql.ast.Form;
 import org.uva.ql.ast.Statement;
 import org.uva.ql.ast.expression.unary.Parameter;
 import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.IntegerType;
+import org.uva.ql.parsing.ASTBuilder;
+import org.uva.ql.validation.checker.TypeChecker;
+import org.uva.ql.validation.collector.SymbolTable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.logging.LogManager;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.assertFalse;
@@ -20,20 +23,42 @@ import static org.junit.Assert.assertTrue;
 
 public class TypeCheckerTest {
 
-    private LogHandler logHandler;
-
     @Before
-    public void setUp() {
-        Logger logger = Logger.getGlobal();
-        LogManager.getLogManager().reset();
-        this.logHandler = new LogHandler();
-        logger.addHandler(logHandler);
+    public void setUp() throws Exception {
+        //Disable console logging for tests.
+        Logger.getGlobal().setUseParentHandlers(false);
+    }
+
+    @Test
+    public void runCheckTestInputCalculation() {
+        String input = new IOHandler().readFile("input/test/ql/typeCalculation.ql");
+        ASTBuilder builder = new ASTBuilder();
+        Form form = builder.buildAST(input);
+
+        SymbolTable symbolTable = new SymbolTable(form);
+
+        TypeChecker typeChecker = new TypeChecker(form, symbolTable);
+
+        assertTrue(typeChecker.runCheck().hasErrors());
+    }
+
+    @Test
+    public void runCheckTestInputConditional() {
+        String input = new IOHandler().readFile("input/test/ql/typeConditional.ql");
+        ASTBuilder builder = new ASTBuilder();
+        Form form = builder.buildAST(input);
+
+        SymbolTable symbolTable = new SymbolTable(form);
+
+        TypeChecker typeChecker = new TypeChecker(form, symbolTable);
+
+        assertTrue(typeChecker.runCheck().hasErrors());
     }
 
     @Test
     public void correctTypesRunCheck() {
-        ArrayList<Statement> statements;
-        statements = new ArrayList<>(Arrays.asList(
+        List<Statement> statements;
+        statements = new ArrayList<>(Collections.singletonList(
                 new CalculatedQuestion(
                         "name",
                         "content",
@@ -43,20 +68,19 @@ public class TypeCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        SymbolTable symbolTable = new SymbolTable();
+        SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new IntegerType());
 
 
         TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-        typeChecker.runCheck();
 
-        assertFalse(logHandler.hasWarnings());
+        assertFalse(typeChecker.runCheck().hasWarnings());
     }
 
     @Test
     public void incorrectTypesRunCheck() {
-        ArrayList<Statement> statements;
-        statements = new ArrayList<>(Arrays.asList(
+        List<Statement> statements;
+        statements = new ArrayList<>(Collections.singletonList(
                 new CalculatedQuestion(
                         "name",
                         "content",
@@ -66,13 +90,12 @@ public class TypeCheckerTest {
         ));
         Form form = new Form("form", statements);
 
-        SymbolTable symbolTable = new SymbolTable();
+        SymbolTable symbolTable = new SymbolTable(form);
         symbolTable.add("parameter", new BooleanType());
 
 
         TypeChecker typeChecker = new TypeChecker(form, symbolTable);
-        typeChecker.runCheck();
 
-        assertTrue(logHandler.hasWarnings());
+        assertTrue(typeChecker.runCheck().hasErrors());
     }
 }

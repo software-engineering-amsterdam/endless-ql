@@ -1,8 +1,8 @@
 package GUI;
 import java.io.File;
 
-import QL.ParseObjectsQL.Form;
-import QL.ParseObjectsQL.QuestionMap;
+import QL.Analysis.TypeChecker;
+import QL.AST.Form;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import Application.Parser;
 
 public class QLUserInterface {
     public QLUserInterface(Stage stage){
@@ -38,9 +37,12 @@ public class QLUserInterface {
 
             Form form = parser.parseInputToForm(formFile.getPath());
 
+            performAnalysis(form);
+
+            //todo: static analysis typechecker
             Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
 
-            parser.printQLForm(form); //debug print the form questions in console
+            //parser.printQLForm(form); //debug print the form questions in console
             //parser.printQLSStyleSheet(stylesheet); //debug partially print stylesheet to console
 
             FormBuilder formBuilder = new FormBuilder(form, stage);
@@ -48,6 +50,12 @@ public class QLUserInterface {
         });
 
         layout.getChildren().add(debugBtn);
+    }
+
+    public void performAnalysis(Form form){
+        TypeChecker typechecker = new TypeChecker(form, form.getExpressionTable());
+        typechecker.typeCheck();
+        typechecker.detectLabelDuplication();
     }
 
     private void createBrowseButton(Stage stage, HBox layout){
@@ -59,7 +67,7 @@ public class QLUserInterface {
             if (file != null) {
                 Parser parser = new Parser();
                 Form form = parser.parseInputToForm(file.getPath());
-                QuestionMap questionMap = new QuestionMap(form);
+                //parser.printQLForm(form);
                 if (form == null) { Platform.exit(); }
                 else {
                     FormBuilder formBuilder = new FormBuilder(form, stage);

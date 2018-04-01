@@ -139,7 +139,7 @@ class QSLWidgetValidationTest {
 			  }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		if (expectError) {
 			validationTestHelper.assertError(result, QSLPackage.eINSTANCE.questionReference,
@@ -163,7 +163,7 @@ class QSLWidgetValidationTest {
 			  }
 		''')
 		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		Assert.assertTrue(result.eResource().errors.isEmpty())
 
 		if (expectError) {
 			validationTestHelper.assertError(result, QSLPackage.eINSTANCE.defaultStyle,

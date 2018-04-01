@@ -1,5 +1,7 @@
 package nl.uva.js.qlparser.wrappers.arithmetic;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public class CalculatableDouble extends Calculatable<Double> {
     private CalculatableDouble(Double value) {
         super(value);
@@ -7,6 +9,12 @@ public class CalculatableDouble extends Calculatable<Double> {
 
     public CalculatableDouble(String value) {
         super(Double.valueOf(value));
+    }
+
+    @Override
+    @JsonValue
+    Double get() {
+        return super.get();
     }
 
     @Override

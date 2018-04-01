@@ -38,15 +38,15 @@ abstract class ControlWrapper {
 	}
 
 	def HBox getControlWithLabel() {
-		val hbox = new HBox
+		val hbox = new HBox()
 		hbox.children.add(label)
 		hbox.children.add(control)
 		return hbox
 	}
 
 	def bindVisibleProperty(Binding binding) {
-		control.visibleProperty.bind(binding)
-		label.visibleProperty.bind(binding)
+		control.visibleProperty().bind(binding)
+		label.visibleProperty().bind(binding)
 	}
 
 }

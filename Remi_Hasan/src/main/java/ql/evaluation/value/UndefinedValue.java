@@ -1,17 +1,12 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class UndefinedValue extends Value<Boolean> {
 
     public UndefinedValue() {
-        super(false);
-    }
-
-    @Override
-    public boolean isUndefined() {
-        return true;
+        super(null);
     }
 
     @Override
@@ -20,28 +15,28 @@ public class UndefinedValue extends Value<Boolean> {
     }
 
     @Override
-    public Integer getIntValue() {
-        return 0;
+    public Integer getIntegerValue() {
+        return null;
     }
 
     @Override
     public Double getDecimalValue() {
-        return 0.0;
+        return null;
     }
 
     @Override
     public BigDecimal getMoneyValue() {
-        return new BigDecimal(0);
+        return null;
     }
 
     @Override
     public String getStringValue() {
-        return "";
+        return null;
     }
 
     @Override
-    public Date getDateValue() {
-        return new Date();
+    public LocalDate getDateValue() {
+        return null;
     }
 
     @Override
@@ -96,16 +91,21 @@ public class UndefinedValue extends Value<Boolean> {
 
     @Override
     public Value or(Value right) {
-        return new BooleanValue(right.getBooleanValue());
+        return new UndefinedValue();
     }
 
     @Override
     public Value not() {
-        return new BooleanValue(true);
+        return new UndefinedValue();
     }
 
     @Override
     public Value neg() {
         return new UndefinedValue();
+    }
+
+    @Override
+    public boolean isUndefined() {
+        return true;
     }
 }

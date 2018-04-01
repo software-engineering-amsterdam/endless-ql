@@ -1,7 +1,7 @@
 package ql.evaluation.value;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 public abstract class Value<T> {
     public final T value;
@@ -10,9 +10,13 @@ public abstract class Value<T> {
         this.value = value;
     }
 
+    public T getValue() {
+        return this.value;
+    }
+
     public abstract Boolean getBooleanValue();
 
-    public abstract Integer getIntValue();
+    public abstract Integer getIntegerValue();
 
     public abstract Double getDecimalValue();
 
@@ -20,7 +24,7 @@ public abstract class Value<T> {
 
     public abstract String getStringValue();
 
-    public abstract Date getDateValue();
+    public abstract LocalDate getDateValue();
 
     public abstract Value divide(Value right);
 
@@ -50,6 +54,11 @@ public abstract class Value<T> {
 
     public boolean isUndefined() {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return this.value.toString();
     }
 }
 

@@ -8,7 +8,8 @@ stylesheet taxOfficeExample
         widget checkbox
     }
     section "Loaning"
-      question hasMaintLoan
+      question hasMainLoan
+        widget dropdown("I think so", "I don't know")
   }
 
   page Selling
@@ -23,7 +24,7 @@ stylesheet taxOfficeExample
           widget spinbox
 
         question privateDebt
-          widget spinbox
+          widget slider(50000, 250000, 10000)
 
         question valueResidue
 

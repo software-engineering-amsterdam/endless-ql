@@ -1,5 +1,4 @@
-﻿using System;
-using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
+﻿using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Tools.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 
@@ -14,7 +13,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             m_astTreeBuilder = astTreeBuilder;
         }
 
-        public Reference<IQuestionnaireRootNode> Create(string definition)
+        public DomainId<IQuestionnaireRootNode> Create(string definition)
         {
             return m_astTreeBuilder.BuildForm(definition);
         }

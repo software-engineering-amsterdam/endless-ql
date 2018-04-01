@@ -1,17 +1,4 @@
-grammar QL;
-//ToDo: Turkish Test
-//ToDo: Escaped Characters
-//ToDo: Clean - make sure no redundancy / orphans
-//ToDo: Make sure the names are representative of what they do
-//ToDo: Check for dangling else problem
-
-//ToDo: ?multiple forms?
-//ToDo: ?string concatination?
-//ToDo: ?calculated string questionText?
-//ToDo: ?Add money format? : CurrencyUnit [0-9]+('.')?([0-9][0-9] | ([0-9][0-9][0-9]))? yen= 3decimal, what about bitcoin?)
-//ToDo: ?Should I add Exponents (^)?
-//ToDo: ?Should I add unicode formfeed to whitespace (u+000C)?
-//ToDo: ?Do I want increment decrement operators ('++','--')?
+grammar Ql;
 
 questionnaire:  ENTRYPOINT IDENTIFIER BEGINSCOPE content=statement* ENDSCOPE; 
 
@@ -56,7 +43,7 @@ booleanExpression : IDENTIFIER                             #booleanQuestionIdent
                     rightExpression=booleanExpression      #andOrStatement
                   | leftExpression=booleanExpression 
                        operator=equalityOperator 
-                      rightExpression=booleanExpression      #booleanComparison
+                      rightExpression=booleanExpression    #booleanComparison
                   | relationalExpression                   #relativeExpression
                   ;
 
@@ -75,11 +62,11 @@ mathExpression : IDENTIFIER                              #numberVariableName
                | mathValue                               #numberLiteral
                | BEGINGROUP mathExpression ENDGROUP      #mathExpressionGroup
                | leftExpression=mathExpression 
-                     operator=(MULTIPLY | DIVIDE) 
-                   rightExpression=mathExpression          #multiplyDivideExpression
-                 | leftExpression=mathExpression 
-                     operator=(ADD | MINUS) 
-                   rightExpression=mathExpression          #addSubtractExpression
+                    operator=(MULTIPLY | DIVIDE) 
+                 rightExpression=mathExpression          #multiplyDivideExpression
+               | leftExpression=mathExpression 
+                    operator=(ADD | MINUS) 
+                 rightExpression=mathExpression          #addSubtractExpression
                ;
 
 relationalOperator: chosenOperator=(ISEQUAL 

@@ -6,20 +6,26 @@ import ql.ast.visitors.TypeVisitor;
 
 public abstract class Type extends ASTNode {
 
-    public Type(SourceLocation sourceLocation) {
+    protected Type(SourceLocation sourceLocation) {
         super(sourceLocation);
     }
 
-    public abstract String toString();
+    public abstract String getType();
 
     public boolean isOfType(String type) {
-        return toString().equals(type);
+        return getType().equals(type);
+    }
+
+    public boolean isNumeric() {
+        return false;
     }
 
     public boolean isCompatibleWith(Type otherType) {
-        return this.toString().equals(otherType.toString()) ||
-                (this.toString().equals("integer") && otherType.toString().equals("decimal")) ||
-                (this.toString().equals("decimal") && otherType.toString().equals("integer"));
+        if (otherType.isNumeric()) {
+            return this.isNumeric();
+        } else {
+            return this.getType().equals(otherType.getType());
+        }
     }
 
     public abstract <T> T accept(TypeVisitor<T> visitor);

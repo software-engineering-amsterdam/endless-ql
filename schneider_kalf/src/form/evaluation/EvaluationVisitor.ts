@@ -6,10 +6,10 @@ import Negation from "../nodes/expressions/boolean_expressions/Negation";
 import And from "../nodes/expressions/boolean_expressions/And";
 import Or from "../nodes/expressions/boolean_expressions/Or";
 import {
-  assertBoolean, assertComparable, assertDecimal, assertSameType, assertString,
-  assertValidDivision
+  assertBoolean, assertComparable, assertSameType, assertString,
+  assertValidDivision, assertNumberValue, assertDate,
 } from "../type_checking/type_assertions";
-import Variable from "../nodes/expressions/VariableIdentifier";
+import VariableIdentifier from "../nodes/expressions/VariableIdentifier";
 import { UnkownVariableIdentifierError } from "../form_errors";
 import BooleanLiteral from "../nodes/literals/BooleanLiteral";
 import Division from "../nodes/expressions/arithmetic/Division";
@@ -25,16 +25,19 @@ import StringLiteral from "../nodes/literals/StringLiteral";
 import DateLiteral from "../nodes/literals/DateLiteral";
 import FormState from "../state/FormState";
 import Decimal from "decimal.js/decimal";
+import NumberValue from "../values/NumberValue";
+import NumericOperation from "../values/NumericOperation";
+import { isNumberValue } from "../values/values_helpers";
+import { Maybe } from "../../helpers/type_helper";
 
 /**
  * The evaluation visitor travels through an expression and calculates
  * a numeric result after performing arithmetic operations or a boolean result
  * for a logical statement.
  *
- * TODO: Maybe use mixins to separate boolean and arithmetic logic
  */
 export default class EvaluationVisitor implements ExpressionVisitor {
-  private state: FormState | undefined;
+  private state: Maybe<FormState>;
 
   constructor(state?: FormState) {
     this.state = state;
@@ -46,9 +49,9 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @todo Construct evaluation visitor with store for variable values to evaluate identifiers.
    * @param {VariableIdentifier} variable
    */
-  visitVariableIdentifier(variable: Variable) {
+  visitVariableIdentifier(variable: VariableIdentifier) {
     if (!this.state || !this.state.has(variable.identifier)) {
-      throw UnkownVariableIdentifierError.make(variable.identifier);
+      throw UnkownVariableIdentifierError.make(variable);
     }
 
     return this.state.get(variable.identifier);
@@ -70,21 +73,6 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    */
   visitBooleanLiteral(literal: BooleanLiteral): any {
     return assertBoolean(literal.getValue());
-  }
-
-  /**
-   * Evaluates a division node after evaluation the left and right side and checking
-   * if the division is valid.
-   * @param {Division} division
-   * @returns {any}
-   */
-  visitDivision(division: Division): any {
-    const dividendValue: Decimal = assertDecimal(division.dividend.accept(this));
-    const divisorValue: Decimal = assertDecimal(division.divisor.accept(this));
-
-    assertValidDivision(dividendValue, divisorValue);
-
-    return dividendValue.div(divisorValue);
   }
 
   /**
@@ -110,11 +98,26 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @param {Multiplication} multiplication
    * @returns {any}
    */
-  visitMultiplication(multiplication: Multiplication): any {
-    const left: Decimal = assertDecimal(multiplication.left.accept(this));
-    const right: Decimal = assertDecimal(multiplication.right.accept(this));
+  visitMultiplication(multiplication: Multiplication): NumberValue {
+    const left: NumberValue = assertNumberValue(multiplication.left.accept(this));
+    const right: NumberValue = assertNumberValue(multiplication.right.accept(this));
 
-    return left.mul(right);
+    return NumericOperation.make(left, right).multiply();
+  }
+
+  /**
+   * Evaluates a division node after evaluation the left and right side and checking
+   * if the division is valid.
+   * @param {Division} division
+   * @returns {any}
+   */
+  visitDivision(division: Division): NumberValue {
+    const dividendValue: NumberValue = assertNumberValue(division.dividend.accept(this));
+    const divisorValue: NumberValue = assertNumberValue(division.divisor.accept(this));
+
+    assertValidDivision(dividendValue, divisorValue);
+
+    return NumericOperation.make(dividendValue, divisorValue).divide();
   }
 
   /**
@@ -122,43 +125,18 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @param {Addition} addition
    * @returns {any}
    */
-  visitAddition(addition: Addition): any {
-    const left: Decimal = assertDecimal(addition.left.accept(this));
-    const right: Decimal = assertDecimal(addition.left.accept(this));
+  visitAddition(addition: Addition): NumberValue {
+    const left: NumberValue = assertNumberValue(addition.left.accept(this));
+    const right: NumberValue = assertNumberValue(addition.right.accept(this));
 
-    return left.add(right);
+    return NumericOperation.make(left, right).add();
   }
 
-  visitSubtraction(subtraction: Subtraction): any {
-    const left: Decimal = assertDecimal(subtraction.left.accept(this));
-    const right: Decimal = assertDecimal(subtraction.right.accept(this));
+  visitSubtraction(subtraction: Subtraction): NumberValue {
+    const left: NumberValue = assertNumberValue(subtraction.left.accept(this));
+    const right: NumberValue = assertNumberValue(subtraction.right.accept(this));
 
-    return left.minus(right);
-  }
-
-  visitLargerThan(largerThan: LargerThan): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(largerThan);
-    return leftValue >= rightValue;
-  }
-
-  visitLargerThanOrEqual(largerThanOrEqual: LargerThanOrEqual): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(largerThanOrEqual);
-    return leftValue >= rightValue;
-  }
-
-  visitSmallerThan(smallerThan: SmallerThan): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThan);
-    return leftValue < rightValue;
-  }
-
-  visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThanOrEqual);
-    return leftValue <= rightValue;
-  }
-
-  visitNotEqual(notEquals: NotEquals): any {
-    const {leftValue, rightValue} = this.assertSidesAreComparable(notEquals);
-    return leftValue !== rightValue;
+    return NumericOperation.make(left, right).subtract();
   }
 
   /**
@@ -168,7 +146,62 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    */
   visitEquals(equals: Equals) {
     const {leftValue, rightValue} = this.assertSidesAreComparable(equals);
+
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).equals();
+    }
+
     return leftValue === rightValue;
+  }
+
+  visitLargerThan(largerThan: LargerThan): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(largerThan);
+
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).largerThan();
+    }
+
+    return leftValue > rightValue;
+  }
+
+  visitLargerThanOrEqual(largerThanOrEqual: LargerThanOrEqual): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(largerThanOrEqual);
+
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).largerThanOrEqual();
+    }
+
+    return leftValue >= rightValue;
+  }
+
+  visitSmallerThan(smallerThan: SmallerThan): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThan);
+
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).smallerThan();
+    }
+
+    return leftValue < rightValue;
+  }
+
+  visitSmallerThanOrEqual(smallerThanOrEqual: SmallerThanOrEqual): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(smallerThanOrEqual);
+
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).smallerThanOrEqual();
+    }
+
+    return leftValue <= rightValue;
+  }
+
+  visitNotEqual(notEquals: NotEquals): any {
+    const {leftValue, rightValue} = this.assertSidesAreComparable(notEquals);
+
+    if (isNumberValue(leftValue) && isNumberValue(rightValue)) {
+      return NumericOperation.make(leftValue, rightValue).notEqual();
+    }
+
+    return leftValue !== rightValue;
   }
 
   /**
@@ -177,7 +210,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @returns {any}
    */
   visitNumberLiteral(literal: NumberLiteral): any {
-    return assertDecimal(literal.getValue());
+    return assertNumberValue(literal.getValue());
   }
 
   /**
@@ -195,7 +228,7 @@ export default class EvaluationVisitor implements ExpressionVisitor {
    * @returns {any}
    */
   visitDateLiteral(literal: DateLiteral): any {
-    return assertString(literal.getValue());
+    return assertDate(literal.getValue());
   }
 
   /**
@@ -209,8 +242,8 @@ export default class EvaluationVisitor implements ExpressionVisitor {
     const leftValue: any = operator.left.accept(this);
     const rightValue: any = operator.right.accept(this);
 
-    assertSameType(leftValue, rightValue);
-    assertComparable(leftValue);
+    assertSameType(leftValue, rightValue, operator);
+    assertComparable(leftValue, operator);
     return {leftValue, rightValue};
   }
 }

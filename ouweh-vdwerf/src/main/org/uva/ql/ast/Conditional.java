@@ -9,32 +9,37 @@ import java.util.List;
 
 public class Conditional extends Statement {
 
-    private Expression condition;
-    private List<Statement> ifSide;
-    private List<Statement> elseSide;
+    private final Expression condition;
+    private final List<Statement> ifBlock;
+    private final List<Statement> elseBlock;
 
-    public Conditional(Expression condition, List<Statement> ifSide, List<Statement> elseSide) {
+    public Conditional(Expression condition, List<Statement> ifBlock, List<Statement> elseBlock) {
         this.condition = condition;
-        this.ifSide = ifSide;
-        this.elseSide = elseSide;
+        this.ifBlock = ifBlock;
+        this.elseBlock = elseBlock;
     }
 
-    public Conditional(Expression condition, List<Statement> ifSide) {
+    public Conditional(Expression condition, List<Statement> ifBlock) {
         this.condition = condition;
-        this.ifSide = ifSide;
-        this.elseSide = new ArrayList<>();
+        this.ifBlock = ifBlock;
+        this.elseBlock = new ArrayList<>();
     }
 
     public Expression getCondition() {
         return condition;
     }
 
-    public List<Statement> getIfSide() {
-        return ifSide;
+    public List<Statement> getIfBlock() {
+        return ifBlock;
     }
 
-    public List<Statement> getElseSide() {
-        return elseSide;
+    public List<Statement> getElseBlock() {
+        return elseBlock;
+    }
+
+    @Override
+    public String getId() {
+        return this.toString();
     }
 
     @Override
@@ -44,10 +49,10 @@ public class Conditional extends Statement {
 
     @Override
     public String toString() {
-        String conditional = String.format("If %s \n", this.condition);
-        for (Statement statement : ifSide) {
-            conditional += String.format("\t\t%s\n", statement);
+        StringBuilder conditional = new StringBuilder(String.format("If %s \n", this.condition));
+        for (Statement statement : ifBlock) {
+            conditional.append(String.format("\t\t%s\n", statement));
         }
-        return conditional;
+        return conditional.toString();
     }
 }

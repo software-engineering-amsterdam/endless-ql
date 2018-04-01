@@ -13,14 +13,14 @@ import ql.visiting.EvaluationVisitor;
 import ql.visiting.value.BooleanValue;
 import ql.ast.expression.Expression;
 import ql.ast.statement.Question;
-import ql.gui.widget.WidgetInterface;
+import ql.gui.widget.Widget;
 
 
 public class QuestionGUI implements ContextListener {
 	
 	private JPanel panel;
-	private WidgetInterface label;
-	private WidgetInterface value;
+	private Widget label;
+	private Widget value;
 	
 	private Question question;
 	private Expression enableExpression;
@@ -30,17 +30,17 @@ public class QuestionGUI implements ContextListener {
 	public QuestionGUI(
 					EvaluationContext ctx,
 					Question question,
-					WidgetInterface label,
-					WidgetInterface value,
+					Widget label,
+					Widget value,
 					Expression enableExpression,
 					Expression computableExpression) {
 		
-		this.panel = new JPanel(new BorderLayout());
-		this.panel.setMinimumSize(new Dimension(250, 50));
-		this.panel.setMaximumSize(new Dimension(800, 200));
-		this.panel.setPreferredSize(new Dimension(700, 200));
-		this.panel.add(label.getJComponent(), BorderLayout.CENTER);
-		this.panel.add(value.getJComponent(), BorderLayout.EAST);
+		panel = new JPanel(new BorderLayout());
+		panel.setMinimumSize(new Dimension(250, 50));
+		panel.setMaximumSize(new Dimension(800, 200));
+		panel.setPreferredSize(new Dimension(700, 200));
+		panel.add(label.getJComponent(), BorderLayout.CENTER);
+		panel.add(value.getJComponent(), BorderLayout.EAST);
 	
 		this.label = label;
 		this.value = value;

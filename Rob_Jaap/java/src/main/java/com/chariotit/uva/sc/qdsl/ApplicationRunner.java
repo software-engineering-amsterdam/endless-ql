@@ -1,12 +1,21 @@
 package com.chariotit.uva.sc.qdsl;
 
-import com.chariotit.uva.sc.qdsl.ast.TypeChecker;
-import com.chariotit.uva.sc.qdsl.ast.node.AstRoot;
-import com.chariotit.uva.sc.qdsl.ast.visitor.TypeCheckError;
+import com.chariotit.uva.sc.qdsl.ast.ql.TypeChecker;
+import com.chariotit.uva.sc.qdsl.ast.ql.node.QLAstRoot;
+import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
+import com.chariotit.uva.sc.qdsl.ast.qls.Validator;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
+import com.chariotit.uva.sc.qdsl.cli.ApplicationParameters;
+import com.chariotit.uva.sc.qdsl.cli.InvalidParametersException;
+import com.chariotit.uva.sc.qdsl.formbuilder.QLFormBuilder;
+import com.chariotit.uva.sc.qdsl.grammar.QLSLexer;
+import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
+import com.chariotit.uva.sc.qdsl.parser.QLSVisitor;
 import com.chariotit.uva.sc.qdsl.parser.QLVisitor;
-import com.chariotit.uva.sc.qdsl.QLFrame;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -15,80 +24,74 @@ import org.antlr.v4.runtime.*;
 import com.chariotit.uva.sc.qdsl.grammar.QLLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLParser;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
+import java.io.IOException;
 import java.util.List;
 
 @Component
 public class ApplicationRunner implements CommandLineRunner {
-//
-//    /**
-//     * Pull in the JFrame to be displayed.
-//     */
-//    @Autowired
-//    private QLFrame frame;
 
-    @Override
-    public void run(String... args) throws Exception {
+    private QLAstRoot getQLFromFilename(String filename) throws IOException {
 
-        if (args.length == 0) {
-            System.err.println("Missing filename argument. Please provide input file.");
-            System.exit(1);
-        }
-
-        System.out.println("Starting application");
-
-        String filePath = args[0];
-
-        CharStream input = CharStreams.fromFileName(filePath);
+        CharStream input = CharStreams.fromFileName(filename);
         QLLexer lexer = new QLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
         ParseTree tree = parser.forms();
         QLVisitor visitor = new QLVisitor();
 
-//        QLFormBuilder builder = new QLFormBuilder();
-//
-//        builder.addQuestion("Test question");
-//
-//        builder.showForm();
+        return (QLAstRoot) visitor.visit(tree);
+    }
 
-        // AST is initialised here.
-        AstRoot astRoot = (AstRoot)visitor.visit(tree);
+    private Stylesheet getQLSFromFilename(String filename) throws IOException {
+        CharStream input = CharStreams.fromFileName(filename);
+        QLSLexer lexer = new QLSLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        QLSParser parser = new QLSParser(tokens);
+        ParseTree tree = parser.stylesheet();
+        QLSVisitor visitor = new QLSVisitor();
+
+        return (Stylesheet) visitor.visit(tree);
+    }
+
+
+    private void runProgram(ApplicationParameters parameters) throws IOException {
+        QLAstRoot astRoot = getQLFromFilename(parameters.getQlFilename());
 
         // Run Typechecker
         TypeChecker typeChecker = new TypeChecker();
         List<TypeCheckError> errors = typeChecker.typeCheckAst(astRoot);
-        Boolean abort = false;
 
-        for (TypeCheckError error : errors) {
-            System.out.println(String.format(
-                    "%4s line %d, column %d: %s",
-                    error.getLevel(),
-                    error.getLineNumber(),
-                    error.getColumnNumber(),
-                    error.getMessage()
-            ));
+        TypeCheckError.print(errors);
 
-            if (error.getLevel() == TypeCheckError.Level.ERROR) {
-                abort = true;
-            }
-        }
-
-        if (abort) {
+        if (TypeCheckError.listContainsLevel(errors, TypeCheckError.Level.ERROR)) {
             System.exit(1);
         }
 
-        // If everything ok, build form with new Visitor (extend NodeVisitor in
-        // com.chariotit.uva.sc.qdsl.ast.visitor)
-        // Keep variable values in in SymbolTable (in AstRoot)
-        // SymbolTable is initialised in TypeChecker
+        if (parameters.getQlsFilename() != null) {
+            Stylesheet stylesheet = getQLSFromFilename(parameters.getQlsFilename());
 
-//        QLFormBuilder builder = new QLFormBuilder();
-//
-//        builder.showForm();
+            Validator validator = new Validator(astRoot);
+            List<TypeCheckError> qlsErrors = validator.typeCheckQLS(stylesheet);
 
-        System.out.println(astRoot);
+            TypeCheckError.print(qlsErrors);
+
+            if (TypeCheckError.listContainsLevel(qlsErrors, TypeCheckError.Level.ERROR)) {
+                System.exit(1);
+            }
+        }
+
+        QLFormBuilder builder = new QLFormBuilder(astRoot);
+    }
+
+    @Override
+    public void run(String... args) throws IOException {
+        try {
+            ApplicationParameters parameters = ApplicationParameters.get(args);
+            runProgram(parameters);
+        } catch (InvalidParametersException e) {
+            ApplicationParameters.printHelp();
+            System.exit(1);
+        }
     }
 
 }

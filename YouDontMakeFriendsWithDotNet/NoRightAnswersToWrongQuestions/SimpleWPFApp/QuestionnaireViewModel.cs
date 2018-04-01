@@ -1,45 +1,64 @@
 ﻿using System.ComponentModel;
-using System.Linq;
-using QuestionaireOrchestration.Commands;
-using QuestionaireOrchestration.Models;
-using QuestionaireOrchestration.QueryServices.Interfaces;
-using QuestionnaireInfrastructure.API;
-using SimpleWPFApp.Properties;
+using System.Windows.Input;
+using QuestionnaireUI.Models;
+using SimpleWPFApp.DataProvider;
 
 namespace SimpleWPFApp
 {
-    internal class QuestionnaireViewModel : IQuestionnaireViewModel
+    public class QuestionnaireViewModel : Observable, IQuestionnaireViewModel
     {
-        private readonly ICommandBus m_commandBus;
-        private readonly IModelQueryService<QuestionnaireDefinitionModel> m_queryService;
+        private readonly IQuestionnaireDataProvider m_dataProvider;
 
         public QuestionnaireViewModel(
-            ICommandBus commandBus,
-            IModelQueryService<QuestionnaireDefinitionModel> queryService)
+            IQuestionnaireDataProvider dataProvider)
         {
-            m_commandBus = commandBus;
-            m_queryService = queryService;
+            m_dataProvider = dataProvider;
         }
 
         public void Load()
         {
-            var command = new CreateDefinitionFromTextCommand
+            m_dataProvider.LoadDefaultQuestionnaire();
+            Questionnaire = m_dataProvider.GetSingleQuestionnaire();
+            DataChangedCommand = new DelegateCommand(OnDataChangedCommand);
+            foreach (var question in Questionnaire.Questions)
             {
-                DefinitionText = Resources.ExampleForm
-            };
-
-            var questionnaireDefinitionModel = m_queryService.GetAll().FirstOrDefault();
-            m_commandBus.Send(command);
+                question.PropertyChanged += OnDataChangedCommand;
+            }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged(
-            string propertyName = null)
+        private void OnDataChangedCommand(object sender, PropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(
-                this,
-                new PropertyChangedEventArgs(propertyName));
+            OnDataChangedCommand(null);
+        }
+
+        private void OnDataChangedCommand(object obj)
+        {
+            foreach (var question in Questionnaire.Questions)
+            {
+                question.PropertyChanged -= OnDataChangedCommand;
+            }
+
+            m_dataProvider.Reload(Questionnaire.Model);
+            Questionnaire = m_dataProvider.GetSingleQuestionnaire();
+
+            foreach (var question in Questionnaire.Questions)
+            {
+                question.PropertyChanged += OnDataChangedCommand;
+            }
+        }
+
+        public ICommand DataChangedCommand { get; private set; }
+
+        private QuestionnaireWrapper m_questionnaire;
+
+        public QuestionnaireWrapper Questionnaire
+        {
+            get { return m_questionnaire; }
+            private set
+            {
+                m_questionnaire = value;
+                RaisePropertyChanged();
+            }
         }
     }
 }

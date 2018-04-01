@@ -5,16 +5,16 @@ from pyql.ast.form.ql_statements import ComputedQuestion
 from pyql.ast.form.ql_statements import Question
 from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
-from pyql.ast.ast import ASTNode
+from util.ast import ASTNode
 from pyql.ast.expression.expressions import Identifier
-from pyql.util.types import Type
-from pyql.static_analysis.expression_visitor import ExpressionVisitor
+from util.types import Type
+from pyql.static_analysis.expression_evaluator import ExpressionEvaluator
 
 
 class TypeCheckVisitor:
 
     def __init__(self, symbol_table):
-        self._expression_visitor = ExpressionVisitor(symbol_table)
+        self._expression_visitor = ExpressionEvaluator(symbol_table)
 
     @multimethod(Identifier)
     def visit(self, identifier):

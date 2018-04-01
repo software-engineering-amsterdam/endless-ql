@@ -6,10 +6,10 @@ namespace Presentation.ViewModels
 {
     internal class MainViewModel : ReactiveObject
     {
-        private string _questionnaireInput;
-        private string _stylesheetInput;
+        private string _questionnaireInput = "form TestForm { \n \"Test question\" \n testQ: integer \n }";
+        private string _stylesheetInput = "stylesheet Test { \n page PageOne { \n section \"Section One\" { question testQ \n } \n } \n page PageTwo { \n section \"Section Two\" { question testQ \n } \n }";
         private string _questionnaireValidation;
-        private FormViewModel _formViewModel = new FormViewModel("Default");
+        private FormViewModel _formViewModel = new SinglePageFormViewModel("Default");
 
         public string AppTitle => Resources.MainTitle;
 

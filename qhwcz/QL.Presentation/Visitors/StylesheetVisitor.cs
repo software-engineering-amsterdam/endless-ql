@@ -3,6 +3,9 @@ using QLS.Api.Ast;
 using System.Linq;
 using System.Collections.Generic;
 using QLS.Api.Entities;
+using Presentation.Properties;
+using Presentation.Visitors.DataTransferObjects;
+using QLS.Core.Validation.WidgetTypes;
 
 namespace Presentation.Visitors
 {
@@ -10,7 +13,7 @@ namespace Presentation.Visitors
     {
         private IReadOnlyList<QuestionViewModel> _questions;
 
-        public PagesViewModel PagesViewModel { get; private set; } = new PagesViewModel();
+        public List<PageViewModel> PageViewModels { get; private set; } = new List<PageViewModel>();
 
         public StylesheetVisitor(IReadOnlyList<QuestionViewModel> questions)
         {
@@ -20,7 +23,7 @@ namespace Presentation.Visitors
         public override object Visit(PageNode page)
         {
             var pageViewModel = new PageViewModel(page.Label);
-            PagesViewModel.Pages.Add(pageViewModel);
+            PageViewModels.Add(pageViewModel);
             foreach (var sectionNode in page.ChildNodes)
             {
                 pageViewModel.Sections.Sections.Add(sectionNode.Accept(this) as SectionViewModel);
@@ -32,13 +35,19 @@ namespace Presentation.Visitors
         public override object Visit(SectionNode section)
         {            
             var sectionViewModel = new SectionViewModel(section.Label);
-            foreach (var questionNode in section.ChildNodes)
+            foreach (var styleNode in section.ChildNodes.OfType<StyleNode>())
+            {
+                var styleData = styleNode.Accept(this) as StyleData;
+                // TODO convert to view model?
+            }
+
+            foreach (var questionNode in section.ChildNodes.OfType<QuestionNode>())
             {
                 var questionViewModel = questionNode.Accept(this) as QuestionViewModel;
                 if (questionViewModel != null)
                 {
                     sectionViewModel.Questions.Add(questionViewModel);
-                }
+                }                
             }
 
             return sectionViewModel;
@@ -47,19 +56,61 @@ namespace Presentation.Visitors
         public override object Visit(QuestionNode question)
         {
             QuestionViewModel questionVm = _questions.FirstOrDefault(q => q.Id.Equals(question.Label));
-            if (question.ChildNodes.Count == 1 && questionVm != null)
+            if (questionVm == null)
             {
-                var widgetNode = question.ChildNodes[0];
-                var widgetType = (WidgetType)widgetNode.Accept(this);
-                questionVm.WidgetType = widgetType;
+                return null;
+            }
+
+            var styleNode = question.ChildNodes.OfType<StyleNode>().FirstOrDefault();
+            if (styleNode != null)
+            {
+                var styleData = styleNode.Accept(this) as StyleData;                
+                questionVm.Style = StyleViewModelFactory.CreateViewModel(styleData.Properties);
+                questionVm.WidgetType = styleData.Widget.WidgetType;
+                questionVm.YesOption = styleData.Widget.YesOption;
+                questionVm.NoOption = styleData.Widget.NoOption;
             }
 
             return questionVm;
         }
 
+        public override object Visit(PropertyNode node)
+        {
+            return new PropertyData(node.Name, node.Value);
+        }
+
         public override object Visit(WidgetNode node)
-        {            
-            return node.WidgetType;
+        {
+            var options = new List<string>();
+            foreach (var option in node.ChildNodes)
+            {
+                options.Add(option.Accept(this).ToString());
+            }
+
+            return new WidgetData(node.WidgetType, options.FirstOrDefault() ?? Resources.Yes, options.Skip(1).FirstOrDefault() ?? Resources.No);
+        }
+
+        public override object Visit(WidgetOptionNode node)
+        {
+            return node.Label;
+        }
+
+        public override object Visit(StyleNode node)
+        {
+            var properties = new List<PropertyData>();
+            foreach (var property in node.ChildNodes.OfType<PropertyNode>())
+            {
+                properties.Add(property.Accept(this) as PropertyData);
+            }
+
+            var widgetNode = node.ChildNodes.OfType<WidgetNode>().FirstOrDefault();
+            WidgetData widgetData = new WidgetData(new Undefined(), Resources.Yes, Resources.No);
+            if (widgetNode != null)
+            {
+                widgetData = widgetNode.Accept(this) as WidgetData;
+            }
+            
+            return new StyleData(properties, widgetData, node.TargetType);
         }
     }
 }

@@ -1,4 +1,5 @@
 package org.uva.jomi.ql.ast.analysis;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,27 +8,40 @@ import java.util.List;
 import org.uva.jomi.ql.ast.statements.*;
 import org.uva.jomi.ql.error.WarningHandler;
 
-public class DuplicatedLabelChecker extends WarningHandler implements Stmt.Visitor<Void> {
+public class DuplicatedLabelChecker implements Statement.Visitor<Void> {
 
 	private final HashMap<String, List<String>> labels;
+	private final WarningHandler warnings;
+
+	public DuplicatedLabelChecker() {
+		this(false);
+	}
 
 	public DuplicatedLabelChecker(boolean printWarnings) {
-		super("DuplicatedLabelChecker", printWarnings);
+		this.warnings = new WarningHandler(this.getClass().getSimpleName(), printWarnings);
 		this.labels = new HashMap<>();
 	}
 
-	public void check(List<Stmt> statements) {
-		for (Stmt statement : statements) {
+	public void check(List<Statement> statements) {
+		for (Statement statement : statements) {
 			statement.accept(this);
 		}
 	}
 
 	// This method was added for testing purposes.
 	public String getErrorAtIndex(int index) {
-		return this.getReport(index);
+		return this.warnings.getReport(index);
 	}
 
-	private void checkLabel(QuestionStmt stmt) {
+	public int getNumberOfWarnings() {
+		return this.warnings.getNumberOfWarnings();
+	}
+
+	public List<String> getWarnings() {
+		return this.warnings.getReports();
+	}
+
+	private void checkLabel(QuestionStatement stmt) {
 			if (labels.containsKey(stmt.getLabel())) {
 				// Get the list of question names
 				List<String> questionNames = this.labels.get(stmt.getLabel());
@@ -37,7 +51,7 @@ public class DuplicatedLabelChecker extends WarningHandler implements Stmt.Visit
 					questionNames.add(stmt.getName());
 				} else {
 					// Store out a warning.
-					this.addWarning(stmt, questionNames);
+					this.warnings.addDuplicatedLabelWarning(stmt, questionNames);
 					questionNames.add(stmt.getName());
 				}
 		    } else {
@@ -51,42 +65,42 @@ public class DuplicatedLabelChecker extends WarningHandler implements Stmt.Visit
 	}
 
 	@Override
-	public Void visit(FormStmt stmt) {
-		stmt.visitBlockStmt(this);
+	public Void visit(FormStatement stmt) {
+		stmt.visitBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(BlockStmt stmt) {
+	public Void visit(BlockStatement stmt) {
 		// Visit every statement in the block.
-		for (Stmt statement : stmt.getStatements()) {
+		for (Statement statement : stmt.getStatements()) {
 			statement.accept(this);
 		}
 		return null;
 	}
 
 	@Override
-	public Void visit(QuestionStmt stmt) {
+	public Void visit(QuestionStatement stmt) {
 		checkLabel(stmt);
 		return null;
 	}
 
 	@Override
-	public Void visit(ComputedQuestionStmt stmt) {
+	public Void visit(ComputedQuestionStatement stmt) {
 		checkLabel(stmt);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfStmt stmt) {
-		stmt.visitIfBlockStmt(this);
+	public Void visit(IfStatement stmt) {
+		stmt.visitIfBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfElseStmt stmt) {
-		stmt.visitIfBlockStmt(this);
-		stmt.visitElseBlockStmt(this);
+	public Void visit(IfElseStatement stmt) {
+		stmt.visitIfBlockStatement(this);
+		stmt.visitElseBlockStatement(this);
 		return null;
 	}
 }

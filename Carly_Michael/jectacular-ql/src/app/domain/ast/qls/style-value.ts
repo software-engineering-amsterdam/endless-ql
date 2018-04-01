@@ -2,15 +2,15 @@ export interface StyleValue {
   getValueAsString(): string;
 }
 
-export class RgbValue implements StyleValue {
-  constructor(public red: number, public green: number, public blue: number) { }
+export class HexValue implements StyleValue {
+  constructor(readonly value: string) { }
   getValueAsString(): string {
-    return '#' + this.red.toString() + this.green.toString() + this.blue.toString();
+    return this.value;
   }
 }
 
 export class NumberValue implements StyleValue {
-  constructor(public value: number) { }
+  constructor(readonly value: number) { }
 
   getValueAsString(): string {
     return this.value.toString() + 'px';
@@ -18,7 +18,7 @@ export class NumberValue implements StyleValue {
 }
 
 export class StringValue implements StyleValue {
-  constructor(public value: string) { }
+  constructor(readonly value: string) { }
 
   getValueAsString(): string {
     return this.value;

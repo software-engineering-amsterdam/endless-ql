@@ -1,11 +1,11 @@
 package ql.gui.widget;
 
+import java.util.Map;
+import java.util.LinkedHashMap;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
-import java.util.LinkedHashMap;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
@@ -18,7 +18,7 @@ import ql.ast.statement.Question;
 import ql.visiting.value.Value;
 
 
-public class RadioBtn extends Widget implements ActionListener {
+public class RadioBtn extends QLWidget implements ActionListener {
 	
 	private JPanel panel;
 	private FieldOptions options;
@@ -32,34 +32,32 @@ public class RadioBtn extends Widget implements ActionListener {
 	public RadioBtn(Question question, FieldOptions options, EvaluationContext ctx) {
 		// widget (question id, default value, context)
 		super(question.getIdentifier().toString(), options.getDefaultOption().getValue(), ctx);
-		this.radioButtons = new LinkedHashMap<>();
-		this.panel = new JPanel();
+		radioButtons = new LinkedHashMap<>();
+		panel = new JPanel();
 	    ButtonGroup group = new ButtonGroup();
 
 		for (FieldOption option : options.getOptions()) {
-			JRadioButton radioBtn = new JRadioButton(option.getName());
-			radioBtn.setActionCommand(option.getName());
+			JRadioButton radioBtn = new JRadioButton(option.getLabel());
+			radioBtn.setActionCommand(option.getLabel());
 			radioBtn.addActionListener(this);
 			group.add(radioBtn);
 			radioButtons.put(option, radioBtn); //key = option, val= radioBtn
-			this.panel.add(radioBtn);
+			panel.add(radioBtn);
 		}
-
 		this.options = options;
-		
 		//default option selected
 		setValueToUI(getDefaultValue());
-		setStyle(config);
+		setConfiguration(config);
 	}
 
 	@Override
-	public WidgetConfiguration getStyle() {
+	public WidgetConfiguration getConfiguration() {
 		return config;
 	}
 
 	// set radio & panel styling from configuration object
 	@Override
-	public void setStyle(WidgetConfiguration config) {
+	public void setConfiguration(WidgetConfiguration config) {
 		for (JRadioButton radio : radioButtons.values()) {
 			radio.setPreferredSize(new Dimension(config.getWidth(), config.getHeight()));
 			radio.setFont(config.getFont());
@@ -74,7 +72,7 @@ public class RadioBtn extends Widget implements ActionListener {
 	}
 
 	@Override
-	public Value getValueToUI() {
+	public Value getValueFromUI() {
 		for (FieldOption option : options.getOptions()) {
 			if (radioButtons.get(option).isSelected()) {
 				return option.getValue(); // return value of selected option
@@ -109,6 +107,6 @@ public class RadioBtn extends Widget implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		setValue(options.getOptionByName(e.getActionCommand()).getValue());
+		setValue(options.getOptionByLabel(e.getActionCommand()).getValue());
 	}
 }

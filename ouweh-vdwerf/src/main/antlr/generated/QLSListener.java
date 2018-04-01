@@ -60,6 +60,26 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitDefaultStatement(QLSParser.DefaultStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QLSParser#defaultWidgetStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefaultWidgetStatement(QLSParser.DefaultWidgetStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#defaultWidgetStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefaultWidgetStatement(QLSParser.DefaultWidgetStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#defaultStyleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefaultStyleStatement(QLSParser.DefaultStyleStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#defaultStyleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefaultStyleStatement(QLSParser.DefaultStyleStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QLSParser#question}.
 	 * @param ctx the parse tree
 	 */
@@ -210,15 +230,53 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitStyle(QLSParser.StyleContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#styleProperty}.
+	 * Enter a parse tree produced by the {@code fontSizeProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
 	 * @param ctx the parse tree
 	 */
-	void enterStyleProperty(QLSParser.StylePropertyContext ctx);
+	void enterFontSizeProperty(QLSParser.FontSizePropertyContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLSParser#styleProperty}.
+	 * Exit a parse tree produced by the {@code fontSizeProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
 	 * @param ctx the parse tree
 	 */
-	void exitStyleProperty(QLSParser.StylePropertyContext ctx);
+	void exitFontSizeProperty(QLSParser.FontSizePropertyContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code fontProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
+	 * @param ctx the parse tree
+	 */
+	void enterFontProperty(QLSParser.FontPropertyContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code fontProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
+	 * @param ctx the parse tree
+	 */
+	void exitFontProperty(QLSParser.FontPropertyContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code widthProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
+	 * @param ctx the parse tree
+	 */
+	void enterWidthProperty(QLSParser.WidthPropertyContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code widthProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
+	 * @param ctx the parse tree
+	 */
+	void exitWidthProperty(QLSParser.WidthPropertyContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code colorProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
+	 * @param ctx the parse tree
+	 */
+	void enterColorProperty(QLSParser.ColorPropertyContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code colorProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
+	 * @param ctx the parse tree
+	 */
+	void exitColorProperty(QLSParser.ColorPropertyContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code stringValue}
 	 * labeled alternative in {@link QLSParser#value}.

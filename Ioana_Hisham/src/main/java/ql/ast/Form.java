@@ -1,7 +1,8 @@
 package ql.ast;
 
-import ql.ast.expressions.literals.Identifier;
+import ql.ast.expressions.Identifier;
 import ql.ast.statements.Statement;
+import ql.visitors.FormVisitor;
 
 import java.util.List;
 
@@ -22,5 +23,9 @@ public class Form extends Node {
 
     public List<Statement> getStatements() {
         return statements;
+    }
+
+    public void accept(FormVisitor formVisitor) {
+        formVisitor.visit(this);
     }
 }

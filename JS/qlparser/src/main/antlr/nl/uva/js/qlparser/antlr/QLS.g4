@@ -10,12 +10,12 @@ LC: '//'~[\r\n]+ -> skip;
 STYLESHEET: 'stylesheet';
 
 // Keywords
-PAGE:     'page';
-SECTION:  'section';
-QUESTION: 'questions';
-WIDGET:   'widget';
-DEFAULT:  'default';
-STYLE:    'style';
+PAGE:       'page';
+SECTION:    'section';
+EXPRESSION: 'expression';
+WIDGET:     'widget';
+DEFAULT:    'default';
+STYLE:      'widgetStyle';
 
 // Datatypes
 DATE:       'date';
@@ -28,7 +28,6 @@ INTEGER:    'integer';
 // Special characters
 COLON:  ':';
 ASSIGN: '=';
-HASH:   '#';
 LB:     '{';
 RB:     '}';
 
@@ -45,15 +44,16 @@ WIDGETCOLOR: 'widgetcolor';
 FONTCOLOR:   'fontcolor';
 FONTTYPE:    'fonttype';
 FONTSTYLE:   'fontstyle';
+MIN:         'min';
+MAX:         'max';
 
+HEX: '#'[a-zA-Z0-9]*;
 
-// Question, page and widget names
+// Expression, page and widget names
 NAME: [a-zA-Z][a-zA-Z0-9]*;
 
 // String values for naming Pages and Sections
 STRVAL: '"'~['\\\r\n]*?'"';
-
-COLORVAL: '#'[a-zA-Z0-9]*;
 
 INTVAL:[0-9]+;
 
@@ -83,28 +83,14 @@ property
     | FONTCOLOR
     | FONTTYPE
     | FONTSTYLE
+    | MIN
+    | MAX
     ;
-
-value
-    : STRVAL
-    | INTVAL
-    | COLORVAL
-    ;
-
 
 // Higher level parsing
 // Entry point for QLS
 stylesheet
-    : STYLESHEET NAME styleBlock
-    ;
-
-styleBlock
-    : LB expression* RB
-    ;
-
-expression
-    : defaultStyle
-    | page
+    : STYLESHEET NAME LB defaultStyle* page* RB
     ;
 
 page
@@ -112,11 +98,11 @@ page
     ;
 
 section
-    : SECTION STRVAL LB question* RB
+    : SECTION STRVAL LB expression* RB
     ;
 
-question
-    : QUESTION NAME (WIDGET widgetType widgetStyle?)?
+expression
+    : EXPRESSION NAME (WIDGET widgetType)? (widgetStyle)?
     ;
 
 widgetStyle
@@ -124,7 +110,11 @@ widgetStyle
     ;
 
 styleRule
-    : property COLON value
+    : property COLON styleVal
+    ;
+
+styleVal
+    : (HEX | NAME | INTVAL)
     ;
 
 defaultStyle

@@ -2,27 +2,24 @@ package ql.ast.expressions;
 
 import org.junit.Before;
 import org.junit.Test;
-import ql.QLParser;
-import ql.parser.ASTBuilder;
+import ql.parser.FormBuilder;
 
 import static org.junit.Assert.assertEquals;
 
 public class VariableTest {
 
-
-    ASTBuilder astBuilder;
+    private FormBuilder formBuilder;
 
     @Before
     public void setUp() throws Exception {
-        astBuilder = new ASTBuilder();
+        formBuilder = new FormBuilder();
     }
 
     @Test
     public void canParseVariable() {
         final String EXPECTED_RESULT = "testVariable";
-        QLParser parser = astBuilder.createParser(EXPECTED_RESULT);
-        Variable variable = (Variable) astBuilder.getExpression(parser);
+        Variable variable = (Variable) formBuilder.createExpression(EXPECTED_RESULT);
 
-        assertEquals(EXPECTED_RESULT, variable.toString());
+        assertEquals(EXPECTED_RESULT, variable.getName());
     }
 }

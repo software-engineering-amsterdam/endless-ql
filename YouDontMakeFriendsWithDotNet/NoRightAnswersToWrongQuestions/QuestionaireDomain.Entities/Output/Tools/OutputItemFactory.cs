@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
+using QuestionnaireDomain.Entities.Output.Nodes;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 using QuestionnaireInfrastructure.API;
@@ -12,20 +14,25 @@ namespace QuestionnaireDomain.Entities.Output.Tools
     {
         private readonly IIdMaker m_ids;
         private readonly IDomainItemRegistry m_registry;
+        private readonly IDomainItemLocator m_domainItemLocator;
 
         public OutputItemFactory(
             IIdMaker ids, 
-            IDomainItemRegistry registry)
+            IDomainItemRegistry registry,
+            IDomainItemLocator domainItemLocator)
         {
             m_ids = ids;
             m_registry = registry;
+            m_domainItemLocator = domainItemLocator;
         }
 
-        public Reference<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
+        public DomainId<IQuestionnaireOutputItem> CreateQuestionnaireOutputItem(
+            DomainId<IQuestionnaireRootNode> variable,
             string displayName,
-            IList<Reference<IQuestionOutputItem>> questions)
+            IList<DomainId<IQuestionOutputItem>> questions)
         {
             var questionnaireOutputItem= new QuestionnaireOutputItem(
+                variable,
                 m_ids.Next,
                 displayName) {Questions = questions };
 
@@ -33,17 +40,21 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 questionnaireOutputItem);
         }
 
-        public Reference<IQuestionOutputItem> CreateQuestionOutputItem(
-            string text, 
+        public DomainId<IQuestionOutputItem> CreateQuestionOutputItem(
+            DomainId<IQuestionNode> variable,
             string value,
-            Type type,
             bool isVisible, 
             bool isReadonly)
         {
+            var question = m_domainItemLocator
+                .Get<IQuestionNode>(variable.Id);
+            
             var questionOutputItem = new QuestionOutputItem(
                 m_ids.Next,
-                text,
-                type,
+                variable,
+                question.QuestionName,
+                question.QuestionText,
+                question.QuestionType,
                 value,
                 isVisible,
                 isReadonly);
@@ -52,10 +63,10 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 questionOutputItem);
         }
 
-        private Reference<T> DomainItemRegistration<T>(T node) where T : IDomainItem
+        private DomainId<T> DomainItemRegistration<T>(T node) where T : IDomainItem
         {
             m_registry.Add(node);
-            return new Reference<T>(node.Id);
+            return new DomainId<T>(node.Id);
         }
     }
 }

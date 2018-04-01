@@ -1,24 +1,25 @@
 package Nodes.Operator;
 
-import Nodes.Term.Boolean;
+import Nodes.ASTNode;
 import Nodes.Term.Term;
-import Nodes.Term.Variable;
+import QLExceptions.*;
 
-public abstract class Operator {
+public abstract class Operator extends ASTNode {
+    private final String value;
 
-    private String value;
-
-    public Operator(String value){
+    Operator(String value){
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
+    String getValue() { return value; }
 
-    //public Term calculate(Variable left, Term right) { return calculate(left.getTerm(), right); }
-
-    //public Term calculate(Term left, Variable right) { return calculate(left, right.getTerm()); }
-
-    public Term calculate(Term left, Term right) { throw new UnsupportedOperationException(); } // TODO: Change to some type error
+    /**
+     * The method that will be called on every Operator.
+     * @param left left hand side of the Operator
+     * @param right right hand side of the operator
+     * @return A new intermediary Term with the result of the calculation
+     * @throws SyntaxException When there is an invalid Operator
+     * @throws TypeException When types don't match
+     */
+    public abstract Term calculate(Term left, Term right) throws SyntaxException, TypeException;
 }

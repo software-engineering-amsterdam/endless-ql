@@ -9,11 +9,6 @@ public class StringValue implements Value {
     }
 
     @Override
-    public String getTypeAsString() {
-        return "STRING";
-    }
-
-    @Override
     public String toString() {
         return this.value;
     }
@@ -29,12 +24,7 @@ public class StringValue implements Value {
     }
 
     @Override
-    public Value notEqualTo(StringValue value) {
-        return new BooleanValue(!this.value.equals(value.getValue()));
-    }
-
-    @Override
     public Value notEqualTo(Value value) {
-        return value.notEqualTo(this);
+        return new BooleanValue(!value.getValue().equals(this.value));
     }
 }

@@ -38,31 +38,31 @@ class QLExpressionValidator extends AbstractQLValidator {
 	def QuestionType computeType(Expression expression) {
 		switch expression {
 			ExpressionOr:
-				QuestionType.TYPE_BOOLEAN
+				return QuestionType.TYPE_BOOLEAN
 			ExpressionAnd:
-				QuestionType.TYPE_BOOLEAN
+				return QuestionType.TYPE_BOOLEAN
 			ExpressionEquality:
-				QuestionType.TYPE_BOOLEAN
+				return QuestionType.TYPE_BOOLEAN
 			ExpressionComparison:
-				QuestionType.TYPE_BOOLEAN
+				return QuestionType.TYPE_BOOLEAN
 			ExpressionPlusOrMinus: {
-				computeType(expression.left)
+				return computeType(expression.left)
 			}
 			ExpressionMultiplicationOrDivision: {
-				computeType(expression.left)
+				return computeType(expression.left)
 			}
 			ExpressionNot:
-				QuestionType.TYPE_BOOLEAN
+				return QuestionType.TYPE_BOOLEAN
 			ExpressionLiteralString:
-				QuestionType.TYPE_STRING
+				return QuestionType.TYPE_STRING
 			ExpressionLiteralInteger:
-				QuestionType.TYPE_INTEGER
+				return QuestionType.TYPE_INTEGER
 			ExpressionLiteralBoolean:
-				QuestionType.TYPE_BOOLEAN
+				return QuestionType.TYPE_BOOLEAN
 			ExpressionQuestionReference:
-				expression.question.type
+				return expression.question.type
 			default:
-				throw new MissingCaseException
+				throw new MissingCaseException()
 		}
 	}
 

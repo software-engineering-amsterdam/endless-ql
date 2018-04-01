@@ -1,7 +1,7 @@
 # Software Construction 2017/2018
 Which building techniques should you use, to write clear and concise for others to read?
 
-## Colaborators:
+## Collaborators:
 * Edwin Ouwehand, 11198591
 * Dennis van der Werf, 11053291
 
@@ -13,6 +13,3 @@ The goal of this assignment is to build a DSL for questionnaires, called QL. QL 
 * Use default settings.
 * Gradle -> /Tasks/build -> Run buildDependents
 * Run /src/main/org/uva/ql/app/App.main().java
-
-## DependencyChecker inspiration
-* https://www.geeksforgeeks.org/transitive-closure-of-a-graph/

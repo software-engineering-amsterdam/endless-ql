@@ -2,33 +2,20 @@ package nl.uva.se.sc.niro.model.ql.expressions.answers
 
 import java.time.LocalDate
 
-import nl.uva.se.sc.niro.model.ql._
-import nl.uva.se.sc.niro.model.ql.expressions.Orderings.DateAnswerCanDoOrderings._
+import nl.uva.se.sc.niro.model.ql.evaluation.Orderings.DateAnswerCanDoOrderings._
 
-final case class DateAnswer(possibleValue: Option[LocalDate]) extends Answer {
+final case class DateAnswer(value: LocalDate) extends Answer {
 
   type T = LocalDate
 
-  def applyBinaryOperator(operator: Operator, that: Answer): Answer = that match {
-    case that: DateAnswer =>
-      operator match {
-        case Lt  => this < that
-        case Lte => this <= that
-        case Gte => this >= that
-        case Gt  => this > that
-        case Ne  => this !== that
-        case Eq  => this === that
-        case _   => throw new UnsupportedOperationException(s"Unsupported operator: $operator")
-      }
-    case _ => throw new IllegalArgumentException(s"Can't perform operation: $this $operator $that")
-  }
-
-  def applyUnaryOperator(operator: Operator): Answer =
-    throw new IllegalArgumentException(s"Can't perform operation: $operator $this")
+  override def lessThan(right: Answer): Answer = this < right
+  override def lessThanEquals(right: Answer): Answer = this <= right
+  override def greaterThenEquals(right: Answer): Answer = this >= right
+  override def greaterThen(right: Answer): Answer = this > right
+  override def notEquals(right: Answer): Answer = this !== right
+  override def equals(right: Answer): Answer = this === right
 }
 
 object DateAnswer {
-  def apply() = new DateAnswer(None)
-  def apply(value: LocalDate) = new DateAnswer(Some(value))
-  def apply(value: String): DateAnswer = if (value.isEmpty) DateAnswer() else DateAnswer(LocalDate.parse(value))
+  def apply(value: String): DateAnswer = new DateAnswer(LocalDate.parse(value))
 }

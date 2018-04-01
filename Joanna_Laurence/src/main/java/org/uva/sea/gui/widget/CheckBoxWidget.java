@@ -1,25 +1,31 @@
 package org.uva.sea.gui.widget;
 
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
-import org.uva.sea.gui.FormController;
-import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.BooleanValue;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.BooleanValue;
 
-public class CheckBoxWidget implements Widget {
+public class CheckBoxWidget extends Widget {
+
+    private BooleanValue widgetValue = new BooleanValue(false);
+
+    public CheckBoxWidget(QuestionData questionData) {
+        super(questionData);
+    }
 
     @Override
-    public Control draw(BaseQuestionModel questionModel, FormController controller) {
+    public boolean updateValue(BooleanValue booleanValue) {
+        this.widgetValue = booleanValue;
+        return true;
+    }
+
+    @Override
+    public Node convertToGuiNode() {
         CheckBox checkBox = new CheckBox();
-        if (questionModel.getValue() != null) {
-            System.out.println("Computed boolean value " + questionModel.displayValue());
-            checkBox.setSelected(new BooleanValue(questionModel.displayValue()).getBooleanValue());
-        }
-        checkBox.selectedProperty()
-                .addListener((observable, oldIsFocused, newIsFocused) ->
-                {
-                    controller.updateGuiModel(questionModel.getVariableName(), new BooleanValue(newIsFocused));
-                });
+        checkBox.setSelected((this.widgetValue != null) && this.widgetValue.getBooleanValue());
+        checkBox.selectedProperty().addListener((observable, oldIsFocused, newIsFocused) ->
+                this.sendUpdateValueEvent(this.questionData.getQuestionName(), new BooleanValue(newIsFocused)));
+
         return checkBox;
     }
 }

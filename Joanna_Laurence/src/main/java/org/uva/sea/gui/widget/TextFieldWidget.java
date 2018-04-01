@@ -1,42 +1,65 @@
 package org.uva.sea.gui.widget;
 
-
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
-import org.uva.sea.gui.FormController;
-import org.uva.sea.gui.model.BaseQuestionModel;
-import org.uva.sea.gui.render.visitor.TextToValueVisitor;
-import org.uva.sea.ql.interpreter.evaluate.valueTypes.Value;
+import org.uva.sea.languages.ql.interpreter.dataObject.questionData.QuestionData;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.DecimalValue;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.IntValue;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.StringValue;
+import org.uva.sea.languages.ql.interpreter.evaluate.valueTypes.Value;
 
-public class TextFieldWidget implements Widget {
+import java.lang.reflect.InvocationTargetException;
+
+public class TextFieldWidget extends Widget {
+
+    private Value widgetValue = new StringValue("");
+
+    public TextFieldWidget(QuestionData questionData) {
+        super(questionData);
+    }
 
     @Override
-    public Control draw(BaseQuestionModel questionModel, FormController controller) {
-        TextField textField = this.createTextField(questionModel);
+    public boolean updateValue(DecimalValue decimalValue) {
+        this.widgetValue = decimalValue;
+        return true;
+    }
+
+    @Override
+    public boolean updateValue(IntValue intValue) {
+        this.widgetValue = intValue;
+        return true;
+    }
+
+    @Override
+    public boolean updateValue(StringValue stringValue) {
+        this.widgetValue = stringValue;
+        return true;
+    }
+
+    @Override
+    public Node convertToGuiNode() {
+
+        TextField textField = new TextField();
+        textField.setText(this.widgetValue.toString());
+        textField.setEditable(true);
+        textField.setMinWidth(BaseRenderable.TEXT_WIDTH);
+
+        if (this.questionData.isComputed()) {
+            textField.setEditable(false);
+        }
 
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            controller.setLastFocused(questionModel.getVariableName());
-            System.out.println("TextField Text Changed (newValue: " + newValue + ")");
-            TextToValueVisitor textToValueVisitor = new TextToValueVisitor(newValue);
-            Value value = questionModel.accept(textToValueVisitor);
-            controller.updateGuiModel(questionModel.getVariableName(), value);
+            Value newWidgetValue;
+            try {
+                newWidgetValue = this.widgetValue.getClass().getDeclaredConstructor(String.class).newInstance(newValue);
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
+                newWidgetValue = this.widgetValue;
+            }
+            this.sendUpdateValueEvent(this.questionData.getQuestionName(), newWidgetValue);
         });
+
         textField.positionCaret(textField.getText().length());
         return textField;
     }
 
-    private TextField createTextField(BaseQuestionModel question) {
-        TextField textField = new TextField();
-        if (question.getValue() != null) {
-            textField.setText(question.displayValue());
-        }
-        textField.setEditable(true);
-        textField.setMinWidth(100.0);
-
-        if (question.isComputed()) {
-            textField.setEditable(false);
-        }
-
-        return textField;
-    }
 }

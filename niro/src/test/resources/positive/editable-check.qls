@@ -1,17 +1,56 @@
 stylesheet EditOrNotToEdit {
     page PageOne {
         section "Variables" {
-            question integerVariable
+            question stringVariable
+            question booleanVariable widget radio("Yes", "No")
+            question booleanNotExpression
+            question integerVariable widget spinbox (-100, 100, 10)
+            question decimalVariable color: #00FFFF
+            question moneyVariable
+            question dateVariable
+        }
+        section "Expressions" {
+            question booleanExpression widget checkbox
+            question integerExpression
+            question stringExpression
+        }
+        default boolean widget radio("Ja", "Nee")
+        default decimal {
+            width: 300
+            fontsize: 10
+            color: #0000FF
         }
     }
     page PageTwo {
-        section "Variables" {
-            question integerVariable
+        section "Constants" {
+            question stringConstant
+            question booleanConstant
+            question integerConstant
         }
+        default boolean widget combo("Ja", "Nee")
     }
     page PageThree {
-        section "Variables" {
-            question integerVariable
+        section "Constants" {
+            question decimalConstant
+            question moneyConstant
+            question dateConstant
         }
+        section "Expressions" {
+            question decimalExpression
+            question moneyExpression
+            question dateExpression
+        }
+    }
+    default boolean {
+        widget combo("Yes", "No")
+        width: 300
+        font: "Arial"
+        fontsize: 24
+        color: #A0B0C0
+    }
+    default string {
+        font: "Courier"
+        fontsize: 24
+        color: #AA0000
     }
 }

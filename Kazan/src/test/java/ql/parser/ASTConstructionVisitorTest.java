@@ -2,7 +2,7 @@ package ql.parser;
 
 import org.junit.Before;
 import org.junit.Test;
-import ql.QLParser;
+import ql.BaseQlTest;
 import ql.ast.Form;
 import ql.ast.expressions.Variable;
 import ql.ast.expressions.literals.IntegerLiteral;
@@ -10,56 +10,55 @@ import ql.ast.statements.IfStatement;
 import ql.ast.statements.Question;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class ASTConstructionVisitorTest {
+public class ASTConstructionVisitorTest extends BaseQlTest {
 
-    ASTBuilder astBuilder;
+    private FormBuilder formBuilder;
 
     @Before
     public void setUp() throws Exception {
-        astBuilder = new ASTBuilder();
+        formBuilder = new FormBuilder();
     }
 
     @Test
     public void visitNestedExpression() {
         final int EXPECTED_RESULT = 4;
-        QLParser parser = astBuilder.createParser("((((4))))");
-        IntegerLiteral integerLiteral = (IntegerLiteral) astBuilder.getExpression(parser);
+        IntegerLiteral integerLiteral = (IntegerLiteral) formBuilder.createExpression("((((4))))");
 
         assertEquals(EXPECTED_RESULT, integerLiteral.getValue());
     }
 
     @Test
     public void visitForm() {
-        Form form = astBuilder.buildASTFromFile("src/input/ql/correct/simple.ql");
+        Form form = createForm("src/input/ql/correct/simple.ql");
         assertEquals("taxOfficeExample", form.getFormId());
         assertEquals(3, form.getStatements().size());
     }
 
     @Test
     public void visitQuestion() {
-        // astBuilder.createParser("form testForm {}");
-        Form form = astBuilder.buildASTFromFile("src/input/ql/correct/simple.ql");
+        Form form = createForm("src/input/ql/correct/simple.ql");
         Question question = (Question) form.getStatements().get(0);
 
-        assertEquals("boolean", question.getType().toString());
+        assertTrue(question.isOfType("boolean"));
         assertEquals("hasSoldHouse", question.getId());
         assertEquals("Did you sell a house in 2010?", question.getLabel());
     }
 
     @Test
     public void visitComputedQuestion() {
-        Form form = astBuilder.buildASTFromFile("src/input/ql/correct/simple.ql");
+        Form form = createForm("src/input/ql/correct/simple.ql");
         Question question = (Question) form.getStatements().get(0);
 
-        assertEquals("boolean", question.getType().toString());
+        assertTrue(question.isOfType("boolean"));
         assertEquals("hasSoldHouse", question.getId());
         assertEquals("Did you sell a house in 2010?", question.getLabel());
     }
 
     @Test
     public void visitIfStatement() {
-        QLParser parser = astBuilder.createParser("if (hasSoldHouse) {\n" +
+        IfStatement ifStatement = (IfStatement) formBuilder.createStatement("if (hasSoldHouse) {\n" +
                 "    \"What was the selling price?\"\n" +
                 "      sellingPrice: money\n" +
                 "    \"Private debts for the sold house:\"\n" +
@@ -68,18 +67,16 @@ public class ASTConstructionVisitorTest {
                 "      valueResidue: money =\n" +
                 "        (sellingPrice - privateDebt)\n" +
                 "  }");
-        IfStatement ifStatement = (IfStatement) astBuilder.getStatement(parser);
         Variable variable = (Variable) ifStatement.getCondition();
 
         assertEquals(3, ifStatement.getIfStatements().size());
-        assertEquals("hasSoldHouse", variable.toString());
+        assertEquals("hasSoldHouse", variable.getName());
     }
 
     // @Test
     // public void visitUnaryExpression() {
-    //     QLParser parser = astBuilder.createParser("!(true)");
-    //     LogicalNegation logicalNegation = (LogicalNegation) astBuilder.getExpression(parser);
-    //     ArithmeticNegation arithmeticNegation = (ArithmeticNegation) astBuilder.getExpression(parser);
+    //     Negation negation = (Negation) formBuilder.createExpression("!(true)");
+    //     Negative arithmeticNegation = (Negative) formBuilder.createExpression(parser);
     // }
 
     // @Test

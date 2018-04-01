@@ -5,12 +5,12 @@ import antlr.generated.QLSParser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.uva.qls.ast.Stylesheet;
+import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.parsing.ParseTreeVisitor;
 
 public class QLSBuilder {
 
-    public QLSBuilder(){
+    public QLSBuilder() {
 
     }
 
@@ -20,13 +20,13 @@ public class QLSBuilder {
     }
 
 
-    public QLSParser getQLSParser(String input) {
+    private QLSParser getQLSParser(String input) {
         CharStream charStream = CharStreams.fromString(input);
         QLSLexer lexer = new QLSLexer(charStream);
         return new QLSParser(new CommonTokenStream(lexer));
     }
 
-    public Stylesheet getStyleSheet(QLSParser parser) {
+    private Stylesheet getStyleSheet(QLSParser parser) {
         ParseTreeVisitor visitor = new ParseTreeVisitor();
         return (Stylesheet) visitor.visit(parser.stylesheet());
     }

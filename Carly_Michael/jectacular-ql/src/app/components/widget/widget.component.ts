@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Widget} from '../../domain/ast/qls';
 import {QuestionBase} from '../../domain/angular-questions/question-base';
 import {AbstractControl, FormGroup} from '@angular/forms';
 
@@ -15,5 +14,30 @@ export class WidgetComponent implements OnInit {
 
   ngOnInit(): void {
     this.control = this.form.controls[this.question.key];
+
+    if (this.question.readonly) {
+      this.control.setValue(this.question.calculateValue(this.form));
+    }
+
+    this.form.valueChanges.subscribe(() => {
+      if (this.question.readonly) {
+        this.updateFormIfChanged();
+      }
+    });
+  }
+
+  private updateFormIfChanged() {
+    const currentValue = this.control.value;
+    const newValue = this.question.calculateValue(this.form);
+
+    if (newValue !== currentValue) {
+      if (this.question.type === 'number') {
+        if (!Number.isNaN(newValue)) {
+          this.control.setValue(newValue);
+        }
+      } else {
+        this.control.setValue(newValue);
+      }
+    }
   }
 }

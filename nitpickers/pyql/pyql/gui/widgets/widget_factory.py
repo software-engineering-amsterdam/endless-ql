@@ -1,6 +1,5 @@
-from multimethods import multimethod
 from pyql.gui.widgets.widgets import *
-from pyql.util.types import *
+from util.types import *
 
 
 class WidgetFactory:
@@ -8,22 +7,27 @@ class WidgetFactory:
     def __init__(self):
         pass
 
+    def widget(self, root, type, value):
+        w = self.create_widget(type)
+        return w(root, value)
+
     @multimethod(String)
-    def widget(self):
+    def create_widget(self, type):
         return StringWidget
 
     @multimethod(Integer)
-    def widget(self):
+    def create_widget(self, type):
         return IntegerWidget
 
     @multimethod(Decimal)
-    def widget(self):
+    def create_widget(self, type):
         return DecimalWidget
 
     @multimethod(Money)
-    def widget(self):
+    def create_widget(self, type):
         return MoneyWidget
 
     @multimethod(Boolean)
-    def widget(self):
+    def create_widget(self, type):
         return BooleanWidget
+

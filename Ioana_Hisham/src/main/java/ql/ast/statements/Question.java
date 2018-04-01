@@ -1,8 +1,9 @@
 package ql.ast.statements;
 
-import ql.ast.expressions.literals.Identifier;
+import ql.ast.expressions.Identifier;
 import ql.ast.expressions.literals.StringLiteral;
 import ql.types.Type;
+import ql.visitors.StatementVisitor;
 
 public class Question extends Statement {
 
@@ -12,6 +13,9 @@ public class Question extends Statement {
 
     public Question(int lineNumber, StringLiteral description, Identifier identifier, Type type) {
         super(lineNumber);
+        this.description = description;
+        this.identifier = identifier;
+        this.type = type;
     }
 
     public StringLiteral getDescription() {
@@ -24,5 +28,10 @@ public class Question extends Statement {
 
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public <T> T accept(StatementVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

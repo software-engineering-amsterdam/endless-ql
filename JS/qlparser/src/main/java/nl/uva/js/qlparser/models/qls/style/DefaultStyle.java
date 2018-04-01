@@ -4,11 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.qls.Expression;
+import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 
 @Builder
 @Data
 public class DefaultStyle implements Expression {
     private DataType dataType;
-    private String widget;
-    private WidgetStyle style;
+    private WidgetType widgetType;
+    private WidgetStyle widgetStyle;
 }

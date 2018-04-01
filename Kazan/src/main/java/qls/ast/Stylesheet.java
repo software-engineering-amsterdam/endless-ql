@@ -3,17 +3,18 @@ package qls.ast;
 import ql.ast.ASTNode;
 import ql.ast.SourceLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Stylesheet extends ASTNode {
 
-    private String stylesheetId;
-    private List<Page> pages;
+    private final String stylesheetId;
+    private final List<Page> pages;
 
-    public Stylesheet(String stylesheetId, List<Page> page, SourceLocation sourceLocation) {
+    public Stylesheet(String stylesheetId, List<Page> pages, SourceLocation sourceLocation) {
         super(sourceLocation);
-        this.stylesheetId = this.stylesheetId;
-        this.pages = this.pages;
+        this.stylesheetId = stylesheetId;
+        this.pages = pages;
     }
 
     public String getStylesheetId() {
@@ -21,7 +22,7 @@ public class Stylesheet extends ASTNode {
     }
 
     public List<Page> getPages() {
-        return this.pages;
+        return new ArrayList<>(this.pages);
     }
 
     // public <T> T accept(StylesheetVisitor<T> visitor) {

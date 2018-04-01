@@ -4,8 +4,6 @@ public interface Value {
 
     Object getValue();
 
-    String getTypeAsString();
-
     default Value add(Value value) {
         throw new UnsupportedOperationException(value.toString());
     }
@@ -43,18 +41,6 @@ public interface Value {
     }
 
     default Value notEqualTo(Value value) {
-        throw new UnsupportedOperationException(value.toString());
-    }
-
-    default Value notEqualTo(IntegerValue value) {
-        throw new UnsupportedOperationException(value.toString());
-    }
-
-    default Value notEqualTo(StringValue value) {
-        throw new UnsupportedOperationException(value.toString());
-    }
-
-    default Value notEqualTo(BooleanValue value) {
         throw new UnsupportedOperationException(value.toString());
     }
 
@@ -103,18 +89,6 @@ public interface Value {
     }
 
     default Value logicalOr(BooleanValue value) {
-        throw new UnsupportedOperationException(value.toString());
-    }
-
-    default Value negate(Value value) {
-        throw new UnsupportedOperationException(value.toString());
-    }
-
-    default Value negate(IntegerValue value) {
-        throw new UnsupportedOperationException();
-    }
-
-    default Value negate(BooleanValue value) {
         throw new UnsupportedOperationException(value.toString());
     }
 }

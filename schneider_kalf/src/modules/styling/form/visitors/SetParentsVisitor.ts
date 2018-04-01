@@ -1,11 +1,11 @@
 import StyleNodeVisitor from "./StyleNodeVisitor";
-import DefaultStyle from "../nodes/children/DefaultStyle";
-import QuestionStyle from "../nodes/children/QuestionStyle";
-import Section from "../nodes/containers/Section";
-import Page from "../nodes/containers/Page";
+import DefaultStyle from "../nodes/children/DefaultStyleNode";
+import QuestionStyleNode from "../nodes/children/QuestionStyleNode";
+import Section from "../nodes/containers/SectionNode";
+import Page from "../nodes/containers/PageNode";
 import WidgetAttribute from "../nodes/attributes/WidgetAttribute";
 import BaseAttribute from "../nodes/attributes/BaseAttribute";
-import Stylesheet from "../nodes/StyleSheet";
+import StyleSheetNode from "../nodes/StyleSheetNode";
 import StyleTreeNode from "../nodes/StyleTreeNode";
 
 /**
@@ -15,11 +15,15 @@ import StyleTreeNode from "../nodes/StyleTreeNode";
 export default class SetParentsVisitor implements StyleNodeVisitor {
   private queue: StyleTreeNode[];
 
+  constructor() {
+    this.queue = [];
+  }
+
   visitDefaultStyle(defaultStyle: DefaultStyle): any {
     this.setParent(defaultStyle, []);
   }
 
-  visitQuestionStyle(question: QuestionStyle): any {
+  visitQuestionStyle(question: QuestionStyleNode): any {
     this.setParent(question, []);
   }
 
@@ -39,7 +43,7 @@ export default class SetParentsVisitor implements StyleNodeVisitor {
     this.setParent(baseAttribute, []);
   }
 
-  visitStyleSheet(stylesheet: Stylesheet): any {
+  visitStyleSheet(stylesheet: StyleSheetNode): any {
     this.setParent(stylesheet, stylesheet.children);
   }
 
@@ -57,8 +61,9 @@ export default class SetParentsVisitor implements StyleNodeVisitor {
       return;
     }
 
-    this.queue[0].accept(this);
-    this.queue.shift();
-  }
+    const oldest = this.queue[0];
+    this.queue.splice(0, 1);
 
+    oldest.accept(this);
+  }
 }

@@ -1,44 +1,56 @@
-stylesheet taxOfficeExample
-{
-    default boolean widget radio
+stylesheet taxOfficeExample {
+    default boolean widget dropdown
 
-    page Housing
-    {
-        section "Buying"
-        {
-            questions hasBoughtHouse
-            widget checkbox
-        }
-
-        section "Loaning"
-        {
-            questions hasMaintLoan
+    page Personalia {
+        section "Personalia" {
+            expression name
+            expression age
+                widget spinbox widgetStyle {
+                    min:18
+                    max:100
+                }
+            expression grade
+                widgetStyle {
+                    fonttype: Monospaced
+                    fontstyle: Bold
+                }
+            expression unicorns
+                widgetStyle {
+                    widgetcolor: #76E0E1
+                    fontcolor: #E13D8E
+                    fonttype: Serif
+                    fontstyle: Italic
+                }
         }
     }
 
-    page Selling
-    {
-        section "Selling"
-        {
-            questions hasSoldHouse
+    page Housing {
+        section "My house" {
+            expression rating
+                widget slider widgetStyle {
+                    min:0
+                    max:5
+                }
+        }
+
+        section "Buying" {
+            expression hasBoughtHouse
+            widget radio
+        }
+
+        section "Loaning" {
+            expression hasMaintLoan
+        }
+    }
+
+    page Selling {
+        section "Selling" {
+            expression hasSoldHouse
             widget dropdown
         }
 
-        section "You sold a house"
-        {
-            questions sellingPrice
-            widget spinbox
-
-            questions privateDebt
-            widget spinbox
-
-            questions valueResidue
-            widget spinbox style {
-                fonttype: "monospaced"
-                fontstyle: "bold"
-                fontcolor: #999999
-                widgetcolor: #999999
-            }
+        section "You sold a house" {
+            expression blockSold
         }
     }
 }

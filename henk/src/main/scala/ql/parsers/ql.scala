@@ -1,34 +1,32 @@
 package ql.parsers
 
-import ql.grammar._
+import grammar._
 import ql.models.ast._
 import ql.visitors._
 
 import scala.io.Source
-
 import java.net.URL
 
 import org.antlr.v4.runtime._
 
-object QlFormParser {
-  def getParser(input: String): ql.grammar.QlParser = {
+object QLParser {
+  def getParser(input: String): QLParser = {
     val charStream = new ANTLRInputStream(input)
-    val lexer = new QlLexer(charStream)
+    val lexer = new QLLexer(charStream)
     val tokens = new CommonTokenStream(lexer)
-    val parser = new QlParser(tokens)
+    val parser = new QLParser(tokens)
     return parser
   }
 
-  def parseFromURL(location: URL): ASTNode = {
+  def getForm(location: URL): Statement = {
     val source = Source.fromURL(location)
     val sourcedLines = source.mkString
     source.close
 
-    val visitor = new ASTVisitor()
+    val visitor = new StatementVisitor()
     val parser = getParser(sourcedLines)
     val tree = parser.root()
 
     return visitor.visit(tree)
   }
-
 }

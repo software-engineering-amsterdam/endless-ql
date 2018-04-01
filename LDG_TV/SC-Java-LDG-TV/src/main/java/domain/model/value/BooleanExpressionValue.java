@@ -2,42 +2,36 @@ package domain.model.value;
 
 import domain.model.variable.Variable;
 
-public class BooleanExpressionValue extends Value<Boolean>{
+public class BooleanExpressionValue extends BooleanValue {
 
     private Variable leftHandOperand;
     private Variable rightHandOperand;
     private String operator;
 
-    public BooleanExpressionValue(Variable leftHandOperand, Variable rightHandOperand, String operator){
+    public BooleanExpressionValue(Variable leftHandOperand, Variable rightHandOperand, String operator) {
+        super(false);
         this.leftHandOperand = leftHandOperand;
         this.rightHandOperand = rightHandOperand;
         this.operator = operator;
     }
+
     @Override
     public Boolean getValue() {
         switch (operator) {
             case "==":
-                return (Boolean) this.leftHandOperand.getValue().getValue() ==  (Boolean) this.rightHandOperand.getValue().getValue();
+                return leftHandOperand.getComputedValue().equals(rightHandOperand.getComputedValue());
             case "!=":
-                return (Boolean) this.leftHandOperand.getValue().getValue() !=  (Boolean) this.rightHandOperand.getValue().getValue();
+                return leftHandOperand.getComputedValue() != rightHandOperand.getComputedValue();
             case ">":
-                return (Integer) this.leftHandOperand.getValue().getValue() >  (Integer) this.rightHandOperand.getValue().getValue();
+                return (Integer) leftHandOperand.getComputedValue() > (Integer) rightHandOperand.getComputedValue();
             case "<":
-                return (Integer) this.leftHandOperand.getValue().getValue() <  (Integer) this.rightHandOperand.getValue().getValue();
+                return (Integer) leftHandOperand.getComputedValue() < (Integer) rightHandOperand.getComputedValue();
             case ">=":
-                return (Integer) this.leftHandOperand.getValue().getValue() >= (Integer) this.rightHandOperand.getValue().getValue();
+                return (Integer) leftHandOperand.getComputedValue() >= (Integer) rightHandOperand.getComputedValue();
             case "<=":
-                return (Integer) this.leftHandOperand.getValue().getValue() <= (Integer) this.rightHandOperand.getValue().getValue();
+                return (Integer) leftHandOperand.getComputedValue() <= (Integer) rightHandOperand.getComputedValue();
+            default:
         }
         return false;
-    }
-    @Override
-    public void setValue(Boolean value) {
-        // TODO
-    }
-
-    @Override
-    public void accept(Boolean aBoolean) throws Exception {
-
     }
 }

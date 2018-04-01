@@ -1,8 +1,5 @@
 package domain.model.ast;
 
-import domain.model.ast.IfASTNode;
-import domain.model.ast.ASTNode;
-import domain.model.ast.QuestionASTNode;
 import domain.model.stylesheet.Stylesheet;
 import domain.model.variable.Variable;
 
@@ -17,54 +14,40 @@ public class FormNode {
     private Stylesheet stylesheet;
     private int lastIfIndex;
 
-    public FormNode(){
+    public FormNode() {
         this.ASTNodes = new ArrayList<>();
         this.referencedVariables = new ArrayList<Variable>();
     }
 
     /**
-     * Add QuestionASTNode to ASTNodes list.
+     * Add QuestionNode to ASTNodes list.
+     *
      * @param q
      */
-    public void addQuestion(QuestionASTNode q){
+    public void addQuestion(QuestionNode q) {
         this.ASTNodes.add(q);
     }
 
     /**
-     * Add IfASTNode to ASTNodes list
+     * Add ConditionNode to ASTNodes list
+     *
      * @param ifNode
      */
-    public void addIfNode(IfASTNode ifNode){
+    public void addConditionNode(ConditionNode ifNode) {
         this.ASTNodes.add(ifNode);
         this.lastIfIndex = this.ASTNodes.size() - 1;
     }
 
     /**
-     * Add QuestionASTNode to the last IfNode in ASTNodes list.
-     * @param q QuestionASTNode to add
-     */
-    public void addToLastIf(QuestionASTNode q){
-        IfASTNode ifNode = (IfASTNode) this.ASTNodes.get(this.lastIfIndex); // TODO check for instance of and not out of bounds
-        ifNode.addQuestion(q);
-    }
-    /**
-     * Add QuestionASTNode to the last IfNode else questions in ASTNodes list.
-     * @param q QuestionASTNode to add
-     */
-    public void addToLastIfElse(QuestionASTNode q){
-        IfASTNode ifNode = (IfASTNode) this.ASTNodes.get(this.lastIfIndex); // TODO check for instance of and not out of bounds
-        ifNode.addElseQuestion(q);
-    }
-
-    /**
-     * Get variable from the list of all QuestionASTNode's in ASTNodes list based on the variable identifier.
+     * Get variable from the list of all QuestionNode's in ASTNodes list based on the variable identifier.
+     *
      * @param identifier Variable identifier to search for in list.
      * @return Found variable, if non found returns null.
      */
-    public Variable getVariableFromList(String identifier){
-        Variable qv = null ;
-        for (QuestionASTNode qan : getAllQuestionASTNodes()) {
-            if(qan.getVariable().getIdentifier().equals(identifier) ){
+    public Variable getVariableFromList(String identifier) {
+        Variable qv = null;
+        for (QuestionNode qan : getAllQuestionASTNodes()) {
+            if (qan.getVariable().getIdentifier().equals(identifier)) {
                 qv = qan.getVariable();
             }
         }
@@ -72,14 +55,15 @@ public class FormNode {
     }
 
     /**
-     * Get QuestionASTNode from the list of all QuestionASTNode's in ASTNodes list based on variable identifier.
+     * Get QuestionNode from the list of all QuestionNode's in ASTNodes list based on variable identifier.
+     *
      * @param identifier Variable identifier to search for in list.
-     * @return Found QuestionASTNode, if non found returns null.
+     * @return Found QuestionNode, if non found returns null.
      */
-    public QuestionASTNode getQuestionByVariableIdentifier(String identifier){
-        QuestionASTNode qv = null ;
-        for (QuestionASTNode qan : getAllQuestionASTNodes()) {
-            if(qan.getVariable().getIdentifier().equals(identifier) ){
+    public QuestionNode getQuestionByVariableIdentifier(String identifier) {
+        QuestionNode qv = null;
+        for (QuestionNode qan : getAllQuestionASTNodes()) {
+            if (qan.getVariable().getIdentifier().equals(identifier)) {
                 return qan;
             }
         }
@@ -87,18 +71,19 @@ public class FormNode {
     }
 
     /**
-     * Returns a list of all the QuestionASTNode in the ASTNodes list, also loops over the QuestionASTNode's that are under and IfASTNode.
-     * @return List of all QuestionASTNode's.
+     * Returns a list of all the QuestionNode in the ASTNodes list, also loops over the QuestionNode's that are under and ConditionNode.
+     *
+     * @return List of all QuestionNode's.
      */
-    public List<QuestionASTNode> getAllQuestionASTNodes(){
-        List<QuestionASTNode> temp = new ArrayList<>();
+    public List<QuestionNode> getAllQuestionASTNodes() {
+        List<QuestionNode> temp = new ArrayList<>();
         for (ASTNode an : getASTNodes()) {
-            if(an instanceof QuestionASTNode){
-                temp.add((QuestionASTNode) an);
+            if (an instanceof QuestionNode) {
+                temp.add((QuestionNode) an);
             }
-            if(an instanceof IfASTNode){
-                temp.addAll(((IfASTNode) an).getQuestionNodes());
-                temp.addAll(((IfASTNode) an).getElseNodes());
+            if (an instanceof ConditionNode) {
+                temp.addAll(((ConditionNode) an).getQuestionNodes());
+                temp.addAll(((ConditionNode) an).getElseNode().getQuestionNodes());
             }
         }
         return temp;
@@ -109,8 +94,8 @@ public class FormNode {
      */
     public void evaluateIfs() {
         for (ASTNode an : getASTNodes()) {
-            if(an instanceof IfASTNode){
-                IfASTNode ifNode = (IfASTNode) an;
+            if (an instanceof ConditionNode) {
+                ConditionNode ifNode = (ConditionNode) an;
                 ifNode.checkConditions();
             }
         }
@@ -120,11 +105,12 @@ public class FormNode {
         return referencedVariables;
     }
 
-    public void setFormIdentifier(String formIdentifier) {
-        this.formIdentifier = formIdentifier;
-    }
     public String getFormIdentifier() {
         return formIdentifier;
+    }
+
+    public void setFormIdentifier(String formIdentifier) {
+        this.formIdentifier = formIdentifier;
     }
 
     public List<ASTNode> getASTNodes() {
@@ -137,18 +123,5 @@ public class FormNode {
 
     public void setStylesheet(Stylesheet stylesheet) {
         this.stylesheet = stylesheet;
-    }
-
-
-    @Override
-    public String toString() {
-
-        StringBuilder str = new StringBuilder();
-        for (ASTNode n : ASTNodes) {
-            str.append(n)
-                    .append('\n');
-        }
-
-        return str.toString();
     }
 }

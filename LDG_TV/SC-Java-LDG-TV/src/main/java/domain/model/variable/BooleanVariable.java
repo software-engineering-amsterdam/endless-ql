@@ -1,5 +1,6 @@
 package domain.model.variable;
 
+import domain.model.stylesheet.UIElement;
 import domain.model.value.BooleanExpressionValue;
 import domain.model.value.BooleanValue;
 import domain.model.value.Value;
@@ -9,26 +10,46 @@ import javafx.scene.Node;
 public class BooleanVariable extends Variable {
 
     private Value<Boolean> value;
+    private UIElement uiElement;
+    private String identifier;
 
-    public BooleanVariable(String identifier) {
-        super(identifier);
-        this.value = new BooleanValue(false); // TODO move setting of value upstream (pass in consturctor)
+    public BooleanVariable(String identifier, boolean value) {
+        this.identifier = identifier;
+        this.value = new BooleanValue(value);
     }
 
     @Override
-    public Value<Boolean> getValue() {
-        return value;
+    public String getIdentifier() {
+        return this.identifier;
     }
 
-    public void setValue(Boolean newValue){
-        this.value.setValue(newValue);
-    } //TODO set back to BooleanValue type.
+    @Override
+    public Boolean getComputedValue() {
+        return value.getValue();
+    }
 
     @Override
-    public void setValue(BooleanExpressionValue value){this.value = value;};
+    public UIElement getUiElement() {
+        return uiElement;
+    }
 
     @Override
-    public Node getRelatedUIElement(Visitor v){
+    public void setUiElement(UIElement uiElement) {
+        this.uiElement = uiElement;
+    }
+
+    @Override
+    public void setValue(BooleanExpressionValue value) {
+        this.value = value;
+    }
+
+    @Override
+    public Node getRelatedUIElement(Visitor v) {
         return v.visit(this);
+    }
+
+    @Override
+    public void accept(Object o) {
+        this.value.setValue((Boolean) o);
     }
 }

@@ -1,8 +1,8 @@
 package test;
 
+import domain.model.ast.ConditionNode;
 import domain.model.ast.FormNode;
-import domain.model.ast.IfASTNode;
-import domain.model.ast.QuestionASTNode;
+import domain.model.ast.QuestionNode;
 import domain.model.value.ArithmeticExpressionValue;
 import domain.model.value.MoneyValue;
 import domain.model.value.StringValue;
@@ -17,14 +17,12 @@ import loader.QL.QLChecker;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertEquals;
-
 public class ASTTest {
 
     FormNode formNode;
-    IfASTNode ifAstNode;
-    QuestionASTNode qan1;
-    QuestionASTNode qan2;
+    ConditionNode conditionNode;
+    QuestionNode qan1;
+    QuestionNode qan2;
     Variable stringVariable;
     StringValue stringValue;
 
@@ -40,42 +38,43 @@ public class ASTTest {
 
     ArithmeticExpressionValue arithmeticExpressionValue;
     QLChecker qlChecker;
+
     @Before
-    public void init(){
+    public void init() {
         formNode = new FormNode();
         qlChecker = new QLChecker(formNode);
-        stringVariable = new StringVariable("testStringVariable");
+        stringVariable = new StringVariable("testStringVariable", "testValue");
         stringValue = new StringValue("testStringValue");
-        stringVariable.setValue(stringValue);
+//        stringVariable.setValue(stringValue);
 
-        qan1 = new QuestionASTNode("testQAN1", stringVariable, false);
-        ifAstNode = new IfASTNode(false);
+        qan1 = new QuestionNode("testQAN1", stringVariable, false);
+        conditionNode = new ConditionNode(false);
 
-        arithmeticExpressionVariable = new MoneyVariable("testMoneyVariable");
+        arithmeticExpressionVariable = new MoneyVariable("testMoneyVariable", 0);
 
-        leftHandOperand = new MoneyVariable("testLeftHandOperand");
-        rightHandOperand = new MoneyVariable("testRightHandOperand");
+        leftHandOperand = new MoneyVariable("testLeftHandOperand", 50);
+        rightHandOperand = new MoneyVariable("testRightHandOperand", 20);
 
         leftHandOperandValue = new MoneyValue(1000);
         rightHandOperandValue = new MoneyValue(500);
 
-        leftHandOperand.setValue(leftHandOperandValue);
-        rightHandOperand.setValue(rightHandOperandValue);
 
         arithmeticExpressionValue = new ArithmeticExpressionValue(leftHandOperand, rightHandOperand, operator);
         arithmeticExpressionVariable.setValue(arithmeticExpressionValue);
-        qan2 = new QuestionASTNode("testQAN2", arithmeticExpressionVariable, false);
+        qan2 = new QuestionNode("testQAN2", arithmeticExpressionVariable, false);
 
     }
+
     @Test
-    public void StringVariableTest(){
+    public void StringVariableTest() {
         TestCase.assertEquals("Test initialization for string variable", stringVariable.getIdentifier(), "testStringVariable");
         TestCase.assertEquals("Test initialization for string value", stringValue.getValue(), "testStringValue");
-        TestCase.assertEquals("Test set value for string value", stringVariable.getValue(), stringValue);
+        TestCase.assertEquals("Test set value for string value", stringVariable.getComputedValue(), stringValue);
     }
+
     @Test
-    public void ArithmeticExpressionVariableTest(){
-        TestCase.assertEquals("Test set value for arithmetic expression value", arithmeticExpressionVariable.getValue(), arithmeticExpressionValue);
+    public void ArithmeticExpressionVariableTest() {
+        TestCase.assertEquals("Test set value for arithmetic expression value", arithmeticExpressionVariable.getComputedValue(), arithmeticExpressionValue);
         TestCase.assertEquals("Test compute value for arithmetic expressions", (Integer) arithmeticExpressionValue.getValue(), (Integer) 500);
     }
 
@@ -84,6 +83,7 @@ public class ASTTest {
         arithmeticExpressionValue = new ArithmeticExpressionValue(stringVariable, rightHandOperand, operator);
         arithmeticExpressionValue.getValue();
     }
+
     @Test(expected = DuplicateQuestionDeclarationException.class)
     public void TestDuplicateQuestionDeclarationException() throws DuplicateQuestionDeclarationException {
         formNode.addQuestion(qan1);
@@ -92,21 +92,21 @@ public class ASTTest {
     }
 
     @Test(expected = ReferenceUndefinedVariableException.class)
-    public void TestReferenceUndefinedVariableException() throws ReferenceUndefinedVariableException{
+    public void TestReferenceUndefinedVariableException() throws ReferenceUndefinedVariableException {
         Variable undefinedVariable = formNode.getVariableFromList("undefined");
         formNode.getReferencedVariables().add(undefinedVariable);
         qlChecker.checkReferenceUndefinedVariable();
     }
 
     @Test
-    public void QuestionASTNodeTest(){
+    public void QuestionASTNodeTest() {
         TestCase.assertEquals("Check if question ast node is correctly initialized", qan1.getText(), "testQAN1");
     }
 
     @Test
-    public void IfASTNodeTest(){
-        ifAstNode.addQuestion(qan2);
-        TestCase.assertEquals("Test if question is correctly added to if ast node list", ifAstNode.getQuestionNodes().get(0), qan2);
+    public void IfASTNodeTest() {
+        conditionNode.addQuestion(qan2);
+        TestCase.assertEquals("Test if question is correctly added to if ast node list", conditionNode.getQuestionNodes().get(0), qan2);
     }
 
     @Test

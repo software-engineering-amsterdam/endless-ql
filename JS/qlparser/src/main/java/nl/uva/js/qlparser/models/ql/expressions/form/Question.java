@@ -70,4 +70,7 @@ public class Question implements FormExpression {
     public Variable getVariable() {
         return variable;
     }
+
+    @Override
+    public String getLabel() { return question; }
 }

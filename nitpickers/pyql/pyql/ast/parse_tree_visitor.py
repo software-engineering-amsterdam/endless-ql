@@ -121,7 +121,8 @@ class ParseTreeVisitor(QLVisitor):
         return Literal(self.location(ctx), values.StringValue(ctx.getText()))
 
     def visitBoolLiteral(self, ctx: QLParser.BoolLiteralContext):
-        return Literal(self.location(ctx), values.BooleanValue(ctx.getText()))
+        value = ctx.getText() == "true"
+        return Literal(self.location(ctx), values.BooleanValue(value))
 
     def visitIdentifier(self, ctx: QLParser.IdentifierContext):
         return Identifier(self.location(ctx), ctx.getText())

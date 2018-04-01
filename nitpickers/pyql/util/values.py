@@ -1,16 +1,17 @@
 from util import types
 from decimal import Decimal, InvalidOperation
 from multimethods import multimethod
-from util.message import Error
+from util import errors
+import math
 
 
 class Value:
 
     def __init__(self, type, value):
         if not self.is_valid_input(value):
-            raise Error(str(type) + " does not accept value: " + str(value))
+            raise errors.Type(str(type) + " does not accept value: " + str(value))
 
-        self._value = self.parse(value)
+        self._value = self._parse(value)
         self._type = type
 
     def __add__(self, other):
@@ -59,7 +60,7 @@ class Value:
         return True
 
     @staticmethod
-    def parse(value):
+    def _parse(value):
         return value
 
     def __repr__(self):
@@ -114,6 +115,27 @@ class DecimalValue(Value):
             return False
 
 
+class MoneyValue(Value):
+
+    def __init__(self, value):
+        super().__init__(types.Money, value)
+
+    @staticmethod
+    def _parse(value):
+        return round(Decimal(value), 2)
+
+    @staticmethod
+    def is_valid_input(value):
+        is_decimal = DecimalValue.is_valid_input(value)
+        decimal_places = - Decimal(value).as_tuple().exponent
+        if is_decimal and decimal_places <= 2:
+            return True
+        return False
+
+    def __repr__(self):
+        return "$" + str(self.value)
+
+
 class BooleanValue(Value):
 
     def __init__(self, value):
@@ -135,30 +157,6 @@ class BooleanValue(Value):
         return self.value
 
 
-class MoneyValue(Value):
-
-    def __init__(self, value):
-        super().__init__(types.Money, value)
-
-    @staticmethod
-    def _parse(value):
-        return round(Decimal(value), 2)
-
-    @staticmethod
-    def is_valid_input(value):
-        try:
-            is_decimal_string = Decimal(value) == Decimal(str(value))
-            exponent = Decimal(value).as_tuple().exponent
-            if is_decimal_string and exponent >= -2:
-                return True
-        except (ValueError, InvalidOperation):
-            return False
-        return False
-
-    def __repr__(self):
-        return "$" + str(self.value)
-
-
 class Addition:
 
     @multimethod([(StringValue, StringValue)])
@@ -175,7 +173,7 @@ class Addition:
 
     @multimethod([(MoneyValue, MoneyValue)])
     def evaluate(self, left, right):
-        return DecimalValue(left.value + right.value)
+        return MoneyValue(left.value + right.value)
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
@@ -194,7 +192,7 @@ class Subtraction:
 
     @multimethod([(MoneyValue, MoneyValue)])
     def evaluate(self, left, right):
-        return DecimalValue(left.value - right.value)
+        return MoneyValue(left.value - right.value)
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
@@ -226,7 +224,7 @@ class Division:
 
     @multimethod([(IntegerValue, IntegerValue)])
     def evaluate(self, left, right):
-        return IntegerValue(left.value / right.value)
+        return IntegerValue(math.floor(left.value / right.value))
 
     @multimethod([(IntegerValue, DecimalValue), (DecimalValue, IntegerValue), (DecimalValue, DecimalValue),
                   (MoneyValue, MoneyValue)])
@@ -236,7 +234,7 @@ class Division:
     @multimethod(
         [(MoneyValue, IntegerValue), (MoneyValue, DecimalValue)])
     def evaluate(self, left, right):
-        return DecimalValue(left.value / right.value)
+        return MoneyValue(left.value / right.value)
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
@@ -332,4 +330,4 @@ class Invert:
                   (DecimalValue, DecimalValue),
                   (MoneyValue, MoneyValue)])
     def evaluate(self, expression):
-        return Subtraction().evaluate(IntegerValue(0), expression.value)
+        return Multiplication().evaluate(IntegerValue(-1), expression.value)

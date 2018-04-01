@@ -1,4 +1,4 @@
-package gui.pages;
+package gui.panels;
 
 import QLS.classes.Page;
 

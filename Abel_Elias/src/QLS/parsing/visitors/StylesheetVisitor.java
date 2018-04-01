@@ -10,6 +10,7 @@ import QLS.classes.blocks.StyledQuestion;
 import QLS.parsing.checkers.Checks;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
+import gui.panels.QuestionPanel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,9 +25,11 @@ public class StylesheetVisitor extends QLSBaseVisitor {
     private LinkedHashMap<String, Section> sections;
     private LinkedHashMap<String, StyledQuestion> questions;
     private LinkedHashMap<String, Element> parents;
+    private LinkedHashMap<String, QuestionPanel> questionPanelHashMap;
 
 
-    public StylesheetVisitor(LinkedHashMap<String, Question> questionMap){
+    public StylesheetVisitor(LinkedHashMap<String, Question> questionMap, LinkedHashMap<String, QuestionPanel> questionPanelHashMap){
+        this.questionPanelHashMap = questionPanelHashMap;
         this.questionMap = questionMap;
         this.blockVisitor = new BlockVisitor(questionMap);
         this.parents = new LinkedHashMap<>();

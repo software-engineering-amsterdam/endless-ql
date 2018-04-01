@@ -1,6 +1,7 @@
 package org.uva.forcepushql.interpreter.gui.questions;
 
 import org.uva.forcepushql.interpreter.gui.Observer;
+import org.uva.forcepushql.parser.ast.ValueType;
 
 import java.util.LinkedList;
 
@@ -9,12 +10,12 @@ public abstract class Question
 
     private boolean mandatory;
     private String question;
-    private String answerType;
+    private ValueType answerType;
     private String answerName;
     private LinkedList<Observer> observers;
 
 
-    public Question(String question, String answerType, String answerName)
+    public Question(String question, ValueType answerType, String answerName)
     {
         mandatory = false;
         this.question = question;
@@ -46,7 +47,7 @@ public abstract class Question
     }
 
 
-    public String answerTypeValue()
+    public ValueType answerTypeValue()
     {
         return answerType;
     }

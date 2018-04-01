@@ -11,6 +11,11 @@ public class EmptyValue implements GenericValue {
 	public GenericValue add(GenericValue rightHandSideValue) {
 		return new EmptyValue();
 	}
+	
+	@Override
+	public String toString() {
+		return "";
+	}
 
 	@Override
 	public GenericValue add(IntegerValue leftHandSideValue) {

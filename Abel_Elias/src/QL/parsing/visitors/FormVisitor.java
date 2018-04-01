@@ -23,6 +23,7 @@ public class FormVisitor extends QLBaseVisitor {
     // Node visitor
     @Override
     public FormVisitor visitForm(QLParser.FormContext form) {
+        this.form = form;
         Checks.checkForm(form);
         blockVisitor.visitBlock(form.block());
         this.form = form;

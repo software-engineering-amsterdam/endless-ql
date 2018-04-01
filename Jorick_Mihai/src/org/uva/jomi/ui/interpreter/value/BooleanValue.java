@@ -11,6 +11,11 @@ public class BooleanValue implements GenericValue {
 	public Boolean getValue() {
 		return this.value;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getValue().toString();
+	}
 
 	// And operation.
 

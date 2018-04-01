@@ -40,7 +40,7 @@ class StatementVisitor extends QLBaseVisitor[Statement] {
 
   override def visitVarDecl(ctx: QLParser.VarDeclContext): VarDecl = {
     val typeDecl = typeVisitor.visit(ctx.typeDecl)
-    val identifier = expressionVisitor.visit(ctx.identifier)
+    val identifier = expressionVisitor.visitIdentifier(ctx.identifier)
     VarDecl(typeDecl, identifier)
   }
 
@@ -65,83 +65,4 @@ class StatementVisitor extends QLBaseVisitor[Statement] {
     val expression = expressionVisitor.visit(ctx.expr)
     ValAssign(expression)
   }
-
-  // override def visitBinOp(ctx: QLParser.BinOpContext): ASTNode =
-    // ctx.getText match {
-      // case "+"  => ASTAdd()
-      // case "-"  => ASTMin()
-      // case "*"  => ASTMul()
-      // case "/"  => ASTDiv()
-      // case "!"  => ASTUnaryNot()
-      // case "&&" => ASTLogicalCon()
-      // case "||" => ASTLogicalDis()
-      // case "<"  => ASTRelationalLT()
-      // case ">"  => ASTRelationalGT()
-      // case "<=" => ASTRelationalLTE()
-      // case ">=" => ASTRelationalGTE()
-      // case "!=" => ASTNotEqualOp()
-      // case "==" => ASTEqualOp()
-    // }
-
-  // override def visitUnOp(ctx: QLParser.UnOpContext): ASTNode =
-    // ctx.getText match {
-      // case "-" => ASTUnaryMin()
-      // case "!" => ASTUnaryNot()
-    // }
-
-  // override def visitStringExpression(
-      // ctx: QLParser.StringExpressionContext): ASTNode = {
-    // visit(ctx.stringLit)
-  // }
-
-  // override def visitStringLit(
-      // ctx: QLParser.StringLitContext): ASTNode = {
-    // ASTStringValue(ctx.getText.replace("\"", ""))
-  // }
-
-  // override def visitBooleanExpression(
-      // ctx: QLParser.BooleanExpressionContext): ASTNode = {
-    // visit(ctx.booleanLit)
-  // }
-
-  // override def visitBooleanLit(
-      // ctx: QLParser.BooleanLitContext): ASTNode = {
-    // ASTBooleanValue(ctx.getText.toBoolean)
-  // }
-
-  // override def visitIntegerExpression(
-      // ctx: QLParser.IntegerExpressionContext): ASTNode = {
-    // visit(ctx.integerLit)
-  // }
-
-  // override def visitIntegerLit(
-      // ctx: QLParser.IntegerLitContext): ASTNode = {
-    // ASTIntegerValue(Integer.parseInt(ctx.getText))
-  // }
-
-  // override def visitIdentifier(
-      // ctx: QLParser.IdentifierContext): ASTIdentifier = {
-    // ASTIdentifier(ctx.getText)
-  // }
-
-  // override def visitIdentifierExpression(
-      // ctx: QLParser.IdentifierExpressionContext): ASTNode = {
-    // visit(ctx.identifier)
-  // }
-
-  // override def visitBinaryExpression(
-      // ctx: QLParser.BinaryExpressionContext): ASTNode = {
-    // ASTBinary(visit(ctx.lhs), visit(ctx.rhs), visit(ctx.binOp))
-  // }
-
-  // override def visitUnaryExpression(
-      // ctx: QLParser.UnaryExpressionContext): ASTNode = {
-    // ASTUnary(visit(ctx.expr), visit(ctx.op))
-  // }
-
-  // override def visitBracketExpression(
-      // ctx: QLParser.BracketExpressionContext): ASTNode = {
-    // visit(ctx.expr)
-  // }
-
 }

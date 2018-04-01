@@ -28,7 +28,8 @@ public class Questionnaire implements ActionListener {
 	private Frame frame;
 	
 	private JMenuItem openQL;
-	private JMenuItem storeAnswers;
+	private JMenuItem storeAnswersTxt;
+	private JMenuItem storeAnswersJson;
 	
 	private List<Panel> panels = new ArrayList<Panel>();
 	
@@ -59,10 +60,16 @@ public class Questionnaire implements ActionListener {
 		menu.add(openQL);
 		
 		//Create store answers menu
-		storeAnswers = new JMenuItem("Store answers", KeyEvent.VK_S);
-		storeAnswers.setName("Store answers");
-		storeAnswers.addActionListener(this);
-		menu.add(storeAnswers);
+		storeAnswersTxt = new JMenuItem("Store answers to text", KeyEvent.VK_S);
+		storeAnswersTxt.setName("Store answers to text");
+		storeAnswersTxt.addActionListener(this);
+		menu.add(storeAnswersTxt);
+		
+		//Create store answers menu
+		storeAnswersJson = new JMenuItem("Store answers to json", KeyEvent.VK_S);
+		storeAnswersJson.setName("Store answers to json");
+		storeAnswersJson.addActionListener(this);
+		menu.add(storeAnswersJson);
 		
 
 		this.frame.setJMenuBar(menuBar);
@@ -73,13 +80,16 @@ public class Questionnaire implements ActionListener {
 		if(e.getSource().equals(this.openQL)) {
 			this.openQLFile();
 		}
-		if(e.getSource().equals(this.storeAnswers)) {
-			this.storeAnswers();
+		if(e.getSource().equals(this.storeAnswersTxt)) {
+			this.storeAnswers(StorageType.TEXT);
+		}
+		if(e.getSource().equals(this.storeAnswersJson)) {
+			this.storeAnswers(StorageType.JSON);
 		}
 	}
 	
-	private void storeAnswers() {
-		this.form.store();
+	private void storeAnswers(StorageType type) {
+		this.form.store(type);
 	}
 
 	private void removeAllPanels() {

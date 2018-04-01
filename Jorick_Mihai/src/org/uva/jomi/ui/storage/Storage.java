@@ -7,6 +7,6 @@ import org.uva.jomi.ui.models.Question;
 
 public abstract class Storage {
 
-	public abstract boolean store(List<Question> questions);
+	public abstract void store(List<Question> questions);
 	
 }

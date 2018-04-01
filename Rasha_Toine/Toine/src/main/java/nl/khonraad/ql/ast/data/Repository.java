@@ -55,12 +55,10 @@ public class Repository {
     }
 
     public List<Question> listQuestions() {
-
         return questions.listQuestions();
     }
 
     public void storeAnwer( Identifier identifier, Value value ) {
-
         questions.storeAnswer( identifier, value );
     }
 }

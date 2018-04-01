@@ -19,25 +19,25 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
 @ApplicationScoped public class Questionnaire {
 
     @Inject
-    Logger                logger;
+    Logger                              logger;
 
     @Inject
-    SourcePathProvider              qLSource;
+    SourcePathProvider                  qLSource;
 
     @Inject
-    Event<VisualizeEvent> eventQueue;
+    Event<VisualizeEvent>               eventQueue;
 
     @Inject
-    private Repository    questionRepository;
+    private Repository                  questionRepository;
 
     @Inject
-    private QLAbstractSyntaxTreeBuilder  qLAstBuilder;
+    private QLAbstractSyntaxTreeBuilder qLAstBuilder;
 
     public void prepareAndVisit( ExtendedQLBaseVisitor visitor ) {
 
         try {
-            questionRepository.prepare();
 
+            questionRepository.prepare();
             visitor.visit( qLAstBuilder.getTree() );
 
         } catch (IllegalStateException e) {
@@ -70,9 +70,7 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
     public void storeAnswer( Identifier identifier, Value value ) {
 
         questionRepository.storeAnwer( identifier, value );
-
         if ( eventQueue != null ) {
-
             eventQueue.fire( new VisualizeEvent() );
         }
     }

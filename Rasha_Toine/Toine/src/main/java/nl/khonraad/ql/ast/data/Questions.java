@@ -14,7 +14,7 @@ public class Questions implements Iterable<Question> {
     private List<Question> questionList = new ArrayList<>();
 
     Value storeComputedQuestion( Identifier identifier, Label label, Value value ) {
-        
+
         Question question = new Question( BehaviouralType.COMPUTED, identifier, label, value );
         questionList.add( question );
         return value;
@@ -31,9 +31,7 @@ public class Questions implements Iterable<Question> {
     }
 
     List<Question> listQuestions() {
-
         return questionList;
-
     }
 
     @Override
@@ -51,6 +49,7 @@ public class Questions implements Iterable<Question> {
     }
 
     void storeAnswer( Identifier identifier, Value value ) {
+        
         Question question = findQuestion( BehaviouralType.ANSWERABLE, identifier );
         question.setValue( value );
     }

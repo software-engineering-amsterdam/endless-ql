@@ -1,8 +1,5 @@
 package qls.gui.view;
 
-import ql.gui.controller.SubmitFormController;
-import ql.gui.view.QuestionView;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;

@@ -1,7 +1,6 @@
 package qls.logic.builders;
 
 import ql.ast.model.Form;
-import ql.gui.controller.FormController;
 import ql.gui.model.QuestionModel;
 import ql.gui.view.QuestionView;
 import ql.gui.view.widgets.*;

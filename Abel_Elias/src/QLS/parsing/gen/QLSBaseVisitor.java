@@ -1,4 +1,4 @@
-// Generated from /home/ajm/Desktop/endless-sunday/endless-ql/Abel_Elias/src/QLS/parsing/QLS.g4 by ANTLR 4.7
+// Generated from C:/dev/uva/endless-ql/Abel_Elias/src/QLS/parsing\QLS.g4 by ANTLR 4.7
 package QLS.parsing.gen;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 

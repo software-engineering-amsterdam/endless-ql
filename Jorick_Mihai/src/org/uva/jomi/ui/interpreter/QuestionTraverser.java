@@ -13,7 +13,6 @@ import org.uva.jomi.ql.ast.statements.IfStatement;
 import org.uva.jomi.ql.ast.statements.QuestionStatement;
 import org.uva.jomi.ql.ast.statements.Statement;
 import org.uva.jomi.ui.models.Question;
-import org.uva.jomi.ui.views.ViewGenerator;
 
 public class QuestionTraverser implements Statement.Visitor<List<Question>> {
 

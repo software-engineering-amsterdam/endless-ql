@@ -198,7 +198,7 @@ class Addition(Evaluation):
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        super().evaluate()
+        super().evaluate(left, right)
 
 
 class Subtraction(Evaluation):
@@ -217,7 +217,7 @@ class Subtraction(Evaluation):
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        super().evaluate()
+        super().evaluate(left, right)
 
 
 class Multiplication(Evaluation):
@@ -238,7 +238,7 @@ class Multiplication(Evaluation):
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        super().evaluate()
+        super().evaluate(left, right)
 
 
 class Division(Evaluation):
@@ -259,7 +259,7 @@ class Division(Evaluation):
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        super().evaluate()
+        super().evaluate(left, right)
 
 
 class LowerThan(Evaluation):
@@ -272,7 +272,7 @@ class LowerThan(Evaluation):
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        super().evaluate()
+        super().evaluate(left, right)
 
 
 class LowerEqual(Evaluation):
@@ -285,7 +285,7 @@ class LowerEqual(Evaluation):
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        super().evaluate()
+        super().evaluate(left, right)
 
 
 class GreaterThan(Evaluation):
@@ -311,7 +311,7 @@ class GreaterEqual(Evaluation):
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        super().evaluate()
+        super().evaluate(left, right)
 
 
 class Equality(Evaluation):

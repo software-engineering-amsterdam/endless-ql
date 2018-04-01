@@ -1,6 +1,6 @@
 from ql.ast.visitors.dependency_visitor import DependencyVisitor
-from ql.ast.visitors.model_generator import ModelGenerator
 from ql.ast.visitors.identifier_type_visitor import IdentifierTypeVisitor
+from ql.ast.visitors.model_generator import ModelGenerator
 from ql.ast.visitors.question_visitor import QuestionVisitor
 from ql.ast.visitors.reference_visitor import ReferenceVisitor
 

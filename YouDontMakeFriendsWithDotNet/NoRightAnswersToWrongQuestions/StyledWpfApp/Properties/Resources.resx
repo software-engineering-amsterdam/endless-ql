@@ -120,7 +120,18 @@
   <data name="ExampleForm" xml:space="preserve">
     <value>form TestQuestionnaire 
 {
-    q1: "This is q1 (boolean)?" boolean
+    q1a: "This is q1a (boolean)?" boolean
+    q1b: "This is q1b (boolean)?" boolean
+    q1c: "This is q1c (boolean)?" boolean
+    q1d: "This is q1d (boolean)?" boolean
+    q1e: "This is q1e (boolean)?" boolean
+    q1f: "This is q1f (boolean)?" boolean
+    q1g: "This is q1g (boolean)?" boolean
+    q2a: "This is q2a (date)?" date
+    q2b: "This is q2b (date)?" date
+    q3: "This is q3 (string)?" string
+    q4: "This is q4 (integer)?" integer
+    q5: "This is q5 (decimal)?" decimal
 }</value>
   </data>
   <data name="ExampleStyleSheet" xml:space="preserve">
@@ -130,9 +141,47 @@
     {
         section section1 
         {
-            question q1 widget radio("ja", "Nee")
+            question q1a 
+            question q1b widget checkbox
+            question q1c {width: 50 font: "Comic Sans" color: #FFFF0000 }
+            question q1d {widget radio color: #FFF0F000 }
+            question q1e {widget dropdown fontsize: 22}
+            question q1f widget radio("joey","chandler")
+            question q1g widget dropdown("ren","stimpy")
+        }
+    }    
+    page page2 
+    {
+        section section2
+        {
+            question q2a {width: 120 font: "Comic Sans" fontsize: 22 color: #FFFF0000 }
+            question q2b widget textbox
+        }
+    }   
+    page page3 
+    {
+        section section3
+        {
+            question q3 
+        }
+        default string {color: #FF00F8FF fontsize: 16 font: "Algerian" }
+    }   
+    page page4 
+    {
+        section section4
+        {
+            question q4
+        }
+    }   
+    page page5 
+    {
+        section section5
+        {
+            question q5 
         }
     }
+    
+    default boolean {width: 300 color: #FF00F088}
 }</value>
   </data>
 </root>

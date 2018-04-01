@@ -4,10 +4,12 @@ import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.ql.model.ast.QLForm
 import nl.uva.se.sc.niro.qls.model.ast.QLStylesheet
 import nl.uva.se.sc.niro.qls.model.ast.style.Slider
+import org.apache.logging.log4j.scala.Logging
 
-object SliderRange extends RangeCheck with IntegerValueCheck {
+object SliderRange extends RangeCheck with IntegerValueCheck with Logging {
 
   def check(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
+    logger.info("Check slider range and numeric types configuration.")
     val invalidSliderRanges = stylesheet
       .collectAllQuestions()
       .flatMap(question =>

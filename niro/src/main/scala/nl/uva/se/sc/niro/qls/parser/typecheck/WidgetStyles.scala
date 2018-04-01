@@ -3,10 +3,12 @@ package nl.uva.se.sc.niro.qls.parser.typecheck
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.ql.model.ast.{ AnswerType, QLForm }
 import nl.uva.se.sc.niro.qls.model.ast.{ QLStylesheet, Styling }
+import org.apache.logging.log4j.scala.Logging
 
-object WidgetStyles {
+object WidgetStyles extends Logging {
 
   def check(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
+    logger.info("Check widget style is compatible with question type.")
     val allWidgetStyles: Seq[(AnswerType, Styling)] =
       stylesheet.defaultStyles.toSeq ++
         stylesheet.pages.flatMap(_.defaultStyles.toSeq) ++

@@ -4,10 +4,12 @@ import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.ql.model.ast.{ IntegerType, QLForm }
 import nl.uva.se.sc.niro.qls.model.ast.QLStylesheet
 import nl.uva.se.sc.niro.qls.model.ast.style.SpinBox
+import org.apache.logging.log4j.scala.Logging
 
-object SpinRange extends RangeCheck with StepSizeCheck with IntegerValueCheck {
+object SpinRange extends RangeCheck with StepSizeCheck with IntegerValueCheck with Logging {
 
   def check(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
+    logger.info("Check spinner range, step-size and numeric types configuration.")
     val invalidSpinRanges = stylesheet
       .collectAllQuestions()
       .flatMap(question =>

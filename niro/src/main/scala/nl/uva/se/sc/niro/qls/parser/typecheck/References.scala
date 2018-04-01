@@ -3,10 +3,13 @@ package nl.uva.se.sc.niro.qls.parser.typecheck
 import nl.uva.se.sc.niro.errors.Errors.TypeCheckError
 import nl.uva.se.sc.niro.ql.model.ast.{ QLForm, Statement }
 import nl.uva.se.sc.niro.qls.model.ast.QLStylesheet
+import org.apache.logging.log4j.scala.Logging
 
-object References {
+object References extends Logging {
 
   def check(form: QLForm, stylesheet: QLStylesheet): Either[Seq[TypeCheckError], QLStylesheet] = {
+    logger.info("Check question referenced by stylesheet exist.")
+
     val questionsInStylesheet = stylesheet.collectAllQuestions()
     val uniqueQuestionNamesInStylesheet = questionsInStylesheet.map(_.name).toSet
 

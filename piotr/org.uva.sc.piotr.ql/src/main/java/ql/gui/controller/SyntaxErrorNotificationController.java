@@ -6,12 +6,12 @@ import org.antlr.v4.runtime.Recognizer;
 import ql.gui.view.ErrorMessageView;
 import ql.gui.view.WindowView;
 
-class SyntaxErrorNotificationController extends BaseErrorListener {
+public class SyntaxErrorNotificationController extends BaseErrorListener {
 
     private final WindowView windowView;
     private Boolean foundSyntaxError = false;
 
-    SyntaxErrorNotificationController(WindowView windowView) {
+    public SyntaxErrorNotificationController(WindowView windowView) {
         this.windowView = windowView;
     }
 

@@ -10,20 +10,12 @@ class QLDecimal(QLType):
         super(QLDecimal, self).__init__()
         self.__value = float(value)
 
+    @property
+    def value(self):
+        return self.__value
+
     def __repr__(self):
         return str(self.value)
-
-    def __coerce__(self, other):
-        return self, QLDecimal(other)
-
-    def __bool__(self):
-        return bool(self.value)
-
-    def __float__(self):
-        return float(self.value)
-
-    def __int__(self):
-        return int(self.value)
 
     def __str__(self):
         return str(self.value)
@@ -73,17 +65,10 @@ class QLDecimal(QLType):
     def get_json_value(self):
         return self.value
 
-    @property
-    def value(self):
-        return self.__value
-
     @staticmethod
     def get_literal_node(value):
         return DecimalNode(None, QLDecimal, value)
 
     @staticmethod
     def pyqt5_default_widget():
-        number_of_decimals = 16
-        widget = DoubleSpinBox()
-        widget.setDecimals(number_of_decimals)
-        return widget
+        return DoubleSpinBox()

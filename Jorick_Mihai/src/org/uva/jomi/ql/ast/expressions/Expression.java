@@ -5,24 +5,24 @@ import org.uva.jomi.ql.ast.QLType;
 
 abstract public class Expression extends AstNode {
 	public interface Visitor<T> {
-		T visit(IdentifierExpression expr);
-		T visit(GroupingExpression expr);
-		T visit(AdditionExpression expr);
-		T visit(SubtractionExpression expr);
-		T visit(MultiplicationExpression expr);
-		T visit(DivisionExpression expr);
-		T visit(LessThanExpression expr);
-		T visit(LessThanOrEqualExpression expr);
-		T visit(GreaterThanExpression expr);
-		T visit(GreaterThanOrEqualExpression expr);
-		T visit(NotEqualExpression expr);
-		T visit(EqualExpression expr);
-		T visit(AndExpression expr);
-		T visit(OrExpression expr);
-		T visit(UnaryNotExpression expr);
-		T visit(IntegerExpression expr);
-		T visit(StringExpression expr);
-		T visit(BooleanExpression expr);
+		T visit(IdentifierExpression expression);
+		T visit(GroupingExpression expression);
+		T visit(AdditionExpression expression);
+		T visit(SubtractionExpression expression);
+		T visit(MultiplicationExpression expression);
+		T visit(DivisionExpression expression);
+		T visit(LessThanExpression expression);
+		T visit(LessThanOrEqualExpression expression);
+		T visit(GreaterThanExpression expression);
+		T visit(GreaterThanOrEqualExpression expression);
+		T visit(NotEqualExpression expression);
+		T visit(EqualExpression expression);
+		T visit(AndExpression expression);
+		T visit(OrExpression expression);
+		T visit(UnaryNotExpression expression);
+		T visit(IntegerExpression expression);
+		T visit(StringExpression expression);
+		T visit(BooleanExpression expression);
 	}
 
 	public abstract <T> T accept(Visitor<T> visitor);
@@ -30,7 +30,7 @@ abstract public class Expression extends AstNode {
 	private QLType type;
 	private int lineNumber;
 	private int columnNumber;
-	
+
 	public QLType getType() {
 		return type;
 	}
@@ -38,7 +38,7 @@ abstract public class Expression extends AstNode {
 	public void setType(QLType type) {
 		this.type = type;
 	}
-	
+
 	public boolean hasType(QLType expectedType) {
 		return this.getType() != expectedType;
 	}
@@ -58,11 +58,11 @@ abstract public class Expression extends AstNode {
 	public void setColumnNumber(int columnNumber) {
 		this.columnNumber = columnNumber;
 	}
-	
+
 	public <T> T visitExpression(Visitor<T> visitor) {
 		return this.accept(visitor);
 	}
-	
+
 	public int getExpressionId() {
 		return this.getNodeId();
 	}

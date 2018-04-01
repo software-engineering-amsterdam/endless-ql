@@ -1,9 +1,9 @@
 package domain.model.value;
 
-public class MoneyValue extends Value<Integer>{
+public class MoneyValue implements Value<Integer> {
     private Integer value;
 
-    public MoneyValue(Integer value){
+    public MoneyValue(Integer value) {
         this.value = value;
     }
 
@@ -13,14 +13,7 @@ public class MoneyValue extends Value<Integer>{
     }
 
     @Override
-    public void setValue(Integer value) {
-        this.value = value;
+    public Integer setValue(Integer value) {
+        return this.value = value;
     }
-
-    @Override
-    public void accept(Integer integer) throws Exception {
-        this.value = integer;
-    }
-
-
 }

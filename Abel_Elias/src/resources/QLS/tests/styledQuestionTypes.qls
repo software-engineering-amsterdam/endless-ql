@@ -1,0 +1,21 @@
+stylesheet styledQuestionsSheet
+{
+  page firstPage
+  {
+    section "section1"
+    {
+        question styledQuestion1
+            widget checkbox
+        question styledQuestion2
+            widget radio("Yes", "No")
+        question styledQuestion3
+            widget spinbox
+        question styledQuestion4
+            widget dropdown("Yes", "No")
+        question styledQuestion5
+            widget text
+        question styledQuestion6
+            widget slider
+    }
+  }
+}

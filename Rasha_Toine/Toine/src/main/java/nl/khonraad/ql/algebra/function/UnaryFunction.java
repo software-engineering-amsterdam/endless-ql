@@ -18,7 +18,8 @@ public enum UnaryFunction {
     private Operator operator;
     private Type     right;
 
-    private UnaryFunction(Operator operator, Type right) {
+    private UnaryFunction( Operator operator, Type right ) {
+        
         this.operator = operator;
         this.right = right;
     }
@@ -33,5 +34,4 @@ public enum UnaryFunction {
         }
         throw new RuntimeException( "Check your grammar. Do not know how to instantiate an Expression from this." );
     }
-
 }

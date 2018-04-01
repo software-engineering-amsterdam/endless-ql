@@ -38,7 +38,7 @@ public class BlockVisitor extends QLSBaseVisitor {
 
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
-        String id = ctx.IDENTIFIER().getText();
+        String id = ctx.STR().getText();
         List<Element> elements = new ArrayList<>();
         currentParentId = id;
         for (QLSParser.ElementContext c : ctx.element()) {

@@ -12,20 +12,21 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 
 import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.ast.Visitor;
+import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
+import nl.khonraad.ql.cdi.LoggingAspect;
 import nl.khonraad.ql.ast.data.Questionnaire;
 
 @SuppressWarnings( "serial" )
 
-public class WidgetContainer extends Panel {
+public class WidgetContainer extends Panel{
 
     @Inject
     Logger        logger;
 
     @Inject
-    Visitor       visitor;
+    ExtendedQLBaseVisitor       visitor;
 
     @Inject
     Questionnaire questionnaire;
@@ -36,6 +37,7 @@ public class WidgetContainer extends Panel {
         setLayout( new GridLayout( 0, 2 ) );
     }
 
+    @LoggingAspect
     public void visualize() {
 
         removeAll();
@@ -60,7 +62,8 @@ public class WidgetContainer extends Panel {
         return parentPanel;
     }
 
-    private JPanel visualizeQuestion( Question question, Questionnaire questionnaire ) {
+    @LoggingAspect
+    public JPanel visualizeQuestion( Question question, Questionnaire questionnaire ) {
 
         JPanel parentPanel = new JPanel();
 
@@ -68,12 +71,13 @@ public class WidgetContainer extends Panel {
 
         if ( behaviouralType == BehaviouralType.COMPUTED ) {
 
-            return addToParent( parentPanel, new ComputedQuestionWidget( question, questionnaire ) );
+            return addToParent( parentPanel, new ComputedQuestionWidget( question ) );
         }
+
+        Type type = question.type();
 
         if ( behaviouralType == BehaviouralType.ANSWERABLE ) {
 
-            Type type = question.type();
 
             switch ( type ) {
 
@@ -96,4 +100,5 @@ public class WidgetContainer extends Panel {
         throw new RuntimeException( "Do not know how to diplay type: " + type );
 
     }
+
 }

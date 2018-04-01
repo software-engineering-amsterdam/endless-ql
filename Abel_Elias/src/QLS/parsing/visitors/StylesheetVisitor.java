@@ -20,6 +20,7 @@ import java.util.List;
 public class StylesheetVisitor extends QLSBaseVisitor {
     private HashMap<String,Question> questionMap;
     private BlockVisitor blockVisitor;
+    private Stylesheet stylesheet;
     private LinkedHashMap<String, Page> pages;
     private LinkedHashMap<String, Section> sections;
     private LinkedHashMap<String, StyledQuestion> questions;
@@ -40,7 +41,7 @@ public class StylesheetVisitor extends QLSBaseVisitor {
     // Node visitor
     @Override
     public Stylesheet visitStylesheet(QLSParser.StylesheetContext ctx) {
-        Checks.checkStyleSheet(ctx, this.questionMap);
+//        Checks.checkStyleSheet(ctx, this.questionMap);
 
         String id = ctx.IDENTIFIER().getText();
         List<Page> pages = new ArrayList<>();
@@ -48,8 +49,8 @@ public class StylesheetVisitor extends QLSBaseVisitor {
             pages.add(visitPage(c));
         }
         setLists();
-
-        return new Stylesheet(id, pages);
+        this.stylesheet = new Stylesheet(id, pages);
+        return this.stylesheet;
     }
 
     private void setLists() {
@@ -86,5 +87,9 @@ public class StylesheetVisitor extends QLSBaseVisitor {
 
     public LinkedHashMap<String,Element> getParents() {
         return parents;
+    }
+
+    public Stylesheet getStylesheet() {
+        return stylesheet;
     }
 }

@@ -101,7 +101,9 @@ class MainWindow(QMainWindow):
     def create_form(self):
         textbox_value = self.text_edit.toPlainText()
         ql_lexer = QLLexer()
+        ql_lexer.build()
         ql_parser = QLParser()
+        ql_parser.build()
         empty_form = []
 
         if not textbox_value:

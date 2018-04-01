@@ -26,6 +26,7 @@ public class FormVisitor extends QLBaseVisitor {
         this.form = form;
         Checks.checkForm(form);
         blockVisitor.visitBlock(form.block());
+        this.form = form;
         return this;
     }
 

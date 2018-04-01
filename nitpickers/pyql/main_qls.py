@@ -7,6 +7,7 @@ from pyqls.ast import parse_tree_visitor
 from pyqls.antlr.QLSLexer import QLSLexer
 from pyqls.antlr.QLSParser import QLSParser
 from pyqls.static_analysis.questions import CheckQuestionsInQL
+from pyqls.static_analysis.compatibility import CompatibilityTypesWidget
 from pyql.static_analysis.collector import Collector
 from util.message_handler import MessageHandler
 
@@ -56,6 +57,7 @@ def ql_qls():
     qls_ast = parse_qls(filenames[5]).accept(qls_visitor)
 
     CheckQuestionsInQL(questions_table).check(qls_ast)
+    CompatibilityTypesWidget(questions_table).check(qls_ast)
 
     print(MessageHandler().messages)
 

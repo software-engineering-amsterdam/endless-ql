@@ -1,6 +1,8 @@
 package nl.khonraad.ql.gui.visuals;
 
 import java.awt.Dimension;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 import javax.swing.JSpinner;
@@ -36,7 +38,9 @@ public class MoneyWidget extends JSpinner implements QuestionnaireAccessor {
 
             String current = source.getModel().getValue().toString();
 
-            questionnaire().storeAnswer( question.identifier(), new Value( Type.Money, current ) );
+            String dec = new BigDecimal( current ).setScale(2, RoundingMode.HALF_EVEN).toString();
+            
+            questionnaire().storeAnswer( question.identifier(), new Value( Type.Money, dec ) );
 
         } );
     }

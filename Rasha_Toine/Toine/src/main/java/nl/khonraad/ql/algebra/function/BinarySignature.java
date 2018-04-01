@@ -3,7 +3,7 @@ package nl.khonraad.ql.algebra.function;
 import nl.khonraad.ql.algebra.value.Operator;
 import nl.khonraad.ql.algebra.value.Type;
 
-public enum BinaryFunction {
+public enum BinarySignature {
 
     BooleanAndBoolean(Type.Boolean, Operator.And, Type.Boolean),
 
@@ -79,23 +79,23 @@ public enum BinaryFunction {
 
     StringPlusString(Type.String, Operator.Plus, Type.String);
 
-    private Type     left;
+    private Type     leftType;
     private Operator operator;
-    private Type     right;
+    private Type     rightType;
 
-    private BinaryFunction(Type left, Operator operator, Type right) {
-        this.left = left;
+    private BinarySignature(Type leftType, Operator operator, Type rightType) {
+        this.leftType = leftType;
         this.operator = operator;
-        this.right = right;
+        this.rightType = rightType;
     }
 
-    public static BinaryFunction signature( Type left, Operator operator, Type right ) {
+    public static BinarySignature signature( Type leftType, Operator operator, Type rightType ) {
 
-        for ( BinaryFunction binaryFunction : values() ) {
+        for ( BinarySignature candidate : values() ) {
 
-            if ( binaryFunction.left.equals( left ) && binaryFunction.operator.equals( operator )
-                    && binaryFunction.right.equals( right ) ) {
-                return binaryFunction;
+            if ( candidate.leftType.equals( leftType ) && candidate.operator.equals( operator )
+                    && candidate.rightType.equals( rightType ) ) {
+                return candidate;
             }
         }
         throw new RuntimeException( "Check your grammar. Do not know how to instantiate an Expression from this." );

@@ -3,7 +3,7 @@ package nl.khonraad.ql.algebra.function;
 import nl.khonraad.ql.algebra.value.Operator;
 import nl.khonraad.ql.algebra.value.Type;
 
-public enum UnaryFunction {
+public enum UnarySignature {
 
     NotBoolean(Operator.Not, Type.Boolean),
 
@@ -16,20 +16,20 @@ public enum UnaryFunction {
     MinusInteger(Operator.Minus, Type.Integer);
 
     private Operator operator;
-    private Type     right;
+    private Type     operandType;
 
-    private UnaryFunction( Operator operator, Type right ) {
-        
+    private UnarySignature( Operator operator, Type type ) {
+
         this.operator = operator;
-        this.right = right;
+        this.operandType = type;
     }
 
-    public static UnaryFunction signature( Operator operator, Type right ) {
+    public static UnarySignature signature( Operator operator, Type operandType ) {
 
-        for ( UnaryFunction expression : values() ) {
+        for ( UnarySignature candidate : values() ) {
 
-            if ( expression.operator.equals( operator ) && expression.right.equals( right ) ) {
-                return expression;
+            if ( candidate.operator.equals( operator ) && candidate.operandType.equals( operandType ) ) {
+                return candidate;
             }
         }
         throw new RuntimeException( "Check your grammar. Do not know how to instantiate an Expression from this." );

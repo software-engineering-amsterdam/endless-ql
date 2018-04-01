@@ -4,19 +4,9 @@ public class MoneyExpressionValue extends NumberExpressionValue {
 
     private Float value = (float) 12.34;
 
-    public MoneyExpressionValue(Float value) {
+    public MoneyExpressionValue(Float value) { this.value = value; }
 
-        System.out.println("setting the value");
-
-        this.value = value;
-    }
-
-    public Float getValue() {
-
-        System.out.println("getting the value: " + value + "END");
-
-        return value;
-    }
+    public Float getValue() {  return value;  }
 
     public void setValue(Float value) {
         this.value = value;

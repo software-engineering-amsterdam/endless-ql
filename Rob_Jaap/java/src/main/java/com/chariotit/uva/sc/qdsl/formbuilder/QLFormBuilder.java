@@ -112,8 +112,6 @@ public class QLFormBuilder {
    }
 
     private void renderQuestions(Stylesheet stylesheet) {
-        System.out.println("We have a style sheet now" + stylesheet.getLabel() + " --- " + stylesheet.getPages());
-
         for (Page page : stylesheet.getPages()) {
             System.out.println("We have a page here " + page.getLabel());
         }

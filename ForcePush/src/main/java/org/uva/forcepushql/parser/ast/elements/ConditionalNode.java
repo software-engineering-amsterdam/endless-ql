@@ -1,10 +1,10 @@
 package org.uva.forcepushql.parser.ast.elements;
 
 import org.uva.forcepushql.interpreter.gui.JPanelGUI;
-import org.uva.forcepushql.parser.ast.elements.Node;
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class ConditionalNode extends Node
 {
@@ -15,11 +15,12 @@ public class ConditionalNode extends Node
 
     public ConditionalNode()
     {
+        super(false);
         questions = new LinkedList<Node>();
     }
 
     @Override
-    public LinkedList<JPanelGUI> accept(ASTVisitor visitor)
+    public List<JPanelGUI> accept(ASTVisitor visitor)
     {
         return visitor.visit(this);
     }
@@ -34,17 +35,12 @@ public class ConditionalNode extends Node
         return condition;
     }
 
-    public void setQuestions(LinkedList<Node> questions)
-    {
-        this.questions = questions;
-    }
-
-    public void setOneQuestion(Node question)
+    public void addOneQuestion(Node question)
     {
         questions.add(question);
     }
 
-    public LinkedList<Node> getQuestions()
+    public List<Node> getQuestions()
     {
         return questions;
     }

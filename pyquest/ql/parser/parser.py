@@ -1,29 +1,29 @@
 from ply.yacc import yacc
 
-from ql.ast.nodes.expressions.binary_operators.addition_node import AdditionOperatorNode
-from ql.ast.nodes.expressions.binary_operators.and_node import AndOperatorNode
-from ql.ast.nodes.expressions.binary_operators.division_node import DivisionOperatorNode
-from ql.ast.nodes.expressions.binary_operators.equals_node import EqualsOperatorNode
-from ql.ast.nodes.expressions.binary_operators.greater_equals_node import GreaterEqualsOperatorNode
-from ql.ast.nodes.expressions.binary_operators.greater_than_node import GreaterThanOperatorNode
-from ql.ast.nodes.expressions.binary_operators.less_equals_node import LessEqualsOperatorNode
-from ql.ast.nodes.expressions.binary_operators.less_than_node import LessThanOperatorNode
-from ql.ast.nodes.expressions.binary_operators.multiplication_node import MultiplicationOperatorNode
-from ql.ast.nodes.expressions.binary_operators.not_equals_node import NotEqualsOperatorNode
-from ql.ast.nodes.expressions.binary_operators.or_node import OrOperatorNode
-from ql.ast.nodes.expressions.binary_operators.subtraction_node import SubtractionOperatorNode
-from ql.ast.nodes.expressions.literals.boolean_node import BooleanNode
-from ql.ast.nodes.expressions.literals.date_node import DateNode
-from ql.ast.nodes.expressions.literals.decimal_node import DecimalNode
-from ql.ast.nodes.expressions.literals.integer_node import IntegerNode
-from ql.ast.nodes.expressions.literals.money_node import MoneyNode
-from ql.ast.nodes.expressions.literals.string_node import StringNode
-from ql.ast.nodes.expressions.unary_operators.negation_node import NegationOperatorNode
-from ql.ast.nodes.expressions.unary_operators.negative_node import NegativeOperatorNode
-from ql.ast.nodes.expressions.variable_node import VariableNode
-from ql.ast.nodes.statements.form_node import FormNode
-from ql.ast.nodes.statements.if_node import IfNode
-from ql.ast.nodes.statements.question_node import QuestionNode
+from ql.ast.nodes.expressions.binary_operators.addition_operator import AdditionOperatorNode
+from ql.ast.nodes.expressions.binary_operators.and_operator import AndOperatorNode
+from ql.ast.nodes.expressions.binary_operators.division_operator import DivisionOperatorNode
+from ql.ast.nodes.expressions.binary_operators.equals_operator import EqualsOperatorNode
+from ql.ast.nodes.expressions.binary_operators.greater_equals_operator import GreaterEqualsOperatorNode
+from ql.ast.nodes.expressions.binary_operators.greater_than_operator import GreaterThanOperatorNode
+from ql.ast.nodes.expressions.binary_operators.less_equals_operator import LessEqualsOperatorNode
+from ql.ast.nodes.expressions.binary_operators.less_than_operator import LessThanOperatorNode
+from ql.ast.nodes.expressions.binary_operators.multiplication_operator import MultiplicationOperatorNode
+from ql.ast.nodes.expressions.binary_operators.not_equals_operator import NotEqualsOperatorNode
+from ql.ast.nodes.expressions.binary_operators.or_operator import OrOperatorNode
+from ql.ast.nodes.expressions.binary_operators.subtraction_operator import SubtractionOperatorNode
+from ql.ast.nodes.expressions.literals.boolean_literal import BooleanNode
+from ql.ast.nodes.expressions.literals.date_literal import DateNode
+from ql.ast.nodes.expressions.literals.decimal_literal import DecimalNode
+from ql.ast.nodes.expressions.literals.integer_literal import IntegerNode
+from ql.ast.nodes.expressions.literals.money_literal import MoneyNode
+from ql.ast.nodes.expressions.literals.string_literal import StringNode
+from ql.ast.nodes.expressions.unary_operators.negation_operator import NegationOperatorNode
+from ql.ast.nodes.expressions.unary_operators.negative_operator import NegativeOperatorNode
+from ql.ast.nodes.expressions.variable import VariableNode
+from ql.ast.nodes.statements.form_statement import FormNode
+from ql.ast.nodes.statements.if_statement import IfNode
+from ql.ast.nodes.statements.question_statement import QuestionNode
 from ql.parser.lexer import QLLexer
 from ql.parser.metadata import Metadata
 from ql.types.boolean import QLBoolean
@@ -39,16 +39,16 @@ class QLParser:
     def __init__(self):
         self.__errors = []
         self.__tokens = QLLexer.tokens
+        self.__parser = None
         self.__precedence = (
             ('left', 'OR'),
             ('left', 'AND'),
-            ('nonassoc', 'EQ', 'NE'),
-            ('nonassoc', 'LE', 'LT', 'GE', 'GT'),
+            ('nonassoc', 'EQUALS', 'NOT_EQUALS'),
+            ('nonassoc', 'LESS_EQUALS', 'LESS_THAN', 'GREATER_EQUALS', 'GREATER_THAN'),
             ('left', 'PLUS', 'MINUS'),
             ('left', 'TIMES', 'DIVIDE'),
             ('right', 'NOT'),
         )
-        self.parser = yacc(module=self)
 
     @property
     def errors(self):
@@ -59,8 +59,15 @@ class QLParser:
         return self.__tokens
 
     @property
+    def parser(self):
+        return self.__parser
+
+    @property
     def precedence(self):
         return self.__precedence
+
+    def build(self):
+        self.__parser = yacc(module=self)
 
     def parse(self, data, lexer):
         self.__errors = []
@@ -181,37 +188,37 @@ class QLParser:
 
     @staticmethod
     def p_equals(production):
-        """expression : expression EQ expression"""
+        """expression : expression EQUALS expression"""
         production[0] = EqualsOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                            production[1], production[3], QLUndefined())
 
     @staticmethod
     def p_not_equals(production):
-        """expression : expression NE expression"""
+        """expression : expression NOT_EQUALS expression"""
         production[0] = NotEqualsOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                               production[1], production[3], QLUndefined())
 
     @staticmethod
     def p_less_equals(production):
-        """expression : expression LE expression"""
+        """expression : expression LESS_EQUALS expression"""
         production[0] = LessEqualsOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                                production[1], production[3], QLUndefined())
 
     @staticmethod
     def p_less_than(production):
-        """expression : expression LT expression"""
+        """expression : expression LESS_THAN expression"""
         production[0] = LessThanOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                              production[1], production[3], QLUndefined())
 
     @staticmethod
     def p_greater_equals(production):
-        """expression : expression GE expression"""
+        """expression : expression GREATER_EQUALS expression"""
         production[0] = GreaterEqualsOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                                   production[1], production[3], QLUndefined())
 
     @staticmethod
     def p_greater_than(production):
-        """expression : expression GT expression"""
+        """expression : expression GREATER_THAN expression"""
         production[0] = GreaterThanOperatorNode(Metadata(production.lineno(2)), QLBoolean,
                                                 production[1], production[3], QLUndefined())
 
@@ -220,22 +227,23 @@ class QLParser:
     def p_boolean_literal(production):
         """expression   : FALSE
                         | TRUE"""
-        production[0] = BooleanNode(Metadata(production.lineno(1)), QLBoolean, production[1])
+        production[0] = BooleanNode(Metadata(production.lineno(1)), QLBoolean, QLBoolean(production[1]))
 
     @staticmethod
     def p_date_literal(production):
         """expression : DATE_LITERAL"""
-        production[0] = DateNode(Metadata(production.lineno(1)), QLDate, production[1])
+        day, month, year = production[1]
+        production[0] = DateNode(Metadata(production.lineno(1)), QLDate, QLDate(day, month, year))
 
     @staticmethod
     def p_integer_literal(production):
         """expression : INTEGER_LITERAL"""
-        production[0] = IntegerNode(Metadata(production.lineno(1)), QLInteger, production[1])
+        production[0] = IntegerNode(Metadata(production.lineno(1)), QLInteger, QLInteger(production[1]))
 
     @staticmethod
     def p_decimal_literal(production):
         """expression : DECIMAL_LITERAL"""
-        production[0] = DecimalNode(Metadata(production.lineno(1)), QLDecimal, production[1])
+        production[0] = DecimalNode(Metadata(production.lineno(1)), QLDecimal, QLDecimal(production[1]))
 
     @staticmethod
     def p_money_literal(production):

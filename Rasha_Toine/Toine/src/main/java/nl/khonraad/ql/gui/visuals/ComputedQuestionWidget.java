@@ -1,3 +1,4 @@
+
 package nl.khonraad.ql.gui.visuals;
 
 import java.awt.Font;
@@ -5,16 +6,15 @@ import java.awt.Font;
 import javax.swing.JLabel;
 
 import nl.khonraad.ql.ast.data.Question;
-import nl.khonraad.ql.ast.data.Questionnaire;
 
-@SuppressWarnings( "serial" )
+public class ComputedQuestionWidget {
 
-public class ComputedQuestionWidget extends JLabel {
+    JLabel jLabel;
 
-    public ComputedQuestionWidget( Question question, Questionnaire questionnaire ) {
+    public ComputedQuestionWidget( Question question ) {
 
-        super( question.string() );
+        jLabel = new JLabel( question.string() );
 
-        setFont( new Font( "Courier", Font.BOLD, 16 ) );
+        jLabel.setFont( new Font( "Courier", Font.BOLD, 16 ) );
     }
 }

@@ -1,58 +1,74 @@
 package QLS.parsing.visitors;
 
-import QL.parsing.gen.QLBaseVisitor;
-import QLS.classes.widgets.CheckBoxWidget;
-import QLS.classes.widgets.DropdownWidget;
-import QLS.classes.widgets.RadioWidget;
-import QLS.classes.widgets.SliderWidget;
-import QLS.classes.widgets.SpinBoxWidget;
-import QLS.classes.widgets.TextWidget;
-import QLS.classes.widgets.Widget;
-import QLS.classes.widgets.WidgetType;
+import QL.classes.Question;
+import QL.classes.values.BooleanValue;
+import QL.classes.values.NumericValue;
+import QL.classes.values.StringValue;
+import QL.classes.values.Value;
+import QLS.classes.blocks.Element;
+import QLS.classes.blocks.Section;
+import QLS.classes.blocks.StyledQuestion;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
+import gui.widgets.*;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class WidgetVisitor extends QLSBaseVisitor {
+    private Value currentValue;
 
-    @Override
-    public Widget visitWidget(QLSParser.WidgetContext ctx) {
-        return new Widget((WidgetType) visitWidgetType(ctx.widgetType()));
+    public Widget visitWidget(QLSParser.WidgetContext ctx, Value value) {
+        this.currentValue = value;
+        return (Widget) super.visitWidgetType(ctx.widgetType());
     }
-
 
     @Override
     public CheckBoxWidget visitCheckboxWidget(QLSParser.CheckboxWidgetContext ctx) {
-        return new CheckBoxWidget();
-    }
 
-    @Override
-    public TextWidget visitTextWidget(QLSParser.TextWidgetContext ctx) {
-        return new TextWidget();
-    }
-
-    @Override
-    public RadioWidget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
-        if (ctx.STR().size() != 0) {
-            return new RadioWidget(ctx.STR(0).getText(), ctx.STR(1).getText());
-        }
-        return new RadioWidget();
+        return new CheckBoxWidget((BooleanValue) currentValue);
     }
 
     @Override
     public SpinBoxWidget visitSpinboxWidget(QLSParser.SpinboxWidgetContext ctx) {
-        return new SpinBoxWidget();
+        return new SpinBoxWidget((NumericValue) currentValue);
     }
 
     @Override
-    public SliderWidget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
-        return new SliderWidget();
+    public TextWidget visitTextWidget(QLSParser.TextWidgetContext ctx) {
+        return new TextWidget((StringValue) currentValue);
     }
 
     @Override
-    public DropdownWidget visitDropdownWidget(QLSParser.DropdownWidgetContext ctx) {
-        if (ctx.STR().size() != 0) {
-            return new DropdownWidget(ctx.STR(0).getText(), ctx.STR(1).getText());
+    public Object visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
+        ArrayList<String> options = new ArrayList<>();
+
+        for(TerminalNode t : ctx.argList().STR()){
+            options.add(t.getText());
         }
-        return new DropdownWidget();
+
+        return new RadioWidget(currentValue, options.toArray());
+    }
+
+
+    @Override
+    public Object visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
+        //TODO
+        return super.visitSliderWidget(ctx);
+    }
+
+    @Override
+    public DropDownWidget visitDropdownWidget(QLSParser.DropdownWidgetContext ctx) {
+        ArrayList<String> options = new ArrayList<>();
+
+        for(TerminalNode t : ctx.argList().STR()){
+            options.add(t.getText());
+        }
+
+        return new DropDownWidget(currentValue, options.toArray());
     }
 }

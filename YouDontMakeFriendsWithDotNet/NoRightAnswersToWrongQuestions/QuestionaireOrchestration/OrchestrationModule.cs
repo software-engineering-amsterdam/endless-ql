@@ -17,10 +17,6 @@ namespace QuestionnaireOrchestration
                 typeof(ParseTextCommandHandler));
 
             appRegistration.AddTransient(
-                typeof(ICommandHandler<LoadDefinitionsFromFileCommand>),
-                typeof(LoadDefinitionsFromFileCommandHandler));
-
-            appRegistration.AddTransient(
                 typeof(ICommandHandler<CreateDefinitionFromTextCommand>),
                 typeof(CreateDefinitionFromTextCommandHandler));
 

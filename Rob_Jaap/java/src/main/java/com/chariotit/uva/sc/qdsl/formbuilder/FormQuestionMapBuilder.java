@@ -3,11 +3,12 @@ package com.chariotit.uva.sc.qdsl.formbuilder;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 
 import javax.swing.*;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class FormQuestionMapBuilder {
-    private HashMap<LineElement, FormQuestion> map = new HashMap<>();
+
+    private LinkedHashMap<LineElement, FormQuestion> map = new LinkedHashMap<>();
     private QLAstRoot astRoot;
     private QLFormBuilder formBuilder;
 
@@ -17,7 +18,7 @@ public class FormQuestionMapBuilder {
         this.formBuilder = formBuilder;
     }
 
-    public static HashMap<LineElement, FormQuestion> buildMap(QLAstRoot astRoot, QLFormBuilder
+    public static LinkedHashMap<LineElement, FormQuestion> buildMap(QLAstRoot astRoot, QLFormBuilder
             formBuilder) {
         FormQuestionMapBuilder builder = new FormQuestionMapBuilder(astRoot, formBuilder);
 
@@ -25,7 +26,7 @@ public class FormQuestionMapBuilder {
 
     }
 
-    private HashMap<LineElement, FormQuestion> buildMap() {
+    private LinkedHashMap<LineElement, FormQuestion> buildMap() {
         for (Form form : astRoot.getForms()) {
             build(form);
         }

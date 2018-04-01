@@ -31,11 +31,11 @@ public class Main {
     private void parseAndBuildQL(InputStream inputStream) {
         try {
             QLParser.FormContext form = new TreeBuilder().build(inputStream);
-            Checks.checkForm(form);
+            //Checks.checkForm(form);
             FormVisitor coreVisitor = new FormVisitor().visitForm(form);
+
             //Pass the relevant questions to the UI builder
             GUIBuilder GUIBuilder = new GUIBuilder(coreVisitor);
-            GUIBuilder.initComponents();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,17 +48,17 @@ public class Main {
     private void parseAndBuildQLS() {
         try {
             // QL
-            FileInputStream qlInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\resources\\QL\\formQl.ql");
+            FileInputStream qlInputStream = new FileInputStream("src/resources/QL/formQl.ql");
             QLParser.FormContext form = new TreeBuilder().build(qlInputStream);
             FormVisitor coreVisitor = new FormVisitor().visitForm(form);
 
             // QLS
-            FileInputStream qlsInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\resources\\QLS\\exampleForm5.qls");
+            FileInputStream qlsInputStream = new FileInputStream("resources/QLS/miscellaneous/exampleForm5.qls");
             QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
             stylesheetVisitor.visitStylesheet(stylesheetContext);
-            new GUIBuilder(coreVisitor, stylesheetVisitor);
 
+            new GUIBuilder(coreVisitor, stylesheetVisitor);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,6 +73,7 @@ public class Main {
         try {
             if (args.length == 0) {
                 new Main().parseAndBuildQLS();
+                //new Main().parseAndBuildQL(System.in);
             } else if (args.length == 1) {
                     FileInputStream fileInputStream = new FileInputStream(args[0]);
                     new Main().parseAndBuildQL(fileInputStream);

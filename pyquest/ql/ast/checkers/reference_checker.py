@@ -21,10 +21,10 @@ class ReferenceChecker:
     @staticmethod
     def __split_known_unknown_types(table):
         known_types = [row['name'] for row in table['content'] if row['type']]
-        unknown_types = [(row['name'], row['position']) for row in table['content'] if not (row['type'])]
+        unknown_types = [(row['name'], row['line']) for row in table['content'] if not (row['type'])]
         return known_types, unknown_types
 
     def __identifier_seen(self, known_types, unknown_types):
-        for (identifier, position) in unknown_types:
+        for (identifier, line) in unknown_types:
             if not (identifier in known_types):
-                self.__errors.append('Identifier \"{}\" at position {} is unknown'.format(identifier, position))
+                self.__errors.append('Identifier \"{}\" at line {} is unknown'.format(identifier, line))

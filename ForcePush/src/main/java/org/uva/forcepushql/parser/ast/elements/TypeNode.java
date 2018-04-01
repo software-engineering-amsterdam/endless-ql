@@ -1,24 +1,28 @@
 package org.uva.forcepushql.parser.ast.elements;
 
+import org.uva.forcepushql.parser.ast.ValueType;
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
-import org.uva.forcepushql.parser.ast.elements.Node;
 
 public class TypeNode extends Node
 {
-    private String type;
+    private ValueType type;
 
-    public void setType(String type)
+    public void setType(ValueType type)
     {
         this.type = type;
     }
 
-    public String getType()
+    public ValueType getType()
     {
         return this.type;
     }
 
+    public TypeNode(){
+        super(false);
+    }
+
     @Override
-    public String accept(ASTVisitor visitor)
+    public ValueType accept(ASTVisitor visitor)
     {
         return visitor.visit(this);
     }

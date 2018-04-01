@@ -1,5 +1,5 @@
 from gui.widgets.checkbox import CheckBox
-from ql.ast.nodes.expressions.literals.boolean_node import BooleanNode
+from ql.ast.nodes.expressions.literals.boolean_literal import BooleanNode
 from ql.types.type import QLType
 
 
@@ -8,14 +8,12 @@ class QLBoolean(QLType):
         super(QLBoolean, self).__init__()
         self.__value = bool(value)
 
+    @property
+    def value(self):
+        return self.__value
+
     def __bool__(self):
         return bool(self.value)
-
-    def __float__(self):
-        return float(self.value)
-
-    def __int__(self):
-        return int(self.value)
 
     def __str__(self):
         return str(self.value)
@@ -34,10 +32,6 @@ class QLBoolean(QLType):
 
     def get_json_value(self):
         return self.value
-
-    @property
-    def value(self):
-        return self.__value
 
     @staticmethod
     def get_literal_node(value):

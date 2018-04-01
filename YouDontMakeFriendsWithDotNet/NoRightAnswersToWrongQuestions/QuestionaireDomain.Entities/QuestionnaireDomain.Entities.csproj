@@ -92,7 +92,7 @@
     <Compile Include="Ast\Nodes\Relational\Interfaces\ITextVariableNode.cs" />
     <Compile Include="Ast\Tools\Interfaces\IQuestionnaireAstCreator.cs" />
     <Compile Include="Ast\Tools\QuestionnaireAstCreator.cs" />
-    <Compile Include="Domain\CalculationVariableVisitor.cs" />
+    <Compile Include="Domain\AstExtensions.cs" />
     <Compile Include="Domain\DomainItemLocator.cs" />
     <Compile Include="Domain\Interfaces\ITypeService.cs" />
     <Compile Include="Domain\Interfaces\IVariableService.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="Domain\Interfaces\IDomainItem.cs" />
     <Compile Include="Domain\Interfaces\IDomainItemLocator.cs" />
     <Compile Include="Domain\Interfaces\IDomainItemRegistry.cs" />
-    <Compile Include="Ast\Tools\Interfaces\IAstTreeBuilder.cs" />
+    <Compile Include="Ast\Tools\Interfaces\IAstBuilder.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IQuestionnaireNode.cs" />
     <Compile Include="Output\Tools\Interfaces\IQuestionnaireOutputCreator.cs" />
     <Compile Include="Output\Nodes\Interfaces\IQuestionOutput.cs" />

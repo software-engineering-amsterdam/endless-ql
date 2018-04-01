@@ -17,3 +17,16 @@ HashMap<String, Question> memory = coreVisitor.questionMap;
 
 
 // 6. Herhaal vanaf stap 3
+
+
+
+
+
+- QuestoinPanelHashmap <- QLBuilder
+- Stylesheetvisitor(QuestionPanelHashmap)
+- visitQuestion(questionPanelHashmap)
+    for (QuestionPanel.question : questionpanelHashmap)
+        match
+            if(widget)
+                widget != quesitonPanel
+                    questoinPanel.setWidget(xY)

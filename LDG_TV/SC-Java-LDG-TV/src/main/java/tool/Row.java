@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 
@@ -16,9 +17,7 @@ public class Row extends HBox {
     @FXML
     private HBox hbAnswer;
 
-    private boolean hide;
-
-    public Row(String question, Node answer, boolean hide) {
+    public Row(String question, Node answer) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QuestionRow.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -31,14 +30,21 @@ public class Row extends HBox {
             throw new RuntimeException(e);
         }
 
-        this.hide = hide;
     }
 
-    public boolean isHiden() {
-        return hide;
-    }
+    public Row(String label) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QuestionRow.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
 
-    public void setHide(boolean hide) {
-        this.hide = hide;
+        try {
+            fxmlLoader.load();
+            this.lblQuestion.setFont(Font.font("Verdana", 16));
+            this.lblQuestion.setText(label);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }

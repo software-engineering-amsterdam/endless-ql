@@ -1,11 +1,21 @@
-grammar QL;                                                                             
-                                                                                        
+grammar QL;
+                                                                             
+@lexer::members {
+
+    void normalizeQuotedString() {
+        String normalized = getText();
+        normalized = normalized.substring(1, normalized.length()-1);
+        normalized = normalized.replaceAll("\\\\(.)", "$1");
+        setText(normalized);
+    }
+}      
+
 WS                      :  [ \t\r\n\u000C]+  ->  channel(HIDDEN)                        ;
 Comment                 :  '/*'  .*?  '*/'   ->  channel(HIDDEN)                        ;
 LineComment             :  '//'  ~[\r\n]*    ->  channel(HIDDEN)                        ;
+
+QuotedString            :  '"' (~[\\"] | '\\' [\\"()])* '"' { normalizeQuotedString(); };
                                                                                         
-                                                                                        
-QuotedString            :  '"'  .+?  '"'                                                ;  
 BooleanConstant         :  'True'  |  'False'                                           ;  
 Identifier              :  [_a-zA-Z]  [_a-zA-Z0-9]*                                     ;  
 MoneyConstant           :  [0-9]+  '.'  [0-9][0-9]                                      ;  

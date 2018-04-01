@@ -3,7 +3,6 @@ using QlsTransformer.Domain.Ast.Nodes;
 
 namespace QlsTransformer.Domain.Output.Tools
 {
-    //ToDo: is it really necessary to wrap the whole stack just to update the push style?
     internal class StyleStack
     {
         private readonly Stack<Style> m_styleStack = new Stack<Style>();
@@ -47,6 +46,11 @@ namespace QlsTransformer.Domain.Output.Tools
 
         public Style PopStyle()
         {
+            if (m_styleStack.Count == 1)
+            {
+                return m_styleStack.Peek();
+            }
+
             return m_styleStack.Pop();
         }
     }

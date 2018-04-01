@@ -88,7 +88,7 @@ namespace QlsTransformer.Domain.Output.Tools
 
             var questionStyle = questionNode
                 .Style
-                .ToDomainItem(m_domainItemLocator);
+                ?.ToDomainItem(m_domainItemLocator);
 
             var question = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
@@ -98,13 +98,11 @@ namespace QlsTransformer.Domain.Output.Tools
             var style = m_styleFactory.CreateMergedStyle(defaultStyle, questionStyle);
 
             var section = m_styledOutputItemFactory.CreateQuestion(question, style);
-            PopDefaults();
             return section;
         }
 
         private Style GetStyleDefaultForType(Type questionType)
         {
-            //ToDo: replace with polymorphism!
             if (questionType == typeof(int))
             {
                 return m_integerStyle.PeekStyle();
@@ -126,7 +124,7 @@ namespace QlsTransformer.Domain.Output.Tools
                 return m_dateStyle.PeekStyle();
             }
 
-            throw new ApplicationException("Unknown type");
+            throw new ArgumentException(nameof(questionType),$"unknown");
         }
 
         private void UpdateDefaults(IStyleSheetCompartment compartment)

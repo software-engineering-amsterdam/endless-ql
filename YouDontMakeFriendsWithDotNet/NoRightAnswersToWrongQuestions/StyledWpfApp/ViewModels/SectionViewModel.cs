@@ -7,12 +7,12 @@ namespace StyledWpfApp.ViewModels
     {
         public SectionViewModel(SectionWrapper section)
         {
-            foreach (var sectionWrapper in section.Questions)
+            foreach (var questionWraper in section.Questions)
             {
-                Questions.Add(new QuestionViewModel(sectionWrapper));
+                Questions.Add(questionWraper);
             }
         }
 
-        public ObservableCollection<QuestionViewModel> Questions = new ObservableCollection<QuestionViewModel>();
+        public ObservableCollection<StyledQuestionWrapper> Questions { get; } = new ObservableCollection<StyledQuestionWrapper>();
     }
 }

@@ -12,9 +12,12 @@ public class VisibilityChecker {
     private HashMap<LineElement, FormQuestion> questions;
     private QLAstRoot astRoot;
 
-    public VisibilityChecker(HashMap<LineElement, FormQuestion> questions, QLAstRoot astRoot) {
+    private QLFormBuilder builder;
+
+    public VisibilityChecker(HashMap<LineElement, FormQuestion> questions, QLAstRoot astRoot, QLFormBuilder builder) {
         this.questions = questions;
         this.astRoot = astRoot;
+        this.builder = builder;
     }
 
     public void checkVisibility() {
@@ -57,6 +60,7 @@ public class VisibilityChecker {
 
     private void setVisible(LineElement lineElement) {
         FormQuestion formQuestion = questions.get(lineElement);
+        formQuestion.setComponent(builder.componentForElement(lineElement));
         formQuestion.setVisible(true);
     }
 

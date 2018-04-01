@@ -13,8 +13,4 @@ public class Stylesheet {
     private String name;
     private LinkedList<DefaultStyle> defaultStyles;
     private LinkedList<Page> pages;
-
-    public void checkType() {
-//
-    }
 }

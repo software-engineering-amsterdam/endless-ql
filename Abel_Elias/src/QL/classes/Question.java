@@ -13,7 +13,6 @@ public class Question<T>{
         this.isFixed = isFixed;
         this.value = value;
         this.questionText = questionText;
-        this.isVisible = isVisible;
     }
 
     public Question(String id, String questionText, Value<T> value, boolean isFixed, boolean isVisible){

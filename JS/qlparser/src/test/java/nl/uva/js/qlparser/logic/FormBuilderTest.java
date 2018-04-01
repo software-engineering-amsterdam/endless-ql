@@ -1,5 +1,14 @@
 package nl.uva.js.qlparser.logic;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import nl.uva.js.qlparser.exceptions.ParseException;
+import nl.uva.js.qlparser.exceptions.TypeMismatchException;
+import nl.uva.js.qlparser.exceptions.VariableAlreadyExistsException;
+import nl.uva.js.qlparser.exceptions.VariableNotFoundException;
 import nl.uva.js.qlparser.models.ql.enums.ArithOp;
 import nl.uva.js.qlparser.models.ql.enums.CompOp;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
@@ -15,19 +24,74 @@ import nl.uva.js.qlparser.wrappers.arithmetic.CalculatableMoney;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 public class FormBuilderTest {
 
-    private static final String INPUT_BASIC_FILE = "src/test/resources/ql_input.jsql";
-    private static final String INPUT_NULL_TEST = "src/test/resources/null_test.jsql";
+    private Form realForm = FormBuilder.parseFormFromLocation("src/test/resources/ql/ql_input.jsql");
+    private Form emptyForm = FormBuilder.parseFormFromLocation("src/test/resources/ql/null_test.jsql");
+
+    @Test(expected = ParseException.class)
+    public void testMissingBracket() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/invalid_1.jsql");
+    }
+
+    @Test(expected = ParseException.class)
+    public void testMissingQuestionDescription() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/invalid_2.jsql");
+    }
+
+    @Test(expected = ParseException.class)
+    public void testMissingColon() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/invalid_3.jsql");
+    }
+
+    @Test(expected = VariableAlreadyExistsException.class)
+    public void testSuperfluousQuestion() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/superfluous_question.jsql");
+    }
+
+    @Test(expected = VariableNotFoundException.class)
+    public void testUndefinedVariable() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/invalid_var.jsql");
+    }
+
+    @Test(expected = TypeMismatchException.class)
+    public void testInvalidTypes() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/invalid_types.jsql").checkType();
+    }
 
     @Test
-    public void testGetFormFromLocation() throws IOException {
+//    This tests if the instructions given to the JSON parser yield the expected result, or if they have to be changed
+    public void testJsonExportModifications() throws IOException {
+        String generatedJson = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .registerModule(new Jdk8Module())
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                .writer().writeValueAsString(realForm);
+
+//        Go back to a map, as order is not guaranteed in the JSON string and we don't want the test to fail on that
+        Map<String, Object> expected = new ObjectMapper().readValue(
+                Paths.get("src/test/resources/export/ql_input.qle").toFile(),
+                new TypeReference<Map<String, Object>>() {
+                });
+
+        Map<String, Object> actual = new ObjectMapper().readValue(
+                generatedJson,
+                new TypeReference<Map<String, Object>>() {
+                });
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testFormStructure() {
         // Questions
         Question name = Question.builder()
                 .variable(Variable.<String, Value<String>>builder()
@@ -144,13 +208,11 @@ public class FormBuilderTest {
                 .formExpressions(new LinkedList<>(Arrays.asList(name, age, hasSoldHouse, hasBoughtHouse, hasMaintLoan, ifBlock, grade)))
                 .build();
 
-        Form actualForm = FormBuilder.parseFormFromLocation(INPUT_BASIC_FILE);
-
-        assertEquals(expectedForm.toString(), actualForm.toString());
+        assertEquals(expectedForm.toString(), realForm.toString());
     }
 
     @Test
-    public void testNullValue() throws IOException {
+    public void testNullValue() {
         // Questions
         Question presetValue = Question.builder()
                 .variable(Variable.<String, Value<String>>builder()
@@ -184,8 +246,6 @@ public class FormBuilderTest {
                 .formExpressions(expectedExpressions)
                 .build();
 
-        Form actualForm = FormBuilder.parseFormFromLocation(INPUT_NULL_TEST);
-
-        assertEquals(expectedForm.toString(), actualForm.toString());
+        assertEquals(expectedForm, emptyForm);
     }
 }

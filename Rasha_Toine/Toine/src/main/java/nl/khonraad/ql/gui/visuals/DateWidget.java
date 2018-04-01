@@ -8,16 +8,17 @@ import javax.swing.JTextField;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
-import nl.khonraad.ql.cdiSupport.QuestionnaireAccessor;
+import nl.khonraad.ql.cdi.QuestionnaireAccessor;
 
-@SuppressWarnings("serial") 
+public class DateWidget implements QuestionnaireAccessor {
 
-public class DateWidget extends JTextField implements QuestionnaireAccessor {
-
+    JTextField jTextField;
+    
     public DateWidget(Question question) {
-        super( question.string(), 10 );
+        
+        jTextField = new JTextField( question.string(), 10 );
 
-        addFocusListener( new FocusListener() {
+        jTextField.addFocusListener( new FocusListener() {
 
             @Override
             public void focusLost( FocusEvent e ) {

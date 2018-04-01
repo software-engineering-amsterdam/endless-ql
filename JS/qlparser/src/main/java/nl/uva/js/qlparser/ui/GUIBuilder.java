@@ -1,11 +1,11 @@
 package nl.uva.js.qlparser.ui;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.uva.js.qlparser.exceptions.ParseException;
+import nl.uva.js.qlparser.exceptions.VariableNotFoundException;
 import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.logic.FormBuilder;
 import nl.uva.js.qlparser.logic.QLSChecker;
@@ -17,8 +17,10 @@ import nl.uva.js.qlparser.ui.components.form.ComponentBuilder;
 import nl.uva.js.qlparser.ui.components.gui.ButtonBar;
 import nl.uva.js.qlparser.ui.components.gui.FormPanel;
 import nl.uva.js.qlparser.ui.components.gui.TextPanel;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -29,9 +31,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import static nl.uva.js.qlparser.ui.components.gui.ButtonBar.BUTTON_HEIGHT;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class GUIBuilder {
 
@@ -51,7 +53,7 @@ public class GUIBuilder {
 
     private static Form globalForm;
 
-    private static Frame guiFrame;
+    private static Frame     guiFrame;
     private static JPanel    topPanel;
     private static JPanel    bottomPanel;
     private static TextPanel qlPanel;
@@ -99,8 +101,8 @@ public class GUIBuilder {
             try {
                 Path filePath = Paths.get(GUIBuilder.class.getClassLoader().getResource(file).getFile());
                 return new String(Files.readAllBytes(filePath));
-
             } catch (IOException | ParseException e) {
+                e.printStackTrace();
                 return "";
             }
         });
@@ -138,14 +140,12 @@ public class GUIBuilder {
     private static JPanel getTopPanel(LinkedList<Page> pages) {
         ButtonBar topPanel = new ButtonBar();
 
-        if (pages != null) {
-            for (Page page : pages) {
-                JButton pageButton = getButton(page.getName(), PAGE_BUTTON_WIDTH);
-                pageButton.addActionListener(e -> formPanel.setPage(page.getName()));
+        NonNullRun.consumer(pages, __ -> pages.forEach(page -> {
+            JButton pageButton = getButton(page.getName(), PAGE_BUTTON_WIDTH);
+            pageButton.addActionListener(e -> formPanel.setPage(page.getName()));
 
-                topPanel.centerPanel.add(pageButton);
-            }
-        }
+            topPanel.centerPanel.add(pageButton);
+        }));
 
         return topPanel;
     }
@@ -186,12 +186,14 @@ public class GUIBuilder {
             formPanel.apply(globalForm);
             guiFrame.setTitle(globalForm != null ? globalForm.getHumanizedName() : "");
 
+            List<String> duplicateLabelQuestions = formPanel.getDuplicateLabelQuestions();
+
             setPageButtons(null);
 
-            ArrayList<String> errors = new ArrayList<>();
+            List<String> errors = new ArrayList<>();
             Stylesheet stylesheet = null;
 
-            if (!isEmpty(qlsPanel.getText()) && globalForm != null) {
+            if (!StringUtils.isBlank(qlsPanel.getText()) && globalForm != null) {
                 stylesheet = StylesheetBuilder.parseStylesheetFromString(qlsPanel.getText());
                 errors = qlsChecker.checkForErrors(globalForm, stylesheet);
             }
@@ -200,15 +202,22 @@ public class GUIBuilder {
                 errors.add("No QL entered.");
             }
 
-            if (errors.size() == 0) {
-                if (stylesheet != null) {
-                    formPanel.apply(stylesheet);
-                    setPageButtons(stylesheet.getPages());
+            if (errors.size() == 0 && stylesheet != null) {
+                formPanel.apply(stylesheet);
+                setPageButtons(stylesheet.getPages());
+
+                if(!globalForm.getName().equals(stylesheet.getName())) {
+                    log("Warning: Form name and stylesheet name do not match");
                 }
             }
             errors.forEach(GUIBuilder::log);
 
-        } catch (ParseException exception) {
+            duplicateLabelQuestions.stream()
+                    .map(duplicateLabelQuestion
+                            -> "Warning: Duplicate label used for question "
+                               + duplicateLabelQuestion).forEach(GUIBuilder::log);
+
+        } catch (ParseException | VariableNotFoundException | NumberFormatException exception) {
             log(exception.getMessage());
         }
     }
@@ -217,10 +226,16 @@ public class GUIBuilder {
         try {
             ObjectMapper mapper = new ObjectMapper()
                     .registerModule(new JavaTimeModule())
-                    .registerModule(new Jdk8Module());
-            mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-            System.out.println(mapper.writer().writeValueAsString(globalForm));
-        } catch (JsonProcessingException ex) {
+                    .registerModule(new Jdk8Module())
+                    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+            JFileChooser saveDialog = new JFileChooser();
+            saveDialog.setFileFilter(new FileNameExtensionFilter("QL Export", "qle"));
+
+            if (saveDialog.showSaveDialog(guiFrame) == JFileChooser.APPROVE_OPTION) {
+                mapper.writer().writeValue(saveDialog.getSelectedFile(), globalForm);
+            }
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

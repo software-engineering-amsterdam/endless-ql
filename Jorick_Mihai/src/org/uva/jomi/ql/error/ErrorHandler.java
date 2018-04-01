@@ -138,14 +138,14 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(ComputedQuestionStatement stmt) {
+	public void addTypeError(ComputedQuestionStatement statement) {
 
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.getExpressionLineNumber(),
-				stmt.getExpressionColumnNumber(),
-				stmt.getType(),
-				stmt.getExpressionType());
+				statement.getExpressionLineNumber(),
+				statement.getExpressionColumnNumber(),
+				statement.getType(),
+				statement.getExpressionType());
 
 		Error error = new TypeError(message);
 		this.addReport(error.toString());
@@ -153,14 +153,14 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(IfStatement stmt) {
+	public void addTypeError(IfStatement statement) {
 
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.getExpressionLineNumber(),
-				stmt.getExpressionColumnNumber(),
+				statement.getExpressionLineNumber(),
+				statement.getExpressionColumnNumber(),
 				QLType.BOOLEAN,
-				stmt.getExpressionType());
+				statement.getExpressionType());
 
 		Error error = new TypeError(message);
 		this.addReport(error.toString());

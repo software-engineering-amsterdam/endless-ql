@@ -1,4 +1,4 @@
-from tests.test import Test
+from ql.test.test import Test
 
 
 class TestLexing(Test):

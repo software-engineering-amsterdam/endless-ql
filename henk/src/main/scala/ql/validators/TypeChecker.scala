@@ -6,7 +6,6 @@ import ql.visitors._
 import ql.validators._
 
 import scala.collection.JavaConversions._
-import scala.util.{Try, Success, Failure}
 
 class TypeChecker() {
 
@@ -50,9 +49,6 @@ class TypeChecker() {
   }
 
   def validate(node: Statement): Boolean = {
-    checkValidators(node) match {
-      case None => true
-      case Some(_) => false
-    }
+    checkValidators(node).map(_ => false) getOrElse(true)
   }
 }

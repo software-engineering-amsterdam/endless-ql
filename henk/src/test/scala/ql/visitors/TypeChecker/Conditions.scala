@@ -1,18 +1,10 @@
-import ql.models.ast._
 import ql.validators._
 import ql.spec.helpers._
 
-import scala.io.Source
-import scala.util.{Try, Success, Failure}
-
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
-import org.scalatest.BeforeAndAfter
 
-import org.antlr.v4.runtime._
-import org.antlr.v4.runtime.tree._
-
-class ConditionTypeSpec extends FunSpec with BeforeAndAfter {
+class ConditionTypeSpec extends FunSpec {
   val resourceDir = "ql/typechecking/conditions"
   val validator = new ConditionalValidator()
 
@@ -21,12 +13,7 @@ class ConditionTypeSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.check(form) match {
-        case None                           => succeed
-        case Some(ConditionalNotBoolean(e)) => fail(e)
-        case other =>
-          fail("ConditionalValidator should not have thrown an error")
-      }
+      assert(validator.check(form).isEmpty)
     }
   }
 
@@ -34,13 +21,7 @@ class ConditionTypeSpec extends FunSpec with BeforeAndAfter {
     val filename = s"${resourceDir}/money_type_conditional.ql"
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
-    it("check should return an option exception") {
-      validator.check(form) match {
-        case None                           => fail()
-        case Some(ConditionalNotBoolean(e)) => succeed
-        case other                          => fail("wrong error thrown")
-      }
-    }
+    validator.check(form).get shouldBe a [ConditionalNotBoolean]
   }
 
   describe("when ConditionalValidator contains a valid binOp") {
@@ -48,12 +29,7 @@ class ConditionTypeSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.check(form) match {
-        case None                           => succeed
-        case Some(ConditionalNotBoolean(e)) => fail(e)
-        case other =>
-          fail("ConditionalValidator should not have thrown an error")
-      }
+      assert(validator.check(form).isEmpty)
     }
   }
 
@@ -63,11 +39,7 @@ class ConditionTypeSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      validator.check(form) match {
-        case None                           => fail()
-        case Some(ConditionalNotBoolean(e)) => succeed
-        case other                          => fail("wrong error thrown")
-      }
+      validator.check(form).get shouldBe a [ConditionalNotBoolean]
     }
   }
 }

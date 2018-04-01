@@ -12,12 +12,12 @@ class StyleVisitor extends QLSBaseVisitor[StylingConfiguration] {
   val expressionVisitor = new ExpressionVisitor()
   val optionVisitor = new OptionValuesVisitor()
 
-  def visitStyling(ctx: QLSParser.StylingDeclContext): List[StylingConfiguration] = {
+  def visitStyling(ctx: QLSParser.StylingDeclContext): Styling = {
     Option(ctx.advancedStyling) match {
-      case None => List(visit(ctx.widgetStyling))
+      case None => Styling(List(visit(ctx.widgetStyling)))
       case other => {
         val configuration = ctx.advancedStyling.stylingConfiguration
-        configuration.map(visit(_)).toList
+        Styling(configuration.map(visit(_)).toList)
       }
     }
   }
@@ -55,21 +55,21 @@ class StyleVisitor extends QLSBaseVisitor[StylingConfiguration] {
   override def visitWidgetStyling(
       ctx: QLSParser.WidgetStylingContext): StylingConfiguration = {
     val widget = ctx.WIDGET_TYPE.getText match {
-      case "spinbox" => SpinboxWidget(None)
+      case "spinbox" => SpinboxWidget(Some(IntegerType))
       case "radio" => {
         val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        val sliderType = options.headOption.map(infereType)
-        RadioWidget(sliderType, options)
+        val returnType = options.headOption.map(infereType)
+        RadioWidget(returnType, options)
       }
       case "checkbox" => {
         val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        val sliderType = options.headOption.map(infereType)
-        CheckboxWidget(sliderType, options)
+        val returnType = options.headOption.map(infereType)
+        CheckboxWidget(returnType, options)
       }
       case "slider" => {
         val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        val sliderType = options.headOption.map(infereType)
-        SliderWidget(sliderType, options)
+        val returnType = options.headOption.map(infereType)
+        SliderWidget(returnType, options)
       }
       case "dropdown" => {
         DropdownWidget(Some(BooleanType), List(BooleanValue(true), BooleanValue(false)))

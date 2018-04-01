@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QTextEdit
 
-from gui.form_window import FormWindow
+from gui.windows.form_window import FormWindow
 from gui.helper import append_file_extension
 from gui.helper import check_errors
 from gui.helper import warning

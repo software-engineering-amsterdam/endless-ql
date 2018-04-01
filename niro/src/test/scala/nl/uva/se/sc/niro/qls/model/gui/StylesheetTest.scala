@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.qls.model.gui
 import cats.Semigroup
 import cats.instances.all._
 import nl.uva.se.sc.niro.ql.model.ast.{ AnswerType, BooleanType, IntegerType, StringType }
-import nl.uva.se.sc.niro.qls.model.gui.style.{ GUIColor, GUIFontSize, GUIWidth }
+import nl.uva.se.sc.niro.qls.model.gui.style.{ Color, FontSize, Width }
 import org.scalatest.WordSpec
 
 class StylesheetTest extends WordSpec {
@@ -20,17 +20,17 @@ class StylesheetTest extends WordSpec {
 
     "map to current if default is added to current" in {
       val defaultStyling = Styling()
-      val currentStyling = Styling(color = Some(GUIColor("#010203")))
+      val currentStyling = Styling(color = Some(Color("#010203")))
 
       val result = currentStyling ++ defaultStyling
 
-      val expected = Styling(color = Some(GUIColor("#010203")))
+      val expected = Styling(color = Some(Color("#010203")))
       assert(expected == result)
     }
 
     "map to new if new is added to default" in {
       val defaultStyling = Styling()
-      val newStyling = Styling(color = Some(GUIColor("#010203")))
+      val newStyling = Styling(color = Some(Color("#010203")))
 
       val result = defaultStyling ++ newStyling
 
@@ -39,12 +39,12 @@ class StylesheetTest extends WordSpec {
     }
 
     "map to new if new is added to other" in {
-      val otherStyling = Styling(color = Some(GUIColor("#CAFEBABE")))
-      val newStyling = Styling(color = Some(GUIColor("#010203")))
+      val otherStyling = Styling(color = Some(Color("#CAFEBABE")))
+      val newStyling = Styling(color = Some(Color("#010203")))
 
       val result = otherStyling ++ newStyling
 
-      val expected = Styling(color = Some(GUIColor("#010203")))
+      val expected = Styling(color = Some(Color("#010203")))
       assert(expected == result)
     }
   }
@@ -54,30 +54,30 @@ class StylesheetTest extends WordSpec {
       val currentStyles: Map[AnswerType, Styling] = Map(
         BooleanType -> Styling(
           color = Some(
-            GUIColor("#CAFEBABE")
+            Color("#CAFEBABE")
           )
         ),
         StringType -> Styling(
           color = Some(
-            GUIColor("#DARKSIDE")
+            Color("#DARKSIDE")
           ),
           fontSize = Some(
-            GUIFontSize(13)
+            FontSize(13)
           )
         )
       )
       val newStyles: Map[AnswerType, Styling] = Map(
         IntegerType -> Styling(
           color = Some(
-            GUIColor("#CAFEBABE")
+            Color("#CAFEBABE")
           )
         ),
         StringType -> Styling(
           color = Some(
-            GUIColor("#THESUN")
+            Color("#THESUN")
           ),
           width = Some(
-            GUIWidth(42)
+            Width(42)
           )
         )
       )
@@ -87,23 +87,23 @@ class StylesheetTest extends WordSpec {
       val expected = Map(
         BooleanType -> Styling(
           color = Some(
-            GUIColor("#CAFEBABE")
+            Color("#CAFEBABE")
           )
         ),
         StringType -> Styling(
           color = Some(
-            GUIColor("#THESUN")
+            Color("#THESUN")
           ),
           fontSize = Some(
-            GUIFontSize(13)
+            FontSize(13)
           ),
           width = Some(
-            GUIWidth(42)
+            Width(42)
           )
         ),
         IntegerType -> Styling(
           color = Some(
-            GUIColor("#CAFEBABE")
+            Color("#CAFEBABE")
           )
         )
       )

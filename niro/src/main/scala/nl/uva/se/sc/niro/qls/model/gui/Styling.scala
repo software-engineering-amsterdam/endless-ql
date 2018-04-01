@@ -1,15 +1,14 @@
 package nl.uva.se.sc.niro.qls.model.gui
 
 import cats.Monoid
-import nl.uva.se.sc.niro.qls.model.ast.Styling
 import nl.uva.se.sc.niro.qls.model.gui.style._
 
 case class Styling(
-    widgetStyle: Option[GUIWidgetStyle] = None,
-    width: Option[GUIWidth] = None,
-    color: Option[GUIColor] = None,
-    fontType: Option[GUIFontStyle] = None,
-    fontSize: Option[GUIFontSize] = None) {
+                    widgetStyle: Option[WidgetType] = None,
+                    width: Option[Width] = None,
+                    color: Option[Color] = None,
+                    fontType: Option[FontType] = None,
+                    fontSize: Option[FontSize] = None) {
 
   def ++(that: Styling) =
     Styling(
@@ -31,10 +30,10 @@ object Styling {
   }
 
   def apply(styling: nl.uva.se.sc.niro.qls.model.ast.Styling): Styling = new Styling(
-    styling.widgetType.map(GUIStyle(_)),
-    styling.width.map(GUIStyle(_)),
-    styling.color.map(GUIStyle(_)),
-    styling.fontType.map(GUIStyle(_)),
-    styling.fontSize.map(GUIStyle(_))
+    styling.widgetType.map(Style(_)),
+    styling.width.map(Style(_)),
+    styling.color.map(Style(_)),
+    styling.fontType.map(Style(_)),
+    styling.fontSize.map(Style(_))
   )
 }

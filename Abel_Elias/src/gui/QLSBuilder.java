@@ -9,6 +9,7 @@ import QLS.parsing.visitors.StylesheetVisitor;
 import gui.panels.PagePanel;
 import gui.panels.QuestionPanel;
 import gui.panels.SectionPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -30,8 +31,7 @@ public class QLSBuilder implements Observer {
 
         this.questionPanels = new ArrayList<>();
 
-        this.mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(0, 1));
+        this.mainPanel = new JPanel(new GridBagLayout());
         buildStyleSheet();
     }
 
@@ -73,7 +73,7 @@ public class QLSBuilder implements Observer {
     }
 
     private QuestionPanel buildQuestion(StyledQuestion styledQuestion) {
-        if(!styledQuestion.getQuestion().isFixed()){
+        if (!styledQuestion.getQuestion().isFixed()) {
             styledQuestion.getQuestion().getValue().addObserver(this);
         }
 

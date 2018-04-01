@@ -31,7 +31,7 @@ public class QLSBuilder implements Observer {
 
         this.questionPanels = new ArrayList<>();
 
-        this.mainPanel = new JPanel(new GridBagLayout());
+        this.mainPanel = new JPanel();
         buildStyleSheet();
     }
 

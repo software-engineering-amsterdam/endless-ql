@@ -58,7 +58,7 @@ namespace Assignment1
 
         private void ParseFile(string inputFile)
         {
-            string fileContent = File.ReadAllText(inputFile);
+            var fileContent = File.ReadAllText(inputFile);
             try
             {
                 var astForm = QLParser.ParseString(fileContent);

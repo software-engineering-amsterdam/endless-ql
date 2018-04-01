@@ -13,10 +13,10 @@ import nl.uva.se.sc.niro.qls.controller.QLSFormController
 import nl.uva.se.sc.niro.qls.model.gui.{ Page, Section, Stylesheet, Styling, _ }
 
 class QLSPageFactory(
-                      formController: QLSFormController,
-                      form: Form,
-                      stylesheet: Stylesheet,
-                      componentFactory: ComponentFactory)
+    formController: QLSFormController,
+    form: Form,
+    stylesheet: Stylesheet,
+    componentFactory: ComponentFactory)
     extends Callback[Integer, Node]() {
 
   val defaultStyles: Map[AnswerType, Styling] = Map(

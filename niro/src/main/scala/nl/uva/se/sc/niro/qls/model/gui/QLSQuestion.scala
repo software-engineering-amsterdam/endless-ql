@@ -16,11 +16,5 @@ case class QLSQuestion(
 object QLSQuestion {
 
   def apply(question: Question, styling: Styling) =
-    new QLSQuestion(
-      question.id,
-      question.answerType,
-      question.label,
-      question.isReadOnly,
-      question.visibility,
-      styling)
+    new QLSQuestion(question.id, question.answerType, question.label, question.isReadOnly, question.visibility, styling)
 }

@@ -16,7 +16,9 @@ object QLModelBridge {
     Form(StringUtil.addSpaceOnCaseChange(form.formName), convertStatements(BooleanAnswer(true), form.statements))
   }
 
-  def convertStatements(visible: Expression, statements: Seq[nl.uva.se.sc.niro.ql.model.ast.Statement]): Seq[Question] = {
+  def convertStatements(
+      visible: Expression,
+      statements: Seq[nl.uva.se.sc.niro.ql.model.ast.Statement]): Seq[Question] = {
     statements.flatMap(statement =>
       statement match {
         case question: nl.uva.se.sc.niro.ql.model.ast.Question =>

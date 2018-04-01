@@ -5,7 +5,9 @@ import org.apache.logging.log4j.scala.Logging
 
 object QuestionFactory extends Logging {
 
-  def makeGUIQuestion(visible: Expression, question: nl.uva.se.sc.niro.ql.model.ast.Question): nl.uva.se.sc.niro.ql.model.gui.Question = {
+  def makeGUIQuestion(
+      visible: Expression,
+      question: nl.uva.se.sc.niro.ql.model.ast.Question): nl.uva.se.sc.niro.ql.model.gui.Question = {
     QLQuestion(
       id = question.id,
       answerType = question.answerType,

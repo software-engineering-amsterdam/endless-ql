@@ -4,11 +4,11 @@ import cats.Monoid
 import nl.uva.se.sc.niro.qls.model.gui.style._
 
 case class Styling(
-                    widgetStyle: Option[WidgetType] = None,
-                    width: Option[Width] = None,
-                    color: Option[Color] = None,
-                    fontType: Option[FontType] = None,
-                    fontSize: Option[FontSize] = None) {
+    widgetStyle: Option[WidgetType] = None,
+    width: Option[Width] = None,
+    color: Option[Color] = None,
+    fontType: Option[FontType] = None,
+    fontSize: Option[FontSize] = None) {
 
   def ++(that: Styling) =
     Styling(

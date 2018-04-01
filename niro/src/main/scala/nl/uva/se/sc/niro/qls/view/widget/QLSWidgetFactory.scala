@@ -14,7 +14,7 @@ class QLSWidgetFactory extends QLWidgetFactory {
       styling.widgetStyle match {
         case Some(ComboBox(trueLabel, falseLabel)) => new QLSBooleanComboField(trueLabel, falseLabel)
         case Some(Radio(trueLabel, falseLabel))    => new QLSBooleanRadioField(trueLabel, falseLabel)
-        case _                                             => super.makeBooleanWidget(question)
+        case _                                     => super.makeBooleanWidget(question)
       }
     case _ => super.makeBooleanWidget(question)
   }

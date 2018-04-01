@@ -53,3 +53,24 @@ class Default(Statement):
     @property
     def widget(self):
         return self._widget
+
+
+class DefaultWithBody(Statement):
+
+    def __init__(self, location, question_type, widget, rules):
+        super().__init__(location)
+        self._question_type = question_type
+        self._widget = widget
+        self._rules = rules
+
+    @property
+    def question_type(self):
+        return self._question_type
+
+    @property
+    def widget(self):
+        return self._widget
+
+    @property
+    def rules(self):
+        return self._rules

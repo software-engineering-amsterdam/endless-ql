@@ -7,6 +7,7 @@ from pyqls.ast.nodes.section import *
 from pyqls.ast.nodes.statement import *
 from pyqls.ast.nodes.stylesheet import *
 from pyqls.ast.nodes.widget import *
+from pyqls.ast.nodes.style_rule import *
 from util.code_location import CodeLocation
 from util.types import *
 
@@ -76,8 +77,29 @@ class ParseTreeVisitor(QLSVisitor):
     def visitTextWidget(self, ctx: QLSParser.TextWidgetContext):
         return Text(self.location(ctx))
 
-    def visitDefaultStatement(self, ctx: QLSParser.DefaultStatementContext):
+    def visitSimpleDefault(self, ctx:QLSParser.SimpleDefaultContext):
         return Default(self.location(ctx), ctx.questionType().accept(self), ctx.widget().accept(self))
+
+    def visitDefaultWithBody(self, ctx:QLSParser.DefaultWithBodyContext):
+        return DefaultWithBody(self.location(ctx), ctx.questionType().accept(self), ctx.defaultBody().widget().accept(self), ctx.defaultBody().accept(self))
+
+    def visitDefaultBody(self, ctx:QLSParser.DefaultBodyContext):
+        return [rule.accept(self) for rule in ctx.styleRules()]
+
+    def visitStyleRules(self, ctx:QLSParser.StyleRulesContext):
+        return self.visitChildren(ctx)
+
+    def visitWidth(self, ctx:QLSParser.WidthContext):
+        return Width(self.location(ctx), ctx.INT().getText())
+
+    def visitFont(self, ctx:QLSParser.FontContext):
+        return Font(self.location(ctx), ctx.STRING().getText())
+
+    def visitFontsize(self, ctx:QLSParser.FontsizeContext):
+        return FontSize(self.location(ctx), ctx.INT().getText())
+
+    def visitColor(self, ctx:QLSParser.ColorContext):
+        return Color(self.location(ctx), ctx.HEX_COLOR().getText())
 
     def visitBooleanType(self, ctx: QLSParser.BooleanTypeContext):
         return Boolean()

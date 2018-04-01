@@ -40,7 +40,21 @@ widgetType          : 'radio(' STRING (',' STRING)* ')'    #radioWidget
                     | 'text'                               #textWidget
                     ;
 
-defaultStatement    : 'default' questionType widget ;
+defaultStatement    : 'default' questionType widget                 #simpleDefault
+                    | 'default' questionType '{' defaultBody '}'    #defaultWithBody
+                    ;
+
+defaultBody         : styleRules* widget | widget styleRules* ;
+
+styleRules          : width | font | fontsize | color ;
+
+width               : 'width:' INT ;
+
+font                : 'font:' STRING ;
+
+fontsize            : 'fontsize:' INT ;
+
+color               : 'color:' HEX_COLOR ;
 
 questionType        : 'boolean' #booleanType
                     | 'string'  #stringType

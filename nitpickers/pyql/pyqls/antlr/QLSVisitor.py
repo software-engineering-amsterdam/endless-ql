@@ -114,8 +114,43 @@ class QLSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLSParser#defaultStatement.
-    def visitDefaultStatement(self, ctx:QLSParser.DefaultStatementContext):
+    # Visit a parse tree produced by QLSParser#simpleDefault.
+    def visitSimpleDefault(self, ctx:QLSParser.SimpleDefaultContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#defaultWithBody.
+    def visitDefaultWithBody(self, ctx:QLSParser.DefaultWithBodyContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#defaultBody.
+    def visitDefaultBody(self, ctx:QLSParser.DefaultBodyContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#styleRules.
+    def visitStyleRules(self, ctx:QLSParser.StyleRulesContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#width.
+    def visitWidth(self, ctx:QLSParser.WidthContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#font.
+    def visitFont(self, ctx:QLSParser.FontContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#fontsize.
+    def visitFontsize(self, ctx:QLSParser.FontsizeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#color.
+    def visitColor(self, ctx:QLSParser.ColorContext):
         return self.visitChildren(ctx)
 
 

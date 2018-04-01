@@ -180,6 +180,3 @@ class Literal(Expression):
 
     def __repr__(self):
         return str(self.value.value)
-
-    def __add__(self, other):
-        pass

@@ -40,16 +40,4 @@ public class QLBuilder {
 
         return loader.getFormNode();
     }
-
-
-        StylesheetParser qlsParser = new StylesheetParser(new CommonTokenStream(qlsLexer));
-
-        qlsParser.addErrorListener(errorListener);
-
-        StylesheetParser.StylesheetBuilderContext stylesheetTree = qlsParser.stylesheetBuilder();
-        QLSLoader qlsLoader = new QLSLoader(formNode);
-        ParseTreeWalker.DEFAULT.walk(qlsLoader, stylesheetTree);
-
-        return qlsLoader.getStyleSheet();
-    }
 }

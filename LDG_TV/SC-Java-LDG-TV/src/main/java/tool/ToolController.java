@@ -71,10 +71,11 @@ public class ToolController implements Consumer, LoaderErrorListener {
                         qlText -> parseQLFromText(qlBuilder, qlText),
                         () -> showAlertBox("Please import or add QL code")
                 );
+
         QLSBuilder qlsBuilder = new QLSBuilder(tbErrorListener, dialogErrorListener);
         Utilities.ofEmptyString(taSourceCodeQLS.getText())
                 .ifPresentOrElse(
-                        qlsText -> parseStyleSheetFromText(qlBuilder, qlsText),
+                        qlsText -> parseStyleSheetFromText(qlsBuilder, qlsText),
                         this::buildQL
                 );
 
@@ -86,14 +87,14 @@ public class ToolController implements Consumer, LoaderErrorListener {
         boolean fnIsSet = fn != null;
 
         if(fnIsSet){
-            this.formNode = qlBuilder.toFormNode(qlText);
+            this.formNode = fn;
         } else {
             showAlertBox("Error on parsing QL");
         }
     }
 
-    private void parseStyleSheetFromText(QLBuilder qlBuilder, String qlsText) {
-        Stylesheet ss = qlBuilder.toStylesheet(qlsText, this.formNode);
+    private void parseStyleSheetFromText(QLSBuilder qlsBuilder, String qlsText) {
+        Stylesheet ss = qlsBuilder.toStylesheet(qlsText, this.formNode);
         boolean ssIsSet = ss != null;
         if(ssIsSet) {
             this.formNode.setStylesheet(ss);

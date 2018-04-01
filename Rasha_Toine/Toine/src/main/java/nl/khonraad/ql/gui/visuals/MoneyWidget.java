@@ -40,7 +40,7 @@ public class MoneyWidget extends JSpinner implements QuestionnaireAccessor {
 
             String dec = new BigDecimal( current ).setScale(2, RoundingMode.HALF_EVEN).toString();
             
-            questionnaire().storeAnswer( question.identifier(), new Value( Type.Money___, dec ) );
+            questionnaire().storeAnswer( question.identifier(), new Value( Type.Money, dec ) );
 
         } );
     }

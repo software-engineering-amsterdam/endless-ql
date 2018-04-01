@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import org.slf4j.Logger;
 
 import nl.khonraad.ql.ast.data.Questionnaire;
-import nl.khonraad.ql.cdi.LoggingAspect;
 import nl.khonraad.ql.gui.visuals.WidgetContainer;
 
 @ApplicationScoped public class Visualizer {

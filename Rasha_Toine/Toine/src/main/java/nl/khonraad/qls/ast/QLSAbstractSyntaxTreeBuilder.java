@@ -1,4 +1,4 @@
-package nl.khonraad.ql.ast;
+package nl.khonraad.qls.ast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +40,7 @@ public class QLSAbstractSyntaxTreeBuilder {
 
         try {
 
-            InputStream inputStream = getClass().getResourceAsStream( qLSource.getSourcePath() );
+            InputStream inputStream = getClass().getResourceAsStream( qLSource.getSourcePathQLS() );
 
             qLsLexer = new QLSLexer( CharStreams.fromStream( inputStream, StandardCharsets.UTF_8 ) );
 

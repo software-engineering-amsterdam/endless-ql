@@ -16,20 +16,32 @@ import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
 import nl.khonraad.ql.cdi.LoggingAspect;
+import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
+import nl.khonraad.qls.ast.data.Styles;
+import nl.khonraad.qls.ast.data.Stylesionnaire;
 import nl.khonraad.ql.ast.data.Questionnaire;
 
 @SuppressWarnings( "serial" )
 
-public class WidgetContainer extends Panel{
+public class WidgetContainer extends Panel {
 
     @Inject
-    Logger        logger;
+    Logger                 logger;
 
     @Inject
-    ExtendedQLBaseVisitor       visitor;
+    ExtendedQLBaseVisitor  extendedQLBaseVisitor;
 
     @Inject
-    Questionnaire questionnaire;
+    ExtendedQLSBaseVisitor extendedQLSBaseVisitor;
+
+    @Inject
+    Questionnaire          questionnaire;
+
+    @Inject
+    Stylesionnaire        stylesionnaire;
+    
+    @Inject
+    Styles                 styles;
 
     @PostConstruct
     public void postConstruct() {
@@ -42,12 +54,13 @@ public class WidgetContainer extends Panel{
 
         removeAll();
 
-        questionnaire.prepareAndVisit( visitor );
+        questionnaire.prepareAndVisit( extendedQLBaseVisitor );
+        stylesionnaire.prepareAndVisit2( extendedQLSBaseVisitor );
 
         for ( Question question : questionnaire.getQuestionList() ) {
 
             add( new JLabel( question.label() ) );
-            add( visualizeQuestion( question, questionnaire ) );
+            add( visualizeQuestion( question ) );
         }
 
     }
@@ -63,7 +76,7 @@ public class WidgetContainer extends Panel{
     }
 
     @LoggingAspect
-    public JPanel visualizeQuestion( Question question, Questionnaire questionnaire ) {
+    public JPanel visualizeQuestion( Question question ) {
 
         JPanel parentPanel = new JPanel();
 
@@ -78,11 +91,10 @@ public class WidgetContainer extends Panel{
 
         if ( behaviouralType == BehaviouralType.ANSWERABLE ) {
 
-
             switch ( type ) {
 
                 case Boolean:
-                    return addToParent( parentPanel, new BooleanWidget( question ).jComboBox );
+                    return addToParent( parentPanel, new BooleanWidget( question, styles.find( type ) ).jComboBox );
 
                 case Date:
                     return addToParent( parentPanel, new DateWidget( question ).jTextField );

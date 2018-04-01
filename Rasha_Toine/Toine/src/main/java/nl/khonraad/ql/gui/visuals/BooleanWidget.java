@@ -6,16 +6,28 @@ import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
+import nl.khonraad.qls.ast.data.Style;
 
 public class BooleanWidget implements QuestionnaireAccessor {
 
     JComboBox<String> jComboBox;
 
-    public BooleanWidget( Question question ) {
+    String            no  = new Value( false ).string();
+    String            yes = new Value( true ).string();
 
-        jComboBox = new JComboBox<>( new String[] { new Value( false ).string(), new Value( true ).string() } );
+    public BooleanWidget( Question question, Style style ) {
 
-        jComboBox.setSelectedItem( question.value().string() );
+        if ( style != null ) {
+
+            no = style.getF();
+            yes = style.getT();
+
+            jComboBox = new JComboBox<>( new String[] { no, yes } );
+        }
+
+        String selected = question.value().equals( new Value( true ) ) ? yes : no;
+        
+        jComboBox.setSelectedItem( selected );
 
         jComboBox.addActionListener( e -> {
 
@@ -24,7 +36,9 @@ public class BooleanWidget implements QuestionnaireAccessor {
 
             String current = (String) combo.getSelectedItem();
 
-            questionnaire().storeAnswer( question.identifier(), new Value( Type.Boolean, current ) );
+            String result = no.equals( current ) ? new Value( false ).string() : new Value( true ).string();
+
+            questionnaire().storeAnswer( question.identifier(), new Value( Type.Boolean, result ) );
 
         } );
     }

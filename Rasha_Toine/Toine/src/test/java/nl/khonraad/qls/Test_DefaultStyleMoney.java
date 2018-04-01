@@ -12,13 +12,13 @@ import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
 import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
 import nl.khonraad.qls.ast.data.Styles;
 
-public class Test_CollegeExample {
+public class Test_DefaultStyleMoney {
 
     @Rule
     public WeldInitiator weld = WeldInitiator.from( 
             SourcePathProvider.class, 
-            Styles.class,
             QLSAbstractSyntaxTreeBuilder.class,
+            Styles.class,
             ExtendedQLSBaseVisitor.class,
             LoggerProducer.class 
     ).activate( ApplicationScoped.class ).build();
@@ -26,7 +26,7 @@ public class Test_CollegeExample {
     @Test
     public void test_Calculations() throws Exception {
 
-        weld.select( SourcePathProvider.class ).get().setSourcePathQLS( "/nl/khonraad/qls/integration/CollegeExample.qls" );
+        weld.select( SourcePathProvider.class ).get().setSourcePathQLS( "/nl/khonraad/qls/integration/DefaultStyleMoney.qls" );
         ExtendedQLSBaseVisitor visitor = weld.select( ExtendedQLSBaseVisitor.class ).get();
         QLSAbstractSyntaxTreeBuilder builder = weld.select( QLSAbstractSyntaxTreeBuilder.class ).get();
         visitor.visit(  builder.getTree() );

@@ -34,6 +34,7 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
     @Inject
     private QLAbstractSyntaxTreeBuilder qLAstBuilder;
 
+
     public void prepareAndVisit( ExtendedQLBaseVisitor visitor ) {
 
         try {

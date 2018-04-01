@@ -22,7 +22,7 @@ public class TypeCheckerTest {
     private final CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
     private final CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
 
-    private Form getAstFormFromString(String formString) {
+    public static Form getAstFormFromString(String formString) {
         CharStream charStream = CharStreams.fromString(formString);
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
@@ -45,7 +45,7 @@ public class TypeCheckerTest {
                 "    generalPrivateDebt: money = (myBudget - privateDebt)\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         VariablesReferencesValidator validator = new VariablesReferencesValidator(
                 this.collectQuestionsVisitor.getQuestions(form),
@@ -65,7 +65,7 @@ public class TypeCheckerTest {
                 "    myBudget: string\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
         
         QuestionsDuplicationValidator validator = new QuestionsDuplicationValidator(
                 this.collectQuestionsVisitor.getQuestions(form)
@@ -84,7 +84,7 @@ public class TypeCheckerTest {
                 "    myMoney: string\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
         
         QuestionLabelsValidator validator = new QuestionLabelsValidator(
                 this.collectQuestionsVisitor.getQuestions(form)
@@ -105,7 +105,7 @@ public class TypeCheckerTest {
                 "  }\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
         
         ConditionsValidator validator = new ConditionsValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -136,7 +136,7 @@ public class TypeCheckerTest {
                 "  }\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
         
         TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -165,7 +165,7 @@ public class TypeCheckerTest {
                 "  }\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -195,7 +195,7 @@ public class TypeCheckerTest {
                 "  \n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -225,7 +225,7 @@ public class TypeCheckerTest {
                 "  }\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -256,7 +256,7 @@ public class TypeCheckerTest {
                 "\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -280,7 +280,7 @@ public class TypeCheckerTest {
                 "  \"F\" f: integer = e + 10\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
 
         QuestionsDependencyValidator validator = new QuestionsDependencyValidator(
@@ -300,7 +300,7 @@ public class TypeCheckerTest {
                 "  \"A/B equals\" intC: integer = intA/decB\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         IntegerToDecimalCastingValidator validator = new IntegerToDecimalCastingValidator(
                 this.collectQuestionsVisitor.getQuestionsMap(form)

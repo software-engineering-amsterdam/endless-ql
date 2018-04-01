@@ -114,4 +114,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Undefined_Undefined_Undefined" xml:space="preserve">
+    <value>Undefined</value>
+  </data>
+  <data name="Undefined_Undefined_Define" xml:space="preserve">
+    <value>Define</value>
+  </data>
+  <data name="MainPresenter_ExportAnswers_Please_answer_all_questions_first_" xml:space="preserve">
+    <value>Please answer all questions first.</value>
+  </data>
+  <data name="MainPresenter_ExportAnswers_CSV_files____csv____csv" xml:space="preserve">
+    <value>CSV files (*.csv)|*.csv</value>
+  </data>
 </root>

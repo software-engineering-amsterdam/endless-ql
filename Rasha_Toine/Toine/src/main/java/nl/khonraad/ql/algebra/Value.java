@@ -1,108 +1,86 @@
 package nl.khonraad.ql.algebra;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+import java.util.function.BiFunction;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
-public class Value {
+import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
+import nl.khonraad.ql.algebra.function.BinarySignature;
+import nl.khonraad.ql.algebra.function.BinaryFunctions;
+import nl.khonraad.ql.algebra.function.UnarySignature;
+import nl.khonraad.ql.algebra.function.UnaryFunctions;
+import nl.khonraad.ql.algebra.value.Operator;
+import nl.khonraad.ql.algebra.value.Storage;
+import nl.khonraad.ql.algebra.value.Type;
 
-    private static Exception              unaryOperationNotSupported = new Exception( "Unsupported unary operation" );
+public class Value implements StringAble {
 
-    public static final DateTimeFormatter SIMPLE_DATE_FORMAT         = DateTimeFormat.forPattern( "dd/MM/yyyy" );
+    private Type    type;
+    private Storage storage;
 
-    public static final Value             FALSE                      = new Value( false );
-    public static final Value             TRUE                       = new Value( true );
+    @Override
+    public String string() {
+        return storage.string();
+    }
 
-    private Type                          type;
-    private String                        text;
+    public Value( Type type, String string ) {
 
-    public Value(boolean b) {
+        this.type = type;
+        this.storage = new Storage( string );
+    }
+
+    public Value( boolean b ) {
         this( Type.Boolean, b ? "True" : "False" );
     }
 
-    public Value(DateTime m) {
-        this( Type.Date, SIMPLE_DATE_FORMAT.print( m ) );
+    public Value( DateTime m ) {
+        this( Type.Date, SimpleDateFormatter.string( m ) );
     }
 
-    public Value(Integer i) {
+    public Value( Integer i ) {
         this( Type.Integer, Integer.toString( i ) );
     }
 
-    public Value(BigDecimal m) {
+    public Value( BigDecimal m ) {
         this( Type.Money, m.toString() );
     }
 
-    public Value(String s) {
+    public Value( String s ) {
         this( Type.String, s );
     }
 
-    public Value(Type type, String string) {
+    public Value apply( Operator operator ) {
 
-        this.type = type;
-        this.text = string;
+        return UnaryFunctions.function( UnarySignature.signature( operator, type() ) ).apply( this );
     }
 
-    public Value apply( String operator ) throws Exception {
-
-        switch ( operator ) {
-
-            case "+":
-                return this;
-
-            case "-":
-                return new PartialFunction( this, "*" ).applyOperand( new Value( -1 ) );
-
-            case "!":
-                return (this.equals( TRUE )) ? FALSE : TRUE;
-
-            default:
-                throw unaryOperationNotSupported;
-        }
+    public Value apply( Operator operator, Value other ) {
+        
+        BiFunction<Value, Value, Value> function = BinaryFunctions.function( BinarySignature.signature( this.type(), operator, other.type() ) );
+        
+        return function.apply( this, other );
 
     }
 
-    public Value apply( String operator, Value operand ) throws Exception {
-
-        return new PartialFunction( this, operator ).applyOperand( operand );
-
-    }
-
-    public Type getType() {
+    public Type type() {
         return type;
-    }
-
-    public String getText() {
-        return text;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((text == null) ? 0 : text.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        return result;
+        return Objects.hash( this.storage, this.type );
     }
 
     @Override
-    public boolean equals( Object obj ) {
-        if ( this == obj )
-            return true;
-        if ( obj == null )
+    public boolean equals( Object object ) {
+
+        if ( object == null || getClass() != object.getClass() )
             return false;
-        if ( getClass() != obj.getClass() )
-            return false;
-        Value other = (Value) obj;
-        if ( text == null ) {
-            if ( other.text != null )
-                return false;
-        } else
-            if ( !text.equals( other.text ) )
-                return false;
-        if ( type != other.type )
-            return false;
-        return true;
+
+        final Value other = (Value) object;
+
+        return Objects.equals( this.storage, other.storage ) && Objects.equals( this.type, other.type );
     }
 }

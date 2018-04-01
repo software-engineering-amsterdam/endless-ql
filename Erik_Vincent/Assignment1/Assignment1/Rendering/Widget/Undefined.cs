@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Assignment1.Properties;
 
 namespace Assignment1.Rendering.Widget
 {
@@ -22,14 +23,14 @@ namespace Assignment1.Rendering.Widget
             AddLabel(label);
             if (readOnly)
             {
-                _panel.Controls.Add(new Label { Text = "Undefined" });
+                _panel.Controls.Add(new Label { Text = Resources.Undefined_Undefined_Undefined });
             }
             else
             {
                 var button = new Button
                 {
                     AutoSize = true,
-                    Text = "Define"
+                    Text = Resources.Undefined_Undefined_Define
                 };
                 button.Click += (s, a) =>
                 {

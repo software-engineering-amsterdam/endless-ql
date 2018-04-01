@@ -7,7 +7,7 @@ export enum FieldType {
   Integer = "integer",
   Decimal = "decimal",
   Text = "text"
-}
+} 
 
 export const numericFieldTypes = [FieldType.Integer, FieldType.Decimal, FieldType.Money];
 

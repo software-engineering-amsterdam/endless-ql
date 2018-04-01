@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
+import nl.uva.js.qlparser.exceptions.TypeMismatchException;
 import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.wrappers.logic.ValueChangeListener;
@@ -32,6 +33,11 @@ public class Variable<T, X extends DataExpression<T>> implements DataExpression<
 
     @Override
     public DataType returnCheckedType() {
+        NonNullRun.consumer(value, __ -> {
+            DataType valueType = value.returnCheckedType();
+            if (!dataType.equals(valueType)) throw new TypeMismatchException(dataType, valueType);
+        });
+
         return dataType;
     }
 

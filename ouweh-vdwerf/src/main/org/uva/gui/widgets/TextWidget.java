@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class TextWidget extends QuestionWidget {
 
-    private JTextField textField = new JTextField();
+    private final JTextField textField = new JTextField();
 
     //todo test
     public TextWidget(Question question, Value value, boolean readOnly, Style style) {

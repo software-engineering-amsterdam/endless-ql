@@ -1,50 +1,88 @@
 package ui.controller
 
-import doge.ast.DogeParser
-import doge.ast.location.SourceLocation
-import doge.data.question.Question
-import doge.data.value.StringValue
-import doge.visitor.UiVisitor
-import qls.model.StyleSheet
+import ql.ast.DogeParser
+import ql.ast.node.QLNode
+import ql.data.symbol.SymbolTable
+import ql.visitor.ValueUpdateVisitor
+import qls.ast.QlsParser
+import qls.ast.node.QlsNode
 import tornadofx.Controller
 import tornadofx.observable
+import ui.model.domain.Question
+import ui.visitor.QuestionVisitor
+import java.io.File
 
 class DogeController : Controller() {
 
+    private var symbolTable: SymbolTable? = null
+    private var ast: QLNode? = null
+
+    var infoMessages = mutableListOf<String>().observable()
     var questions = mutableListOf<Question>().observable()
+    var style: QlsNode? = null
 
-    fun load(){
-        val ast = DogeParser().parse()
-        val enabledQuestions = UiVisitor().visit(ast)
+    fun loadQuestionnaire(file: File) {
+        val parseResult = DogeParser().parse(file)
 
-        questions.addAll(enabledQuestions)
+        parseResult?.let {
+            symbolTable = it.symbolTable
+            ast = it.ast
+
+            addInfoMessages(it.info)
+        }
+
+        reloadQuestions()
     }
 
-    fun getStyle(): StyleSheet {
-        val ast = DogeParser().parse() as StyleSheet
-        return ast
+    private fun addInfoMessages(info: List<String>) {
+        infoMessages.removeAll()
+        infoMessages.addAll(info)
     }
 
-    fun test(){
-        questions.add(Question("", "asd", StringValue("sdff"), SourceLocation(0,0,0,0), SourceLocation(0,0,0,0), true))
-        questions.first().value.booleanValue.value = true
+    fun loadStyle(file: File) {
+        style = QlsParser().parse(file)
     }
 
-    private fun updateViewModel(newDataQuestions: List<Question>) {
-//        val modelFactory = ViewModelFactory()
-//
-//        val toAdd = newDataQuestions.filter { question ->
-//            question !in dataQuestions || question.readOnly
-//        }
+    fun reloadQuestions() {
+        if (infoMessages.isEmpty()) {
+            symbolTable.let {
+                val visitor = QuestionVisitor(symbolTable!!)
+                val enabledQuestions = ast!!.accept(visitor)
+                updateQuestions(enabledQuestions)
+            }
+        }
+    }
 
-//        questions.removeIf { question ->
-//            question.item !in newDataQuestions || question.item.readOnly
-//        }
+    fun evaluate(question: Question) {
+        symbolTable?.let {
+            it.assign(question.name, question.value)
+            ast?.accept(ValueUpdateVisitor.default(it))
+        }
+    }
 
-        // Only add new questions, leave old questions as is
-//        toAdd.forEach { question ->
-//            questions.add(newDataQuestions.indexOf(question), modelFactory.createUiQuestionModel(question))
-//        }
+    fun hasQuestion(name: String): Boolean {
+        return questions.any { it.name == name }
+    }
+
+    fun getQuestion(name: String): Question {
+        return questions.first { it.name == name }
+    }
+
+    // Replacing observable list q  with new list will break observable binding
+    // That is why we update internal values
+    private fun updateQuestions(newDataQuestions: List<Question>) {
+
+        val toAdd = newDataQuestions.filter { question ->
+            question !in questions || question.readOnly
+        }
+
+        questions.removeIf { question ->
+            question !in newDataQuestions || question.readOnly
+        }
+
+        toAdd.forEach { question ->
+            questions.add(newDataQuestions.indexOf(question), question)
+        }
 
     }
 

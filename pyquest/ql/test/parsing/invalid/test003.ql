@@ -1,0 +1,3 @@
+// Empty form
+form testForm {
+}

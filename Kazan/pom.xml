@@ -49,9 +49,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>main.Main</mainClass>
+                    <mainClass>ql.main.Main</mainClass>
                     <!--<arguments>-->
-                        <!--<argument>src/input/ql/correct/gui/allComputedQuestionTypes.ql</argument>-->
+                        <!--<argument>src/input/ql/correct/ql/gui/allComputedQuestionTypes.ql</argument>-->
                     <!--</arguments>-->
                 </configuration>
             </plugin>
@@ -60,7 +60,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>main.Main</mainClass>
+                            <mainClass>ql.main.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

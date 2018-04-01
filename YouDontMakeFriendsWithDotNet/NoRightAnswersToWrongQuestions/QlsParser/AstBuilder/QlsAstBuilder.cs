@@ -1,8 +1,7 @@
-﻿using System;
-using Antlr4.Runtime;
+﻿using Antlr4.Runtime;
 using QlsGrammar;
-using QlsTransformer.Ast.Nodes;
-using QlsTransformer.Ast.Tools;
+using QlsTransformer.Domain.Ast.Nodes;
+using QlsTransformer.Domain.Ast.Tools;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;

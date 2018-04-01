@@ -18,10 +18,14 @@ import org.uva.jomi.ql.parser.antlr.QLLexer;
 import org.uva.jomi.ql.parser.antlr.QLParser;
 import org.uva.jomi.ql.parser.antlr.QLParser.ParseContext;
 import org.uva.jomi.ql.parser.antlr.QLParserErrorListener;
-import org.uva.jomi.ui.elements.ElementBuilder;
-import org.uva.jomi.ui.elements.core.Panel;
-import org.uva.jomi.ui.elements.panel.ErrorPanel;
-import org.uva.jomi.ui.elements.panel.PanelElement;
+import org.uva.jomi.ui.interpreter.QuestionTraverser;
+import org.uva.jomi.ui.models.Question;
+import org.uva.jomi.ui.storage.Storage;
+import org.uva.jomi.ui.storage.StorageFactory;
+import org.uva.jomi.ui.storage.StorageFactory.StorageType;
+import org.uva.jomi.ui.views.ErrorPanel;
+import org.uva.jomi.ui.views.PanelElement;
+import org.uva.jomi.ui.views.core.Panel;
 
 public class QLForm {
 
@@ -61,6 +65,22 @@ public class QLForm {
 		}
 	}
 
+	public List<Question> getQuestions() {
+		QuestionTraverser traverse = new QuestionTraverser();
+		return traverse.traverse(this.ast);
+	}
+
+	public boolean store(StorageType type) {
+		List<Question> questions = this.getQuestions();
+		// Remove all questions that we don't need to answer (because of if/else statements)
+		questions.removeIf(q -> !q.showQuestion());
+
+		Storage storage = StorageFactory.storageWithType(type);
+		storage.store(questions);
+
+		return true;
+	}
+
 	public List<Panel> getPanels() {
 		if(this.hasErrors()) {
 			List<Panel> panels = new ArrayList<>();
@@ -88,10 +108,19 @@ public class QLForm {
 		if (parser.getNumberOfSyntaxErrors() > 0) {
 			errors.addAll(this.errorsOfParser());
 		} else {
-			errors.addAll(this.errorsOfCyclicDependency());
-			errors.addAll(this.errorsOfIdentifier());
-			errors.addAll(this.errorsOfTypeResolver());
 			errors.addAll(this.errorsOfDuplicatedLabel());
+
+			if (this.numberOfIdentifierErrors() > 0) {
+				errors.addAll(this.errorsOfIdentifier());
+			} else {
+				if (this.numberOfCyclicErrors() > 0) {
+					errors.addAll(this.errorsOfCyclicDependency());
+				}
+
+				if (this.numberOfTypeResolverErrors() > 0) {
+					errors.addAll(this.errorsOfTypeResolver());
+				}
+			}
 		}
 
 		return errors;
@@ -99,8 +128,8 @@ public class QLForm {
 
 	private boolean hasErrors() {
 		return (this.numberOfSyntaxErrors() > 0) ||
-				(this.numberOfCyclicErrors() > 0) ||
 				(this.numberOfIdentifierErrors() > 0) ||
+				(this.numberOfCyclicErrors() > 0) ||
 				(this.numberOfTypeResolverErrors() > 0);
 	}
 

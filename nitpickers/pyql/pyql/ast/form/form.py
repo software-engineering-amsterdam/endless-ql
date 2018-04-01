@@ -1,7 +1,7 @@
-from pyql.ast import ast
+from util.ast import ASTNode
 
 
-class Form(ast.ASTNode):
+class Form(ASTNode):
 
     def __init__(self, location, identifier, block):
         super().__init__(location)
@@ -17,4 +17,6 @@ class Form(ast.ASTNode):
         return self._block
 
     def __repr__(self):
-        return str({"AST Form " + str(self.location): str(self.block)})
+        return "Form at {0}".format(self.location)
+
+    __str__ = __repr__

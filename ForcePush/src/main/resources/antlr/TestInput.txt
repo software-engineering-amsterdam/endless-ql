@@ -17,18 +17,24 @@ form taxOfficeExample {
        (sellingPrice - privateDebt)
     }
 
-    /*ifelse(!hasSoldHouse){
-        "What was the selling price?"
-          sellingPrice: money
-        "Private debts for the sold house:"
-          privateDebt: money
-        "Value residue:"
-          valueResidues: money =
-           (sellingPrice + privateDebt)
-    }*/
+    ifelse(hasBoughtHouse){
+        "How much did you pay for the house?"
+          payedPrice: money
+        "Is the new house in good conditions?"
+          privateDebt: boolean
+    }
 
     else{
-        "Are you ok?"
-        isOk: boolean
+        "Do you have a house?"
+        hasHouse: boolean
+    }
+
+    if(hasMaintLoan){
+        "You sure you entered a loan?"
+        sureEnteredLoan: boolean
+    }
+    else{
+        "You sure you did not enter a loan?"
+        sureItDidNotEnterLoan: boolean
     }
 }

@@ -21,7 +21,7 @@ trait RangeCheck {
 
   def checkRange(name: String, minimum: Double, maximum: Double): Option[TypeCheckError] = {
     if (minimum >= maximum)
-      Some(TypeCheckError(name, s"The minimum value [${minimum}] should be less then the maximum value [${maximum}]."))
+      Some(TypeCheckError(name, s"The minimum value '$minimum' should be less then the maximum value '$maximum'."))
     else None
   }
 

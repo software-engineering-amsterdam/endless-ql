@@ -55,9 +55,7 @@ public class EventChecker extends Observer {
 
         for (String s : result)
         {
-            //if (!s.equals("")) {
-                booleanValues.put(s, false);
-            //}
+            booleanValues.put(s, null);
         }
 
     }
@@ -84,24 +82,14 @@ public class EventChecker extends Observer {
         for (Map.Entry<String,JPanelGUI> condition: conditionals.entrySet()) {
             String toTest = condition.getKey();
 
-            if(!toTest.equals("")) {
-                for (Map.Entry<String, Boolean> bv : booleanValues.entrySet()) {
-                    if (!bv.getKey().equals(""))
-                        toTest = toTest.replaceAll(bv.getKey(), String.valueOf(bv.getValue()));
+            for (Map.Entry<String, Boolean> bv : booleanValues.entrySet()) {
+                if (bv.getValue() != null && toTest.contains(bv.getKey())) {
+                    toTest = toTest.replaceAll(bv.getKey(), String.valueOf(bv.getValue()));
+                    boolean result = createAST(toTest).accept(new ASTExpressionVisitorEvaluator());
+                    condition.getValue().getPanel().setVisible(result);
                 }
-
-                boolean result = createAST(toTest).accept(new ASTExpressionVisitorEvaluator());
-
-                condition.getValue().getPanel().setVisible(result);
-
             }
-
-            if(toTest.equals("")) {
-                condition.getValue().getPanel().setVisible(everyPanelFalse());
-            }
-
         }
-
     }
 
     private void checkCalculation()
@@ -172,16 +160,6 @@ public class EventChecker extends Observer {
             return false;
         }
         return true;
-    }
-
-    private boolean everyPanelFalse(){
-        boolean result = false;
-        for (Map.Entry<String, JPanelGUI> s: conditionals.entrySet()) {
-            if(!s.getKey().equals(""))
-                result = result || s.getValue().getPanel().isVisible();
-        }
-
-        return !result;
     }
 
 }

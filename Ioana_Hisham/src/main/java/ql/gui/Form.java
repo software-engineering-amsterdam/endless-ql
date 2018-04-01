@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import ql.ASTBuilder;
+import ql.ast.expressions.Identifier;
 import ql.ast.statements.Question;
 import ql.evaluator.Evaluator;
 import ql.gui.controls.ControlVisitor;
@@ -15,8 +16,8 @@ import ql.values.Value;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Form extends Application {
-    private final ControlVisitor controlVisitor = new ControlVisitor();
+public class Form extends Application implements OnValueChange{
+    private final ControlVisitor controlVisitor = new ControlVisitor(this);
     private final Evaluator evaluator = new Evaluator();
     private static ql.ast.Form form;
     private GridPane formPane;
@@ -29,7 +30,8 @@ public class Form extends Application {
 
     @Override
     public void start(Stage stage) {
-        initializeForm(stage);
+        formPane(stage);
+        initializeForm();
         stage.show();
     }
 
@@ -42,9 +44,9 @@ public class Form extends Application {
         //visitor.visit(parseTree);
     }
 
-    public void initializeForm(Stage stage) {
-        this.formPane(stage);
-        this.reset();
+    public void initializeForm() {
+        //this.reset();
+        //evaluator.clear();
         evaluator.visit(form);
 
         for (Question question: evaluator.questions()) {
@@ -73,5 +75,11 @@ public class Form extends Application {
             qlControl.setValue(evaluator.valueTable().find(question.getIdentifier()));
         }
         formPane.add(qlControl.gridPane(), 0, row++);
+    }
+
+    @Override
+    public void changed(Identifier identifier, Value value) {
+        evaluator.valueTable().add(identifier, value);
+        initializeForm();
     }
 }

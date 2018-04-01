@@ -1,22 +1,21 @@
 package org.uva.forcepushql.interpreter.gui.questions;
 
 import org.uva.forcepushql.interpreter.gui.Observer;
+import org.uva.forcepushql.parser.ast.ValueType;
 
 import java.util.LinkedList;
 
 public abstract class Question
 {
 
-    private boolean mandatory;
     private String question;
-    private String answerType;
+    private ValueType answerType;
     private String answerName;
     private LinkedList<Observer> observers;
 
 
-    public Question(String question, String answerType, String answerName)
+    public Question(String question, ValueType answerType, String answerName)
     {
-        mandatory = false;
         this.question = question;
         this.answerType = answerType;
         this.answerName = answerName;
@@ -24,31 +23,9 @@ public abstract class Question
 
     }
 
-    public void mandatory()
-    {
-        if (!mandatory)
-            mandatory = true;
-
-        else
-            mandatory = false;
-
-    }
-
-    public boolean isMandatory()
-    {
-        return mandatory;
-    }
-
-
     public String writtenQuestion()
     {
         return question;
-    }
-
-
-    public String answerTypeValue()
-    {
-        return answerType;
     }
 
     public String answerNameValue()

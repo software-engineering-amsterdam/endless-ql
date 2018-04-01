@@ -1,33 +1,45 @@
 package nl.khonraad.ql.gui.visuals;
 
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
 
-import nl.khonraad.ql.algebra.Type;
 import nl.khonraad.ql.algebra.Value;
-import nl.khonraad.ql.dynamics.Question;
-import nl.khonraad.ql.dynamics.Questionnaire;
-import nl.khonraad.ql.gui.QLInterpretor;
+import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.ast.data.Question;
+import nl.khonraad.ql.cdi.QuestionnaireAccessor;
+import nl.khonraad.qls.ast.data.Style;
 
-@SuppressWarnings("serial")
-public class BooleanWidget extends JComboBox<String> {
+public class BooleanWidget implements QuestionnaireAccessor {
 
-    public BooleanWidget(JPanel mainPanel, Question question, Questionnaire questionnaire) {
+    JComboBox<String> jComboBox;
 
-        super( new String[] { Value.FALSE.getText(), Value.TRUE.getText() } );
+    String            no  = new Value( false ).string();
+    String            yes = new Value( true ).string();
 
-        setSelectedItem( question.getValue().getText() );
+    public BooleanWidget( Question question, Style style ) {
 
-        addActionListener( e -> {
+        if ( style != null ) {
 
-            @SuppressWarnings("unchecked")
+            no = style.getF();
+            yes = style.getT();
+
+            jComboBox = new JComboBox<>( new String[] { no, yes } );
+        }
+
+        String selected = question.value().equals( new Value( true ) ) ? yes : no;
+        
+        jComboBox.setSelectedItem( selected );
+
+        jComboBox.addActionListener( e -> {
+
+            @SuppressWarnings( "unchecked" )
             JComboBox<String> combo = (JComboBox<String>) e.getSource();
 
             String current = (String) combo.getSelectedItem();
 
-            questionnaire.storeAnswer( question.getIdentifier(), new Value( Type.Boolean, current ) );
+            String result = no.equals( current ) ? new Value( false ).string() : new Value( true ).string();
 
-            QLInterpretor.visualizeQuestionnaire( questionnaire, mainPanel );
+            questionnaire().storeAnswer( question.identifier(), new Value( Type.Boolean, result ) );
+
         } );
     }
 }

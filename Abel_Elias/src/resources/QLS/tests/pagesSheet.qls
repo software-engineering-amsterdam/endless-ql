@@ -1,0 +1,29 @@
+stylesheet pageSheet
+{
+  page firstPage
+  {
+  }
+  page secondPage
+  {
+    section "section1"
+    {
+    }
+  }
+  page thirdPage
+  {
+    section "section2"
+    {
+    }
+    section "section3"
+    {
+    }
+  }
+  page fourthPage
+  {
+    section "section4"
+    {
+        question hasSoldHouse
+            widget checkbox
+    }
+  }
+}

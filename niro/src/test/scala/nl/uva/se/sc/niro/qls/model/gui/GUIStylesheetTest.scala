@@ -1,9 +1,8 @@
-package nl.uva.se.sc.niro.model.qls.gui
+package nl.uva.se.sc.niro.qls.model.gui
 
 import cats.Semigroup
 import cats.instances.all._
 import nl.uva.se.sc.niro.ql.model.ast.{ AnswerType, BooleanType, IntegerType, StringType }
-import nl.uva.se.sc.niro.qls.model.gui.GUIStyling
 import nl.uva.se.sc.niro.qls.model.gui.style.{ GUIColor, GUIFontSize, GUIWidth }
 import org.scalatest.WordSpec
 

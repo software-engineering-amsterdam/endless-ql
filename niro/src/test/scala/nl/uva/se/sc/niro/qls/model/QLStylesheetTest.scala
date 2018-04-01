@@ -1,4 +1,4 @@
-package nl.uva.se.sc.niro.model.qls
+package nl.uva.se.sc.niro.qls.model
 
 import nl.uva.se.sc.niro.qls.model.ast._
 import nl.uva.se.sc.niro.qls.model.ast.style.Color

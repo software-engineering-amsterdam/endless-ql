@@ -3,8 +3,8 @@ package nl.uva.se.sc.niro.ql.view.component
 import javafx.scene.control._
 import javafx.scene.layout.HBox
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.Answer
-import nl.uva.se.sc.niro.ql.view.{ ComponentChangedListener, ValueChangedListener }
 import nl.uva.se.sc.niro.ql.view.widget.QLWidget
+import nl.uva.se.sc.niro.ql.view.{ ComponentChangedListener, ValueChangedListener }
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer

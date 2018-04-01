@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\TextToQLAST.cs" />
+    <Compile Include="Parser\QLParser.cs" />
     <Compile Include="Execution\QLExecutor.cs" />
     <Compile Include="Execution\QLExpressionEvaluator.cs" />
     <Compile Include="Export\FormExporter.cs" />
@@ -185,6 +185,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Converters\" />
     <Folder Include="Tests\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

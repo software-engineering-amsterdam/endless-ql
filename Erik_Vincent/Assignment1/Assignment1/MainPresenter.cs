@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Assignment1.Converters;
 using Assignment1.Execution;
 using Assignment1.Export;
 using Assignment1.Model.QL.AST;
@@ -63,7 +62,7 @@ namespace Assignment1
             string fileContent = File.ReadAllText(inputFile);
             try
             {
-                var astForm = TextToQLAST.ParseString(fileContent);
+                var astForm = QLParser.ParseString(fileContent);
                 var messages = ValidateForm(astForm);
                 if (AnyErrors(messages))
                 {
@@ -94,7 +93,7 @@ namespace Assignment1
             }
         }
 
-        private MessageContainer ValidateForm(QuestionForm astForm)
+        public MessageContainer ValidateForm(QuestionForm astForm)
         {
             var messages = new MessageContainer();
             messages.Add(QLDuplicateChecker.CheckDuplicates(astForm));

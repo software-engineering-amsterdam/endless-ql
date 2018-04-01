@@ -11,7 +11,7 @@ namespace QlsTransformer.Domain.Output.Tools
                 100,
                 "Arial",
                 10m,
-                "#00000000");
+                "#FF000000");
         }
 
         public Style CreateIntegerBaseStyle()
@@ -47,6 +47,11 @@ namespace QlsTransformer.Domain.Output.Tools
 
         public Style CreateMergedStyle(Style originalStyle, IStyleNode newStyle)
         {
+            if (newStyle == null)
+            {
+                return originalStyle;
+            }
+
             return new Style(
                 originalStyle,
                 newStyle.Widget,

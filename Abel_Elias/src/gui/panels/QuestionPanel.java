@@ -24,14 +24,6 @@ public class QuestionPanel extends JPanel {
         this.setBorder(new MatteBorder(1, 1, 1, 1, Color.GRAY));
     }
 
-    public void replaceWidget(Widget newWidget){
-        this.widget = newWidget;
-
-        this.removeAll();
-        this.add(new JLabel(question.getText()));
-        this.add(newWidget.getJComponent());
-    }
-
     public Question getQuestion() {
         return question;
     }

@@ -25,11 +25,9 @@ public class StylesheetVisitor extends QLSBaseVisitor {
     private LinkedHashMap<String, Section> sections;
     private LinkedHashMap<String, StyledQuestion> questions;
     private LinkedHashMap<String, Element> parents;
-    private LinkedHashMap<String, QuestionPanel> questionPanelHashMap;
 
 
-    public StylesheetVisitor(LinkedHashMap<String, Question> questionMap, LinkedHashMap<String, QuestionPanel> questionPanelHashMap){
-        this.questionPanelHashMap = questionPanelHashMap;
+    public StylesheetVisitor(LinkedHashMap<String, Question> questionMap){
         this.questionMap = questionMap;
         this.blockVisitor = new BlockVisitor(questionMap);
         this.parents = new LinkedHashMap<>();
@@ -41,13 +39,14 @@ public class StylesheetVisitor extends QLSBaseVisitor {
     // Node visitor
     @Override
     public Stylesheet visitStylesheet(QLSParser.StylesheetContext ctx) {
-//        Checks.checkStyleSheet(ctx, this.questionMap);
-
+    //  Checks.checkStyleSheet(ctx, this.questionMap);
         String id = ctx.IDENTIFIER().getText();
         List<Page> pages = new ArrayList<>();
+
         for (QLSParser.PageContext c : ctx.page()) {
             pages.add(visitPage(c));
         }
+
         setLists();
         this.stylesheet = new Stylesheet(id, pages);
         return this.stylesheet;

@@ -39,7 +39,7 @@ public class QLAbstractSyntaxTreeBuilder {
 
         try {
 
-            InputStream inputStream = getClass().getResourceAsStream( qLSource.getSourcePath() );
+            InputStream inputStream = getClass().getResourceAsStream( qLSource.getSourcePathQL() );
 
             qlLexer = new QLLexer( CharStreams.fromStream( inputStream, StandardCharsets.UTF_8 ) );
 
@@ -52,7 +52,6 @@ public class QLAbstractSyntaxTreeBuilder {
         } catch (IOException e) {
             logger.info( e.getMessage() );
         }
-
     }
 
     private final class ErrorListener extends BaseErrorListener {

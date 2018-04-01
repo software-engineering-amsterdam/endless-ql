@@ -69,18 +69,18 @@ public class QLForm {
 		QuestionTraverser traverse = new QuestionTraverser();
 		return traverse.traverse(this.ast);
 	}
-	
+
 	public boolean store(StorageType type) {
 		List<Question> questions = this.getQuestions();
 		// Remove all questions that we don't need to answer (because of if/else statements)
 		questions.removeIf(q -> !q.showQuestion());
-		
+
 		Storage storage = StorageFactory.storageWithType(type);
 		storage.store(questions);
-		
+
 		return true;
 	}
-	
+
 	public List<Panel> getPanels() {
 		if(this.hasErrors()) {
 			List<Panel> panels = new ArrayList<>();
@@ -108,10 +108,19 @@ public class QLForm {
 		if (parser.getNumberOfSyntaxErrors() > 0) {
 			errors.addAll(this.errorsOfParser());
 		} else {
-			errors.addAll(this.errorsOfCyclicDependency());
-			errors.addAll(this.errorsOfIdentifier());
-			errors.addAll(this.errorsOfTypeResolver());
 			errors.addAll(this.errorsOfDuplicatedLabel());
+
+			if (this.numberOfIdentifierErrors() > 0) {
+				errors.addAll(this.errorsOfIdentifier());
+			} else {
+				if (this.numberOfCyclicErrors() > 0) {
+					errors.addAll(this.errorsOfCyclicDependency());
+				}
+
+				if (this.numberOfTypeResolverErrors() > 0) {
+					errors.addAll(this.errorsOfTypeResolver());
+				}
+			}
 		}
 
 		return errors;
@@ -119,8 +128,8 @@ public class QLForm {
 
 	private boolean hasErrors() {
 		return (this.numberOfSyntaxErrors() > 0) ||
-				(this.numberOfCyclicErrors() > 0) ||
 				(this.numberOfIdentifierErrors() > 0) ||
+				(this.numberOfCyclicErrors() > 0) ||
 				(this.numberOfTypeResolverErrors() > 0);
 	}
 

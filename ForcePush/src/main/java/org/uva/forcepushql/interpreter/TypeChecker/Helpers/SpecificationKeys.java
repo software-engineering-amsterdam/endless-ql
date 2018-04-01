@@ -1,14 +1,14 @@
 package org.uva.forcepushql.interpreter.TypeChecker.Helpers;
 
-import org.uva.forcepushql.parser.ast.NodeTypes;
+import org.uva.forcepushql.parser.ast.ValueType;
 
 public class SpecificationKeys
 {
     private final Class operator;
-    private final NodeTypes leftType;
-    private final NodeTypes rightType;
+    private final ValueType leftType;
+    private final ValueType rightType;
 
-    public SpecificationKeys(Class operator, NodeTypes leftType, NodeTypes rightType)
+    public SpecificationKeys(Class operator, ValueType leftType, ValueType rightType)
     {
         this.operator = operator;
         this.leftType = leftType;

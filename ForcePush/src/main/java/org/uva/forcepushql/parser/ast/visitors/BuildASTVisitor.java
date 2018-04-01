@@ -4,6 +4,7 @@ import org.uva.forcepushql.parser.antlr.GrammarParser;
 import org.uva.forcepushql.parser.antlr.GrammarParser.QuestionFormatContext;
 import org.uva.forcepushql.parser.antlr.GrammarParserBaseVisitor;
 import org.uva.forcepushql.parser.antlr.GrammarParserVisitor;
+import org.uva.forcepushql.parser.ast.ValueType;
 import org.uva.forcepushql.parser.ast.elements.*;
 import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 
@@ -178,7 +179,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     public Node visitType(GrammarParser.TypeContext context)
     {
         TypeNode node = new TypeNode();
-        node.setType(context.getText());
+        node.setType(ValueType.valueOfString(context.getText()));
 
         return node;
     }

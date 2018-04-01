@@ -76,6 +76,8 @@ public class QLSBuilder implements Observer {
             styledQuestion.getQuestion().getValue().addObserver(this);
         }
         QuestionPanel questionPanel = new QuestionPanel(styledQuestion.getQuestion(), styledQuestion.getWidget());
+
+
         questionPanels.add(questionPanel);
         return questionPanel;
     }

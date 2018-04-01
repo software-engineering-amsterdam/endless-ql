@@ -17,11 +17,17 @@ namespace StyledWpfApp.ViewModels
         public ObservableCollection<IPageViewModel> Pages { get; } 
             = new ObservableCollection<IPageViewModel>();
 
+        public string Name { get; private set;  }
+
+        public int SelectedPageNumber { get; set; }
+
+
         public void Load()
         {
             m_dataProvider.LoadDefaultQuestionnaire();
             m_dataProvider.LoadStyleSheet();
             var questionnaire = m_dataProvider.GetSingleQuestionnaire();
+            Name = questionnaire.QuestionnaireDisplayName;
             foreach (var pageWrapper in questionnaire.Pages)
             {
                 Pages.Add(new PageViewModel(pageWrapper));

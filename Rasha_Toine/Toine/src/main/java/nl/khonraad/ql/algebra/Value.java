@@ -2,13 +2,14 @@ package nl.khonraad.ql.algebra;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.function.BiFunction;
 
 import org.joda.time.DateTime;
 
 import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
-import nl.khonraad.ql.algebra.function.BinaryFunction;
+import nl.khonraad.ql.algebra.function.BinarySignature;
 import nl.khonraad.ql.algebra.function.BinaryFunctions;
-import nl.khonraad.ql.algebra.function.UnaryFunction;
+import nl.khonraad.ql.algebra.function.UnarySignature;
 import nl.khonraad.ql.algebra.function.UnaryFunctions;
 import nl.khonraad.ql.algebra.value.Operator;
 import nl.khonraad.ql.algebra.value.Storage;
@@ -52,12 +53,14 @@ public class Value implements StringAble {
 
     public Value apply( Operator operator ) {
 
-        return UnaryFunctions.function( UnaryFunction.signature( operator, type() ) ).apply( this );
+        return UnaryFunctions.function( UnarySignature.signature( operator, type() ) ).apply( this );
     }
 
-    public Value apply( Operator operator, Value operand ) {
-
-        return BinaryFunctions.function( BinaryFunction.signature( type(), operator, operand.type() ) ).apply( this, operand );
+    public Value apply( Operator operator, Value other ) {
+        
+        BiFunction<Value, Value, Value> function = BinaryFunctions.function( BinarySignature.signature( this.type(), operator, other.type() ) );
+        
+        return function.apply( this, other );
 
     }
 

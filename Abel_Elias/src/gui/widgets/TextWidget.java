@@ -12,7 +12,6 @@ public class TextWidget implements Widget {
     private JTextField textField;
     private Value value;
 
-
     public TextWidget(StringValue value){
         this.value = value;
 

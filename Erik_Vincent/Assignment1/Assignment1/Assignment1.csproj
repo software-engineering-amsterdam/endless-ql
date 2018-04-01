@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{21E5DCC7-1951-4DCC-8FCF-9EAB50A08DE1}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>Assignment1</RootNamespace>
     <AssemblyName>Assignment1</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
@@ -57,7 +57,7 @@
     <Compile Include="Execution\QLExecutor.cs" />
     <Compile Include="Execution\QLExpressionEvaluator.cs" />
     <Compile Include="Export\FormExporter.cs" />
-    <Compile Include="IMainView.cs" />
+    <Compile Include="IQLGUI.cs" />
     <Compile Include="MainPresenter.cs" />
     <Compile Include="Model\QLS\AST\DefaultStyle.cs" />
     <Compile Include="Model\QLS\AST\IQLSASTNode.cs" />
@@ -115,11 +115,11 @@
     <Compile Include="Model\QLS\AST\Style\IStyle.cs" />
     <Compile Include="Model\QLS\AST\StyleSheet.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\IWidget.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="QLGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="QLGUI.Designer.cs">
+      <DependentUpon>QLGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Parser\AntlrGenerated\QL.cs" />
     <Compile Include="Parser\AntlrGenerated\QLLexer.cs" />
@@ -151,8 +151,8 @@
     <Compile Include="Parser\QLParseException.cs" />
     <Compile Include="Rendering\IQuestionFormRenderer.cs" />
     <Compile Include="TypeChecking\QLS\QLSTypeChecker.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="QLGUI.resx">
+      <DependentUpon>QLGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class TypeChecker extends QLBaseVisitor{
     private HashMap<String, Object> typeMap;
 
-    TypeChecker(){
+    public TypeChecker(){
         typeMap = new HashMap();
     }
 

@@ -17,10 +17,10 @@ namespace Assignment1
 {
     public class MainPresenter
     {
-        private readonly IMainView _view;
+        private readonly IQLGUI _view;
         private QLExecutor _executor;
 
-        public MainPresenter(IMainView view)
+        public MainPresenter(IQLGUI view)
         {
             _view = view;
             _view.SelectQLFile += SelectQLFile;
@@ -58,7 +58,7 @@ namespace Assignment1
 
         private void ParseFile(string inputFile)
         {
-            string fileContent = File.ReadAllText(inputFile);
+            var fileContent = File.ReadAllText(inputFile);
             try
             {
                 var astForm = QLParser.ParseString(fileContent);

@@ -35,7 +35,7 @@ public class Test_CollegeExample {
     @Test
     public void test_Calculations() throws Exception {
 
-        weld.select( SourcePathProvider.class ).get().setSourcePath( "/nl/khonraad/ql/integration/CollegeExample.ql" );
+        weld.select( SourcePathProvider.class ).get().setSourcePathQL( "/nl/khonraad/ql/integration/CollegeExample.ql" );
         Questionnaire questionnaire = weld.select( Questionnaire.class ).get();
         ExtendedQLBaseVisitor visitor = weld.select( ExtendedQLBaseVisitor.class ).get();
 

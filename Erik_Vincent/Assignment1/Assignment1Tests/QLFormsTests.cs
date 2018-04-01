@@ -13,7 +13,7 @@ namespace Assignment1Tests
         private static string _pathToNonParsableForms = "../../NonParsable/";
         private static string _pathToInvalidForms = "../../InvalidForms/";
         private static string _pathToValidForms = "../../ValidForms/";
-        private static readonly Form1 Form = new Form1();
+        private static readonly QLGUI Form = new QLGUI();
 
         [TestMethod]
         public void TestNonParsableorms()

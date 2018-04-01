@@ -49,7 +49,6 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
             return question.value();
 
         }
-
         throw new RuntimeException( REFERENCES_UNDEFINED_QUESTION + identifier );
     }
 
@@ -68,12 +67,10 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
             throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Duplicate declaration "
                     + ctx.Identifier().getText() );
         }
-
         return questionnaire.storeAnswerableQuestion( identifier, label, type );
     }
 
     private IllegalStateException reportError( int l, int c, String message ) {
-
         return new IllegalStateException( "Line " + l + ":" + c + " " + message );
     }
 
@@ -146,7 +143,6 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
             throw new RuntimeException( e.getMessage() );
         }
-
     }
 
     @Override
@@ -162,7 +158,6 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
-
     }
 
     @Override
@@ -178,7 +173,6 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
-
     }
 
     @Override
@@ -195,7 +189,6 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
-
     }
 
     @Override

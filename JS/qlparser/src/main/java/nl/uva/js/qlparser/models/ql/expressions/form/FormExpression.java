@@ -16,4 +16,6 @@ public interface FormExpression
     default Variable getVariable(){
         return null;
     }
+
+    default String getLabel() {return null;}
 }

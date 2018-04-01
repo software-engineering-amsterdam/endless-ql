@@ -44,8 +44,12 @@ class TypeVisitor(
             val declaredType = questionStatement.type
             val inferredType = visit(it)
 
-            if (declaredType.type != inferredType.type && inferredType.type != SymbolType.UNDEFINED) {
-                context.declarationErrors += TypeDeclarationError(declaredType, inferredType)
+            if (inferredType.type != SymbolType.UNDEFINED) {
+                val castedType = inferredType.type.getDefaultInstance().castTo(declaredType.type)
+
+                if (castedType == null) {
+                    context.declarationErrors += TypeDeclarationError(declaredType, inferredType)
+                }
             }
 
             return inferredType

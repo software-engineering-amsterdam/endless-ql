@@ -9,10 +9,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.stringtemplate.v4.ST;
 import ql.ASTBuilder;
 import ql.ast.Form;
 import ql.ast.statements.Question;
 import ql.evaluator.Evaluator;
+import ql.gui.controls.QLControl;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -37,6 +40,7 @@ public class HomeController {
     public String inputQLSubmit(@ModelAttribute("userInput") @Validated UserInput userInput, Model model) {
         log.info("Inbound message: " + userInput);
         model.addAttribute("processedQLData", userInput);
+        model.addAttribute("originalHTMLInput", userInput.getHtmlRequestInput());
         //TODO: add processor for interpreting data from user
         //TODO return a InterpretedOutput from your processing class
         InterpretedOutput interpretedOutput = new InterpretedOutput();
@@ -54,6 +58,7 @@ public class HomeController {
         model.addAttribute("interpretedOutput", interpretedOutput);
         return "home";
     }
+
 
     /*@PostMapping("/qls")
     public String inputQLSSubmit(@ModelAttribute("inputQLS") InterpretedOutput inputQLS, Model model) {

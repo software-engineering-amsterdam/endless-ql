@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Assignment1
 {
-    public interface IMainView
+    public interface IQLGUI
     {
         event EventHandler SelectQLFile;
         event EventHandler ExportAnswers;

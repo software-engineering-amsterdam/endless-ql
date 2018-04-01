@@ -22,8 +22,8 @@ import static nl.uva.js.qlparser.ui.GUIBuilder.FORM_WIDTH;
 
 public class ComponentBuilder {
 
-    public static final String YES = "Yes";
-    public static final String NO = "No";
+    private static final String YES = "Yes";
+    private static final String NO  = "No";
 
     private static <T extends JTextField> T attachTextFieldListeners(T textField, Variable variable) {
 
@@ -33,6 +33,7 @@ public class ComponentBuilder {
 //        Listen to field changes and update the variable accordingly
         textField.addKeyListener(new TextFieldListener(textField, variable, (e) -> {
             textField.setCaretColor(Color.RED);
+            textField.getParent().getComponent(0).setForeground(Color.RED);
         }));
 
 //        Listen to external changes
@@ -61,7 +62,7 @@ public class ComponentBuilder {
     }
 
     public static JTextField buildTextField(Variable variable) {
-        JTextField textField = new JTextField(1);
+        JTextField textField = new JTextField();
 
         attachTextFieldListeners(textField, variable);
 
@@ -249,6 +250,7 @@ public class ComponentBuilder {
         public void keyTyped(KeyEvent e) {
             try {
                 textField.setCaretColor(Color.BLACK);
+                textField.getParent().getComponent(0).setForeground(Color.BLACK);
                 variable.setValue(
                         Value.builder()
                                 .dataType(variable.getDataType())

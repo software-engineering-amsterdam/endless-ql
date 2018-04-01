@@ -6,6 +6,7 @@ import org.uva.forcepushql.interpreter.gui.JPanelGUI;
 import org.uva.forcepushql.interpreter.gui.questions.Question;
 import org.uva.forcepushql.interpreter.gui.questions.Radio;
 import org.uva.forcepushql.interpreter.gui.questions.Textbox;
+import org.uva.forcepushql.parser.ast.ValueType;
 import org.uva.forcepushql.parser.ast.elements.*;
 import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
@@ -174,9 +175,9 @@ public class ASTVisitorEvaluator implements ASTVisitor
         Question question;
         String label = visit((LabelNode) node.getLeft());
         String name = visit((NameNode) node.getCenter());
-        String type = visit((TypeNode) node.getRight());
+        ValueType type = visit((TypeNode) node.getRight());
 
-        if (type.equals("boolean"))
+        if (type.equals(ValueType.BOOL))
         {
             question = new Radio(label, type, name);
         } else
@@ -213,7 +214,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
     }
 
     @Override
-    public String visit(TypeNode node)
+    public ValueType visit(TypeNode node)
     {
         return node.getType();
     }

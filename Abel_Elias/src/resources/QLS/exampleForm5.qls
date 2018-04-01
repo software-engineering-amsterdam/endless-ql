@@ -20,11 +20,11 @@ stylesheet taxOfficeExample
       section "You sold a house"
       {
         question sellingPrice
-          widget text
-        question privateDebt
-          widget text
-        question valueResidue
-          widget text
+                  widget text
+                question privateDebt
+                  widget text
+                question valueResidue
+                  widget text
       }
     }
   }

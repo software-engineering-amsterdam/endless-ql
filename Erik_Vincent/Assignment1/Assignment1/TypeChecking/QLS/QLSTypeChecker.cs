@@ -81,15 +81,17 @@ namespace Assignment1.TypeChecking.QLS
 
         public void Visit(Color style) { }
 
+        private static bool IsNumeric(Type type) => type == Type.Integer || type == Type.Money || type == Type.Decimal;
+
         public void Visit(Slider style)
         {
-            if (!_current.IsNumeric())
+            if (!IsNumeric(_current))
                 _messages.AddError("Line: " + style.LineNumber + " | Slider widget cannot be applied to question of type " + _current + ".");
         }
 
         public void Visit(SpinBox style)
         {
-            if (!_current.IsNumeric())
+            if (!IsNumeric(_current))
                 _messages.AddError("Line: " + style.LineNumber + " | Spinbox widget cannot be applied to question of type " + _current + ".");
         }
 

@@ -14,7 +14,7 @@ import scala.collection.JavaConversions._
 
 case class UnplacedQuestion(label: String) extends Exception(label)
 
-object GeneralQuestionPlacementValidator {
+class GeneralQuestionPlacementValidator extends BaseValidator {
   def check(ql: QLStatement, qls: QLSStatement): Option[UnplacedQuestion] = {
     val QLIdentifiers = getQLIdentifiers(ql)
     val QLSIdentifiers = getQLSIdentifier(qls)

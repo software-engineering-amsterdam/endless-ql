@@ -14,7 +14,7 @@ import scala.collection.JavaConversions._
 
 case class UndeclaredQuestionStyling(label: String) extends Exception(label)
 
-object GeneralIdentifierValidator {
+class GeneralIdentifierValidator extends BaseValidator {
   def check(ql: QLStatement, qls: QLSStatement): Option[Exception] = {
     val QLIdentifiers = getQLIdentifiers(ql)
     val QLSIdentifiers = getQLSIdentifier(qls)

@@ -23,7 +23,7 @@ import scala.collection.JavaConversions._
 
 case class IncompatibleTypes(label: String) extends Exception(label)
 
-object GeneralTypeCheckerValidator {
+class GeneralTypeCheckerValidator extends BaseValidator {
   def check(ql: QLStatement, qls: QLSStatement): Option[IncompatibleTypes] = {
     val qql = StatementCollectorQL.getQuestions(ql)
 

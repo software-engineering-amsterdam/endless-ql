@@ -7,7 +7,7 @@ import ql.spec.helpers.{ FormHelper => QLHelper }
 import qls.spec.helpers.{ FormHelper => QLSHelper }
 
 class GeneralQuestionPlacementValidatorSpec extends FunSpec {
-  val validator = GeneralQuestionPlacementValidator
+  val validator = new GeneralQuestionPlacementValidator()
 
   describe("when checking a valid QL and QLS form") {
     val resourceDir = "general"

@@ -79,15 +79,16 @@ public class QLSBuilder implements Observer {
         }
         QuestionPanel questionPanel = new QuestionPanel(styledQuestion.getQuestion(), styledQuestion.getWidget());
         for(Property property : styledQuestion.getProperties()) {
-            if(property != null)
+            if(property != null) {
                 property.applyProperty(questionPanel);
+            }
         }
 
         questionPanels.add(questionPanel);
         return questionPanel;
     }
 
-    public void createStyledForm() {
+    private void createStyledForm() {
         this.updateGUI();
         mainPanel.revalidate();
         mainPanel.repaint();

@@ -16,14 +16,13 @@ public class QLBuilder implements Observer {
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor;
-    GridBagConstraints gbc;
+    private GridBagConstraints gbc;
 
     public QLBuilder(FormVisitor coreVisitor) {
         this.coreVisitor = coreVisitor;
         this.questionHashMap = coreVisitor.getQuestions();
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
         this.gbc = initGBC();
-
         this.mainPanel = new JPanel(new GridBagLayout());
         initQuestionPanels();
     }
@@ -33,7 +32,7 @@ public class QLBuilder implements Observer {
      * Initialize the creation of the panels containing
      * the question it's controls through iteration
      */
-    public void initQuestionPanels() {
+    private void initQuestionPanels() {
         //Iterate over the questions that were passed
         Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
         while (entries.hasNext()) {
@@ -106,7 +105,6 @@ public class QLBuilder implements Observer {
     public void update(Observable o, Object arg) {
         this.coreVisitor.update();
         this.updateGUI();
-
         mainPanel.revalidate();
         mainPanel.repaint();
     }

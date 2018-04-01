@@ -31,7 +31,6 @@ public class Main {
     private void parseAndBuildQL(InputStream inputStream) {
         try {
             QLParser.FormContext form = new TreeBuilder().build(inputStream);
-            //Checks.checkForm(form);
             FormVisitor coreVisitor = new FormVisitor().visitForm(form);
 
             //Pass the relevant questions to the UI builder

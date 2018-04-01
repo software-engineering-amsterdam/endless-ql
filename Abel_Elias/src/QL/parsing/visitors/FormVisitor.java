@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class FormVisitor extends QLBaseVisitor {
-    public LinkedHashMap<String, Question> questionMap;
+    private LinkedHashMap<String, Question> questionMap;
     private BlockVisitor blockVisitor;
     private UpdateVisitor updateVisitor;
     private QLParser.FormContext form;

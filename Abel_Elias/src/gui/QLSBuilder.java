@@ -128,8 +128,4 @@ public class QLSBuilder {
         panel.add(sectionPanel);
     }
 
-    public WidgetType getWidgetType(Question question) {
-        StyledQuestion styledQuestion = styledQuestions.get(question.getId());
-        return styledQuestion.getWidget().getWidgetType();
-    }
 }

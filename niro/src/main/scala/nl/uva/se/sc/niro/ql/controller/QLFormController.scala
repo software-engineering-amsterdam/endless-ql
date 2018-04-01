@@ -14,7 +14,7 @@ import nl.uva.se.sc.niro.ql.model.ast.QLForm
 import nl.uva.se.sc.niro.ql.model.ast.evaluation.ExpressionEvaluator._
 import nl.uva.se.sc.niro.ql.model.ast.evaluation.QLFormEvaluator
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.Answer
-import nl.uva.se.sc.niro.ql.model.gui.{ GUIForm, GUIQuestion }
+import nl.uva.se.sc.niro.ql.model.gui.{ Form, Question }
 import nl.uva.se.sc.niro.ql.parser.QLFormFacade
 import nl.uva.se.sc.niro.ql.view.ComponentChangedListener
 import nl.uva.se.sc.niro.ql.view.component.{ Component, QLComponentFactoryBuilder }
@@ -23,7 +23,7 @@ import org.apache.logging.log4j.scala.Logging
 
 import scala.collection.{ JavaConverters, mutable }
 
-class QLFormController(homeController: QLHomeController, model: QLForm, guiForm: GUIForm)
+class QLFormController(homeController: QLHomeController, model: QLForm, guiForm: Form)
     extends QLBaseController
     with ComponentChangedListener
     with ViewUpdater
@@ -119,7 +119,7 @@ class QLFormController(homeController: QLHomeController, model: QLForm, guiForm:
     }
   }
 
-  def getVisibilitySetting(question: GUIQuestion): Boolean = {
+  def getVisibilitySetting(question: Question): Boolean = {
     question.visibility.evaluate(model.symbolTable, valuesForQuestions.toMap).exists(_.isTrue)
   }
 

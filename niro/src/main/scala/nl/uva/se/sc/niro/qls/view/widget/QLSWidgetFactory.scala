@@ -2,14 +2,14 @@ package nl.uva.se.sc.niro.qls.view.widget
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.Spinner
-import nl.uva.se.sc.niro.ql.model.gui.GUIQuestion
+import nl.uva.se.sc.niro.ql.model.gui.Question
 import nl.uva.se.sc.niro.ql.view.widget.{ QLWidget, QLWidgetFactory }
 import nl.uva.se.sc.niro.qls.model.gui.QLSGUIQuestion
 import nl.uva.se.sc.niro.qls.model.gui.style.{ GUIComboBoxStyle, GUIRadioStyle, GUISliderStyle, GUISpinBoxStyle }
 
 class QLSWidgetFactory extends QLWidgetFactory {
 
-  override def makeBooleanWidget(question: GUIQuestion): QLWidget[java.lang.Boolean] = question match {
+  override def makeBooleanWidget(question: Question): QLWidget[java.lang.Boolean] = question match {
     case QLSGUIQuestion(_, _, _, _, _, styling) =>
       styling.widgetStyle match {
         case Some(GUIComboBoxStyle(trueLabel, falseLabel)) => new QLSBooleanComboField(trueLabel, falseLabel)
@@ -19,7 +19,7 @@ class QLSWidgetFactory extends QLWidgetFactory {
     case _ => super.makeBooleanWidget(question)
   }
 
-  override def makeIntegerWidget(question: GUIQuestion): QLWidget[java.math.BigInteger] = question match {
+  override def makeIntegerWidget(question: Question): QLWidget[java.math.BigInteger] = question match {
     case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
         case Some(GUISpinBoxStyle(minimum, maximum, stepSize)) =>
@@ -32,7 +32,7 @@ class QLSWidgetFactory extends QLWidgetFactory {
     case _ => super.makeIntegerWidget(question)
   }
 
-  override def makeDecimalWidget(question: GUIQuestion): QLWidget[java.math.BigDecimal] = question match {
+  override def makeDecimalWidget(question: Question): QLWidget[java.math.BigDecimal] = question match {
     case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
         case Some(GUISpinBoxStyle(minimum, maximum, stepSize)) =>
@@ -44,7 +44,7 @@ class QLSWidgetFactory extends QLWidgetFactory {
     case _ => super.makeDecimalWidget(question)
   }
 
-  override def makeMoneyWidget(question: GUIQuestion): QLWidget[java.math.BigDecimal] = question match {
+  override def makeMoneyWidget(question: Question): QLWidget[java.math.BigDecimal] = question match {
     case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
         case Some(GUISpinBoxStyle(minimum, maximum, stepSize)) =>

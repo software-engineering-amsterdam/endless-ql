@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.qls.view
 
 import javafx.scene.Node
 import javafx.util.Callback
-import nl.uva.se.sc.niro.ql.model.gui.GUIForm
+import nl.uva.se.sc.niro.ql.model.gui.Form
 import nl.uva.se.sc.niro.ql.view.component.ComponentFactory
 import nl.uva.se.sc.niro.qls.controller.QLSFormController
 import nl.uva.se.sc.niro.qls.model.gui.GUIStylesheet
@@ -10,7 +10,7 @@ import nl.uva.se.sc.niro.qls.view.component.{ QLSPageFactory, QLSPageFactoryView
 
 class QLSPageFactoryBuilder() {
   private var controller: QLSFormController = _
-  private var guiForm: GUIForm = _
+  private var guiForm: Form = _
   private var stylesheet: GUIStylesheet = _
   private var componentFactory: ComponentFactory = _
 
@@ -19,7 +19,7 @@ class QLSPageFactoryBuilder() {
     this
   }
 
-  def buildWith(guiForm: GUIForm): QLSPageFactoryBuilder = {
+  def buildWith(guiForm: Form): QLSPageFactoryBuilder = {
     this.guiForm = guiForm
     this
   }

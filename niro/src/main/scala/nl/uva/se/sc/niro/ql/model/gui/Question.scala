@@ -4,7 +4,7 @@ import nl.uva.se.sc.niro.ql.model.ast.AnswerType
 import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
 import nl.uva.se.sc.niro.ql.view.component.Component
 
-abstract class GUIQuestion(
+abstract class Question(
     val id: String,
     val answerType: AnswerType,
     val label: String,

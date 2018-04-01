@@ -5,7 +5,7 @@ import javafx.geometry.Insets
 import javafx.scene.control.{ Label, Pagination }
 import nl.uva.se.sc.niro.ql.controller.{ QLFormController, QLHomeController }
 import nl.uva.se.sc.niro.ql.model.ast.QLForm
-import nl.uva.se.sc.niro.ql.model.gui.GUIForm
+import nl.uva.se.sc.niro.ql.model.gui.Form
 import nl.uva.se.sc.niro.ql.view.component.Component
 import nl.uva.se.sc.niro.qls.model.gui.GUIStylesheet
 import nl.uva.se.sc.niro.qls.view.QLSPageFactoryBuilder
@@ -13,7 +13,7 @@ import nl.uva.se.sc.niro.qls.view.component.QLSComponentFactoryBuilder
 import nl.uva.se.sc.niro.qls.view.widget.QLSWidgetFactory
 import nl.uva.se.sc.niro.util.StringUtil
 
-class QLSFormController(homeController: QLHomeController, model: QLForm, guiForm: GUIForm, stylesheet: GUIStylesheet)
+class QLSFormController(homeController: QLHomeController, model: QLForm, guiForm: Form, stylesheet: GUIStylesheet)
     extends QLFormController(homeController, model, guiForm) {
 
   private val pagination = new Pagination()

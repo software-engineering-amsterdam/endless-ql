@@ -9,7 +9,7 @@ import javafx.scene.control.{ Alert, ButtonType, TextArea }
 import javafx.stage.{ FileChooser, Stage }
 import nl.uva.se.sc.niro.errors.{ Errors, Warning }
 import nl.uva.se.sc.niro.ql.application.QLScenes
-import nl.uva.se.sc.niro.ql.model.QLToGUIModelBridge
+import nl.uva.se.sc.niro.ql.model.QLModelBridge
 import nl.uva.se.sc.niro.ql.model.ast.QLForm
 import nl.uva.se.sc.niro.ql.parser.QLFormFacade
 import nl.uva.se.sc.niro.util.PrettyPrinter.{ ErrorsCanPrettyPrint, WarningCanPrettyPrint }
@@ -47,7 +47,7 @@ class QLHomeController extends QLBaseController with Logging {
   }
 
   def showForm(form: QLForm): Unit = {
-    val controller = new QLFormController(this, form, QLToGUIModelBridge.convertForm(form))
+    val controller = new QLFormController(this, form, QLModelBridge.convertForm(form))
     if (form.warnings.nonEmpty) showWarning(form.warnings)
     switchToScene(QLScenes.formScene, controller)
 

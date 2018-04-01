@@ -7,16 +7,16 @@ import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import javafx.util.Callback
 import nl.uva.se.sc.niro.ql.model.ast._
-import nl.uva.se.sc.niro.ql.model.gui.GUIForm
+import nl.uva.se.sc.niro.ql.model.gui.Form
 import nl.uva.se.sc.niro.ql.view.component.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.qls.controller.QLSFormController
 import nl.uva.se.sc.niro.qls.model.gui.{ GUIPage, GUISection, GUIStylesheet, GUIStyling, _ }
 
 class QLSPageFactory(
-    formController: QLSFormController,
-    form: GUIForm,
-    stylesheet: GUIStylesheet,
-    componentFactory: ComponentFactory)
+                      formController: QLSFormController,
+                      form: Form,
+                      stylesheet: GUIStylesheet,
+                      componentFactory: ComponentFactory)
     extends Callback[Integer, Node]() {
 
   val defaultStyles: Map[AnswerType, GUIStyling] = Map(

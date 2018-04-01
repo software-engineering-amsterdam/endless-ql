@@ -2,12 +2,12 @@ package nl.uva.se.sc.niro.ql.view.component
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.ql.model.ast._
-import nl.uva.se.sc.niro.ql.model.gui.GUIQuestion
+import nl.uva.se.sc.niro.ql.model.gui.Question
 import nl.uva.se.sc.niro.ql.view.widget.WidgetFactory
 
 class QLComponentFactory(widgetFactory: WidgetFactory) extends ComponentFactory {
 
-  def make(question: GUIQuestion): Component[_] = {
+  def make(question: Question): Component[_] = {
     question.answerType match {
       case StringType =>
         TextComponent(question.id, new Label(question.label), widgetFactory.makeStringWidget(question))

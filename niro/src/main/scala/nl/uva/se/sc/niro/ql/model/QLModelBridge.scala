@@ -2,8 +2,8 @@ package nl.uva.se.sc.niro.ql.model
 
 import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.BooleanAnswer
-import nl.uva.se.sc.niro.ql.model.ast.{ Conditional, QLForm, Question, Statement }
-import nl.uva.se.sc.niro.ql.model.gui.{ GUIConditionalFactory, GUIForm, GUIQuestion, GUIQuestionFactory }
+import nl.uva.se.sc.niro.ql.model.ast.{ Conditional, QLForm, Statement }
+import nl.uva.se.sc.niro.ql.model.gui.{ ConditionalFactory, Form, QuestionFactory }
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**
@@ -12,18 +12,18 @@ import nl.uva.se.sc.niro.util.StringUtil
   * visibility property of GUI question will consist of all intermediate expressions logical 'and'ed to ensure the
   * desired behaviour.
   */
-object QLToGUIModelBridge {
-  def convertForm(form: QLForm): GUIForm = {
-    GUIForm(StringUtil.addSpaceOnCaseChange(form.formName), convertStatements(BooleanAnswer(true), form.statements))
+object QLModelBridge {
+  def convertForm(form: QLForm): Form = {
+    Form(StringUtil.addSpaceOnCaseChange(form.formName), convertStatements(BooleanAnswer(true), form.statements))
   }
 
-  def convertStatements(visible: Expression, statements: Seq[Statement]): Seq[GUIQuestion] = {
+  def convertStatements(visible: Expression, statements: Seq[Statement]): Seq[nl.uva.se.sc.niro.ql.model.gui.Question] = {
     statements.flatMap(statement =>
       statement match {
-        case question: Question =>
-          Seq(GUIQuestionFactory.makeGUIQuestion(visible, question))
+        case question: nl.uva.se.sc.niro.ql.model.ast.Question =>
+          Seq(QuestionFactory.makeGUIQuestion(visible, question))
         case conditional: Conditional =>
-          GUIConditionalFactory.makeGUIConditional(visible, conditional)
+          ConditionalFactory.makeGUIConditional(visible, conditional)
         case _ =>
           Seq.empty
     })

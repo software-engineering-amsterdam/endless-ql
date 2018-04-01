@@ -1,4 +1,4 @@
-// Generated from /home/ajm/Desktop/endless-sunday/endless-ql/Abel_Elias/src/QLS/parsing/QLS.g4 by ANTLR 4.7
+// Generated from C:/dev/uva/endless-ql/Abel_Elias/src/QLS/parsing\QLS.g4 by ANTLR 4.7
 package QLS.parsing.gen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -94,6 +94,12 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDropdownWidget(QLSParser.DropdownWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#dropDownList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDropDownList(QLSParser.DropDownListContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLSParser#widgetStyle}.
 	 * @param ctx the parse tree

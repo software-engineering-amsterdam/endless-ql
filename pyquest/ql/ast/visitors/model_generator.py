@@ -10,7 +10,7 @@ from ql.types.boolean import QLBoolean
 from ql.types.undefined import QLUndefined
 
 
-class GUIModel:
+class ModelGenerator:
     def __init__(self):
         self.form = None
         self.condition = QLBoolean.get_literal_node(True)

@@ -10,20 +10,21 @@ import org.uva.forcepushql.parser.antlr.GrammarParser;
 import org.uva.forcepushql.parser.ast.elements.ExpressionNode;
 import org.uva.forcepushql.parser.ast.visitors.BuildASTExpressionVisitor;
 
-import javax.swing.*;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class EventChecker extends Observer {
+public class EventChecker extends Observer
+{
 
-    private LinkedHashMap<String,JPanelGUI> conditionals;
-    private HashMap<String,String> calculations;
-    private HashMap<String,Boolean> booleanValues;
-    private HashMap<String,Double> numberValues;
-    private HashMap<String,JPanelGUI> calculationPanel;
+    private LinkedHashMap<String, JPanelGUI> conditionals;
+    private HashMap<String, String> calculations;
+    private HashMap<String, Boolean> booleanValues;
+    private HashMap<String, Double> numberValues;
+    private HashMap<String, JPanelGUI> calculationPanel;
 
-    public EventChecker(){
+    public EventChecker()
+    {
         conditionals = new LinkedHashMap<>();
         calculations = new HashMap<>();
         booleanValues = new HashMap<>();
@@ -31,25 +32,48 @@ public class EventChecker extends Observer {
         calculationPanel = new HashMap<>();
     }
 
+    public static String getString(String string)
+    {
+        string = string.replaceAll("&&", ".");
+        string = string.replaceAll("\\|\\|", ".");
+        string = string.replaceAll("<", ".");
+        string = string.replaceAll(">", ".");
+        string = string.replaceAll("<=", ".");
+        string = string.replaceAll(">=", ".");
+        string = string.replaceAll("!=", ".");
+        string = string.replaceAll("==", ".");
+        string = string.replaceAll("!", "");
+        string = string.replaceAll("\\+", ".");
+        string = string.replaceAll("-", ".");
+        string = string.replaceAll("\\*", ".");
+        string = string.replaceAll("/", ".");
+        string = string.replaceAll(" ", "");
+
+        return string;
+    }
+
     @Override
-    public void updateRadio(Radio radio) {
+    public void updateRadio(Radio radio)
+    {
         booleanValues.put(radio.answerNameValue(), radio.answerValue());
         checkCondition();
     }
 
     @Override
-    public void updateTextbox(Textbox textbox) {
+    public void updateTextbox(Textbox textbox)
+    {
         numberValues.put(textbox.answerNameValue(), Double.valueOf(textbox.answerValue()));
         checkCalculation();
     }
 
-    public void addCalculationPanel(String question, JPanelGUI jPanelGUI){
-        calculationPanel.put(question,jPanelGUI);
+    public void addCalculationPanel(String question, JPanelGUI jPanelGUI)
+    {
+        calculationPanel.put(question, jPanelGUI);
     }
 
     public void addCondition(String condition, JPanelGUI panel)
     {
-        conditionals.put(condition,panel);
+        conditionals.put(condition, panel);
         condition = allTogether(condition);
         String[] result = condition.split("\\.");
 
@@ -79,11 +103,14 @@ public class EventChecker extends Observer {
 
     private void checkCondition()
     {
-        for (Map.Entry<String,JPanelGUI> condition: conditionals.entrySet()) {
+        for (Map.Entry<String, JPanelGUI> condition : conditionals.entrySet())
+        {
             String toTest = condition.getKey();
 
-            for (Map.Entry<String, Boolean> bv : booleanValues.entrySet()) {
-                if (bv.getValue() != null && toTest.contains(bv.getKey())) {
+            for (Map.Entry<String, Boolean> bv : booleanValues.entrySet())
+            {
+                if (bv.getValue() != null && toTest.contains(bv.getKey()))
+                {
                     toTest = toTest.replaceAll(bv.getKey(), String.valueOf(bv.getValue()));
                     boolean result = createAST(toTest).accept(new ASTExpressionVisitorEvaluator());
                     condition.getValue().getPanel().setVisible(result);
@@ -108,7 +135,7 @@ public class EventChecker extends Observer {
             {
                 double result = createAST(toCalculate).accept(new ASTExpressionVisitorEvaluator());
                 JPanelGUI panelGUI = calculationPanel.get(calculation.getKey());
-                ((TextboxGUI)panelGUI.getQuestion(calculation.getKey())).setText(String.valueOf(result));
+                ((TextboxGUI) panelGUI.getQuestion(calculation.getKey())).setText(String.valueOf(result));
             }
         }
 
@@ -117,26 +144,6 @@ public class EventChecker extends Observer {
     private String allTogether(String string)
     {
         return getString(string);
-    }
-
-    public static String getString(String string)
-    {
-        string = string.replaceAll("&&", ".");
-        string = string.replaceAll("\\|\\|", ".");
-        string = string.replaceAll("<", ".");
-        string = string.replaceAll(">", ".");
-        string = string.replaceAll("<=", ".");
-        string = string.replaceAll(">=", ".");
-        string = string.replaceAll("!=", ".");
-        string = string.replaceAll("==", ".");
-        string = string.replaceAll("!", "");
-        string = string.replaceAll("\\+", ".");
-        string = string.replaceAll("-", ".");
-        string = string.replaceAll("\\*", ".");
-        string = string.replaceAll("/", ".");
-        string = string.replaceAll(" ", "");
-
-        return string;
     }
 
     private ExpressionNode createAST(String input)

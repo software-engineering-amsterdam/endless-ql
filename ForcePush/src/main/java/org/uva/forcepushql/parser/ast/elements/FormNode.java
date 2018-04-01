@@ -13,6 +13,7 @@ public class FormNode extends Node
 
     public FormNode()
     {
+        super(false);
         questions = new LinkedList<Node>();
     }
 

@@ -52,7 +52,7 @@ public class LexerTest
         test.add("LABEL");
         test.add("VAR");
         test.add("ASSIGN");
-        test.add("BOOL");
+        test.add("BOOLEAN");
         Assert.assertEquals(test, tokens(lexerForCode("\"Did you sell a house?\" hasSoldHouse:boolean")));
 
     }
@@ -64,7 +64,7 @@ public class LexerTest
         test.add("LABEL");
         test.add("VAR");
         test.add("ASSIGN");
-        test.add("STR");
+        test.add("STRING");
         Assert.assertEquals(test, tokens(lexerForCode("\"What is your name?\" userName:string")));
     }
 
@@ -75,7 +75,7 @@ public class LexerTest
         test.add("LABEL");
         test.add("VAR");
         test.add("ASSIGN");
-        test.add("INT");
+        test.add("INTEGER");
         Assert.assertEquals(test, tokens(lexerForCode("\"How old are you?\" userAge:integer")));
     }
 
@@ -146,7 +146,7 @@ public class LexerTest
         test.add("LABEL");
         test.add("VAR");
         test.add("ASSIGN");
-        test.add("BOOL");
+        test.add("BOOLEAN");
         test.add("RBRACE");
         Assert.assertEquals(test, tokens(lexerForCode("if(var1){\"Did you sell a house in 2010?\" hasSoldHouse:boolean}")));
     }

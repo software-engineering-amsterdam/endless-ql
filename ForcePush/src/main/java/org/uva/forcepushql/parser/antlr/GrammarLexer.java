@@ -32,7 +32,7 @@ public class GrammarLexer extends Lexer {
 	};
 
 	public static final String[] ruleNames = {
-		"WHITESPACE", "COMMENT", "LINE_COMMENT", "FORM", "BOOL", "STR", "INT", 
+		"WHITESPACE", "COMMENT", "LINE_COMMENT", "FORM", "BOOLEAN", "STRING", "INTEGER",
 		"DATE", "DECIMAL", "MULTIPLEANSWER", "MONEY", "ASSIGN", "IF", "ELSE", 
 		"IFELSE", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "SEMI", "COMMA", "DOT", 
 		"PLUS", "MINUS", "MULTIPLY", "DIVIDE", "EQUAL", "LESS", "GREATER", "EQUALGREATER", 
@@ -48,8 +48,8 @@ public class GrammarLexer extends Lexer {
 		"'||'", "'!'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "WHITESPACE", "COMMENT", "LINE_COMMENT", "FORM", "BOOL", "STR", 
-		"INT", "DATE", "DECIMAL", "MULTIPLEANSWER", "MONEY", "ASSIGN", "IF", "ELSE", 
+		null, "WHITESPACE", "COMMENT", "LINE_COMMENT", "FORM", "BOOLEAN", "STRING",
+		"INTEGER", "DATE", "DECIMAL", "MULTIPLEANSWER", "MONEY", "ASSIGN", "IF", "ELSE",
 		"IFELSE", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "SEMI", "COMMA", "DOT", 
 		"PLUS", "MINUS", "MULTIPLY", "DIVIDE", "EQUAL", "LESS", "GREATER", "EQUALGREATER", 
 		"EQUALLESS", "NOTEQUAL", "ISEQUAL", "AND", "OR", "NOT", "NUM", "VAR", 

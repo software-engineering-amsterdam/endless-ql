@@ -18,11 +18,11 @@ import ql.logic.validators.*;
 
 public class TypeCheckerTest {
 
-    private CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
-    private CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
-    private CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
+    private final CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
+    private final CollectQuestionsVisitor collectQuestionsVisitor = new CollectQuestionsVisitor();
+    private final CollectConditionsVisitor collectConditionsVisitor = new CollectConditionsVisitor();
 
-    private Form getAstFormFromString(String formString) {
+    public static Form getAstFormFromString(String formString) {
         CharStream charStream = CharStreams.fromString(formString);
         QLLexer qlLexer = new QLLexer(charStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(qlLexer);
@@ -36,7 +36,7 @@ public class TypeCheckerTest {
     public final ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void checkReferenceToUndefinedQuestionTest() throws Exception {
+    public void checkReferenceToUndefinedQuestionTest() {
 
         String fileContent = "form wrongForm1 {\n" +
                 "\"How much money do you have?\"\n" +
@@ -45,7 +45,7 @@ public class TypeCheckerTest {
                 "    generalPrivateDebt: money = (myBudget - privateDebt)\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         VariablesReferencesValidator validator = new VariablesReferencesValidator(
                 this.collectQuestionsVisitor.getQuestions(form),
@@ -56,7 +56,7 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void checkDuplicateDefinitionsTest() throws Exception {
+    public void checkDuplicateDefinitionsTest() {
 
         String fileContent = "form wrongForm2 {\n" +
                 "\"How much money do you have?\"\n" +
@@ -65,7 +65,7 @@ public class TypeCheckerTest {
                 "    myBudget: string\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
         
         QuestionsDuplicationValidator validator = new QuestionsDuplicationValidator(
                 this.collectQuestionsVisitor.getQuestions(form)
@@ -84,7 +84,7 @@ public class TypeCheckerTest {
                 "    myMoney: string\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
         
         QuestionLabelsValidator validator = new QuestionLabelsValidator(
                 this.collectQuestionsVisitor.getQuestions(form)
@@ -94,7 +94,7 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void checkConditionsEvaluationTypeTest() throws Exception {
+    public void checkConditionsEvaluationTypeTest() {
 
         String fileContent = "form wrongForm4 {\n" +
                 "  \"What is your age?\"\n" +
@@ -105,7 +105,7 @@ public class TypeCheckerTest {
                 "  }\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
         
         ConditionsValidator validator = new ConditionsValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -136,14 +136,13 @@ public class TypeCheckerTest {
                 "  }\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
         
         TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
                 this.collectQuestionsVisitor.getQuestions(form)
         );
 
-        boolean x = validator.validate();
         Assert.assertFalse(validator.validate());
     }
 
@@ -166,7 +165,7 @@ public class TypeCheckerTest {
                 "  }\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -196,7 +195,7 @@ public class TypeCheckerTest {
                 "  \n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -226,7 +225,7 @@ public class TypeCheckerTest {
                 "  }\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -257,7 +256,7 @@ public class TypeCheckerTest {
                 "\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         TypesValidator validator = new TypesValidator(
                 this.collectConditionsVisitor.getConditions(form),
@@ -281,7 +280,7 @@ public class TypeCheckerTest {
                 "  \"F\" f: integer = e + 10\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
 
         QuestionsDependencyValidator validator = new QuestionsDependencyValidator(
@@ -301,7 +300,7 @@ public class TypeCheckerTest {
                 "  \"A/B equals\" intC: integer = intA/decB\n" +
                 "}";
 
-        Form form = this.getAstFormFromString(fileContent);
+        Form form = getAstFormFromString(fileContent);
 
         IntegerToDecimalCastingValidator validator = new IntegerToDecimalCastingValidator(
                 this.collectQuestionsVisitor.getQuestionsMap(form)

@@ -1,61 +1,74 @@
 package ui.view
 
-import javafx.scene.layout.VBox
-import qls.model.Page
-import qls.model.Section
-import qls.model.StyleSheet
-import ui.model.QuestionFormModel
+import javafx.stage.FileChooser
 import tornadofx.*
-
+import ui.controller.DogeController
+import ui.view.fragment.FormFragment
+import ui.view.fragment.InfoFragment
+import ui.view.fragment.StylizedFormFragment
 
 class DogeMainView : View() {
 
-    private val model: QuestionFormModel by inject()
+    private val controller: DogeController by inject()
 
-    override val root = VBox()
+    private val minHeight = 800.0
+    private val minWidth = 500.0
 
-    private val minHeight = 400.0
-    private val minWidth = 400.0
+    private var fragment: Fragment = FormFragment()
+    private var infoFragment = InfoFragment()
 
-    init {
-        root.minHeight = minHeight
-        root.minWidth = minWidth
+    override val root = vbox {
+        minHeight = this@DogeMainView.minHeight
+        minWidth = this@DogeMainView.minWidth
 
-        with(root) {
-            val view = UiRenderer().render(model.questions)
-            add(view)
+        menubar {
+            menu("Import") {
+                item("Language").action { loadDogeQl() }
+                item("Style").action { loadStyle() }
+            }
+            menu("Info") {
+                item("Show messages").action { addInfoScreen() }
+            }
+        }
 
+        add(fragment)
+    }
 
-//            form {
-//                fieldset {
-//                    children.bind(model.questions) {
-//                        field(it.item.label) {
-//                            add(ViewFactory().createQuestionField(it))
-//                        }
-//                    }
-//                }
-//                button("Save") {
-//                    action {
-//                        save()
-//                    }
-//                }
-//            }
+    private fun addInfoScreen() {
+        with(fragment.root as Drawer) {
 
-            runAsync {
-                model.load()
+            item("Info Messages") {
+                add(infoFragment)
             }
         }
     }
 
-    private fun save() {
-        model.commit()
-        model.load()
+    private fun loadDogeQl() {
+        val files = chooseFile(
+                "Select file",
+                arrayOf(FileChooser.ExtensionFilter("Doge questionnaire file", "*.doge"))
+        )
+
+        if (files.isNotEmpty()) {
+            controller.loadQuestionnaire(files.first())
+        }
     }
 
+    private fun loadStyle() {
+        val files = chooseFile(
+                "Select file",
+                arrayOf(FileChooser.ExtensionFilter("Doge questionnaire style file", "*.shiba"))
+        )
 
-    private fun temp(): StyleSheet {
-        return TODO()
+        if (files.isNotEmpty()) {
+            controller.loadStyle(files.first())
+            updateFragment(StylizedFormFragment())
+        }
     }
+
+    private fun updateFragment(newFragment: Fragment) {
+        fragment.replaceWith(newFragment)
+        fragment = newFragment
+    }
+
 }
-
-

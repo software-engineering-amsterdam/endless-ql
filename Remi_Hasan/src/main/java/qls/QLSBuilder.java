@@ -33,8 +33,8 @@ public class QLSBuilder {
         parser.addErrorListener(ParseErrorListener.INSTANCE);
 
         // Visit parse tree and build model
-        StyleSheetBuilder visitor = new StyleSheetBuilder();
-        StyleSheet styleSheet = visitor.visit(parser.root());
+        StyleSheetBuilder styleSheetBuilder = new StyleSheetBuilder();
+        StyleSheet styleSheet = styleSheetBuilder.visit(parser.root());
 
         // Analysis
         QLSErrorAnalyzer qlsErrorAnalyzer = new QLSErrorAnalyzer();

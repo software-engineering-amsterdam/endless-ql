@@ -1,0 +1,6 @@
+form nullValueTest {
+  "The current month is"
+    currentMonth: string = "February"
+  "The current month is"
+    currentMonth: string = "February"
+}

@@ -8,6 +8,10 @@ public class VariableNode extends ExpressionNode
 {
     public String name;
 
+    public VariableNode() {
+        super(true);
+    }
+
     public String getName()
     {
         return name;

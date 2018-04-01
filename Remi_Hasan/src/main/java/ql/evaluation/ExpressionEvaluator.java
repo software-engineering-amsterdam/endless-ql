@@ -113,32 +113,32 @@ public class ExpressionEvaluator extends QLVisitor<Value> {
 
     @Override
     public Value visit(BooleanConstant expression) {
-        return new BooleanValue(expression.value);
+        return new BooleanValue(expression.getValue());
     }
 
     @Override
     public Value visit(DateConstant expression) {
-        return new DateValue(expression.value);
+        return new DateValue(expression.getValue());
     }
 
     @Override
     public Value visit(IntegerConstant constant) {
-        return new NumberValue(constant.value);
+        return new NumberValue(constant.getValue());
     }
 
     @Override
     public Value visit(DecimalConstant constant) {
-        return new NumberValue(constant.value);
+        return new NumberValue(constant.getValue());
     }
 
     @Override
     public Value visit(MoneyConstant constant) {
-        return new NumberValue(constant.value);
+        return new NumberValue(constant.getValue());
     }
 
     @Override
     public Value visit(StringConstant constant) {
-        return new StringValue(constant.value);
+        return new StringValue(constant.getValue());
     }
 
     @Override

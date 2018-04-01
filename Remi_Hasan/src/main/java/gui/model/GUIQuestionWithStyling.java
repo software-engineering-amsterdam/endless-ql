@@ -2,8 +2,8 @@ package gui.model;
 
 import gui.components.LabelWithWidget;
 import gui.components.widgets.GUIWidget;
-import gui.components.widgets.WidgetFactory;
 import gui.render.GUIController;
+import gui.render.WidgetFactory;
 import gui.render.WidgetStyleApplier;
 import qls.model.statement.DefaultStyle;
 import qls.model.widget.Widget;

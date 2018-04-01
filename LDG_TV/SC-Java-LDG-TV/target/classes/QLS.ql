@@ -1,39 +1,54 @@
 stylesheet taxOfficeExample
 {
-  page Housing
+  page Courses
   {
-    section BuyinG
+    section "Amount"
     {
-      question hasBoughtHouse  
-        widget checkbox 
+      question amountMandatoryCourses
+        widget checkbox
     }
-    section "Loaning"  
-      question hasMaintLoan
+    section "Attendance"
+    {
+      question hasAttendCourses
+        widget checkbox
+      question applyCorrectly
+        widget checkbox
+    }
   }
 
-  page Selling
+  page ECTS
   { 
-    section "Selling"
+    section "Calculation"
     {
-      question hasSoldHouse
-        widget radio("Yes", "No") 
-      section "You sold a house"
-      {
-        question sellingPrice
-          widget spinbox
-        question privateDebt
-          widget spinbox 
-        question valueResidue
-        default money
-        {
-          width: 400
-          font: "Arial" 
-          fontsize: 14
-          color: #999999
-          widget spinbox
-        }        
-      }
+      question passedCourses
+        widget radio("Yes", "No")
+      question ECTSPerCourse
+        widget spinbox
     }
-    default boolean widget radio("Yes", "No")
-  }  
+      section "Progress"
+      {
+        question earnedECTS
+          default money
+          {
+            width: 400
+            font: "Arial"
+            fontsize: 14
+            color: #999999
+              widget spinbox
+            }
+      }
+  }
+  page Diploma
+  {
+	section "Passed"
+	{
+    	question passedMaster
+        widget checkbox
+	}
+    section "Failed"
+    {
+        question failedMaster
+        widget checkbox
+    }
+  }
 }

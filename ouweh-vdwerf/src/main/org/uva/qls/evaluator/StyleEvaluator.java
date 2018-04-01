@@ -30,13 +30,10 @@ import java.util.Map;
 public class StyleEvaluator {
 
     private final StylesheetContext context;
-    private Stylesheet stylesheet;
-    private Map<String, WidgetType> defaultTypes = new HashMap<>();
+    private final Map<String, WidgetType> defaultTypes = new HashMap<>();
 
     private Map<String, JPanel> sections = new HashMap<>();
     private List<String> visibleSections = new ArrayList<>();
-
-    private JTabbedPane tabbedPane;
 
     private Style defaultStyle;
 
@@ -44,54 +41,60 @@ public class StyleEvaluator {
         this.context = new StylesheetContext();
         setDefaultWidgetTypes();
         setDefaultStyle();
-
     }
 
     public void setStylesheet(Stylesheet stylesheet) {
-        this.stylesheet = stylesheet;
         this.context.setStylesheet(stylesheet);
         generateSections();
     }
 
-    public void setWidget(Question question, JPanel widget) {
-        sections.put(question.getId(), widget);
+    public Map<String, JPanel> getSections() {
+        return sections;
     }
 
-    public void setVisible(Question question) {
-        String key = question.getId();
-        visibleSections.add(key);
-        for (Segment segment : context.getAllParents(key)) {
+    public void setWidget(Question question, JPanel widget) {
+        sections.put(question.getId(), widget);
+
+        for (Segment segment : context.getAllParents(question.getId())) {
             visibleSections.add(segment.getId());
         }
     }
 
-    public JComponent getLayout() {
-        for (QuestionReference questionReference : this.context.getQuestions()) {
-            Segment parent = this.context.getParent(questionReference.getId());
-            if (parent != null && visibleSections.contains(questionReference.getId())) {
-                JPanel sectionPanel = sections.get(questionReference.getId());
-                JPanel parentPanel = sections.get(parent.getId());
-                parentPanel.add(sectionPanel);
-            }
-        }
 
-        for (Section section : this.context.getSections()) {
-            Segment parent = this.context.getParent(section.getId());
-            if (parent != null && visibleSections.contains(section.getId())) {
-                JPanel sectionPanel = sections.get(section.getId());
-                JPanel parentPanel = sections.get(parent.getId());
-                parentPanel.add(sectionPanel);
-            }
-        }
-
+    public JComponent getLayout(Question lastChangedQuestion) {
         List<Page> pages = context.getPages();
 
+        JTabbedPane tabbedPane;
         if (pages.size() > 0) {
-            this.tabbedPane = new JTabbedPane();
+
+            //Add all questions to their parent section
+            for (QuestionReference questionReference : this.context.getQuestions()) {
+                Segment parent = this.context.getParent(questionReference.getId());
+                if (parent != null && sections.containsKey(questionReference.getId())) {
+                    JPanel sectionPanel = sections.get(questionReference.getId());
+                    JPanel parentPanel = sections.get(parent.getId());
+                    parentPanel.add(sectionPanel);
+                }
+            }
+
+            //Add all sections to their parent section
+            for (Section section : this.context.getSections()) {
+                Segment parent = this.context.getParent(section.getId());
+                if (parent != null && visibleSections.contains(section.getId())) {
+                    JPanel sectionPanel = sections.get(section.getId());
+                    JPanel parentPanel = sections.get(parent.getId());
+                    parentPanel.add(sectionPanel);
+                }
+            }
+
+            tabbedPane = new JTabbedPane();
             for (Page page : pages) {
                 if (visibleSections.contains(page.getId())) {
-                    this.tabbedPane.add(page.getTitle(), sections.get(page.getId()));
+                    tabbedPane.add(page.getTitle(), sections.get(page.getId()));
                 }
+            }
+            if (lastChangedQuestion != null) {
+                tabbedPane.setSelectedComponent(this.getPage(lastChangedQuestion));
             }
         } else {
             JPanel mainPanel = new JPanel();
@@ -104,13 +107,7 @@ public class StyleEvaluator {
         return tabbedPane;
     }
 
-    public void setFocus(Question question) {
-        if (tabbedPane != null) {
-            this.tabbedPane.setSelectedComponent(this.getPage(question));
-        }
-    }
-
-    public JPanel getPage(Question question) {
+    private JPanel getPage(Question question) {
         Segment parent = this.context.getPage(question);
         if (parent != null && this.sections.containsKey(parent.getId())) {
             return this.sections.get(parent.getId());
@@ -146,17 +143,10 @@ public class StyleEvaluator {
         return defaultTypes.get(question.getType().getClass().toString());
     }
 
-
-    private void setDefaultWidgetTypes() {
-        defaultTypes.put(StringType.class.toString(), new TextType());
-        defaultTypes.put(MoneyType.class.toString(), new TextType());
-        defaultTypes.put(IntegerType.class.toString(), new TextType());
-        defaultTypes.put(BooleanType.class.toString(), new CheckboxType(""));
-    }
-
     public void generateSections() {
         visibleSections = new ArrayList<>();
         sections = new HashMap<>();
+
         for (Page page : this.context.getPages()) {
             JPanel pagePanel = new JPanel();
             pagePanel.setLayout(new GridLayout(0, 1));
@@ -176,6 +166,12 @@ public class StyleEvaluator {
         }
     }
 
+    private void setDefaultWidgetTypes() {
+        defaultTypes.put(StringType.class.toString(), new TextType());
+        defaultTypes.put(MoneyType.class.toString(), new TextType());
+        defaultTypes.put(IntegerType.class.toString(), new TextType());
+        defaultTypes.put(BooleanType.class.toString(), new CheckboxType(""));
+    }
 
     private void setDefaultStyle() {
         List<StyleProperty> properties = new ArrayList<>();

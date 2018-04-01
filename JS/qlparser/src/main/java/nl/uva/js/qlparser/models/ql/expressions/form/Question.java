@@ -19,7 +19,6 @@ import java.util.Map;
 @Builder
 public class Question implements FormExpression {
     @NonNull private String question;
-    @NonNull private DataType dataType;
     @NonNull private Variable variable;
 
     @Override
@@ -31,7 +30,7 @@ public class Question implements FormExpression {
         layout.setHgap(10);
         panel.setLayout(layout);
 
-        JComponent component = dataType.getComponent().apply(variable);
+        JComponent component = variable.getDataType().getComponent().apply(variable);
 
         JLabel label = new JLabel(question, JLabel.LEFT);
 
@@ -64,11 +63,14 @@ public class Question implements FormExpression {
 
     @Override
     public DataType getType() {
-        return dataType;
+        return variable.getDataType();
     }
 
     @Override
     public Variable getVariable() {
         return variable;
     }
+
+    @Override
+    public String getLabel() { return question; }
 }

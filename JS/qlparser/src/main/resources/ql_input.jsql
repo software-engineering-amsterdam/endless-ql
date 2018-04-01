@@ -5,6 +5,12 @@ form taxOfficeExample {
     "What is your age?"
     age: integer
 
+    "Do you believe in unicorns?"
+    unicorns: boolean = true
+
+    "Rate your current house (0-5):"
+    rating: integer
+
     "Did you sell a house in 2010?"
     hasSoldHouse: boolean
 
@@ -29,6 +35,6 @@ form taxOfficeExample {
             sellingPrice - privateDebt
     }
 
-    "How would you rate this questionnaire?"
+    "How would you grade this questionnaire?"
     grade: decimal = 10.0
 }

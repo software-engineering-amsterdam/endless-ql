@@ -16,11 +16,7 @@ namespace Assignment1.Rendering.Widget
 
         private SpinBox(string label, decimal value, decimal minimum, decimal maximum, int step, int decimalPlaces, bool readOnly)
         {
-            _panel.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = label
-            });
+            AddLabel(label);
             _numericUpDown = new NumericUpDown
             {
                 AutoSize = true,
@@ -35,6 +31,12 @@ namespace Assignment1.Rendering.Widget
                 _numericUpDown.ValueChanged += (s, a) => _valueChangedHandler();
             _panel.Controls.Add(_numericUpDown);
         }
+
+        private void AddLabel(string label) => _panel.Controls.Add(new Label
+        {
+            AutoSize = true,
+            Text = label
+        });
 
         public SpinBox(string label, QLInteger value, bool readOnly, Action<IValue> valueChangedHandler)
             : this(label, value.Value, int.MinValue, int.MaxValue, 1, 0, readOnly)
@@ -54,9 +56,6 @@ namespace Assignment1.Rendering.Widget
             _valueChangedHandler = () => valueChangedHandler(new QLMoney(_numericUpDown.Value));
         }
 
-        public Control Render()
-        {
-            return _panel;
-        }
+        public Control Render() => _panel;
     }
 }

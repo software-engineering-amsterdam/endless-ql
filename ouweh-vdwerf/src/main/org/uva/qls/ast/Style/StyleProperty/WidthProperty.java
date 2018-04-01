@@ -5,7 +5,7 @@ import org.uva.qls.ast.Value.NumberValue;
 
 public class WidthProperty extends StyleProperty {
 
-    private NumberValue value;
+    private final NumberValue value;
 
     public WidthProperty(NumberValue numberValue) {
         this.value = numberValue;
@@ -13,6 +13,6 @@ public class WidthProperty extends StyleProperty {
 
     @Override
     public void apply(QuestionWidget widget) {
-        //todo
+        widget.setWidth(value.getValue());
     }
 }

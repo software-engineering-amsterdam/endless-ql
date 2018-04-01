@@ -1,6 +1,7 @@
 package nl.uva.se.sc.niro.typechecking.ql
 
 import org.apache.logging.log4j.scala.Logging
+import nl.uva.se.sc.niro.PrettyPrinter.GraphCanPrettyPrint
 
 object CycleDetection extends Logging {
 
@@ -22,7 +23,7 @@ object CycleDetection extends Logging {
       connectedEdges.flatMap { connectedEdge =>
         val currentPath = followedPath :+ connectedEdge
         if (followedPath.head.from == connectedEdge.to) {
-          val completePath = graphToString(currentPath)
+          val completePath = currentPath.prettyPrint
           logger.info(s"Detected a cycle: $completePath")
           Seq(followedPath :+ connectedEdge)
         } else {
@@ -32,7 +33,4 @@ object CycleDetection extends Logging {
     }
   }
 
-  def graphToString(followedPath: Graph): String = {
-    (followedPath.init.map(_.from) :+ followedPath.last.from :+ followedPath.last.to).mkString(" -> ")
-  }
 }

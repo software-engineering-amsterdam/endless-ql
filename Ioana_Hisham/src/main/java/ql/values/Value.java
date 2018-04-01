@@ -4,6 +4,10 @@ public abstract class Value {
 
     public abstract Object getValue();
 
+    public boolean toBoolean() {
+        return false;
+    }
+
     public Value add(Value value) {
         return new Undefined();
     }

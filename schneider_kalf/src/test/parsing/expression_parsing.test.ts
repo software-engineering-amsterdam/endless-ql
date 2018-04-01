@@ -10,6 +10,7 @@ import VariableIdentifier from "../../form/nodes/expressions/VariableIdentifier"
 import { ValueIsNaNError } from "../../form/form_errors";
 import IntValue from "../../form/values/IntValue";
 import { DecimalValue } from "../../form/values/DecimalValue";
+import { evaluate } from "../../form/evaluation/evaluation_functions";
 
 it("can parse number literals", () => {
   const input = `form taxOfficeExample {
@@ -108,4 +109,19 @@ it("does not allow malformed floating numbers", () => {
   expect(() => {
     computedField = getFirstStatement(input);
   }).toThrow(ValueIsNaNError);
+});
+
+it("does parse with left associativity", () => {
+  const input = `form Example {
+                    "Left associativity"
+                      testAssociativity: integer = (7 - 4 + 2)
+                 }`;
+
+  let computedField: any = null;
+
+  expect(() => {
+    computedField = getFirstStatement(input);
+  }).not.toThrow(Error);
+
+  expect(evaluate(computedField.formula)).toEqual(new IntValue(5));
 });

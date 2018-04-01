@@ -9,6 +9,10 @@ public class QuestionAssignValueNode extends Node
     private Node previous;
     private Node expression;
 
+    public QuestionAssignValueNode(){
+        super(false);
+    }
+
     public Node getExpression() {
         return expression;
     }

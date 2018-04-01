@@ -2,6 +2,7 @@ package org.uva.jomi.ql.error;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
 import org.uva.jomi.ql.ast.QLToken;
 import org.uva.jomi.ql.ast.QLType;
@@ -137,14 +138,14 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(ComputedQuestionStatement stmt) {
+	public void addTypeError(ComputedQuestionStatement statement) {
 
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.getExpressionLineNumber(),
-				stmt.getExpressionColumnNumber(),
-				stmt.getType(),
-				stmt.getExpressionType());
+				statement.getExpressionLineNumber(),
+				statement.getExpressionColumnNumber(),
+				statement.getType(),
+				statement.getExpressionType());
 
 		Error error = new TypeError(message);
 		this.addReport(error.toString());
@@ -152,23 +153,33 @@ public class ErrorHandler extends ErrorReporter<String> {
 			System.err.println(error.toString());
 	}
 
-	public void addTypeError(IfStatement stmt) {
+	public void addTypeError(IfStatement statement) {
 
 		String message = String.format("[%s] line: %d, column: %d: Type mismatch, expected %s, but got %s",
 				moduleName,
-				stmt.getExpressionLineNumber(),
-				stmt.getExpressionColumnNumber(),
+				statement.getExpressionLineNumber(),
+				statement.getExpressionColumnNumber(),
 				QLType.BOOLEAN,
-				stmt.getExpressionType());
+				statement.getExpressionType());
 
 		Error error = new TypeError(message);
 		this.addReport(error.toString());
 		if (printErrors)
 			System.err.println(error.toString());
+	}
+
+	public void addCyclicQuestionError(ArrayList<Set<String>> cycleSet) {
+		for (Set<String> set : cycleSet) {
+			String error = String.format("[CyclicDependencyChecker] A cyclic dependency was found between the following questions: %s",
+					String.join(", ", set));
+			this.addReport(error);
+			if (printErrors)
+				System.err.println(error);
+		 }
 	}
 
 	public void clearErrors() {
-		this.clearAllReports();
+		this.clear();
 	}
 
 	public String getErrorAtIndex(int index) {

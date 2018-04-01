@@ -1,10 +1,4 @@
-﻿using QLParser;
-using QLParser.Analysis;
-using QLParser.AST.Nodes;
-using QLVisualizer.Factories;
-using QLVisualizer.Elements.Managers;
-using System.Collections.Generic;
-using System.Linq;
+﻿using QLVisualizer.Elements.Managers;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using System;
 

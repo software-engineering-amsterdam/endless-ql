@@ -1,4 +1,4 @@
-// Generated from /home/ajm/Desktop/newEndless/endless-ql/Abel_Elias/src/QLS/parsing/QLS.g4 by ANTLR 4.7
+// Generated from /home/ajm/Desktop/endless-sunday/endless-ql/Abel_Elias/src/QLS/parsing/QLS.g4 by ANTLR 4.7
 package QLS.parsing.gen;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -184,18 +184,6 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWidgetStyle(QLSParser.WidgetStyleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWidgetStyle(QLSParser.WidgetStyleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterStyle(QLSParser.StyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -203,6 +191,18 @@ public class QLSBaseListener implements QLSListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStyle(QLSParser.StyleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDropDownList(QLSParser.DropDownListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDropDownList(QLSParser.DropDownListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

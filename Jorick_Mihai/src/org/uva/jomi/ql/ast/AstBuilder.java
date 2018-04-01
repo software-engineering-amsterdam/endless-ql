@@ -7,20 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AstBuilder extends QLBaseVisitor<List<Statement>> {
-	private final StatementVisitor stmtVisitor;
+	private final StatementVisitor statementVisitor;
 
 	public AstBuilder(boolean printErros) {
-		stmtVisitor = new StatementVisitor(printErros);
+		statementVisitor = new StatementVisitor(printErros);
 	}
 
 	public int getNumberOfErros() {
-		return stmtVisitor.getNumberOfErrors();
+		return statementVisitor.getNumberOfErrors();
 	}
 
 	@Override public List<Statement> visitParse(QLParser.ParseContext ctx) {
 		List<Statement> statements = new ArrayList<>(ctx.formStatement().size());
 		for (QLParser.FormStatementContext statement : ctx.formStatement()) {
-			statements.add(statement.accept(stmtVisitor));
+			statements.add(statement.accept(statementVisitor));
 		}
 
 		return statements;

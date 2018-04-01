@@ -9,7 +9,8 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
     {
         public QuestionOutputItem(
             Guid id,
-            Reference<IQuestionNode> variable,
+            DomainId<IQuestionNode> variable,
+            string questionName,
             string questionText,
             Type questionType,
             string value,
@@ -18,6 +19,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
         {
             Id = id;
             Variable = variable;
+            QuestionName = questionName;
             DisplayName = questionText;
             QuestionText = questionText;
             Value = value;
@@ -27,12 +29,12 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
         }
         
         public Guid Id { get; }
-        public Reference<IQuestionNode> Variable { get; }
+        public DomainId<IQuestionNode> Variable { get; }
+        public string QuestionName { get; }
         public string DisplayName { get; }
         public string QuestionText { get; }
         public bool Visible { get; set; }
         public bool ReadOnly { get; }
-        // ToDo: should this be dynamic
         public string Value { get; set; }
         public Type QuestionType { get; }
     }

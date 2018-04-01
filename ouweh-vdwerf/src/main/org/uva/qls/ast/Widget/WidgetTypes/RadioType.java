@@ -4,13 +4,13 @@ import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.Type;
 import org.uva.qls.visitor.WidgetTypeVisitor;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class RadioType extends WidgetType {
 
-    private String trueLabel;
-    private String falseLabel;
+    private final String trueLabel;
+    private final String falseLabel;
 
     public RadioType(String trueLabel, String falseLabel) {
         this.trueLabel = trueLabel;
@@ -27,7 +27,7 @@ public class RadioType extends WidgetType {
 
     @Override
     public List<Class<? extends Type>> getCompatibleTypes() {
-        return Arrays.asList(BooleanType.class);
+        return Collections.singletonList(BooleanType.class);
     }
 
     @Override

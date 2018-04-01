@@ -5,4 +5,6 @@ public enum Property {
     FONTCOLOR,
     FONTTYPE,
     FONTSTYLE,
+    MIN,
+    MAX
 }

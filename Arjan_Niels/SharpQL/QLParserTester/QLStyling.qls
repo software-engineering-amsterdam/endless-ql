@@ -8,6 +8,7 @@
 				question seenHouseOfCards
 				section "The first subsubsection"{
 					question soldHouseIn2010 widget radio ("yes", "no", "maybe")
+					question soldHouseIn2010 widget radio ("yes", "no", "maybe")
 				}
 			}
 		}
@@ -20,6 +21,14 @@
 			fontsize: 14
 			color: #999999
 			widget radio("yes", "no")
+		}
+
+		default text {
+			width: 400
+			font: "Arial" 
+			fontsize: 12
+			color: #FFFFFF
+			widget radio("yes", "no", "maybe")
 		}
 	}
 }

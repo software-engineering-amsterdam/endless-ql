@@ -1,6 +1,5 @@
 package QL.parsing.checkers;
 
-import QL.classes.Question;
 import QL.parsing.checkers.errors.CyclicError;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
@@ -12,7 +11,7 @@ public class CyclicChecker extends QLBaseVisitor{
     private HashMap<String, ArrayList<String>> pointerMap;
     private String currentQuestion;
 
-    CyclicChecker(){
+    public CyclicChecker(){
         pointerMap = new HashMap();
     }
 
@@ -22,22 +21,44 @@ public class CyclicChecker extends QLBaseVisitor{
     }
 
     @Override
+    public Boolean visitNormalQuestion(QLParser.NormalQuestionContext ctx) {
+        currentQuestion = ctx.IDENTIFIER().getText();
+
+        if(!pointerMap.containsKey(currentQuestion)){
+            ArrayList<String> pointers = new ArrayList();
+            pointerMap.put(currentQuestion, pointers);
+        }
+
+        return true;
+    }
+
+    @Override
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
-        String id = ctx.IDENTIFIER().getText();
-        ArrayList<String> pointers = new ArrayList();
-        pointerMap.put(id, pointers);
-        currentQuestion = id;
+        currentQuestion = ctx.IDENTIFIER().getText();
+
+        if(!pointerMap.containsKey(currentQuestion)){
+            ArrayList<String> pointers = new ArrayList();
+            pointerMap.put(currentQuestion, pointers);
+        }
 
         return visit(ctx.expression());
     }
 
     @Override
-    public Object visitIdentifier(QLParser.IdentifierContext ctx) {
-        return pointerMap.get(currentQuestion).add(ctx.getText());
+    public Boolean visitIdentifier(QLParser.IdentifierContext ctx) {
+        String id = ctx.getText();
+        pointerMap.get(currentQuestion).add(id);
+
+        if(pointerMap.containsKey(id)){
+            pointerMap.get(currentQuestion).addAll(pointerMap.get(id));
+        }
+
+        return true;
     }
 
     @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
+        // Stop traversing through the AST at if-statement
         return null;
     }
 

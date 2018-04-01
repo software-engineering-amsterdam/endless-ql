@@ -1,208 +1,148 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Assignment1.Model.QL.AST;
 using Assignment1.Model.QL.AST.Expression;
 using Assignment1.Model.QL.AST.Value;
-using Assignment1.Parser;
 
 namespace Assignment1.TypeChecking
 {
-    internal class QLTypeChecker : IQLASTVisitor, IExpressionVisitor
+    internal class QLTypeChecker : QLASTBaseVisitor
     {
-        private readonly Dictionary<string, Question> _questions = new Dictionary<string, Question>();
-        private readonly List<string> _warnings = new List<string>();
-        private ParseErrorHandler _errorHandler = new ParseErrorHandler();
+        private readonly MessageContainer _messages = new MessageContainer();
         private Type _currentType = Type.Undefined;
-        public List<string> Warnings => _warnings;
 
-        public void TypeCheckQuestionForm(QuestionForm questionForm) => questionForm.Accept(this);
-
-        private void TypeCheckQuestionAnswer(int lineNumber, Type questionType, IValue questionValue)
+        public static (IEnumerable<string> errors, IEnumerable<string> warnings) CheckTypes(QuestionForm questionForm)
         {
-            questionValue.Accept(this);
-            string errorMessage = "Cannot assign value of type " + _currentType.ToString() + " to question of type " + questionType.ToString() + ".";
-            if (_currentType != Type.Undefined)
-            {
-                if (questionType != _currentType)
-                    _errorHandler.AddError(lineNumber, errorMessage);
-            }
+            var checker = new QLTypeChecker();
+            questionForm.Accept(checker);
+            return checker._messages.ToTuple();
         }
 
-        private void TypeCheckQuestionAnswer(int lineNumber, Type questionType, IExpression questionExpression)
+        private void TypeCheckQuestion(Question question)
         {
-            questionExpression.Accept(this);
-            string errorMessage = "Cannot assign expression of type " + _currentType.ToString() + " to question of type " + questionType.ToString() + ".";
-            if (questionType != _currentType)
-                _errorHandler.AddError(lineNumber, errorMessage);
+            if (_currentType != question.Type)
+                _messages.AddError("Line:" + question.LineNumber + " | Cannot assign value of type " + _currentType + " to question of type " + question.Type + ".");
+            _currentType = question.Type;
         }
 
-        private Type TypeCheckBinaryLogical(Binary expression, string logicalOperator)
+        public override void Visit(NormalQuestion question)
         {
-            expression.Left.Accept(this);
-            Type leftType = _currentType;
-            expression.Right.Accept(this);
-            Type rightType = _currentType;
-
-            if (leftType != Type.Boolean && rightType != Type.Boolean)
-            {
-                _errorHandler.AddError(expression.LineNumber, "Operator " + logicalOperator + 
-                    " cannot be applied to expressions of types " + leftType.ToString() + " and " + rightType.ToString() + ".");
-            }
-
-            return Type.Boolean;
+            base.Visit(question);
+            TypeCheckQuestion(question);
         }
 
-        private Type TypeCheckBinaryComparison(Binary expression, string comparisonOperator)
+        public override void Visit(ComputedQuestion question)
         {
-            expression.Left.Accept(this);
-            Type leftType = _currentType;
-            expression.Right.Accept(this);
-            Type rightType = _currentType;
-
-            bool comparisonCondition = comparisonOperator.Equals("==") || comparisonOperator.Equals("!=") ?
-                (leftType != Type.Boolean && rightType != Type.Boolean) || (!leftType.IsNumeric() && !rightType.IsNumeric()) :
-                (!leftType.IsNumeric() && !rightType.IsNumeric());
-            if (comparisonCondition)
-            {
-                _errorHandler.AddError(expression.LineNumber, "Operator " + comparisonOperator +
-                    " cannot be applied to expressions of types " + leftType.ToString() + " and " + rightType.ToString() + ".");
-            }
-
-            return Type.Boolean;
+            base.Visit(question);
+            TypeCheckQuestion(question);
         }
 
-        private Type TypeCheckBinaryArithmetic(Binary expression, string arithmeticOperator)
-        {
-            expression.Left.Accept(this);
-            Type leftType = _currentType;
-            expression.Right.Accept(this);
-            Type rightType = _currentType;
-
-            if (!leftType.IsNumeric() && !rightType.IsNumeric())
-            {
-                _errorHandler.AddError(expression.LineNumber, "Operator " + arithmeticOperator +
-                    " cannot be applied to expressions of types " + leftType.ToString() + " and " + rightType.ToString() + ".");
-            }
-
-            return TypeMethods.InferArithmeticType(leftType, rightType);
-        }
-
-        private bool QuestionIdExists(string questionId) => _questions.ContainsKey(questionId);
-
-        public void Visit(QuestionForm questionForm)
-        {
-            foreach (Statement statement in questionForm.Statements)
-            {
-                statement.Accept(this);
-            }
-            if (_errorHandler.HasErrors)
-                _errorHandler.ThrowParseException();
-        }
-
-        public void Visit(NormalQuestion question)
-        {
-            TypeCheckQuestionAnswer(question.LineNumber, question.Type, question.Answer);
-            _questions.Add(question.Id, question);
-        }
-
-        public void Visit(ComputedQuestion question)
-        {
-            TypeCheckQuestionAnswer(question.LineNumber, question.Type, question.Computation);
-            _questions.Add(question.Id, question);
-        }
-
-        public void Visit(IfStatement ifStatement)
+        public override void Visit(IfStatement ifStatement)
         {
             ifStatement.Condition.Accept(this);
             if (_currentType != Type.Boolean)
-                _errorHandler.AddError(ifStatement.LineNumber, "The condition in if statement is not of type boolean.");
-            foreach (Statement statement in ifStatement.ThenStatements)
-            {
-                statement.Accept(this);
-            }
-            foreach (Statement statement in ifStatement.ElseStatements)
-            {
-                statement.Accept(this);
-            }
+                _messages.AddError("Line:" + ifStatement.LineNumber + " | Can not use value of type " + _currentType + " as condition for if statement.");
+            VisitStatements(ifStatement.ThenStatements);
+            VisitStatements(ifStatement.ElseStatements);
         }
 
-        public void Visit(QLBoolean value)
+        public override void Visit(Not expression)
         {
-            _currentType = Type.Boolean;
-        }
-
-        public void Visit(QLInteger value)
-        {
-            _currentType = Type.Integer;
-        }
-
-        public void Visit(QLString value)
-        {
-            _currentType = Type.String;
-        }
-
-        public void Visit(QLDate value)
-        {
-            _currentType = Type.Date;
-        }
-
-        public void Visit(QLDecimal value)
-        {
-            _currentType = Type.Decimal;
-        }
-
-        public void Visit(QLMoney value)
-        {
-            _currentType = Type.Money;
-        }
-
-        public void Visit(Not expression)
-        {
-            expression.Accept(this);
-
+            base.Visit(expression);
             if (_currentType != Type.Boolean)
-            {
-                _errorHandler.AddError(expression.LineNumber, "Operator ! cannot be applied to expression of type " + _currentType.ToString());
-            }
-
+                _messages.AddError("Line: " + expression.LineNumber + " | Operator ! cannot be applied to expression of type " + _currentType);
             _currentType = Type.Boolean;
         }
 
-        public void Visit(Reference expression)
+        public override void Visit(Reference expression) => FollowReference(expression);
+
+        private void TypeCheckBinary(Binary expression, IReadOnlyDictionary<(Type, Type), Type> supported, string operatorToken)
         {
-            Question referenced = QuestionIdExists(expression.QuestionId) ? _questions[expression.QuestionId] : null;
-            if (referenced == null)
+            expression.Left.Accept(this);
+            var left = _currentType;
+            expression.Right.Accept(this);
+            var right = _currentType;
+            if (supported.ContainsKey((left, right)))
             {
-                _errorHandler.AddError(expression.LineNumber, "Reference to " + expression.QuestionId + " in expression does not exist.");
-                _currentType = Type.Undefined;
-            } else
-            {
-                _currentType = referenced.Type;
+                _currentType = supported[(left, right)];
+                return;
             }
+            _messages.AddError("Line: " + expression.LineNumber + " | Operator " + operatorToken + " cannot be applied to expressions of types " + left + " and " + right + ".");
+            _currentType = Type.Undefined;
         }
 
-        public void Visit(And expression) => _currentType = TypeCheckBinaryLogical(expression, "&&");
+        private readonly Dictionary<(Type, Type), Type> _logical = new Dictionary<(Type, Type), Type>
+        {
+            {(Type.Boolean, Type.Boolean), Type.Boolean}
+        };
+        public override void Visit(And expression) => TypeCheckBinary(expression, _logical, "&&");
+        public override void Visit(Or expression) => TypeCheckBinary(expression, _logical, "||");
 
-        public void Visit(Or expression) => _currentType = TypeCheckBinaryLogical(expression, "||");
+        private readonly Dictionary<(Type, Type), Type> _comparison = new Dictionary<(Type, Type), Type>
+        {
+            {(Type.Integer, Type.Integer), Type.Boolean},
+            {(Type.Decimal, Type.Decimal), Type.Boolean},
+            {(Type.Date, Type.Date), Type.Boolean},
+            {(Type.Money, Type.Money), Type.Boolean}
+        };
+        public override void Visit(LessThan expression) => TypeCheckBinary(expression, _comparison, "<");
+        public override void Visit(GreaterThan expression) => TypeCheckBinary(expression, _comparison, ">");
+        public override void Visit(GreaterThanOrEqual expression) => TypeCheckBinary(expression, _comparison, ">=");
+        public override void Visit(LessThanOrEqual expression) => TypeCheckBinary(expression, _comparison, "<=");
 
-        public void Visit(LessThan expression) => _currentType = TypeCheckBinaryComparison(expression, "<");
+        public override void Visit(NotEqual expression) => _currentType = Type.Boolean;
 
-        public void Visit(GreaterThan expression) => _currentType = TypeCheckBinaryComparison(expression, ">");
+        private readonly Dictionary<(Type, Type), Type> _equal = new Dictionary<(Type, Type), Type>
+        {
+            {(Type.Boolean, Type.Boolean), Type.Boolean},
+            {(Type.Integer, Type.Integer), Type.Boolean},
+            {(Type.Decimal, Type.Decimal), Type.Boolean},
+            {(Type.Date, Type.Date), Type.Boolean},
+            {(Type.Money, Type.Money), Type.Boolean},
+            {(Type.String, Type.String), Type.Boolean}
+        };
+        public override void Visit(Equal expression) => TypeCheckBinary(expression, _equal, "==");
 
-        public void Visit(GreaterThanOrEqual expression) => _currentType = TypeCheckBinaryComparison(expression, ">=");
+        private readonly Dictionary<(Type, Type), Type> _addSubtract = new Dictionary<(Type, Type), Type>
+        {
+            {(Type.Integer, Type.Integer), Type.Integer},
+            {(Type.Decimal, Type.Decimal), Type.Decimal},
+            {(Type.Money, Type.Money), Type.Money},
+            {(Type.String, Type.String), Type.String}
+        };
+        public override void Visit(Add expression) => TypeCheckBinary(expression, _addSubtract, "+");
+        public override void Visit(Subtract expression) => TypeCheckBinary(expression, _addSubtract, "-");
 
-        public void Visit(LessThanOrEqual expression) => _currentType = TypeCheckBinaryComparison(expression, "<=");
+        private readonly Dictionary<(Type, Type), Type> _multiply = new Dictionary<(Type, Type), Type>
+        {
+            {(Type.Integer, Type.Integer), Type.Integer},
+            {(Type.Decimal, Type.Decimal), Type.Decimal},
+            {(Type.Integer, Type.Money), Type.Money},
+            {(Type.Money, Type.Integer), Type.Money},
+            {(Type.Decimal, Type.Money), Type.Money},
+            {(Type.Money, Type.Decimal), Type.Money},
+            {(Type.Integer, Type.Decimal), Type.Decimal},
+            {(Type.Decimal, Type.Integer), Type.Decimal},
+            {(Type.Integer, Type.String), Type.String},
+            {(Type.String, Type.Integer), Type.String}
+        };
+        public override void Visit(Multiply expression) => TypeCheckBinary(expression, _multiply, "*");
 
-        public void Visit(NotEqual expression) => _currentType = TypeCheckBinaryComparison(expression, "!=");
+        private readonly Dictionary<(Type, Type), Type> _divide = new Dictionary<(Type, Type), Type>
+        {
+            {(Type.Integer, Type.Integer), Type.Integer},
+            {(Type.Decimal, Type.Decimal), Type.Decimal},
+            {(Type.Money, Type.Integer), Type.Money},
+            {(Type.Money, Type.Money), Type.Decimal},
+            {(Type.Integer, Type.Decimal), Type.Decimal},
+            {(Type.Decimal, Type.Integer), Type.Decimal}
+        };
+        public override void Visit(Divide expression) => TypeCheckBinary(expression, _divide, "/");
 
-        public void Visit(Equal expression) => _currentType = TypeCheckBinaryComparison(expression, "==");
-
-        public void Visit(Add expression) => _currentType = TypeCheckBinaryArithmetic(expression, "+");
-
-        public void Visit(Subtract expression) => _currentType = TypeCheckBinaryArithmetic(expression, "-");
-
-        public void Visit(Multiply expression) => _currentType = TypeCheckBinaryArithmetic(expression, "*");
-
-        public void Visit(Divide expression) => _currentType = TypeCheckBinaryArithmetic(expression, "/");
+        public override void Visit(QLBoolean value) => _currentType = Type.Boolean;
+        public override void Visit(QLInteger value) => _currentType = Type.Integer;
+        public override void Visit(QLString value) => _currentType = Type.String;
+        public override void Visit(QLDate value) => _currentType = Type.Date;
+        public override void Visit(QLDecimal value) => _currentType = Type.Decimal;
+        public override void Visit(QLMoney value) => _currentType = Type.Money;
     }
 }

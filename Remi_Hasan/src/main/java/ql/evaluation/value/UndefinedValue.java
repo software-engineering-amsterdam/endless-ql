@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class UndefinedValue extends Value<Boolean> {
 
     public UndefinedValue() {
-        super(false);
+        super(null);
     }
 
     @Override
@@ -15,28 +15,28 @@ public class UndefinedValue extends Value<Boolean> {
     }
 
     @Override
-    public Integer getIntValue() {
-        return 0;
+    public Integer getIntegerValue() {
+        return null;
     }
 
     @Override
     public Double getDecimalValue() {
-        return 0.0;
+        return null;
     }
 
     @Override
     public BigDecimal getMoneyValue() {
-        return new BigDecimal(0);
+        return null;
     }
 
     @Override
     public String getStringValue() {
-        return "";
+        return null;
     }
 
     @Override
     public LocalDate getDateValue() {
-        return LocalDate.of(1970, 1, 1);
+        return null;
     }
 
     @Override

@@ -1,57 +1,209 @@
 /*
  * Grammar for the Questionnaire Language
  *
+ * The header consists of JavaScript helper functions and variables
+ * that can be used inside PEG.js, as PEG.js has is't own syntax which
+ * doesn't allow the declaration of functions outside a pattern.
+ *
+ * Nodes and Fieldtype are imported through the pegconfig.json file.
  */
 
 {
-    // Mapping of operators to their TypeScript class
-    let operationMapping = {
-        "&&" : Nodes.And,
-        "||" : Nodes.Or,
-        "<=" : Nodes.SmallerThanOrEqual,
-        ">=" : Nodes.LargerThanOrEqual,
-        "!=" : Nodes.NotEqual,
-        "==" : Nodes.Equals,
-        "<"  : Nodes.SmallerThan,
-        ">"  : Nodes.LargerThan,
-        "+"  : Nodes.Addition,
-        "-"  : Nodes.Subtraction,
-        "*"  : Nodes.Multiplication,
-        "/"  : Nodes.Division
-    }
+  const operationToClassMapping = {
+    "&&" : Nodes.And,
+    "||" : Nodes.Or,
+    "<=" : Nodes.SmallerThanOrEqual,
+    ">=" : Nodes.LargerThanOrEqual,
+    "!=" : Nodes.NotEqual,
+    "==" : Nodes.Equals,
+    "<"  : Nodes.SmallerThan,
+    ">"  : Nodes.LargerThan,
+    "+"  : Nodes.Addition,
+    "-"  : Nodes.Subtraction,
+    "*"  : Nodes.Multiplication,
+    "/"  : Nodes.Division
+  }
 
-    // Mapping of types to their TypeScript class
-    let typeMapping = {
-        "boolean" : FieldType.Boolean,
-        "date" : FieldType.Date,
-        "money" : FieldType.Money,
-        "integer" : FieldType.Integer,
-        "decimal" : FieldType.Decimal,
-        "text" : FieldType.Text,
-    }
+  const typeMapping = {
+    "boolean" : FieldType.Boolean,
+    "date"    : FieldType.Date,
+    "money"   : FieldType.Money,
+    "integer" : FieldType.Integer,
+    "decimal" : FieldType.Decimal,
+    "text"    : FieldType.Text
+  }
 
-    function makeOperationNode(left, head) {
-        const Operation = operationMapping[head[1]];
-        return new Operation(left, head[3]);
-    }
+  function makeOperationNode(leftNode, nextRight) {
+    const operation = nextRight[1];
+    const rightNode = nextRight[3];
+    const OperationConstructor = operationToClassMapping[operation];
+    const operationNode = new OperationConstructor(leftNode, rightNode);
+    return operationNode.setLocation(location());
+  }
 
-    // Create correct expression hierarchy
-    function buildExpression(head, tail) {
-        let expressionNode = tail.reduce(makeOperationNode, head);
-        return addLocation(expressionNode);
-    }
-
-  // Add location to every node
-  function addLocation(node){
-    node.setLocation(location());
-    return node;
+  function makeExpressionNode(leftNode, tail) {
+    const expressionNode = tail.reduce(makeOperationNode, leftNode);
+    return expressionNode;
   }
 }
 
-Root = __ forms:Form+ __ { return forms }
+Root
+  = __ forms:Form+ __ {
+    return forms;
+}
 
-UnaryOps
-  = "!"
+Form
+  = FormToken _ identifier:Identifier __ block:Block {
+   const formNode = new Nodes.FormNode(identifier, block);
+   return formNode.setLocation(location());
+}
+
+Block
+  = "{" __ body:(Field / IfCondition)+ __ "}" __ {
+    return body;
+}
+
+Field
+  = string:StringLiteral __ identifier:Identifier _ ":" _ type:FieldType __ expression:("=" __ Expression)? __ {
+    const label = string.value;
+    if (expression) {
+      const computedFieldNode = new Nodes.ComputedField(identifier, label, type, expression[2]);
+      return computedFieldNode.setLocation(location());
+    }
+    const questionNode = new Nodes.Question(identifier, label, type);
+    return questionNode.setLocation(location());
+}
+
+FieldType
+  = fieldType:Types {
+    return typeMapping[fieldType];
+}
+
+IfCondition
+  = IfToken _ predicate:ExpressionWithBrackets __ thenBlock:Block __ elseBlock:Else? __ {
+    const IfConditionNode = new Nodes.IfCondition(predicate, thenBlock, elseBlock);
+    return IfConditionNode.setLocation(location());
+}
+
+Else
+  = ElseToken __ block:Block __ {
+    return block;
+}
+
+Expression
+  = expression:BooleanExpression {
+    return expression;
+}
+
+ExpressionWithBrackets
+  = "("_ expression:Expression _ ")" {
+    return expression;
+}
+
+BooleanExpression
+  = head:ComparisonExpression _ tail:(_ BoolOps _ ComparisonExpression)+ _ {
+    return makeExpressionNode(head, tail);
+  }
+  / ComparisonExpression
+
+ComparisonExpression
+  = head:AdditiveExpression _ tail:(_ CompOps _ AdditiveExpression)+ _ {
+    return makeExpressionNode(head, tail);
+  }
+  / AdditiveExpression
+
+AdditiveExpression
+  = head:MultiplicativeExpression _ tail:(_ AddOps _ MultiplicativeExpression)+ _{
+    return makeExpressionNode(head, tail);
+  }
+  / MultiplicativeExpression
+
+MultiplicativeExpression
+  = head:ExpressionElement _ tail:(_ MultOps _ ExpressionElement)+ _{
+    return makeExpressionNode(head, tail);
+  }
+  / ExpressionElement
+
+ExpressionElement
+  = Value
+  / ExpressionWithBrackets
+  / UnaryExpression
+
+UnaryExpression
+  = UnaryOps value:ExpressionElement _ {
+    const unaryExpressionNode = new Nodes.Negation(value);
+    return unaryExpressionNode.setLocation(location());
+}
+
+ExpressionVariableIdentifier
+  = Identifier {
+    const identifierNode = new Nodes.VariableIdentifier(text());
+    return identifierNode.setLocation(location());
+}
+
+Identifier
+  = !Keywords Alphabet AlphabetOrNumbers+ {
+    return text();
+}
+
+BooleanLiteral
+  = BooleanToken {
+    const booleanLiteralNode = new Nodes.BooleanLiteral(text() === "true");
+    return booleanLiteralNode.setLocation(location());
+}
+
+NumberLiteral
+  = [-]?[0-9\.]+ {
+    const numberLiteralNode = Nodes.NumberLiteral.fromString(text());
+    return numberLiteralNode.setLocation(location());
+}
+
+DateLiteral
+  = Day DateSeparator Month DateSeparator Year {
+    const dateLiteralNode = Nodes.DateLiteral.fromString(text());
+    return dateLiteralNode.setLocation(location());
+}
+
+Day
+  = Numbers Numbers
+
+Month
+  = Numbers Numbers
+
+Year
+  = Numbers Numbers Numbers Numbers
+
+DateSeparator
+  = [\.]
+
+// String Literal, only support double quoted Strings
+StringLiteral "String literal"
+  = '"' chars:DoubleQuotedStringCharacters* '"' {
+    const stringLiteralNode = new Nodes.StringLiteral(chars.join(''));
+    return stringLiteralNode.setLocation(location());
+}
+
+DoubleQuotedStringCharacters
+  = !('"' / "\\") char:. { return char; }
+  / "\\" sequence:EscapeSequence { return sequence; }
+
+EscapeSequence
+  = "'"
+  / '"'
+  / "\\"
+  / "b"  { return "\b";   }
+  / "f"  { return "\f";   }
+  / "n"  { return "\n";   }
+  / "r"  { return "\r";   }
+  / "t"  { return "\t";   }
+  / "v"  { return "\x0B"; }
+
+Value
+  = ExpressionVariableIdentifier
+  / DateLiteral
+  / NumberLiteral
+  / StringLiteral
+  / BooleanLiteral
 
 BoolOps
   = "&&"
@@ -73,9 +225,8 @@ MultOps
   = "*"
   / "/"
 
-AritmicOps
-  = MultOps
-  / AddOps
+UnaryOps
+  = "!"
 
 Types
   = "boolean"
@@ -85,168 +236,18 @@ Types
   / "decimal"
   / "text"
 
-BlockBody
-  = Field
-  / IfCondition
-
-FieldType
- = fieldType:Types {
-    return typeMapping[fieldType];
-}
-
-Field
- = label:StringLiteral __ identifier:Identifier _ ":" _ type:FieldType __ expression:("=" __ Expression)? __ {
-    if (expression)
-        return new Nodes.ComputedField(identifier, label.value, type, expression[2]);
-    let fieldNode = new Nodes.Question(identifier, label.value, type);
-    return addLocation(fieldNode);
-}
-
-Block
- = "{" __ body:(BlockBody)+ __ "}" __ {
-     return body;
-}
-
-Form
- = FormToken _ identifier:Identifier _ block:Block {
-     let formNode = new Nodes.FormNode(identifier, block);
-     return addLocation(formNode);
-}
-
-IfCondition
- = IfToken _ predicate:ExpressionWithBrackets _ block:Block _ elseBlock:ElseStatement? __ {
-     let IfConditionNode = new Nodes.IfCondition(predicate, block, elseBlock);
-     return addLocation(IfConditionNode);
-}
-
-ElseStatement
- = ElseToken _ block:Block __ {
-    return block;
-}
-
-Expression
- = expression:BooleanExpression {
-    return expression;
-}
-
-ExpressionWithBrackets
- = "("_ expr:Expression _ ")" {
-    return expr;
-}
-
-BooleanExpression
-  = head:ComparisonExpression _ tail:(_ BoolOps _ ComparisonExpression)+ _ {
-    let boolExpressionNode = buildExpression(head, tail);
-    return addLocation(boolExpressionNode);
-  }
-  / ComparisonExpression
-
-ComparisonExpression
-  = head:AdditiveExpression _ tail:(_ CompOps _ AdditiveExpression)+ _ {
-    let comparisonExpressionNode = buildExpression(head, tail);
-    return addLocation(comparisonExpressionNode);
-  }
-  / AdditiveExpression
-
-AdditiveExpression
-  = head:MultiplicativeExpression _ tail:(_ AddOps _ MultiplicativeExpression)+ _{
-    let additiveExpressionNode = buildExpression(head, tail);
-    return addLocation(additiveExpressionNode);
-  }
-  / MultiplicativeExpression
-
-MultiplicativeExpression
-  = head:ExpressionElement _ tail:(_ MultOps _ ExpressionElement)+ _{
-    let multiplicativeExpressionNode = buildExpression(head, tail);
-    return addLocation(multiplicativeExpressionNode);
-  }
-  / ExpressionElement
-
-ExpressionElement
-  = Value
-  / ExpressionWithBrackets
-  / UnaryExpression
-
-UnaryExpression
- = UnaryOps value:ExpressionElement _ {
-    let unaryExpressionNode = new Nodes.Negation(value);
-    return addLocation(unaryExpressionNode);
-}
-
-ExpressionVariableIdentifier
-  = Identifier {
-    let identifierNode = new Nodes.VariableIdentifier(text());
-    return addLocation(identifierNode);
-}
-
-Identifier
-  = !Keywords Alphabet AlphabetOrNumbers+ {
-    return text();
-}
-
-BooleanLiteral
- = BooleanToken {
-    let booleanLiteralNode = new Nodes.BooleanLiteral(text() == "true");
-    return addLocation(booleanLiteralNode);
-}
-
-NumberLiteral
- = [-]?[0-9\.]+ {
-    let numberLiteralNode = Nodes.NumberLiteral.fromString(text());
-    return addLocation(numberLiteralNode);
-}
-
-DateLiteral
- = [0-9][0-9] dateSeparator [0-9][0-9] dateSeparator [0-9][0-9][0-9][0-9]{
-    let dateLiteralNode = Nodes.DateLiteral.fromString(text());
-    return addLocation(dateLiteralNode);
-}
-
-dateSeparator
- = [\.]
-
-// String Literal, only support double quoted Strings
-StringLiteral "String literal"
- = '"' chars:DoubleQuotedStringCharacters* '"' {
-    let stringLiteralNode = new Nodes.StringLiteral(chars.join(''));
-    return addLocation(stringLiteralNode);
-}
-
-DoubleQuotedStringCharacters
-  = !('"' / "\\") char:. { return char; }
-  / "\\" sequence:EscapeSequence { return sequence; }
-
-EscapeSequence
-  = "'"
-  / '"'
-  / "\\"
-  / "b"  { return "\b";   }
-  / "f"  { return "\f";   }
-  / "n"  { return "\n";   }
-  / "r"  { return "\r";   }
-  / "t"  { return "\t";   }
-  / "v"  { return "\x0B"; }
-
-Value
- = ExpressionVariableIdentifier
- / DateLiteral
- / NumberLiteral
- / StringLiteral
- / BooleanLiteral
-
 BooleanToken
- = BooleanTrue !Alphabet
- / BooleanFalse !Alphabet
+  = BooleanTrue !AlphabetOrNumbers
+  / BooleanFalse !AlphabetOrNumbers
 
 BooleanTrue = "true"
 BooleanFalse = "false"
 
-IfToken = "if" !Alphabet
-ElseToken = "else" !Alphabet
-FormToken = "form" !Alphabet
+IfToken = "if" !AlphabetOrNumbers
+ElseToken = "else" !AlphabetOrNumbers
+FormToken = "form" !AlphabetOrNumbers
 
 Keywords = BooleanToken
-
 
 Alphabet
   = [a-zA-Z]
@@ -258,7 +259,8 @@ AlphabetOrNumbers
   = Alphabet
   / Numbers
 
-SourceCharacter = .
+_ = (WhiteSpace / MultiLineCommentNoLineTerminator)*
+__ = (WhiteSpace / LineTerminatorSequence / Comment)*
 
 WhiteSpace "Whitespace"
   = "\t"
@@ -268,9 +270,6 @@ WhiteSpace "Whitespace"
   / "\u00A0"
   / "\uFEFF"
 
-_ = (WhiteSpace / MultiLineCommentNoLineTerminator)*
-__ = (WhiteSpace / LineTerminatorSequence / Comment)*
-
 LineTerminatorSequence "End of line"
   = "\n"
   / "\r\n"
@@ -279,17 +278,17 @@ LineTerminatorSequence "End of line"
   / "\u2029"
 
 LineTerminator
-    = [\n\r\u2028\u2029]
+  = [\n\r\u2028\u2029]
 
 Comment "Comment"
   = MultiLineComment
   / SingleLineComment
 
 SingleLineComment
-  = "//" (!LineTerminator SourceCharacter)*
+  = "//" (!LineTerminator .)*
 
 MultiLineComment
-  = "/*" (!"*/" SourceCharacter)* "*/"
+  = "/*" (!"*/" .)* "*/"
 
 MultiLineCommentNoLineTerminator
-  = "/*" (!("*/" / LineTerminator) SourceCharacter)* "*/"
+  = "/*" (!("*/" / LineTerminator) .)* "*/"

@@ -7,6 +7,7 @@ import ql.visitor.QLVisitor;
 import qls.model.StyleSheet;
 import qls.model.statement.DefaultStyle;
 import qls.model.statement.QuestionReference;
+import qls.model.widget.SliderWidget;
 import qls.model.widget.WidgetType;
 import qls.visitor.QLSVisitor;
 
@@ -20,7 +21,7 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
     @Override
     public void analyze(Form form, StyleSheet styleSheet) {
         // Get question types
-        this.formQuestionTypes = getFormQuestionTypes(form);
+        this.formQuestionTypes = this.getFormQuestionTypes(form);
 
         // Compare to QLS question widget types
         styleSheet.accept(this);
@@ -58,6 +59,17 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
         }
 
         return super.visit(defaultStyle);
+    }
+
+    @Override
+    public Void visit(SliderWidget widget) {
+        // Ensure slider range is valid
+        if (widget.getMinValue() >= widget.getMaxValue()) {
+            throw new IllegalArgumentException("Slider min value should be smaller than slider max value "
+                    + widget.getLocation());
+        }
+
+        return super.visit(widget);
     }
 
     private Map<String, ReturnType> getFormQuestionTypes(Form form) {

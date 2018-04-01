@@ -1,13 +1,13 @@
 package ql.form;
 
 import org.junit.Test;
-import ql.visitor.QLVisitor;
 import ql.QLForm;
 import ql.QLTestUtilities;
 import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.expression.ReturnType;
 import ql.model.statement.Question;
+import ql.visitor.QLVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +63,10 @@ public class FormBuilderTest {
 
         // Test whether computed field is computed correctly based on another field value
         Value staticResult = qlForm.evaluateExpression(questions.get(0).getComputedAnswer());
-        assertEquals(staticResult.getIntValue(), Integer.valueOf(2));
+        assertEquals(staticResult.getIntegerValue(), Integer.valueOf(2));
 
         Value calculationResult = qlForm.evaluateExpression(questions.get(1).getComputedAnswer());
-        assertEquals(calculationResult.getIntValue(), Integer.valueOf(5));
+        assertEquals(calculationResult.getIntegerValue(), Integer.valueOf(5));
     }
 
 }

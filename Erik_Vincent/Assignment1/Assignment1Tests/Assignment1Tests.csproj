@@ -47,9 +47,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="QLModelTests.cs" />
+    <Compile Include="QLFormsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +61,17 @@
       <Project>{21E5DCC7-1951-4DCC-8FCF-9EAB50A08DE1}</Project>
       <Name>Assignment1</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="InvalidForms\CyclicDependency1.txt" />
+    <Content Include="InvalidForms\CyclicDependency2.txt" />
+    <Content Include="InvalidForms\DuplicationQuestion.txt" />
+    <Content Include="InvalidForms\InvalidOperation.txt" />
+    <Content Include="InvalidForms\NonBooleanCondition.txt" />
+    <Content Include="InvalidForms\ReferenceToUndefinedQuestion.txt" />
+    <Content Include="NonParsable\UnknownCharInValue.txt" />
+    <Content Include="ValidForms\DuplicateLabel.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

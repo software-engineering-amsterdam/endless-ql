@@ -9,8 +9,8 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean
         public OrNode(
             Guid id,
             string definition,
-            Reference<IBooleanLogicNode> leftExpression,
-            Reference<IBooleanLogicNode> rightExpression) 
+            DomainId<IBooleanLogicNode> leftExpression,
+            DomainId<IBooleanLogicNode> rightExpression) 
             : base(id, definition, leftExpression, rightExpression)
         {
         }

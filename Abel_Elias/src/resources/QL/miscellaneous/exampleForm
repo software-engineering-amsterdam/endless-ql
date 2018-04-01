@@ -1,0 +1,8 @@
+form Box1HouseOwning {
+     name: "What is your name?" string
+     see: "True/False?" boolean
+     if(see) {
+        see2: "Did you buy a house in 2011?" boolean see
+        name2: "Hello " string name
+     }
+}

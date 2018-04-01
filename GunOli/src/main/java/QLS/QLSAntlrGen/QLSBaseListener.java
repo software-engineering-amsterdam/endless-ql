@@ -1,5 +1,4 @@
-// Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QLS.g4 by ANTLR 4.7
-package QLS.QLSAntlrGen;
+package QLS.QLSAntlrGen;// Generated from /Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/antlr/QLS.g4 by ANTLR 4.7
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -124,49 +123,49 @@ public class QLSBaseListener implements QLSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWidthWidget(QLSParser.WidthWidgetContext ctx) { }
+	@Override public void enterWidthStyle(QLSParser.WidthStyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWidthWidget(QLSParser.WidthWidgetContext ctx) { }
+	@Override public void exitWidthStyle(QLSParser.WidthStyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFontWidget(QLSParser.FontWidgetContext ctx) { }
+	@Override public void enterFontStyle(QLSParser.FontStyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFontWidget(QLSParser.FontWidgetContext ctx) { }
+	@Override public void exitFontStyle(QLSParser.FontStyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFontSizeWidget(QLSParser.FontSizeWidgetContext ctx) { }
+	@Override public void enterFontSizeStyle(QLSParser.FontSizeStyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFontSizeWidget(QLSParser.FontSizeWidgetContext ctx) { }
+	@Override public void exitFontSizeStyle(QLSParser.FontSizeStyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterColorWidget(QLSParser.ColorWidgetContext ctx) { }
+	@Override public void enterColorStyle(QLSParser.ColorStyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitColorWidget(QLSParser.ColorWidgetContext ctx) { }
+	@Override public void exitColorStyle(QLSParser.ColorStyleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

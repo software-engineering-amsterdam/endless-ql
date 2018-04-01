@@ -4,10 +4,10 @@ import qls.visitor.IQLSVisitor;
 
 public class SliderWidget extends Widget {
 
-    private final double minValue;
-    private final double maxValue;
+    private final int minValue;
+    private final int maxValue;
 
-    public SliderWidget(double min, double max) {
+    public SliderWidget(int min, int max) {
         super(WidgetType.SLIDER);
         this.minValue = min;
         this.maxValue = max;

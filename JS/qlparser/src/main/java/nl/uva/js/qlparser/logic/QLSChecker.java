@@ -14,23 +14,22 @@ import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 import java.util.*;
 
 public class QLSChecker {
-    private static final String UNPLACED_FORM_EXPRESSION = "Unplaced form expression: ";
-    private static final String INVALID_FORM_EXPRESSION = "Invalid form expression: ";
-    private static final String DUPLICATE_REFERENCE_TO_FORM_EXPRESSION = "Duplicate reference to form expression: ";
+    public static final String UNPLACED_FORM_EXPRESSION = "Unplaced form expression: ";
+    public static final String INVALID_FORM_EXPRESSION = "Invalid form expression: ";
+    public static final String DUPLICATE_REFERENCE_TO_FORM_EXPRESSION = "Duplicate reference to form expression: ";
+    public static final String CAN_NOT_USE_WIDGET = "Can not use widget ";
 
-    private ArrayList<String> errors;
+    private List<String> errors = Collections.emptyList();
 
-    public ArrayList<String> checkForErrors(Form form, Stylesheet stylesheet) {
+    public List<String> checkForErrors(Form form, Stylesheet stylesheet) {
         errors = new ArrayList<>();
 
-        HashMap<String, FormExpression> expressionsByName        = form.getExpressionsByName();
-        HashMap<String, ExpressionReference> expressionRefsByName  = getExpressionReferencesByName(stylesheet);
+        Map<String, FormExpression> expressionsByName = form.getExpressionsByName();
+        Map<String, ExpressionReference> expressionRefsByName = getCheckedExpressionReferencesByName(stylesheet);
 
-        checkDuplicateReferences(expressionRefsByName.values());
+        this.checkQuestionsExist(expressionsByName.keySet(), expressionRefsByName.keySet());
 
-        checkQuestionsExist(expressionsByName.keySet(), expressionRefsByName.keySet());
-
-        checkWidgetAssignments(expressionsByName, expressionRefsByName, stylesheet.getDefaultStyles());
+        this.checkWidgetAssignments(expressionsByName, expressionRefsByName, stylesheet.getDefaultStyles());
 
         return errors;
     }
@@ -41,7 +40,7 @@ public class QLSChecker {
     }
 
     private void compareLeftToRight(Set<String> left, Set<String> right, String errorMessage) {
-        ArrayList<String> difference = new ArrayList<>(left);
+        List<String> difference = new ArrayList<>(left);
         difference.removeAll(right);
 
         for (String question : difference) {
@@ -49,17 +48,8 @@ public class QLSChecker {
         }
     }
 
-    private void checkDuplicateReferences(Collection<ExpressionReference> expressionReferences) {
-        HashSet<String> uniques = new HashSet<>();
-        for(ExpressionReference ref : expressionReferences) {
-            if(!uniques.add(ref.getName())) {
-                errors.add(DUPLICATE_REFERENCE_TO_FORM_EXPRESSION + ref.getName());
-            }
-        }
-    }
-
-    private HashMap<String, ExpressionReference> getExpressionReferencesByName(Stylesheet stylesheet) {
-        HashMap<String, ExpressionReference> expressionReferencesByName = new HashMap<>();
+    private Map<String, ExpressionReference> getCheckedExpressionReferencesByName(Stylesheet stylesheet) {
+        Map<String, ExpressionReference> expressionReferencesByName = new HashMap<>();
 
         LinkedList<Page> pages = stylesheet.getPages();
         if (null != pages) {
@@ -68,15 +58,21 @@ public class QLSChecker {
 
             for (Section section : sections) {
                 LinkedList<ExpressionReference> refs = section.getExpressionReferences();
-                refs.forEach(ref -> expressionReferencesByName.put(ref.getName(), ref));
+                for (ExpressionReference ref : refs) {
+                    if(expressionReferencesByName.containsKey(ref.getName())) {
+                        errors.add(DUPLICATE_REFERENCE_TO_FORM_EXPRESSION + ref.getName());
+                    } else {
+                        expressionReferencesByName.put(ref.getName(), ref);
+                    }
+                }
             }
         }
         return expressionReferencesByName;
     }
 
     private void checkWidgetAssignments(
-            HashMap<String, FormExpression> questions,
-            HashMap<String, ExpressionReference> questionRefs,
+            Map<String, FormExpression> questions,
+            Map<String, ExpressionReference> questionRefs,
             LinkedList<DefaultStyle> defaultStyles
     ) {
         for (ExpressionReference ref : questionRefs.values()) {
@@ -85,11 +81,11 @@ public class QLSChecker {
                 continue;
             }
 
-            DataType dataType = ((Question) formExpression).getDataType();
+            DataType dataType = formExpression.getVariable().getDataType();
             WidgetType widgetType = ref.getWidgetType();
 
             if (null != widgetType && !WidgetType.mapDataTypeToWidget.get(dataType).contains(widgetType)) {
-                errors.add("Can not use widget " + widgetType.name().toLowerCase()
+                errors.add(CAN_NOT_USE_WIDGET + widgetType.name().toLowerCase()
                            + " for question " + ref.getName() + "with data type " + dataType.name().toLowerCase());
             }
         }
@@ -98,7 +94,7 @@ public class QLSChecker {
             DataType dataType = def.getDataType();
             WidgetType widgetType = def.getWidgetType();
             if (!WidgetType.mapDataTypeToWidget.get(dataType).contains(widgetType)) {
-                errors.add("Can not use widget " + widgetType.name().toLowerCase()
+                errors.add(CAN_NOT_USE_WIDGET + widgetType.name().toLowerCase()
                            + " for data type " + dataType.name().toLowerCase());
             }
         }

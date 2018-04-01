@@ -19,6 +19,10 @@ public class GUIForm extends VBox implements IRenderable {
         this.guiQuestions = guiQuestions;
     }
 
+    public List<GUIQuestion> getQuestions() {
+        return this.guiQuestions;
+    }
+
     public Parent render(GUIController guiController) {
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10, 10, 10, 10));

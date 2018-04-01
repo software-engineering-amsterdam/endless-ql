@@ -7,8 +7,10 @@ import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Section;
 import QLS.classes.Stylesheet;
 import QLS.classes.blocks.StyledQuestion;
+import QLS.parsing.checkers.Checks;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
+import gui.panels.QuestionPanel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,15 +18,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class StylesheetVisitor extends QLSBaseVisitor {
+    private HashMap<String,Question> questionMap;
     private BlockVisitor blockVisitor;
+    private Stylesheet stylesheet;
     private LinkedHashMap<String, Page> pages;
     private LinkedHashMap<String, Section> sections;
     private LinkedHashMap<String, StyledQuestion> questions;
     private LinkedHashMap<String, Element> parents;
 
 
-    public StylesheetVisitor(LinkedHashMap<String, Question> questions){
-        this.blockVisitor = new BlockVisitor(questions);
+    public StylesheetVisitor(LinkedHashMap<String, Question> questionMap){
+        this.questionMap = questionMap;
+        this.blockVisitor = new BlockVisitor(questionMap);
         this.parents = new LinkedHashMap<>();
         this.pages = new LinkedHashMap<>();
         this.sections = new LinkedHashMap<>();
@@ -34,13 +39,17 @@ public class StylesheetVisitor extends QLSBaseVisitor {
     // Node visitor
     @Override
     public Stylesheet visitStylesheet(QLSParser.StylesheetContext ctx) {
+    //  Checks.checkStyleSheet(ctx, this.questionMap);
         String id = ctx.IDENTIFIER().getText();
         List<Page> pages = new ArrayList<>();
+
         for (QLSParser.PageContext c : ctx.page()) {
             pages.add(visitPage(c));
         }
+
         setLists();
-        return new Stylesheet(id, pages);
+        this.stylesheet = new Stylesheet(id, pages);
+        return this.stylesheet;
     }
 
     private void setLists() {
@@ -77,5 +86,9 @@ public class StylesheetVisitor extends QLSBaseVisitor {
 
     public LinkedHashMap<String,Element> getParents() {
         return parents;
+    }
+
+    public Stylesheet getStylesheet() {
+        return stylesheet;
     }
 }

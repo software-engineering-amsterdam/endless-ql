@@ -6,8 +6,8 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
 {
     public interface IConditionalStatementNode : IStatementNode, INonTerminal
     {
-        Reference<IBooleanLogicNode> Predicate { get; }
-        IEnumerable<Reference<IStatementNode>> Consequent { get; }
-        IEnumerable<Reference<IStatementNode>> Alternative { get; }
+        DomainId<IBooleanLogicNode> Predicate { get; }
+        IEnumerable<DomainId<IStatementNode>> Consequent { get; }
+        IEnumerable<DomainId<IStatementNode>> Alternative { get; }
     }
 }

@@ -7,6 +7,7 @@ import com.chariotit.uva.sc.qdsl.ast.qls.Validator;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
 import com.chariotit.uva.sc.qdsl.cli.ApplicationParameters;
 import com.chariotit.uva.sc.qdsl.cli.InvalidParametersException;
+import com.chariotit.uva.sc.qdsl.formbuilder.QLFormBuilder;
 import com.chariotit.uva.sc.qdsl.grammar.QLSLexer;
 import com.chariotit.uva.sc.qdsl.grammar.QLSParser;
 import com.chariotit.uva.sc.qdsl.parser.QLSVisitor;
@@ -54,6 +55,7 @@ public class ApplicationRunner implements CommandLineRunner {
 
 
     private void runProgram(ApplicationParameters parameters) throws IOException {
+
         QLAstRoot astRoot = getQLFromFilename(parameters.getQlFilename());
 
         // Run Typechecker
@@ -77,9 +79,13 @@ public class ApplicationRunner implements CommandLineRunner {
             if (TypeCheckError.listContainsLevel(qlsErrors, TypeCheckError.Level.ERROR)) {
                 System.exit(1);
             }
-        }
 
-        QLFormBuilder builder = new QLFormBuilder(astRoot);
+            QLFormBuilder builder = new QLFormBuilder(astRoot, stylesheet);
+
+        } else {
+
+            QLFormBuilder builder = new QLFormBuilder(astRoot);
+        }
     }
 
     @Override

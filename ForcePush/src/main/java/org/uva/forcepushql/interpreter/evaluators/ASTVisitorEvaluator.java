@@ -1,199 +1,126 @@
 package org.uva.forcepushql.interpreter.evaluators;
 
 
+import org.uva.forcepushql.interpreter.TypeChecker.Messages;
+import org.uva.forcepushql.interpreter.gui.EventChecker;
 import org.uva.forcepushql.interpreter.gui.JPanelGUI;
 import org.uva.forcepushql.interpreter.gui.questions.Question;
 import org.uva.forcepushql.interpreter.gui.questions.Radio;
 import org.uva.forcepushql.interpreter.gui.questions.Textbox;
-import org.uva.forcepushql.parser.ast.elements.Node;
-import org.uva.forcepushql.parser.ast.elements.NumberNode;
-import org.uva.forcepushql.parser.ast.elements.QuestionAssignValueNode;
-import org.uva.forcepushql.parser.ast.elements.QuestionNode;
+import org.uva.forcepushql.parser.ast.ValueType;
+import org.uva.forcepushql.parser.ast.elements.*;
 import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
-import static org.uva.forcepushql.interpreter.gui.JPanelGUI.getString;
 
-//TODO: Refactor the hell out of this. Please. It hurts. Make it stop....
 public class ASTVisitorEvaluator implements ASTVisitor
 {
+    EventChecker eventChecker = new EventChecker();
+    String elseCondition = "";
+
+    Messages messages = new Messages();
+    HashMap<String, ValueType> declaredVaribles = new HashMap<>();
+    LinkedList<String> labels = new LinkedList<>();
+
+    private static String[] variables(String expression)
+    {
+        return EventChecker.getString(expression).split("\\.");
+    }
 
     @Override
     public LinkedList<JPanel> visit(FormNode node)
     {
+        JPanelGUI jPanelGUI = new JPanelGUI();
         LinkedList<JPanel> result = new LinkedList<>();
+        LinkedList<JPanelGUI> jPanelGUIS = new LinkedList<>();
         LinkedList<Question> questions = new LinkedList<>();
-        LinkedList<String> variables = new LinkedList<>();
 
-        HashMap<String, JPanelGUI> conditions = new HashMap<>();
-        HashMap<String, String> calculations = new HashMap<>();
+        makeQuestionsList(node.getQuestions(), jPanelGUIS, jPanelGUI, questions);
 
-        for (Node n : node.getQuestions())
+        for (JPanelGUI jpg : jPanelGUIS)
         {
-            if (n instanceof ConditionalIfNode)
-            {
-                String condition = ((ConditionalIfNode) n).getCondition().accept(this);
-                LinkedList<JPanelGUI> jPanelIf = n.accept(this);
-                jPanelIf.getFirst().setCondition(condition);
-                condition = allTogether(condition);
-                String[] names = condition.split("\\.");
-                for (String s : names)
-                {
-                    conditions.put(s, jPanelIf.getFirst());
-                }
-                for (JPanelGUI jpg : jPanelIf)
-                {
-                    result.add(jpg.getPanel());
-                }
-
-            } else calculateExpression(questions, variables, calculations, n);
+            result.add(jpg.getPanel());
         }
 
-        JPanelGUI jPanelGUI = new JPanelGUI();
-        jPanelGUI.createPanel(questions, 0);
+        jPanelGUI.createPanel(questions);
         JPanel jPanelForm = jPanelGUI.getPanel();
 
-        if (!conditions.isEmpty())
-        {
-            conditions.forEach((c, o) -> jPanelGUI.getQuestion(c).attachObserver(o));
-        }
-
-        if (!variables.isEmpty())
-        {
-            variables.forEach(v -> jPanelGUI.getQuestion(v).attachObserver(jPanelGUI));
-        }
-
-        if (!calculations.isEmpty())
-        {
-            calculations.forEach(jPanelGUI::addCalculation);
-        }
 
         result.addFirst(jPanelForm);
+
+        if (!messages.isEmpty() && !messages.allWarning())
+        {
+            System.err.print(messages.toString());
+            System.exit(1);
+        } else if (messages.allWarning())
+        {
+            System.err.print(messages.toString());
+        }
 
         return result;
     }
 
     @Override
-    public LinkedList<JPanelGUI> visit(ConditionalIfNode node)
+    public LinkedList<JPanelGUI> visit(ConditionalNode node)
     {
         JPanelGUI jPanelGUI = new JPanelGUI();
 
-        LinkedList<JPanelGUI> result = new LinkedList<>();
-        LinkedList<Question> questions = new LinkedList<Question>();
-        LinkedList<String> variables = new LinkedList<>();
+        Node condition = node.getCondition();
 
-        HashMap<String, JPanelGUI> conditions = new HashMap<>();
-        HashMap<String, String> calculations = new HashMap<>();
-
-        for (Node n : node.getQuestions())
+        if (condition != null)
         {
-            if (n instanceof ConditionalIfNode)
+
+            String expression = condition.accept(this);
+
+            if (!condition.isBooleanExpression())
             {
-                String condition = ((ConditionalIfNode) n).getCondition().accept(this);
-                LinkedList<JPanelGUI> jPanelIf = n.accept(this);
-                jPanelIf.getFirst().setCondition(condition);
-                condition = allTogether(condition);
-                String[] names = condition.split("\\.");
-                for (String s : names)
-                {
-                    conditions.put(s, jPanelIf.getFirst());
-                }
-                result.addAll(jPanelIf);
-                //TODO: Make this perfect (whatever that means)
+                messages.addMessage("The expression " + expression + " on conditional is not a boolean expression",
+                        Messages.MessageTypes.ERROR);
+            }
+
+            containsAllVariables(expression);
+
+            eventChecker.addCondition(expression, jPanelGUI);
+            if (elseCondition.equals(""))
+            {
+                elseCondition = "!" + expression;
             } else
             {
-                calculateExpression(questions, variables, calculations, n);
+                elseCondition = "!" + expression + " && " + elseCondition;
             }
+        } else
+        {
+            eventChecker.addCondition(elseCondition, jPanelGUI);
+            elseCondition = "";
         }
+
+        LinkedList<JPanelGUI> result = new LinkedList<>();
+        LinkedList<Question> questions = new LinkedList<Question>();
+
+        makeQuestionsList(node.getQuestions(), result, jPanelGUI, questions);
+
 
         if (node.getAfter() != null)
         {
-            if (node.getAfter() instanceof ConditionalIfNode)
-            {
-                LinkedList<JPanelGUI> jPanelGUIS = node.getAfter().accept(this);
 
-                result.addAll(jPanelGUIS);
-            } else
-            {
-                result.add(node.getAfter().accept(this));
-            }
+            LinkedList<JPanelGUI> jPanelGUIS = node.getAfter().accept(this);
+
+            result.addAll(jPanelGUIS);
+
         }
 
-        jPanelGUI.createPanel(questions, 0);
+        jPanelGUI.createPanel(questions);
         JPanel ifElsePanel = jPanelGUI.getPanel();
         ifElsePanel.setVisible(false);
         result.addFirst(jPanelGUI);
 
-        if (!variables.isEmpty())
-        {
-            variables.forEach(v -> jPanelGUI.getQuestion(v).attachObserver(jPanelGUI));
-        }
-
-        if (!calculations.isEmpty())
-        {
-            calculations.forEach(jPanelGUI::addCalculation);
-        }
 
         return result;
-    }
-
-
-    private void calculateExpression(LinkedList<Question> questions, LinkedList<String> variables, HashMap<String, String> calculations, Node n)
-    {
-        if (n instanceof QuestionAssignValueNode)
-        {
-            String calculation = ((QuestionAssignValueNode) n).getExpression().accept(this);
-            Question question = ((QuestionAssignValueNode) n).accept(this);
-            calculations.put(question.answerNameValue(), calculation);
-            calculation = allTogether(calculation);
-            String[] names = calculation.split("\\.");
-            ((Textbox) question).setHasCalculation(true);
-
-            for (String s : names)
-            {
-                if (!isNumeric(s))
-                {
-                    variables.add(s);
-                }
-            }
-            questions.add(question);
-        } else
-        {
-            questions.add(n.accept(this));
-        }
-    }
-
-
-    @Override
-    public JPanelGUI visit(ConditionalElseNode node)
-    {
-        JPanelGUI jPanelGUI = new JPanelGUI();
-        LinkedList<Question> questions = new LinkedList<Question>();
-        LinkedList<String> variables = new LinkedList<>();
-        HashMap<String, String> calculations = new HashMap<>();
-        for (Node n : node.getQuestions())
-        {
-            calculateExpression(questions, variables, calculations, n);
-        }
-
-        jPanelGUI.createPanel(questions, 0);
-        jPanelGUI.getPanel().setVisible(false);
-
-        if (!variables.isEmpty())
-        {
-            variables.forEach(v -> jPanelGUI.getQuestion(v).attachObserver(jPanelGUI));
-        }
-
-        if (!calculations.isEmpty())
-        {
-            calculations.forEach(jPanelGUI::addCalculation);
-        }
-
-        return jPanelGUI;
     }
 
     @Override
@@ -268,8 +195,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
         return node.getLeft().accept(this) + " == " + node.getRight().accept(this);
     }
 
-
-    public String visit(NegateNode node)
+    public String visit(NotNode node)
     {
         return "!" + node.getInnerNode().accept(this);
     }
@@ -280,29 +206,65 @@ public class ASTVisitorEvaluator implements ASTVisitor
         Question question;
         String label = visit((LabelNode) node.getLeft());
         String name = visit((NameNode) node.getCenter());
-        String type = visit((TypeNode) node.getRight());
+        ValueType type = visit((TypeNode) node.getRight());
 
-        if (type.equals("boolean"))
+        if (!declaredVaribles.containsKey(name))
+        {
+            declaredVaribles.put(name, type);
+        } else if (!declaredVaribles.get(name).equals(type))
+        {
+            messages.addMessage("The variable " + name + " is already declared", Messages.MessageTypes.ERROR);
+        }
+
+        if (type.equals(ValueType.BOOLEAN))
         {
             question = new Radio(label, type, name);
         } else
         {
             question = new Textbox(label, type, name);
         }
+
+        question.attachObserver(eventChecker);
         return question;
 
     }
 
     @Override
-    public Textbox visit(QuestionAssignValueNode node)
+    public Question visit(QuestionAssignValueNode node)
     {
-        return node.getPrevious().accept(this);
+        Question question = node.getPrevious().accept(this);
+        Node expression = node.getExpression();
+
+        if (expression.isBooleanExpression())
+        {
+            messages.addMessage("The calculation on varible " + question.answerNameValue() + " is not a math expression.",
+                    Messages.MessageTypes.ERROR);
+        }
+
+        String calculation = expression.accept(this);
+
+        containsAllVariables(calculation);
+
+        eventChecker.addCalculation(question.answerNameValue(), calculation);
+        ((Textbox) question).setHasCalculation(true);
+
+        return question;
     }
 
     @Override
     public String visit(LabelNode node)
     {
-        return node.getLabel().replaceAll("\"", "");
+        String label = node.getLabel().replaceAll("\"", "");
+
+        if (labels.contains(label))
+        {
+            messages.addMessage("Label " + label + " already exists", Messages.MessageTypes.WARNING);
+        } else
+        {
+            labels.add(label);
+        }
+
+        return label;
     }
 
     @Override
@@ -312,9 +274,15 @@ public class ASTVisitorEvaluator implements ASTVisitor
     }
 
     @Override
-    public String visit(TypeNode node)
+    public ValueType visit(TypeNode node)
     {
-        return node.getType();
+        ValueType valueType = node.getType();
+        if (valueType.equals(ValueType.UNKNOWN))
+        {
+            messages.addMessage("Error: Incorrect type! Types allowed are: money, string, boolean, decimal and integer.",
+                    Messages.MessageTypes.ERROR);
+        }
+        return valueType;
     }
 
     @Override
@@ -335,21 +303,40 @@ public class ASTVisitorEvaluator implements ASTVisitor
         return String.valueOf(node.getValue());
     }
 
-    private String allTogether(String string)
+    private void makeQuestionsList(List<Node> listToTurn, List<JPanelGUI> result,
+                                   JPanelGUI jPanelGUI, List<Question> questions)
     {
-        return getString(string);
+        for (Node n : listToTurn)
+        {
+            if (n instanceof ConditionalNode)
+            {
+                LinkedList<JPanelGUI> jPanelIf = n.accept(this);
+                result.addAll(jPanelIf);
+
+            } else if (n instanceof QuestionAssignValueNode)
+            {
+                Question question = ((QuestionAssignValueNode) n).accept(this);
+                eventChecker.addCalculationPanel(question.answerNameValue(), jPanelGUI);
+                questions.add(question);
+            } else
+            {
+                questions.add(n.accept(this));
+            }
+
+        }
     }
 
-    private boolean isNumeric(String str)
+    private void containsAllVariables(String expression)
     {
-        try
+        boolean containsAll = true;
+        for (String var : variables(expression))
         {
-            double d = Double.parseDouble(str);
-        } catch (NumberFormatException nfe)
-        {
-            return false;
+            containsAll = containsAll && declaredVaribles.containsKey(var);
         }
-        return true;
+
+        if (!containsAll)
+            messages.addMessage("Not all variables from expression " + expression + " are declared",
+                    Messages.MessageTypes.ERROR);
     }
 
 }

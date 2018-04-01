@@ -25,7 +25,7 @@ public class NumberValue extends Value<BigDecimal> {
     }
 
     @Override
-    public Integer getIntValue() {
+    public Integer getIntegerValue() {
         return this.value.intValue();
     }
 

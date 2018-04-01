@@ -1,8 +1,7 @@
-﻿using System;
-using Antlr4.Runtime;
+﻿using Antlr4.Runtime;
 using QlsGrammar;
-using QlsTransformer.Ast.Nodes;
-using QlsTransformer.Ast.Tools;
+using QlsTransformer.Domain.Ast.Nodes;
+using QlsTransformer.Domain.Ast.Tools;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -22,12 +21,12 @@ namespace QlsParser.AstBuilder
             m_qlsAstFactory = qlsAstFactory;
         }
 
-        public Reference<IStyleSheetRootNode> BuildStyleSheet(string definition)
+        public DomainId<IStyleSheetRootNode> BuildStyleSheet(string definition)
         {
             return BuildAstTree<IStyleSheetRootNode>(definition);
         }
 
-        private Reference<T> BuildAstTree<T>(string definition) where T : IAstNode
+        private DomainId<T> BuildAstTree<T>(string definition) where T : IAstNode
         {
             var stream = new AntlrInputStream(definition);
             var lexer = new QlsLexer(stream);

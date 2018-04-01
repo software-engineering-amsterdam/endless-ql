@@ -1,0 +1,61 @@
+- GUIBUILDER
+    - Formbuilder
+    - Stylesheet builder
+    + QuestionChange listener
+
+
+
+GUIBuilder -> FormBuilder getQuestionPanels
+                    <- FOrmbuilder
+foreach (questionPanel)
+    styleSheetBuilder.addWidgetToList(questionPanel)
+
+stylesheetBuilder buildStylesheet()
+    Page
+      add to panel
+        Section
+            add to panel
+                Question
+                    if(Question in questionPanels from FORMBUILDER)
+                        Add to panel
+return stylesheetPanel
+
+Mainpanel.add(Stylesheet)
+
+
+GUIBUILDER
+MainFrame
+MainPanel
+
+FormBuilder
+MainListPanel
+    QuestionPanels
+
+StyleSheetBuilder
+StylePanel
+
+
+
+1. Change Remove/Add hashmap to set Visibility true false with questionpanels
+2. Seperate Widgets and QuestionPanels
+3. Apply the right creation methods in QLBuilder and QLSBuilder
+
+
+
+---------------------------------------------------------------------------------------
+Intro - Elias
+Demonstratie - Elias
+
+Grammar - Elias
+VisitorQL - Elias
+
+GUI structure - Abel
+GUI QL - Abel
+Grammar - Abel
+VisitorQLS - Abel
+
+GUI QLS - Elias
+Checkers - Elias
+
+Tests - Abel
+Afsluiten - Abel

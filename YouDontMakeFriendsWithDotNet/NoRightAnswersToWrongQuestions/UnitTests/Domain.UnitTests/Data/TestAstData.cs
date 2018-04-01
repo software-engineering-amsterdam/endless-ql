@@ -53,7 +53,6 @@ form CommentFormML {}";
 form CommentFormMLX {}";
                 yield return new TestCaseData(multilineComment2, @"CommentFormMLX");
                 yield return new TestCaseData(@"form /* //inline */ CommentFormCIC {}", @"CommentFormCIC");
-                // ToDo: Add instring comments and make sure they print
             }
         }
 
@@ -148,8 +147,6 @@ form CommentFormML {}";
                     "form NameForm { x: \"xyz\" integer = (10 + 20) }",
                     new[] {@"10+20"},
                     new[] {10m, 20m}, noVarNames);
-                // ToDo: test decimal, multiply, divide, minus, divide by zert
-                // ToDo: test with single and multiple variables
             }
         }
 
@@ -341,10 +338,6 @@ form CommentFormML {}";
                     definitions: new[] {"true==true"},
                     operators: new BooleanOperatorCount {EqualityCount = 1},
                     subdefinitions: new[] {"true==true"});
-
-                // ToDo: test inequality in a to relational test, i.e. "false!=true"
-                // ToDo: continue conversion of old tests
-                // ToDo: random testing for these
             }
         }
 

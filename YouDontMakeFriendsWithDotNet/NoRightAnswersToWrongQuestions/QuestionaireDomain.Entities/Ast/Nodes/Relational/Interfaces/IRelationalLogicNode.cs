@@ -6,7 +6,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces
 {
     public interface IRelationalLogicNode : IBooleanLogicNode
     {
-        Reference<IAstNode> LeftExpression { get; }
-        Reference<IAstNode> RightExpression { get; }
+        DomainId<IAstNode> LeftExpression { get; }
+        DomainId<IAstNode> RightExpression { get; }
     }
 }

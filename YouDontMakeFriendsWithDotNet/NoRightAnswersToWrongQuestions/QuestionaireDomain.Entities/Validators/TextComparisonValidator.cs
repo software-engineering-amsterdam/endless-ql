@@ -17,10 +17,10 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            Reference<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> rootNode)
         {
             return Validate<ITextVariableNode, TextComparisonValidationMetaData>(
-                questionnaireRootNode,
+                rootNode,
                 x => x != typeof(string),
                 @"string comparison",
                 @"string");

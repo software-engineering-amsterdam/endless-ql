@@ -12,8 +12,7 @@ import QuestionStyleNode from "./nodes/children/QuestionStyleNode";
 import StyledField from "./StyledField";
 import FieldNode from "../../../form/nodes/fields/FieldNode";
 import { Maybe } from "../../../helpers/type_helper";
-import { UnkownFieldError } from "../../../form/form_errors";
-import { getQuestionStyleNodes } from "./style_helpers";
+import { getQuestionStyleNodes } from "../helpers/style_helpers";
 
 /**
  * QLS Form that combines a basic QL form with styling and layout information
@@ -21,13 +20,15 @@ import { getQuestionStyleNodes } from "./style_helpers";
  */
 export default class QlsForm implements StatefulForm {
   private baseForm: StatefulForm;
-  private stylesheetNode: StyleSheetNode;
-  private mergedStyles: Maybe<MergedFieldStyle[]>;
-  private questionStyles: Maybe<QuestionStyleNode[]>;
+  private styleSheetNode: StyleSheetNode;
+  private mergedStyles: MergedFieldStyle[];
+  private questionStyles: QuestionStyleNode[];
 
-  constructor(baseForm: StatefulForm, stylesheetNode: StyleSheetNode) {
-    this.stylesheetNode = stylesheetNode;
+  constructor(baseForm: StatefulForm, styleSheetNode: StyleSheetNode) {
+    this.styleSheetNode = styleSheetNode;
     this.baseForm = baseForm;
+    this.mergedStyles = MergeFieldStylesVisitor.run(this.styleSheetNode, this.getVariablesMap());
+    this.questionStyles = getQuestionStyleNodes(this.styleSheetNode, true);
   }
 
   getName(): string {
@@ -44,12 +45,12 @@ export default class QlsForm implements StatefulForm {
 
   setAnswer(identifier: string, value: any): StatefulForm {
     const newBaseForm = this.baseForm.setAnswer(identifier, value);
-    return new QlsForm(newBaseForm, this.stylesheetNode);
+    return new QlsForm(newBaseForm, this.styleSheetNode);
   }
 
   setState(nextState: FormState): StatefulForm {
     const newBaseForm = this.baseForm.setState(nextState);
-    return new QlsForm(newBaseForm, this.stylesheetNode);
+    return new QlsForm(newBaseForm, this.styleSheetNode);
   }
 
   // noinspection JSUnusedGlobalSymbols
@@ -78,25 +79,25 @@ export default class QlsForm implements StatefulForm {
     );
 
     if (!activePageName) {
-      return this.stylesheetNode.getFirstPage();
+      return this.styleSheetNode.getFirstPage();
     }
 
     return activePage;
   }
 
   getPages(): PageNode[] {
-    return this.stylesheetNode.getPages();
+    return this.styleSheetNode.getPages();
   }
 
   getField(identifier: string): Maybe<FieldNode> {
     return this.baseForm.getField(identifier);
   }
 
-  getStyledField(identifier: string): StyledField {
+  getStyledField(identifier: string): Maybe<StyledField> {
     const field = this.getField(identifier);
 
     if (!field) {
-      throw UnkownFieldError.make(identifier);
+      return undefined;
     }
 
     return StyledField.makeFromCollections(field, this.getMergedStyles(), this.getQuestionStyleNodes());
@@ -107,18 +108,10 @@ export default class QlsForm implements StatefulForm {
   }
 
   private getMergedStyles(): MergedFieldStyle[] {
-    if (!this.mergedStyles) {
-      this.mergedStyles = MergeFieldStylesVisitor.run(this.stylesheetNode, this.getVariablesMap());
-    }
-
     return this.mergedStyles;
   }
 
   private getQuestionStyleNodes(): QuestionStyleNode[] {
-    if (!this.questionStyles) {
-      this.questionStyles = getQuestionStyleNodes(this.stylesheetNode, true);
-    }
-
     return this.questionStyles;
   }
 }

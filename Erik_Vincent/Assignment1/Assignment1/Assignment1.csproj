@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{21E5DCC7-1951-4DCC-8FCF-9EAB50A08DE1}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>Assignment1</RootNamespace>
     <AssemblyName>Assignment1</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
@@ -53,13 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\QLASTExpressionToRenderExpression.cs" />
-    <Compile Include="Converters\QLASTToRenderTree.cs" />
-    <Compile Include="Converters\TextToQLAST.cs" />
+    <Compile Include="Parser\QLParser.cs" />
     <Compile Include="Execution\QLExecutor.cs" />
     <Compile Include="Execution\QLExpressionEvaluator.cs" />
     <Compile Include="Export\FormExporter.cs" />
-    <Compile Include="IMainView.cs" />
+    <Compile Include="IQLGUI.cs" />
     <Compile Include="MainPresenter.cs" />
     <Compile Include="Model\QLS\AST\DefaultStyle.cs" />
     <Compile Include="Model\QLS\AST\IQLSASTNode.cs" />
@@ -77,9 +75,7 @@
     <Compile Include="Model\QLS\AST\Style\Widget\YesNoWidget.cs" />
     <Compile Include="Model\QLS\AST\Style\Width.cs" />
     <Compile Include="Model\QL\AST\ASTNode.cs" />
-    <Compile Include="Model\QL\AST\Value\IOperations.cs" />
     <Compile Include="Model\QL\AST\Value\IValueVisitor.cs" />
-    <Compile Include="Model\QL\RenderTree\AnswerType.cs" />
     <Compile Include="Model\QL\AST\ComputedQuestion.cs" />
     <Compile Include="Model\QL\AST\Expression\Add.cs" />
     <Compile Include="Model\QL\AST\Expression\And.cs" />
@@ -112,9 +108,6 @@
     <Compile Include="Model\QL\AST\Value\QLMoney.cs" />
     <Compile Include="Model\QL\AST\Value\QLString.cs" />
     <Compile Include="Model\QL\AST\Value\IValue.cs" />
-    <Compile Include="Model\QL\RenderTree\IRenderable.cs" />
-    <Compile Include="Model\QL\RenderTree\Value\AnswerValue.cs" />
-    <Compile Include="Model\QL\RenderTree\IQuestionVisitor.cs" />
     <Compile Include="Model\QLS\AST\Statement.cs" />
     <Compile Include="Model\QLS\AST\Page.cs" />
     <Compile Include="Model\QLS\AST\QuestionStyle.cs" />
@@ -122,64 +115,44 @@
     <Compile Include="Model\QLS\AST\Style\IStyle.cs" />
     <Compile Include="Model\QLS\AST\StyleSheet.cs" />
     <Compile Include="Model\QLS\AST\Style\Widget\IWidget.cs" />
-    <Compile Include="Model\QL\RenderTree\QLExpression\Expression.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="QLGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="QLGUI.Designer.cs">
+      <DependentUpon>QLGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\QL\RenderTree\RenderableQuestionBool.cs" />
-    <Compile Include="Model\QL\RenderTree\RenderableQuestionDate.cs" />
-    <Compile Include="Model\QL\RenderTree\RenderableQuestionDecimal.cs" />
-    <Compile Include="Model\QL\RenderTree\RenderableQuestionInt.cs" />
-    <Compile Include="Model\QL\RenderTree\RenderableQuestionMoney.cs" />
-    <Compile Include="Model\QL\RenderTree\RenderableQuestionString.cs" />
-    <Compile Include="Model\QL\RenderTree\Value\AnswerValueBool.cs" />
-    <Compile Include="Model\QL\RenderTree\Value\AnswerValueNumber.cs" />
-    <Compile Include="Model\QL\RenderTree\Value\AnswerValueString.cs" />
-    <Compile Include="Model\QL\RenderTree\Value\AnswerValueUndefined.cs" />
-    <Compile Include="Model\QL\RenderTree\Value\IAnswerComparable.cs" />
-    <Compile Include="Model\QL\RenderTree\Value\IAnswerComputable.cs" />
-    <Compile Include="Model\QL\RenderTree\Value\IAnswerLogical.cs" />
-    <Compile Include="Model\QL\RenderTree\Value\IAnswerValuable.cs" />
     <Compile Include="Parser\AntlrGenerated\QL.cs" />
-    <Compile Include="Parser\AntlrGenerated\QLBaseListener.cs" />
     <Compile Include="Parser\AntlrGenerated\QLLexer.cs" />
-    <Compile Include="Parser\AntlrGenerated\QLListener.cs" />
     <Compile Include="Parser\AntlrGenerated\QLS.cs" />
     <Compile Include="Parser\AntlrGenerated\QLSLexer.cs" />
     <Compile Include="Parser\QLErrorListener.cs" />
     <Compile Include="Parser\ParseErrorHandler.cs" />
     <Compile Include="Parser\QLSParser.cs" />
-    <Compile Include="Rendering\ExpressionEvaluator.cs" />
     <Compile Include="Rendering\QLRenderer.cs" />
+    <Compile Include="Rendering\QLS\QLSRenderer.cs" />
     <Compile Include="Rendering\Widget\DatePicker.cs" />
     <Compile Include="Rendering\Widget\QLWidgetFactory.cs" />
-    <Compile Include="Rendering\QuestionFormWithStyleRenderer.cs" />
     <Compile Include="Model\QL\AST\Statement.cs" />
     <Compile Include="Model\QL\AST\Exceptions.cs" />
-    <Compile Include="Rendering\SymbolTable.cs" />
     <Compile Include="Rendering\Widget\CheckBox.cs" />
     <Compile Include="Rendering\Widget\IWidget.cs" />
     <Compile Include="Rendering\Widget\SpinBox.cs" />
     <Compile Include="Rendering\Widget\TextBox.cs" />
+    <Compile Include="Rendering\Widget\Undefined.cs" />
     <Compile Include="TypeChecking\MessageContainer.cs" />
-    <Compile Include="TypeChecking\QLASTCyclicDependencyChecker.cs" />
+    <Compile Include="TypeChecking\QLCyclicDependencyChecker.cs" />
     <Compile Include="Model\QL\AST\QLASTBaseVisitor.cs" />
-    <Compile Include="TypeChecking\QLASTDuplicateChecker.cs" />
-    <Compile Include="TypeChecking\QLASTScopeChecker.cs" />
+    <Compile Include="TypeChecking\QLDuplicateChecker.cs" />
+    <Compile Include="TypeChecking\QLScopeChecker.cs" />
+    <Compile Include="TypeChecking\QLS\QLSReferenceChecker.cs" />
     <Compile Include="TypeChecking\QLTypeChecker.cs" />
-    <Compile Include="Model\QL\RenderTree\RenderableQuestion.cs" />
-    <Compile Include="Model\QL\RenderTree\QuestionForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser\QLParseException.cs" />
-    <Compile Include="Rendering\QuestionFormRenderer.cs" />
     <Compile Include="Rendering\IQuestionFormRenderer.cs" />
-    <Compile Include="TypeChecking\QLSTypeChecker.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="TypeChecking\QLS\QLSTypeChecker.cs" />
+    <EmbeddedResource Include="QLGUI.resx">
+      <DependentUpon>QLGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -189,6 +162,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -209,7 +183,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Tests\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

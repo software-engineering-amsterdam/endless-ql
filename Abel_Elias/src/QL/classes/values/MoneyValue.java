@@ -11,8 +11,8 @@ public class MoneyValue extends NumericValue<Double> {
     }
 
     @Override
-    public void setValueGeneric(Object o) {
-        setValue((double) o);
+    public void setValueGeneric(Object obj) {
+        setValue(((Number) obj).doubleValue());
     }
 
     @Override

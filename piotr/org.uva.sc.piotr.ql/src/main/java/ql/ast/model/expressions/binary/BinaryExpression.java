@@ -4,8 +4,8 @@ import ql.ast.model.expressions.Expression;
 
 public abstract class BinaryExpression extends Expression {
 
-    private Expression leftSide;
-    private Expression rightSide;
+    private final Expression leftSide;
+    private final Expression rightSide;
 
     protected BinaryExpression(Expression leftSide, Expression rightSide, MetaInformation metaInformation) {
         super(metaInformation);

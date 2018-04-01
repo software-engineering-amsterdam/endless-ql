@@ -28,10 +28,10 @@ public class CyclicDependencyTests {
 		assertFalse(checker.check(identifierMapBuilder.buildMap(ast)));
 		assertTrue(checker.getErrors().size() == 0);
 	}
-	
+
 	String test2 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean q1\n"
+			+ "\"question1\" q1: boolean = q1\n"
 			+ "}";
 
 	@Test
@@ -43,11 +43,11 @@ public class CyclicDependencyTests {
 		assertTrue(checker.
 				getErrorAtIndex(0).equals("[CyclicDependencyChecker] A cyclic dependency was found between the following questions: q1"));
 	}
-	
+
 	String test3 =
 			"form Form1 {\n"
-			+ "\"question1\" q1: boolean q2\n"
-			+ "\"question2\" q2: boolean q1\n"
+			+ "\"question1\" q1: boolean = q2\n"
+			+ "\"question2\" q2: boolean = q1\n"
 			+ "}";
 
 	@Test
@@ -58,5 +58,22 @@ public class CyclicDependencyTests {
 		assertTrue(checker.getErrors().size() == 1);
 		assertTrue(checker.
 				getErrorAtIndex(0).equals("[CyclicDependencyChecker] A cyclic dependency was found between the following questions: q1, q2"));
+	}
+
+	String test4 =
+			"form Form1 {\n"
+			+ "\"question1\" q1: boolean = q2\n"
+			+ "if (true) { \"question2\" q2: boolean = q3 }\n"
+			+ "\"question3\" q3: boolean = q1\n"
+			+ "}";
+
+	@Test
+	public void test4() throws Exception {
+		List<Statement> ast = TestUtilities.buildAst(test4);
+		// No cycles
+		assertTrue(checker.check(identifierMapBuilder.buildMap(ast)));
+		assertTrue(checker.getErrors().size() == 1);
+		assertTrue(checker.
+				getErrorAtIndex(0).equals("[CyclicDependencyChecker] A cyclic dependency was found between the following questions: q1, q2, q3"));
 	}
 }

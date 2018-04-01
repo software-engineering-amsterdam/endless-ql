@@ -71,7 +71,7 @@ public class WidgetContainer extends Panel{
 
         if ( behaviouralType == BehaviouralType.COMPUTED ) {
 
-            return addToParent( parentPanel, new ComputedQuestionWidget( question ) );
+            return addToParent( parentPanel, new ComputedQuestionWidget( question ).jLabel );
         }
 
         Type type = question.type();
@@ -82,19 +82,19 @@ public class WidgetContainer extends Panel{
             switch ( type ) {
 
                 case Boolean:
-                    return addToParent( parentPanel, new BooleanWidget( question ) );
+                    return addToParent( parentPanel, new BooleanWidget( question ).jComboBox );
 
                 case Date:
-                    return addToParent( parentPanel, new DateWidget( question ) );
+                    return addToParent( parentPanel, new DateWidget( question ).jTextField );
 
                 case Integer:
-                    return addToParent( parentPanel, new IntegerWidget( question ) );
+                    return addToParent( parentPanel, new IntegerWidget( question ).jSpinner );
 
                 case Money:
-                    return addToParent( parentPanel, new MoneyWidget( question ) );
+                    return addToParent( parentPanel, new MoneyWidget( question ).jSpinner );
 
                 case String:
-                    return addToParent( parentPanel, new StringWidget( question ) );
+                    return addToParent( parentPanel, new StringWidget( question ).jTextField );
             }
         }
         throw new RuntimeException( "Do not know how to diplay type: " + type );

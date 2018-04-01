@@ -7,17 +7,17 @@ import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
 
-@SuppressWarnings( "serial" ) 
+public class BooleanWidget implements QuestionnaireAccessor {
 
-public class BooleanWidget extends JComboBox<String> implements QuestionnaireAccessor {
+    JComboBox<String> jComboBox;
 
     public BooleanWidget( Question question ) {
 
-        super( new String[] { new Value( false ).string(), new Value( true ).string() } );
+        jComboBox = new JComboBox<>( new String[] { new Value( false ).string(), new Value( true ).string() } );
 
-        setSelectedItem( question.value().string() );
+        jComboBox.setSelectedItem( question.value().string() );
 
-        addActionListener( e -> {
+        jComboBox.addActionListener( e -> {
 
             @SuppressWarnings( "unchecked" )
             JComboBox<String> combo = (JComboBox<String>) e.getSource();

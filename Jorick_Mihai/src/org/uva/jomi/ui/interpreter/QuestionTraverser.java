@@ -30,24 +30,24 @@ public class QuestionTraverser implements Statement.Visitor<List<Question>> {
 	}
 	
 	@Override
-	public List<Question> visit(FormStatement stmt) {
-		return stmt.getBlockStmt().accept(this);
+	public List<Question> visit(FormStatement statement) {
+		return statement.getBlockStmt().accept(this);
 	}
 
 	@Override
-	public List<Question> visit(BlockStatement stmt) {
+	public List<Question> visit(BlockStatement statement) {
 		List<Question> questions = new ArrayList<Question>();
 		
-		for(Statement statement : stmt.getStatements()) {
-			questions.addAll(statement.accept(this));
+		for(Statement blockStatement : statement.getStatements()) {
+			questions.addAll(blockStatement.accept(this));
 		}
 		
 		return questions;
 	}
 
 	@Override
-	public List<Question> visit(QuestionStatement stmt) {
-		Question question = new Question(stmt.getLabel(), stmt.getIdentifier().getName(), stmt.getType().getName());
+	public List<Question> visit(QuestionStatement statement) {
+		Question question = new Question(statement.getLabel(), statement.getIdentifier().getName(), statement.getType().getName());
 		// Adding scope expressions
 		question.setConditions(this.conditionalScope);
 		
@@ -57,8 +57,8 @@ public class QuestionTraverser implements Statement.Visitor<List<Question>> {
 	}
 
 	@Override
-	public List<Question> visit(ComputedQuestionStatement stmt) {
-		Question question = new Question(stmt.getLabel(), stmt.getIdentifier().getName(), stmt.getType().getName(), stmt.getExpression());
+	public List<Question> visit(ComputedQuestionStatement statement) {
+		Question question = new Question(statement.getLabel(), statement.getIdentifier().getName(), statement.getType().getName(), statement.getExpression());
 		// Adding scope expressions
 		question.setConditions(this.conditionalScope);
 		
@@ -68,42 +68,42 @@ public class QuestionTraverser implements Statement.Visitor<List<Question>> {
 	}
 
 	@Override
-	public List<Question> visit(IfStatement stmt) {
+	public List<Question> visit(IfStatement statement) {
 		List<Question> questions = new ArrayList<Question>();
 		
 		// Adding expression to the scope
-		this.conditionalScope.add(stmt.getExpression());
+		this.conditionalScope.add(statement.getExpression());
 		
 		// Walk through if block
-		questions.addAll(stmt.getIfBlockStatement().accept(this));
+		questions.addAll(statement.getIfBlockStatement().accept(this));
 		
 		// Removing expression from the scope
-		this.conditionalScope.remove(stmt.getExpression());
+		this.conditionalScope.remove(statement.getExpression());
 		
 		return questions;
 	}
 
 	@Override
-	public List<Question> visit(IfElseStatement stmt) {
+	public List<Question> visit(IfElseStatement statement) {
 		List<Question> questions = new ArrayList<Question>();
 		
 		// Adding expression to the scope
-		this.conditionalScope.add(stmt.getExpression());
+		this.conditionalScope.add(statement.getExpression());
 		
 		// Walk through if block
-		questions.addAll(stmt.getIfBlockStatement().accept(this));
+		questions.addAll(statement.getIfBlockStatement().accept(this));
 		
 		// Removing expression from the scope
-		this.conditionalScope.remove(stmt.getExpression());
+		this.conditionalScope.remove(statement.getExpression());
 		
 		// Negation expression for else statement
-		Expression negation = new UnaryNotExpression(null, stmt.getExpression());
+		Expression negation = new UnaryNotExpression(null, statement.getExpression());
 		
 		// Adding negation expression to the scope
 		this.conditionalScope.add(negation);
 		
 		// Walk through else block
-		questions.addAll(stmt.getElseBlockStatement().accept(this));		
+		questions.addAll(statement.getElseBlockStatement().accept(this));		
 		
 		// Removing negation expression to the scope
 		this.conditionalScope.remove(negation);

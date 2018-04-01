@@ -45,6 +45,8 @@ public class QuestionController extends Controller implements InputFieldListener
 		// Set views default invisible
 		view.setVisible(false);
 		
+		this.update(null, null);
+		
 		return view;
 	}
 

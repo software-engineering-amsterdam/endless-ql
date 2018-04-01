@@ -5,8 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 
 import javax.swing.JFormattedTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import org.uva.jomi.ui.interpreter.value.EmptyValue;
 import org.uva.jomi.ui.interpreter.value.GenericValue;
@@ -16,7 +14,6 @@ import org.uva.jomi.ui.views.core.Panel;
 public class IntegerField extends InputField implements PropertyChangeListener  {
 
 	private JFormattedTextField textfield;
-	private NumberFormat numberFormat;
 
 	public IntegerField() {
 		NumberFormat numberFormat = NumberFormat.getNumberInstance();

@@ -10,13 +10,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.uva.jomi.ui.interpreter.SymbolTable;
-import org.uva.jomi.ui.models.Question;
-import org.uva.jomi.ui.storage.Storage;
-import org.uva.jomi.ui.storage.StorageFactory;
 import org.uva.jomi.ui.storage.StorageFactory.StorageType;
 import org.uva.jomi.ui.views.core.Frame;
 import org.uva.jomi.ui.views.core.Panel;

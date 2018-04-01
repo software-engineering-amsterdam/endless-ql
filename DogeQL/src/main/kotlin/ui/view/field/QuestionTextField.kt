@@ -3,7 +3,7 @@ package ui.view.field
 import javafx.scene.control.TextField
 import javafx.scene.control.TextInputControl
 import tornadofx.mutateOnChange
-import ui.model.QuestionViewModel
+import ui.model.viewmodel.QuestionViewModel
 
 abstract class QuestionTextField(question: QuestionViewModel) : QuestionField(question) {
 

@@ -12,10 +12,10 @@ class CircularDependencyErrorContext : ErrorContext {
     override fun collect(): List<String> {
         return errors.map {
             "reference \"${it.head.text}\" at ${it.head.location}\n" +
-            it.dependencies.joinToString(",\n\twhich depends on ", "\tdepends on ") {
-                "reference \"${it.text}\" at ${it.location}"
-            } +
-            ",\n\tforming an unsolvable circular dependency."
+                    it.dependencies.joinToString(",\n\twhich depends on ", "\tdepends on ") {
+                        "reference \"${it.text}\" at ${it.location}"
+                    } +
+                    ",\n\tforming an unsolvable circular dependency."
         }
     }
 

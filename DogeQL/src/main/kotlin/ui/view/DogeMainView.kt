@@ -14,7 +14,7 @@ class DogeMainView : View() {
     private val minHeight = 800.0
     private val minWidth = 500.0
 
-    private var fragment : Fragment = FormFragment()
+    private var fragment: Fragment = FormFragment()
     private var infoFragment = InfoFragment()
 
     override val root = vbox {
@@ -22,11 +22,11 @@ class DogeMainView : View() {
         minWidth = this@DogeMainView.minWidth
 
         menubar {
-            menu("Import"){
+            menu("Import") {
                 item("Language").action { loadDogeQl() }
                 item("Style").action { loadStyle() }
             }
-            menu ("Info") {
+            menu("Info") {
                 item("Show messages").action { addInfoScreen() }
             }
         }
@@ -34,8 +34,8 @@ class DogeMainView : View() {
         add(fragment)
     }
 
-    private fun addInfoScreen(){
-        with(fragment.root as Drawer){
+    private fun addInfoScreen() {
+        with(fragment.root as Drawer) {
 
             item("Info Messages") {
                 add(infoFragment)
@@ -43,24 +43,24 @@ class DogeMainView : View() {
         }
     }
 
-    private fun loadDogeQl(){
-        val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire file", "*.ql")))
+    private fun loadDogeQl() {
+        val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire file", "*.doge")))
 
-        if (files.isNotEmpty()){
+        if (files.isNotEmpty()) {
             controller.loadQuestionnaire(files.first())
         }
     }
 
-    private fun loadStyle(){
+    private fun loadStyle() {
         val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire style file", "*.shiba")))
 
-        if (files.isNotEmpty()){
+        if (files.isNotEmpty()) {
             controller.loadStyle(files.first())
             updateFragment(StylizedFormFragment())
         }
     }
 
-    private fun updateFragment(newFragment: Fragment){
+    private fun updateFragment(newFragment: Fragment) {
         fragment.replaceWith(newFragment)
         fragment = newFragment
     }

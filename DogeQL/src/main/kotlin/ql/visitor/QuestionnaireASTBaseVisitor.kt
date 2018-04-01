@@ -1,7 +1,12 @@
 package ql.visitor
 
-import ql.ast.node.*
+import ql.ast.node.Block
+import ql.ast.node.Form
+import ql.ast.node.QLNode
 import ql.ast.node.expression.*
+import ql.ast.node.statement.IfStatement
+import ql.ast.node.statement.QuestionStatement
+import ql.ast.node.statement.Statement
 
 interface QuestionnaireASTBaseVisitor<out T> {
 

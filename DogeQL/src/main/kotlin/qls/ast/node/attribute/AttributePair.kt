@@ -1,11 +1,11 @@
-package qls.ast.model
+package qls.ast.node.attribute
 
-import qls.ast.node.QlsNode
 import qls.common.Name
 import qls.visitor.QlsVisitor
 
-data class Page(val styles: List<Style>, val name: Name) : QlsNode {
+class AttributePair(val name: Name, val literal: String) : Attribute {
     override fun <T> accept(visitor: QlsVisitor<T>): T {
         return visitor.visit(this)
     }
+
 }

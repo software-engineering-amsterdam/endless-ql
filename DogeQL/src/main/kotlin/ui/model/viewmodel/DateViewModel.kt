@@ -1,4 +1,4 @@
-package ui.model
+package ui.model.viewmodel
 
 import javafx.beans.property.SimpleObjectProperty
 import ui.model.domain.Question

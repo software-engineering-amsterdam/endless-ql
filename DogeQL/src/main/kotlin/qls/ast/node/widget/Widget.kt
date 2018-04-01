@@ -1,5 +1,6 @@
-package qls.ast.model
+package qls.ast.node.widget
 
+import qls.ast.node.attribute.Attribute
 import qls.visitor.QlsVisitor
 
 class Widget(val type: WidgetType) : Attribute {

@@ -3,7 +3,7 @@ package ql.typechecker.scope
 import ql.ast.location.Identifier
 import ql.typechecker.ErrorContext
 
-class ScopeErrorContext: ErrorContext {
+class ScopeErrorContext : ErrorContext {
 
     val errors = mutableListOf<Identifier>()
 

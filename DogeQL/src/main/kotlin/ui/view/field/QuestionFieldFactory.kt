@@ -1,12 +1,11 @@
-package ui.view
+package ui.view.field
 
-import ui.model.*
-import ui.view.field.*
+import ui.model.viewmodel.*
 
 class QuestionFieldFactory {
 
-    fun createQuestionField(question : QuestionViewModel) : QuestionField {
-        return when(question){
+    fun createQuestionField(question: QuestionViewModel): QuestionField {
+        return when (question) {
             is StringViewModel -> StringField(question)
             is MoneyViewModel -> MoneyField(question)
             is IntegerViewModel -> IntegerField(question)

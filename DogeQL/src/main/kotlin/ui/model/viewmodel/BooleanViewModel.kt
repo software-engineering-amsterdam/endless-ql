@@ -1,7 +1,7 @@
-package ui.model
+package ui.model.viewmodel
 
-import ui.model.domain.Question
 import javafx.beans.property.SimpleBooleanProperty
+import ui.model.domain.Question
 
 class BooleanViewModel(question: Question) : QuestionViewModel(question) {
 
@@ -11,7 +11,7 @@ class BooleanViewModel(question: Question) : QuestionViewModel(question) {
         booleanValue.value = question.value.booleanValue.value
     }
 
-    override fun synchronizeDataModel()  {
+    override fun synchronizeDataModel() {
         item.value.booleanValue.value = booleanValue.value
     }
 

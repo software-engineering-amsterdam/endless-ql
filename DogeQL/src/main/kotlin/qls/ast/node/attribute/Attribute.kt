@@ -1,4 +1,4 @@
-package qls.ast.model
+package qls.ast.node.attribute
 
 import qls.ast.node.QlsNode
 

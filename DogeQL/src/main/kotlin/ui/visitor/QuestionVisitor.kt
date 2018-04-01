@@ -2,12 +2,12 @@ package ui.visitor
 
 import ql.ast.node.Block
 import ql.ast.node.Form
-import ql.ast.node.IfStatement
-import ql.ast.node.QuestionStatement
 import ql.ast.node.expression.BinaryExpression
 import ql.ast.node.expression.LiteralExpression
 import ql.ast.node.expression.ReferenceExpression
 import ql.ast.node.expression.UnaryExpression
+import ql.ast.node.statement.IfStatement
+import ql.ast.node.statement.QuestionStatement
 import ql.data.symbol.SymbolTable
 import ql.visitor.EvaluationVisitor
 import ql.visitor.QuestionnaireASTBaseVisitor

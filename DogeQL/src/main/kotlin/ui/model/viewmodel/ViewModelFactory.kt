@@ -1,13 +1,13 @@
-package ui.model
+package ui.model.viewmodel
 
 import ql.data.symbol.SymbolType
 import ui.model.domain.Question
 
 class ViewModelFactory {
 
-    fun createQuestionViewModel(question : Question) : QuestionViewModel {
+    fun createQuestionViewModel(question: Question): QuestionViewModel {
 
-        return when(question.value.type){
+        return when (question.value.type) {
             SymbolType.BOOLEAN -> BooleanViewModel(question)
             SymbolType.INTEGER -> IntegerViewModel(question)
             SymbolType.DECIMAL -> DecimalViewModel(question)

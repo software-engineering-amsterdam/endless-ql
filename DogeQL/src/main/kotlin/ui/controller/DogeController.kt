@@ -34,7 +34,7 @@ class DogeController : Controller() {
         reloadQuestions()
     }
 
-    private fun addInfoMessages(info: List<String>){
+    private fun addInfoMessages(info: List<String>) {
         infoMessages.removeAll()
         infoMessages.addAll(info)
     }
@@ -44,7 +44,7 @@ class DogeController : Controller() {
     }
 
     fun reloadQuestions() {
-        if (infoMessages.isEmpty()){
+        if (infoMessages.isEmpty()) {
             symbolTable.let {
                 val visitor = QuestionVisitor(symbolTable!!)
                 val enabledQuestions = ast!!.accept(visitor)
@@ -60,11 +60,11 @@ class DogeController : Controller() {
         }
     }
 
-    fun hasQuestion(name: String) : Boolean{
+    fun hasQuestion(name: String): Boolean {
         return questions.any { it.name == name }
     }
 
-    fun getQuestion(name : String) : Question{
+    fun getQuestion(name: String): Question {
         return questions.first { it.name == name }
     }
 

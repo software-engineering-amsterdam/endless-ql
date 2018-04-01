@@ -1,4 +1,4 @@
-package qls.ast.model
+package qls.ast.node.widget
 
 enum class WidgetType {
     SPINBOX,

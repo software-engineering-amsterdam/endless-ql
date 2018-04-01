@@ -3,10 +3,10 @@ package test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uva.jomi.ui.elements.fields.TextField;
-import org.uva.jomi.ui.elements.fields.BooleanField;
-import org.uva.jomi.ui.elements.fields.FieldFactory;
-import org.uva.jomi.ui.elements.fields.IntegerField;
+import org.uva.jomi.ui.views.fields.BooleanField;
+import org.uva.jomi.ui.views.fields.FieldFactory;
+import org.uva.jomi.ui.views.fields.IntegerField;
+import org.uva.jomi.ui.views.fields.TextField;
 
 class FieldFactoryTest {
 

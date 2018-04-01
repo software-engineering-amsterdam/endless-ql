@@ -22,14 +22,15 @@ class FormModel:
             if question.widget == widget:
                 return question
 
-    def update_show_condition_on_change(self, changed_widget):
+    def update_questions_on_change(self, changed_widget):
         changed_question = self.find_question_of_widget(changed_widget)
 
         if changed_question:
-            changed_question.answer = changed_question.answer_type.get_literal_node(changed_question.widget.value())
+            new_value = changed_question.widget.get_value(changed_question.answer_type)
+            changed_question.answer = changed_question.answer_type.get_literal_node(new_value)
 
             for question in self.block:
-                result = question.evaluate_show_condition(self)
+                result = question.evaluate_visibility_condition(self)
 
                 if result:
                     question.widget.show()

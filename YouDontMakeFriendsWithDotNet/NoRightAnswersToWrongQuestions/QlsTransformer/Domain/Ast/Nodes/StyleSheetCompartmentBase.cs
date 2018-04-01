@@ -4,9 +4,9 @@ using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace QlsTransformer.Ast.Nodes
+namespace QlsTransformer.Domain.Ast.Nodes
 {
-    internal abstract class StyleSheetCompartmentBase : AstNodeBase
+    internal abstract class StyleSheetCompartmentBase : AstNodeBase, IStyleSheetCompartment
     {
         protected StyleSheetCompartmentBase(
             Guid id, 

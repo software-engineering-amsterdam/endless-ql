@@ -1,4 +1,3 @@
-from gui.model.question import QuestionModel
 from ql.ast.nodes.base_node import BaseNode
 
 
@@ -30,12 +29,3 @@ class QuestionNode(BaseNode):
     @property
     def computed(self):
         return self.__computed
-
-    def __eq__(self, other):
-        return self.__label == other.__label and \
-               self.__identifier == other.__identifier and \
-               self.__answer_type == other.__answer_type and \
-               self.__answer == other.answer
-
-    def to_question(self, show):
-        return QuestionModel(self.label, self.identifier, self.answer_type, self.answer, self.computed, show)

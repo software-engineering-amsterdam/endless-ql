@@ -1,5 +1,4 @@
 from ql.ast.visitors.dependency_visitor import DependencyVisitor
-from ql.ast.visitors.expression_evaluator import ExpressionEvaluator
 from ql.ast.visitors.gui_model_generator import GUIModel
 from ql.ast.visitors.identifier_type_visitor import IdentifierTypeVisitor
 from ql.ast.visitors.question_visitor import QuestionVisitor
@@ -28,12 +27,6 @@ def extract_questions(ast):
     question_visitor = QuestionVisitor()
     question_visitor.visit(ast)
     return question_visitor.questions
-
-
-def extract_expression_evaluation(ast, form):
-    expression_evaluator = ExpressionEvaluator(form)
-    expression_evaluator.visit(ast)
-    return expression_evaluator.result
 
 
 def extract_gui_model(ast):

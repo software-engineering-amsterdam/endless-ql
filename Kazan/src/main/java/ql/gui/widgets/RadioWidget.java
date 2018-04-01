@@ -1,9 +1,9 @@
 package ql.gui.widgets;
 
-import ql.gui.WidgetListener;
 import ql.ast.statements.Question;
-import ql.evaluator.FormEvaluator;
-import ql.evaluator.values.BooleanValue;
+import ql.environment.Environment;
+import ql.environment.values.BooleanValue;
+import ql.gui.WidgetListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,13 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RadioWidget extends BaseWidget {
+    //TODO create separate button map for arbitrary types
 
     private final Map<String, JRadioButton> choiceButtonMap;
     private final JPanel panel;
     private final ButtonGroup buttonGroup;
 
-    public RadioWidget(FormEvaluator evaluator, Question question, boolean isEditable) {
-        super(evaluator, question, isEditable);
+    public RadioWidget(Environment environment, Question question, boolean isEditable) {
+        super(environment, question, isEditable);
 
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(200, 50));
@@ -34,8 +35,13 @@ public class RadioWidget extends BaseWidget {
             choiceButtonMap.put(name, button);
             panel.add(button);
         }
+        setValue();
+        setEditable(isEditable);
+    }
 
-        BooleanValue evaluatable = ((BooleanValue) evaluator.getQuestionValue(question.getId()));
+    @Override
+    public void setValue() {
+        BooleanValue evaluatable = ((BooleanValue) environment.getQuestionValue(question.getId()));
         boolean value = evaluatable != null ? evaluatable.getValue() : false;
         if (value) {
             buttonGroup.setSelected(choiceButtonMap.get("true").getModel(), true);
@@ -45,9 +51,10 @@ public class RadioWidget extends BaseWidget {
 
     }
 
-    @Override
-    public void setValue() {
-        //TODO
+    public void setEditable(boolean isEditable) {
+        for (JRadioButton button : choiceButtonMap.values()) {
+            button.setEnabled(isEditable);
+        }
     }
 
     @Override
@@ -61,11 +68,10 @@ public class RadioWidget extends BaseWidget {
     public void registerChangeListener(WidgetListener widgetListener) {
         for (JRadioButton button : choiceButtonMap.values()) {
             button.addActionListener(e -> {
-                if (button.isSelected()) {
-                    widgetListener.onQuestionUpdated(question, new BooleanValue(Boolean.parseBoolean(button.getText())));
+                if (button.isSelected() && isEditable) {
+                    widgetListener.onInputValueUpdated(question, new BooleanValue(Boolean.parseBoolean(button.getText())));
                 }
             });
-
         }
     }
 

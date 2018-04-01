@@ -2,7 +2,9 @@ package QL.classes.values;
 
 import QL.classes.CodeBlock;
 
-public abstract class Value <T extends Object>{
+import java.util.Observable;
+
+public abstract class Value <T extends Object> extends Observable{
     public static final String BOOLEAN = "boolean",
             DECIMAL = "decimal",
             INTEGER = "integer",
@@ -29,6 +31,11 @@ public abstract class Value <T extends Object>{
 
     public void setValue(T value){
         this.value = value;
+
+        if(countObservers() > 0){
+            setChanged();
+            notifyObservers();
+        }
     }
 
     public String getType(){

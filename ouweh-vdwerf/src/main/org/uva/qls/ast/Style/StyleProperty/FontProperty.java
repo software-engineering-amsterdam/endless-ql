@@ -5,7 +5,7 @@ import org.uva.qls.ast.Value.StringValue;
 
 public class FontProperty extends StyleProperty {
 
-    private StringValue stringValue;
+    private final StringValue stringValue;
 
     public FontProperty(StringValue stringValue) {
         this.stringValue = stringValue;

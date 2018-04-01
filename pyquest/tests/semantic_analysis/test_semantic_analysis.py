@@ -12,21 +12,28 @@ from tests.test import Test
 class TestSemanticAnalysis(Test):
     def __init__(self, directory, lexer, parser):
         super(TestSemanticAnalysis, self).__init__('semantic analysis', directory)
-        self.lexer = lexer
-        self.parser = parser
+        self.__lexer = lexer
+        self.__parser = parser
 
     def test_file(self, file):
-        ast = self.parser.parse(file, self.lexer.lexer)
+        ast = self.__parser.parse(file, self.__lexer.lexer)
 
         reference_errors = ReferenceChecker(extract_identifier_scopes(ast)).errors
+        if reference_errors:
+            return False
+
         dependency_errors = DependencyChecker(extract_identifier_dependencies(ast)).errors
+        if dependency_errors:
+            return False
+
         question_errors = QuestionChecker(extract_questions(ast)).errors
+        if question_errors:
+            return False
 
         type_visitor = TypeVisitor(extract_identifier_types(ast))
         type_visitor.visit(ast)
         type_errors = type_visitor.errors
-
-        errors = reference_errors + dependency_errors + question_errors + type_errors
-        if errors:
+        if type_errors:
             return False
+
         return True

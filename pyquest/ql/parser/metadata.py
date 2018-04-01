@@ -1,12 +1,7 @@
 class Metadata:
-    def __init__(self, line, column):
+    def __init__(self, line):
         self.__line = line
-        self.__column = column
 
     @property
     def line(self):
         return self.__line
-
-    @property
-    def column(self):
-        return self.__column

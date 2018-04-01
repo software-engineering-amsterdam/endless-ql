@@ -1,10 +1,10 @@
 package ql.gui;
 
 import ql.ast.statements.Question;
-import ql.evaluator.values.Value;
+import ql.environment.values.Value;
 
 public interface WidgetListener {
 
-    void onQuestionUpdated(Question question, Value value);
+    void onInputValueUpdated(Question question, Value value);
 
 }

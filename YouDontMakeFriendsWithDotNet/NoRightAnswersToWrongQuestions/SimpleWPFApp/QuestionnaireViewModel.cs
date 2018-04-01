@@ -48,6 +48,7 @@ namespace SimpleWPFApp
         }
 
         public ICommand DataChangedCommand { get; private set; }
+
         private QuestionnaireWrapper m_questionnaire;
 
         public QuestionnaireWrapper Questionnaire

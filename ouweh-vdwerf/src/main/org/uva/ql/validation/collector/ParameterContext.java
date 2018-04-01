@@ -13,8 +13,8 @@ import java.util.Map;
 
 public class ParameterContext implements StatementVisitor<Void, String>, ExpressionVisitor<Void, String> {
 
-    private Map<String, List<Parameter>> dependencyMapping;
-    private List<Parameter> parameters;
+    private final Map<String, List<Parameter>> dependencyMapping;
+    private final List<Parameter> parameters;
 
     public ParameterContext(Form form) {
         this.dependencyMapping = new HashMap<>();
@@ -25,7 +25,7 @@ public class ParameterContext implements StatementVisitor<Void, String>, Express
         }
     }
 
-    public List<Parameter> getParameters() {
+    public List<Parameter> getList() {
         return parameters;
     }
 

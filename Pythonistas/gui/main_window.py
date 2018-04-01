@@ -48,9 +48,9 @@ class MainWindow(QtWidgets.QWidget):
                 if qls_data.errors:
                     return self.initiate_output_frame(errors=qls_data.errors)
 
-                error_message = visit_qls(qls_data.ast, question_ids, questions)
+                [question_ids, questions, error_message] = visit_qls(qls_data.ast, question_ids, questions)
 
-            # The output_frame is initialized and appropriately filled with questions and their answering tools.
+            # The output_frame is initialized and appropriately filled with questions and their answering widgets.
             self.initiate_output_frame(question_ids, questions, warning_message, error_message)
 
         else:

@@ -1,5 +1,5 @@
 // Correct result type and result value: QLBoolean False
 form label {
     "Question"
-    id : boolean = ! True
+    id : boolean = not True
 }

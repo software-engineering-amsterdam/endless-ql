@@ -10,33 +10,6 @@ using Type = Assignment1.Model.QL.AST.Type;
 @parser::members
 {
 private static string UnEscapeQLString(string input) => input.Substring(1, input.Length - 2).Replace("\"\"", "\"");
-private static IValue NewUndefined(string type)
-{
-    switch (type)
-    {
-        case "boolean":
-            return new QLBoolean();
-            break;
-        case "date":
-            return new QLDate();
-            break;
-        case "decimal":
-            return new QLDecimal();
-            break;
-        case "integer":
-            return new QLInteger();
-            break;
-        case "money":
-            return new QLMoney();
-            break;
-        case "string":
-            return new QLString();
-            break;
-        default:
-            throw new Exception();
-            break;
-    }
-}
 }
 
 options { tokenVocab=QLLexer; }
@@ -63,7 +36,7 @@ question returns [Question result]
 	| string ID SEP type ASSIGN expression
 		{$result = new ComputedQuestion(_localctx.Start.Line, $ID.text, $string.result, $type.result, $expression.result);}
 	| string ID SEP type
-		{$result = new NormalQuestion(_localctx.Start.Line, $ID.text, $string.result, $type.result, NewUndefined($type.text));}
+		{$result = new NormalQuestion(_localctx.Start.Line, $ID.text, $string.result, $type.result);}
 	;
 type returns [Type result]
 	: BOOLEAN_TYPE

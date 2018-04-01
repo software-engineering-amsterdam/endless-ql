@@ -4,10 +4,12 @@ from ql.types.boolean import QLBoolean
 
 class EqualsOperatorNode(BinaryOperatorNode):
     def __init__(self, metadata, expression_type, left_expression, right_expression, value):
-        super(EqualsOperatorNode, self).__init__(metadata, expression_type, left_expression, right_expression, value)
+        super(EqualsOperatorNode, self).__init__(metadata, expression_type,
+                                                 left_expression, right_expression, value)
 
-    def get_result_type(self, unused1, unused2):
+    @staticmethod
+    def get_result_type():
         return QLBoolean
 
     def evaluate(self):
-        self.value = self.expression_type(self.left_expression.value == self.right_expression.value)
+        self.value = self.left_expression.value == self.right_expression.value

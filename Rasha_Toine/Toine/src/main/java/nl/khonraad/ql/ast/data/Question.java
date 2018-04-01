@@ -18,7 +18,7 @@ public class Question implements StringAble {
     private Label           label;
     private Value           value;
 
-    public Question(BehaviouralType behaviouralType, Identifier identifier, Label label, Value value) {
+    public Question( BehaviouralType behaviouralType, Identifier identifier, Label label, Value value ) {
 
         this.behaviouralType = behaviouralType;
         this.identifier = identifier;
@@ -55,9 +55,7 @@ public class Question implements StringAble {
 
         if ( this.value.type() != value.type() )
             throw new RuntimeException( "TYPE_ERROR" );
-        
         this.value = value;
-        
         return value;
     }
 

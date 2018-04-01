@@ -6,14 +6,15 @@ import QL.parsing.visitors.FormVisitor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class GUIBuilder {
+public class GUIBuilder{
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which houses the list of question panels
 
     private QLBuilder qlBuilder;
     private QLSBuilder qlsBuilder;
-    private QuestionChangeListener questionChangeListener;
 
     private int frameHeight = 800; //The height of the GUI
     private int frameWidth = 800; //The width of the GUI
@@ -26,16 +27,16 @@ public class GUIBuilder {
      */
     public GUIBuilder(FormVisitor coreVisitor) {
         this.qlBuilder = new QLBuilder(coreVisitor);
-        this.questionChangeListener = new QuestionChangeListener(this);
         //this.coreVisitor = coreVisitor;
+
         initFrame();
         initComponents();
     }
 
     public GUIBuilder(FormVisitor coreVisitor, StylesheetVisitor stylesheetVisitor) {
         this.qlBuilder = new QLBuilder(coreVisitor);
-        this.questionChangeListener = new QuestionChangeListener(this);
         this.qlsBuilder = new QLSBuilder(stylesheetVisitor);
+
         initFrame();
         initComponents(true);
 
@@ -58,24 +59,24 @@ public class GUIBuilder {
 
     public void initComponents() {
         //Add a scroll pane to the form
-        mainPanel.add(new JScrollPane(qlBuilder.createMainListPanel(questionChangeListener)));
+//        mainPanel.add(new JScrollPane(qlBuilder.createMainListPanel()));
+        //qlBuilder.createMainListPanel();
 
         //Add the panel to the frame, and set some properties
-        mainFrame.add(mainPanel);
+        mainFrame.add(qlBuilder.createMainListPanel());
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
-        mainFrame.setVisible(true);
     }
 
-    public void onQuestionChange(String key, Value value) {
-        qlBuilder.update(key, value);
-        qlsBuilder.setWidgets(qlBuilder.getQuestionPanelHashMap());
-    }
+//    public void onQuestionChange(String key, Value value) {
+//        qlBuilder.update(key, value);
+//        qlsBuilder.createStyledForm(qlBuilder.getQuestionPanelHashMap());
+//    }
 
     public void initComponents(boolean a)  {
         //initStyleSheet(stylesheetVisitor);
-        qlBuilder.createMainListPanel(questionChangeListener);
-        qlsBuilder.setWidgets(qlBuilder.getQuestionPanelHashMap());
+        qlBuilder.createMainListPanel();
+        qlsBuilder.createStyledForm(qlBuilder.getQuestionPanelHashMap());
         mainPanel.add(qlsBuilder.getStyleSheetPanel());
     }
 

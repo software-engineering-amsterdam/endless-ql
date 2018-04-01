@@ -1,6 +1,5 @@
 import * as React from 'react';
 import SpinboxAttribute from "../../../form/nodes/attributes/widget_attribtues/SpinBoxWidgetAttribute";
-import InputGroupAddon from "reactstrap/lib/InputGroupAddon";
 import { NumberField } from "../../../../../rendering/components/field/NumberField";
 import NumberValue from "../../../../../form/values/NumberValue";
 import FieldNode from "../../../../../form/nodes/fields/FieldNode";

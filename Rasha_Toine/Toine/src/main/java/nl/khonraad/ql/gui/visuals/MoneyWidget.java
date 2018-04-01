@@ -3,7 +3,6 @@ package nl.khonraad.ql.gui.visuals;
 import java.awt.Dimension;
 import java.text.DecimalFormat;
 
-import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
@@ -11,12 +10,13 @@ import javax.swing.SwingConstants;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
-import nl.khonraad.ql.ast.data.Questionnaire;
-import nl.khonraad.ql.gui.QLInterpretor;
+import nl.khonraad.ql.cdi.QuestionnaireAccessor;
 
-@SuppressWarnings("serial") public class MoneyWidget extends JSpinner {
+@SuppressWarnings("serial") 
 
-    public MoneyWidget(JPanel mainPanel, Question question, Questionnaire questionnaire) {
+public class MoneyWidget extends JSpinner implements QuestionnaireAccessor {
+
+    public MoneyWidget(Question question) {
 
         super( new SpinnerNumberModel( new Double( question.string() ), null, null, 0.01 ) );
 
@@ -32,13 +32,12 @@ import nl.khonraad.ql.gui.QLInterpretor;
 
         addChangeListener( e -> {
 
-            JSpinner s = (JSpinner) e.getSource();
+            JSpinner source = (JSpinner) e.getSource();
 
-            String c = s.getModel().getValue().toString();
+            String current = source.getModel().getValue().toString();
 
-            questionnaire.storeAnswer( question.identifier(), new Value( Type.Money, c ) );
+            questionnaire().storeAnswer( question.identifier(), new Value( Type.Money, current ) );
 
-            QLInterpretor.visualizeQuestionnaire( questionnaire, mainPanel );
         } );
     }
 }

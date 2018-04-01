@@ -1,5 +1,5 @@
 import unittest
-from pyql.ast import code_location
+from util import code_location
 from pyql.ast.form import form
 from pyql.ast.form import block
 

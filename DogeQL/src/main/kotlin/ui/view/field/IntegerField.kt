@@ -11,7 +11,6 @@ class IntegerField(question: IntegerViewModel) : QuestionTextField(question) {
         with(root){
             stripNonInteger()
             bind(question.integerProperty)
-
             attachListener(textProperty())
         }
     }

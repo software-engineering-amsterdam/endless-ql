@@ -2,7 +2,7 @@ grammar Stylesheet;
 /*
  * Parser Rules
  */
-stylesheetBuilder  : 'stylesheet' CHARACTERS CURLY_BRACKET_OPEN stylesheetData CURLY_BRACKET_CLOSE;
+stylesheetBuilder  : 'stylesheet' identifier CURLY_BRACKET_OPEN stylesheetData CURLY_BRACKET_CLOSE;
 stylesheetData : (pageNodeStructure)+;
 
 pageNodeStructure: 'page' identifier CURLY_BRACKET_OPEN (sectionNodeStructure)+ CURLY_BRACKET_CLOSE;

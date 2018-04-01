@@ -10,7 +10,6 @@ from ql.ast.nodes.statements.question_node import QuestionNode
 
 
 class DependencyVisitor:
-
     def __init__(self):
         self.__all_dependencies = []
         self.__current_dependencies = []
@@ -35,9 +34,7 @@ class DependencyVisitor:
         if node.computed:
             self.__current_dependencies = []
             node.answer.accept(self)
-            self.__all_dependencies.append((node.identifier,
-                                            self.__current_dependencies,
-                                            node.position))
+            self.__all_dependencies.append((node.identifier, self.__current_dependencies, node.metadata))
 
     @multimethod(BinaryOperatorNode)
     def visit(self, node):

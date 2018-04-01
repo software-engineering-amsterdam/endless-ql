@@ -1,0 +1,45 @@
+stylesheet sectionSheet
+{
+  page firstPage
+  {
+    section "section1"
+    {
+    }
+  }
+  page secondPage
+  {
+    section "section2"
+    {
+        section "section2.1"
+        {
+        }
+    }
+  }
+  page thirdPage
+  {
+    section "section3"
+    {
+        section "section3.1"
+        {
+            section "section3.1.1"
+            {
+                section "section3.1.1.1"
+                {
+                }
+            }
+        }
+    }
+  }
+  page fourthPage
+  {
+    section "section4"
+    {
+        section "section4.1"
+        {
+        }
+    }
+    section "section5"
+    {
+    }
+  }
+}

@@ -8,14 +8,12 @@ class QLBoolean(QLType):
         super(QLBoolean, self).__init__()
         self.__value = bool(value)
 
+    @property
+    def value(self):
+        return self.__value
+
     def __bool__(self):
         return bool(self.value)
-
-    def __float__(self):
-        return float(self.value)
-
-    def __int__(self):
-        return int(self.value)
 
     def __str__(self):
         return str(self.value)
@@ -24,21 +22,20 @@ class QLBoolean(QLType):
         return str(self.value)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value)
+        if isinstance(other, QLBoolean):
+            return QLBoolean(self.value == other.value)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.value != other.value)
+        return QLBoolean(not self == other)
 
     def get_json_value(self):
         return self.value
 
-    @property
-    def value(self):
-        return self.__value
-
     @staticmethod
-    def get_literal_node(value=False):
-        return BooleanNode(None, QLBoolean, QLBoolean(value))
+    def get_literal_node(value):
+        return BooleanNode(None, QLBoolean, value)
 
     @staticmethod
     def pyqt5_default_widget():

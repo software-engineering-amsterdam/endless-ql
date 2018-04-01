@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class ColorProperty extends StyleProperty {
 
-    private ColorValue colorValue;
+    private final ColorValue colorValue;
 
     public ColorProperty(ColorValue colorValue) {
         this.colorValue = colorValue;
@@ -18,7 +18,7 @@ public class ColorProperty extends StyleProperty {
         Color color = Color.LIGHT_GRAY;
         try {
             color = Color.decode(colorValue.getValue());
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
 
         }
         widget.setColor(color);

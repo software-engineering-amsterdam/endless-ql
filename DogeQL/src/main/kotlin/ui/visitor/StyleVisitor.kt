@@ -2,6 +2,7 @@ package ui.visitor
 
 import javafx.geometry.Side
 import javafx.scene.Node
+import javafx.scene.control.Label
 import qls.ast.model.*
 import qls.visitor.QlsVisitor
 import tornadofx.*
@@ -11,6 +12,9 @@ import ui.model.ViewModelFactory
 import ui.view.QuestionFieldFactory
 
 class StyleVisitor : View(), QlsVisitor<Node> {
+    override fun visit(attributes: Attribute): Node {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val controller: DogeController by inject()
 
@@ -32,7 +36,7 @@ class StyleVisitor : View(), QlsVisitor<Node> {
     override fun visit(page: Page): Node {
 
         with(root) {
-            val item = item(page.title) {
+            val item = item(page.name) {
                 scrollpane {
                     form {
                         page.styles.forEach {
@@ -41,7 +45,7 @@ class StyleVisitor : View(), QlsVisitor<Node> {
                     }
                 }
             }
-            flatLayout[page.title] = item
+            flatLayout[page.name] = item
         }
 
         return root
@@ -67,10 +71,6 @@ class StyleVisitor : View(), QlsVisitor<Node> {
         flatLayout[section.title] = fieldSet
 
         return fieldSet
-    }
-
-    override fun visit(defaultAttributes: DefaultAttributes): Node {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun visit(question: Question): Node {
@@ -99,5 +99,12 @@ class StyleVisitor : View(), QlsVisitor<Node> {
 
     override fun visit(element: Element): Node {
         return element.accept(this)
+    }
+
+    override fun visit(defaultAttributes: DefaultAttributes): Node {
+        val label = Label()// Placeholder
+        label.isManaged = false
+        label.isVisible = false
+        return label
     }
 }

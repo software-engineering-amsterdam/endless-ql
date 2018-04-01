@@ -1,26 +1,25 @@
-from gui.widgets.double_spinbox import DoubleSpinBox
+from gui.widgets.money_spinbox import MoneySpinbox
 from ql.ast.nodes.expressions.literals.money_node import MoneyNode
 from ql.types.boolean import QLBoolean
 from ql.types.type import QLType
 
 
 class QLMoney(QLType):
-    def __init__(self, value=0.0, currency=''):
+    def __init__(self, value=0.0, currency='$'):
         super(QLMoney, self).__init__()
         self.__value = float(value)
         self.__currency = currency
 
+    @property
+    def value(self):
+        return self.__value
+
+    @property
+    def currency(self):
+        return self.__currency
+
     def __repr__(self):
         return '{}{:.2f}'.format(self.currency, self.value)
-
-    def __bool__(self):
-        return bool(self.value)
-
-    def __float__(self):
-        return float(self.value)
-
-    def __int__(self):
-        return int(self.value)
 
     def __str__(self):
         return '{}{:.2f}'.format(self.currency, self.value)
@@ -29,10 +28,13 @@ class QLMoney(QLType):
         return QLMoney(- self.value, self.currency)
 
     def __eq__(self, other):
-        return QLBoolean(self.value == other.value and self.currency == other.currency)
+        if isinstance(other, QLMoney):
+            return QLBoolean(self.value == other.value and self.currency == other.currency)
+
+        return QLBoolean(False)
 
     def __ne__(self, other):
-        return QLBoolean(self.value != other.value or self.currency != other.currency)
+        return QLBoolean(not self == other)
 
     def __lt__(self, other):
         return QLBoolean(self.value < other.value and self.currency == other.currency)
@@ -56,23 +58,19 @@ class QLMoney(QLType):
             return QLMoney(self.value - other.value, self.currency)
         return NotImplemented
 
+    def __mul__(self, other):
+        return other * self
+
+    def __truediv__(self, other):
+        return other / self
+
     def get_json_value(self):
         return {'value': round(self.value, 2), 'currency': self.currency}
 
-    @property
-    def value(self):
-        return self.__value
-
-    @property
-    def currency(self):
-        return self.__currency
-
     @staticmethod
-    def get_literal_node(value=0.0):
-        return MoneyNode(None, QLMoney, QLMoney(value))
+    def get_literal_node(value):
+        return MoneyNode(None, QLMoney, value)
 
     @staticmethod
     def pyqt5_default_widget():
-        widget = DoubleSpinBox()
-        widget.setMinimum(0)
-        return widget
+        return MoneySpinbox()

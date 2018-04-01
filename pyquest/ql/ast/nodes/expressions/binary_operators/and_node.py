@@ -5,14 +5,17 @@ from ql.types.undefined import QLUndefined
 
 class AndOperatorNode(BinaryOperatorNode):
     def __init__(self, metadata, expression_type, left_expression, right_expression, value):
-        super(AndOperatorNode, self).__init__(metadata, expression_type, left_expression, right_expression, value)
-        self.__valid_types = {(QLBoolean, QLBoolean): QLBoolean}
+        super(AndOperatorNode, self).__init__(metadata, expression_type,
+                                              left_expression, right_expression, value)
+        self.__valid_types = {
+            (QLBoolean, QLBoolean): QLBoolean,
+        }
 
-    def get_result_type(self, type1, type2):
-        if self.__valid_types.get((type1, type2)):
-            return self.__valid_types.get((type1, type2))
+    def get_result_type(self):
+        if self.__valid_types.get((self.left_expression.expression_type, self.right_expression.expression_type)):
+            return self.__valid_types.get((self.left_expression.expression_type, self.right_expression.expression_type))
+
         return QLUndefined
 
     def evaluate(self):
-        if self.left_expression.value is not None and self.right_expression.value is not None:
-            self.value = self.left_expression.value and self.right_expression.value
+        self.value = self.left_expression.value and self.right_expression.value

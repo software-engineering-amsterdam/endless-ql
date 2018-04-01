@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using QlsTransformer.Ast.Nodes;
+using QlsTransformer.Domain.Ast.Nodes;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace QlsTransformer.Ast.Tools
+namespace QlsTransformer.Domain.Ast.Tools
 {
     public interface IQlsAstFactory
     {

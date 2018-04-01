@@ -6,7 +6,7 @@ public class Form extends TreeNode {
 
     private final String id;
 
-    private List<Statement> statements;
+    private final List<Statement> statements;
 
     public Form(String id, List<Statement> statements) {
         this.id = id;

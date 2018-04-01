@@ -4,7 +4,7 @@ form Box1HouseOwning {
     	sellingPrice: "Price the house was sold for:" money
     	privateDebt: "Private debts for the sold house:" money
     	valueResidue: "Value residue:" money(sellingPrice - privateDebt)
-    	exampleQuestion: "Check this box:" boolean(sellingPrice > privateDebt)
+    	exampleQuestion: "Selling price higher than private debt:" boolean(sellingPrice > privateDebt)
       } else {
        elseQuestion: "Is it really true you didn't sell a house?" boolean
       }

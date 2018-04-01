@@ -10,7 +10,7 @@ case class BooleanValue(value: Boolean) extends ExpressionValue
 case class StringValue(value: String) extends ExpressionValue
 case class PolarValue(value: String) extends ExpressionValue
 
-case class Identifier(id: String) extends ExpressionValue
+case class Identifier(id: String) extends Expression
 
 sealed trait WidgetExpression extends Expression {
   def widgetType: Option[NodeType]

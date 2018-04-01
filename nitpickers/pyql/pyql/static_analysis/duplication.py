@@ -28,7 +28,8 @@ class CheckDuplicatedQuestions:
 
     @multimethod(Block)
     def visit(self, block):
-        [q.accept(self) for q in block.statements]
+        for statement in block.statements:
+            statement.accept(self)
 
     @multimethod(Question)
     def visit(self, question):

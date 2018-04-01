@@ -5,6 +5,7 @@ from util.message import Error
 
 
 class Value:
+
     def __init__(self, type, value):
         if not self.is_valid_input(value):
             raise Error(str(type) + " does not accept value: " + str(value))
@@ -243,6 +244,7 @@ class Division:
 
 
 class Equality:
+
     @multimethod([(IntegerValue, IntegerValue), (DecimalValue, DecimalValue), (MoneyValue, MoneyValue),
                   (StringValue, StringValue), (BooleanValue, BooleanValue), (IntegerValue, DecimalValue),
                   (DecimalValue, IntegerValue)])
@@ -255,12 +257,14 @@ class Equality:
 
 
 class NonEquality:
+
     @multimethod(Value, Value)
     def evaluate(self, left, right):
         return not Equality().evaluate(left, right)
 
 
 class LowerThan:
+
     @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
                   (DecimalValue, DecimalValue),
                   (MoneyValue, MoneyValue)])
@@ -277,6 +281,7 @@ class LowerThan:
 
 
 class LowerEqual:
+
     @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
                   (DecimalValue, DecimalValue),
                   (MoneyValue, MoneyValue)])
@@ -289,6 +294,7 @@ class LowerEqual:
 
 
 class GreaterThan:
+
     @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
                   (DecimalValue, DecimalValue),
                   (MoneyValue, MoneyValue)])
@@ -301,6 +307,7 @@ class GreaterThan:
 
 
 class GreaterEqual:
+
     @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
                   (DecimalValue, DecimalValue),
                   (MoneyValue, MoneyValue)])
@@ -313,12 +320,14 @@ class GreaterEqual:
 
 
 class Not:
+
     @multimethod(BooleanValue)
     def evaluate(self, expression):
         return BooleanValue(not expression.value)
 
 
 class Invert:
+
     @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
                   (DecimalValue, DecimalValue),
                   (MoneyValue, MoneyValue)])

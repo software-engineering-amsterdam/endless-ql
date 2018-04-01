@@ -8,13 +8,13 @@ from pyql.ast.form.ql_statements import IfElse
 from util.ast import ASTNode
 from pyql.ast.expression.expressions import Identifier
 from util.types import Type
-from pyql.static_analysis.expression_evaluator import ExpressionVisitor
+from pyql.static_analysis.expression_evaluator import ExpressionEvaluator
 
 
 class TypeCheckVisitor:
 
     def __init__(self, symbol_table):
-        self._expression_visitor = ExpressionVisitor(symbol_table)
+        self._expression_visitor = ExpressionEvaluator(symbol_table)
 
     @multimethod(Identifier)
     def visit(self, identifier):

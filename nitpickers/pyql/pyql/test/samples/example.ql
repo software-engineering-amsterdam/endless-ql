@@ -8,7 +8,7 @@ form Box1HouseOwning {
       }
       valueResidue: "Value residue:" money(sellingPrice - privateDebt)
    } else {
-      valueResidue: "Value residue:" integer(age - privateDebt)
+      valueResidue: "Value residue:" integer(name - privateDebt)
    }
-   name: "What is your name?" string
+   name: "What is your name?" string(valueResidue + "dasd")
 }

@@ -14,6 +14,8 @@ from functools import reduce
 # checks:
 #   no references to questions that are not in the QL program
 #   all questions of the QL are place by QLS, and only once.
+
+
 class CheckQuestionsInQL:
 
     def __init__(self, ql_questions_table):

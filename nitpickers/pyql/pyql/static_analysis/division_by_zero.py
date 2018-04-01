@@ -6,7 +6,7 @@ from pyql.ast.form.form import *
 from pyql.ast.form.ql_statements import *
 from pyql.ast.form.block import *
 import decimal
-from pyql.util.values import *
+from util.values import *
 
 
 class CheckDivisionByZero:

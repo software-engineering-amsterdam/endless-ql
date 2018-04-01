@@ -1,5 +1,5 @@
-from pyql.ast.ast import ASTNode
-from pyql.ast import code_location
+from util.ast import ASTNode
+from util import code_location
 
 
 class Expression(ASTNode):

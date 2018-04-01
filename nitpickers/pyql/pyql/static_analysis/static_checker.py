@@ -1,7 +1,7 @@
 from pyql.static_analysis.duplication import CheckDuplicatedQuestions
 from pyql.static_analysis.dependency import VariableDependenciesChecker
 from pyql.static_analysis.division_by_zero import CheckDivisionByZero
-from pyql.util.message_handler import MessageHandler
+from util.message_handler import MessageHandler
 from pyql.static_analysis.dependency import CyclicDependenciesChecker
 
 
@@ -20,11 +20,9 @@ class StaticChecker:
         cdbz = CheckDivisionByZero()
         cdbz.check(tree)
 
-        print("")
+        print("****** CyclicDependenciesChecker ******")
         cdc = CyclicDependenciesChecker()
         cdc.check(tree)
-
-        print(self.messages())
 
     def messages(self):
         return MessageHandler().messages

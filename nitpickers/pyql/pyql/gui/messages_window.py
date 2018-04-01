@@ -1,5 +1,3 @@
-import tkinter
-
 from pyql.gui.widgets.widgets import *
 
 

@@ -2,8 +2,8 @@ from multimethods import multimethod
 from pyql.ast.form.form import *
 from pyql.ast.form.block import *
 from pyql.ast.form.ql_statements import *
-from pyql.util import message
-from pyql.util.message_handler import MessageHandler
+from util import message
+from util.message_handler import MessageHandler
 from pyql.static_analysis.symbol_table import SymbolTable
 from pyql.ast.expression.expressions import *
 from collections import defaultdict
@@ -114,16 +114,16 @@ class CyclicDependenciesChecker:
 
     def dfs(self, start):
         self.stack = [start]
-        print("Starting traversal from", start)
+        # print("Starting traversal from", start)
         while len(self.stack) > 0:
             element = self.stack.pop()
             if not self.visited[str(element)]:
-                print("visiting", element)
+                # print("visiting", element)
                 self.visited[str(element)] = True
                 for x in self.graph[element]:
                     self.stack.append(x)
             else:
-                MessageHandler().add(message.Error("Identifier {0} is involved in a cyclic dependency".format(element)))
+                MessageHandler().add(message.Error("Identifier {0} is involved in a cyclic dependency".format(start)))
 
     def check_cycles(self):
         for x in self.graph:
@@ -170,11 +170,11 @@ class CyclicDependenciesChecker:
 
     @multimethod(UnaryExpression)
     def visit(self, unary_expression):
-        return unary_expression.expression.accept(self)
+        return [unary_expression.expression.accept(self)]
 
     @multimethod(Expression)
     def visit(self, _):
-        pass
+        return []
 
     @multimethod(ASTNode)
     def visit(self, node):

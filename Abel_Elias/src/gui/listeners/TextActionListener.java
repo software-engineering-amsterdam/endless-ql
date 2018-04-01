@@ -37,7 +37,6 @@ public class TextActionListener implements DocumentListener {
     }
 
     private void actionCalled() {
-        System.out.println("txt");
         textField.requestFocus();
         if (!modified) {
             modified = true;

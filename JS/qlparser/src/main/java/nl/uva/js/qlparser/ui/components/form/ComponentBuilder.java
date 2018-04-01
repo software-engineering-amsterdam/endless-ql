@@ -22,8 +22,8 @@ import static nl.uva.js.qlparser.ui.GUIBuilder.FORM_WIDTH;
 
 public class ComponentBuilder {
 
-    public static final String YES = "Yes";
-    public static final String NO  = "No";
+    private static final String YES = "Yes";
+    private static final String NO  = "No";
 
     private static <T extends JTextField> T attachTextFieldListeners(T textField, Variable variable) {
 

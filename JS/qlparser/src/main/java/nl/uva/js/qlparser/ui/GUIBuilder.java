@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import nl.uva.js.qlparser.exceptions.ParseException;
+import nl.uva.js.qlparser.exceptions.VariableNotFoundException;
 import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.logic.FormBuilder;
 import nl.uva.js.qlparser.logic.QLSChecker;
@@ -205,7 +206,7 @@ public class GUIBuilder {
             }
             errors.forEach(GUIBuilder::log);
 
-        } catch (ParseException exception) {
+        } catch (ParseException | VariableNotFoundException exception) {
             log(exception.getMessage());
         }
     }

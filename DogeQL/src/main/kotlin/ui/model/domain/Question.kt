@@ -1,7 +1,7 @@
 package ui.model.domain
 
-import doge.common.Name
-import doge.data.value.BaseSymbolValue
+import ql.common.Name
+import ql.data.value.BaseSymbolValue
 
 data class Question(
         val name: Name,

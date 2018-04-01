@@ -3,6 +3,7 @@ package ql.gui.controls;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import ql.gui.OnValueChange;
 import ql.values.Value;
 
 public abstract class QLControl {
@@ -17,6 +18,7 @@ public abstract class QLControl {
 
         return gridPane;
     }
+
     public abstract Pane addControl(GridPane gridPane);
 
     public abstract void setValue(Value value);

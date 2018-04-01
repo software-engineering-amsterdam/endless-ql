@@ -8,6 +8,10 @@ public class NotNode extends ExpressionNode
 {
     private ExpressionNode InnerNode;
 
+    public NotNode() {
+        super(true);
+    }
+
     public void setInnerNode(ExpressionNode innerNode)
     {
         this.InnerNode = innerNode;

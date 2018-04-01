@@ -17,6 +17,10 @@ public class TypeNode extends Node
         return this.type;
     }
 
+    public TypeNode(){
+        super(false);
+    }
+
     @Override
     public ValueType accept(ASTVisitor visitor)
     {

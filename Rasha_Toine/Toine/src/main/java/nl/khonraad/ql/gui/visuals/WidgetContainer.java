@@ -13,13 +13,12 @@ import org.slf4j.Logger;
 
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
-import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
+import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.cdi.LoggingAspect;
 import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
-import nl.khonraad.qls.ast.data.Styles;
-import nl.khonraad.qls.ast.data.Stylesionnaire;
+import nl.khonraad.qls.ast.data.Styling;
 
 @SuppressWarnings( "serial" )
 
@@ -38,10 +37,7 @@ public class WidgetContainer extends Panel {
     Questionnaire          questionnaire;
 
     @Inject
-    Stylesionnaire        stylesionnaire;
-    
-    @Inject
-    Styles                 styles;
+    Styling                 design;
 
     @PostConstruct
     public void postConstruct() {
@@ -55,7 +51,7 @@ public class WidgetContainer extends Panel {
         removeAll();
 
         questionnaire.visitSource( extendedQLBaseVisitor );
-        stylesionnaire.visitSource( extendedQLSBaseVisitor );
+        design.visitSource( extendedQLSBaseVisitor );
 
         for ( Question question : questionnaire.questions() ) {
 
@@ -93,7 +89,7 @@ public class WidgetContainer extends Panel {
             switch ( type ) {
 
                 case Boolean:
-                    return addToParent( parentPanel, new BooleanWidget( question, styles.find( type ) ).jComboBox );
+                    return addToParent( parentPanel, new BooleanWidget( question, design.find( type ) ).jComboBox );
 
                 case Date:
                     return addToParent( parentPanel, new DateWidget( question ).jTextField );

@@ -16,14 +16,14 @@ import nl.khonraad.ql.ast.data.Survey;
 import nl.khonraad.ql.ast.data.Repository;
 import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
-import nl.khonraad.qls.ast.data.Styles;
+import nl.khonraad.qls.ast.data.StyleElements;
 
 public class Test_Calculator {
 
     @Rule
     public WeldInitiator weld = WeldInitiator.from( 
             SourcePathProvider.class, 
-            Styles.class,
+            StyleElements.class,
             QLAbstractSyntaxTreeBuilder.class, 
             ExtendedQLBaseVisitor.class, 
             Survey.class, 

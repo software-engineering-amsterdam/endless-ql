@@ -17,10 +17,10 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            DomainId<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> rootNode)
         {
             return Validate<ICalculationVariableNode, MathExpressionValidationMetaData>(
-                questionnaireRootNode,
+                rootNode,
                 x => x != typeof(int) && x != typeof(decimal),
                 @"calculation",
                 @"number");

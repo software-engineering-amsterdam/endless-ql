@@ -8,8 +8,8 @@ import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.qls.QLSBaseVisitor;
 import nl.khonraad.qls.QLSParser;
-import nl.khonraad.qls.ast.data.Style;
-import nl.khonraad.qls.ast.data.Styles;
+import nl.khonraad.qls.ast.data.StyleElement;
+import nl.khonraad.qls.ast.data.Styling;
 
 public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<Value> {
 
@@ -17,7 +17,7 @@ public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<Value> {
     Logger logger;
     
     @Inject
-    Styles styles;
+    Styling questionLangugaeStyle;
     
     @Override public Value visitType(QLSParser.TypeContext ctx) { return visitChildren(ctx); }
     @Override public Value visitStylesheet(QLSParser.StylesheetContext ctx) { return visitChildren(ctx); }
@@ -34,7 +34,7 @@ public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<Value> {
             String t = ctx.widget().QuotedString(0).getText();
             String f = ctx.widget().QuotedString(1).getText();
             
-            styles.saveDefault( new Style( Type.Boolean, t, f ));
+            questionLangugaeStyle.storeElementDefault( new StyleElement( Type.Boolean, t, f ));
         }
         return visitChildren(ctx); 
     }

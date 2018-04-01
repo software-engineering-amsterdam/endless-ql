@@ -7,6 +7,9 @@ public class NameNode extends Node
 {
     private String name;
 
+    public NameNode(){
+        super(true);
+    }
     public void setName (String name) { this.name = name; }
 
     public String getName ()          { return this.name;  }

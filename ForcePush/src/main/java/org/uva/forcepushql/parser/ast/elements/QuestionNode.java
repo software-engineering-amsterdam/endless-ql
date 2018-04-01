@@ -18,6 +18,10 @@ public class QuestionNode extends Node
     public Node getRight ()   {  return right; }
     public Node getCenter()   {  return center;}
 
+    public QuestionNode(){
+        super(false);
+    }
+
     @Override
     public Question accept(ASTVisitor visitor) {
         return visitor.visit(this);

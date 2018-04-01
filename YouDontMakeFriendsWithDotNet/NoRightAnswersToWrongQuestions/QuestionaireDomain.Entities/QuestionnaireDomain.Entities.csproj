@@ -92,7 +92,6 @@
     <Compile Include="Ast\Nodes\Relational\Interfaces\ITextVariableNode.cs" />
     <Compile Include="Ast\Tools\Interfaces\IQuestionnaireAstCreator.cs" />
     <Compile Include="Ast\Tools\QuestionnaireAstCreator.cs" />
-    <Compile Include="Domain\CalculationVariableVisitor.cs" />
     <Compile Include="Domain\DomainItemLocator.cs" />
     <Compile Include="Domain\Interfaces\ITypeService.cs" />
     <Compile Include="Domain\Interfaces\IVariableService.cs" />

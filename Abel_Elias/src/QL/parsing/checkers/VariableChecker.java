@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
 public class VariableChecker extends QLBaseVisitor {
     private LinkedHashMap<String, String> variableMap;
 
-    VariableChecker(){
+    public VariableChecker(){
         this.variableMap = new LinkedHashMap<>();
     }
 

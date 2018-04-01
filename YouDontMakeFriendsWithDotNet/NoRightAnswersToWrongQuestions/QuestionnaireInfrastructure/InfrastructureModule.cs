@@ -9,9 +9,6 @@ namespace QuestionnaireInfrastructure
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
             appRegistration.AddSingleton<ICommandBus, CommandBus>();
-            appRegistration.AddTransient(
-                typeof(IQuestionnaireDefinitionLoader),
-                typeof(QuestionnaireDefinitionLoader));
             appRegistration.AddSingleton(typeof(IIdMaker), typeof(IdMaker));
         }
     }

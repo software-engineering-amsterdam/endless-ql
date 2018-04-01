@@ -53,7 +53,6 @@ public class QLSAbstractSyntaxTreeBuilder {
         } catch (IOException e) {
             logger.info( e.getMessage() );
         }
-
     }
 
     private final class ErrorListener extends BaseErrorListener {

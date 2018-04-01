@@ -58,5 +58,4 @@ public class Question implements StringAble {
         this.value = value;
         return value;
     }
-
 }

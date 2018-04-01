@@ -84,5 +84,4 @@ public class BinaryFunctions {
     private static String string( Value value ) {
         return value.string();
     }
-
 }

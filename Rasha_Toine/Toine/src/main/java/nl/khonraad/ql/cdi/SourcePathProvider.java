@@ -23,5 +23,4 @@ public class SourcePathProvider {
     public void setSourcePathQLS( String path ) {
         this.sourcePathQLS = path;
     }
-
 }

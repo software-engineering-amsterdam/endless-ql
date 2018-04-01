@@ -62,7 +62,6 @@ public class WidgetContainer extends Panel {
             add( new JLabel( question.label() ) );
             add( visualizeQuestion( question ) );
         }
-
     }
 
     private static JPanel addToParent( JPanel parentPanel, JComponent component ) {
@@ -112,5 +111,4 @@ public class WidgetContainer extends Panel {
         throw new RuntimeException( "Do not know how to diplay type: " + type );
 
     }
-
 }

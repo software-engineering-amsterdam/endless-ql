@@ -6,13 +6,9 @@ import nl.khonraad.ql.algebra.value.Type;
 public enum UnarySignature {
 
     NotBoolean(Operator.Not, Type.Boolean),
-
     PlusInteger(Operator.Plus, Type.Integer),
-
     PlusMoney(Operator.Plus, Type.Money),
-
     MinusMoney(Operator.Minus, Type.Money),
-
     MinusInteger(Operator.Minus, Type.Integer);
 
     private Operator operator;

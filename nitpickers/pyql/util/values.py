@@ -47,6 +47,9 @@ class Value:
     def __invert__(self):
         return Not().evaluate()
 
+    def __bool__(self):
+        raise errors.Syntax("Value " + str(self.value) + " can not be evaluated to a BooleanValue")
+
     @property
     def value(self):
         return self._value

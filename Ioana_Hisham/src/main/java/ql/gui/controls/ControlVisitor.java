@@ -3,9 +3,9 @@ package ql.gui.controls;
 import ql.ast.expressions.Identifier;
 import ql.ast.statements.Question;
 import ql.gui.OnValueChange;
+import ql.types.*;
 import ql.types.Boolean;
 import ql.types.Integer;
-import ql.types.Money;
 import ql.types.String;
 import ql.visitors.TypeVisitor;
 
@@ -41,5 +41,10 @@ public class ControlVisitor implements TypeVisitor<QLControl> {
     @Override
     public QLControl visit(String string) {
         return new QLTextField();
+    }
+
+    @Override
+    public QLControl visit(Unknown unknown) {
+        throw new AssertionError();
     }
 }

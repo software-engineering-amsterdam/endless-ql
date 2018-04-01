@@ -10,7 +10,8 @@ import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
 import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
 import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
-import nl.khonraad.qls.ast.data.Styles;
+import nl.khonraad.qls.ast.data.Design;
+import nl.khonraad.qls.ast.data.StyleElements;
 
 public class Test_DefaultStyleMoney {
 
@@ -18,8 +19,9 @@ public class Test_DefaultStyleMoney {
     public WeldInitiator weld = WeldInitiator.from( 
             SourcePathProvider.class, 
             QLSAbstractSyntaxTreeBuilder.class,
-            Styles.class,
             ExtendedQLSBaseVisitor.class,
+            Design.class,
+            StyleElements.class,
             LoggerProducer.class 
     ).activate( ApplicationScoped.class ).build();
 

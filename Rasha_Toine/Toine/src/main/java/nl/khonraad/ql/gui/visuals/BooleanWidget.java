@@ -6,7 +6,7 @@ import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
-import nl.khonraad.qls.ast.data.Style;
+import nl.khonraad.qls.ast.data.StyleElement;
 
 public class BooleanWidget implements QuestionnaireAccessor {
 
@@ -15,12 +15,12 @@ public class BooleanWidget implements QuestionnaireAccessor {
     String            no  = new Value( false ).string();
     String            yes = new Value( true ).string();
 
-    public BooleanWidget( Question question, Style style ) {
+    public BooleanWidget( Question question, StyleElement styleElement ) {
 
-        if ( style != null ) {
+        if ( styleElement != null ) {
 
-            no = style.getF();
-            yes = style.getT();
+            no = styleElement.getF();
+            yes = styleElement.getT();
 
             jComboBox = new JComboBox<>( new String[] { no, yes } );
         }

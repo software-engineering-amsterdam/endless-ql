@@ -2,13 +2,13 @@ package nl.khonraad.qls.ast.data;
 
 import nl.khonraad.ql.algebra.value.Type;
 
-public class Style {
+public class StyleElement {
 
     Type   type;
     String t;
     String f;
 
-    public Style( Type type, String t, String f ) {
+    public StyleElement( Type type, String t, String f ) {
 
         this.type = type;
         this.t = t;

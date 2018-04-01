@@ -179,4 +179,8 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
     public ValueTable valueTable() {
         return valueTable;
     }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
 }

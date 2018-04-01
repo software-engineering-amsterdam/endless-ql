@@ -1,23 +1,29 @@
 package frontend.model;
 
 
+import ql.ast.statements.Question;
+
+import java.util.List;
+
 /**
  * Created by Toshiba on 01/04/2018.
  */
 public class InterpretedOutput {
 
-    private String content;
+    private List<Question> questions;
 
-    public String getContent() {
-        return content;
+    public List<Question> getQuestions() {
+        return questions;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 
     @Override
     public String toString() {
-        return "InterpretedOutput{" + "content='" + content + '\'' + '}';
+        return "InterpretedOutput{" +
+                "questions=" + questions +
+                '}';
     }
 }

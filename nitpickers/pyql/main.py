@@ -14,6 +14,9 @@ from pyqls.static_analysis.compatibility import CompatibilityTypesWidget
 from pyqls.static_analysis.questions import CheckQuestionsInQL
 from util.message import Error
 from util.message_handler import MessageHandler
+import tkinter as tk
+from tkinter import filedialog
+import os
 
 filenames = [
     "pyql/antlr/example.ql",
@@ -94,5 +97,14 @@ def ql_qls(filename):
 
 
 if __name__ == '__main__':
-    ql(filenames[8])
-    # ql_qls(filenames[7])
+    root = tk.Tk()
+    root.withdraw()
+    file_path = filedialog.askopenfilename(filetypes=[("ql(s) file", ("*.ql", "*.qls"))])
+    root.destroy()
+
+    _, file_extension = os.path.splitext(file_path)
+
+    if file_extension == "ql":
+        ql(file_path)
+    else:
+        ql_qls(file_path)

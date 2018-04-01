@@ -123,9 +123,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Parser\AntlrGenerated\QL.cs" />
-    <Compile Include="Parser\AntlrGenerated\QLBaseListener.cs" />
     <Compile Include="Parser\AntlrGenerated\QLLexer.cs" />
-    <Compile Include="Parser\AntlrGenerated\QLListener.cs" />
     <Compile Include="Parser\AntlrGenerated\QLS.cs" />
     <Compile Include="Parser\AntlrGenerated\QLSLexer.cs" />
     <Compile Include="Parser\QLErrorListener.cs" />

@@ -3,7 +3,7 @@ form Box1HouseOwning {
    if (!hasSoldHouse > 30 && hasBoughtHouse) {
       sellingPrice: "Price the house was sold for:" money
       privateDebt: "Private debts for the sold house:" money
-      if (sellingPrice > -100) {
+      if (sellingPrice + privateDebt) {
          bigQuestion: "What's your age?" string
       }
       valueResidue: "Value residue:" money(sellingPrice - privateDebt)

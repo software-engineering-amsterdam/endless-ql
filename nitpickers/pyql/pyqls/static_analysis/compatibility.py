@@ -1,4 +1,4 @@
-from multimethods import multimethod
+from util.multimethods import multimethod
 from util import types
 from pyqls.ast.nodes.statement import QuestionStyle
 from pyqls.ast.nodes.stylesheet import StyleSheet
@@ -68,3 +68,7 @@ class CompatibilityTypesWidget:
     @multimethod(widget.WidgetType, types.Type)
     def compatible(self, one, another):
         return False
+
+
+if __name__ == "__main__":
+    print(CompatibilityTypesWidget(None).compatible(widget.CheckBox(""), types.Boolean()))

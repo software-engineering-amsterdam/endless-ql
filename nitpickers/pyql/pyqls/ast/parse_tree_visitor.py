@@ -1,7 +1,5 @@
-from antlr4 import *
 from pyqls.antlr.QLSParser import QLSParser
 from pyqls.antlr.QLSVisitor import QLSVisitor
-from pyqls.antlr.QLSLexer import QLSLexer
 from pyqls.ast.nodes.stylesheet import *
 from pyqls.ast.nodes.block import *
 from pyqls.ast.nodes.page import *

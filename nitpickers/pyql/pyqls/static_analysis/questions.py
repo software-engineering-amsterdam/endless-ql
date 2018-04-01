@@ -1,4 +1,4 @@
-from multimethods import multimethod
+from util.multimethods import multimethod
 from pyqls.ast.nodes.statement import Question
 from pyqls.ast.nodes.statement import QuestionStyle
 from pyqls.ast.nodes.stylesheet import StyleSheet

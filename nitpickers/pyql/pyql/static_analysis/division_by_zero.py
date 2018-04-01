@@ -1,4 +1,4 @@
-from multimethods import multimethod
+from util.multimethods import multimethod
 from pyql.ast.expression.expressions import *
 from util.message_handler import MessageHandler
 from util import message

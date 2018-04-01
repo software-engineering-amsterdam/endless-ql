@@ -4,7 +4,7 @@ from pyql.ast.form.ql_statements import Question
 from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
 from util.ast import ASTNode
-from multimethods import multimethod
+from util.multimethods import multimethod
 from util.types import Type
 
 

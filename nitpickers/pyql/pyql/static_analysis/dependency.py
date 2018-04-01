@@ -1,4 +1,4 @@
-from multimethods import multimethod
+from util.multimethods import multimethod
 from pyql.ast.form.form import *
 from pyql.ast.form.block import *
 from pyql.ast.form.ql_statements import *

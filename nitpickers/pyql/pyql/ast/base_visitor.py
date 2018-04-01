@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from multimethods import multimethod
+from util.multimethods import multimethod
 from pyql.ast.form.form import Form
 from pyql.ast.form.statement import Statement
 from pyql.ast.form.block import Block

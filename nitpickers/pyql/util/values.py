@@ -1,6 +1,6 @@
 from util import types
 from decimal import Decimal, InvalidOperation
-from multimethods import multimethod
+from util.multimethods import multimethod
 from util import errors
 import math
 

@@ -162,14 +162,4 @@ public class EventChecker extends Observer {
         return true;
     }
 
-    private boolean everyPanelFalse(){
-        boolean result = false;
-        for (Map.Entry<String, JPanelGUI> s: conditionals.entrySet()) {
-            if(!s.getKey().equals(""))
-                result = result || s.getValue().getPanel().isVisible();
-        }
-
-        return !result;
-    }
-
 }

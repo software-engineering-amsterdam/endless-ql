@@ -2,10 +2,13 @@ package qls.gui.controller;
 
 import ql.ast.model.Form;
 import ql.gui.controller.BuildFormController;
+import ql.gui.controller.FormController;
+import ql.gui.model.FormModel;
 import ql.gui.view.WindowView;
 import qls.ast.model.Stylesheet;
 import qls.gui.model.GuiModel;
 import qls.gui.view.MainPanel;
+import qls.logic.builders.GuiBuilder;
 
 import javax.swing.*;
 
@@ -22,14 +25,6 @@ public class GuiController {
         windowView.formatAndShow();
     }
 
-    private void tryToProceed() {
-        if (this.guiModel.getForm() != null && this.guiModel.getStylesheet() != null) {
-
-            // build Form with Stylesheet model
-
-        }
-    }
-
     public void setQlFilePath(String path) {
         this.guiModel.setQlFilePath(path);
 
@@ -37,7 +32,7 @@ public class GuiController {
         if (form != null)
             this.guiModel.setForm(form);
 
-        this.tryToProceed();
+        this.proceed();
     }
 
     public void setQlsFilePath(String path) {
@@ -47,8 +42,27 @@ public class GuiController {
         if (stylesheet != null)
             this.guiModel.setStylesheet(stylesheet);
 
-        this.tryToProceed();
+        this.proceed();
     }
 
+    private void proceed() {
+        if (this.guiModel.getForm() != null && this.guiModel.getStylesheet() != null) {
+
+            GuiBuilder guiBuilder = new GuiBuilder(
+                    this.guiModel.getForm(),
+                    this.guiModel.getStylesheet()
+            );
+
+            FormModel formModel= new FormModel(guiBuilder.getQuestionModels());
+            FormController formController = new FormController(formModel);
+            formModel.registerController(formController);
+
+            JPanel test = (JPanel) guiBuilder.visit(this.guiModel.getStylesheet());
+
+            this.windowView.setMainPanel(test);
+            windowView.formatAndShow();
+
+        }
+    }
 
 }

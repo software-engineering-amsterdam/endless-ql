@@ -153,7 +153,6 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         
         private string GetValue(IQuestionNode question)
         {
-            //ToDo: should be implemented using polymorphism
             var type = GetQuestionType(question.Id);
             if (type == typeof(bool))
             {

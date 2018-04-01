@@ -14,6 +14,10 @@ public class FormModel {
         this.questionModels = collectQuestionModelsVisitor.getQuestionModels(form);
     }
 
+    public FormModel(List<QuestionModel> questionModels) {
+        this.questionModels = questionModels;
+    }
+
     public List<QuestionModel> getQuestionModels() {
         return questionModels;
     }

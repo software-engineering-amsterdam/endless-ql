@@ -25,12 +25,12 @@ namespace QlsTransformer.Domain.Validators
             m_validators.Add(correctWidgetValidator);
         }
 
-        public bool Validate(DomainId<IStyleSheetRootNode> styleSheet)
+        public bool Validate(DomainId<IStyleSheetRootNode> styleSheetRootNode)
         {
             foreach (var validator in m_validators)
             {
                 Results = Results
-                    .Concat(validator.Validate(styleSheet))
+                    .Concat(validator.Validate(styleSheetRootNode))
                     .ToList();
             }
 

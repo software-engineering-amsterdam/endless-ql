@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
+import java.awt.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -74,5 +75,27 @@ public class DecimalFieldWidget extends Widget {
     @Override
     public void updateValue() {
         this.field.setValue(this.getQuestionModel().getQLDataTypeValue().getValue());
+    }
+
+    @Override
+    public void setWidth(Integer width) {
+        Dimension size = this.field.getPreferredSize();
+        size.width = width;
+        this.field.setPreferredSize(size);
+    }
+
+    @Override
+    public void setFont(String font) {
+        this.field.setFont(new Font(font, Font.PLAIN, this.field.getFont().getSize()));
+    }
+
+    @Override
+    public void setFontSize(Integer fontSize) {
+        this.field.setFont(new Font(this.field.getFont().getName(), Font.PLAIN, fontSize));
+    }
+
+    @Override
+    public void setColor(String color) {
+        this.field.setBackground(Color.decode(color));
     }
 }

@@ -18,7 +18,7 @@ public class FormController {
     private final FormModelExpressionEvaluator evaluator;
     private final CollectReferencesVisitor collectReferencesVisitor = new CollectReferencesVisitor();
 
-    FormController(FormModel formModel) {
+    public FormController(FormModel formModel) {
 
         this.formModel = formModel;
         this.formModel.registerController(this);
@@ -38,7 +38,7 @@ public class FormController {
         }
 
         for (QuestionModel questionModel : formModel.getQuestionModels()) {
-            this.formView.addQuestionView(new QuestionView(questionModel));
+            this.formView.addQuestionView(new QuestionView(questionModel, null));
         }
 
     }

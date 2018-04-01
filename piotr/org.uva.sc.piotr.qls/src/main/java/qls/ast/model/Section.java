@@ -3,6 +3,7 @@ package qls.ast.model;
 import qls.ast.visitors.ASTNodeVisitor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Section extends BlockElement {
 
@@ -21,6 +22,14 @@ public class Section extends BlockElement {
 
     public List<BlockElement> getElements() {
         return elements;
+    }
+
+    public List<DefaultDefinition> getDefaultDefinitions() {
+        return this.elements.stream()
+                .filter(item -> item instanceof DefaultDefinition)
+                .map(item -> (DefaultDefinition) item)
+                .collect(Collectors.toList())
+                ;
     }
 
     @Override

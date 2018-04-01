@@ -15,7 +15,6 @@ namespace QuestionnaireDomain.Entities
     {
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
-            // ToDo: make sure each service has appropriate lifetime 
             appRegistration.AddSingleton(typeof(IAstFactory), typeof(AstFactory));
             appRegistration.AddSingleton(typeof(IOutputItemFactory), typeof(OutputItemFactory));
             appRegistration.AddSingleton(typeof(IDomainItemRegistry), typeof(DomainItemRegistry));

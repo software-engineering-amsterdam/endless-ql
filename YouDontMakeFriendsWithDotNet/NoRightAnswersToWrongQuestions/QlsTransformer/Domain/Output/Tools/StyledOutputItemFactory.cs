@@ -36,12 +36,12 @@ namespace QlsTransformer.Domain.Output.Tools
         }
 
         public DomainId<IPagesOutputItem> CreatePage(
-            string name, 
+            string pageNodeName, 
             List<DomainId<ISectionOutputItem>> sections)
         {
             var pageOutputItem = new PagesOutputItem(
                 m_ids.Next,
-                name)
+                pageNodeName)
             {
                 Sections = sections
             };
@@ -51,12 +51,12 @@ namespace QlsTransformer.Domain.Output.Tools
         }
 
         public DomainId<ISectionOutputItem> CreateSection(
-            string name, 
+            string sectionNodeName, 
             List<DomainId<IStyledQuestionOutputItem>> questions)
         {
             var sectionOutputItem = new SectionOutputItem(
                 m_ids.Next,
-                name)
+                sectionNodeName)
             {
                 Questions = questions
             };

@@ -10,7 +10,6 @@ namespace QL.UnitTests.UI.UnitTests
     {
         private QuestionnaireModel m_questionnaire;
         private QuestionModel m_inputQuestion1;
-        private QuestionModel m_inputQuestion2;
 
         [SetUp]
         public void Init()
@@ -26,14 +25,6 @@ namespace QL.UnitTests.UI.UnitTests
                 true,
                 false,
                 typeof(int));
-
-            m_inputQuestion2 = new QuestionModel(
-                new Guid("9568D4CB-7287-4431-9810-E95A83D050EB"),
-                new Guid("CE5B413F-13B4-446A-8019-6856EDC8AE7F"),
-                "string input question",
-                true,
-                false,
-                typeof(string));
         }
 
 
@@ -131,7 +122,7 @@ namespace QL.UnitTests.UI.UnitTests
         [Test]
         public void WhenUpdatingQuestionWrapper_ShouldSetUnderlyingModelValues()
         {
-            var wrapper = new QuestionWrapper(m_inputQuestion1)
+            new QuestionWrapper(m_inputQuestion1)
             {
                 Value = "100"
             };

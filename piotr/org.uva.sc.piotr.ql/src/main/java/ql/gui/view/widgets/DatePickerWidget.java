@@ -7,6 +7,7 @@ import ql.gui.model.QuestionModel;
 import ql.gui.view.Widget;
 
 import javax.swing.*;
+import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -72,5 +73,27 @@ public class DatePickerWidget extends Widget {
     public void updateValue() {
         LocalDate newDate = (LocalDate) this.getQuestionModel().getQLDataTypeValue().getValue();
         this.model.setDate(newDate.getYear(), newDate.getMonthValue() - 1, newDate.getDayOfMonth());
+    }
+
+    @Override
+    public void setWidth(Integer width) {
+        Dimension size = this.datePicker.getPreferredSize();
+        size.width = width;
+        this.datePicker.setPreferredSize(size);
+    }
+
+    @Override
+    public void setFont(String font) {
+        this.datePicker.setFont(new Font(font, Font.PLAIN, this.datePicker.getFont().getSize()));
+    }
+
+    @Override
+    public void setFontSize(Integer fontSize) {
+        this.datePicker.setFont(new Font(this.datePicker.getFont().getName(), Font.PLAIN, fontSize));
+    }
+
+    @Override
+    public void setColor(String color) {
+        this.datePicker.setBackground(Color.decode(color));
     }
 }

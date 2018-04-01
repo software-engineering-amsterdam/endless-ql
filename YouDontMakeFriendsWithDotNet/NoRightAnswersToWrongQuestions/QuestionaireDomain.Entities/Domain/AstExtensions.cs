@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
-using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 
-namespace AntlrInterpretor.AstBuilder
+namespace QuestionnaireDomain.Entities.Domain
 {
     public static class AstExtensions
     {

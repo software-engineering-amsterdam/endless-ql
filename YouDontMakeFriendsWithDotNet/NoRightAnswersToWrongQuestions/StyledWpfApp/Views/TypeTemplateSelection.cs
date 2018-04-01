@@ -21,7 +21,6 @@ namespace StyledWpfApp.Views
             }
 
             var question = (StyledQuestionWrapper) item;
-            var temp = question.Model.StyleModel.Widget.GetType();
             if (question.Model.StyleModel.Widget.GetType() == typeof(AstRadioButton))
             {
                 return GetRadioTemplate();

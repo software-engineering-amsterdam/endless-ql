@@ -17,6 +17,15 @@ public class RadioWidget extends Widget {
     }
 
     @Override
+    public String getName() {
+        return "radio";
+    }
+
+    public BooleanParameters getParameters() {
+        return parameters;
+    }
+
+    @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);
     }

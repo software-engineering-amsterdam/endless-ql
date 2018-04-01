@@ -27,24 +27,3 @@ abstract class TextFormatterBuilder[T] {
     new TextFormatter[T](converter, defaultValue, inputFilter)
 }
 
-class IntegerFormatterBuilder extends TextFormatterBuilder[java.math.BigInteger] {
-  override def buildConverter(): TextFormatterBuilder[java.math.BigInteger] = {
-    converter = new BigIntegerStringConverter()
-    this
-  }
-}
-
-object IntegerFormatterBuilder {
-  def apply() = new IntegerFormatterBuilder()
-}
-
-class DecimalFormatterBuilder extends TextFormatterBuilder[java.math.BigDecimal] {
-  override def buildConverter(): TextFormatterBuilder[java.math.BigDecimal] = {
-    converter = new BigDecimalStringConverter()
-    this
-  }
-}
-
-object DecimalFormatterBuilder {
-  def apply() = new DecimalFormatterBuilder()
-}

@@ -44,7 +44,7 @@ class DogeMainView : View() {
     }
 
     private fun loadDogeQl(){
-        val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire file", "*.doge")))
+        val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire file", "*.ql")))
 
         if (files.isNotEmpty()){
             controller.loadQuestionnaire(files.first())

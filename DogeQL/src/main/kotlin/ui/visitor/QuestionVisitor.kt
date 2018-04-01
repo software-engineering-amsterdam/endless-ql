@@ -1,16 +1,16 @@
 package ui.visitor
 
-import doge.ast.node.Block
-import doge.ast.node.Form
-import doge.ast.node.IfStatement
-import doge.ast.node.QuestionStatement
-import doge.ast.node.expression.BinaryExpression
-import doge.ast.node.expression.LiteralExpression
-import doge.ast.node.expression.ReferenceExpression
-import doge.ast.node.expression.UnaryExpression
-import doge.data.symbol.SymbolTable
-import doge.visitor.EvaluationVisitor
-import doge.visitor.QuestionnaireASTBaseVisitor
+import ql.ast.node.Block
+import ql.ast.node.Form
+import ql.ast.node.IfStatement
+import ql.ast.node.QuestionStatement
+import ql.ast.node.expression.BinaryExpression
+import ql.ast.node.expression.LiteralExpression
+import ql.ast.node.expression.ReferenceExpression
+import ql.ast.node.expression.UnaryExpression
+import ql.data.symbol.SymbolTable
+import ql.visitor.EvaluationVisitor
+import ql.visitor.QuestionnaireASTBaseVisitor
 import ui.model.domain.Question
 
 class QuestionVisitor(private val symbolTable: SymbolTable) : QuestionnaireASTBaseVisitor<List<Question>> {

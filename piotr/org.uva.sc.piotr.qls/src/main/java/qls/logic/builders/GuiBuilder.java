@@ -1,6 +1,7 @@
 package qls.logic.builders;
 
 import ql.ast.model.Form;
+import ql.gui.controller.FormController;
 import ql.gui.model.QuestionModel;
 import ql.gui.view.QuestionView;
 import ql.gui.view.widgets.*;
@@ -19,10 +20,11 @@ import java.util.List;
 
 public class GuiBuilder extends AbstractASTTraverse<JComponent> {
 
-    private Form form;
     private Stylesheet stylesheet;
+    private List<JComponent> pages;
 
-    private LinkedHashMap<String, QuestionModel> questionModelsMap;
+    private List<QuestionModel> questionModels;
+    private LinkedHashMap<String, QuestionModel> questionModelsMap = new LinkedHashMap<>();
 
     // styles stack per data type
     static class TypeDefinitionLayer {
@@ -35,9 +37,10 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
 
     private HashMap<String, Stack<TypeDefinitionLayer>> typeDefinitions;
 
+    // returns a linked list of panels (pages)
     public GuiBuilder(Form form, Stylesheet stylesheet) {
-        this.form = form;
         this.stylesheet = stylesheet;
+        this.typeDefinitions = new HashMap<>();
 
         // stack setup
         this.typeDefinitions.put("boolean", new Stack<>());
@@ -49,73 +52,39 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
 
         // questions setup
         CollectQuestionModelsVisitor qlCollectQuestionModelsVisitor = new CollectQuestionModelsVisitor();
-        List<QuestionModel> questionModels = qlCollectQuestionModelsVisitor.getQuestionModels(form);
+        this.questionModels = qlCollectQuestionModelsVisitor.getQuestionModels(form);
 
         // hashmap - easier to lookup
-        for (QuestionModel model : questionModels) {
+        for (QuestionModel model : this.questionModels) {
             this.questionModelsMap.put(model.getVariableName(), model);
         }
     }
 
-    // returns a linked list of panels (pages)
-    public void build() {
-
+    public List<JComponent> getPages() {
+        this.visit(this.stylesheet);
+        return this.pages;
     }
 
-    private void definitionsStacksPush(List<DefaultDefinition> defaultDefinitions) {
-        if (!defaultDefinitions.isEmpty()) {
-            for (DefaultDefinition definition : defaultDefinitions) {
+    public List<QuestionModel> getQuestionModels() {
+        return questionModels;
+    }
 
-                Stack<TypeDefinitionLayer> typeStack = this.typeDefinitions.get(definition.getDataType());
-                TypeDefinitionLayer layer;
+    @Override
+    public JComponent visit(Stylesheet stylesheet) {
 
-                if (!typeStack.isEmpty()) {
-                    layer = typeStack.peek();
-                } else {
-                    layer = new TypeDefinitionLayer();
-                }
+        this.pages = new ArrayList<>();
 
-                for (TypeProperty property : definition.getTypeProperties()) {
-                    if (property instanceof WidthProperty)
-                        layer.width = (WidthProperty) property;
-                    if (property instanceof FontProperty)
-                        layer.font = (FontProperty) property;
-                    if (property instanceof FontSizeProperty)
-                        layer.fontSize = (FontSizeProperty) property;
-                    if (property instanceof ColorProperty)
-                        layer.color = (ColorProperty) property;
-                    if (property instanceof Widget) {
-                        if ((definition.getDataType().equals("boolean")
-                                && (property instanceof CheckboxWidget
-                                || property instanceof DropdownWidget
-                                || property instanceof RadioWidget))
-                                || (definition.getDataType().equals("integer")
-                                && (property instanceof SliderWidget
-                                || property instanceof SpinboxWidget
-                                || property instanceof TextWidget))
-                                || (definition.getDataType().equals("integer") && (property instanceof TextWidget))
-                                ) {
-                            layer.widget = (Widget) property;
-                        } else {
-                            throw new RuntimeException("Illegal type to widget assignment");
-                        }
-                    }
-                }
-
-                typeStack.push(layer);
-            }
+        for (Page page : stylesheet.getPages()) {
+            this.pages.add(visit(page));
         }
-    }
 
-    private void definitionsStacksPop(List<DefaultDefinition> defaultDefinitions) {
-        if (!defaultDefinitions.isEmpty()) {
-            for (DefaultDefinition definition : defaultDefinitions) {
-                Stack<TypeDefinitionLayer> typeStack = this.typeDefinitions.get(definition.getDataType());
-                typeStack.pop();
-            }
+        JPanel panel = new JPanel();
+        for (JComponent component : this.pages) {
+            panel.add(component);
         }
-    }
 
+        return panel;
+    }
 
     @Override
     public JComponent visit(Page page) {
@@ -233,15 +202,19 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
 
         if (qlWidget instanceof IntegerSpinnerWidget) {
             SpinboxWidget actualWidget = (SpinboxWidget) questionDefinition.getWidget();
-            ((IntegerSpinnerWidget) qlWidget).setMin(actualWidget.getParameters().getMin());
-            ((IntegerSpinnerWidget) qlWidget).setMax(actualWidget.getParameters().getMax());
-            ((IntegerSpinnerWidget) qlWidget).setStep(actualWidget.getParameters().getStep());
+            if (actualWidget != null && actualWidget.getParameters() != null) {
+                ((IntegerSpinnerWidget) qlWidget).setMin(actualWidget.getParameters().getMin());
+                ((IntegerSpinnerWidget) qlWidget).setMax(actualWidget.getParameters().getMax());
+                ((IntegerSpinnerWidget) qlWidget).setStep(actualWidget.getParameters().getStep());
+            }
         }
 
         if (qlWidget instanceof BooleanRadioWidget) {
             RadioWidget actualWidget = (RadioWidget) questionDefinition.getWidget();
-            ((BooleanRadioWidget) qlWidget).setYesText(actualWidget.getParameters().getValueTrue());
-            ((BooleanRadioWidget) qlWidget).setNoText(actualWidget.getParameters().getValueFalse());
+            if (actualWidget != null && actualWidget.getParameters() != null) {
+                ((BooleanRadioWidget) qlWidget).setYesText(actualWidget.getParameters().getValueTrue());
+                ((BooleanRadioWidget) qlWidget).setNoText(actualWidget.getParameters().getValueFalse());
+            }
         }
 
         return new QuestionView(questionModel, qlWidget);
@@ -285,4 +258,60 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
         }
         return null;
     }
+
+
+    private void definitionsStacksPush(List<DefaultDefinition> defaultDefinitions) {
+        if (!defaultDefinitions.isEmpty()) {
+            for (DefaultDefinition definition : defaultDefinitions) {
+
+                Stack<TypeDefinitionLayer> typeStack = this.typeDefinitions.get(definition.getDataType());
+                TypeDefinitionLayer layer;
+
+                if (!typeStack.isEmpty()) {
+                    layer = typeStack.peek();
+                } else {
+                    layer = new TypeDefinitionLayer();
+                }
+
+                for (TypeProperty property : definition.getTypeProperties()) {
+                    if (property instanceof WidthProperty)
+                        layer.width = (WidthProperty) property;
+                    if (property instanceof FontProperty)
+                        layer.font = (FontProperty) property;
+                    if (property instanceof FontSizeProperty)
+                        layer.fontSize = (FontSizeProperty) property;
+                    if (property instanceof ColorProperty)
+                        layer.color = (ColorProperty) property;
+                    if (property instanceof Widget) {
+                        if ((definition.getDataType().equals("boolean")
+                                && (property instanceof CheckboxWidget
+                                || property instanceof DropdownWidget
+                                || property instanceof RadioWidget))
+                                || (definition.getDataType().equals("integer")
+                                && (property instanceof SliderWidget
+                                || property instanceof SpinboxWidget
+                                || property instanceof TextWidget))
+                                || (definition.getDataType().equals("integer") && (property instanceof TextWidget))
+                                ) {
+                            layer.widget = (Widget) property;
+                        } else {
+                            throw new RuntimeException("Illegal type to widget assignment");
+                        }
+                    }
+                }
+
+                typeStack.push(layer);
+            }
+        }
+    }
+
+    private void definitionsStacksPop(List<DefaultDefinition> defaultDefinitions) {
+        if (!defaultDefinitions.isEmpty()) {
+            for (DefaultDefinition definition : defaultDefinitions) {
+                Stack<TypeDefinitionLayer> typeStack = this.typeDefinitions.get(definition.getDataType());
+                typeStack.pop();
+            }
+        }
+    }
+
 }

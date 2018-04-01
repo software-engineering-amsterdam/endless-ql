@@ -16,5 +16,14 @@ public abstract class Widget extends JComponent {
     }
 
     public abstract JComponent getComponent();
+
     public abstract void updateValue();
+
+    public abstract void setWidth(Integer width);
+
+    public abstract void setFont(String font);
+
+    public abstract void setFontSize(Integer fontSize);
+
+    public abstract void setColor(String color);
 }

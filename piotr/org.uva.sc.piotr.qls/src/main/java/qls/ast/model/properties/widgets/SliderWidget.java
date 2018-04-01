@@ -21,6 +21,11 @@ public class SliderWidget extends Widget {
     }
 
     @Override
+    public String getName() {
+        return "slider";
+    }
+
+    @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);
     }

@@ -14,21 +14,15 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
     public Stylesheet visitStylesheet(QLSParser.StylesheetContext ctx) {
 
         List<Page> pages = new ArrayList<>();
-        List<DefaultDefinition> defaultDefinitions = new ArrayList<>();
 
         for (QLSParser.PageDefinitionContext pageDefinitionContext : ctx.pageDefinition()) {
             pages.add(this.visitPageDefinition(pageDefinitionContext));
         }
 
-        for (QLSParser.DefaultDefinitionContext defaultDefinitionContext : ctx.defaultDefinition()) {
-            defaultDefinitions.add(this.visitDefaultDefinition(defaultDefinitionContext));
-        }
-
         return new Stylesheet(
                 new ASTNode.MetaInformation(ctx.start.getLine()),
                 ctx.name.getText(),
-                pages,
-                defaultDefinitions
+                pages
         );
     }
 

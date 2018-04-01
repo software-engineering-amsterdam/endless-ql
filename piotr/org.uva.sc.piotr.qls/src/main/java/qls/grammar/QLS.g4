@@ -1,7 +1,7 @@
 grammar QLS ;
 
 stylesheet
-    : 'stylesheet' name=IDENTIFIER BEGIN (pageDefinition | defaultDefinition)* END
+    : 'stylesheet' name=IDENTIFIER BEGIN pageDefinition+ END
     ;
 
 pageDefinition

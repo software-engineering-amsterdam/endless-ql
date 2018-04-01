@@ -38,7 +38,7 @@ public class FormController {
         }
 
         for (QuestionModel questionModel : formModel.getQuestionModels()) {
-            this.formView.addQuestionView(new QuestionView(questionModel));
+            this.formView.addQuestionView(new QuestionView(questionModel, null));
         }
 
     }

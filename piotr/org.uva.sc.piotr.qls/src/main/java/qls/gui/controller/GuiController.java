@@ -22,14 +22,6 @@ public class GuiController {
         windowView.formatAndShow();
     }
 
-    private void tryToProceed() {
-        if (this.guiModel.getForm() != null && this.guiModel.getStylesheet() != null) {
-
-            // build Form with Stylesheet model
-
-        }
-    }
-
     public void setQlFilePath(String path) {
         this.guiModel.setQlFilePath(path);
 
@@ -50,5 +42,13 @@ public class GuiController {
         this.tryToProceed();
     }
 
+    private void tryToProceed() {
+        if (this.guiModel.getForm() != null && this.guiModel.getStylesheet() != null) {
+
+            // build FormView with Stylesheet model
+            // QLS shall have the same Model and (possibly) the same controller as QL, but different view
+
+        }
+    }
 
 }

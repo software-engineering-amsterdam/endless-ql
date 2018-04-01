@@ -14,16 +14,19 @@ class BooleanRadioField(trueLabel: String, falseLabel: String) extends HBox with
   trueChoice.setToggleGroup(group)
   falseChoice.setToggleGroup(group)
   getChildren.addAll(trueChoice, falseChoice)
-
-  setPadding(new Insets(3.0, 0.0, 5.0, 0.0))
-  setSpacing(5.0)
-
-  override def value(value: java.lang.Boolean): Unit = group.selectToggle(if (value) trueChoice else falseChoice)
-  override def value: java.lang.Boolean = group.getSelectedToggle == trueChoice
   group
     .selectedToggleProperty()
     .addListener(new ChangeListener[Toggle] {
       override def changed(observable: ObservableValue[_ <: Toggle], oldValue: Toggle, newValue: Toggle): Unit =
-        valueChanged()
+      valueChanged()
     })
+
+  setPadding(new Insets(3.0, 0.0, 5.0, 0.0))
+  setSpacing(5.0)
+
+
+  override def value(value: java.lang.Boolean): Unit = group.selectToggle(if (value) trueChoice else falseChoice)
+
+  override def value: java.lang.Boolean = group.getSelectedToggle == trueChoice
+
 }

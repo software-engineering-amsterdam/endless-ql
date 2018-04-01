@@ -7,6 +7,7 @@ class ComponentFactoryAddValueChangedListenerDecorator(
     componentChangeListener: ComponentChangedListener,
     componentFactory: ComponentFactory)
     extends ComponentFactory {
+
   override def make(question: Question): Component[_] = {
     val component = componentFactory.make(question)
     component.addComponentChangedListener(componentChangeListener)

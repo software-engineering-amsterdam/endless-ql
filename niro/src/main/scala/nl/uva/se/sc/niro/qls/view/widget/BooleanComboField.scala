@@ -9,6 +9,7 @@ import nl.uva.se.sc.niro.ql.view.widget.Widget
 class BooleanComboField(trueLabel: String, falseLabel: String)
     extends ChoiceBox[java.lang.Boolean]
     with Widget[java.lang.Boolean] {
+
   setItems(FXCollections.observableArrayList(java.lang.Boolean.TRUE, java.lang.Boolean.FALSE))
   setConverter(new StringConverter[java.lang.Boolean]() {
     override def toString(value: java.lang.Boolean): String = if (value) trueLabel else falseLabel
@@ -21,6 +22,8 @@ class BooleanComboField(trueLabel: String, falseLabel: String)
         newValue: java.lang.Boolean): Unit =
       valueChanged()
   })
+
   override def value(newValue: java.lang.Boolean): Unit = setValue(newValue)
+
   override def value: java.lang.Boolean = getValue
 }

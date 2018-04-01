@@ -5,6 +5,7 @@ import nl.uva.se.sc.niro.ql.view.component.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.qls.model.gui.QLSQuestion
 
 class ComponentFactoryFontTypeDecorator(componentFactory: ComponentFactory) extends ComponentFactory {
+
   override def make(question: Question): Component[_] = question match {
     case qlsQuestion: QLSQuestion =>
       val component = componentFactory.make(question)

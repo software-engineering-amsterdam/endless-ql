@@ -7,6 +7,7 @@ import nl.uva.se.sc.niro.qls.model.gui.QLSQuestion
 import scala.collection.JavaConverters
 
 class ComponentFactoryColorDecorator(componentFactory: ComponentFactory) extends ComponentFactory {
+
   override def make(question: Question): Component[_] = question match {
     case qlsQuestion: QLSQuestion =>
       val component = componentFactory.make(question)

@@ -7,6 +7,7 @@ import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.Page;
+import nl.uva.js.qlparser.models.qls.elements.Section;
 import nl.uva.js.qlparser.models.qls.enums.Property;
 import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
@@ -116,8 +117,9 @@ public class FormPanel extends JPanel {
     private List<Component> createPageComponents(Page page) {
         List<Component> pageComponents = new LinkedList<>();
 
-        page.getSections().forEach(section -> {
-            pageComponents.add(buildSectionHeader(section.getName()));
+        page.getSections().forEach((Section section) -> {
+            Component sectionHeader = buildSectionHeader(section.getName());
+            pageComponents.add(sectionHeader);
 
             section.getExpressionReferences().forEach(reference -> {
                 Component component = qlComponentsByName.get(reference.getName());

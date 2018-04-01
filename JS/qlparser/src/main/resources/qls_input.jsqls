@@ -35,7 +35,7 @@ stylesheet taxOfficeExample {
 
         section "Buying" {
             expression hasBoughtHouse
-            widget radio
+              widget radio
         }
 
         section "Loaning" {
@@ -46,10 +46,7 @@ stylesheet taxOfficeExample {
     page Selling {
         section "Selling" {
             expression hasSoldHouse
-            widget dropdown
-        }
-
-        section "You sold a house" {
+                widget dropdown
             expression blockSold
         }
     }

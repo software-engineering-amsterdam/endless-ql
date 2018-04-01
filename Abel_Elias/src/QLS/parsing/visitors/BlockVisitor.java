@@ -4,6 +4,7 @@ import QL.classes.values.Value;
 import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Section;
 import QLS.classes.blocks.StyledQuestion;
+import QLS.classes.properties.Property;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
 import gui.widgets.Widget;
@@ -21,12 +22,14 @@ public class BlockVisitor extends QLSBaseVisitor {
     private final LinkedHashMap<String, Element> parents;
     private String currentParentId;
     private WidgetVisitor widgetVisitor;
+    private PropertyVisitor propertyVisitor;
 
     public BlockVisitor(LinkedHashMap<String, Question> questionMap) {
         this.parents = new LinkedHashMap<>();
         this.sections = new LinkedHashMap<>();
         this.styledQuestions = new LinkedHashMap<>();
         this.widgetVisitor = new WidgetVisitor();
+        this.propertyVisitor = new PropertyVisitor();
         this.questionMap = questionMap;
     }
 
@@ -67,7 +70,14 @@ public class BlockVisitor extends QLSBaseVisitor {
             widget = WidgetFactory.getDefaultWidget(question.getValue());
         }
 
-        StyledQuestion styledQuestion = new StyledQuestion(id, question, currentParentId, widget);
+        List<Property> properties = new ArrayList<>();
+        if(ctx.style() != null) {
+            for(QLSParser.WidgetPropertyContext c: ctx.style().widgetProperty()) {
+                properties.add((Property) propertyVisitor.visitWidgetProperty(c));
+            }
+        }
+
+        StyledQuestion styledQuestion = new StyledQuestion(id, question, currentParentId, widget, properties);
         this.styledQuestions.put(id, styledQuestion);
 
         return styledQuestion;

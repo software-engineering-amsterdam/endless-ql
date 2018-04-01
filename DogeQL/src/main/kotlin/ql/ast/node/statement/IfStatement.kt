@@ -1,6 +1,7 @@
-package ql.ast.node
+package ql.ast.node.statement
 
 import ql.ast.location.SourceLocation
+import ql.ast.node.Block
 import ql.ast.node.expression.Expression
 import ql.visitor.QuestionnaireASTBaseVisitor
 

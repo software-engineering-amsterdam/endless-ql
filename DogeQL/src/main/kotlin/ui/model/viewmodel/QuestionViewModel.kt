@@ -1,8 +1,8 @@
-package ui.model
+package ui.model.viewmodel
 
-import ui.model.domain.Question
 import tornadofx.ItemViewModel
 import ui.controller.DogeController
+import ui.model.domain.Question
 
 abstract class QuestionViewModel(question: Question) : ItemViewModel<Question>(question) {
 

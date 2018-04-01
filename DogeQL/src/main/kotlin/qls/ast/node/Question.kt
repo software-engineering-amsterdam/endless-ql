@@ -1,11 +1,10 @@
-package qls.ast.model
+package qls.ast.node
 
 import qls.common.Name
 import qls.visitor.QlsVisitor
 
-class AttributePair(val name : Name, val literal : String) : Attribute{
+data class Question(val name: Name) : Element, QlsNode {
     override fun <T> accept(visitor: QlsVisitor<T>): T {
         return visitor.visit(this)
     }
-
 }

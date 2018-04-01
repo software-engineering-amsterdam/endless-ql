@@ -1,5 +1,6 @@
-package qls.ast.model
+package qls.ast.node.attribute
 
+import qls.ast.node.Element
 import qls.visitor.QlsVisitor
 
 data class DefaultAttributes(val type: String, val attributes: List<Attribute>) : Element {

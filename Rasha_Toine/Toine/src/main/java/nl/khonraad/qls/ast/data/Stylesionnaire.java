@@ -6,9 +6,10 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
+import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.cdi.SourcePathProvider;
 import nl.khonraad.ql.gui.application.VisualizeEvent;
-import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
+import nl.khonraad.qls.QLSBaseVisitor;
 import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
 
 @ApplicationScoped public class Stylesionnaire {
@@ -26,7 +27,7 @@ import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
     @Inject
     private QLSAbstractSyntaxTreeBuilder qLsAstBuilder;
 
-    public void prepareAndVisit2( ExtendedQLSBaseVisitor visitor ) {
+    public void visitSource( QLSBaseVisitor<Value> visitor ) {
         
         try {
             

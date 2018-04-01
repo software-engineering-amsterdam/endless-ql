@@ -5,8 +5,8 @@ import java.math.BigDecimal
 
 open class DecimalValue(var value: BigDecimal) : BaseSymbolValue(SymbolType.DECIMAL) {
 
-    constructor(value: String): this(BigDecimal(value))
-    constructor(value: Int): this(BigDecimal(value))
+    constructor(value: String) : this(BigDecimal(value))
+    constructor(value: Int) : this(BigDecimal(value))
 
     override fun plus(that: BaseSymbolValue): BaseSymbolValue = when (that) {
         is DecimalValue -> DecimalValue(value + that.value)

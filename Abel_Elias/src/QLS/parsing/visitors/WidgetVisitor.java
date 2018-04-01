@@ -12,7 +12,6 @@ import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
 import gui.widgets.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import xtc.parser.Terminal;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -30,6 +29,7 @@ public class WidgetVisitor extends QLSBaseVisitor {
 
     @Override
     public CheckBoxWidget visitCheckboxWidget(QLSParser.CheckboxWidgetContext ctx) {
+
         return new CheckBoxWidget((BooleanValue) currentValue);
     }
 
@@ -67,9 +67,9 @@ public class WidgetVisitor extends QLSBaseVisitor {
         return new DropDownWidget((StringValue) currentValue, options.toArray());
     }
 
-    @Override
-    public Object visitWidgetStyle(QLSParser.WidgetStyleContext ctx) {
-        //TODO
-        return super.visitWidgetStyle(ctx);
-    }
+//    @Override
+//    public Object visitWidgetStyle(QLSParser.WidgetStyleContext ctx) {
+//        //TODO
+//        return super.visitWidgetStyle(ctx);
+//    }
 }

@@ -73,7 +73,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     @Override
     public Node visitCompileUnit(GrammarParser.CompileUnitContext context)
     {
-        return context.accept(this);
+        return context.formStructure().accept(this);
     }
 
     @Override

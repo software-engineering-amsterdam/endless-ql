@@ -33,7 +33,6 @@ public class EvaluateVisitor extends NodeVisitor {
     @Override
     public void visitMoneyConstant(MoneyConstant moneyConstant) {
         moneyConstant.evaluate(symbolTable);
-
     }
 
     @Override
@@ -163,6 +162,12 @@ public class EvaluateVisitor extends NodeVisitor {
 
     @Override
     public void visitLineElement(LineElement lineElement) {
+
+        Expression expression = lineElement.getTypeExpression().getExpression();
+
+        if (expression != null) {
+            symbolTable.getEntry(lineElement.getLabel().getLabel()).setExpressionValue(expression.getExpressionValue());
+        }
 
     }
 

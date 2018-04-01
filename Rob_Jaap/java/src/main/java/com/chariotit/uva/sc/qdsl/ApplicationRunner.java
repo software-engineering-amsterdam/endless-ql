@@ -55,6 +55,7 @@ public class ApplicationRunner implements CommandLineRunner {
 
 
     private void runProgram(ApplicationParameters parameters) throws IOException {
+
         QLAstRoot astRoot = getQLFromFilename(parameters.getQlFilename());
 
         // Run Typechecker
@@ -78,9 +79,13 @@ public class ApplicationRunner implements CommandLineRunner {
             if (TypeCheckError.listContainsLevel(qlsErrors, TypeCheckError.Level.ERROR)) {
                 System.exit(1);
             }
-        }
 
-        QLFormBuilder builder = new QLFormBuilder(astRoot);
+            QLFormBuilder builder = new QLFormBuilder(astRoot, stylesheet);
+
+        } else {
+
+            QLFormBuilder builder = new QLFormBuilder(astRoot);
+        }
     }
 
     @Override

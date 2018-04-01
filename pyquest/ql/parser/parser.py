@@ -232,7 +232,8 @@ class QLParser:
     @staticmethod
     def p_date_literal(production):
         """expression : DATE_LITERAL"""
-        production[0] = DateNode(Metadata(production.lineno(1)), QLDate, QLDate(production[1]))
+        day, month, year = production[1]
+        production[0] = DateNode(Metadata(production.lineno(1)), QLDate, QLDate(day, month, year))
 
     @staticmethod
     def p_integer_literal(production):

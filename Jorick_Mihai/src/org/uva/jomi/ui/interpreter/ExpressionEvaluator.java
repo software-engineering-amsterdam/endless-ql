@@ -39,14 +39,14 @@ public class ExpressionEvaluator implements Expression.Visitor<GenericValue> {
 	}
 
 	@Override
-	public GenericValue visit(IdentifierExpression expr) {
+	public GenericValue visit(IdentifierExpression expression) {
 		// TODO - Remove dependency on GenericValue
-		return SymbolTable.getInstance().get(expr.getName());
+		return SymbolTable.getInstance().get(expression.getName());
 	}
 
 	@Override
-	public GenericValue visit(GroupingExpression expr) {
-		return expr.visitInnerExpression(this);
+	public GenericValue visit(GroupingExpression expression) {
+		return expression.visitInnerExpression(this);
 	}
 
 	@Override
@@ -57,101 +57,101 @@ public class ExpressionEvaluator implements Expression.Visitor<GenericValue> {
 	}
 
 	@Override
-	public GenericValue visit(SubtractionExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(SubtractionExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.subtract(right);
 	}
 
 	@Override
-	public GenericValue visit(MultiplicationExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(MultiplicationExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.multiply(right);
 	}
 
 	@Override
-	public GenericValue visit(DivisionExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(DivisionExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.divide(right);
 	}
 
 	@Override
-	public GenericValue visit(LessThanExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(LessThanExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.less(right);
 	}
 
 	@Override
-	public GenericValue visit(LessThanOrEqualExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(LessThanOrEqualExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.lessOrEqual(right);
 	}
 
 	@Override
-	public GenericValue visit(GreaterThanExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(GreaterThanExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.greater(right);
 	}
 
 	@Override
-	public GenericValue visit(GreaterThanOrEqualExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(GreaterThanOrEqualExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.greaterOrEqual(right);
 	}
 
 	@Override
-	public GenericValue visit(NotEqualExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(NotEqualExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.notEqual(right);
 	}
 
 	@Override
-	public GenericValue visit(EqualExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(EqualExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.equal(right);
 	}
 
 	@Override
-	public GenericValue visit(AndExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(AndExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.and(right);
 	}
 
 	@Override
-	public GenericValue visit(OrExpression expr) {
-		GenericValue left = expr.visitLeftExpression(this);
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(OrExpression expression) {
+		GenericValue left = expression.visitLeftExpression(this);
+		GenericValue right = expression.visitRightExpression(this);
 		return left.or(right);
 	}
 
 	@Override
-	public GenericValue visit(UnaryNotExpression expr) {
-		GenericValue right = expr.visitRightExpression(this);
+	public GenericValue visit(UnaryNotExpression expression) {
+		GenericValue right = expression.visitRightExpression(this);
 		return right.negate();
 	}
 
 	@Override
-	public IntegerValue visit(IntegerExpression expr) {
-		return new IntegerValue(expr.getValue());
+	public IntegerValue visit(IntegerExpression expression) {
+		return new IntegerValue(expression.getValue());
 	}
 
 	@Override
-	public StringValue visit(StringExpression expr) {
-		return new StringValue(expr.getValue());
+	public StringValue visit(StringExpression expression) {
+		return new StringValue(expression.getValue());
 	}
 
 	@Override
-	public BooleanValue visit(BooleanExpression expr) {
-		return new BooleanValue(expr.getValue());
+	public BooleanValue visit(BooleanExpression expression) {
+		return new BooleanValue(expression.getValue());
 	}
 
 }

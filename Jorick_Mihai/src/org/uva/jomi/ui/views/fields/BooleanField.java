@@ -1,57 +1,71 @@
 package org.uva.jomi.ui.views.fields;
 
-import javax.swing.JCheckBox;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButton;
 
 import org.uva.jomi.ui.interpreter.value.BooleanValue;
 import org.uva.jomi.ui.interpreter.value.GenericValue;
 import org.uva.jomi.ui.views.core.Panel;
 
-public class BooleanField extends InputField implements ChangeListener {
-
-	private JCheckBox checkbox;
+public class BooleanField extends InputField implements ActionListener {
 	
-	public BooleanField() {
-		this.checkbox = new JCheckBox();	
-		this.checkbox.addChangeListener(this);
-		this.checkbox.setSelected(false);
+	private JRadioButton yesButton;
+	private JRadioButton noButton;
+	private ButtonGroup group;
+	
+	
+	public BooleanField() {		
+		this.yesButton = new JRadioButton("Yes");
+		this.yesButton.addActionListener(this);
+		this.noButton = new JRadioButton("No");
+		this.noButton.addActionListener(this);
 	}
 	
 	@Override
 	public Panel build() {
 		Panel panel = new Panel();
 		
-		panel.add(this.checkbox);
+		this.group = new ButtonGroup();
+		this.group.add(this.yesButton);
+		this.group.add(this.noButton);
+		
+		panel.add(this.yesButton);
+		panel.add(this.noButton);
 		
 		return panel;
 	}
 
 	@Override
 	public GenericValue getValue() {
-		return new BooleanValue(this.checkbox.isSelected());
-	}
-
-
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		this.listener.valueDidChange(this);
+		return new BooleanValue(this.yesButton.isSelected());
 	}
 	
 	@Override
 	public void setValue(GenericValue value) {
 		BooleanValue booleanValue = (BooleanValue) value;
-		this.checkbox.setSelected(booleanValue.getValue());
+		this.yesButton.setSelected(booleanValue.getValue());
+		this.noButton.setSelected(!booleanValue.getValue());
 	}
 
 	@Override
 	public void setEnabled(boolean enabled) {
-		this.checkbox.setEnabled(enabled);
+		this.yesButton.setEnabled(enabled);
+		this.noButton.setEnabled(enabled);
 	}
 
 	@Override
 	public void clearValue() {
-		this.checkbox.setSelected(false);
+		this.group.clearSelection();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(this.listener != null) {
+			this.listener.valueDidChange(this);		
+		}
 	}
 
 }

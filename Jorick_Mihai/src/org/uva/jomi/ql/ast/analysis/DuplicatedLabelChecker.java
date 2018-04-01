@@ -41,66 +41,66 @@ public class DuplicatedLabelChecker implements Statement.Visitor<Void> {
 		return this.warnings.getReports();
 	}
 
-	private void checkLabel(QuestionStatement stmt) {
-			if (labels.containsKey(stmt.getLabel())) {
+	private void checkLabel(QuestionStatement statement) {
+			if (labels.containsKey(statement.getLabel())) {
 				// Get the list of question names
-				List<String> questionNames = this.labels.get(stmt.getLabel());
+				List<String> questionNames = this.labels.get(statement.getLabel());
 
 				// If the list is empty add the question name to the list.
 				if (questionNames.size() == 0) {
-					questionNames.add(stmt.getName());
+					questionNames.add(statement.getName());
 				} else {
 					// Store out a warning.
-					this.warnings.addDuplicatedLabelWarning(stmt, questionNames);
-					questionNames.add(stmt.getName());
+					this.warnings.addDuplicatedLabelWarning(statement, questionNames);
+					questionNames.add(statement.getName());
 				}
 		    } else {
 		    	// Create a new list
 		    	List<String> questionNames = new ArrayList<>();
 		    	// Add the question name to the list
-		    	questionNames.add(stmt.getName());
+		    	questionNames.add(statement.getName());
 		    	// Update the map
-		    	this.labels.put(stmt.getLabel(), questionNames);
+		    	this.labels.put(statement.getLabel(), questionNames);
 		    }
 	}
 
 	@Override
-	public Void visit(FormStatement stmt) {
-		stmt.visitBlockStatement(this);
+	public Void visit(FormStatement statement) {
+		statement.visitBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(BlockStatement stmt) {
+	public Void visit(BlockStatement statement) {
 		// Visit every statement in the block.
-		for (Statement statement : stmt.getStatements()) {
-			statement.accept(this);
+		for (Statement blockStatement : statement.getStatements()) {
+			blockStatement.accept(this);
 		}
 		return null;
 	}
 
 	@Override
-	public Void visit(QuestionStatement stmt) {
-		checkLabel(stmt);
+	public Void visit(QuestionStatement statement) {
+		checkLabel(statement);
 		return null;
 	}
 
 	@Override
-	public Void visit(ComputedQuestionStatement stmt) {
-		checkLabel(stmt);
+	public Void visit(ComputedQuestionStatement statement) {
+		checkLabel(statement);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfStatement stmt) {
-		stmt.visitIfBlockStatement(this);
+	public Void visit(IfStatement statement) {
+		statement.visitIfBlockStatement(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(IfElseStatement stmt) {
-		stmt.visitIfBlockStatement(this);
-		stmt.visitElseBlockStatement(this);
+	public Void visit(IfElseStatement statement) {
+		statement.visitIfBlockStatement(this);
+		statement.visitElseBlockStatement(this);
 		return null;
 	}
 }

@@ -19,11 +19,12 @@ class GUIWindow(ttk.Frame):
         self._gui_visitor = GUIVisitor(self, self._symbol_table)
         self._widget_factory = WidgetFactory()
 
-        errors = MessageHandler().errors
-        if errors:
-            for error in MessageHandler().errors:
+        error_messages = MessageHandler().errors
+        if error_messages:
+            for error in error_messages:
                 self.show_error_message(error)
             return
+
         for warning in MessageHandler().warnings:
             self.show_error_message(warning)
 

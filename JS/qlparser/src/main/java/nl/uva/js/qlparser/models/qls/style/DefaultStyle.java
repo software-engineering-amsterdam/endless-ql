@@ -11,5 +11,5 @@ import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 public class DefaultStyle implements Expression {
     private DataType dataType;
     private WidgetType widgetType;
-    private WidgetStyle style;
+    private WidgetStyle widgetStyle;
 }

@@ -3,7 +3,7 @@ import tkinter
 from pyql.gui.gui_window import GUIWindow
 from pyql.gui.messages_window import MessageWindow
 
-from pyql.util.message_handler import MessageHandler
+from util.message_handler import MessageHandler
 
 
 class GUI:

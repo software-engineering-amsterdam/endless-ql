@@ -6,5 +6,5 @@ class BaseNode:
         visitor.visit(self)
 
     @property
-    def position(self):
+    def metadata(self):
         return self.__metadata

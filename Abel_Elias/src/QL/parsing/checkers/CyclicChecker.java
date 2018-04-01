@@ -1,6 +1,5 @@
 package QL.parsing.checkers;
 
-import QL.classes.Question;
 import QL.parsing.checkers.errors.CyclicError;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
@@ -12,7 +11,7 @@ public class CyclicChecker extends QLBaseVisitor{
     private HashMap<String, ArrayList<String>> pointerMap;
     private String currentQuestion;
 
-    CyclicChecker(){
+    public CyclicChecker(){
         pointerMap = new HashMap();
     }
 

@@ -1,5 +1,5 @@
 // Form with questions of all supported types
-form label {
+form testForm {
   "Question?"
     var1: boolean
 

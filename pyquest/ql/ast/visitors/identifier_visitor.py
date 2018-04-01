@@ -6,7 +6,6 @@ from ql.ast.nodes.statements.question_node import QuestionNode
 
 
 class IdentifierVisitor:
-
     def __init__(self):
         self.__identifiers = []
 

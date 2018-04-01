@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace QlsTransformer.Ast.Nodes
+namespace QlsTransformer.Domain.Ast.Nodes
 {
     internal class SectionNode : StyleSheetCompartmentBase, ISectionNode
     {

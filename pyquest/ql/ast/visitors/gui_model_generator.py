@@ -1,6 +1,7 @@
 from multimethods import multimethod
 
 from gui.model.form import FormModel
+from gui.model.question import QuestionModel
 from ql.ast.nodes.expressions.binary_operators.and_node import AndOperatorNode
 from ql.ast.nodes.statements.form_node import FormNode
 from ql.ast.nodes.statements.if_node import IfNode
@@ -33,4 +34,6 @@ class GUIModel:
 
     @multimethod(QuestionNode)
     def visit(self, node):
-        self.form.block.append(node.to_question(self.condition))
+        question_model = QuestionModel(node.label, node.identifier, node.answer_type,
+                                       node.answer, node.computed, self.condition)
+        self.form.block.append(question_model)

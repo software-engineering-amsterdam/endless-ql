@@ -81,44 +81,9 @@ public class BuildASTExpressionVisitor extends GrammarParserBaseVisitor<Expressi
     public ExpressionNode visitComparisonExpression(GrammarParser.ComparisonExpressionContext context)
     {
 
-        InfixExpressionNode node;
-
         int i = context.comp.getType();
-        if (i == GrammarParser.LESS)
-        {
-            node = new LessNode();
-
-        } else if (i == GrammarParser.GREATER)
-        {
-            node = new GreaterNode();
-
-        } else if (i == GrammarParser.EQUALLESS)
-        {
-            node = new EqualLessNode();
-
-        } else if (i == GrammarParser.EQUALGREATER)
-        {
-            node = new EqualGreaterNode();
-
-        } else if (i == GrammarParser.NOTEQUAL)
-        {
-            node = new NotEqualNode();
-
-        } else if (i == GrammarParser.ISEQUAL)
-        {
-            node = new IsEqualNode();
-
-        } else
-        {
-            try
-            {
-                throw new Exception("Invalid Node type");
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            return null;
-        }
+        InfixExpressionNode node = BuildASTVisitor.getInfixExpressionNode(i);
+        if (node == null) return null;
 
         node.setLeft(context.left.accept(this));
         node.setRight(context.right.accept(this));
@@ -133,34 +98,7 @@ public class BuildASTExpressionVisitor extends GrammarParserBaseVisitor<Expressi
         InfixExpressionNode node;
 
         int i = context.op.getType();
-        if (i == GrammarParser.PLUS)
-        {
-            node = new AdditionNode();
-
-        } else if (i == GrammarParser.MINUS)
-        {
-            node = new SubtractionNode();
-
-        } else if (i == GrammarParser.MULTIPLY)
-        {
-            node = new MultiplicationNode();
-
-        } else if (i == GrammarParser.DIVIDE)
-        {
-            node = new DivisionNode();
-
-        } else
-        {
-            try
-            {
-                throw new Exception("Invalid Node type");
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
+        node = BuildASTVisitor.getInfixExpressionNode(i);
 
         node.setLeft(context.left.accept(this));
         node.setRight(context.right.accept(this));

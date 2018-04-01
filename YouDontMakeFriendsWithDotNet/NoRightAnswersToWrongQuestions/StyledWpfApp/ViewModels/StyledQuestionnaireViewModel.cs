@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows.Input;
-using QlsTransformer.UI.Models;
+﻿using System.Collections.ObjectModel;
 using QuestionnaireUI.Models;
 using StyledWpfApp.DataProvider;
 
@@ -16,48 +14,17 @@ namespace StyledWpfApp.ViewModels
             m_dataProvider = dataProvider;
         }
 
+        public ObservableCollection<IPageViewModel> Pages { get; } 
+            = new ObservableCollection<IPageViewModel>();
+
         public void Load()
         {
             m_dataProvider.LoadDefaultQuestionnaire();
-            Questionnaire = m_dataProvider.GetSingleQuestionnaire();
-            DataChangedCommand = new DelegateCommand(OnDataChangedCommand);
-            foreach (var page in Questionnaire.Pages)
+            m_dataProvider.LoadStyleSheet();
+            var questionnaire = m_dataProvider.GetSingleQuestionnaire();
+            foreach (var pageWrapper in questionnaire.Pages)
             {
-                page.PropertyChanged += OnDataChangedCommand;
-            }
-        }
-
-        private void OnDataChangedCommand(object sender, PropertyChangedEventArgs e)
-        {
-            OnDataChangedCommand(null);
-        }
-
-        private void OnDataChangedCommand(object obj)
-        {
-            foreach (var page in Questionnaire.Pages)
-            {
-                page.PropertyChanged -= OnDataChangedCommand;
-            }
-
-            m_dataProvider.Reload(Questionnaire.Model);
-            Questionnaire = m_dataProvider.GetSingleQuestionnaire();
-
-            foreach (var page in Questionnaire.Pages)
-            {
-                page.PropertyChanged += OnDataChangedCommand;
-            }
-        }
-
-        public ICommand DataChangedCommand { get; private set; }
-        private StyledQuestionnaireWrapper m_questionnaire;
-
-        public StyledQuestionnaireWrapper Questionnaire
-        {
-            get { return m_questionnaire; }
-            private set
-            {
-                m_questionnaire = value;
-                RaisePropertyChanged();
+                Pages.Add(new PageViewModel(pageWrapper));
             }
         }
     }

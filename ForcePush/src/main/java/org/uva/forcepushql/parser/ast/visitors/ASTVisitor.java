@@ -1,5 +1,6 @@
 package org.uva.forcepushql.parser.ast.visitors;
 
+import org.uva.forcepushql.parser.ast.ValueType;
 import org.uva.forcepushql.parser.ast.elements.*;
 import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 import org.uva.forcepushql.interpreter.gui.JPanelGUI;
@@ -34,7 +35,7 @@ public interface ASTVisitor{
 
     String visit(LabelNode node);
     String visit(NameNode node);
-    String visit(TypeNode node);
+    ValueType visit(TypeNode node);
     String visit(VariableNode node);
     String visit(DecimalNode node);
 

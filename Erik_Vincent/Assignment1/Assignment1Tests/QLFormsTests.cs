@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using Assignment1;
-using Assignment1.Converters;
 using Assignment1.Parser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,21 +13,21 @@ namespace Assignment1Tests
         private static string _pathToNonParsableForms = "../../NonParsable/";
         private static string _pathToInvalidForms = "../../InvalidForms/";
         private static string _pathToValidForms = "../../ValidForms/";
-        private static Form1 _form = new Form1();
+        private static readonly Form1 Form = new Form1();
 
         [TestMethod]
         public void TestNonParsableorms()
         {
-            string[] nonParsableForms = Directory.GetFiles(_pathToNonParsableForms);
+            var nonParsableForms = Directory.GetFiles(_pathToNonParsableForms);
 
-            foreach (string nonParsableForm in nonParsableForms)
+            foreach (var nonParsableForm in nonParsableForms)
             {
                 // Call parser and assert that exception is thrown
                 Exception expectedException = null;
-                string nonParsableFormContent = File.ReadAllText(nonParsableForm);
+                var nonParsableFormContent = File.ReadAllText(nonParsableForm);
                 try
                 {
-                    TextToQLAST.ParseString(nonParsableFormContent);
+                    QLParser.ParseString(nonParsableFormContent);
                 }
                 catch (QLParseException exception)
                 {
@@ -41,15 +40,15 @@ namespace Assignment1Tests
         [TestMethod]
         public void TestInvalidForms()
         {
-            var presenter = new MainPresenter(_form);
-            string[] invalidForms = Directory.GetFiles(_pathToInvalidForms);
+            var presenter = new MainPresenter(Form);
+            var invalidForms = Directory.GetFiles(_pathToInvalidForms);
             
-            foreach (string invalidForm in invalidForms)
+            foreach (var invalidForm in invalidForms)
             {
                 // Call checker and assert errors
-                string invalidFormContent = File.ReadAllText(invalidForm);
-                var astForm = TextToQLAST.ParseString(invalidFormContent);
-                var messages = presenter.ValidateForm(astForm);
+                var invalidFormContent = File.ReadAllText(invalidForm);
+                var astForm = QLParser.ParseString(invalidFormContent);
+                var messages = MainPresenter.ValidateForm(astForm);
                 Assert.IsTrue(messages.Errors.Any());
             }
         }
@@ -57,15 +56,15 @@ namespace Assignment1Tests
         [TestMethod]
         public void TestValidForms()
         {
-            var presenter = new MainPresenter(_form);
-            string[] validForms = Directory.GetFiles(_pathToValidForms);
+            var presenter = new MainPresenter(Form);
+            var validForms = Directory.GetFiles(_pathToValidForms);
 
-            foreach (string validForm in validForms)
+            foreach (var validForm in validForms)
             {
                 // Call checker and assert no errors
-                string validFormContent = File.ReadAllText(validForm);
-                var astForm = TextToQLAST.ParseString(validFormContent);
-                var messages = presenter.ValidateForm(astForm);
+                var validFormContent = File.ReadAllText(validForm);
+                var astForm = QLParser.ParseString(validFormContent);
+                var messages = MainPresenter.ValidateForm(astForm);
                 Assert.IsTrue(!messages.Errors.Any());
             }
         }
@@ -73,11 +72,11 @@ namespace Assignment1Tests
         [TestMethod]
         public void TestWarnings()
         {
-            var presenter = new MainPresenter(_form);
-            string duplicateLabelFormLocation = _pathToValidForms + "DuplicateLabel.txt";
-            string formContent = File.ReadAllText(duplicateLabelFormLocation);
-            var astForm = TextToQLAST.ParseString(formContent);
-            var messages = presenter.ValidateForm(astForm);
+            var presenter = new MainPresenter(Form);
+            var duplicateLabelFormLocation = _pathToValidForms + "DuplicateLabel.txt";
+            var formContent = File.ReadAllText(duplicateLabelFormLocation);
+            var astForm = QLParser.ParseString(formContent);
+            var messages = MainPresenter.ValidateForm(astForm);
             Assert.IsTrue(messages.Warnings.Any());
         }
     }

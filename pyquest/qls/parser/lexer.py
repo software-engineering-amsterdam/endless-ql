@@ -1,13 +1,33 @@
-"""
-TODO: Add optimise=1 to the lexer when file is production ready
-"""
-
 from ply.lex import lex
 
 
 class QLSLexer:
     def __init__(self):
-        self.lexer = lex(module=self)
+        self.__errors = []
+        self.__lexer = None
+
+    @property
+    def lexer(self):
+        return self.__lexer
+
+    @property
+    def errors(self):
+        return self.__errors
+
+    def build(self):
+        self.__lexer = lex(module=self)
+
+    def tokenize(self, data):
+        self.__errors = []
+        self.lexer.input(data)
+        token = self.lexer.token()
+        tokens = [token]
+
+        while token:
+            token = self.lexer.token()
+            tokens.append(token)
+
+        return tokens
 
     tokens = [
         'COLON', 'COMMA',
@@ -66,7 +86,6 @@ class QLSLexer:
 
     t_HEX_COLOR = r'\#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})'
 
-    # Define a rule so we can track line numbers
     @staticmethod
     def t_newline(token):
         r'\n+'
@@ -88,23 +107,11 @@ class QLSLexer:
         token.value = token.value[1:-1]
         return token
 
-    # Define a rule for handling all non-tokens
     def t_IDENTIFIER(self, token):
         r'[a-zA-Z][a-zA-Z_0-9]*'
         token.type = self.reserved.get(token.value, 'IDENTIFIER')  # Check for reserved words
         return token
 
-    # Define a rule for handling erroneous characters
-    @staticmethod
-    def t_error(token):
-        print("Illegal character '%s'" % token.value[0])
+    def t_error(self, token):
+        self.errors.append("Illegal character '%s'" % token.value[0])
         token.lexer.skip(1)
-
-    # Test the lexer output
-    def test(self, data):
-        self.lexer.input(data)
-        while True:
-            tok = self.lexer.token()
-            if not tok:
-                break
-            print(tok)

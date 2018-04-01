@@ -4,13 +4,13 @@ from tests.test import Test
 class TestParsing(Test):
     def __init__(self, directory, lexer, parser):
         super(TestParsing, self).__init__('parsing', directory)
-        self.lexer = lexer
-        self.parser = parser
+        self.__lexer = lexer
+        self.__parser = parser
 
     def test_file(self, file):
-        self.parser.parse(file, self.lexer.lexer)
+        self.__parser.parse(file, self.__lexer.lexer)
 
-        if self.parser.errors:
+        if self.__parser.errors:
             return False
 
         return True

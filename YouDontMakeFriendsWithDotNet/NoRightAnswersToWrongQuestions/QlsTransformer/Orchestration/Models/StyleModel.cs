@@ -1,4 +1,4 @@
-﻿using QlsTransformer.Ast.Nodes;
+﻿using QlsTransformer.Domain.Ast.Nodes;
 
 namespace QlsTransformer.Orchestration.Models
 {
@@ -18,9 +18,9 @@ namespace QlsTransformer.Orchestration.Models
             Color = color;
         }
         public IWidget Widget { get; }
-        public int? Width { get; }
+        public int Width { get; }
         public string Font { get; }
-        public decimal? FontSize { get; }
+        public decimal FontSize { get; }
         public string Color { get; }
     }
 }

@@ -3,7 +3,6 @@ from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
 from pyql.ast.parse_tree_visitor import ParseTreeVisitor
 from pyql.static_analysis.static_checker import StaticChecker
-
 from pyql.gui.gui import GUI
 
 

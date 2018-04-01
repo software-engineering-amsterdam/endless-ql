@@ -1,5 +1,5 @@
 // Form with question of type integer
-form label {
+form testForm {
   "Question?"
     var: integer
 }

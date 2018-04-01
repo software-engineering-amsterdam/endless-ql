@@ -1,42 +1,22 @@
 package gui;
 
 import QL.classes.Question;
-import QL.classes.values.BooleanValue;
-import QL.classes.values.IntegerValue;
-import QL.classes.values.StringValue;
-import QL.classes.values.UndefinedValue;
-import QL.classes.values.Value;
+import QL.classes.values.*;
 import QL.parsing.visitors.FormVisitor;
-import QLS.parsing.visitors.StylesheetVisitor;
-import gui.listeners.QuestionValueListener;
-import gui.questions.QuestionPanel;
-import gui.questions.QuestionWidgetCheckBox;
-import gui.questions.QuestionWidgetDate;
-import gui.questions.text.QuestionWidgetTextInt;
-import gui.questions.text.QuestionWidgetTextString;
-import org.jdatepicker.JDatePicker;
-
+import gui.panels.QuestionPanel;
+import gui.widgets.CheckBoxWidget;
+import gui.widgets.DateWidget;
+import gui.widgets.TextWidget;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
-public class QLBuilder {
-
-    private JPanel mainListPanel;
+public class QLBuilder implements Observer {
+    private JPanel mainPanel;
 
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor;
-    private QuestionValueListener questionValueListener;
 
     public LinkedHashMap<String, QuestionPanel> getQuestionPanelHashMap() {
         return questionPanelHashMap;
@@ -44,13 +24,12 @@ public class QLBuilder {
 
     public LinkedHashMap<String, Question> getQuestionHashMap() {
         return questionHashMap;
-
     }
 
     public QLBuilder(FormVisitor coreVisitor) {
-        questionHashMap = coreVisitor.getQuestions();
-        this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
         this.coreVisitor = coreVisitor;
+        this.questionHashMap = coreVisitor.getQuestions();
+        this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
     }
 
     /**
@@ -59,7 +38,6 @@ public class QLBuilder {
      * the question it's controls through iteration
      */
     public void initQuestionPanels() {
-
         //Iterate over the questions that were passed
         Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
         while (entries.hasNext()) {
@@ -67,18 +45,14 @@ public class QLBuilder {
 
             //Extract a single question
             Question question = entry.getValue();
-            //If the question is marked as visible, we build a panel
-            if(question.isVisible()) {
-                buildQuestionPanel(question);
-            }
+            buildQuestionPanel(question);
         }
     }
 
-    public JPanel createMainListPanel(QuestionValueListener questionValueListener) {
-        this.mainListPanel = new JPanel(new GridBagLayout());
-        this.questionValueListener = questionValueListener;
+    public JPanel createMainListPanel() {
+        this.mainPanel = new JPanel(new GridBagLayout());
         initQuestionPanels();
-        return mainListPanel;
+        return mainPanel;
     }
 
     /**
@@ -89,44 +63,37 @@ public class QLBuilder {
      * @param question  the question passed
      */
     private void buildQuestionPanel(Question question) {
-        QuestionPanel qPanel;
-        String key = question.getText();
         Value value = question.getValue();
 
-        switch (question.getValue().getType()) {
+        if(!question.isFixed()){
+            value.addObserver(this);
+        }
+
+        QuestionPanel qPanel = null;
+
+        switch (value.getType()) {
             case Value.STRING:
-                qPanel = new QuestionWidgetTextString(key, question);
+                qPanel = new QuestionPanel(question, new TextWidget((StringValue) value));
                 break;
             case Value.BOOLEAN:
-                qPanel = new QuestionWidgetCheckBox(key, question);
-                break;
-            case Value.DECIMAL:
-                qPanel = new QuestionWidgetTextInt(key, question);
-                break;
-            case Value.MONEY:
-                qPanel = new QuestionWidgetTextInt(key, question);
+                qPanel = new QuestionPanel(question, new CheckBoxWidget((BooleanValue) value));
                 break;
             case Value.DATE:
-                qPanel = new QuestionWidgetDate(key, question);
+                qPanel = new QuestionPanel(question, new DateWidget((DateValue) value));
                 break;
+            case Value.DECIMAL:
+            case Value.MONEY:
             case Value.INTEGER:
-                qPanel = new QuestionWidgetTextInt(key, question);
-                break;
-            default:
-                qPanel = new QuestionWidgetTextInt(key, question);
+                qPanel = new QuestionPanel(question, new TextWidget((NumericValue) value));
                 break;
         }
 
-        qPanel.setQuestionChangeListener(questionValueListener);
 
-        //if the question is marked as fixed, make it non-alterable
-        if(question.isFixed()) {
-            qPanel.setWidgetFixed();
-            qPanel.setValue(value);
+        if (!question.isVisible()) {
+            qPanel.setVisible(false);
         }
 
         questionPanelHashMap.put(question.getId(), qPanel);
-
         //add the questionpanel to a map containing active questionpanels
         addQuestionToPanel(qPanel, getQuestionConstraints());
     }
@@ -143,64 +110,22 @@ public class QLBuilder {
         return gbc;
     }
 
-
-    /**
-     * update() method
-     * builds the list panel
-     *
-     * @param key       key identifier of panel
-     * @param value     the value passed
-     */
-    public void update(String key, Value value) {
-        // Update the question itself
-        updateQuestion(key, value);
-        // Change visibilities en values of the questions in the AST
-        coreVisitor.update();
-        // Update the GUI
-        updateGUI();
-    }
-    private void updateQuestion(String key, Value value) {
-        // Set the value in the questionHashMap
-        questionHashMap.get(key).setValue(value);
-        if(value.isDefined()) {
-            // Set the question on the questionPanelHashMap
-            questionPanelHashMap.get(key).setValue(value);
-
-        }
-    }
-
     /**
      * updateGUI() method
      * Updates the GUI
      */
     private void updateGUI() {
         //Iterate over the total question hashmap
-        Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry<String, Question> entry = entries.next();
-            // Get concerning question
-            Question question = entry.getValue();
-            if(question.isVisible()) {
-                //If the panelhashmap has not yet created a panel for this question
-                if (questionPanelHashMap.get(entry.getKey()) == null) {
-                    //build a questionpanel
-                    buildQuestionPanel(question);
-                }
-                if(question.isFixed()) {
-                    questionPanelHashMap.get(entry.getKey()).setValue(question.getValue());
+        for (QuestionPanel q : questionPanelHashMap.values()) {
+            if (q.getQuestion().isVisible()) {
+                q.setVisible(true);
+                if (q.getQuestion().isFixed()) {
+                    q.refresh();
                 }
             } else {
-                // If the question already is placed in a currently visible panel
-                if (questionPanelHashMap.get(entry.getKey()) != null) {
-                    // remove questionpanel
-                    removeQuestionFromPanel(questionPanelHashMap.get(entry.getKey()));
-                    questionPanelHashMap.remove(entry.getKey());
-                }
+                q.setVisible(false);
             }
         }
-
-        mainListPanel.revalidate();
-        mainListPanel.repaint();
     }
 
     /**
@@ -211,21 +136,15 @@ public class QLBuilder {
      * @param gbc           The constraints
      */
     private void addQuestionToPanel(QuestionPanel questionPanel, GridBagConstraints gbc) {
-        mainListPanel.add(questionPanel, gbc);
+        mainPanel.add(questionPanel, gbc);
     }
 
-    /**
-     * removeQuestionFromPanel() method
-     * removes a question to the mainlist panel
-     *
-     * @param questionPanel The questionpanel passed
-     */
-    private void removeQuestionFromPanel(QuestionPanel questionPanel) {
-        mainListPanel.remove(questionPanel);
-    }
+    @Override
+    public void update(Observable o, Object arg) {
+        this.coreVisitor.update();
+        this.updateGUI();
 
-
-    public JPanel getMainListPanel() {
-        return mainListPanel;
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 }

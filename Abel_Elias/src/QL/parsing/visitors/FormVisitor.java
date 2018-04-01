@@ -18,14 +18,15 @@ public class FormVisitor extends QLBaseVisitor {
         this.questionMap = new LinkedHashMap<>();
         this.blockVisitor = new BlockVisitor(this.questionMap, true);
         this.updateVisitor = new UpdateVisitor(this.questionMap, true);
-        this.form = form;
     }
 
     // Node visitor
     @Override
     public FormVisitor visitForm(QLParser.FormContext form) {
+        this.form = form;
         Checks.checkForm(form);
         blockVisitor.visitBlock(form.block());
+        this.form = form;
         return this;
     }
 

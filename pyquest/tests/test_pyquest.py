@@ -7,8 +7,10 @@ from tests.semantic_analysis.test_semantic_analysis import TestSemanticAnalysis
 
 
 if __name__ == '__main__':
-    ql_parser = QLParser()
     ql_lexer = QLLexer()
+    ql_lexer.build()
+    ql_parser = QLParser()
+    ql_parser.build()
 
     test_lexer = TestLexing('lexing/', ql_lexer)
     test_parser = TestParsing('parsing/', ql_lexer, ql_parser)

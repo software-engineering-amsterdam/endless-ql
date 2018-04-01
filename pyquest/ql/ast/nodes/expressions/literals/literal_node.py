@@ -6,9 +6,9 @@ class LiteralNode(ExpressionNode):
         super(LiteralNode, self).__init__(metadata, expression_type, value)
 
     @ExpressionNode.expression_type.setter
-    def expression_type(self, value=None):
+    def expression_type(self, unused):
         pass
 
     @ExpressionNode.value.setter
-    def value(self, value=None):
+    def value(self, unused):
         pass

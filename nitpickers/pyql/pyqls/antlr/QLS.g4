@@ -45,7 +45,6 @@ defaultStatement    : 'default' questionType widget ;
 questionType        : 'boolean' #booleanType
                     | 'string'  #stringType
                     | 'integer' #integerType
-                    | 'date'    #dateType
                     | 'decimal' #decimalType
                     | 'money'   #moneyType
                     ;

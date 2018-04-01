@@ -233,15 +233,6 @@ class QLSListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLSParser#dateType.
-    def enterDateType(self, ctx:QLSParser.DateTypeContext):
-        pass
-
-    # Exit a parse tree produced by QLSParser#dateType.
-    def exitDateType(self, ctx:QLSParser.DateTypeContext):
-        pass
-
-
     # Enter a parse tree produced by QLSParser#decimalType.
     def enterDecimalType(self, ctx:QLSParser.DecimalTypeContext):
         pass

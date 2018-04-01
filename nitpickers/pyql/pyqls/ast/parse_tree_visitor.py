@@ -88,9 +88,6 @@ class ParseTreeVisitor(QLSVisitor):
     def visitIntegerType(self, ctx: QLSParser.IntegerTypeContext):
         return Integer()
 
-    def visitDateType(self, ctx: QLSParser.DateTypeContext):
-        return Date()
-
     def visitDecimalType(self, ctx: QLSParser.DecimalTypeContext):
         return Decimal()
 

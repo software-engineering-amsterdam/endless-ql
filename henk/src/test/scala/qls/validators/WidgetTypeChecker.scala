@@ -15,13 +15,19 @@ class WidgetTypeCheckerValidatorSpec extends FunSpec {
       val qls = FormHelper.getRoot(getClass.getResource(s"${resourceDir}/simple.qls"))
       assert(validator.check(qls).isEmpty)
     }
-  }
 
-  describe("styling lacking widget configuration") {
-    val resourceDir = "qls/validators/widget_type_checker/valid"
-
-    it("should yield none check is run") {
+    it("configuration missing widget styling declaration should still pass") {
       val qls = FormHelper.getRoot(getClass.getResource(s"${resourceDir}/missing_widget_configuration.qls"))
+      assert(validator.check(qls).isEmpty)
+    }
+
+    it("default integer with text widget") {
+      val qls = FormHelper.getRoot(getClass.getResource(s"${resourceDir}/text_int.qls"))
+      assert(validator.check(qls).isEmpty)
+    }
+
+    it("default string with text widget") {
+      val qls = FormHelper.getRoot(getClass.getResource(s"${resourceDir}/text_string.qls"))
       assert(validator.check(qls).isEmpty)
     }
   }
@@ -32,6 +38,13 @@ class WidgetTypeCheckerValidatorSpec extends FunSpec {
     describe("simple") {
       it("should yield an exception when check is run") {
         val qls = FormHelper.getRoot(getClass.getResource(s"${resourceDir}/simple.qls"))
+        validator.check(qls).get shouldBe a [IncompatibleWidgetType]
+      }
+    }
+
+    describe("text widget") {
+      it("should yield exception since boolean fields and text widget aren't compatible") {
+        val qls = FormHelper.getRoot(getClass.getResource(s"${resourceDir}/text_boolean.qls"))
         validator.check(qls).get shouldBe a [IncompatibleWidgetType]
       }
     }

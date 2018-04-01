@@ -58,18 +58,18 @@ class StyleVisitor extends QLSBaseVisitor[StylingConfiguration] {
       case "spinbox" => SpinboxWidget(Some(IntegerType))
       case "radio" => {
         val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        val sliderType = options.headOption.map(infereType)
-        RadioWidget(sliderType, options)
+        val returnType = options.headOption.map(infereType)
+        RadioWidget(returnType, options)
       }
       case "checkbox" => {
         val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        val sliderType = options.headOption.map(infereType)
-        CheckboxWidget(sliderType, options)
+        val returnType = options.headOption.map(infereType)
+        CheckboxWidget(returnType, options)
       }
       case "slider" => {
         val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        val sliderType = options.headOption.map(infereType)
-        SliderWidget(sliderType, options)
+        val returnType = options.headOption.map(infereType)
+        SliderWidget(returnType, options)
       }
       case "dropdown" => {
         DropdownWidget(Some(BooleanType), List(BooleanValue(true), BooleanValue(false)))

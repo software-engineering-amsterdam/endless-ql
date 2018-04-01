@@ -59,13 +59,13 @@ public class GUIBuilder{
 
     public void initComponents() {
         //Add a scroll pane to the form
-        mainPanel.add(new JScrollPane(qlBuilder.createMainListPanel()));
+//        mainPanel.add(new JScrollPane(qlBuilder.createMainListPanel()));
+        //qlBuilder.createMainListPanel();
 
         //Add the panel to the frame, and set some properties
-        mainFrame.add(mainPanel);
+        mainFrame.add(qlBuilder.createMainListPanel());
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
-        mainFrame.setVisible(true);
     }
 
 //    public void onQuestionChange(String key, Value value) {

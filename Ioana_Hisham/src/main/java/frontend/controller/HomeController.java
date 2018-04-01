@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ql.ASTBuilder;
+import ql.ast.statements.Question;
+import ql.evaluator.Evaluator;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Toshiba on 28/02/2018.
@@ -23,6 +26,9 @@ public class HomeController {
 
     private Logger log = Logger.getLogger(HomeController.class);
     private static final String appName = "Interpreter";
+    private final Evaluator evaluator = new Evaluator();
+    private static ql.ast.Form form;
+    private List<Question> questions;
 
     @GetMapping("/")
     public String inputQLForm(Model model) {
@@ -41,6 +47,8 @@ public class HomeController {
         String inputStringCombined = userInput.getHtmlRequestInput();
         try {
             ast.build(new ByteArrayInputStream(inputStringCombined.getBytes()));
+            evaluator.visit(form);
+            questions = evaluator.questions();
         } catch (IOException e) {
             log.error("Error while parsing", e);
         }

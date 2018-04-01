@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
             this.openFile = new System.Windows.Forms.ToolStripButton();
+            this.exportAnswers = new System.Windows.Forms.ToolStripButton();
             this._mainPanel = new System.Windows.Forms.FlowLayoutPanel();
             this._messagePanel = new System.Windows.Forms.FlowLayoutPanel();
             this._questionFormPanel = new System.Windows.Forms.Panel();
-            this.exportAnswers = new System.Windows.Forms.ToolStripButton();
             this.mainToolStrip.SuspendLayout();
             this._mainPanel.SuspendLayout();
             this.SuspendLayout();
@@ -44,73 +45,46 @@
             this.mainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openFile,
             this.exportAnswers});
-            this.mainToolStrip.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.mainToolStrip, "mainToolStrip");
             this.mainToolStrip.Name = "mainToolStrip";
-            this.mainToolStrip.Size = new System.Drawing.Size(784, 25);
-            this.mainToolStrip.TabIndex = 2;
-            this.mainToolStrip.Text = "toolStrip1";
             // 
             // openFile
             // 
             this.openFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.openFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            resources.ApplyResources(this.openFile, "openFile");
             this.openFile.Name = "openFile";
-            this.openFile.Size = new System.Drawing.Size(59, 22);
-            this.openFile.Text = "Open file";
-            // 
-            // _mainPanel
-            // 
-            this._mainPanel.AutoScroll = true;
-            this._mainPanel.BackColor = System.Drawing.SystemColors.Control;
-            this._mainPanel.Controls.Add(this._messagePanel);
-            this._mainPanel.Controls.Add(this._questionFormPanel);
-            this._mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._mainPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this._mainPanel.Location = new System.Drawing.Point(0, 25);
-            this._mainPanel.Name = "_mainPanel";
-            this._mainPanel.Size = new System.Drawing.Size(784, 536);
-            this._mainPanel.TabIndex = 0;
-            this._mainPanel.WrapContents = false;
-            // 
-            // _messagePanel
-            // 
-            this._messagePanel.AutoSize = true;
-            this._messagePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._messagePanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this._messagePanel.Location = new System.Drawing.Point(3, 3);
-            this._messagePanel.Name = "_messagePanel";
-            this._messagePanel.Size = new System.Drawing.Size(0, 0);
-            this._messagePanel.TabIndex = 0;
-            // 
-            // _questionFormPanel
-            // 
-            this._questionFormPanel.AutoSize = true;
-            this._questionFormPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._questionFormPanel.Location = new System.Drawing.Point(3, 9);
-            this._questionFormPanel.Name = "_questionFormPanel";
-            this._questionFormPanel.Size = new System.Drawing.Size(0, 0);
-            this._questionFormPanel.TabIndex = 1;
             // 
             // exportAnswers
             // 
             this.exportAnswers.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.exportAnswers.ImageTransparentColor = System.Drawing.Color.Magenta;
+            resources.ApplyResources(this.exportAnswers, "exportAnswers");
             this.exportAnswers.Name = "exportAnswers";
-            this.exportAnswers.Size = new System.Drawing.Size(89, 22);
-            this.exportAnswers.Text = "Export answers";
+            // 
+            // _mainPanel
+            // 
+            resources.ApplyResources(this._mainPanel, "_mainPanel");
+            this._mainPanel.BackColor = System.Drawing.SystemColors.Control;
+            this._mainPanel.Controls.Add(this._messagePanel);
+            this._mainPanel.Controls.Add(this._questionFormPanel);
+            this._mainPanel.Name = "_mainPanel";
+            // 
+            // _messagePanel
+            // 
+            resources.ApplyResources(this._messagePanel, "_messagePanel");
+            this._messagePanel.Name = "_messagePanel";
+            // 
+            // _questionFormPanel
+            // 
+            resources.ApplyResources(this._questionFormPanel, "_questionFormPanel");
+            this._questionFormPanel.Name = "_questionFormPanel";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this._mainPanel);
             this.Controls.Add(this.mainToolStrip);
-            this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "Form1";
-            this.Text = "Form1";
             this.mainToolStrip.ResumeLayout(false);
             this.mainToolStrip.PerformLayout();
             this._mainPanel.ResumeLayout(false);

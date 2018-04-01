@@ -7,6 +7,7 @@ using Assignment1.Export;
 using Assignment1.Model.QL.AST;
 using Assignment1.Model.QLS.AST;
 using Assignment1.Parser;
+using Assignment1.Properties;
 using Assignment1.Rendering;
 using Assignment1.Rendering.QLS;
 using Assignment1.TypeChecking;
@@ -32,24 +33,22 @@ namespace Assignment1
             {
                 InitialDirectory = Directory.GetCurrentDirectory()
             };
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                _view.ClearUI();
-                ParseFile(fileDialog.FileName);
-            }
+            if (fileDialog.ShowDialog() != DialogResult.OK) return;
+            _view.ClearUI();
+            ParseFile(fileDialog.FileName);
         }
 
         private void ExportAnswers(object sender, EventArgs e)
         {
             if (_executor == null || _executor.VisibleQuestions.Any(question => _executor.GetAnswer(question.Id).IsUndefined()))
             {
-                MessageBox.Show("Please answer all questions first.");
+                MessageBox.Show(Resources.MainPresenter_ExportAnswers_Please_answer_all_questions_first_);
                 return;
             }
             var saveDialog = new SaveFileDialog
             {
                 InitialDirectory = Directory.GetCurrentDirectory(),
-                Filter = "CSV files (*.csv)|*.csv"
+                Filter = Resources.MainPresenter_ExportAnswers_CSV_files____csv____csv
             };
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
@@ -93,7 +92,7 @@ namespace Assignment1
             }
         }
 
-        public MessageContainer ValidateForm(QuestionForm astForm)
+        public static MessageContainer ValidateForm(QuestionForm astForm)
         {
             var messages = new MessageContainer();
             messages.Add(QLDuplicateChecker.CheckDuplicates(astForm));
@@ -106,7 +105,7 @@ namespace Assignment1
             return messages;
         }
 
-        private MessageContainer ValidateStyleSheet(StyleSheet styleSheet, QuestionForm astForm)
+        private static MessageContainer ValidateStyleSheet(StyleSheet styleSheet, QuestionForm astForm)
         {
             var messages = new MessageContainer();
             messages.Add(QLSReferenceChecker.CheckQuestionReferences(styleSheet, astForm));

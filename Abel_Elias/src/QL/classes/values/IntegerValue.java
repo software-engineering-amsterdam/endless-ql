@@ -12,7 +12,7 @@ public class IntegerValue extends NumericValue<Integer> {
 
     @Override
     public void setValueGeneric(Object o) {
-        setValue((int)((double) o));
+        setValue(((Number) o).intValue());
     }
 
     @Override

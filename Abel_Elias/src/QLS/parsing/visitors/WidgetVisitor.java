@@ -1,6 +1,7 @@
 package QLS.parsing.visitors;
 import QL.classes.Question;
 import QL.classes.values.BooleanValue;
+import QL.classes.values.NumericValue;
 import QL.classes.values.StringValue;
 import QL.classes.values.Value;
 import QLS.classes.blocks.Element;
@@ -9,6 +10,7 @@ import QLS.classes.blocks.StyledQuestion;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
 import gui.widgets.CheckBoxWidget;
+import gui.widgets.SpinBoxWidget;
 import gui.widgets.TextWidget;
 import gui.widgets.Widget;
 
@@ -30,6 +32,11 @@ public class WidgetVisitor extends QLSBaseVisitor {
     }
 
     @Override
+    public SpinBoxWidget visitSpinboxWidget(QLSParser.SpinboxWidgetContext ctx) {
+        return new SpinBoxWidget((NumericValue) currentValue);
+    }
+
+    @Override
     public TextWidget visitTextWidget(QLSParser.TextWidgetContext ctx) {
         return new TextWidget((StringValue) currentValue);
     }
@@ -40,11 +47,6 @@ public class WidgetVisitor extends QLSBaseVisitor {
         return super.visitRadioWidget(ctx);
     }
 
-    @Override
-    public Object visitSpinboxWidget(QLSParser.SpinboxWidgetContext ctx) {
-        //TODO
-        return super.visitSpinboxWidget(ctx);
-    }
 
     @Override
     public Object visitSliderWidget(QLSParser.SliderWidgetContext ctx) {

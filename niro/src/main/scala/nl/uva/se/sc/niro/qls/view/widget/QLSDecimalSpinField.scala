@@ -6,7 +6,7 @@ import nl.uva.se.sc.niro.ql.view.format.{ DecimalFormatterBuilder, FormatMasks }
 import nl.uva.se.sc.niro.ql.view.widget.QLWidget
 
 class QLSDecimalSpinField(minimum: Double, maximum: Double, stepSize: Double)
-    extends Spinner[Double](minimum, maximum, (maximum - minimum) / 2, stepSize)
+    extends Spinner[Double](minimum, maximum, minimum, stepSize)
     with QLWidget[java.math.BigDecimal]
     with FormatMasks {
 

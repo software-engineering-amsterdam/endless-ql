@@ -6,7 +6,7 @@ import nl.uva.se.sc.niro.ql.view.format.{ FormatMasks, IntegerFormatterBuilder }
 import nl.uva.se.sc.niro.ql.view.widget.QLWidget
 
 class QLSIntegerSpinField(minimum: Integer, maximum: Integer, stepSize: Integer)
-    extends Spinner[Integer](minimum, maximum, (maximum - minimum) / 2, stepSize)
+    extends Spinner[Integer](minimum, maximum, minimum, stepSize)
     with QLWidget[java.math.BigInteger]
     with FormatMasks {
 

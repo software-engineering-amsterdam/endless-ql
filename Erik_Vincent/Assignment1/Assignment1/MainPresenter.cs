@@ -6,10 +6,12 @@ using Assignment1.Converters;
 using Assignment1.Execution;
 using Assignment1.Export;
 using Assignment1.Model.QL.AST;
+using Assignment1.Model.QLS.AST;
 using Assignment1.Parser;
 using Assignment1.Rendering;
 using Assignment1.Rendering.QLS;
 using Assignment1.TypeChecking;
+using Assignment1.TypeChecking.QLS;
 
 namespace Assignment1
 {
@@ -73,7 +75,16 @@ namespace Assignment1
                 var qlsFileLocation = inputFile + ".qls";
                 IQuestionFormRenderer renderer = new QLRenderer(_executor);
                 if (File.Exists(qlsFileLocation))
-                    renderer = new QLSRenderer(_executor, QLSParser.ParseString(File.ReadAllText(qlsFileLocation)));
+                {
+                    var styleSheet = QLSParser.ParseString(File.ReadAllText(qlsFileLocation));
+                    messages.Add(ValidateStyleSheet(styleSheet, astForm));
+                    if (AnyErrors(messages))
+                    {
+                        _view.SetErrors(messages.Errors);
+                        return;
+                    }
+                    renderer = new QLSRenderer(_executor, styleSheet);
+                }
                 _view.SetFormControl(renderer.Render());
                 _view.SetWarnings(messages.Warnings);
             }
@@ -83,7 +94,7 @@ namespace Assignment1
             }
         }
 
-        public MessageContainer ValidateForm(QuestionForm astForm)
+        private MessageContainer ValidateForm(QuestionForm astForm)
         {
             var messages = new MessageContainer();
             messages.Add(QLDuplicateChecker.CheckDuplicates(astForm));
@@ -93,14 +104,18 @@ namespace Assignment1
             messages.Add(QLCyclicDependencyChecker.CheckForCycles(astForm));
             if (AnyErrors(messages)) return messages;
             messages.Add(QLTypeChecker.CheckTypes(astForm));
-            if (AnyErrors(messages)) return messages;
             return messages;
         }
 
-        private bool AnyErrors(MessageContainer messages)
+        private MessageContainer ValidateStyleSheet(StyleSheet styleSheet, QuestionForm astForm)
         {
-            if (!messages.Errors.Any()) return false;
-            return true;
+            var messages = new MessageContainer();
+            messages.Add(QLSReferenceChecker.CheckQuestionReferences(styleSheet, astForm));
+            if (AnyErrors(messages)) return messages;
+            messages.Add(QLSTypeChecker.CheckTypes(styleSheet, astForm));
+            return messages;
         }
+
+        private static bool AnyErrors(MessageContainer messages) => messages.Errors.Any();
     }
 }

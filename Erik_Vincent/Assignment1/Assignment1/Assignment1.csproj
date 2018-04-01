@@ -171,6 +171,7 @@
     <Compile Include="Model\QL\AST\QLASTBaseVisitor.cs" />
     <Compile Include="TypeChecking\QLDuplicateChecker.cs" />
     <Compile Include="TypeChecking\QLScopeChecker.cs" />
+    <Compile Include="TypeChecking\QLS\QLSReferenceChecker.cs" />
     <Compile Include="TypeChecking\QLTypeChecker.cs" />
     <Compile Include="Model\QL\RenderTree\RenderableQuestion.cs" />
     <Compile Include="Model\QL\RenderTree\QuestionForm.cs" />

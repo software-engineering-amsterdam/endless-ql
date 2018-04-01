@@ -7,7 +7,7 @@ import scala.collection.JavaConversions._
 
 case class DuplicateQuestionPlacement(label: String) extends Exception(label)
 
-object QuestionPlacementValidator {
+object DuplicateQuestionPlacementValidator {
   def check(qls: Statement): Option[Exception] = {
     val questions = ElementCollector.getQuestions(qls)
 

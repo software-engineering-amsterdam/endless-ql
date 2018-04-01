@@ -6,7 +6,7 @@ import org.scalatest.Matchers._
 import org.scalatest.Matchers._
 
 class QuestionPlacementValidatorSpec extends FunSpec {
-  val validator = QuestionPlacementValidator
+  val validator = DuplicateQuestionPlacementValidator
 
   describe("validating a valid QLS sheet") {
     val resourceDir = "qls/validators/question_placement/valid"

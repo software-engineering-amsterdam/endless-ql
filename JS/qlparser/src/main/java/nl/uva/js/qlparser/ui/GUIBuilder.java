@@ -206,7 +206,7 @@ public class GUIBuilder {
             }
             errors.forEach(GUIBuilder::log);
 
-        } catch (ParseException | VariableNotFoundException exception) {
+        } catch (ParseException | VariableNotFoundException | NumberFormatException exception) {
             log(exception.getMessage());
         }
     }

@@ -32,7 +32,7 @@ def is_ql_program_valid(file):
 
 
 def get_ql_files_from_directory(directory):
-    test_global_directory = "samples/"
+    test_global_directory = "samples"
     test_directory = os.path.join(test_global_directory, directory)
 
     files = []

@@ -130,7 +130,12 @@ class MoneyValue(Value):
     @staticmethod
     def is_valid_input(value):
         is_decimal = DecimalValue.is_valid_input(value)
-        decimal_places = - Decimal(value).as_tuple().exponent
+
+        try:
+            decimal_places = 0 - Decimal(value).as_tuple().exponent
+        except InvalidOperation:
+            return False
+
         if is_decimal and decimal_places <= 2:
             return True
         return False

@@ -11,8 +11,9 @@ stylesheet taxOfficeExample {
 
     page Housing {
         section "Buying" {
-            expression hasBoughtHouse
-            widget checkbox
+
+           // Oops, forgot to place hasBoughtHouse :(
+
         }
 
         section "Loaning" {
@@ -23,10 +24,7 @@ stylesheet taxOfficeExample {
     page Selling {
         section "Selling" {
             expression hasSoldHouse
-            widget dropdown
-        }
-
-        section "You sold a house" {
+                widget dropdown
             expression blockSold
         }
     }

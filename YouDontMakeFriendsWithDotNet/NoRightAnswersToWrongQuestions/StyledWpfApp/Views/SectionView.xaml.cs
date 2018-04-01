@@ -8,10 +8,9 @@ namespace StyledWpfApp.Views
     /// </summary>
     public partial class SectionView : UserControl
     {
-        public SectionView(ISectionViewModel viewModel)
+        public SectionView()
         {
             InitializeComponent();
-            DataContext = viewModel;
         }
     }
 }

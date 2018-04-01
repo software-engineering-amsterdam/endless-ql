@@ -15,5 +15,4 @@ public abstract class SimpleDateFormatter {
     public static String string( DateTime dateTime ) {
         return simpleDateFormat.print( dateTime );
     }
-
 }

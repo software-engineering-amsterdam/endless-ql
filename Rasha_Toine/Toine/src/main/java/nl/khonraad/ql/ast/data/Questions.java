@@ -49,9 +49,8 @@ public class Questions implements Iterable<Question> {
     }
 
     void storeAnswer( Identifier identifier, Value value ) {
-        
+
         Question question = findQuestion( BehaviouralType.ANSWERABLE, identifier );
         question.setValue( value );
     }
-
 }

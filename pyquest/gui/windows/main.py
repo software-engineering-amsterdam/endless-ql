@@ -4,10 +4,10 @@ from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QTextEdit
 
-from gui.windows.form import FormWindow
 from gui.helper import append_file_extension
 from gui.helper import check_errors
 from gui.helper import warning
+from gui.windows.form import FormWindow
 from ql.ast.checkers.dependency_checker import DependencyChecker
 from ql.ast.checkers.question_checker import QuestionChecker
 from ql.ast.checkers.reference_checker import ReferenceChecker

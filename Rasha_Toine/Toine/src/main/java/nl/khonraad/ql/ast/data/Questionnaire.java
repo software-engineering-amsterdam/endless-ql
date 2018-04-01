@@ -34,7 +34,6 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
     @Inject
     private QLAbstractSyntaxTreeBuilder qLAstBuilder;
 
-
     public void prepareAndVisit( ExtendedQLBaseVisitor visitor ) {
 
         try {
@@ -46,7 +45,6 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
 
             logger.info( e.getMessage() );
         }
-
     }
 
     public Iterable<Question> getQuestionList() {

@@ -68,5 +68,4 @@ import nl.khonraad.ql.gui.visuals.WidgetContainer;
         int width = goldenHeight.intValue();
         return new Dimension( width, height );
     }
-
 }

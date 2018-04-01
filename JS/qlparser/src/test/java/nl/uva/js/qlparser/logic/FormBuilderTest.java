@@ -34,11 +34,64 @@ import static org.junit.Assert.assertEquals;
 
 public class FormBuilderTest {
 
-    Form realForm = FormBuilder.parseFormFromLocation("src/test/resources/ql_input.jsql");
-    Form emptyForm = FormBuilder.parseFormFromLocation("src/test/resources/null_test.jsql");
+    private Form realForm = FormBuilder.parseFormFromLocation("src/test/resources/ql/ql_input.jsql");
+    private Form emptyForm = FormBuilder.parseFormFromLocation("src/test/resources/ql/null_test.jsql");
+
+    @Test(expected = ParseException.class)
+    public void testMissingBracket() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/invalid_1.jsql");
+    }
+
+    @Test(expected = ParseException.class)
+    public void testMissingQuestionDescription() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/invalid_2.jsql");
+    }
+
+    @Test(expected = ParseException.class)
+    public void testMissingColon() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/invalid_3.jsql");
+    }
+
+    @Test(expected = VariableAlreadyExistsException.class)
+    public void testSuperfluousQuestion() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/superfluous_question.jsql");
+    }
+
+    @Test(expected = VariableNotFoundException.class)
+    public void testUndefinedVariable() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/invalid_var.jsql");
+    }
+
+    @Test(expected = TypeMismatchException.class)
+    public void testInvalidTypes() {
+        FormBuilder.parseFormFromLocation("src/test/resources/ql/invalid_types.jsql").checkType();
+    }
 
     @Test
-    public void testFormStructure() throws IOException {
+//    This tests if the instructions given to the JSON parser yield the expected result, or if they have to be changed
+    public void testJsonExportModifications() throws IOException {
+        String generatedJson = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .registerModule(new Jdk8Module())
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                .writer().writeValueAsString(realForm);
+
+//        Go back to a map, as order is not guaranteed in the JSON string and we don't want the test to fail on that
+        Map<String, Object> expected = new ObjectMapper().readValue(
+                Paths.get("src/test/resources/export/ql_input.qle").toFile(),
+                new TypeReference<Map<String, Object>>() {
+                });
+
+        Map<String, Object> actual = new ObjectMapper().readValue(
+                generatedJson,
+                new TypeReference<Map<String, Object>>() {
+                });
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testFormStructure() {
         // Questions
         Question name = Question.builder()
                 .variable(Variable.<String, Value<String>>builder()
@@ -159,7 +212,7 @@ public class FormBuilderTest {
     }
 
     @Test
-    public void testNullValue() throws IOException {
+    public void testNullValue() {
         // Questions
         Question presetValue = Question.builder()
                 .variable(Variable.<String, Value<String>>builder()
@@ -194,58 +247,5 @@ public class FormBuilderTest {
                 .build();
 
         assertEquals(expectedForm, emptyForm);
-    }
-
-    @Test
-//    This tests if the instructions given to the JSON parser yield the expected result, or if they have to be changed
-    public void testJsonExportModifications() throws IOException {
-        String generatedJson = new ObjectMapper()
-                .registerModule(new JavaTimeModule())
-                .registerModule(new Jdk8Module())
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-                .writer().writeValueAsString(realForm);
-
-//        Go back to a map, as order is not guaranteed in the JSON string and we don't want the test to fail on that
-        Map<String, Object> expected = new ObjectMapper().readValue(
-                Paths.get("src/test/resources/ql_input.qle").toFile(),
-                new TypeReference<Map<String, Object>>() {
-                });
-
-        Map<String, Object> actual = new ObjectMapper().readValue(
-                generatedJson,
-                new TypeReference<Map<String, Object>>() {
-                });
-
-        assertEquals(expected, actual);
-    }
-
-    @Test(expected = ParseException.class)
-    public void testMissingBracket() {
-        FormBuilder.parseFormFromLocation("src/test/resources/invalid_1.jsql");
-    }
-
-    @Test(expected = ParseException.class)
-    public void testMissingQuestionDescription() {
-        FormBuilder.parseFormFromLocation("src/test/resources/invalid_2.jsql");
-    }
-
-    @Test(expected = ParseException.class)
-    public void testMissingColon() {
-        FormBuilder.parseFormFromLocation("src/test/resources/invalid_3.jsql");
-    }
-
-    @Test(expected = VariableAlreadyExistsException.class)
-    public void testSuperfluousQuestion() {
-        FormBuilder.parseFormFromLocation("src/test/resources/superfluous_question.jsql");
-    }
-
-    @Test(expected = VariableNotFoundException.class)
-    public void testUndefinedVariable() {
-        FormBuilder.parseFormFromLocation("src/test/resources/invalid_var.jsql");
-    }
-
-    @Test(expected = TypeMismatchException.class)
-    public void testInvalidTypes() {
-        FormBuilder.parseFormFromLocation("src/test/resources/invalid_types.jsql").checkType();
     }
 }

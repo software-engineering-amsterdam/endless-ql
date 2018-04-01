@@ -1,15 +1,15 @@
 package ui.controller
 
-import doge.ast.DogeParser
-import doge.ast.node.QLNode
-import ui.model.domain.Question
-import doge.data.symbol.SymbolTable
-import ui.visitor.QuestionVisitor
-import doge.visitor.ValueUpdateVisitor
+import ql.ast.DogeParser
+import ql.ast.node.QLNode
+import ql.data.symbol.SymbolTable
+import ql.visitor.ValueUpdateVisitor
 import qls.ast.QlsParser
 import qls.ast.node.QlsNode
 import tornadofx.Controller
 import tornadofx.observable
+import ui.model.domain.Question
+import ui.visitor.QuestionVisitor
 import java.io.File
 
 class DogeController : Controller() {

@@ -7,13 +7,13 @@ import org.uva.forcepushql.interpreter.gui.JPanelGUI;
 import org.uva.forcepushql.interpreter.gui.questions.Question;
 
 import javax.swing.*;
-import java.util.LinkedList;
+import java.util.List;
 
 public interface ASTVisitor{
 
-    LinkedList<JPanel> visit(FormNode node);
+    List<JPanel> visit(FormNode node);
 
-    LinkedList<JPanelGUI> visit(ConditionalNode node);
+    List<JPanelGUI> visit(ConditionalNode node);
 
     String visit(AdditionNode node);
     String visit(SubtractionNode node);

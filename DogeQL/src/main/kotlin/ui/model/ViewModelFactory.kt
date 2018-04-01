@@ -1,7 +1,7 @@
 package ui.model
 
+import ql.data.symbol.SymbolType
 import ui.model.domain.Question
-import doge.data.question.SymbolType
 
 class ViewModelFactory {
 

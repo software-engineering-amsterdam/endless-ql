@@ -1,19 +1,13 @@
 form Box1HouseOwning {                                                                  
 
-i: "IntegerBox" integer
     hasSoldHouse:       "Did you sell a house in 2010?" boolean                              
     hasBoughtHouse:     "Did you buy a house in 2010?" boolean                                
-    when:     "When then?" date                                
     hasMaintLoan:       "Did you enter a loan for maintenance/reconstruction?"  boolean
-    s:       "WHatever?" string
-          
 
     if (hasSoldHouse) {                                                                 
         
         sellingPrice: "Price the house was sold for:" money                            
         privateDebt: "Private debts for the sold house:" money                         
         valueResidue: "Value residue:" money (sellingPrice - privateDebt )                  
-        epoch: "A year after Epoch:" date (01/01/1970 +364 + 1 )                           
-        a: "Then:" date (when + 1)                           
     }                                                                                      
 }                                                                                           

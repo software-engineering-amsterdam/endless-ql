@@ -24,6 +24,7 @@ public class Repository {
     }
 
     private void stickAnswer( Question question ) {
+
         if ( BehaviouralType.ANSWERABLE == question.getBehaviouralType() ) {
             stickyAnswers.add( question.identifier(), question.value() );
         }
@@ -32,13 +33,12 @@ public class Repository {
     Value storeAnswerableQuestion( Identifier identifier, Label label, Type type ) {
 
         questions.add( new Question( BehaviouralType.ANSWERABLE, identifier, label, stickyAnswers.get( identifier, type ) ) );
-
         return null;
     }
 
     Value storeComputedQuestion( Identifier identifier, Label label, Value value ) {
-        Question question = new Question( BehaviouralType.COMPUTED, identifier, label, value );
 
+        Question question = new Question( BehaviouralType.COMPUTED, identifier, label, value );
         questions.add( question );
         return value;
     }
@@ -57,13 +57,10 @@ public class Repository {
     public List<Question> listQuestions() {
 
         return questions.listQuestions();
-
     }
 
     public void storeAnwer( Identifier identifier, Value value ) {
 
         questions.storeAnswer( identifier, value );
-
     }
-
 }

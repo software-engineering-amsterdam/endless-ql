@@ -5,11 +5,13 @@ public class Identifier implements StringAble {
     private String string;
 
     public Identifier(String string) {
+        
         this.string = string;
     }
 
     @Override
     public String string() {
+
         return string;
     }
 
@@ -53,5 +55,4 @@ public class Identifier implements StringAble {
             }
         return true;
     }
-
 }

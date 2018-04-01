@@ -13,10 +13,7 @@ public class Main {
 
         SeContainer container = SeContainerInitializer.newInstance().initialize();
 
-        container.select( SourcePathProvider.class ).get().setSourcePath( "/Gui" );
+        container.select( SourcePathProvider.class ).get().setSourcePath( "/CollegeExample.ql" );
         container.select( Visualizer.class ).get().run();
-
-
     }
-
 }

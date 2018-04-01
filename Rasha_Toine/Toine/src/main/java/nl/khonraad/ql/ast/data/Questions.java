@@ -14,8 +14,8 @@ public class Questions implements Iterable<Question> {
     private List<Question> questionList = new ArrayList<>();
 
     Value storeComputedQuestion( Identifier identifier, Label label, Value value ) {
+        
         Question question = new Question( BehaviouralType.COMPUTED, identifier, label, value );
-
         questionList.add( question );
         return value;
     }

@@ -22,14 +22,17 @@ public class UnaryFunctions {
 
     // consistent name 'boolean' is reserved by Java
     private static boolean isTrue( Value value ) {
+        
         return value.equals( new Value( true ) );
     }
 
     private static Integer integer( Value value ) {
+        
         return Integer.parseInt( value.string() );
     }
 
     private static BigDecimal money( Value value ) {
+        
         return new BigDecimal( value.string() );
     }
 

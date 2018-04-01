@@ -4,6 +4,7 @@ import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.BinaryOperator;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.Operator;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.MoneyExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 import java.util.Set;
@@ -46,8 +47,14 @@ public class LabelBinOpExpression extends Expression {
 
     @Override
     public void evaluate(SymbolTable symbolTable) {
+
         labelExpression.evaluate(symbolTable);
         expression.evaluate(symbolTable);
+
+        System.out.println("evaluating 1");
+
+        System.out.println(((MoneyExpressionValue)((BinaryOperator)operator).evaluate(symbolTable, labelExpression,
+                expression)).getValue());
 
         setExpressionValue(((BinaryOperator)operator).evaluate(symbolTable, labelExpression,
                 expression));

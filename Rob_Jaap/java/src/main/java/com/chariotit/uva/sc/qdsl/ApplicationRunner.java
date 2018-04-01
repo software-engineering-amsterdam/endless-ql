@@ -55,6 +55,7 @@ public class ApplicationRunner implements CommandLineRunner {
 
 
     private void runProgram(ApplicationParameters parameters) throws IOException {
+
         QLAstRoot astRoot = getQLFromFilename(parameters.getQlFilename());
 
         // Run Typechecker

@@ -50,7 +50,7 @@ public class QLFormBuilder {
 
 
         this.questions = FormQuestionMapBuilder.buildMap(astRoot, this);
-        this.visibilityChecker = new VisibilityChecker(questions, astRoot);
+        this.visibilityChecker = new VisibilityChecker(questions, astRoot, this);
         this.render();
     }
 
@@ -61,6 +61,7 @@ public class QLFormBuilder {
 
     private void updateForm() {
         this.evaluateAst();
+
         this.visibilityChecker.checkVisibility();
 
         renderQuestions();
@@ -75,13 +76,15 @@ public class QLFormBuilder {
 
             if (question.getVisible()) {
 
-                question.getLabel().setBounds(contentMargin, currentLine * lineHeight + lineMargin,
-                        labelWidth, lineHeight);
-                question.getComponent().setBounds(labelWidth, lineHeight * currentLine + lineMargin,
-                        inputWidth, lineHeight);
-
                 jFrame.add(question.getLabel());
                 jFrame.add(question.getComponent());
+
+
+                question.getLabel().setBounds(contentMargin, currentLine * lineHeight + lineMargin,
+                        labelWidth, lineHeight);
+                question.getComponent().setBounds(labelWidth, currentLine * lineHeight + lineMargin,
+                        inputWidth, lineHeight);
+
 
                 currentLine += 1;
             }
@@ -204,14 +207,16 @@ public class QLFormBuilder {
         // no values other than the format are allowed
         formatter.setAllowsInvalid(true);
 
-        JFormattedTextField textField = new JFormattedTextField(formatter);
+        JFormattedTextField textField = new JFormattedTextField();
 
-        System.out.println("updating value: ");
 
         SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
         textField.setText(((MoneyExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
+        System.out.println("value for field " + element.getLabel().getLabel() + ((MoneyExpressionValue) symbol.getExpressionValue()).getValue());
+
         textField.getDocument().addDocumentListener(new DocumentListener() {
+
             public void changedUpdate(DocumentEvent e) {
                 update();
             }
@@ -234,8 +239,12 @@ public class QLFormBuilder {
                     ((MoneyExpressionValue) symbol.getExpressionValue()).setValue(Float
                             .parseFloat(textField.getText()));
 
-                    System.out.println("Currency text field updated");
+                    System.out.println("Currency text field updated " + textField.getText());
+                    System.out.println(((MoneyExpressionValue) symbol.getExpressionValue()).getValue());
+
                     updateForm();
+
+                    textField.requestFocus();
 
                 }
             }

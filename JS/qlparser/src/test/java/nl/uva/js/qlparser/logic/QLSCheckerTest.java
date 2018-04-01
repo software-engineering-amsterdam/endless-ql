@@ -5,7 +5,7 @@ import nl.uva.js.qlparser.models.qls.Stylesheet;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,7 +27,7 @@ public class QLSCheckerTest {
         Form form             = FormBuilder.parseFormFromLocation(QL_BASE);
         Stylesheet stylesheet = StylesheetBuilder.parseStylesheetFromLocation(QLS_BASE);
 
-        ArrayList<String> errors = checker.checkForErrors(form, stylesheet);
+        List<String> errors = checker.checkForErrors(form, stylesheet);
         assertEquals(0, errors.size());
     }
 

@@ -3,14 +3,17 @@ package ql.gui.controls;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import ql.ast.expressions.Identifier;
+import ql.gui.OnValueChange;
 import ql.values.BooleanValue;
 import ql.values.Value;
 
 public class QLCheckBox extends QLControl {
     private final CheckBox checkBox;
 
-    public QLCheckBox() {
+    public QLCheckBox(Identifier identifier, OnValueChange onValueChange) {
         this.checkBox = new CheckBox();
+        this.checkBox.setOnAction(event -> onValueChange.changed(identifier, value()));
     }
 
     private BooleanValue value() {

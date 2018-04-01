@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 public class FormBuilder {
 
     @SneakyThrows(IOException.class)
-    public static Form parseFormFromLocation(String location) {
+    static Form parseFormFromLocation(String location) {
         return parseFormFromString(new String(Files.readAllBytes(Paths.get(location))));
     }
 

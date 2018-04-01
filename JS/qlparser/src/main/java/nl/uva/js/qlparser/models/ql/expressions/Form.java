@@ -49,7 +49,7 @@ public class Form implements FormExpression {
                         .collect(Collectors.joining(" ")));
     }
 
-    @JsonProperty("expressionReferences")
+    @JsonProperty("questions")
     public List<Object> getJsonRepresentation() {
         return JsonRepresentationHelper.visualInformation(formExpressions);
     }

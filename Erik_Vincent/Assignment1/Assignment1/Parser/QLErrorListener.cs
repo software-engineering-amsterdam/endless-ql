@@ -1,16 +1,11 @@
 ﻿using Antlr4.Runtime;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assignment1.Parser
 {
-    class QLErrorListener : BaseErrorListener, IAntlrErrorListener<int>
+    internal class QLErrorListener : BaseErrorListener, IAntlrErrorListener<int>
     {
-        private ParseErrorHandler _errorHandler;
+        private readonly ParseErrorHandler _errorHandler;
 
         public QLErrorListener(ParseErrorHandler errorHandler)
         {

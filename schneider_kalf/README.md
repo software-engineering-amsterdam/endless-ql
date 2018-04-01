@@ -147,5 +147,13 @@ Result will be written into the `/build` folder
 - [x] Some way of shipping the answers, exporting the result (although I couldn't find it in the assignment)
 
 ## Presentation
+Technically any platform
+• Identification (accounts + photos?)
+• Language + frameworks
+• Parsing (syntactic analysis)
+• AST (design)
+• Static analysis (type check)
+• Interpretation (rendering)
+• Styling (QLS)
 Show no else, no instanceof and no switch
 Error messages with line numbers (rename weightFishOneA to weightFishOne1)

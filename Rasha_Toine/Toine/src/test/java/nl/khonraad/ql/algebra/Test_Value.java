@@ -27,7 +27,6 @@ public class Test_Value {
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
-
     }
 
     Value guarded_apply( Value l, Operator operator ) {
@@ -37,7 +36,6 @@ public class Test_Value {
         } catch (Exception e) {
             throw new RuntimeException( e.getMessage() );
         }
-
     }
 
     @Test
@@ -192,5 +190,4 @@ public class Test_Value {
     private Gen<Date> randomDate() {
         return dates().withMillisecondsBetween( 0L, MILLSECONDS_EPOCH_PLUS_100YEARS );
     }
-
 }

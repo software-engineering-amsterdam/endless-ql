@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Antlr4.Runtime.Misc;
 
 namespace Assignment1
 {
@@ -28,6 +27,7 @@ namespace Assignment1
 
         private void SetMessages(string title, IEnumerable<string> messages, Control titleControlTemplate, Control messageControlTemplate)
         {
+            messages = messages.ToArray();
             if (!messages.Any()) return;
             titleControlTemplate.Text = title;
             _messagePanel.Controls.Add(titleControlTemplate);

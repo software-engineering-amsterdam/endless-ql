@@ -1,4 +1,4 @@
-from pyql.ast.ast import ASTNode
+from util.ast import ASTNode
 
 
 class Block(ASTNode):

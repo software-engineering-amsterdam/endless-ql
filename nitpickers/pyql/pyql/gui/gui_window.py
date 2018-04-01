@@ -2,6 +2,7 @@ from pyql.gui.widgets.widgets import *
 from pyql.gui.widgets.widget_factory import WidgetFactory
 from pyql.gui.gui_visitor import GUIVisitor
 from pyql.static_analysis.symbol_table import SymbolTable
+from util import errors
 
 
 class GUIWindow(ttk.Frame):
@@ -52,14 +53,13 @@ class GUIWindow(ttk.Frame):
         self._statements.clear()
 
     def show_error_message(self, message):
-        message = "ERROR:", message
         label = ttk.Label(self, text=message, foreground='red')
         label.grid(padx=5, pady=20)
 
     def load_statements(self):
         try:
             self._ast.accept(self._gui_visitor)
-        except Exception as e:
+        except errors.Error as e:
             self.show_error_message(e)
         self.create_update_button()
 

@@ -16,17 +16,16 @@ from tests.test import Test
 class TestExpressionEvaluation(Test):
     def __init__(self, directory, lexer, parser):
         super(TestExpressionEvaluation, self).__init__('expression evaluation', directory)
-        self.lexer = lexer
-        self.parser = parser
+        self.__lexer = lexer
+        self.__parser = parser
 
     def test_file(self, file):
-        ast = self.parser.parse(file, self.lexer.lexer)
+        ast = self.__parser.parse(file, self.__lexer.lexer)
 
-        if not self.parser.errors:
+        if not self.__parser.errors:
             TypeVisitor(extract_identifier_types(ast)).visit(ast)
             model = extract_gui_model(ast)
-            result_type, result_value = file.split('\n')[0].split()[-2:]\
-
+            result_type, result_value = file.split('\n')[0].split()[-2:]
             correct_result = None
 
             if result_type == 'QLBoolean' and result_value == 'True':
@@ -34,7 +33,8 @@ class TestExpressionEvaluation(Test):
             elif result_type == 'QLBoolean':
                 correct_result = QLBoolean()
             elif result_type == 'QLDate':
-                correct_result = QLDate(loads(result_value))
+                day, month, year = loads(result_value)
+                correct_result = QLDate(day, month, year)
             elif result_type == 'QLDecimal':
                 correct_result = QLDecimal(result_value)
             elif result_type == 'QLInteger':
@@ -46,5 +46,4 @@ class TestExpressionEvaluation(Test):
 
             expression_evaluator = ExpressionEvaluator(model)
             expression_evaluator.visit(ast.block[0].answer)
-
             return bool(expression_evaluator.result == correct_result)

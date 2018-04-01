@@ -55,10 +55,7 @@ public class Question implements StringAble {
 
         if ( this.value.type() != value.type() )
             throw new RuntimeException( "TYPE_ERROR" );
-
         this.value = value;
-
         return value;
     }
-
 }

@@ -6,12 +6,10 @@ namespace Assignment1.Model.QLS.AST.Style
     {
         public string Value { get; }
 
-        private string _value;
-
         public Font(int lineNumber, string value)
         {
             _lineNumber = lineNumber;
-            _value = value;
+            Value = value;
         }
 
         public void Accept(IStyleVisitor visitor) => visitor.Visit(this);

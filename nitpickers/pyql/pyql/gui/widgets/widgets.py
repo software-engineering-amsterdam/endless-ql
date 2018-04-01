@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from pyql.util.values import *
+from util.values import *
 
 
 class ValidatingEntry(ttk.Entry):

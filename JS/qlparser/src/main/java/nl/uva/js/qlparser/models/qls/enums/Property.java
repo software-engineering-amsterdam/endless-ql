@@ -6,5 +6,5 @@ public enum Property {
     FONTTYPE,
     FONTSTYLE,
     MIN,
-    MAX,
+    MAX
 }

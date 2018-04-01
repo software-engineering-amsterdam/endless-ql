@@ -1,5 +1,5 @@
-from pyql.ast.ast import ASTNode
-from pyql.ast import code_location
+from util.ast import ASTNode
+from util import code_location
 
 
 class Expression(ASTNode):
@@ -182,6 +182,9 @@ class Literal(Expression):
 
     def __repr__(self):
         return str(self.value.value)
+
+    def __add__(self, other):
+        pass
 
 
 if __name__ == "__main__":

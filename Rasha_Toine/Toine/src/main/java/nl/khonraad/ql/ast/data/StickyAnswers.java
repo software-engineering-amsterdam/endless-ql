@@ -12,18 +12,24 @@ import nl.khonraad.ql.algebra.value.Type;
 
 public class StickyAnswers {
 
-    private Map<Identifier, Value> stickyAnswers = new HashMap<>();
+    private Map<Identifier, Value> stickyAnswersMap = new HashMap<>();
 
     private static Value initialValueOf( Type type ) {
+
         switch ( type ) {
+
             case Boolean:
                 return new Value( false );
+
             case Date:
                 return new Value( Type.Date, SimpleDateFormatter.string( new DateTime() ) );
+
             case Integer:
                 return new Value( Type.Integer, "0" );
+
             case Money:
                 return new Value( Type.Money, "0.00" );
+
             case String:
                 return new Value( Type.String, "" );
         }
@@ -31,19 +37,21 @@ public class StickyAnswers {
     }
 
     void clear() {
-        stickyAnswers.clear();
+
+        stickyAnswersMap.clear();
     }
 
     void add( Identifier identifier, Value value ) {
-        stickyAnswers.put( identifier, value );
+
+        stickyAnswersMap.put( identifier, value );
     }
 
     Value get( Identifier identifier, Type type ) {
-        if ( stickyAnswers.containsKey( identifier ) ) {
-            return stickyAnswers.get( identifier );
+
+        if ( stickyAnswersMap.containsKey( identifier ) ) {
+
+            return stickyAnswersMap.get( identifier );
         }
         return initialValueOf( type );
-
     }
-
 }

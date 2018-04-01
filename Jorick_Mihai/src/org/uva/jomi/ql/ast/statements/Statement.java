@@ -4,13 +4,13 @@ import org.uva.jomi.ql.ast.AstNode;
 
 public abstract class Statement extends AstNode {
 	public interface Visitor<T> {
-		T visit(FormStatement stmt);
-		T visit(BlockStatement stmt);
-		T visit(QuestionStatement stmt);
-		T visit(ComputedQuestionStatement stmt);
-		T visit(IfStatement stmt);
-		T visit(IfElseStatement stmt);
+		T visit(FormStatement statement);
+		T visit(BlockStatement statement);
+		T visit(QuestionStatement statement);
+		T visit(ComputedQuestionStatement statement);
+		T visit(IfStatement statement);
+		T visit(IfElseStatement statement);
 	}
-	
+
 	public abstract <T> T accept(Visitor<T> visitor);
 }

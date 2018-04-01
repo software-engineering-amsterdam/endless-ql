@@ -5,8 +5,24 @@ from qls.parser.lexer import QLSLexer
 
 class QLSParser:
     def __init__(self):
-        self.tokens = QLSLexer.tokens
-        self.parser = yacc(module=self)
+        self.__errors = []
+        self.__tokens = QLSLexer.tokens
+        self.__parser = None
+
+    @property
+    def errors(self):
+        return self.__errors
+
+    @property
+    def tokens(self):
+        return self.__tokens
+
+    @property
+    def parser(self):
+        return self.__parser
+
+    def build(self):
+        self.__parser = yacc(module=self)
 
     def parse(self, data, lexer):
         return self.parser.parse(data, lexer)
@@ -196,4 +212,4 @@ class QLSParser:
         production[0] = 'INTEGER'
 
     def p_error(self, production):
-        raise SyntaxError('Syntax error at line {}, token={}'.format(production.lineno, production.type))
+        self.errors.append('Syntax error at line {}, token={}'.format(production.lineno, production.type))

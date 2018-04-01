@@ -12,9 +12,13 @@ import javax.swing.JPanel;
 import org.slf4j.Logger;
 
 import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.ast.Visitor;
+import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
+import nl.khonraad.ql.cdi.LoggingAspect;
+import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
+import nl.khonraad.qls.ast.data.Styles;
+import nl.khonraad.qls.ast.data.Stylesionnaire;
 import nl.khonraad.ql.ast.data.Questionnaire;
 
 @SuppressWarnings( "serial" )
@@ -22,13 +26,22 @@ import nl.khonraad.ql.ast.data.Questionnaire;
 public class WidgetContainer extends Panel {
 
     @Inject
-    Logger        logger;
+    Logger                 logger;
 
     @Inject
-    Visitor       visitor;
+    ExtendedQLBaseVisitor  extendedQLBaseVisitor;
 
     @Inject
-    Questionnaire questionnaire;
+    ExtendedQLSBaseVisitor extendedQLSBaseVisitor;
+
+    @Inject
+    Questionnaire          questionnaire;
+
+    @Inject
+    Stylesionnaire        stylesionnaire;
+    
+    @Inject
+    Styles                 styles;
 
     @PostConstruct
     public void postConstruct() {
@@ -36,18 +49,19 @@ public class WidgetContainer extends Panel {
         setLayout( new GridLayout( 0, 2 ) );
     }
 
+    @LoggingAspect
     public void visualize() {
 
         removeAll();
 
-        questionnaire.prepareAndVisit( visitor );
+        questionnaire.prepareAndVisit( extendedQLBaseVisitor );
+        stylesionnaire.prepareAndVisit2( extendedQLSBaseVisitor );
 
         for ( Question question : questionnaire.getQuestionList() ) {
 
             add( new JLabel( question.label() ) );
-            add( visualizeQuestion( question, questionnaire ) );
+            add( visualizeQuestion( question ) );
         }
-
     }
 
     private static JPanel addToParent( JPanel parentPanel, JComponent component ) {
@@ -60,7 +74,8 @@ public class WidgetContainer extends Panel {
         return parentPanel;
     }
 
-    private JPanel visualizeQuestion( Question question, Questionnaire questionnaire ) {
+    @LoggingAspect
+    public JPanel visualizeQuestion( Question question ) {
 
         JPanel parentPanel = new JPanel();
 
@@ -68,29 +83,29 @@ public class WidgetContainer extends Panel {
 
         if ( behaviouralType == BehaviouralType.COMPUTED ) {
 
-            return addToParent( parentPanel, new ComputedQuestionWidget( question, questionnaire ) );
+            return addToParent( parentPanel, new ComputedQuestionWidget( question ).jLabel );
         }
 
-        if ( behaviouralType == BehaviouralType.ANSWERABLE ) {
+        Type type = question.type();
 
-            Type type = question.type();
+        if ( behaviouralType == BehaviouralType.ANSWERABLE ) {
 
             switch ( type ) {
 
                 case Boolean:
-                    return addToParent( parentPanel, new BooleanWidget( question ) );
+                    return addToParent( parentPanel, new BooleanWidget( question, styles.find( type ) ).jComboBox );
 
                 case Date:
-                    return addToParent( parentPanel, new DateWidget( question ) );
+                    return addToParent( parentPanel, new DateWidget( question ).jTextField );
 
                 case Integer:
-                    return addToParent( parentPanel, new IntegerWidget( question ) );
+                    return addToParent( parentPanel, new IntegerWidget( question ).jSpinner );
 
                 case Money:
-                    return addToParent( parentPanel, new MoneyWidget( question ) );
+                    return addToParent( parentPanel, new MoneyWidget( question ).jSpinner );
 
                 case String:
-                    return addToParent( parentPanel, new StringWidget( question ) );
+                    return addToParent( parentPanel, new StringWidget( question ).jTextField );
             }
         }
         throw new RuntimeException( "Do not know how to diplay type: " + type );

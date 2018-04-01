@@ -3,7 +3,6 @@ package nl.uva.js.qlparser.logic;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
-import nl.uva.js.qlparser.models.ql.expressions.form.IfBlock;
 import nl.uva.js.qlparser.models.ql.expressions.form.Question;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
 import nl.uva.js.qlparser.models.qls.elements.Page;
@@ -19,9 +18,9 @@ public class QLSChecker {
     private static final String INVALID_FORM_EXPRESSION = "Invalid form expression: ";
     private static final String DUPLICATE_REFERENCE_TO_FORM_EXPRESSION = "Duplicate reference to form expression: ";
 
-    private ArrayList<String> errors;
+    private List<String> errors = Collections.emptyList();
 
-    public ArrayList<String> checkForErrors(Form form, Stylesheet stylesheet) {
+    public List<String> checkForErrors(Form form, Stylesheet stylesheet) {
         errors = new ArrayList<>();
 
         Map<String, FormExpression> expressionsByName = form.getExpressionsByName();
@@ -42,7 +41,7 @@ public class QLSChecker {
     }
 
     private void compareLeftToRight(Set<String> left, Set<String> right, String errorMessage) {
-        ArrayList<String> difference = new ArrayList<>(left);
+        List<String> difference = new ArrayList<>(left);
         difference.removeAll(right);
 
         for (String question : difference) {

@@ -1,5 +1,5 @@
 from gui.widgets.line_edit import LineEdit
-from ql.ast.nodes.expressions.literals.string_node import StringNode
+from ql.ast.nodes.expressions.literals.string_literal import StringNode
 from ql.types.boolean import QLBoolean
 from ql.types.type import QLType
 
@@ -9,11 +9,12 @@ class QLString(QLType):
         super(QLString, self).__init__()
         self.__value = str(value)
 
+    @property
+    def value(self):
+        return self.__value
+
     def __repr__(self):
         return str(self.value)
-
-    def __bool__(self):
-        return bool(self.value)
 
     def __str__(self):
         return str(self.value)
@@ -44,10 +45,6 @@ class QLString(QLType):
 
     def get_json_value(self):
         return self.value
-
-    @property
-    def value(self):
-        return self.__value
 
     @staticmethod
     def get_literal_node(value):

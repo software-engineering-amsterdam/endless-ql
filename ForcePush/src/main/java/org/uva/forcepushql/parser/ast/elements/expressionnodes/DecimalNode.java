@@ -8,6 +8,10 @@ public class DecimalNode extends ExpressionNode
 {
     private double value;
 
+    public DecimalNode() {
+        super(false);
+    }
+
     public void setValue(double value)
     {
         this.value = value;

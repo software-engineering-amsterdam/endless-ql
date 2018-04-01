@@ -6,6 +6,10 @@ import org.uva.forcepushql.parser.ast.elements.InfixExpressionNode;
 
 public class DivisionNode extends InfixExpressionNode
 {
+    public DivisionNode() {
+        super(false);
+    }
+
     @Override
     public String accept(ASTVisitor visitor)
     {

@@ -6,6 +6,10 @@ import org.uva.forcepushql.parser.ast.elements.InfixExpressionNode;
 
 public class EqualLessNode extends InfixExpressionNode
 {
+    public EqualLessNode() {
+        super(true);
+    }
+
     @Override
     public String accept(ASTVisitor visitor)
     {

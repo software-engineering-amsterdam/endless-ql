@@ -1,6 +1,7 @@
 package org.uva.forcepushql.interpreter.evaluators;
 
 
+import org.uva.forcepushql.interpreter.TypeChecker.Messages;
 import org.uva.forcepushql.interpreter.gui.EventChecker;
 import org.uva.forcepushql.interpreter.gui.JPanelGUI;
 import org.uva.forcepushql.interpreter.gui.questions.Question;
@@ -12,15 +13,17 @@ import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 
 import javax.swing.*;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
-//TODO: Refactor the hell out of this. Please. It hurts. Make it stop....
 public class ASTVisitorEvaluator implements ASTVisitor
 {
     EventChecker eventChecker = new EventChecker();
     String elseCondition = "";
+
+    Messages messages = new Messages();
+    HashMap<String,ValueType> declaredVaribles = new HashMap<>();
+    LinkedList<String> labels = new LinkedList<>();
 
     @Override
     public LinkedList<JPanel> visit(FormNode node)
@@ -41,6 +44,16 @@ public class ASTVisitorEvaluator implements ASTVisitor
 
 
         result.addFirst(jPanelForm);
+
+        if (!messages.isEmpty() && !messages.allWarning()){
+            System.err.print(messages.toString());
+            System.exit(1);
+        }
+
+        else if(messages.allWarning()){
+            System.err.print(messages.toString());
+        }
+
         return result;
     }
 
@@ -52,7 +65,16 @@ public class ASTVisitorEvaluator implements ASTVisitor
         Node condition = node.getCondition();
 
         if(condition != null) {
+
             String expression = condition.accept(this);
+
+            if (!condition.isBooleanExpression()){
+                messages.addMessage("The expression " + expression + " on conditional is not a boolean expression",
+                        Messages.MessageTypes.ERROR);
+            }
+
+            containsAllVariables(expression);
+
             eventChecker.addCondition(expression, jPanelGUI);
             if (elseCondition.equals("")) {
                 elseCondition = "!" + expression;
@@ -178,6 +200,13 @@ public class ASTVisitorEvaluator implements ASTVisitor
         String name = visit((NameNode) node.getCenter());
         ValueType type = visit((TypeNode) node.getRight());
 
+        if (!declaredVaribles.containsKey(name)){
+            declaredVaribles.put(name,type);
+        }
+        else if (!declaredVaribles.get(name).equals(type)){
+            messages.addMessage("The variable " + name + " is already declared", Messages.MessageTypes.ERROR);
+        }
+
         if (type.equals(ValueType.BOOL))
         {
             question = new Radio(label, type, name);
@@ -194,8 +223,18 @@ public class ASTVisitorEvaluator implements ASTVisitor
     @Override
     public Question visit(QuestionAssignValueNode node)
     {
-        String calculation = node.getExpression().accept(this);
         Question question = node.getPrevious().accept(this);
+        Node expression = node.getExpression();
+
+        if (expression.isBooleanExpression()){
+            messages.addMessage("The calculation on varible " + question.answerNameValue() + " is not a math expression.",
+                    Messages.MessageTypes.ERROR);
+        }
+
+        String calculation = expression.accept(this);
+
+        containsAllVariables(calculation);
+
         eventChecker.addCalculation(question.answerNameValue(),calculation);
         ((Textbox)question).setHasCalculation(true);
 
@@ -205,7 +244,16 @@ public class ASTVisitorEvaluator implements ASTVisitor
     @Override
     public String visit(LabelNode node)
     {
-        return node.getLabel().replaceAll("\"", "");
+        String label = node.getLabel().replaceAll("\"", "");
+
+        if (labels.contains(label)){
+            messages.addMessage("Label " + label + " already exists", Messages.MessageTypes.WARNING);
+        }
+        else {
+            labels.add(label);
+        }
+
+        return label;
     }
 
     @Override
@@ -217,7 +265,12 @@ public class ASTVisitorEvaluator implements ASTVisitor
     @Override
     public ValueType visit(TypeNode node)
     {
-        return node.getType();
+        ValueType valueType = node.getType();
+        if (valueType.equals(ValueType.UNKNOWN)){
+           messages.addMessage("Error: Incorrect type! Types allowed are: money, string, boolean, decimal and integer.",
+                   Messages.MessageTypes.ERROR);
+        }
+        return valueType;
     }
 
     @Override
@@ -260,4 +313,20 @@ public class ASTVisitorEvaluator implements ASTVisitor
 
         }
     }
+
+    private void containsAllVariables(String expression){
+        boolean containsAll = true;
+        for (String var: variables(expression)){
+            containsAll = containsAll && declaredVaribles.containsKey(var);
+        }
+
+        if (!containsAll)
+            messages.addMessage("Not all variables from expression " + expression + " are declared",
+                    Messages.MessageTypes.ERROR);
+    }
+
+    private static String[] variables(String expression){
+        return EventChecker.getString(expression).split("\\.");
+    }
+
 }

@@ -6,6 +6,10 @@ import org.uva.forcepushql.parser.ast.elements.InfixExpressionNode;
 
 public class IsEqualNode extends InfixExpressionNode
 {
+    public IsEqualNode() {
+        super(true);
+    }
+
     @Override
     public String accept(ASTVisitor visitor)
     {

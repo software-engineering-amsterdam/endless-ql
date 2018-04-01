@@ -45,8 +45,13 @@ public class WidgetVisitor extends QLSBaseVisitor {
 
     @Override
     public Object visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
-        //TODO
-        return super.visitRadioWidget(ctx);
+        ArrayList<String> options = new ArrayList<>();
+
+        for(TerminalNode t : ctx.argList().STR()){
+            options.add(t.getText());
+        }
+
+        return new RadioWidget(currentValue, options.toArray());
     }
 
 
@@ -60,16 +65,10 @@ public class WidgetVisitor extends QLSBaseVisitor {
     public DropDownWidget visitDropdownWidget(QLSParser.DropdownWidgetContext ctx) {
         ArrayList<String> options = new ArrayList<>();
 
-        for(TerminalNode t : ctx.dropDownList().STR()){
+        for(TerminalNode t : ctx.argList().STR()){
             options.add(t.getText());
         }
 
-        return new DropDownWidget((StringValue) currentValue, options.toArray());
+        return new DropDownWidget(currentValue, options.toArray());
     }
-
-//    @Override
-//    public Object visitWidgetStyle(QLSParser.WidgetStyleContext ctx) {
-//        //TODO
-//        return super.visitWidgetStyle(ctx);
-//    }
 }

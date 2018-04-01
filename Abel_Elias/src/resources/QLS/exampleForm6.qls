@@ -5,7 +5,7 @@ stylesheet taxOfficeExample
     section "Name"
     {
       question name
-        widget dropdown ["Amy", "Bob", "Chloe", "Dan", "Elias"]
+        widget radio ["Amy", "Bob", "Chloe", "Dan", "Elias"]
     }
 
     section "Boolean"

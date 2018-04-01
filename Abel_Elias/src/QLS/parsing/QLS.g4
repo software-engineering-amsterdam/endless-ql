@@ -33,13 +33,13 @@ widgetType  : checkboxWidget
 
 checkboxWidget : CHECKBOX;
 textWidget : TEXT;
-radioWidget : RADIO BRACE_L yes=STR COMMA no=STR BRACE_R;
+radioWidget : RADIO argList;
 spinboxWidget : SPINBOX;
 sliderWidget : SLIDER;
-dropdownWidget : DROPDOWN dropDownList;
+dropdownWidget : DROPDOWN argList;
 
 style : CURLY_BRACE_L widgetProperty+ CURLY_BRACE_R;
-dropDownList: BRACKET_L ((STR COMMA)* (STR)?) BRACKET_R;
+argList: BRACKET_L ((STR COMMA)* (STR)?) BRACKET_R;
 
 type : BOOLEANTYPE   #booltype
      | STRINGTYPE    #stringtype

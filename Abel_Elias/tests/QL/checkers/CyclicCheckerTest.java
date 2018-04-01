@@ -9,11 +9,6 @@ import QL.parsing.visitors.FormVisitor;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class CyclicCheckerTest extends CheckerTest{
 
     private CyclicChecker cyclicChecker;
@@ -25,13 +20,13 @@ public class CyclicCheckerTest extends CheckerTest{
 
     @Test(expected = CyclicError.class)
     public void issueCyclicErrorAcrossQuestions() {
-        QLParser.FormContext formContext = getFormContext("src/resources/QL/tests/cyclicFormAcross.ql");
+        QLParser.FormContext formContext = getFormContext("resources/QL/tests/cyclicTests/cyclicFormAcross.ql");
         cyclicChecker.checkForm(formContext);
     }
 
     @Test(expected = CyclicError.class)
     public void issueCyclicErrorInQuestion() {
-        QLParser.FormContext formContext = getFormContext("src/resources/QL/tests/cyclicFormItself.ql");
+        QLParser.FormContext formContext = getFormContext("resources/QL/tests/cyclicTests/cyclicFormItself.ql");
         cyclicChecker.checkForm(formContext);
     }
 

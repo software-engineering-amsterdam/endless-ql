@@ -67,9 +67,4 @@ public class WidgetVisitor extends QLSBaseVisitor {
         return new DropDownWidget((StringValue) currentValue, options.toArray());
     }
 
-//    @Override
-//    public Object visitWidgetStyle(QLSParser.WidgetStyleContext ctx) {
-//        //TODO
-//        return super.visitWidgetStyle(ctx);
-//    }
 }

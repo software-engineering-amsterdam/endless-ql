@@ -12,6 +12,7 @@ from pyql.static_analysis.expression_evaluator import ExpressionEvaluator
 
 
 class GUIVisitor:
+
     def __init__(self, gui_window, symbol_table):
         self._gui_window = gui_window
         self._symbol_table = symbol_table

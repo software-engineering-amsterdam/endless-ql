@@ -2,6 +2,7 @@ from pyql.gui.widgets.widgets import *
 
 
 class MessageWindow(ttk.Frame):
+
     def __init__(self, parent, messages):
         ttk.Frame.__init__(self, parent)
         self.root = parent

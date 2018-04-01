@@ -1,11 +1,9 @@
 package gui.listeners;
 
-import QL.classes.Question;
 import QL.classes.values.BooleanValue;
 import QL.classes.values.IntegerValue;
 import QL.classes.values.StringValue;
 import QL.classes.values.UndefinedValue;
-import QL.classes.values.Value;
 import gui.GUIBuilder;
 import org.jdatepicker.JDatePicker;
 
@@ -48,8 +46,6 @@ public class QuestionValueListener {
             GUIBuilder.onQuestionChange(key, new IntegerValue((Integer) spinbox.getValue()));
         }
     }
-
-
 
     /**
      * DateActionListener

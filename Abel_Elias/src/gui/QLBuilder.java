@@ -10,14 +10,12 @@ import gui.panels.QuestionPanel;
 import gui.listeners.QuestionValueListener;
 import gui.widgets.CheckBoxWidget;
 import gui.widgets.DateWidget;
-import gui.widgets.StringWidget;
+import gui.widgets.TextWidget;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
-public class QLBuilder {
+public class QLBuilder implements Observer {
 
     private JPanel mainListPanel;
 
@@ -75,11 +73,16 @@ public class QLBuilder {
      */
     private void buildQuestionPanel(Question question) {
         Value value = question.getValue();
+
+        if(!question.isFixed()){
+            value.addObserver(this);
+        }
+
         QuestionPanel qPanel = null;
 
         switch (value.getType()) {
             case Value.STRING:
-                qPanel = new QuestionPanel(question, new StringWidget((StringValue) value));
+                qPanel = new QuestionPanel(question, new TextWidget((StringValue) value));
                 break;
             case Value.BOOLEAN:
                 qPanel = new QuestionPanel(question, new CheckBoxWidget((BooleanValue) value));
@@ -181,18 +184,9 @@ public class QLBuilder {
         mainListPanel.add(questionPanel, gbc);
     }
 
-    /**
-     * removeQuestionFromPanel() method
-     * removes a question to the mainlist panel
-     *
-     * @param questionPanel The questionpanel passed
-     */
-    private void removeQuestionFromPanel(QuestionPanel questionPanel) {
-        mainListPanel.remove(questionPanel);
-    }
-
-
-    public JPanel getMainListPanel() {
-        return mainListPanel;
+    @Override
+    public void update(Observable o, Object arg) {
+        this.coreVisitor.update();
+        this.updateGUI();
     }
 }

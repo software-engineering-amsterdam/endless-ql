@@ -7,8 +7,10 @@ import gui.listeners.QuestionValueListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class GUIBuilder {
+public class GUIBuilder{
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which houses the list of question panels
 
@@ -29,6 +31,8 @@ public class GUIBuilder {
         this.qlBuilder = new QLBuilder(coreVisitor);
         this.questionValueListener = new QuestionValueListener(this);
         //this.coreVisitor = coreVisitor;
+
+        initObservers();
         initFrame();
         initComponents();
     }
@@ -37,6 +41,7 @@ public class GUIBuilder {
         this.qlBuilder = new QLBuilder(coreVisitor);
         this.questionValueListener = new QuestionValueListener(this);
         this.qlsBuilder = new QLSBuilder(stylesheetVisitor);
+        initObservers();
         initFrame();
         initComponents(true);
 
@@ -45,6 +50,10 @@ public class GUIBuilder {
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
+    }
+
+    private void initObservers(){
+
     }
 
     /**

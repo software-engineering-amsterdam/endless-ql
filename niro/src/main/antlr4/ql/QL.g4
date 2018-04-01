@@ -77,7 +77,7 @@ NOT                    : '!' ;
 PERIOD                 : '.' ;
                        
 DATE_VALUE             : [0-9][0-9][0-9][0-9] '-' [0-9][0-9] '-' [0-9][0-9] ;
-DECIMAL_VALUE          : [1-9][0-9]* PERIOD [0-9]+ ;
+DECIMAL_VALUE          : [0-9]+ PERIOD [0-9]+ ;
 INTEGER_VALUE          : [1-9][0-9]* ;
 IDENTIFIER             : [a-zA-Z0-9_]+ ;
 TEXT                   : '"' .*? '"' { setText(getText().substring(1, getText().length() - 1)); }; // excluding double quotes

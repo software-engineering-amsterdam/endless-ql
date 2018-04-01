@@ -53,11 +53,11 @@ public class Main {
             FormVisitor coreVisitor = new FormVisitor().visitForm(form);
 
             // QLS
-            FileInputStream qlsInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\resources\\QLS\\exampleForm5.qls");
-            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
-            StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
-            stylesheetVisitor.visitStylesheet(stylesheetContext);
-            new GUIBuilder(coreVisitor, stylesheetVisitor);
+//            FileInputStream qlsInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\resources\\QLS\\exampleForm5.qls");
+//            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
+//            StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
+//            stylesheetVisitor.visitStylesheet(stylesheetContext);
+//            new GUIBuilder(coreVisitor, stylesheetVisitor);
 
         } catch (IOException e) {
             e.printStackTrace();

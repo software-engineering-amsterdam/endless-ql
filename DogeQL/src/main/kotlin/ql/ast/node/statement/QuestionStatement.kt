@@ -1,4 +1,4 @@
-package ql.ast.node
+package ql.ast.node.statement
 
 import ql.ast.location.Identifier
 import ql.ast.location.SourceLocation

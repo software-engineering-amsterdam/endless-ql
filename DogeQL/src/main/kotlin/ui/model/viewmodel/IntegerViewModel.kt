@@ -1,7 +1,7 @@
-package ui.model
+package ui.model.viewmodel
 
-import ui.model.domain.Question
 import javafx.beans.property.SimpleIntegerProperty
+import ui.model.domain.Question
 
 class IntegerViewModel(question: Question) : QuestionViewModel(question) {
 

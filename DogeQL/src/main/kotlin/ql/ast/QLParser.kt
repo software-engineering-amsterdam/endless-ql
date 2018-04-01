@@ -12,7 +12,7 @@ import java.io.File
 import java.io.FileInputStream
 
 
-data class DogeParseResult(val ast: QLNode?, val symbolTable: SymbolTable?, val info : List<String>)
+data class DogeParseResult(val ast: QLNode?, val symbolTable: SymbolTable?, val info: List<String>)
 
 class DogeParser {
 
@@ -31,7 +31,6 @@ class DogeParser {
 
             val symbolTable = SymbolTable()
             errors = TypeChecker(symbolTable, ast).check()
-
 
             if (errors.isEmpty()) {
                 ValueUpdateVisitor.default(symbolTable).visit(ast)

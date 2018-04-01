@@ -1,4 +1,5 @@
 package QLS.parsing.visitors;
+
 import QL.classes.Question;
 import QL.classes.values.BooleanValue;
 import QL.classes.values.NumericValue;
@@ -9,14 +10,15 @@ import QLS.classes.blocks.Section;
 import QLS.classes.blocks.StyledQuestion;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
-import gui.widgets.CheckBoxWidget;
-import gui.widgets.SpinBoxWidget;
-import gui.widgets.TextWidget;
-import gui.widgets.Widget;
+import gui.widgets.*;
+import org.antlr.v4.runtime.tree.TerminalNode;
+import xtc.parser.Terminal;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class WidgetVisitor extends QLSBaseVisitor {
     private Value currentValue;
@@ -55,9 +57,14 @@ public class WidgetVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Object visitDropdownWidget(QLSParser.DropdownWidgetContext ctx) {
-        //TODO
-        return super.visitDropdownWidget(ctx);
+    public DropDownWidget visitDropdownWidget(QLSParser.DropdownWidgetContext ctx) {
+        ArrayList<String> options = new ArrayList<>();
+
+        for(TerminalNode t : ctx.dropDownList().STR()){
+            options.add(t.getText());
+        }
+
+        return new DropDownWidget((StringValue) currentValue, options.toArray());
     }
 
     @Override

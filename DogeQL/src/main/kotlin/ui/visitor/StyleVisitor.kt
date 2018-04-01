@@ -3,17 +3,20 @@ package ui.visitor
 import javafx.geometry.Side
 import javafx.scene.Node
 import javafx.scene.control.Label
-import qls.ast.model.*
+import qls.ast.node.*
+import qls.ast.node.attribute.Attribute
+import qls.ast.node.attribute.DefaultAttributes
 import qls.visitor.QlsVisitor
 import tornadofx.*
 import ui.controller.DogeController
-import ui.model.QuestionViewModel
-import ui.model.ViewModelFactory
-import ui.view.QuestionFieldFactory
+import ui.model.viewmodel.QuestionViewModel
+import ui.model.viewmodel.ViewModelFactory
+import ui.view.field.QuestionFieldFactory
 
 class StyleVisitor : View(), QlsVisitor<Node> {
+
     override fun visit(attributes: Attribute): Node {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw IllegalStateException("Unable to visit attribute")
     }
 
     private val controller: DogeController by inject()

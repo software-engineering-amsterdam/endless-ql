@@ -1,7 +1,7 @@
-package ui.model
+package ui.model.viewmodel
 
-import ui.model.domain.Question
 import javafx.beans.property.SimpleStringProperty
+import ui.model.domain.Question
 
 class StringViewModel(question: Question) : QuestionViewModel(question) {
 

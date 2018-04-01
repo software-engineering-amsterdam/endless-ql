@@ -36,9 +36,11 @@ textWidget : TEXT;
 radioWidget : RADIO BRACE_L yes=STR COMMA no=STR BRACE_R;
 spinboxWidget : SPINBOX;
 sliderWidget : SLIDER;
-dropdownWidget : DROPDOWN BRACE_L yes=STR COMMA no=STR BRACE_R;
+dropdownWidget : DROPDOWN dropDownList;
 
-widgetStyle : CURLY_BRACE_L widgetProperty+ widget? CURLY_BRACE_R;
+dropDownList: BRACKET_L ((STR COMMA)* (STR)?) BRACKET_R;
+
+widgetStyle: CURLY_BRACE_L widgetProperty+ widget? CURLY_BRACE_R;
 
 style : IDENTIFIER COLON value;
 
@@ -107,8 +109,10 @@ CURLY_BRACE_L : '{';
 CURLY_BRACE_R: '}';
 BRACE_L : '(';
 BRACE_R : ')';
-COMMA: ',';
+BRACKET_L: '[';
+BRACKET_R: ']';
 COLON : ':';
+COMMA: ',';
 
 // literals
 fragment DIGIT : ('0'..'9');

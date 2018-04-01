@@ -3,12 +3,12 @@ package ql.typechecker.type
 import ql.ast.location.Type
 import ql.ast.node.Block
 import ql.ast.node.Form
-import ql.ast.node.IfStatement
-import ql.ast.node.QuestionStatement
 import ql.ast.node.expression.BinaryExpression
 import ql.ast.node.expression.LiteralExpression
 import ql.ast.node.expression.ReferenceExpression
 import ql.ast.node.expression.UnaryExpression
+import ql.ast.node.statement.IfStatement
+import ql.ast.node.statement.QuestionStatement
 import ql.data.symbol.SymbolRegistrationResult
 import ql.data.symbol.SymbolType
 import ql.data.value.BaseSymbolValue
@@ -87,7 +87,7 @@ class TypeVisitor(
 
     override fun visit(referenceExpression: ReferenceExpression): Type {
         val value = requestValue(referenceExpression.name.text)
-            ?: throw IllegalStateException("Unable to find reference ${referenceExpression.name}")
+                ?: throw IllegalStateException("Unable to find reference ${referenceExpression.name}")
 
         return Type(value.type, referenceExpression.location)
     }

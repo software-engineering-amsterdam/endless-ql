@@ -1,4 +1,4 @@
-// Generated from /home/ajm/Desktop/endless-sunday/endless-ql/Abel_Elias/src/QLS/parsing/QLS.g4 by ANTLR 4.7
+// Generated from C:/dev/uva/endless-ql/Abel_Elias/src/QLS/parsing\QLS.g4 by ANTLR 4.7
 package QLS.parsing.gen;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -21,23 +21,23 @@ public class QLSParser extends Parser {
 		DECIMALTYPE=7, SLIDER=8, SPINBOX=9, CHECKBOX=10, TEXT=11, RADIO=12, DROPDOWN=13, 
 		WIDTH=14, FONT=15, FONTSIZE=16, COLOR=17, STYLESHEET=18, PAGE=19, SECTION=20, 
 		DEFAULT=21, WIDGET=22, QUESTION=23, CURLY_BRACE_L=24, CURLY_BRACE_R=25, 
-		BRACE_L=26, BRACE_R=27, COMMA=28, COLON=29, BOOL=30, IDENTIFIER=31, STR=32, 
-		INT=33, MON=34, DEC=35, NEWLINE=36, CLR=37, WHITESPACE=38, MULTICOMMENT=39, 
-		SINGLECOMMENT=40;
+		BRACE_L=26, BRACE_R=27, BRACKET_L=28, BRACKET_R=29, COLON=30, COMMA=31, 
+		BOOL=32, IDENTIFIER=33, STR=34, INT=35, MON=36, DEC=37, NEWLINE=38, CLR=39, 
+		WHITESPACE=40, MULTICOMMENT=41, SINGLECOMMENT=42;
 	public static final int
 		RULE_stylesheet = 0, RULE_page = 1, RULE_section = 2, RULE_element = 3, 
 		RULE_question = 4, RULE_defaultWidget = 5, RULE_widget = 6, RULE_widgetType = 7, 
 		RULE_checkboxWidget = 8, RULE_textWidget = 9, RULE_radioWidget = 10, RULE_spinboxWidget = 11, 
-		RULE_sliderWidget = 12, RULE_dropdownWidget = 13, RULE_widgetStyle = 14, 
-		RULE_style = 15, RULE_type = 16, RULE_defaultdef = 17, RULE_blockdefault = 18, 
-		RULE_linedefault = 19, RULE_widgetProperty = 20, RULE_widthproperty = 21, 
-		RULE_fontproperty = 22, RULE_fontsizeproperty = 23, RULE_colorproperty = 24, 
-		RULE_value = 25;
+		RULE_sliderWidget = 12, RULE_dropdownWidget = 13, RULE_dropDownList = 14, 
+		RULE_widgetStyle = 15, RULE_style = 16, RULE_type = 17, RULE_defaultdef = 18, 
+		RULE_blockdefault = 19, RULE_linedefault = 20, RULE_widgetProperty = 21, 
+		RULE_widthproperty = 22, RULE_fontproperty = 23, RULE_fontsizeproperty = 24, 
+		RULE_colorproperty = 25, RULE_value = 26;
 	public static final String[] ruleNames = {
 		"stylesheet", "page", "section", "element", "question", "defaultWidget", 
 		"widget", "widgetType", "checkboxWidget", "textWidget", "radioWidget", 
-		"spinboxWidget", "sliderWidget", "dropdownWidget", "widgetStyle", "style", 
-		"type", "defaultdef", "blockdefault", "linedefault", "widgetProperty", 
+		"spinboxWidget", "sliderWidget", "dropdownWidget", "dropDownList", "widgetStyle", 
+		"style", "type", "defaultdef", "blockdefault", "linedefault", "widgetProperty", 
 		"widthproperty", "fontproperty", "fontsizeproperty", "colorproperty", 
 		"value"
 	};
@@ -47,15 +47,16 @@ public class QLSParser extends Parser {
 		"'slider'", "'spinbox'", "'checkbox'", "'text'", "'radio'", "'dropdown'", 
 		"'width'", "'font'", "'fontsize'", "'color'", "'stylesheet'", "'page'", 
 		"'section'", "'default'", "'widget'", "'question'", "'{'", "'}'", "'('", 
-		"')'", "','", "':'"
+		"')'", "'['", "']'", "':'", "','"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "WS", "BOOLEANTYPE", "STRINGTYPE", "INTEGERTYPE", "MONEYTYPE", "DATETYPE", 
 		"DECIMALTYPE", "SLIDER", "SPINBOX", "CHECKBOX", "TEXT", "RADIO", "DROPDOWN", 
 		"WIDTH", "FONT", "FONTSIZE", "COLOR", "STYLESHEET", "PAGE", "SECTION", 
 		"DEFAULT", "WIDGET", "QUESTION", "CURLY_BRACE_L", "CURLY_BRACE_R", "BRACE_L", 
-		"BRACE_R", "COMMA", "COLON", "BOOL", "IDENTIFIER", "STR", "INT", "MON", 
-		"DEC", "NEWLINE", "CLR", "WHITESPACE", "MULTICOMMENT", "SINGLECOMMENT"
+		"BRACE_R", "BRACKET_L", "BRACKET_R", "COLON", "COMMA", "BOOL", "IDENTIFIER", 
+		"STR", "INT", "MON", "DEC", "NEWLINE", "CLR", "WHITESPACE", "MULTICOMMENT", 
+		"SINGLECOMMENT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -127,14 +128,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_stylesheet; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterStylesheet(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitStylesheet(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitStylesheet(this);
 			else return visitor.visitChildren(this);
@@ -148,43 +141,43 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52);
-			match(STYLESHEET);
-			setState(53);
-			match(IDENTIFIER);
 			setState(54);
+			match(STYLESHEET);
+			setState(55);
+			match(IDENTIFIER);
+			setState(56);
 			match(CURLY_BRACE_L);
-			setState(58);
+			setState(60);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==PAGE) {
 				{
 				{
-				setState(55);
+				setState(57);
 				page();
 				}
 				}
-				setState(60);
+				setState(62);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(64);
+			setState(66);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==NEWLINE) {
 				{
 				{
-				setState(61);
+				setState(63);
 				match(NEWLINE);
 				}
 				}
-				setState(66);
+				setState(68);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(67);
+			setState(69);
 			match(CURLY_BRACE_R);
-			setState(68);
+			setState(70);
 			match(EOF);
 			}
 		}
@@ -225,14 +218,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_page; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterPage(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitPage(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitPage(this);
 			else return visitor.visitChildren(this);
@@ -247,55 +232,55 @@ public class QLSParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70);
-			match(PAGE);
-			setState(71);
-			match(IDENTIFIER);
 			setState(72);
+			match(PAGE);
+			setState(73);
+			match(IDENTIFIER);
+			setState(74);
 			match(CURLY_BRACE_L);
-			setState(76);
+			setState(78);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SECTION) {
 				{
 				{
-				setState(73);
+				setState(75);
 				section();
 				}
 				}
-				setState(78);
+				setState(80);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(82);
+			setState(84);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==DEFAULT) {
 				{
 				{
-				setState(79);
+				setState(81);
 				defaultWidget();
 				}
 				}
-				setState(84);
+				setState(86);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(85);
+			setState(87);
 			match(CURLY_BRACE_R);
-			setState(89);
+			setState(91);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(86);
+					setState(88);
 					match(NEWLINE);
 					}
 					} 
 				}
-				setState(91);
+				setState(93);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
@@ -332,14 +317,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_section; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterSection(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitSection(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitSection(this);
 			else return visitor.visitChildren(this);
@@ -354,59 +331,59 @@ public class QLSParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92);
+			setState(94);
 			match(SECTION);
-			setState(93);
-			match(STR);
 			setState(95);
+			match(STR);
+			setState(97);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==CURLY_BRACE_L) {
 				{
-				setState(94);
+				setState(96);
 				match(CURLY_BRACE_L);
 				}
 			}
 
-			setState(100);
+			setState(102);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(97);
+					setState(99);
 					element();
 					}
 					} 
 				}
-				setState(102);
+				setState(104);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			}
-			setState(104);
+			setState(106);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				{
-				setState(103);
+				setState(105);
 				match(CURLY_BRACE_R);
 				}
 				break;
 			}
-			setState(109);
+			setState(111);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(106);
+					setState(108);
 					match(NEWLINE);
 					}
 					} 
 				}
-				setState(111);
+				setState(113);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
 			}
@@ -442,14 +419,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_element; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterElement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitElement(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitElement(this);
 			else return visitor.visitChildren(this);
@@ -461,27 +430,27 @@ public class QLSParser extends Parser {
 		enterRule(_localctx, 6, RULE_element);
 		try {
 			int _alt;
-			setState(133);
+			setState(135);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SECTION:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(112);
+				setState(114);
 				section();
-				setState(116);
+				setState(118);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
-						setState(113);
+						setState(115);
 						match(NEWLINE);
 						}
 						} 
 					}
-					setState(118);
+					setState(120);
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 				}
@@ -490,21 +459,21 @@ public class QLSParser extends Parser {
 			case DEFAULT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(119);
+				setState(121);
 				defaultWidget();
-				setState(123);
+				setState(125);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
-						setState(120);
+						setState(122);
 						match(NEWLINE);
 						}
 						} 
 					}
-					setState(125);
+					setState(127);
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
 				}
@@ -513,21 +482,21 @@ public class QLSParser extends Parser {
 			case QUESTION:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(126);
+				setState(128);
 				question();
-				setState(130);
+				setState(132);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
-						setState(127);
+						setState(129);
 						match(NEWLINE);
 						}
 						} 
 					}
-					setState(132);
+					setState(134);
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
 				}
@@ -562,14 +531,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_question; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterQuestion(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitQuestion(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitQuestion(this);
 			else return visitor.visitChildren(this);
@@ -581,22 +542,22 @@ public class QLSParser extends Parser {
 		enterRule(_localctx, 8, RULE_question);
 		int _la;
 		try {
-			setState(145);
+			setState(147);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(135);
+				setState(137);
 				match(QUESTION);
-				setState(136);
-				match(IDENTIFIER);
 				setState(138);
+				match(IDENTIFIER);
+				setState(140);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==WIDGET) {
 					{
-					setState(137);
+					setState(139);
 					widget();
 					}
 				}
@@ -606,16 +567,16 @@ public class QLSParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(140);
+				setState(142);
 				match(QUESTION);
-				setState(141);
-				match(IDENTIFIER);
 				setState(143);
+				match(IDENTIFIER);
+				setState(145);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==IDENTIFIER) {
 					{
-					setState(142);
+					setState(144);
 					style();
 					}
 				}
@@ -655,14 +616,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_defaultWidget; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterDefaultWidget(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitDefaultWidget(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitDefaultWidget(this);
 			else return visitor.visitChildren(this);
@@ -676,41 +629,41 @@ public class QLSParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(147);
+			setState(149);
 			match(DEFAULT);
-			setState(148);
+			setState(150);
 			type();
-			setState(151);
+			setState(153);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case WIDGET:
 				{
-				setState(149);
+				setState(151);
 				widget();
 				}
 				break;
 			case CURLY_BRACE_L:
 				{
-				setState(150);
+				setState(152);
 				widgetStyle();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(156);
+			setState(158);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(153);
+					setState(155);
 					match(NEWLINE);
 					}
 					} 
 				}
-				setState(158);
+				setState(160);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
 			}
@@ -737,14 +690,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_widget; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterWidget(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitWidget(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitWidget(this);
 			else return visitor.visitChildren(this);
@@ -757,9 +702,9 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(159);
+			setState(161);
 			match(WIDGET);
-			setState(160);
+			setState(162);
 			widgetType();
 			}
 		}
@@ -798,14 +743,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_widgetType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterWidgetType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitWidgetType(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitWidgetType(this);
 			else return visitor.visitChildren(this);
@@ -816,48 +753,48 @@ public class QLSParser extends Parser {
 		WidgetTypeContext _localctx = new WidgetTypeContext(_ctx, getState());
 		enterRule(_localctx, 14, RULE_widgetType);
 		try {
-			setState(168);
+			setState(170);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case CHECKBOX:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(162);
+				setState(164);
 				checkboxWidget();
 				}
 				break;
 			case TEXT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(163);
+				setState(165);
 				textWidget();
 				}
 				break;
 			case RADIO:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(164);
+				setState(166);
 				radioWidget();
 				}
 				break;
 			case SPINBOX:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(165);
+				setState(167);
 				spinboxWidget();
 				}
 				break;
 			case SLIDER:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(166);
+				setState(168);
 				sliderWidget();
 				}
 				break;
 			case DROPDOWN:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(167);
+				setState(169);
 				dropdownWidget();
 				}
 				break;
@@ -883,14 +820,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_checkboxWidget; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterCheckboxWidget(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitCheckboxWidget(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitCheckboxWidget(this);
 			else return visitor.visitChildren(this);
@@ -903,7 +832,7 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(170);
+			setState(172);
 			match(CHECKBOX);
 			}
 		}
@@ -925,14 +854,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_textWidget; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterTextWidget(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitTextWidget(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitTextWidget(this);
 			else return visitor.visitChildren(this);
@@ -945,7 +866,7 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(172);
+			setState(174);
 			match(TEXT);
 			}
 		}
@@ -976,14 +897,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_radioWidget; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterRadioWidget(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitRadioWidget(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitRadioWidget(this);
 			else return visitor.visitChildren(this);
@@ -996,17 +909,17 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(174);
-			match(RADIO);
-			setState(175);
-			match(BRACE_L);
 			setState(176);
-			((RadioWidgetContext)_localctx).yes = match(STR);
+			match(RADIO);
 			setState(177);
-			match(COMMA);
+			match(BRACE_L);
 			setState(178);
-			((RadioWidgetContext)_localctx).no = match(STR);
+			((RadioWidgetContext)_localctx).yes = match(STR);
 			setState(179);
+			match(COMMA);
+			setState(180);
+			((RadioWidgetContext)_localctx).no = match(STR);
+			setState(181);
 			match(BRACE_R);
 			}
 		}
@@ -1028,14 +941,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_spinboxWidget; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterSpinboxWidget(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitSpinboxWidget(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitSpinboxWidget(this);
 			else return visitor.visitChildren(this);
@@ -1048,7 +953,7 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(181);
+			setState(183);
 			match(SPINBOX);
 			}
 		}
@@ -1070,14 +975,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_sliderWidget; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterSliderWidget(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitSliderWidget(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitSliderWidget(this);
 			else return visitor.visitChildren(this);
@@ -1090,7 +987,7 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(183);
+			setState(185);
 			match(SLIDER);
 			}
 		}
@@ -1106,28 +1003,14 @@ public class QLSParser extends Parser {
 	}
 
 	public static class DropdownWidgetContext extends ParserRuleContext {
-		public Token yes;
-		public Token no;
 		public TerminalNode DROPDOWN() { return getToken(QLSParser.DROPDOWN, 0); }
-		public TerminalNode BRACE_L() { return getToken(QLSParser.BRACE_L, 0); }
-		public TerminalNode COMMA() { return getToken(QLSParser.COMMA, 0); }
-		public TerminalNode BRACE_R() { return getToken(QLSParser.BRACE_R, 0); }
-		public List<TerminalNode> STR() { return getTokens(QLSParser.STR); }
-		public TerminalNode STR(int i) {
-			return getToken(QLSParser.STR, i);
+		public DropDownListContext dropDownList() {
+			return getRuleContext(DropDownListContext.class,0);
 		}
 		public DropdownWidgetContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_dropdownWidget; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterDropdownWidget(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitDropdownWidget(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitDropdownWidget(this);
@@ -1141,18 +1024,87 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(185);
-			match(DROPDOWN);
-			setState(186);
-			match(BRACE_L);
 			setState(187);
-			((DropdownWidgetContext)_localctx).yes = match(STR);
+			match(DROPDOWN);
 			setState(188);
-			match(COMMA);
-			setState(189);
-			((DropdownWidgetContext)_localctx).no = match(STR);
+			dropDownList();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class DropDownListContext extends ParserRuleContext {
+		public TerminalNode BRACKET_L() { return getToken(QLSParser.BRACKET_L, 0); }
+		public TerminalNode BRACKET_R() { return getToken(QLSParser.BRACKET_R, 0); }
+		public List<TerminalNode> STR() { return getTokens(QLSParser.STR); }
+		public TerminalNode STR(int i) {
+			return getToken(QLSParser.STR, i);
+		}
+		public List<TerminalNode> COMMA() { return getTokens(QLSParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(QLSParser.COMMA, i);
+		}
+		public DropDownListContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_dropDownList; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitDropDownList(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DropDownListContext dropDownList() throws RecognitionException {
+		DropDownListContext _localctx = new DropDownListContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_dropDownList);
+		int _la;
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
 			setState(190);
-			match(BRACE_R);
+			match(BRACKET_L);
+			{
+			setState(195);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(191);
+					match(STR);
+					setState(192);
+					match(COMMA);
+					}
+					} 
+				}
+				setState(197);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+			}
+			setState(199);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==STR) {
+				{
+				setState(198);
+				match(STR);
+				}
+			}
+
+			}
+			setState(201);
+			match(BRACKET_R);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1183,14 +1135,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_widgetStyle; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterWidgetStyle(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitWidgetStyle(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitWidgetStyle(this);
 			else return visitor.visitChildren(this);
@@ -1199,15 +1143,15 @@ public class QLSParser extends Parser {
 
 	public final WidgetStyleContext widgetStyle() throws RecognitionException {
 		WidgetStyleContext _localctx = new WidgetStyleContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_widgetStyle);
+		enterRule(_localctx, 30, RULE_widgetStyle);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(192);
+			setState(203);
 			match(CURLY_BRACE_L);
-			setState(194); 
+			setState(205); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -1215,7 +1159,7 @@ public class QLSParser extends Parser {
 				case 1:
 					{
 					{
-					setState(193);
+					setState(204);
 					widgetProperty();
 					}
 					}
@@ -1223,21 +1167,21 @@ public class QLSParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(196); 
+				setState(207); 
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
-			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(199);
+				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
+			} while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER );
+			setState(210);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==WIDGET) {
 				{
-				setState(198);
+				setState(209);
 				widget();
 				}
 			}
 
-			setState(201);
+			setState(212);
 			match(CURLY_BRACE_R);
 			}
 		}
@@ -1263,14 +1207,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_style; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterStyle(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitStyle(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitStyle(this);
 			else return visitor.visitChildren(this);
@@ -1279,15 +1215,15 @@ public class QLSParser extends Parser {
 
 	public final StyleContext style() throws RecognitionException {
 		StyleContext _localctx = new StyleContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_style);
+		enterRule(_localctx, 32, RULE_style);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(203);
+			setState(214);
 			match(IDENTIFIER);
-			setState(204);
+			setState(215);
 			match(COLON);
-			setState(205);
+			setState(216);
 			value();
 			}
 		}
@@ -1317,14 +1253,6 @@ public class QLSParser extends Parser {
 		public TerminalNode STRINGTYPE() { return getToken(QLSParser.STRINGTYPE, 0); }
 		public StringtypeContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterStringtype(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitStringtype(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitStringtype(this);
 			else return visitor.visitChildren(this);
@@ -1333,14 +1261,6 @@ public class QLSParser extends Parser {
 	public static class DatetypeContext extends TypeContext {
 		public TerminalNode DATETYPE() { return getToken(QLSParser.DATETYPE, 0); }
 		public DatetypeContext(TypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterDatetype(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitDatetype(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitDatetype(this);
@@ -1351,14 +1271,6 @@ public class QLSParser extends Parser {
 		public TerminalNode INTEGERTYPE() { return getToken(QLSParser.INTEGERTYPE, 0); }
 		public IntegertypeContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterIntegertype(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitIntegertype(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitIntegertype(this);
 			else return visitor.visitChildren(this);
@@ -1367,14 +1279,6 @@ public class QLSParser extends Parser {
 	public static class MoneytypeContext extends TypeContext {
 		public TerminalNode MONEYTYPE() { return getToken(QLSParser.MONEYTYPE, 0); }
 		public MoneytypeContext(TypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterMoneytype(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitMoneytype(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitMoneytype(this);
@@ -1385,14 +1289,6 @@ public class QLSParser extends Parser {
 		public TerminalNode DECIMALTYPE() { return getToken(QLSParser.DECIMALTYPE, 0); }
 		public DecimaltypeContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterDecimaltype(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitDecimaltype(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitDecimaltype(this);
 			else return visitor.visitChildren(this);
@@ -1402,14 +1298,6 @@ public class QLSParser extends Parser {
 		public TerminalNode BOOLEANTYPE() { return getToken(QLSParser.BOOLEANTYPE, 0); }
 		public BooltypeContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterBooltype(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitBooltype(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitBooltype(this);
 			else return visitor.visitChildren(this);
@@ -1418,16 +1306,16 @@ public class QLSParser extends Parser {
 
 	public final TypeContext type() throws RecognitionException {
 		TypeContext _localctx = new TypeContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_type);
+		enterRule(_localctx, 34, RULE_type);
 		try {
-			setState(213);
+			setState(224);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case BOOLEANTYPE:
 				_localctx = new BooltypeContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(207);
+				setState(218);
 				match(BOOLEANTYPE);
 				}
 				break;
@@ -1435,7 +1323,7 @@ public class QLSParser extends Parser {
 				_localctx = new StringtypeContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(208);
+				setState(219);
 				match(STRINGTYPE);
 				}
 				break;
@@ -1443,7 +1331,7 @@ public class QLSParser extends Parser {
 				_localctx = new IntegertypeContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(209);
+				setState(220);
 				match(INTEGERTYPE);
 				}
 				break;
@@ -1451,7 +1339,7 @@ public class QLSParser extends Parser {
 				_localctx = new MoneytypeContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(210);
+				setState(221);
 				match(MONEYTYPE);
 				}
 				break;
@@ -1459,7 +1347,7 @@ public class QLSParser extends Parser {
 				_localctx = new DatetypeContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(211);
+				setState(222);
 				match(DATETYPE);
 				}
 				break;
@@ -1467,7 +1355,7 @@ public class QLSParser extends Parser {
 				_localctx = new DecimaltypeContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(212);
+				setState(223);
 				match(DECIMALTYPE);
 				}
 				break;
@@ -1498,14 +1386,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_defaultdef; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterDefaultdef(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitDefaultdef(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitDefaultdef(this);
 			else return visitor.visitChildren(this);
@@ -1514,22 +1394,22 @@ public class QLSParser extends Parser {
 
 	public final DefaultdefContext defaultdef() throws RecognitionException {
 		DefaultdefContext _localctx = new DefaultdefContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_defaultdef);
+		enterRule(_localctx, 36, RULE_defaultdef);
 		try {
-			setState(217);
+			setState(228);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,22,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(215);
+				setState(226);
 				blockdefault();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(216);
+				setState(227);
 				linedefault();
 				}
 				break;
@@ -1564,14 +1444,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_blockdefault; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterBlockdefault(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitBlockdefault(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitBlockdefault(this);
 			else return visitor.visitChildren(this);
@@ -1580,32 +1452,32 @@ public class QLSParser extends Parser {
 
 	public final BlockdefaultContext blockdefault() throws RecognitionException {
 		BlockdefaultContext _localctx = new BlockdefaultContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_blockdefault);
+		enterRule(_localctx, 38, RULE_blockdefault);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(219);
+			setState(230);
 			match(DEFAULT);
-			setState(220);
+			setState(231);
 			type();
-			setState(221);
+			setState(232);
 			match(CURLY_BRACE_L);
-			setState(223); 
+			setState(234); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(222);
+				setState(233);
 				widgetProperty();
 				}
 				}
-				setState(225); 
+				setState(236); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WIDTH) | (1L << FONT) | (1L << FONTSIZE) | (1L << COLOR) | (1L << WIDGET))) != 0) );
-			setState(227);
+			setState(238);
 			match(CURLY_BRACE_R);
 			}
 		}
@@ -1633,14 +1505,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_linedefault; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterLinedefault(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitLinedefault(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitLinedefault(this);
 			else return visitor.visitChildren(this);
@@ -1649,15 +1513,15 @@ public class QLSParser extends Parser {
 
 	public final LinedefaultContext linedefault() throws RecognitionException {
 		LinedefaultContext _localctx = new LinedefaultContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_linedefault);
+		enterRule(_localctx, 40, RULE_linedefault);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(229);
+			setState(240);
 			match(DEFAULT);
-			setState(230);
+			setState(241);
 			type();
-			setState(231);
+			setState(242);
 			widgetProperty();
 			}
 		}
@@ -1693,14 +1557,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_widgetProperty; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterWidgetProperty(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitWidgetProperty(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitWidgetProperty(this);
 			else return visitor.visitChildren(this);
@@ -1709,43 +1565,43 @@ public class QLSParser extends Parser {
 
 	public final WidgetPropertyContext widgetProperty() throws RecognitionException {
 		WidgetPropertyContext _localctx = new WidgetPropertyContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_widgetProperty);
+		enterRule(_localctx, 42, RULE_widgetProperty);
 		try {
-			setState(238);
+			setState(249);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case WIDTH:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(233);
+				setState(244);
 				widthproperty();
 				}
 				break;
 			case FONT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(234);
+				setState(245);
 				fontproperty();
 				}
 				break;
 			case FONTSIZE:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(235);
+				setState(246);
 				fontsizeproperty();
 				}
 				break;
 			case COLOR:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(236);
+				setState(247);
 				colorproperty();
 				}
 				break;
 			case WIDGET:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(237);
+				setState(248);
 				widget();
 				}
 				break;
@@ -1773,14 +1629,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_widthproperty; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterWidthproperty(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitWidthproperty(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitWidthproperty(this);
 			else return visitor.visitChildren(this);
@@ -1789,15 +1637,15 @@ public class QLSParser extends Parser {
 
 	public final WidthpropertyContext widthproperty() throws RecognitionException {
 		WidthpropertyContext _localctx = new WidthpropertyContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_widthproperty);
+		enterRule(_localctx, 44, RULE_widthproperty);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(240);
+			setState(251);
 			match(WIDTH);
-			setState(241);
+			setState(252);
 			match(COLON);
-			setState(242);
+			setState(253);
 			match(INT);
 			}
 		}
@@ -1821,14 +1669,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_fontproperty; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterFontproperty(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitFontproperty(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitFontproperty(this);
 			else return visitor.visitChildren(this);
@@ -1837,15 +1677,15 @@ public class QLSParser extends Parser {
 
 	public final FontpropertyContext fontproperty() throws RecognitionException {
 		FontpropertyContext _localctx = new FontpropertyContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_fontproperty);
+		enterRule(_localctx, 46, RULE_fontproperty);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(244);
+			setState(255);
 			match(FONT);
-			setState(245);
+			setState(256);
 			match(COLON);
-			setState(246);
+			setState(257);
 			match(STR);
 			}
 		}
@@ -1869,14 +1709,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_fontsizeproperty; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterFontsizeproperty(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitFontsizeproperty(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitFontsizeproperty(this);
 			else return visitor.visitChildren(this);
@@ -1885,15 +1717,15 @@ public class QLSParser extends Parser {
 
 	public final FontsizepropertyContext fontsizeproperty() throws RecognitionException {
 		FontsizepropertyContext _localctx = new FontsizepropertyContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_fontsizeproperty);
+		enterRule(_localctx, 48, RULE_fontsizeproperty);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(248);
+			setState(259);
 			match(FONTSIZE);
-			setState(249);
+			setState(260);
 			match(COLON);
-			setState(250);
+			setState(261);
 			match(INT);
 			}
 		}
@@ -1917,14 +1749,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_colorproperty; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterColorproperty(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitColorproperty(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitColorproperty(this);
 			else return visitor.visitChildren(this);
@@ -1933,15 +1757,15 @@ public class QLSParser extends Parser {
 
 	public final ColorpropertyContext colorproperty() throws RecognitionException {
 		ColorpropertyContext _localctx = new ColorpropertyContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_colorproperty);
+		enterRule(_localctx, 50, RULE_colorproperty);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(252);
+			setState(263);
 			match(COLOR);
-			setState(253);
+			setState(264);
 			match(COLON);
-			setState(254);
+			setState(265);
 			match(CLR);
 			}
 		}
@@ -1964,14 +1788,6 @@ public class QLSParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_value; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).enterValue(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLSListener ) ((QLSListener)listener).exitValue(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitValue(this);
 			else return visitor.visitChildren(this);
@@ -1980,12 +1796,12 @@ public class QLSParser extends Parser {
 
 	public final ValueContext value() throws RecognitionException {
 		ValueContext _localctx = new ValueContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_value);
+		enterRule(_localctx, 52, RULE_value);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(256);
+			setState(267);
 			_la = _input.LA(1);
 			if ( !(_la==STR || _la==INT) ) {
 			_errHandler.recoverInline(this);
@@ -2009,91 +1825,96 @@ public class QLSParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3*\u0105\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3,\u0110\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
-		"\4\32\t\32\4\33\t\33\3\2\3\2\3\2\3\2\7\2;\n\2\f\2\16\2>\13\2\3\2\7\2A"+
-		"\n\2\f\2\16\2D\13\2\3\2\3\2\3\2\3\3\3\3\3\3\3\3\7\3M\n\3\f\3\16\3P\13"+
-		"\3\3\3\7\3S\n\3\f\3\16\3V\13\3\3\3\3\3\7\3Z\n\3\f\3\16\3]\13\3\3\4\3\4"+
-		"\3\4\5\4b\n\4\3\4\7\4e\n\4\f\4\16\4h\13\4\3\4\5\4k\n\4\3\4\7\4n\n\4\f"+
-		"\4\16\4q\13\4\3\5\3\5\7\5u\n\5\f\5\16\5x\13\5\3\5\3\5\7\5|\n\5\f\5\16"+
-		"\5\177\13\5\3\5\3\5\7\5\u0083\n\5\f\5\16\5\u0086\13\5\5\5\u0088\n\5\3"+
-		"\6\3\6\3\6\5\6\u008d\n\6\3\6\3\6\3\6\5\6\u0092\n\6\5\6\u0094\n\6\3\7\3"+
-		"\7\3\7\3\7\5\7\u009a\n\7\3\7\7\7\u009d\n\7\f\7\16\7\u00a0\13\7\3\b\3\b"+
-		"\3\b\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u00ab\n\t\3\n\3\n\3\13\3\13\3\f\3\f\3"+
-		"\f\3\f\3\f\3\f\3\f\3\r\3\r\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\17\3\17"+
-		"\3\20\3\20\6\20\u00c5\n\20\r\20\16\20\u00c6\3\20\5\20\u00ca\n\20\3\20"+
-		"\3\20\3\21\3\21\3\21\3\21\3\22\3\22\3\22\3\22\3\22\3\22\5\22\u00d8\n\22"+
-		"\3\23\3\23\5\23\u00dc\n\23\3\24\3\24\3\24\3\24\6\24\u00e2\n\24\r\24\16"+
-		"\24\u00e3\3\24\3\24\3\25\3\25\3\25\3\25\3\26\3\26\3\26\3\26\3\26\5\26"+
-		"\u00f1\n\26\3\27\3\27\3\27\3\27\3\30\3\30\3\30\3\30\3\31\3\31\3\31\3\31"+
-		"\3\32\3\32\3\32\3\32\3\33\3\33\3\33\2\2\34\2\4\6\b\n\f\16\20\22\24\26"+
-		"\30\32\34\36 \"$&(*,.\60\62\64\2\3\3\2\"#\2\u010f\2\66\3\2\2\2\4H\3\2"+
-		"\2\2\6^\3\2\2\2\b\u0087\3\2\2\2\n\u0093\3\2\2\2\f\u0095\3\2\2\2\16\u00a1"+
-		"\3\2\2\2\20\u00aa\3\2\2\2\22\u00ac\3\2\2\2\24\u00ae\3\2\2\2\26\u00b0\3"+
-		"\2\2\2\30\u00b7\3\2\2\2\32\u00b9\3\2\2\2\34\u00bb\3\2\2\2\36\u00c2\3\2"+
-		"\2\2 \u00cd\3\2\2\2\"\u00d7\3\2\2\2$\u00db\3\2\2\2&\u00dd\3\2\2\2(\u00e7"+
-		"\3\2\2\2*\u00f0\3\2\2\2,\u00f2\3\2\2\2.\u00f6\3\2\2\2\60\u00fa\3\2\2\2"+
-		"\62\u00fe\3\2\2\2\64\u0102\3\2\2\2\66\67\7\24\2\2\678\7!\2\28<\7\32\2"+
-		"\29;\5\4\3\2:9\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=B\3\2\2\2><\3\2\2"+
-		"\2?A\7&\2\2@?\3\2\2\2AD\3\2\2\2B@\3\2\2\2BC\3\2\2\2CE\3\2\2\2DB\3\2\2"+
-		"\2EF\7\33\2\2FG\7\2\2\3G\3\3\2\2\2HI\7\25\2\2IJ\7!\2\2JN\7\32\2\2KM\5"+
-		"\6\4\2LK\3\2\2\2MP\3\2\2\2NL\3\2\2\2NO\3\2\2\2OT\3\2\2\2PN\3\2\2\2QS\5"+
-		"\f\7\2RQ\3\2\2\2SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2UW\3\2\2\2VT\3\2\2\2W[\7"+
-		"\33\2\2XZ\7&\2\2YX\3\2\2\2Z]\3\2\2\2[Y\3\2\2\2[\\\3\2\2\2\\\5\3\2\2\2"+
-		"][\3\2\2\2^_\7\26\2\2_a\7\"\2\2`b\7\32\2\2a`\3\2\2\2ab\3\2\2\2bf\3\2\2"+
-		"\2ce\5\b\5\2dc\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2gj\3\2\2\2hf\3\2\2"+
-		"\2ik\7\33\2\2ji\3\2\2\2jk\3\2\2\2ko\3\2\2\2ln\7&\2\2ml\3\2\2\2nq\3\2\2"+
-		"\2om\3\2\2\2op\3\2\2\2p\7\3\2\2\2qo\3\2\2\2rv\5\6\4\2su\7&\2\2ts\3\2\2"+
-		"\2ux\3\2\2\2vt\3\2\2\2vw\3\2\2\2w\u0088\3\2\2\2xv\3\2\2\2y}\5\f\7\2z|"+
-		"\7&\2\2{z\3\2\2\2|\177\3\2\2\2}{\3\2\2\2}~\3\2\2\2~\u0088\3\2\2\2\177"+
-		"}\3\2\2\2\u0080\u0084\5\n\6\2\u0081\u0083\7&\2\2\u0082\u0081\3\2\2\2\u0083"+
-		"\u0086\3\2\2\2\u0084\u0082\3\2\2\2\u0084\u0085\3\2\2\2\u0085\u0088\3\2"+
-		"\2\2\u0086\u0084\3\2\2\2\u0087r\3\2\2\2\u0087y\3\2\2\2\u0087\u0080\3\2"+
-		"\2\2\u0088\t\3\2\2\2\u0089\u008a\7\31\2\2\u008a\u008c\7!\2\2\u008b\u008d"+
-		"\5\16\b\2\u008c\u008b\3\2\2\2\u008c\u008d\3\2\2\2\u008d\u0094\3\2\2\2"+
-		"\u008e\u008f\7\31\2\2\u008f\u0091\7!\2\2\u0090\u0092\5 \21\2\u0091\u0090"+
-		"\3\2\2\2\u0091\u0092\3\2\2\2\u0092\u0094\3\2\2\2\u0093\u0089\3\2\2\2\u0093"+
-		"\u008e\3\2\2\2\u0094\13\3\2\2\2\u0095\u0096\7\27\2\2\u0096\u0099\5\"\22"+
-		"\2\u0097\u009a\5\16\b\2\u0098\u009a\5\36\20\2\u0099\u0097\3\2\2\2\u0099"+
-		"\u0098\3\2\2\2\u009a\u009e\3\2\2\2\u009b\u009d\7&\2\2\u009c\u009b\3\2"+
-		"\2\2\u009d\u00a0\3\2\2\2\u009e\u009c\3\2\2\2\u009e\u009f\3\2\2\2\u009f"+
-		"\r\3\2\2\2\u00a0\u009e\3\2\2\2\u00a1\u00a2\7\30\2\2\u00a2\u00a3\5\20\t"+
-		"\2\u00a3\17\3\2\2\2\u00a4\u00ab\5\22\n\2\u00a5\u00ab\5\24\13\2\u00a6\u00ab"+
-		"\5\26\f\2\u00a7\u00ab\5\30\r\2\u00a8\u00ab\5\32\16\2\u00a9\u00ab\5\34"+
-		"\17\2\u00aa\u00a4\3\2\2\2\u00aa\u00a5\3\2\2\2\u00aa\u00a6\3\2\2\2\u00aa"+
-		"\u00a7\3\2\2\2\u00aa\u00a8\3\2\2\2\u00aa\u00a9\3\2\2\2\u00ab\21\3\2\2"+
-		"\2\u00ac\u00ad\7\f\2\2\u00ad\23\3\2\2\2\u00ae\u00af\7\r\2\2\u00af\25\3"+
-		"\2\2\2\u00b0\u00b1\7\16\2\2\u00b1\u00b2\7\34\2\2\u00b2\u00b3\7\"\2\2\u00b3"+
-		"\u00b4\7\36\2\2\u00b4\u00b5\7\"\2\2\u00b5\u00b6\7\35\2\2\u00b6\27\3\2"+
-		"\2\2\u00b7\u00b8\7\13\2\2\u00b8\31\3\2\2\2\u00b9\u00ba\7\n\2\2\u00ba\33"+
-		"\3\2\2\2\u00bb\u00bc\7\17\2\2\u00bc\u00bd\7\34\2\2\u00bd\u00be\7\"\2\2"+
-		"\u00be\u00bf\7\36\2\2\u00bf\u00c0\7\"\2\2\u00c0\u00c1\7\35\2\2\u00c1\35"+
-		"\3\2\2\2\u00c2\u00c4\7\32\2\2\u00c3\u00c5\5*\26\2\u00c4\u00c3\3\2\2\2"+
-		"\u00c5\u00c6\3\2\2\2\u00c6\u00c4\3\2\2\2\u00c6\u00c7\3\2\2\2\u00c7\u00c9"+
-		"\3\2\2\2\u00c8\u00ca\5\16\b\2\u00c9\u00c8\3\2\2\2\u00c9\u00ca\3\2\2\2"+
-		"\u00ca\u00cb\3\2\2\2\u00cb\u00cc\7\33\2\2\u00cc\37\3\2\2\2\u00cd\u00ce"+
-		"\7!\2\2\u00ce\u00cf\7\37\2\2\u00cf\u00d0\5\64\33\2\u00d0!\3\2\2\2\u00d1"+
-		"\u00d8\7\4\2\2\u00d2\u00d8\7\5\2\2\u00d3\u00d8\7\6\2\2\u00d4\u00d8\7\7"+
-		"\2\2\u00d5\u00d8\7\b\2\2\u00d6\u00d8\7\t\2\2\u00d7\u00d1\3\2\2\2\u00d7"+
-		"\u00d2\3\2\2\2\u00d7\u00d3\3\2\2\2\u00d7\u00d4\3\2\2\2\u00d7\u00d5\3\2"+
-		"\2\2\u00d7\u00d6\3\2\2\2\u00d8#\3\2\2\2\u00d9\u00dc\5&\24\2\u00da\u00dc"+
-		"\5(\25\2\u00db\u00d9\3\2\2\2\u00db\u00da\3\2\2\2\u00dc%\3\2\2\2\u00dd"+
-		"\u00de\7\27\2\2\u00de\u00df\5\"\22\2\u00df\u00e1\7\32\2\2\u00e0\u00e2"+
-		"\5*\26\2\u00e1\u00e0\3\2\2\2\u00e2\u00e3\3\2\2\2\u00e3\u00e1\3\2\2\2\u00e3"+
-		"\u00e4\3\2\2\2\u00e4\u00e5\3\2\2\2\u00e5\u00e6\7\33\2\2\u00e6\'\3\2\2"+
-		"\2\u00e7\u00e8\7\27\2\2\u00e8\u00e9\5\"\22\2\u00e9\u00ea\5*\26\2\u00ea"+
-		")\3\2\2\2\u00eb\u00f1\5,\27\2\u00ec\u00f1\5.\30\2\u00ed\u00f1\5\60\31"+
-		"\2\u00ee\u00f1\5\62\32\2\u00ef\u00f1\5\16\b\2\u00f0\u00eb\3\2\2\2\u00f0"+
-		"\u00ec\3\2\2\2\u00f0\u00ed\3\2\2\2\u00f0\u00ee\3\2\2\2\u00f0\u00ef\3\2"+
-		"\2\2\u00f1+\3\2\2\2\u00f2\u00f3\7\20\2\2\u00f3\u00f4\7\37\2\2\u00f4\u00f5"+
-		"\7#\2\2\u00f5-\3\2\2\2\u00f6\u00f7\7\21\2\2\u00f7\u00f8\7\37\2\2\u00f8"+
-		"\u00f9\7\"\2\2\u00f9/\3\2\2\2\u00fa\u00fb\7\22\2\2\u00fb\u00fc\7\37\2"+
-		"\2\u00fc\u00fd\7#\2\2\u00fd\61\3\2\2\2\u00fe\u00ff\7\23\2\2\u00ff\u0100"+
-		"\7\37\2\2\u0100\u0101\7\'\2\2\u0101\63\3\2\2\2\u0102\u0103\t\2\2\2\u0103"+
-		"\65\3\2\2\2\33<BNT[afjov}\u0084\u0087\u008c\u0091\u0093\u0099\u009e\u00aa"+
-		"\u00c6\u00c9\u00d7\u00db\u00e3\u00f0";
+		"\4\32\t\32\4\33\t\33\4\34\t\34\3\2\3\2\3\2\3\2\7\2=\n\2\f\2\16\2@\13\2"+
+		"\3\2\7\2C\n\2\f\2\16\2F\13\2\3\2\3\2\3\2\3\3\3\3\3\3\3\3\7\3O\n\3\f\3"+
+		"\16\3R\13\3\3\3\7\3U\n\3\f\3\16\3X\13\3\3\3\3\3\7\3\\\n\3\f\3\16\3_\13"+
+		"\3\3\4\3\4\3\4\5\4d\n\4\3\4\7\4g\n\4\f\4\16\4j\13\4\3\4\5\4m\n\4\3\4\7"+
+		"\4p\n\4\f\4\16\4s\13\4\3\5\3\5\7\5w\n\5\f\5\16\5z\13\5\3\5\3\5\7\5~\n"+
+		"\5\f\5\16\5\u0081\13\5\3\5\3\5\7\5\u0085\n\5\f\5\16\5\u0088\13\5\5\5\u008a"+
+		"\n\5\3\6\3\6\3\6\5\6\u008f\n\6\3\6\3\6\3\6\5\6\u0094\n\6\5\6\u0096\n\6"+
+		"\3\7\3\7\3\7\3\7\5\7\u009c\n\7\3\7\7\7\u009f\n\7\f\7\16\7\u00a2\13\7\3"+
+		"\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u00ad\n\t\3\n\3\n\3\13\3\13\3\f"+
+		"\3\f\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\16\3\16\3\17\3\17\3\17\3\20\3\20\3"+
+		"\20\7\20\u00c4\n\20\f\20\16\20\u00c7\13\20\3\20\5\20\u00ca\n\20\3\20\3"+
+		"\20\3\21\3\21\6\21\u00d0\n\21\r\21\16\21\u00d1\3\21\5\21\u00d5\n\21\3"+
+		"\21\3\21\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\5\23\u00e3"+
+		"\n\23\3\24\3\24\5\24\u00e7\n\24\3\25\3\25\3\25\3\25\6\25\u00ed\n\25\r"+
+		"\25\16\25\u00ee\3\25\3\25\3\26\3\26\3\26\3\26\3\27\3\27\3\27\3\27\3\27"+
+		"\5\27\u00fc\n\27\3\30\3\30\3\30\3\30\3\31\3\31\3\31\3\31\3\32\3\32\3\32"+
+		"\3\32\3\33\3\33\3\33\3\33\3\34\3\34\3\34\2\2\35\2\4\6\b\n\f\16\20\22\24"+
+		"\26\30\32\34\36 \"$&(*,.\60\62\64\66\2\3\3\2$%\2\u011b\28\3\2\2\2\4J\3"+
+		"\2\2\2\6`\3\2\2\2\b\u0089\3\2\2\2\n\u0095\3\2\2\2\f\u0097\3\2\2\2\16\u00a3"+
+		"\3\2\2\2\20\u00ac\3\2\2\2\22\u00ae\3\2\2\2\24\u00b0\3\2\2\2\26\u00b2\3"+
+		"\2\2\2\30\u00b9\3\2\2\2\32\u00bb\3\2\2\2\34\u00bd\3\2\2\2\36\u00c0\3\2"+
+		"\2\2 \u00cd\3\2\2\2\"\u00d8\3\2\2\2$\u00e2\3\2\2\2&\u00e6\3\2\2\2(\u00e8"+
+		"\3\2\2\2*\u00f2\3\2\2\2,\u00fb\3\2\2\2.\u00fd\3\2\2\2\60\u0101\3\2\2\2"+
+		"\62\u0105\3\2\2\2\64\u0109\3\2\2\2\66\u010d\3\2\2\289\7\24\2\29:\7#\2"+
+		"\2:>\7\32\2\2;=\5\4\3\2<;\3\2\2\2=@\3\2\2\2><\3\2\2\2>?\3\2\2\2?D\3\2"+
+		"\2\2@>\3\2\2\2AC\7(\2\2BA\3\2\2\2CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2EG\3\2"+
+		"\2\2FD\3\2\2\2GH\7\33\2\2HI\7\2\2\3I\3\3\2\2\2JK\7\25\2\2KL\7#\2\2LP\7"+
+		"\32\2\2MO\5\6\4\2NM\3\2\2\2OR\3\2\2\2PN\3\2\2\2PQ\3\2\2\2QV\3\2\2\2RP"+
+		"\3\2\2\2SU\5\f\7\2TS\3\2\2\2UX\3\2\2\2VT\3\2\2\2VW\3\2\2\2WY\3\2\2\2X"+
+		"V\3\2\2\2Y]\7\33\2\2Z\\\7(\2\2[Z\3\2\2\2\\_\3\2\2\2][\3\2\2\2]^\3\2\2"+
+		"\2^\5\3\2\2\2_]\3\2\2\2`a\7\26\2\2ac\7$\2\2bd\7\32\2\2cb\3\2\2\2cd\3\2"+
+		"\2\2dh\3\2\2\2eg\5\b\5\2fe\3\2\2\2gj\3\2\2\2hf\3\2\2\2hi\3\2\2\2il\3\2"+
+		"\2\2jh\3\2\2\2km\7\33\2\2lk\3\2\2\2lm\3\2\2\2mq\3\2\2\2np\7(\2\2on\3\2"+
+		"\2\2ps\3\2\2\2qo\3\2\2\2qr\3\2\2\2r\7\3\2\2\2sq\3\2\2\2tx\5\6\4\2uw\7"+
+		"(\2\2vu\3\2\2\2wz\3\2\2\2xv\3\2\2\2xy\3\2\2\2y\u008a\3\2\2\2zx\3\2\2\2"+
+		"{\177\5\f\7\2|~\7(\2\2}|\3\2\2\2~\u0081\3\2\2\2\177}\3\2\2\2\177\u0080"+
+		"\3\2\2\2\u0080\u008a\3\2\2\2\u0081\177\3\2\2\2\u0082\u0086\5\n\6\2\u0083"+
+		"\u0085\7(\2\2\u0084\u0083\3\2\2\2\u0085\u0088\3\2\2\2\u0086\u0084\3\2"+
+		"\2\2\u0086\u0087\3\2\2\2\u0087\u008a\3\2\2\2\u0088\u0086\3\2\2\2\u0089"+
+		"t\3\2\2\2\u0089{\3\2\2\2\u0089\u0082\3\2\2\2\u008a\t\3\2\2\2\u008b\u008c"+
+		"\7\31\2\2\u008c\u008e\7#\2\2\u008d\u008f\5\16\b\2\u008e\u008d\3\2\2\2"+
+		"\u008e\u008f\3\2\2\2\u008f\u0096\3\2\2\2\u0090\u0091\7\31\2\2\u0091\u0093"+
+		"\7#\2\2\u0092\u0094\5\"\22\2\u0093\u0092\3\2\2\2\u0093\u0094\3\2\2\2\u0094"+
+		"\u0096\3\2\2\2\u0095\u008b\3\2\2\2\u0095\u0090\3\2\2\2\u0096\13\3\2\2"+
+		"\2\u0097\u0098\7\27\2\2\u0098\u009b\5$\23\2\u0099\u009c\5\16\b\2\u009a"+
+		"\u009c\5 \21\2\u009b\u0099\3\2\2\2\u009b\u009a\3\2\2\2\u009c\u00a0\3\2"+
+		"\2\2\u009d\u009f\7(\2\2\u009e\u009d\3\2\2\2\u009f\u00a2\3\2\2\2\u00a0"+
+		"\u009e\3\2\2\2\u00a0\u00a1\3\2\2\2\u00a1\r\3\2\2\2\u00a2\u00a0\3\2\2\2"+
+		"\u00a3\u00a4\7\30\2\2\u00a4\u00a5\5\20\t\2\u00a5\17\3\2\2\2\u00a6\u00ad"+
+		"\5\22\n\2\u00a7\u00ad\5\24\13\2\u00a8\u00ad\5\26\f\2\u00a9\u00ad\5\30"+
+		"\r\2\u00aa\u00ad\5\32\16\2\u00ab\u00ad\5\34\17\2\u00ac\u00a6\3\2\2\2\u00ac"+
+		"\u00a7\3\2\2\2\u00ac\u00a8\3\2\2\2\u00ac\u00a9\3\2\2\2\u00ac\u00aa\3\2"+
+		"\2\2\u00ac\u00ab\3\2\2\2\u00ad\21\3\2\2\2\u00ae\u00af\7\f\2\2\u00af\23"+
+		"\3\2\2\2\u00b0\u00b1\7\r\2\2\u00b1\25\3\2\2\2\u00b2\u00b3\7\16\2\2\u00b3"+
+		"\u00b4\7\34\2\2\u00b4\u00b5\7$\2\2\u00b5\u00b6\7!\2\2\u00b6\u00b7\7$\2"+
+		"\2\u00b7\u00b8\7\35\2\2\u00b8\27\3\2\2\2\u00b9\u00ba\7\13\2\2\u00ba\31"+
+		"\3\2\2\2\u00bb\u00bc\7\n\2\2\u00bc\33\3\2\2\2\u00bd\u00be\7\17\2\2\u00be"+
+		"\u00bf\5\36\20\2\u00bf\35\3\2\2\2\u00c0\u00c5\7\36\2\2\u00c1\u00c2\7$"+
+		"\2\2\u00c2\u00c4\7!\2\2\u00c3\u00c1\3\2\2\2\u00c4\u00c7\3\2\2\2\u00c5"+
+		"\u00c3\3\2\2\2\u00c5\u00c6\3\2\2\2\u00c6\u00c9\3\2\2\2\u00c7\u00c5\3\2"+
+		"\2\2\u00c8\u00ca\7$\2\2\u00c9\u00c8\3\2\2\2\u00c9\u00ca\3\2\2\2\u00ca"+
+		"\u00cb\3\2\2\2\u00cb\u00cc\7\37\2\2\u00cc\37\3\2\2\2\u00cd\u00cf\7\32"+
+		"\2\2\u00ce\u00d0\5,\27\2\u00cf\u00ce\3\2\2\2\u00d0\u00d1\3\2\2\2\u00d1"+
+		"\u00cf\3\2\2\2\u00d1\u00d2\3\2\2\2\u00d2\u00d4\3\2\2\2\u00d3\u00d5\5\16"+
+		"\b\2\u00d4\u00d3\3\2\2\2\u00d4\u00d5\3\2\2\2\u00d5\u00d6\3\2\2\2\u00d6"+
+		"\u00d7\7\33\2\2\u00d7!\3\2\2\2\u00d8\u00d9\7#\2\2\u00d9\u00da\7 \2\2\u00da"+
+		"\u00db\5\66\34\2\u00db#\3\2\2\2\u00dc\u00e3\7\4\2\2\u00dd\u00e3\7\5\2"+
+		"\2\u00de\u00e3\7\6\2\2\u00df\u00e3\7\7\2\2\u00e0\u00e3\7\b\2\2\u00e1\u00e3"+
+		"\7\t\2\2\u00e2\u00dc\3\2\2\2\u00e2\u00dd\3\2\2\2\u00e2\u00de\3\2\2\2\u00e2"+
+		"\u00df\3\2\2\2\u00e2\u00e0\3\2\2\2\u00e2\u00e1\3\2\2\2\u00e3%\3\2\2\2"+
+		"\u00e4\u00e7\5(\25\2\u00e5\u00e7\5*\26\2\u00e6\u00e4\3\2\2\2\u00e6\u00e5"+
+		"\3\2\2\2\u00e7\'\3\2\2\2\u00e8\u00e9\7\27\2\2\u00e9\u00ea\5$\23\2\u00ea"+
+		"\u00ec\7\32\2\2\u00eb\u00ed\5,\27\2\u00ec\u00eb\3\2\2\2\u00ed\u00ee\3"+
+		"\2\2\2\u00ee\u00ec\3\2\2\2\u00ee\u00ef\3\2\2\2\u00ef\u00f0\3\2\2\2\u00f0"+
+		"\u00f1\7\33\2\2\u00f1)\3\2\2\2\u00f2\u00f3\7\27\2\2\u00f3\u00f4\5$\23"+
+		"\2\u00f4\u00f5\5,\27\2\u00f5+\3\2\2\2\u00f6\u00fc\5.\30\2\u00f7\u00fc"+
+		"\5\60\31\2\u00f8\u00fc\5\62\32\2\u00f9\u00fc\5\64\33\2\u00fa\u00fc\5\16"+
+		"\b\2\u00fb\u00f6\3\2\2\2\u00fb\u00f7\3\2\2\2\u00fb\u00f8\3\2\2\2\u00fb"+
+		"\u00f9\3\2\2\2\u00fb\u00fa\3\2\2\2\u00fc-\3\2\2\2\u00fd\u00fe\7\20\2\2"+
+		"\u00fe\u00ff\7 \2\2\u00ff\u0100\7%\2\2\u0100/\3\2\2\2\u0101\u0102\7\21"+
+		"\2\2\u0102\u0103\7 \2\2\u0103\u0104\7$\2\2\u0104\61\3\2\2\2\u0105\u0106"+
+		"\7\22\2\2\u0106\u0107\7 \2\2\u0107\u0108\7%\2\2\u0108\63\3\2\2\2\u0109"+
+		"\u010a\7\23\2\2\u010a\u010b\7 \2\2\u010b\u010c\7)\2\2\u010c\65\3\2\2\2"+
+		"\u010d\u010e\t\2\2\2\u010e\67\3\2\2\2\35>DPV]chlqx\177\u0086\u0089\u008e"+
+		"\u0093\u0095\u009b\u00a0\u00ac\u00c5\u00c9\u00d1\u00d4\u00e2\u00e6\u00ee"+
+		"\u00fb";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

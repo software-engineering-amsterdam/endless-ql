@@ -4,10 +4,15 @@ import QuestionnaireLanguageGrammarBaseVisitor
 import QuestionnaireLanguageGrammarParser
 import ql.ast.location.Identifier
 import ql.ast.location.Type
-import ql.ast.node.*
+import ql.ast.node.Block
+import ql.ast.node.Form
+import ql.ast.node.QLNode
 import ql.ast.node.expression.*
 import ql.ast.node.expression.operation.BinaryOperation
 import ql.ast.node.expression.operation.UnaryOperation
+import ql.ast.node.statement.IfStatement
+import ql.ast.node.statement.QuestionStatement
+import ql.ast.node.statement.Statement
 import ql.common.location
 import ql.data.symbol.SymbolType
 import ql.data.value.*

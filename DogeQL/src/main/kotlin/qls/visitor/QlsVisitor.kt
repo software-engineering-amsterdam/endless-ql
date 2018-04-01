@@ -1,9 +1,11 @@
 package qls.visitor
 
-import qls.ast.model.*
+import qls.ast.node.*
+import qls.ast.node.attribute.Attribute
+import qls.ast.node.attribute.DefaultAttributes
 
 
-interface QlsVisitor<out T>{
+interface QlsVisitor<out T> {
 
     fun visit(styleSheet: StyleSheet): T
     fun visit(page: Page): T

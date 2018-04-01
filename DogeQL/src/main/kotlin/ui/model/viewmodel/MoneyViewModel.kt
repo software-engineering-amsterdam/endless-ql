@@ -1,7 +1,7 @@
-package ui.model
+package ui.model.viewmodel
 
-import ui.model.domain.Question
 import javafx.beans.property.SimpleObjectProperty
+import ui.model.domain.Question
 import java.math.BigDecimal
 
 class MoneyViewModel(question: Question) : QuestionViewModel(question) {

@@ -12,8 +12,8 @@ import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Operator;
 import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.ast.data.Questionnaire;
+import nl.khonraad.ql.ast.data.Question;
 
 public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
@@ -40,7 +40,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
         Identifier identifier = new Identifier( ctx.Identifier().getText() );
 
-        Question question = questionnaire.findAnswerable( identifier );
+        Question question = questionnaire.findAnswerableQuestion( identifier );
 
         if ( question != null ) {
 
@@ -60,7 +60,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
         Type type = Type.type( ctx.type().getText() );
 
-        Question question = questionnaire.findAnswerable( identifier );
+        Question question = questionnaire.findAnswerableQuestion( identifier );
 
         if ( question != null ) {
 

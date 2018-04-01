@@ -86,11 +86,11 @@ namespace Assignment1
         public MessageContainer ValidateForm(QuestionForm astForm)
         {
             var messages = new MessageContainer();
-            messages.Add(QLASTDuplicateChecker.CheckDuplicates(astForm));
+            messages.Add(QLDuplicateChecker.CheckDuplicates(astForm));
             if (AnyErrors(messages)) return messages;
-            messages.Add(QLASTScopeChecker.CheckReferenceScopes(astForm));
+            messages.Add(QLScopeChecker.CheckReferenceScopes(astForm));
             if (AnyErrors(messages)) return messages;
-            messages.Add(QLASTCyclicDependencyChecker.CheckForCycles(astForm));
+            messages.Add(QLCyclicDependencyChecker.CheckForCycles(astForm));
             if (AnyErrors(messages)) return messages;
             messages.Add(QLTypeChecker.CheckTypes(astForm));
             if (AnyErrors(messages)) return messages;

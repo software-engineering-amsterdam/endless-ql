@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Assignment1.Model.QL.AST;
@@ -7,7 +6,7 @@ using Assignment1.Model.QL.AST.Expression;
 
 namespace Assignment1.TypeChecking
 {
-    public class QLASTCyclicDependencyChecker : QLASTBaseVisitor
+    public class QLCyclicDependencyChecker : QLASTBaseVisitor
     {
         private readonly LinkedList<Question> _currentCycle = new LinkedList<Question>();
         private readonly MessageContainer _messages = new MessageContainer();
@@ -19,12 +18,12 @@ namespace Assignment1.TypeChecking
         /// <param name="questionForm">Form without duplicate or undeclared questions.</param>
         public static (IEnumerable<string> errors, IEnumerable<string> warnings) CheckForCycles(QuestionForm questionForm)
         {
-            var checker = new QLASTCyclicDependencyChecker();
+            var checker = new QLCyclicDependencyChecker();
             checker.Visit(questionForm);
             return checker._messages.ToTuple();
         }
 
-        private QLASTCyclicDependencyChecker() { }
+        private QLCyclicDependencyChecker() { }
 
         public override void Visit(ComputedQuestion question)
         {

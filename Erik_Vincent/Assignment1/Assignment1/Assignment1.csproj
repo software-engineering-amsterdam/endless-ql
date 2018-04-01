@@ -167,10 +167,10 @@
     <Compile Include="Rendering\Widget\TextBox.cs" />
     <Compile Include="Rendering\Widget\Undefined.cs" />
     <Compile Include="TypeChecking\MessageContainer.cs" />
-    <Compile Include="TypeChecking\QLASTCyclicDependencyChecker.cs" />
+    <Compile Include="TypeChecking\QLCyclicDependencyChecker.cs" />
     <Compile Include="Model\QL\AST\QLASTBaseVisitor.cs" />
-    <Compile Include="TypeChecking\QLASTDuplicateChecker.cs" />
-    <Compile Include="TypeChecking\QLASTScopeChecker.cs" />
+    <Compile Include="TypeChecking\QLDuplicateChecker.cs" />
+    <Compile Include="TypeChecking\QLScopeChecker.cs" />
     <Compile Include="TypeChecking\QLTypeChecker.cs" />
     <Compile Include="Model\QL\RenderTree\RenderableQuestion.cs" />
     <Compile Include="Model\QL\RenderTree\QuestionForm.cs" />
@@ -179,7 +179,7 @@
     <Compile Include="Parser\QLParseException.cs" />
     <Compile Include="Rendering\QuestionFormRenderer.cs" />
     <Compile Include="Rendering\IQuestionFormRenderer.cs" />
-    <Compile Include="TypeChecking\QLSTypeChecker.cs" />
+    <Compile Include="TypeChecking\QLS\QLSTypeChecker.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

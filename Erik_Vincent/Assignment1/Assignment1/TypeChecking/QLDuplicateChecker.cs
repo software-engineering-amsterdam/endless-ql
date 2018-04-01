@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Assignment1.Model.QL.AST;
 
 namespace Assignment1.TypeChecking
 {
-    public class QLASTDuplicateChecker : QLASTBaseVisitor
+    public class QLDuplicateChecker : QLASTBaseVisitor
     {
         private readonly Dictionary<string, List<Question>> _labelQuestions = new Dictionary<string, List<Question>>();
         private readonly MessageContainer _messages = new MessageContainer();
 
         public static (IEnumerable<string> errors, IEnumerable<string> warnings) CheckDuplicates(QuestionForm questionForm)
         {
-            var checker = new QLASTDuplicateChecker();
+            var checker = new QLDuplicateChecker();
             checker.Visit(questionForm);
             return checker._messages.ToTuple();
         }
@@ -60,6 +59,6 @@ namespace Assignment1.TypeChecking
             AddLabelQuestion(question);
         }
 
-        private QLASTDuplicateChecker() { }
+        private QLDuplicateChecker() { }
     }
 }

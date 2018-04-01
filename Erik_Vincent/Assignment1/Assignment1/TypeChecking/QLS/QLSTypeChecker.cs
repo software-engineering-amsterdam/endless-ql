@@ -1,13 +1,12 @@
-﻿using Assignment1.Model.QL;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Assignment1.Model.QL.AST;
 using Assignment1.Model.QLS.AST;
 using Assignment1.Model.QLS.AST.Style;
 using Assignment1.Model.QLS.AST.Style.Widget;
 using Assignment1.Parser;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Assignment1.TypeChecking
+namespace Assignment1.TypeChecking.QLS
 {
     public class QLSTypeChecker : IQLSASTVisitor, IQLASTVisitor, IStyleVisitor
     {

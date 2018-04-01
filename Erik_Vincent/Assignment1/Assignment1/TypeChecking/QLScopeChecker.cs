@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Assignment1.Model.QL.AST;
 using Assignment1.Model.QL.AST.Expression;
 
 namespace Assignment1.TypeChecking
 {
-    public class QLASTScopeChecker : QLASTBaseVisitor
+    public class QLScopeChecker : QLASTBaseVisitor
     {
         private readonly MessageContainer _messages = new MessageContainer();
 
         public static (IEnumerable<string> errors, IEnumerable<string> warnings) CheckReferenceScopes(QuestionForm questionForm)
         {
-            var checker = new QLASTScopeChecker();
+            var checker = new QLScopeChecker();
             checker.Visit(questionForm);
             return checker._messages.ToTuple();
         }
 
-        private QLASTScopeChecker() { }
+        private QLScopeChecker() { }
 
         public override void Visit(Reference expression)
         {

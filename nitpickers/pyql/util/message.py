@@ -20,7 +20,7 @@ class Warning(Message):
         super().__init__(text)
 
     def __repr__(self):
-        return "WARNING " + super().__repr__()
+        return "WARNING " + self.text
 
 
 class Error(Message):
@@ -29,4 +29,4 @@ class Error(Message):
         super().__init__(text)
 
     def __repr__(self):
-        return "ERROR " + super().__str__()
+        return "ERROR " + self.text

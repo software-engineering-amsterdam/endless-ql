@@ -12,7 +12,6 @@ import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
 import gui.widgets.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import xtc.parser.Terminal;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

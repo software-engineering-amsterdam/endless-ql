@@ -5,35 +5,19 @@ import nl.khonraad.ql.algebra.value.Type;
 public class StyleElement {
 
     Type   type;
-    String t;
-    String f;
+    String forTrue;
+    String forFalse;
 
-    public StyleElement( Type type, String t, String f ) {
+    public StyleElement( Type type, String forTrue, String forFalse ) {
 
         this.type = type;
-        this.t = t;
-        this.f = f;
+        this.forTrue = forTrue;
+        this.forFalse = forFalse;
 
     }
 
-    /**
-     * @return the type
-     */
-    public Type getType() {
-        return type;
-    }
+    public String[] displayValues() {
 
-    /**
-     * @return the t
-     */
-    public String getT() {
-        return t;
-    }
-
-    /**
-     * @return the f
-     */
-    public String getF() {
-        return f;
+        return new String[] { forFalse, forTrue };
     }
 }

@@ -1,57 +1,41 @@
-/*package org.uva.forcepushql.interpreter.TypeChecker;
+package org.uva.forcepushql.interpreter.TypeChecker;
 
 
 import org.uva.forcepushql.interpreter.TypeChecker.Helpers.Messages;
-import org.uva.forcepushql.interpreter.TypeChecker.Helpers.SpecificationKeys;
-import org.uva.forcepushql.interpreter.TypeChecker.Helpers.TypesSpecification;
-import org.uva.forcepushql.parser.ast.NodeTypes;
-import org.uva.forcepushql.parser.ast.visitors.*;
-import org.uva.forcepushql.parser.ast.elements.*;
-import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
+import org.uva.forcepushql.parser.ast.elements.FormNode;
+import org.uva.forcepushql.parser.ast.elements.Node;
+import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
+import org.uva.forcepushql.parser.ast.visitors.BuildASTVisitor;
 
-import java.util.Map;
-
-public class TypeCheck extends BuildASTVisitor implements TypeCheckInterface {
+public class TypeCheck extends BuildASTVisitor implements TypeCheckInterface
+{
 
     private final Messages errors = new Messages();
 
-    private final Map<SpecificationKeys, NodeTypes> typeCheckSpecification;
 
-
-    private TypeCheck() {
-        TypesSpecification typeCheckSpecification = new TypesSpecification();
-        this.typeCheckSpecification = typeCheckSpecification.getSpecification();
-    }
-
-
-    private void error(Node node) {
+    private void error(Node node)
+    {
         this.errors.addMessage("Incorrect type on line:" + node.getLine() + " starting from character: " + node.getColumn(), Messages.MessageTypes.ERROR);
     }
 
-    public Messages doCheck(FormNode node) {
-        node.accept(this);
+    public Messages doCheck(FormNode node)
+    {
+        node.accept((ASTVisitor) this);
         return this.errors;
     }
 
-    private NodeTypes getNodeTypeAndReportErrors(Node node, NodeTypes leftNodeType, NodeTypes rightNodeType) {
-        if ((leftNodeType == NodeTypes.INVALID) || (rightNodeType == NodeTypes.INVALID))
-            return NodeTypes.INVALID;
 
-        NodeTypes returnType = this.typeCheckSpecification.get(new SpecificationKeys(node.getClass(), leftNodeType, rightNodeType));
-        if (returnType == null) {
-            this.error(node);
-            return NodeTypes.INVALID;
-        }
-        return returnType;
-    }
-
-
-
-    public static class Checker implements TypeCheckInterface {
+    public static class Checker implements TypeCheckInterface
+    {
         @Override
-        public Messages doCheck(FormNode node) {
+        public Messages doCheck(FormNode node)
+        {
             TypeCheckInterface checker = new TypeCheck();
             return checker.doCheck(node);
         }
     }
-}*/
+
+    /*TODO: For this to work we need to create node for each value type (e.g. Integer node) and set the expected type
+    TODO: of the node there. Then visit and check if the type is the expected one. We should also combine our 2
+    TODO: interfaces into 1 interface with Generics (T).*/
+}

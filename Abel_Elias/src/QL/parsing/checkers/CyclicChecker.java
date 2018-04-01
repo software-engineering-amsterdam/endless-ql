@@ -48,7 +48,10 @@ public class CyclicChecker extends QLBaseVisitor{
     public Boolean visitIdentifier(QLParser.IdentifierContext ctx) {
         String id = ctx.getText();
         pointerMap.get(currentQuestion).add(id);
-        pointerMap.get(currentQuestion).addAll(pointerMap.get(id));
+
+        if(pointerMap.containsKey(id)){
+            pointerMap.get(currentQuestion).addAll(pointerMap.get(id));
+        }
 
         return true;
     }

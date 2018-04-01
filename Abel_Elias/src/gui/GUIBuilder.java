@@ -54,7 +54,7 @@ public class GUIBuilder{
         if(styling){
             mainPanel.add(qlsBuilder.getMainPanel());
         }else{
-            mainFrame.add(qlBuilder.createMainListPanel());
+            mainFrame.add(qlBuilder.getMainPanel());
         }
 
         mainFrame.setVisible(true);

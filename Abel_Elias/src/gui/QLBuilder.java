@@ -23,6 +23,9 @@ public class QLBuilder implements Observer {
         this.questionHashMap = coreVisitor.getQuestions();
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
         this.gbc = initGBC();
+
+        this.mainPanel = new JPanel(new GridBagLayout());
+        initQuestionPanels();
     }
 
     /**
@@ -42,10 +45,8 @@ public class QLBuilder implements Observer {
         }
     }
 
-    public JPanel createMainListPanel() {
-        this.mainPanel = new JPanel(new GridBagLayout());
-        initQuestionPanels();
-        return mainPanel;
+    public JPanel getMainPanel() {
+        return this.mainPanel;
     }
 
     /**

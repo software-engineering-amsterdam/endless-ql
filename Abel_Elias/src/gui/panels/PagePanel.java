@@ -18,7 +18,7 @@ public class PagePanel extends JPanel {
 
         //Set header and border
         this.setLayout(new GridLayout(0, 1));
-        TitledBorder border = BorderFactory.createTitledBorder(page.getId());
+        TitledBorder border = BorderFactory.createTitledBorder(key);
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK);
         border.setBorder(lineBorder);
         this.setBorder(border);

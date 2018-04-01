@@ -35,7 +35,6 @@ public class Main {
             FormVisitor coreVisitor = new FormVisitor().visitForm(form);
             //Pass the relevant questions to the UI builder
             GUIBuilder GUIBuilder = new GUIBuilder(coreVisitor);
-            GUIBuilder.initComponents();
         } catch (IOException e) {
             e.printStackTrace();
         }

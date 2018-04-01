@@ -67,4 +67,18 @@ public class QLGrammarTest {
         assertTrue(questionList.get(5).getValue() instanceof DecimalValue);
 
     }
+
+    @Test
+    public void testQuestionDuplicates() {
+        List<Question> questionList = getQuestions("src/resources/QL/tests/typesForm.ql");
+
+        //Test for each value
+        assertTrue(questionList.get(0).getValue() instanceof BooleanValue);
+        assertTrue(questionList.get(1).getValue() instanceof IntegerValue);
+        assertTrue(questionList.get(2).getValue() instanceof StringValue);
+        assertTrue(questionList.get(3).getValue() instanceof MoneyValue);
+        assertTrue(questionList.get(4).getValue() instanceof DateValue);
+        assertTrue(questionList.get(5).getValue() instanceof DecimalValue);
+
+    }
 }

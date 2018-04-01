@@ -3,13 +3,11 @@ package com.chariotit.uva.sc.qdsl.formbuilder;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTableEntry;
-import com.chariotit.uva.sc.qdsl.ast.ql.type.BooleanExpressionValue;
-import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
-import com.chariotit.uva.sc.qdsl.ast.ql.type.MoneyExpressionValue;
-import com.chariotit.uva.sc.qdsl.ast.ql.type.StringExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.EvaluateVisitor;
 
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Page;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.Question;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Section;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.SectionElement;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
@@ -17,6 +15,7 @@ import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.Element;
 import javax.swing.text.NumberFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -127,6 +126,9 @@ public class QLFormBuilder {
 
     private void renderSection(Section section){
         for (SectionElement element: section.getElements()) {
+            if(element instanceof Question){
+                FormElement element = symbolTable.getEntry((Question) element))
+            }
             System.out.println("rendering element " + element.getSourceFilePosition());
         }
     }
@@ -145,14 +147,19 @@ public class QLFormBuilder {
             switch (expression.getExpressionType()) {
                 case MONEY:
                     JLabel label = new JLabel();
-                    MoneyExpressionValue value = (MoneyExpressionValue)expression.getExpressionValue();
-                    if(value != null) { label.setText(value.getValue().toString()); }
+                    MoneyExpressionValue moneyExpressionValue = (MoneyExpressionValue)expression.getExpressionValue();
+                    if(moneyExpressionValue != null) { label.setText(moneyExpressionValue.getValue().toString()); }
+                    return label;
+                case INTEGER:
+                    JLabel label = new JLabel();
+                    IntegerExpressionValue integerExpressionValue = (IntegerExpressionValue)expression.getExpressionValue();
+                    if(integerExpressionValue != null) { label.setText(integerExpressionValue.getValue().toString()); }
                     return label;
                 case BOOLEAN:
                     JCheckBox checkBox = new JCheckBox();
                     checkBox.setEnabled(false);
-                    BooleanExpressionValue value1 = (BooleanExpressionValue) expression.getExpressionValue();
-                    if(value1 != null) { checkBox.setSelected(value1.getValue()); }
+                    BooleanExpressionValue booleanExpressionValue = (BooleanExpressionValue) expression.getExpressionValue();
+                    if(booleanExpressionValue != null) { checkBox.setSelected(booleanExpressionValue.getValue()); }
                     return checkBox;
             }
         }

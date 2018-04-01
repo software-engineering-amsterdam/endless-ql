@@ -73,8 +73,8 @@ namespace StyledWpfApp.Properties {
         ///    q2a: &quot;This is q2a (date)?&quot; date
         ///    q2b: &quot;This is q2b (date)?&quot; date
         ///    q3: &quot;This is q3 (string)?&quot; string
-        ///    q4: &quot;This is q4 (integer)?&quot; integer
-        ///    q5: &quot;This is q5 (decimal) [rest of string was truncated]&quot;;.
+        ///    q4a: &quot;This is q4a (integer)?&quot; integer
+        ///    q4b: &quot;This is q4b (inte [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ExampleForm {
             get {

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
-using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Domain
 {
@@ -67,21 +65,5 @@ namespace QuestionnaireDomain.Entities.Domain
             var type = GetQuestionType(variableName);
             return type == typeof(decimal) || type == typeof(int);
         }
-
-        //public bool IsVariableInCalculation(string variableName, Reference<ICalculationNode> calculation)
-        //{
-        //    var calculationVariables = m_domainItemLocator
-        //        .GetAll<ICalculationVariableNode>()
-        //        .ToList();
-
-        //    var usedInAnyCalculation = calculationVariables
-        //        .Any(x => x.VariableName == variableName);
-        //    if (!usedInAnyCalculation)
-        //    {
-        //        return false;
-        //    }
-
-        //    var variablesIcCalculation = calculation
-        //}
     }
 }

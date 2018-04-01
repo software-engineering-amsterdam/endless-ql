@@ -6,27 +6,27 @@ import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
-import nl.khonraad.qls.ast.data.Style;
+import nl.khonraad.qls.ast.data.StyleElement;
 
 public class BooleanWidget implements QuestionnaireAccessor {
 
     JComboBox<String> jComboBox;
 
-    String            no  = new Value( false ).string();
-    String            yes = new Value( true ).string();
+    String            displayForFalse = new Value( false ).string();
+    String            displayForTrue  = new Value( true ).string();
 
-    public BooleanWidget( Question question, Style style ) {
+    public BooleanWidget( Question question, StyleElement styleElement ) {
 
-        if ( style != null ) {
+        /*
+         * TODO styleElement has to be linked to question! Decorator?
+         */
+        if ( styleElement != null ) {
 
-            no = style.getF();
-            yes = style.getT();
-
-            jComboBox = new JComboBox<>( new String[] { no, yes } );
+            jComboBox = new JComboBox<>( styleElement.displayValues() );
         }
 
-        String selected = question.value().equals( new Value( true ) ) ? yes : no;
-        
+        String selected = question.value().equals( new Value( true ) ) ? displayForTrue : displayForFalse;
+
         jComboBox.setSelectedItem( selected );
 
         jComboBox.addActionListener( e -> {
@@ -36,10 +36,10 @@ public class BooleanWidget implements QuestionnaireAccessor {
 
             String current = (String) combo.getSelectedItem();
 
-            String result = no.equals( current ) ? new Value( false ).string() : new Value( true ).string();
+            String result = displayForFalse.equals( current ) ? new Value( false ).string()
+                    : new Value( true ).string();
 
             questionnaire().storeAnswer( question.identifier(), new Value( Type.Boolean, result ) );
-
         } );
     }
 }

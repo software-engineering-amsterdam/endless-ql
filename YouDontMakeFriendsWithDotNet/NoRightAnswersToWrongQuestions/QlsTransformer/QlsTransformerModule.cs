@@ -2,6 +2,8 @@
 using QlsTransformer.Domain.Ast.Tools;
 using QlsTransformer.Domain.Output.Tools;
 using QlsTransformer.Domain.Validators;
+using QlsTransformer.Domain.Validators.CorrectWidgetForDefaults;
+using QlsTransformer.Domain.Validators.UnkownQuestion;
 using QlsTransformer.Orchestration.CommandHandler;
 using QlsTransformer.Orchestration.Commands;
 using QlsTransformer.Orchestration.QueryServices;
@@ -57,6 +59,9 @@ namespace QlsTransformer
                 typeof(IStyleFactory),
                 typeof(StyleFactory));
             
+            appRegistration.AddSingleton(
+                typeof(ICorrectWidgetValidator),
+                typeof(CorrectWidgetValidator));
         }
     }
 }

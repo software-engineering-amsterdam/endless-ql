@@ -1,11 +1,13 @@
 package nl.khonraad.ql.algebra;
 
+import java.util.Objects;
+
 public class Identifier implements StringAble {
 
     private String string;
 
-    public Identifier(String string) {
-        
+    public Identifier( String string ) {
+
         this.string = string;
     }
 
@@ -15,44 +17,19 @@ public class Identifier implements StringAble {
         return string;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((string == null) ? 0 : string.hashCode());
-        return result;
+        return Objects.hash( this.string );
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    public boolean equals( Object obj ) {
-        if ( this == obj ) {
-            return true;
-        }
-        if ( obj == null ) {
+    public boolean equals( Object object ) {
+
+        if ( object == null || getClass() != object.getClass() )
             return false;
-        }
-        if ( getClass() != obj.getClass() ) {
-            return false;
-        }
-        Identifier other = (Identifier) obj;
-        if ( string == null ) {
-            if ( other.string != null ) {
-                return false;
-            }
-        } else
-            if ( !string.equals( other.string ) ) {
-                return false;
-            }
-        return true;
+
+        final Identifier other = (Identifier) object;
+
+        return Objects.equals( this.string, other.string );
     }
 }

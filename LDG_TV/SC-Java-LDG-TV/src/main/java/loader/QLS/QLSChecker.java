@@ -14,6 +14,7 @@ public class QLSChecker {
 
     /**
      * Verify stylesheet
+     *
      * @param stylesheet stylesheet to be checked
      */
     public boolean verifyStylesheetStructure(Stylesheet stylesheet, FormNode formNode) {
@@ -28,11 +29,12 @@ public class QLSChecker {
 
     /**
      * Check for referenes of QuestionASTNodes which are not defined in the QL form.
+     *
      * @throws ReferenceUndefinedVariableException
      */
     public void checkReferenceUndefinedVariable(Stylesheet stylesheet) throws ReferenceUndefinedVariableException {
-        for (Variable v : stylesheet.getAllVariables()){
-            if (v == null){
+        for (Variable v : stylesheet.getAllVariables()) {
+            if (v == null) {
                 throw new ReferenceUndefinedVariableException("Reference undefined variable found.");
             }
         }
@@ -40,15 +42,17 @@ public class QLSChecker {
 
     /**
      * Checks if all the questions defined in QL are also defined in the QLS.
+     *
      * @throws NotAllQuestionInPlaceException
      */
     public void checkNotAllQuestionsArePlace(Stylesheet stylesheet, FormNode formNode) throws NotAllQuestionInPlaceException {
         List<QuestionNode> temp = new ArrayList<>();
-        for (Variable v : stylesheet.getAllVariables()){
+        for (Variable v : stylesheet.getAllVariables()) {
             temp.add(formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
         }
-        if(formNode.getAllQuestionASTNodes().retainAll(temp)){
+        if (formNode.getAllQuestionASTNodes().retainAll(temp)) {
             throw new NotAllQuestionInPlaceException("Not all questions defined in QL are defined in QLS.");
-        };
+        }
+        ;
     }
 }

@@ -20,6 +20,7 @@ public class ConditionNode extends ASTNode {
 
     /**
      * Add a QuestionNode to the elseNodes list.
+     *
      * @param elseNode QuestionNode to add.
      */
     public void addElseQuestion(QuestionNode elseNode) {
@@ -28,20 +29,25 @@ public class ConditionNode extends ASTNode {
 
     /**
      * Adds a QuestionNode to the questionNodes list.
+     *
      * @param q QuestionNode to add
      */
-    public void addQuestion(QuestionNode q){
+    public void addQuestion(QuestionNode q) {
         this.questionNodes.add(q);
     }
 
     /**
      * Adds a Condition to the conditions list.
+     *
      * @param c Condition to add
      */
-    public void addCondition(Condition c){this.conditions.add(c);}
+    public void addCondition(Condition c) {
+        this.conditions.add(c);
+    }
 
     /**
      * Checks whether the conditions for this ConditionNode are satisfied.
+     *
      * @return boolean whether conditions are satisfied.
      */
     public boolean checkConditions() {
@@ -50,20 +56,21 @@ public class ConditionNode extends ASTNode {
         for (Condition condition : this.conditions) {
             String operator = condition.getOperator();
             if (operator != null) {
-                booleanExpression += String.valueOf(condition.getVariable().getValueObject().getValue()) + " " + condition.getOperator();
+                booleanExpression += String.valueOf(condition.getComputedValue()) + " " + condition.getOperator();
             } else {
-                booleanExpression += String.valueOf(condition.getVariable().getValueObject().getValue());
+                booleanExpression += String.valueOf(condition.getComputedValue());
             }
         }
         temp = (Boolean) MVEL.eval(booleanExpression);
-        for (QuestionNode qan : this.getQuestionNodes()){
+        for (QuestionNode qan : this.getQuestionNodes()) {
             qan.setDisabled(!temp);
         }
-        for (QuestionNode qan : this.elseNode.getQuestionNodes()){
+        for (QuestionNode qan : this.elseNode.getQuestionNodes()) {
             qan.setDisabled(temp);
         }
         return temp;
     }
+
     public List<QuestionNode> getQuestionNodes() {
         return questionNodes;
     }

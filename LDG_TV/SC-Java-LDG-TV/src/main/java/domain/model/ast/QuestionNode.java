@@ -14,15 +14,16 @@ public class QuestionNode extends ASTNode implements Comparable {
 
     /**
      * Compares an QuestionNode object against another QuestionNode whether the text and variable identifier are the same.
+     *
      * @param o the compared QuestionNode
      * @return returns 1 if object is the same as param object. If not the same returns 0.
      */
     @Override
     public int compareTo(Object o) {
         QuestionNode qan = (QuestionNode) o;
-        if (qan.getText().equals(this.getText()) && qan.getVariable().getIdentifier().equals(this.getVariable().getIdentifier())){
+        if (qan.getText().equals(this.getText()) && qan.getVariable().getIdentifier().equals(this.getVariable().getIdentifier())) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }

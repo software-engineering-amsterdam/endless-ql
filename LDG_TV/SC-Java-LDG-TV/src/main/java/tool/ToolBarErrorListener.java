@@ -31,7 +31,7 @@ public class ToolBarErrorListener extends BaseErrorListener {
                     lblErrorField.setText("Syntax error at line " + line + ':' + charPositionInLine + " (" + msg + ')');
                     Calendar cal = Calendar.getInstance();
                     SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-d HH:mm:ss");
-                    
+
                     lblErrorField.setTooltip(new Tooltip(sdf.format(cal.getTime())));
                 }
         );

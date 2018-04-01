@@ -16,6 +16,7 @@ public class Section {
 
     /**
      * Adds a Variable to the variables list.
+     *
      * @param v Variable to add to add
      */
     public void addVariable(Variable v) {

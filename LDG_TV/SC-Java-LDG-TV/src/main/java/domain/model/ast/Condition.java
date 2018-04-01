@@ -1,6 +1,5 @@
 package domain.model.ast;
 
-import domain.model.variable.BooleanVariable;
 import domain.model.variable.Variable;
 
 public class Condition {
@@ -16,10 +15,16 @@ public class Condition {
     public Variable getVariable() {
         return variable;
     }
-    public void setOperator(String operator){
-        this.operator = operator;
+
+    public Object getComputedValue() {
+        return variable.getComputedValue();
     }
+
     public String getOperator() {
         return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 }

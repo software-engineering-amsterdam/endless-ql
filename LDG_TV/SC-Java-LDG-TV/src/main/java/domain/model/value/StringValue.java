@@ -1,9 +1,9 @@
 package domain.model.value;
 
-public class StringValue extends Value<String>{
+public class StringValue implements Value<String> {
     private String value;
 
-    public StringValue(String value){
+    public StringValue(String value) {
         this.value = value;
     }
 
@@ -13,7 +13,7 @@ public class StringValue extends Value<String>{
     }
 
     @Override
-    public void accept(String s) throws Exception {
-        this.value = s;
+    public String setValue(String value) {
+        return value = value;
     }
 }

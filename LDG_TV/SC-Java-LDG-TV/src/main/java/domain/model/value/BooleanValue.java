@@ -1,9 +1,9 @@
 package domain.model.value;
 
-public class BooleanValue extends Value<Boolean>{
+public class BooleanValue implements Value<Boolean> {
     private Boolean value;
 
-    public BooleanValue(Boolean value){
+    public BooleanValue(Boolean value) {
         this.value = value;
     }
 
@@ -13,7 +13,7 @@ public class BooleanValue extends Value<Boolean>{
     }
 
     @Override
-    public void accept(Boolean b){
-        this.value = b;
+    public Boolean setValue(Boolean value) {
+        return this.value = value;
     }
 }

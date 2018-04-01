@@ -1,9 +1,8 @@
 package domain.model.value;
 
-import io.reactivex.functions.Consumer;
 
-public abstract class Value<T> implements Consumer<T> {
+public interface Value<T> {
+    T getValue();
 
-    public abstract T getValue(); // TODO find better name
-
+    T setValue(T o);
 }

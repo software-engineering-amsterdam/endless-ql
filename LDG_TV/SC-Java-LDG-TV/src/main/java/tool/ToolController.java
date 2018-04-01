@@ -1,9 +1,9 @@
 package tool;
 
-import domain.model.ast.ConditionNode;
-import domain.model.ast.FormNode;
 import domain.Utilities;
 import domain.model.ast.ASTNode;
+import domain.model.ast.ConditionNode;
+import domain.model.ast.FormNode;
 import domain.model.ast.QuestionNode;
 import domain.model.stylesheet.Page;
 import domain.model.stylesheet.Section;
@@ -17,19 +17,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import loader.QL.LoaderErrorListener;
 import loader.QL.QLBuilder;
+import loader.QLS.QLSBuilder;
 
-import java.io.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ToolController implements Consumer, LoaderErrorListener {
@@ -53,6 +54,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
 
     /**
      * Invoked by the 'build' button action, to generate the questionnaire based on the written QL
+     *
      * @param event that kicked of the invocation
      */
     public void generateQuestionnaire(ActionEvent event) {
@@ -69,7 +71,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
                         qlText -> parseQLFromText(qlBuilder, qlText),
                         () -> showAlertBox("Please import or add QL code")
                 );
-
+        QLSBuilder qlsBuilder = new QLSBuilder(tbErrorListener, dialogErrorListener);
         Utilities.ofEmptyString(taSourceCodeQLS.getText())
                 .ifPresentOrElse(
                         qlsText -> parseStyleSheetFromText(qlBuilder, qlsText),
@@ -104,6 +106,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
 
     /**
      * Invoked by the 'Import' button action, import .QL or .QLS file
+     *
      * @param event that kicked of the invocation
      */
     public void importQLFile(ActionEvent event) {
@@ -159,7 +162,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
     private void buildQLS(){
         Stylesheet styleSheet = formNode.getStylesheet();
 
-        for (Page p : styleSheet.getPages()){
+        for (Page p : styleSheet.getPages()) {
             Tab tab = new Tab(p.getLabel());
             this.tpPages.getTabs().add(tab);
             drawPage(tab, p);
@@ -169,7 +172,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
     private void drawPage(Tab tab, Page p){
         HBox hbox = new HBox();
         ListView<Row> lv = new ListView<>();
-        for (Section s : p.getSections()){
+        for (Section s : p.getSections()) {
             drawSection(s, lv);
         }
         listViews.add(lv);
@@ -182,7 +185,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
         Row r = new SectionRow(s.getLabel());
         lView.getItems().add(r);
         List<QuestionNode> temp = new ArrayList<>();
-        for (Variable v : s.getVariables()){
+        for (Variable v : s.getVariables()) {
             temp.add(this.formNode.getQuestionByVariableIdentifier(v.getIdentifier()));
         }
         drawQuestions(temp, lView, false);
@@ -190,13 +193,13 @@ public class ToolController implements Consumer, LoaderErrorListener {
 
     private void drawQuestions(List<QuestionNode> questionNodes, ListView<Row> lView, boolean clearView){
         Visitor uiVisitor = new UIVisitor();
-        if(clearView){
+        if (clearView) {
             lView.getItems().clear();
         }
 
         this.formNode.evaluateIfs();
 
-        for(QuestionNode qn : questionNodes){
+        for (QuestionNode qn : questionNodes) {
             String questionText = qn.getText();
             Variable qv = qn.getVariable();
 
@@ -205,7 +208,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
             JavaFxObservable.actionEventsOf(n)
                     .subscribe(this::accept);
 
-            if(n instanceof TextField){
+            if (n instanceof TextField) {
                 TextField tf = (TextField) n;
 
                 JavaFxObservable.changesOf(tf.focusedProperty())
@@ -219,11 +222,12 @@ public class ToolController implements Consumer, LoaderErrorListener {
             lView.getItems().add(r);
         }
     }
-    private List<QuestionNode> getAllQuestions(List<ASTNode> nodes){
-        List<QuestionNode> visibleQuestions = new ArrayList<>();
-        for(ASTNode n : nodes){
 
-            if(n instanceof QuestionNode){
+    private List<QuestionNode> getAllQuestions(List<ASTNode> nodes) {
+        List<QuestionNode> visibleQuestions = new ArrayList<>();
+        for (ASTNode n : nodes) {
+
+            if (n instanceof QuestionNode) {
                 visibleQuestions.add((QuestionNode) n);
                 continue;
             }
@@ -264,7 +268,7 @@ public class ToolController implements Consumer, LoaderErrorListener {
 
     private void redrawAll(){
         List<QuestionNode> questions = getAllQuestions(this.formNode.getASTNodes());
-        if (!qlsEnabled){
+        if (!qlsEnabled) {
             drawQuestions(questions, this.listViews.get(0), true);
             return;
         }

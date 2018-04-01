@@ -9,11 +9,12 @@ public class Utilities {
 
     /**
      * Reads the specified file based on file path.
+     *
      * @param filepath file path of the file to be read
      * @return Lines of text or Empty if the file can't be read
      */
     public static Optional<String> readFile(String filepath) {
-        try(BufferedReader br = new BufferedReader(new FileReader(filepath))){
+        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             String line = br.readLine();
 
             StringBuilder sb = new StringBuilder();
@@ -32,6 +33,7 @@ public class Utilities {
     /**
      * Checks if a string is numeric
      * Source: https://stackoverflow.com/questions/1102891/how-to-check-if-a-string-is-numeric-in-java
+     *
      * @param str
      * @return
      */
@@ -39,7 +41,7 @@ public class Utilities {
         return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }
 
-    public static Optional<String> ofEmptyString(String text){
+    public static Optional<String> ofEmptyString(String text) {
         return Optional.ofNullable(text).filter(s -> !s.isEmpty());
     }
 

@@ -13,6 +13,7 @@ import org.uva.forcepushql.parser.ast.visitors.ASTVisitor;
 
 import javax.swing.*;
 import java.util.LinkedList;
+import java.util.List;
 
 
 //TODO: Refactor the hell out of this. Please. It hurts. Make it stop....
@@ -35,7 +36,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
             result.add(jpg.getPanel());
         }
 
-        jPanelGUI.createPanel(questions, 0);
+        jPanelGUI.createPanel(questions);
         JPanel jPanelForm = jPanelGUI.getPanel();
 
 
@@ -80,7 +81,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
 
         }
 
-        jPanelGUI.createPanel(questions, 0);
+        jPanelGUI.createPanel(questions);
         JPanel ifElsePanel = jPanelGUI.getPanel();
         ifElsePanel.setVisible(false);
         result.addFirst(jPanelGUI);
@@ -177,7 +178,6 @@ public class ASTVisitorEvaluator implements ASTVisitor
         String name = visit((NameNode) node.getCenter());
         ValueType type = visit((TypeNode) node.getRight());
 
-
         if (type.equals(ValueType.BOOL))
         {
             question = new Radio(label, type, name);
@@ -239,8 +239,8 @@ public class ASTVisitorEvaluator implements ASTVisitor
     }
 
 
-    private void makeQuestionsList(LinkedList<Node> listToTurn, LinkedList<JPanelGUI> result,
-                                   JPanelGUI jPanelGUI, LinkedList<Question> questions){
+    private void makeQuestionsList(List<Node> listToTurn, List<JPanelGUI> result,
+                                   JPanelGUI jPanelGUI, List<Question> questions){
         for (Node n : listToTurn)
         {
             if (n instanceof ConditionalNode)

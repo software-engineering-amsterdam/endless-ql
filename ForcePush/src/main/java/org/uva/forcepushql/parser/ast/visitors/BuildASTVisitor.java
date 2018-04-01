@@ -97,7 +97,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         node.setCondition(context.ifCondition().accept(this));
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
-            node.setOneQuestion(q.accept(this));
+            node.addOneQuestion(q.accept(this));
         }
 
         for (GrammarParser.NextConditionContext c : context.nextCondition())
@@ -114,7 +114,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         node.setCondition(context.ifCondition().accept(this));
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
-            node.setOneQuestion(q.accept(this));
+            node.addOneQuestion(q.accept(this));
         }
 
         for (GrammarParser.NextConditionContext c : context.nextCondition())
@@ -132,7 +132,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         node.setCondition(null);
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
-            node.setOneQuestion(q.accept(this));
+            node.addOneQuestion(q.accept(this));
         }
         return node;
     }

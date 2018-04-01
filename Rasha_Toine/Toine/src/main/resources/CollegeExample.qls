@@ -30,6 +30,6 @@ stylesheet taxOfficeExample
                                                 }        
         }
     }
-    default boolean widget radio("I most certainly do", "Nope")
+    default boolean widget radio("I most certainly did.", "Nope")
   }  
 }

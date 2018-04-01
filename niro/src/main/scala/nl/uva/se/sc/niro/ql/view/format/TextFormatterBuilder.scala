@@ -26,4 +26,3 @@ abstract class TextFormatterBuilder[T] {
   def build(): TextFormatter[T] =
     new TextFormatter[T](converter, defaultValue, inputFilter)
 }
-

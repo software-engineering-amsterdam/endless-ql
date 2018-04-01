@@ -1,5 +1,5 @@
 from gui.widgets.checkbox import CheckBox
-from ql.ast.nodes.expressions.literals.boolean_node import BooleanNode
+from ql.ast.nodes.expressions.literals.boolean_literal import BooleanNode
 from ql.types.type import QLType
 
 

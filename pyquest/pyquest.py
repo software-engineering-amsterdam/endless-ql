@@ -3,7 +3,7 @@ from sys import exit
 
 from PyQt5.QtWidgets import QApplication
 
-from gui.windows.main_window import MainWindow
+from gui.windows.main import MainWindow
 
 if __name__ == '__main__':
     app = QApplication(argv)

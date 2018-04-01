@@ -1,5 +1,5 @@
 from gui.widgets.double_spinbox import DoubleSpinBox
-from ql.ast.nodes.expressions.literals.decimal_node import DecimalNode
+from ql.ast.nodes.expressions.literals.decimal_literal import DecimalNode
 from ql.types.boolean import QLBoolean
 from ql.types.money import QLMoney
 from ql.types.type import QLType

@@ -1,7 +1,7 @@
 from datetime import date
 
 from gui.widgets.calendar import CalendarWidget
-from ql.ast.nodes.expressions.literals.date_node import DateNode
+from ql.ast.nodes.expressions.literals.date_literal import DateNode
 from ql.types.boolean import QLBoolean
 from ql.types.type import QLType
 

@@ -47,7 +47,7 @@ FONTSTYLE:   'fontstyle';
 MIN:         'min';
 MAX:         'max';
 
-HEX: '#'[a-zA-Z0-9]*;
+HEX: '#'[0-9A-F][0-9A-F][0-9A-F]([0-9A-F][0-9A-F][0-9A-F])?;
 
 // Expression, page and widget names
 NAME: [a-zA-Z][a-zA-Z0-9]*;

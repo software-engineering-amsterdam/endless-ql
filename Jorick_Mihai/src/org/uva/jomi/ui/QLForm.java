@@ -70,12 +70,15 @@ public class QLForm {
 		return traverse.traverse(this.ast);
 	}
 	
-	public boolean store() {
-		//TODO implement storage
-		Storage storage = StorageFactory.storageWithType(StorageType.JSON);
-		storage.store(this.getQuestions());
+	public boolean store(StorageType type) {
+		List<Question> questions = this.getQuestions();
+		// Remove all questions that we don't need to answer (because of if/else statements)
+		questions.removeIf(q -> !q.showQuestion());
 		
-		return false;
+		Storage storage = StorageFactory.storageWithType(type);
+		storage.store(questions);
+		
+		return true;
 	}
 	
 	public List<Panel> getPanels() {

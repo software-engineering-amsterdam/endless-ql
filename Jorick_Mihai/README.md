@@ -35,3 +35,16 @@ The project also depends on the [jgrapht](http://jgrapht.org/) graph library run
 
 After the Antlr4 runtime is in the correct location one can open the [QL.java](src/org/uva/jomi/QL.java) file and run it. The QL programming language expects and input file, as such the user must update the default [Run Configuration](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.cdt.doc.user%2Ftasks%2Fcdt_t_run_com.htm) and
  provide an input file (we provide two examples as a reference: [example-1.ql](example-1.ql) and [example-1.ql](example-2.ql)).  
+ 
+ 
+ This project depends on JSON.simple for the creation of JSON files. See instructions below how to download the library
+ 
+ ```
+# cd Jorick_Mihai
+# mkdir lib && cd lib/
+# wget http://www.java2s.com/Code/JarDownload/json-simple/json-simple-1.1.1.jar.zip
+# unzip -j json-simple-1.1.1.jar.zip
+# rm json-simple-1.1.1.jar.zip
+```
+ 
+ 

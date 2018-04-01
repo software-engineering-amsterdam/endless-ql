@@ -88,6 +88,11 @@ public class QLBuilder implements Observer {
                 break;
         }
 
+
+        if (!question.isVisible()) {
+            qPanel.setVisible(false);
+        }
+
         questionPanelHashMap.put(question.getId(), qPanel);
         //add the questionpanel to a map containing active questionpanels
         addQuestionToPanel(qPanel, getQuestionConstraints());

@@ -44,16 +44,14 @@ public class Main {
      * parseAndBuildQLS() method
      *
      * */
-    private void parseAndBuildQLS() {
+    private void parseAndBuildQLS(FileInputStream ql, FileInputStream qls) {
         try {
             // QL
-            FileInputStream qlInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\src\\resources\\CompleteExample\\complete.ql");
-            QLParser.FormContext form = new TreeBuilder().build(qlInputStream);
+            QLParser.FormContext form = new TreeBuilder().build(ql);
             FormVisitor coreVisitor = new FormVisitor().visitForm(form);
 
             // QLS
-            FileInputStream qlsInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\src\\resources\\CompleteExample\\complete.qls");
-            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
+            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qls);
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
             stylesheetVisitor.visitStylesheet(stylesheetContext);
 
@@ -71,11 +69,16 @@ public class Main {
     public static void main(String[] args) {
         try {
             if (args.length == 0) {
-                new Main().parseAndBuildQLS();
-                //new Main().parseAndBuildQL(System.in);
+                new Main().parseAndBuildQL(System.in);
             } else if (args.length == 1) {
-                    FileInputStream fileInputStream = new FileInputStream(args[0]);
-                    new Main().parseAndBuildQL(fileInputStream);
+                FileInputStream fileInputStream = new FileInputStream(args[0]);
+                new Main().parseAndBuildQL(fileInputStream);
+            } else if (args.length == 2) {
+                FileInputStream ql = new FileInputStream(args[0]);
+                FileInputStream qls = new FileInputStream(args[1]);
+                new Main().parseAndBuildQLS(ql,qls);
+            } else {
+                System.out.println("Incorrect usage of tool, check out README for more info");
             }
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();

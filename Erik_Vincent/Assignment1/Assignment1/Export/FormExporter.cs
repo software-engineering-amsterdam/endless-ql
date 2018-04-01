@@ -10,9 +10,11 @@ namespace Assignment1.Export
         public static void ExportToCSV(QLExecutor executor, string path)
         {
             var lines = executor.VisibleQuestions.Select(question =>
-                "\"" + question.Id + "\";\"" + executor.GetAnswer(question.Id) + "\"");
+                EscapeCSV(question.Id) + ";" + EscapeCSV(executor.GetAnswer(question.Id).ToString()));
             var contents = string.Join("\n", lines);
             File.WriteAllText(path, contents);
         }
+
+        private static string EscapeCSV(string s) => "\"" + s.Replace("\"", "\"\"") + "\"";
     }
 }

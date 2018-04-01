@@ -1,8 +1,7 @@
-package nl.uva.se.sc.niro.ql.model
+package nl.uva.se.sc.niro.ql.model.gui
 
 import nl.uva.se.sc.niro.ql.model.ast.Question
 import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
-import nl.uva.se.sc.niro.ql.model.gui.{ GUIQuestion, QLGUIQuestion }
 import org.apache.logging.log4j.scala.Logging
 
 object GUIQuestionFactory extends Logging {

@@ -8,6 +8,7 @@ import nl.uva.se.sc.niro.ql.model.ast.QLForm
 import nl.uva.se.sc.niro.ql.model.gui.GUIForm
 import nl.uva.se.sc.niro.ql.view.component.Component
 import nl.uva.se.sc.niro.qls.model.gui.GUIStylesheet
+import nl.uva.se.sc.niro.qls.view.QLSPageFactoryBuilder
 import nl.uva.se.sc.niro.qls.view.component.QLSComponentFactoryBuilder
 import nl.uva.se.sc.niro.qls.view.widget.QLSWidgetFactory
 import nl.uva.se.sc.niro.util.StringUtil

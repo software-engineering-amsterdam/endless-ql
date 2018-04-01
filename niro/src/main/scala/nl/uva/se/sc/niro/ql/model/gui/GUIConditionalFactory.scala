@@ -1,8 +1,8 @@
-package nl.uva.se.sc.niro.ql.model
+package nl.uva.se.sc.niro.ql.model.gui
 
+import nl.uva.se.sc.niro.ql.model.QLToGUIModelBridge
 import nl.uva.se.sc.niro.ql.model.ast.Conditional
 import nl.uva.se.sc.niro.ql.model.ast.expressions.{ And, Expression }
-import nl.uva.se.sc.niro.ql.model.gui.GUIQuestion
 
 object GUIConditionalFactory {
 

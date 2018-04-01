@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.ql.model
 import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.BooleanAnswer
 import nl.uva.se.sc.niro.ql.model.ast.{ Conditional, QLForm, Question, Statement }
-import nl.uva.se.sc.niro.ql.model.gui.{ GUIForm, GUIQuestion }
+import nl.uva.se.sc.niro.ql.model.gui.{ GUIConditionalFactory, GUIForm, GUIQuestion, GUIQuestionFactory }
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**

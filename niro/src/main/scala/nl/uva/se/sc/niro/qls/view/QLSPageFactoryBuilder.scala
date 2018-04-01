@@ -1,9 +1,10 @@
-package nl.uva.se.sc.niro.qls.controller
+package nl.uva.se.sc.niro.qls.view
 
 import javafx.scene.Node
 import javafx.util.Callback
 import nl.uva.se.sc.niro.ql.model.gui.GUIForm
 import nl.uva.se.sc.niro.ql.view.component.ComponentFactory
+import nl.uva.se.sc.niro.qls.controller.QLSFormController
 import nl.uva.se.sc.niro.qls.model.gui.GUIStylesheet
 import nl.uva.se.sc.niro.qls.view.component.{ QLSPageFactory, QLSPageFactoryViewUpdateDecorator }
 

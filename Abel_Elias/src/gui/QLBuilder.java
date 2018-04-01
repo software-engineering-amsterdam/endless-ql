@@ -4,9 +4,8 @@ import QL.classes.Question;
 import QL.classes.values.*;
 import QL.parsing.visitors.FormVisitor;
 import gui.panels.QuestionPanel;
-import gui.widgets.CheckBoxWidget;
-import gui.widgets.DateWidget;
-import gui.widgets.TextWidget;
+import gui.widgets.WidgetFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -17,19 +16,13 @@ public class QLBuilder implements Observer {
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor;
-
-    public LinkedHashMap<String, QuestionPanel> getQuestionPanelHashMap() {
-        return questionPanelHashMap;
-    }
-
-    public LinkedHashMap<String, Question> getQuestionHashMap() {
-        return questionHashMap;
-    }
+    GridBagConstraints gbc;
 
     public QLBuilder(FormVisitor coreVisitor) {
         this.coreVisitor = coreVisitor;
         this.questionHashMap = coreVisitor.getQuestions();
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
+        this.gbc = initGBC();
     }
 
     /**
@@ -64,45 +57,25 @@ public class QLBuilder implements Observer {
      */
     private void buildQuestionPanel(Question question) {
         Value value = question.getValue();
+        QuestionPanel qPanel = new QuestionPanel(question, WidgetFactory.getDefaultWidget(value));
 
         if(!question.isFixed()){
             value.addObserver(this);
         }
-
-        QuestionPanel qPanel = null;
-
-        switch (value.getType()) {
-            case Value.STRING:
-                qPanel = new QuestionPanel(question, new TextWidget((StringValue) value));
-                break;
-            case Value.BOOLEAN:
-                qPanel = new QuestionPanel(question, new CheckBoxWidget((BooleanValue) value));
-                break;
-            case Value.DATE:
-                qPanel = new QuestionPanel(question, new DateWidget((DateValue) value));
-                break;
-            case Value.DECIMAL:
-            case Value.MONEY:
-            case Value.INTEGER:
-                qPanel = new QuestionPanel(question, new TextWidget((NumericValue) value));
-                break;
-        }
-
-
         if (!question.isVisible()) {
             qPanel.setVisible(false);
         }
 
         questionPanelHashMap.put(question.getId(), qPanel);
         //add the questionpanel to a map containing active questionpanels
-        addQuestionToPanel(qPanel, getQuestionConstraints());
+        mainPanel.add(qPanel, this.gbc);
     }
 
     /**
      * getQuestionContraints() method
      * Receive pre-set question panel constraints
      */
-    private GridBagConstraints getQuestionConstraints() {
+    private GridBagConstraints initGBC() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.weightx = 1;
@@ -126,17 +99,6 @@ public class QLBuilder implements Observer {
                 q.setVisible(false);
             }
         }
-    }
-
-    /**
-     * addQuestionToPanel() method
-     * adds a question to the mainlist panel
-     *
-     * @param questionPanel The questionpanel passed
-     * @param gbc           The constraints
-     */
-    private void addQuestionToPanel(QuestionPanel questionPanel, GridBagConstraints gbc) {
-        mainPanel.add(questionPanel, gbc);
     }
 
     @Override

@@ -83,7 +83,7 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
 
         return new Section(
                 new ASTNode.MetaInformation(ctx.start.getLine()),
-                ctx.name.getText(),
+                ctx.name.getText().substring(1, ctx.name.getText().length() - 1),
                 elements
         );
     }
@@ -124,7 +124,7 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
         if (ctx.font != null)
             return new FontProperty(
                     new ASTNode.MetaInformation(ctx.start.getLine()),
-                    ctx.font.getText()
+                    ctx.font.getText().substring(1, ctx.font.getText().length() - 1)
             );
         if (ctx.color != null)
             return new ColorProperty(
@@ -143,8 +143,8 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
                 return new CheckboxWidget(
                         new ASTNode.MetaInformation(ctx.start.getLine()),
                         new Widget.BooleanParameters(
-                                ctx.booleanParameters().trueValue.getText(),
-                                ctx.booleanParameters().falseValue.getText()
+                                ctx.booleanParameters().trueValue.getText().substring(1, ctx.booleanParameters().trueValue.getText().length() - 1),
+                                ctx.booleanParameters().falseValue.getText().substring(1, ctx.booleanParameters().falseValue.getText().length() - 1)
                         )
                 );
             }

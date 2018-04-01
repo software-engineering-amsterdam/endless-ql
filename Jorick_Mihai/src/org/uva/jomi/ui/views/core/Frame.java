@@ -14,7 +14,7 @@ public class Frame extends JFrame {
 	public Frame() {
 		super();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setPreferredSize(new Dimension(400, 600));
+		this.setPreferredSize(new Dimension(800, 600));
 	}
 
 	@Override

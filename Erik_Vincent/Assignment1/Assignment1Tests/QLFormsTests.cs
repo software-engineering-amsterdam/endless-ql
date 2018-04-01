@@ -48,7 +48,7 @@ namespace Assignment1Tests
                 // Call checker and assert errors
                 var invalidFormContent = File.ReadAllText(invalidForm);
                 var astForm = QLParser.ParseString(invalidFormContent);
-                var messages = presenter.ValidateForm(astForm);
+                var messages = MainPresenter.ValidateForm(astForm);
                 Assert.IsTrue(messages.Errors.Any());
             }
         }
@@ -64,7 +64,7 @@ namespace Assignment1Tests
                 // Call checker and assert no errors
                 var validFormContent = File.ReadAllText(validForm);
                 var astForm = QLParser.ParseString(validFormContent);
-                var messages = presenter.ValidateForm(astForm);
+                var messages = MainPresenter.ValidateForm(astForm);
                 Assert.IsTrue(!messages.Errors.Any());
             }
         }
@@ -76,7 +76,7 @@ namespace Assignment1Tests
             var duplicateLabelFormLocation = _pathToValidForms + "DuplicateLabel.txt";
             var formContent = File.ReadAllText(duplicateLabelFormLocation);
             var astForm = QLParser.ParseString(formContent);
-            var messages = presenter.ValidateForm(astForm);
+            var messages = MainPresenter.ValidateForm(astForm);
             Assert.IsTrue(messages.Warnings.Any());
         }
     }

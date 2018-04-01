@@ -77,23 +77,6 @@ yarn build
 
 Result will be written into the `/build` folder
 
-# Doubts
-"NodeTraveller" might not be right name, maybe NodeCollector?
-
-## QLS
-* TODO: Check for double default styles on same level
-* TODO: Expression must use brackets
-* TODO: Check widgets for field type (from variable information)
-
-## General
-* TODO: Root of expressions should be within brackets
-* TODO: Every character of changed field is in state (Maybe kill state when form changes?)
-* TODO: Divide money by money transformed to float
-* TODO improve naming
-* TODO: Rename Nodes to end with "Node"
-* TODO: Rename question style to field style (can also style computed fields)
-* TODO: Divide money by money is equal to decimal. Do not allow money * money and money + decimal
-
 ## QL Requirements
 
 - [x] Questions are enabled and disabled when different values are entered.
@@ -142,7 +125,7 @@ Result will be written into the `/build` folder
 - [x] if-then-else statements.
 - [ ] Add tests to check your syntax extensions.
 - [x] Add AST classes for the provided expression categories, and for you syntactic extensions. Make sure the parser creates objects of the appropriate type.
-- [ ] It is unacceptable that there are remnants of dead code, commented out sections, or debugging print statements etc. in the code that you will present for grading.
+- [x] It is unacceptable that there are remnants of dead code, commented out sections, or debugging print statements etc. in the code that you will present for grading.
 - [x] Some way of shipping the answers, exporting the result (although I couldn't find it in the assignment)
 
 ## Presentation

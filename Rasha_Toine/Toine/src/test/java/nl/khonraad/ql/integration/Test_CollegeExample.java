@@ -16,6 +16,7 @@ import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
 import nl.khonraad.ql.ast.data.Questionnaire;
+import nl.khonraad.ql.ast.data.Survey;
 import nl.khonraad.ql.ast.data.Repository;
 import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
@@ -27,7 +28,7 @@ public class Test_CollegeExample {
             SourcePathProvider.class, 
             QLAbstractSyntaxTreeBuilder.class, 
             ExtendedQLBaseVisitor.class, 
-            Questionnaire.class, 
+            Survey.class, 
             Repository.class, 
             LoggerProducer.class
     ).activate( ApplicationScoped.class ).build();
@@ -35,30 +36,30 @@ public class Test_CollegeExample {
     @Test
     public void test_Calculations() throws Exception {
 
-        weld.select( SourcePathProvider.class ).get().setSourcePath( "/nl/khonraad/ql/integration/CollegeExample.ql" );
-        Questionnaire questionnaire = weld.select( Questionnaire.class ).get();
+        weld.select( SourcePathProvider.class ).get().setSourcePathQL( "/nl/khonraad/ql/integration/CollegeExample.ql" );
+        Questionnaire questionnaire = weld.select( Survey.class ).get();
         ExtendedQLBaseVisitor visitor = weld.select( ExtendedQLBaseVisitor.class ).get();
 
-        questionnaire.prepareAndVisit( visitor );
+        questionnaire.visitSource( visitor );
 
         questionnaire.storeAnswer( new Identifier( "hasSoldHouse" ), new Value( true ) );
         questionnaire.storeAnswer( new Identifier( "hasBoughtHouse" ), new Value( true ) );
         questionnaire.storeAnswer( new Identifier( "hasMaintLoan" ), new Value( true ) );
 
-        assertNull( questionnaire.findAnswerable( new Identifier( "sellingPrice" ) ) );
-        assertNull( questionnaire.findAnswerable( new Identifier( "privateDebt" ) ) );
+        assertNull( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ) );
+        assertNull( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ) );
 
-        questionnaire.prepareAndVisit( visitor );
+        questionnaire.visitSource( visitor );
 
-        assertNotNull( questionnaire.findAnswerable( new Identifier( "sellingPrice" ) ) );
-        assertNotNull( questionnaire.findAnswerable( new Identifier( "privateDebt" ) ) );
+        assertNotNull( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ) );
+        assertNotNull( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ) );
 
         questionnaire.storeAnswer( new Identifier( "sellingPrice" ), new Value( Type.Money, "1000000.00" ) );
         questionnaire.storeAnswer( new Identifier( "privateDebt" ), new Value( Type.Money, "800000.00" ) );
 
-        questionnaire.prepareAndVisit( visitor );
+        questionnaire.visitSource( visitor );
 
-        assertEquals( "a", "200000.00", questionnaire.findComputed( new Identifier( "valueResidue" ) ).value().string() );
+        assertEquals( "a", "200000.00", questionnaire.findComputedQuestion( new Identifier( "valueResidue" ) ).value().string() );
 
     }
 }

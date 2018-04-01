@@ -95,17 +95,17 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDropdownWidget(QLSParser.DropdownWidgetContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#widgetStyle}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWidgetStyle(QLSParser.WidgetStyleContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitStyle(QLSParser.StyleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#dropDownList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDropDownList(QLSParser.DropDownListContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code booltype}
 	 * labeled alternative in {@link QLSParser#type}.

@@ -54,7 +54,7 @@ public class Repository {
         return null;
     }
 
-    public List<Question> listQuestions() {
+    public List<Question> questions() {
         return questions.listQuestions();
     }
 

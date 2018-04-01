@@ -39,6 +39,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -62,9 +63,11 @@
     <Compile Include="Domain\Ast\Nodes\AstSpinBox.cs" />
     <Compile Include="Domain\Ast\Nodes\AstTextBox.cs" />
     <Compile Include="Domain\Ast\Nodes\BinaryWidget.cs" />
+    <Compile Include="Domain\Ast\Nodes\DefaultStyle.cs" />
     <Compile Include="Domain\Ast\Nodes\IBinaryWidget.cs" />
     <Compile Include="Domain\Ast\Nodes\ICheckBox.cs" />
     <Compile Include="Domain\Ast\Nodes\IDatePicker.cs" />
+    <Compile Include="Domain\Ast\Nodes\IDefaultStyle.cs" />
     <Compile Include="Domain\Ast\Nodes\IDropDown.cs" />
     <Compile Include="Domain\Ast\Nodes\IPageNode.cs" />
     <Compile Include="Domain\Ast\Nodes\IQlsQuestionNode.cs" />
@@ -105,6 +108,12 @@
     <Compile Include="Domain\Output\Tools\StyledOutputItemFactory.cs" />
     <Compile Include="Domain\Output\Tools\StyleFactory.cs" />
     <Compile Include="Domain\Output\Tools\StyleStack.cs" />
+    <Compile Include="Domain\Validators\CorrectWidgetForDefaults\ICorrectWidgetValidator.cs" />
+    <Compile Include="Domain\Validators\CorrectWidgetForDefaults\UncoveredQuestionValidationMetaData.cs" />
+    <Compile Include="Domain\Validators\CorrectWidgetForDefaults\CorrectWidgetValidator.cs" />
+    <Compile Include="Domain\Validators\UnkownQuestion\IUnknownQuestionValidator.cs" />
+    <Compile Include="Domain\Validators\UnkownQuestion\UnknownQuestionValidationMetaData.cs" />
+    <Compile Include="Domain\Validators\UnkownQuestion\UnknownQuestionValidator.cs" />
     <Compile Include="Orchestration\CommandHandler\CreateStyleSheetFromTextCommandHandler.cs" />
     <Compile Include="Orchestration\CommandHandler\UpdateStyledValuesCommandHandler.cs" />
     <Compile Include="Orchestration\Commands\CreateStyleSheetFromTextCommand.cs" />
@@ -119,10 +128,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QlsTransformerModule.cs" />
     <Compile Include="Domain\Validators\IStyleSheetValidator.cs" />
-    <Compile Include="Domain\Validators\IUnknownQuestionValidator.cs" />
+    <Compile Include="Domain\Validators\QuestionsUncovered\IUncoveredQuestionValidator.cs" />
     <Compile Include="Domain\Validators\QlsValidator.cs" />
-    <Compile Include="Domain\Validators\UnknownQuestionValidationMetaData.cs" />
-    <Compile Include="Domain\Validators\UnknownQuestionValidator.cs" />
+    <Compile Include="Domain\Validators\QuestionsUncovered\UncoveredQuestionValidationMetaData.cs" />
+    <Compile Include="Domain\Validators\QuestionsUncovered\UncoveredQuestionValidator.cs" />
     <Compile Include="UI\Models\PageWrapper.cs" />
     <Compile Include="UI\Models\SectionWrapper.cs" />
     <Compile Include="UI\Models\StyledQuestionnaireWrapper.cs" />

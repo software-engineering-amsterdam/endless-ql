@@ -5,14 +5,22 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped 
 public class SourcePathProvider {
 
-    String sourcePath;
+    String sourcePathQL;
+    String sourcePathQLS;
 
-    public String getSourcePath() {
-        return sourcePath;
+    public String getSourcePathQL() {
+        return sourcePathQL;
     }
 
-    public void setSourcePath( String path ) {
-        this.sourcePath = path;
+    public void setSourcePathQL( String path ) {
+        this.sourcePathQL = path;
     }
 
+    public String getSourcePathQLS() {
+        return sourcePathQLS;
+    }
+    
+    public void setSourcePathQLS( String path ) {
+        this.sourcePathQLS = path;
+    }
 }

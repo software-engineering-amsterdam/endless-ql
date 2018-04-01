@@ -4,6 +4,7 @@ import com.chariotit.uva.sc.qdsl.ast.common.SourceFilePosition;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.BinaryOperator;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.operator.Operator;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.MoneyExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.NodeVisitor;
 
 import java.util.Set;

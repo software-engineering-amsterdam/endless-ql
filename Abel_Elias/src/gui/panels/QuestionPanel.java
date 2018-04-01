@@ -10,6 +10,7 @@ public class QuestionPanel extends JPanel {
     private Question question;
     private Boolean isActive;
     private Widget widget;
+    final JLabel questionLabel;
 
     public QuestionPanel(Question question, Widget widget) {
         this.question = question;
@@ -18,22 +19,34 @@ public class QuestionPanel extends JPanel {
 
         widget.getJComponent().setEnabled(!question.isFixed());
 
-        this.add(new JLabel(question.getText()));
+        this.questionLabel = new JLabel(question.getText());
+        this.add(questionLabel);
         this.add(widget.getJComponent());
 
         this.setBorder(new MatteBorder(1, 1, 1, 1, Color.GRAY));
     }
 
-    public void replaceWidget(Widget newWidget){
-        this.widget = newWidget;
-
-        this.removeAll();
-        this.add(new JLabel(question.getText()));
-        this.add(newWidget.getJComponent());
-    }
-
     public Question getQuestion() {
         return question;
+    }
+
+
+    public void setWidth(int width) {
+        this.getLayout().preferredLayoutSize(this).width = width;
+    }
+
+    public void setColor(Color color) {
+        this.setBackground(color);
+    }
+
+    public void setFont(String font) {
+        Font newFont = new Font(font, Font.PLAIN, questionLabel.getFont().getSize());
+        this.questionLabel.setFont(newFont);
+    }
+
+    public void setFontSize(int fontSize) {
+        Font newFont = questionLabel.getFont().deriveFont((float) fontSize);
+        this.questionLabel.setFont(newFont);
     }
 
     public void refresh(){

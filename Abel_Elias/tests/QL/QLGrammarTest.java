@@ -56,7 +56,7 @@ public class QLGrammarTest {
 
     @Test
     public void testQuestionTypes() {
-        List<Question> questionList = getQuestions("src/resources/QL/tests/typesForm.ql");
+        List<Question> questionList = getQuestions("resources/QL/tests/typeTests/typesFormCondition.ql");
 
         //Test for each value
         assertTrue(questionList.get(0).getValue() instanceof BooleanValue);
@@ -70,7 +70,7 @@ public class QLGrammarTest {
 
     @Test
     public void testQuestionDuplicates() {
-        List<Question> questionList = getQuestions("src/resources/QL/tests/typesForm.ql");
+        List<Question> questionList = getQuestions("resources/QL/tests/typeTests/typesFormCondition.ql");
 
         //Test for each value
         assertTrue(questionList.get(0).getValue() instanceof BooleanValue);

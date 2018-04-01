@@ -1,4 +1,8 @@
-﻿using QlsTransformer.Domain.Ast.Nodes;
+﻿using System.Windows.Media;
+using QlsTransformer.Domain.Ast.Nodes;
+using static System.Drawing.ColorTranslator;
+using WpfColor = System.Windows.Media.Color;
+using DrawColor = System.Drawing.Color;
 
 namespace QlsTransformer.Orchestration.Models
 {
@@ -15,12 +19,14 @@ namespace QlsTransformer.Orchestration.Models
             Width = width;
             Font = font;
             FontSize = fontSize;
-            Color = color;
+            var drawColor = FromHtml(color);
+            var wpfColor = WpfColor.FromArgb(drawColor.A,drawColor.R,drawColor.G,drawColor.B);
+            Color = new SolidColorBrush(wpfColor);
         }
         public IWidget Widget { get; }
         public int Width { get; }
         public string Font { get; }
         public decimal FontSize { get; }
-        public string Color { get; }
+        public SolidColorBrush Color { get; }
     }
 }

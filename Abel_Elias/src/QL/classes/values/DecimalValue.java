@@ -6,13 +6,13 @@ public class DecimalValue extends NumericValue<Double> {
         setType(Value.DECIMAL);
     }
 
-    public DecimalValue(){
+    public DecimalValue() {
         this(0.0);
     }
 
     @Override
     public void setValueGeneric(Object o) {
-        setValue((double) o);
+        setValue(((Number) o).doubleValue());
     }
 
     @Override

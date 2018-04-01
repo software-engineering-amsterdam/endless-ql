@@ -11,16 +11,12 @@ import javax.swing.JFrame;
 
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.gui.visuals.WidgetContainer;
 
 @ApplicationScoped public class Visualizer {
 
     @Inject
     Logger          logger;
-
-    @Inject
-    Questionnaire   questionnaire;
 
     @Inject
     WidgetContainer widgetContainer;
@@ -38,8 +34,9 @@ import nl.khonraad.ql.gui.visuals.WidgetContainer;
     public void run() {
 
         canvas = buildCanvas();
-        widgetContainer.visualize();
         canvas.setVisible( true );
+     
+        eventListener( new VisualizeEvent() );
     }
 
     private JFrame buildCanvas() {
@@ -47,19 +44,24 @@ import nl.khonraad.ql.gui.visuals.WidgetContainer;
         JFrame jFrame = new JFrame();
 
         jFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        jFrame.setTitle( getClass().getSimpleName() );
+        jFrame.setTitle( chosenDisplayTitle() );
+        jFrame.setSize( chosenDimensions() );
 
+        jFrame.add( widgetContainer, BorderLayout.NORTH );
+
+        return jFrame;
+    }
+
+    private String chosenDisplayTitle() {
+        return getClass().getSimpleName();
+    }
+
+    private Dimension chosenDimensions() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = screenSize.height * 1 / 2;
         final double GOLDEN_RATIO = 1.61803398875;
         Double goldenHeight = height * GOLDEN_RATIO;
         int width = goldenHeight.intValue();
-        jFrame.setSize( new Dimension( width, height ) );
-
-        jFrame.add( widgetContainer, BorderLayout.NORTH );
-        
-        return jFrame;
+        return new Dimension( width, height );
     }
-
-    
 }

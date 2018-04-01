@@ -8,7 +8,6 @@ import java.util.LinkedList;
 public abstract class Question
 {
 
-    private boolean mandatory;
     private String question;
     private ValueType answerType;
     private String answerName;
@@ -17,7 +16,6 @@ public abstract class Question
 
     public Question(String question, ValueType answerType, String answerName)
     {
-        mandatory = false;
         this.question = question;
         this.answerType = answerType;
         this.answerName = answerName;
@@ -25,31 +23,9 @@ public abstract class Question
 
     }
 
-    public void mandatory()
-    {
-        if (!mandatory)
-            mandatory = true;
-
-        else
-            mandatory = false;
-
-    }
-
-    public boolean isMandatory()
-    {
-        return mandatory;
-    }
-
-
     public String writtenQuestion()
     {
         return question;
-    }
-
-
-    public ValueType answerTypeValue()
-    {
-        return answerType;
     }
 
     public String answerNameValue()

@@ -73,7 +73,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     @Override
     public Node visitCompileUnit(GrammarParser.CompileUnitContext context)
     {
-        return context.accept(this);
+        return context.formStructure().accept(this);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         node.setCondition(context.ifCondition().accept(this));
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
-            node.setOneQuestion(q.accept(this));
+            node.addOneQuestion(q.accept(this));
         }
 
         for (GrammarParser.NextConditionContext c : context.nextCondition())
@@ -114,7 +114,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         node.setCondition(context.ifCondition().accept(this));
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
-            node.setOneQuestion(q.accept(this));
+            node.addOneQuestion(q.accept(this));
         }
 
         for (GrammarParser.NextConditionContext c : context.nextCondition())
@@ -132,7 +132,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         node.setCondition(null);
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
-            node.setOneQuestion(q.accept(this));
+            node.addOneQuestion(q.accept(this));
         }
         return node;
     }
@@ -180,9 +180,13 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     {
         TypeNode node = new TypeNode();
         node.setType(ValueType.valueOfString(context.getText()));
-
+        if (node.getType().equals(ValueType.UNKNOWN)){
+            System.err.println("Error: Incorrect type! Types allowed are: money, string, boolean, decimal and integer.");
+            System.exit(1);
+        }
         return node;
     }
+
 
     @Override
     public Node visitNumberExpression(GrammarParser.NumberExpressionContext context)

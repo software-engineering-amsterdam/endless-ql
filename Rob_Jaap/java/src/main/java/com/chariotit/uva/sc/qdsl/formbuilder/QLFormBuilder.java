@@ -3,15 +3,19 @@ package com.chariotit.uva.sc.qdsl.formbuilder;
 import com.chariotit.uva.sc.qdsl.ast.ql.node.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTable;
 import com.chariotit.uva.sc.qdsl.ast.ql.symboltable.SymbolTableEntry;
-import com.chariotit.uva.sc.qdsl.ast.ql.type.BooleanExpressionValue;
-import com.chariotit.uva.sc.qdsl.ast.ql.type.ExpressionType;
-import com.chariotit.uva.sc.qdsl.ast.ql.type.MoneyExpressionValue;
-import com.chariotit.uva.sc.qdsl.ast.ql.type.StringExpressionValue;
+import com.chariotit.uva.sc.qdsl.ast.ql.type.*;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.EvaluateVisitor;
+
+import com.chariotit.uva.sc.qdsl.ast.qls.node.Page;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.Question;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.Section;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.SectionElement;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.Element;
 import javax.swing.text.NumberFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,44 +26,59 @@ import java.util.Map;
 
 public class QLFormBuilder {
 
-    private static Integer lineHeight = 40;
-    private static Integer lineMargin = 20;
-    private static Integer labelWidth = 200;
-    private static Integer inputWidth = 200;
+    private static Integer lineHeight       = 40;
+    private static Integer lineMargin       = 20;
+    private static Integer labelWidth       = 400;
+    private static Integer inputWidth       = 300;
+    private static Integer contentMargin    = 14;
 
     private static Integer frameWidth = 600;
     private static Integer frameHeight = 600;
 
     private QLAstRoot astRoot;
     private JFrame jFrame;
+    private Stylesheet stylesheet;
     private SymbolTable symbolTable;
     private HashMap<LineElement, FormQuestion> questions;
     private VisibilityChecker visibilityChecker;
 
     public QLFormBuilder(QLAstRoot astRoot) {
         this.astRoot = astRoot;
-        this.symbolTable = astRoot.getQuestionSymbolTable();
+        this.render();
+    }
+
+    public QLFormBuilder(QLAstRoot astRoot, Stylesheet stylesheet) {
+        this.astRoot = astRoot;
+        this.stylesheet = stylesheet;
+        this.render();
+    }
+
+    private void render() {
+
+        this.symbolTable = this.astRoot.getQuestionSymbolTable();
 
         this.jFrame = new JFrame();
         this.jFrame.setVisible(true);
         this.jFrame.setSize(frameWidth, frameHeight);
 
 
-        this.questions = FormQuestionMapBuilder.buildMap(astRoot, this);
-        this.visibilityChecker = new VisibilityChecker(questions, astRoot);
-        this.render();
-    }
+        this.questions = FormQuestionMapBuilder.buildMap(this.astRoot, this);
+        this.visibilityChecker = new VisibilityChecker(questions, astRoot, this);
 
-    private void render() {
         updateForm();
     }
 
-
     private void updateForm() {
+
         this.evaluateAst();
+
         this.visibilityChecker.checkVisibility();
 
-        renderQuestions();
+        if (this.stylesheet != null) {
+            renderQuestions(this.stylesheet);
+        } else {
+            renderQuestions();
+        }
 
     }
 
@@ -71,13 +90,14 @@ public class QLFormBuilder {
 
             if (question.getVisible()) {
 
-                question.getLabel().setBounds(0, currentLine * lineHeight + lineMargin,
-                        labelWidth, lineHeight);
-                question.getComponent().setBounds(labelWidth, lineHeight * currentLine + lineMargin,
-                        inputWidth, lineHeight);
-
                 jFrame.add(question.getLabel());
                 jFrame.add(question.getComponent());
+
+
+                question.getLabel().setBounds(contentMargin, currentLine * lineHeight + lineMargin,
+                        labelWidth, lineHeight);
+                question.getComponent().setBounds(labelWidth, currentLine * lineHeight + lineMargin,
+                        inputWidth, lineHeight);
 
                 currentLine += 1;
             }
@@ -89,9 +109,29 @@ public class QLFormBuilder {
 
         jFrame.revalidate();
         jFrame.repaint();
-
-
    }
+
+    private void renderQuestions(Stylesheet stylesheet) {
+        for (Page page : stylesheet.getPages()) {
+            System.out.println("We have a page here " + page.getLabel());
+            renderPage(page);
+        }
+    }
+
+    private void renderPage(Page page){
+        for (Section section: page.getSections()) {
+            renderSection(section);
+        }
+    }
+
+    private void renderSection(Section section){
+        for (SectionElement element: section.getElements()) {
+            if(element instanceof Question){
+                FormElement element = symbolTable.getEntry((Question) element))
+            }
+            System.out.println("rendering element " + element.getSourceFilePosition());
+        }
+    }
 
     private void evaluateAst() {
         EvaluateVisitor evaluateVisitor = new EvaluateVisitor(symbolTable);
@@ -99,11 +139,37 @@ public class QLFormBuilder {
     }
 
     protected JComponent componentForElement(LineElement element) {
+
+        Expression expression = element.getTypeExpression().getExpression();
+
+        // check if this element is a computed element
+        if(expression != null){
+            switch (expression.getExpressionType()) {
+                case MONEY:
+                    JLabel label = new JLabel();
+                    MoneyExpressionValue moneyExpressionValue = (MoneyExpressionValue)expression.getExpressionValue();
+                    if(moneyExpressionValue != null) { label.setText(moneyExpressionValue.getValue().toString()); }
+                    return label;
+                case INTEGER:
+                    JLabel label = new JLabel();
+                    IntegerExpressionValue integerExpressionValue = (IntegerExpressionValue)expression.getExpressionValue();
+                    if(integerExpressionValue != null) { label.setText(integerExpressionValue.getValue().toString()); }
+                    return label;
+                case BOOLEAN:
+                    JCheckBox checkBox = new JCheckBox();
+                    checkBox.setEnabled(false);
+                    BooleanExpressionValue booleanExpressionValue = (BooleanExpressionValue) expression.getExpressionValue();
+                    if(booleanExpressionValue != null) { checkBox.setSelected(booleanExpressionValue.getValue()); }
+                    return checkBox;
+            }
+        }
+
+        // otherwise we get the type of the element to render an input
         ExpressionType type = element.getTypeExpression().getTypeNode().getType();
 
         switch (type) {
             case BOOLEAN:
-                return checkBoxComponent(element);
+                return checkBoxComponent(element, true);
             case STRING:
                 return textComponent(element);
             case MONEY:
@@ -138,12 +204,15 @@ public class QLFormBuilder {
 
             public void update() {
 
-                SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
+                // only perform this operation if the textfield is not empty
+                if (!textField.getText().isEmpty()) {
 
-                ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
+                    SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
 
-                System.out.println("Generic text field updated");
-                updateForm();
+                    ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
+
+                    updateForm();
+                }
             }
         });
 
@@ -151,8 +220,7 @@ public class QLFormBuilder {
         return textField;
     }
 
-
-    private JCheckBox checkBoxComponent(LineElement element) {
+    private JCheckBox checkBoxComponent(LineElement element, Boolean editable) {
 
         // get the symbol table entry
         SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
@@ -160,6 +228,12 @@ public class QLFormBuilder {
         JCheckBox checkbox = new JCheckBox();
 
         checkbox.setSelected(((BooleanExpressionValue) symbol.getExpressionValue()).getValue());
+
+        if (!editable) {
+            checkbox.setSelected(true);
+            checkbox.setEnabled(false);
+            return checkbox;
+        }
 
         checkbox.addActionListener(new ActionListener() {
             @Override
@@ -195,9 +269,14 @@ public class QLFormBuilder {
         // no values other than the format are allowed
         formatter.setAllowsInvalid(true);
 
-        JFormattedTextField textField = new JFormattedTextField(formatter);
+        JFormattedTextField textField = new JFormattedTextField();
+
+        SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
+
+        textField.setText(((MoneyExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
         textField.getDocument().addDocumentListener(new DocumentListener() {
+
             public void changedUpdate(DocumentEvent e) {
                 update();
             }
@@ -212,13 +291,19 @@ public class QLFormBuilder {
 
             public void update() {
 
-                SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
+                // only perform this operation if the textfield is not empty
+                if (!textField.getText().isEmpty()) {
 
-                ((MoneyExpressionValue) symbol.getExpressionValue()).setValue(Float
-                        .parseFloat(textField.getText()));
+                    SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
 
-                System.out.println("Currency text field updated");
-                updateForm();
+                    ((MoneyExpressionValue) symbol.getExpressionValue()).setValue(Float
+                            .parseFloat(textField.getText()));
+
+                    updateForm();
+
+                    textField.requestFocus();
+
+                }
             }
         });
 
@@ -259,11 +344,15 @@ public class QLFormBuilder {
 
             public void update() {
 
-                SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
+                // only perform this operation if the textfield is not empty
+                if (!textField.getText().isEmpty()) {
 
-                ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
+                    SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
 
-                updateForm();
+                    ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
+
+                    updateForm();
+                }
             }
         });
 

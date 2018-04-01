@@ -9,10 +9,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.stringtemplate.v4.ST;
 import ql.ASTBuilder;
+import ql.ast.Form;
+import ql.ast.statements.Question;
+import ql.evaluator.Evaluator;
+import ql.gui.controls.QLControl;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Toshiba on 28/02/2018.
@@ -22,7 +29,6 @@ import java.io.IOException;
 public class HomeController {
 
     private Logger log = Logger.getLogger(HomeController.class);
-    private static final String appName = "Interpreter";
 
     @GetMapping("/")
     public String inputQLForm(Model model) {
@@ -34,13 +40,17 @@ public class HomeController {
     public String inputQLSubmit(@ModelAttribute("userInput") @Validated UserInput userInput, Model model) {
         log.info("Inbound message: " + userInput);
         model.addAttribute("processedQLData", userInput);
+        model.addAttribute("originalHTMLInput", userInput.getHtmlRequestInput());
         //TODO: add processor for interpreting data from user
         //TODO return a InterpretedOutput from your processing class
         InterpretedOutput interpretedOutput = new InterpretedOutput();
         ASTBuilder ast = new ASTBuilder();
         String inputStringCombined = userInput.getHtmlRequestInput();
         try {
-            ast.build(new ByteArrayInputStream(inputStringCombined.getBytes()));
+            Evaluator evaluator = new Evaluator();
+            evaluator.visit(ast.build(new ByteArrayInputStream(inputStringCombined.getBytes())));
+            interpretedOutput.setQuestions(evaluator.questions());
+            log.info("Questions results: " + interpretedOutput);
         } catch (IOException e) {
             log.error("Error while parsing", e);
         }
@@ -48,6 +58,7 @@ public class HomeController {
         model.addAttribute("interpretedOutput", interpretedOutput);
         return "home";
     }
+
 
     /*@PostMapping("/qls")
     public String inputQLSSubmit(@ModelAttribute("inputQLS") InterpretedOutput inputQLS, Model model) {

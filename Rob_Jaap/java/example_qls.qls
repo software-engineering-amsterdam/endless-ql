@@ -1,8 +1,13 @@
 stylesheet taxOfficeExample
   page Housing {
-    section "Buying"
+    section "Buying" {
       question hasBoughtHouse
         widget checkbox
+      question elseQuestion
+        widget checkbox
+      question exampleQuestion
+        widget checkbox
+    }
     section "Loaning"
       question hasMaintLoan
   }
@@ -27,15 +32,4 @@ stylesheet taxOfficeExample
       }
     }
     default boolean widget radio("Yes", "No")
-  }
-  page NewPage {
-    section "Jaap" {
-       question hasSoldHouse2 widget spinbox
-       question hasBoughtHouse2 widget dropdown
-       question hasMaintLoan2 widget radio
-       question sellingPrice2 widget checkbox
-       question privateDebt2 widget spinbox
-       question valueResidue2 widget text
-       question valueResidue3 widget text
-    }
   }

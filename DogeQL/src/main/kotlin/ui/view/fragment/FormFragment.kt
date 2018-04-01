@@ -3,8 +3,8 @@ package ui.view.fragment
 import javafx.geometry.Side
 import tornadofx.*
 import ui.controller.DogeController
-import ui.model.ViewModelFactory
-import ui.view.QuestionFieldFactory
+import ui.model.viewmodel.ViewModelFactory
+import ui.view.field.QuestionFieldFactory
 
 class FormFragment : Fragment() {
 

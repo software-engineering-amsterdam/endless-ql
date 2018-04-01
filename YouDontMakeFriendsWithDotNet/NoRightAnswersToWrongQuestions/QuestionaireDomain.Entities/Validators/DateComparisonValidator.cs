@@ -18,10 +18,10 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            DomainId<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> rootNode)
         {
             return Validate<IDateVariableNode, DateComparisonValidationMetaData>(
-                questionnaireRootNode,
+                rootNode,
                 x => x != typeof(DateTime),
                 @"date comparison",
                 @"date");

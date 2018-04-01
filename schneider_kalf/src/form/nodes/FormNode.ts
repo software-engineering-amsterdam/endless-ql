@@ -29,10 +29,6 @@ export default class FormNode extends AbstractTreeNode implements TreeNode {
     return this._statements;
   }
 
-  set statements(value: Statement[]) {
-    this._statements = value;
-  }
-
   /**
    * Name of the form
    * @returns {string}

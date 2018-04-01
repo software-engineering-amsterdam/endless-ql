@@ -148,16 +148,6 @@ public interface QLSListener extends ParseTreeListener {
 	 */
 	void exitDropdownWidget(QLSParser.DropdownWidgetContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLSParser#widgetStyle}.
-	 * @param ctx the parse tree
-	 */
-	void enterWidgetStyle(QLSParser.WidgetStyleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLSParser#widgetStyle}.
-	 * @param ctx the parse tree
-	 */
-	void exitWidgetStyle(QLSParser.WidgetStyleContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 */
@@ -167,6 +157,16 @@ public interface QLSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStyle(QLSParser.StyleContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLSParser#dropDownList}.
+	 * @param ctx the parse tree
+	 */
+	void enterDropDownList(QLSParser.DropDownListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLSParser#dropDownList}.
+	 * @param ctx the parse tree
+	 */
+	void exitDropDownList(QLSParser.DropDownListContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code booltype}
 	 * labeled alternative in {@link QLSParser#type}.

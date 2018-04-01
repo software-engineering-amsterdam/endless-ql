@@ -11,26 +11,22 @@ namespace QlsTransformer.Domain.Output.Tools
     {
         private readonly IIdMaker m_ids;
         private readonly IDomainItemRegistry m_registry;
-        private readonly IDomainItemLocator m_domainItemLocator;
 
         public StyledOutputItemFactory(
             IIdMaker ids,
-            IDomainItemRegistry registry,
-            IDomainItemLocator domainItemLocator)
+            IDomainItemRegistry registry)
         {
             m_ids = ids;
             m_registry = registry;
-            m_domainItemLocator = domainItemLocator;
         }
 
-        //ToDo: SS, page and section are all the same - remove repetition
         public DomainId<IStyledQuestionnaireOutputItem> CreateRoot(
-            string displayName, 
+            string name, 
             List<DomainId<IPagesOutputItem>> pages)
         {
             var questionnaireOutputItem = new StyledQuestionnaireOutputItem(
                 m_ids.Next,
-                displayName)
+                name)
             {
                 Pages = pages
             };
@@ -40,12 +36,12 @@ namespace QlsTransformer.Domain.Output.Tools
         }
 
         public DomainId<IPagesOutputItem> CreatePage(
-            string displayName, 
+            string name, 
             List<DomainId<ISectionOutputItem>> sections)
         {
             var pageOutputItem = new PagesOutputItem(
                 m_ids.Next,
-                displayName)
+                name)
             {
                 Sections = sections
             };
@@ -55,12 +51,12 @@ namespace QlsTransformer.Domain.Output.Tools
         }
 
         public DomainId<ISectionOutputItem> CreateSection(
-            string displayName, 
+            string name, 
             List<DomainId<IStyledQuestionOutputItem>> questions)
         {
             var sectionOutputItem = new SectionOutputItem(
                 m_ids.Next,
-                displayName)
+                name)
             {
                 Questions = questions
             };
@@ -81,8 +77,7 @@ namespace QlsTransformer.Domain.Output.Tools
             return DomainItemRegistration<IStyledQuestionOutputItem>(
                 styledQuestionOutputItem);
         }
-
-        //ToDo: make a factory base class with this in
+        
         private DomainId<T> DomainItemRegistration<T>(T node) where T : IDomainItem
         {
             m_registry.Add(node);

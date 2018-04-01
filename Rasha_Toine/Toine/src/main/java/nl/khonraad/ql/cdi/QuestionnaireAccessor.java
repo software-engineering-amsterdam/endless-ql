@@ -6,6 +6,7 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 
 import nl.khonraad.ql.ast.data.Questionnaire;
+import nl.khonraad.ql.ast.data.Survey;
 
 public interface QuestionnaireAccessor {
 
@@ -14,10 +15,10 @@ public interface QuestionnaireAccessor {
         BeanManager bm = CDI.current().getBeanManager();
 
         @SuppressWarnings( "unchecked" )
-        Bean<Questionnaire> bean = (Bean<Questionnaire>) bm.getBeans( Questionnaire.class ).iterator().next();
+        Bean<Survey> bean = (Bean<Survey>) bm.getBeans( Survey.class ).iterator().next();
 
-        CreationalContext<Questionnaire> ctx = bm.createCreationalContext( bean );
+        CreationalContext<Survey> ctx = bm.createCreationalContext( bean );
 
-        return (Questionnaire) bm.getReference( bean, Questionnaire.class, ctx );
+        return (Questionnaire) bm.getReference( bean, Survey.class, ctx );
     }
 }

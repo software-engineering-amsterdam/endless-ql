@@ -47,9 +47,6 @@ public class QLFormBuilder {
     }
 
     public QLFormBuilder(QLAstRoot astRoot, Stylesheet stylesheet) {
-
-        System.out.println("we have a stylesheet");
-
         this.astRoot = astRoot;
         this.stylesheet = stylesheet;
         this.render();
@@ -129,13 +126,10 @@ public class QLFormBuilder {
 
     protected JComponent componentForElement(LineElement element) {
 
-        System.out.println("Rendering " + element.getLabel().getLabel() + element.getTypeExpression().getExpression());
-
         Expression expression = element.getTypeExpression().getExpression();
 
+        // check if this element is a computed element
         if(expression != null){
-            System.out.println("this is the expression: " + expression.getExpressionType() + "----- " + expression.getExpressionValue());
-
             switch (expression.getExpressionType()) {
                 case MONEY:
                     JLabel label = new JLabel();
@@ -151,6 +145,7 @@ public class QLFormBuilder {
             }
         }
 
+        // otherwise we get the type of the element to render an input
         ExpressionType type = element.getTypeExpression().getTypeNode().getType();
 
         switch (type) {
@@ -181,11 +176,11 @@ public class QLFormBuilder {
             }
 
             public void removeUpdate(DocumentEvent e) {
-//                update();
+                update();
             }
 
             public void insertUpdate(DocumentEvent e) {
-//                update();
+                update();
             }
 
             public void update() {
@@ -197,9 +192,7 @@ public class QLFormBuilder {
 
                     ((StringExpressionValue) symbol.getExpressionValue()).setValue(textField.getText());
 
-                    System.out.println("Generic text field updated");
                     updateForm();
-
                 }
             }
         });
@@ -259,11 +252,9 @@ public class QLFormBuilder {
 
         JFormattedTextField textField = new JFormattedTextField();
 
-
         SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
-        textField.setText(((MoneyExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
-        System.out.println("value for field " + element.getTypeExpression().getExpression() + ((MoneyExpressionValue) symbol.getExpressionValue()).getValue());
+        textField.setText(((MoneyExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
         textField.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -288,9 +279,6 @@ public class QLFormBuilder {
 
                     ((MoneyExpressionValue) symbol.getExpressionValue()).setValue(Float
                             .parseFloat(textField.getText()));
-
-                    System.out.println("Currency text field updated " + textField.getText());
-                    System.out.println(((MoneyExpressionValue) symbol.getExpressionValue()).getValue());
 
                     updateForm();
 

@@ -52,7 +52,6 @@ public class HomeController {
         }
         //visitor.visit(parseTree);
         model.addAttribute("interpretedOutput", interpretedOutput);
-        model.addAttribute("userInput", new UserInput());
         return "home";
     }
 

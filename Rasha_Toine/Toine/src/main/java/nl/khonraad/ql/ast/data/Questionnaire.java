@@ -13,6 +13,7 @@ import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
+import nl.khonraad.ql.cdi.LoggingAspect;
 import nl.khonraad.ql.cdi.SourcePathProvider;
 import nl.khonraad.ql.gui.application.VisualizeEvent;
 
@@ -32,6 +33,7 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
 
     @Inject
     private QLAbstractSyntaxTreeBuilder qLAstBuilder;
+
 
     public void prepareAndVisit( ExtendedQLBaseVisitor visitor ) {
 
@@ -67,6 +69,7 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
         return questionRepository.storeComputedQuestion( identifier, label, value );
     }
 
+    @LoggingAspect
     public void storeAnswer( Identifier identifier, Value value ) {
 
         questionRepository.storeAnwer( identifier, value );

@@ -9,35 +9,31 @@ import nl.khonraad.ql.algebra.Value;
 
 public class UnaryFunctions {
 
-    private static Map<UnaryFunction, Function<Value, Value>> functionMap = new HashMap<>();
+    private static Map<UnarySignature, Function<Value, Value>> map = new HashMap<>();
 
     static {
 
-        functionMap.put( UnaryFunction.NotBoolean, a -> new Value( !isTrue( a ) ) );
-        functionMap.put( UnaryFunction.PlusInteger, a -> new Value( integer( a ) ) );
-        functionMap.put( UnaryFunction.PlusMoney, a -> new Value( money( a ) ) );
-        functionMap.put( UnaryFunction.MinusInteger, a -> new Value( -integer( a ) ) );
-        functionMap.put( UnaryFunction.MinusMoney, a -> new Value( money( a ).negate() ) );
+        map.put( UnarySignature.NotBoolean, a -> new Value( !isTrue( a ) ) );
+        map.put( UnarySignature.PlusInteger, a -> new Value( integer( a ) ) );
+        map.put( UnarySignature.PlusMoney, a -> new Value( money( a ) ) );
+        map.put( UnarySignature.MinusInteger, a -> new Value( -integer( a ) ) );
+        map.put( UnarySignature.MinusMoney, a -> new Value( money( a ).negate() ) );
     }
 
-    // consistent name 'boolean' is reserved by Java
+    public static Function<Value, Value> function( UnarySignature function ) {
+        return map.get( function );
+    }
+
+    // inconsistent name  as 'boolean' is reserved by Java!
     private static boolean isTrue( Value value ) {
-        
         return value.equals( new Value( true ) );
     }
 
     private static Integer integer( Value value ) {
-        
         return Integer.parseInt( value.string() );
     }
 
     private static BigDecimal money( Value value ) {
-        
         return new BigDecimal( value.string() );
-    }
-
-    public static Function<Value, Value> function( UnaryFunction expression ) {
-
-        return functionMap.get( expression );
     }
 }

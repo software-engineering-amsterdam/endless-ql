@@ -37,11 +37,32 @@
             </div>
         </form>
     </div>
-    <div id="result-display-area" th:if="${interpretedOutput != null}">
-            <p th:text="${interpretedOutput.questions}"/>
+    <div class="result-display-area" th:if="${interpretedOutput != null}">
+        <form>
+            <table>
+                <tr th:each="question : ${interpretedOutput.questions}">
+                    <td th:if="${question.description != null}">
+                        <H4 th:text="${question.description}" />
+                        <div th:if="${question.identifier != null}" th:id="${question.identifier}">
+                            <div th:if="${question.type != null}">
+                                <div th:if="${question.type.toString().equals('boolean')}">
+                                    <input id="foo" type="checkbox"/>
+                                </div>
+                                <div th:if="${question.type.toString().equals('money')}">
+                                    <input id="marmote" type="checkbox"/>
+                                </div>
+                                <div th:if="${question.type.toString().equals('text')}">
+                                    <input id="sugeo" type="checkbox"/>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
-    <div th:if="${interpretedOutput == null}">
-        <p>var1 is empty or null.</p>
+    <div class="result-display-area" th:if="${interpretedOutput == null}">
+        <h1>Empty or null.</h1>
     </div>
 
     <!--<h1 th:text="|Hello ${name}!|"></h1>
@@ -54,3 +75,4 @@
 </footer>
 </body>
 </html>
+

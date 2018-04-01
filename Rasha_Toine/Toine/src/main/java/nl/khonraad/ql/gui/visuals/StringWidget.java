@@ -10,15 +10,15 @@ import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
 
-@SuppressWarnings("serial") 
+public class StringWidget implements QuestionnaireAccessor {
 
-public class StringWidget extends JTextField implements QuestionnaireAccessor {
+    JTextField jTextField;
 
-    public StringWidget(Question question) {
+    public StringWidget( Question question ) {
 
-        super( question.value().string(), 25 );
+        jTextField = new JTextField( question.value().string(), 25 );
 
-        addFocusListener( new FocusListener() {
+        jTextField.addFocusListener( new FocusListener() {
 
             @Override
             public void focusLost( FocusEvent e ) {

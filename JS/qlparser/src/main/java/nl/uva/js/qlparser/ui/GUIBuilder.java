@@ -53,7 +53,7 @@ public class GUIBuilder {
 
     private static Form globalForm;
 
-    private static Frame guiFrame;
+    private static Frame     guiFrame;
     private static JPanel    topPanel;
     private static JPanel    bottomPanel;
     private static TextPanel qlPanel;
@@ -186,6 +186,8 @@ public class GUIBuilder {
             formPanel.apply(globalForm);
             guiFrame.setTitle(globalForm != null ? globalForm.getHumanizedName() : "");
 
+            List<String> duplicateLabelQuestions = formPanel.getDuplicateLabelQuestions();
+
             setPageButtons(null);
 
             List<String> errors = new ArrayList<>();
@@ -203,10 +205,19 @@ public class GUIBuilder {
             if (errors.size() == 0 && stylesheet != null) {
                 formPanel.apply(stylesheet);
                 setPageButtons(stylesheet.getPages());
+
+                if(!globalForm.getName().equals(stylesheet.getName())) {
+                    log("Warning: Form name and stylesheet name do not match");
+                }
             }
             errors.forEach(GUIBuilder::log);
 
-        } catch (ParseException | VariableNotFoundException exception) {
+            duplicateLabelQuestions.stream()
+                    .map(duplicateLabelQuestion
+                            -> "Warning: Duplicate label used for question "
+                               + duplicateLabelQuestion).forEach(GUIBuilder::log);
+
+        } catch (ParseException | VariableNotFoundException | NumberFormatException exception) {
             log(exception.getMessage());
         }
     }

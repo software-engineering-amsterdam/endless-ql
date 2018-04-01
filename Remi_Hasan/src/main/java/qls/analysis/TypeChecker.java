@@ -64,7 +64,7 @@ public class TypeChecker extends QLSVisitor<Void> implements IQLSAnalysis {
     @Override
     public Void visit(SliderWidget widget) {
         // Ensure slider range is valid
-        if(widget.getMinValue() >= widget.getMaxValue()) {
+        if (widget.getMinValue() >= widget.getMaxValue()) {
             throw new IllegalArgumentException("Slider min value should be smaller than slider max value "
                     + widget.getLocation());
         }

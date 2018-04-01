@@ -2,8 +2,12 @@ package qls.ast
 
 import QuestionnaireLanguageStyleGrammarBaseVisitor
 import QuestionnaireLanguageStyleGrammarParser
-import qls.ast.model.*
-import qls.ast.node.QlsNode
+import qls.ast.node.*
+import qls.ast.node.attribute.Attribute
+import qls.ast.node.attribute.AttributePair
+import qls.ast.node.attribute.DefaultAttributes
+import qls.ast.node.widget.Widget
+import qls.ast.node.widget.WidgetType
 
 class QuestionnaireLanguageStyleVisitor : QuestionnaireLanguageStyleGrammarBaseVisitor<QlsNode>() {
 
@@ -110,7 +114,7 @@ class QuestionnaireLanguageStyleVisitor : QuestionnaireLanguageStyleGrammarBaseV
 
         val name = context.NAME().text
 
-        val type = WidgetType.valueOf(name)
+        val type = WidgetType.valueOf(name.toUpperCase())
 
         return Widget(type)
     }

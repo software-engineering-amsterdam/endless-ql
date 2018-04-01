@@ -130,7 +130,9 @@
     q2a: "This is q2a (date)?" date
     q2b: "This is q2b (date)?" date
     q3: "This is q3 (string)?" string
-    q4: "This is q4 (integer)?" integer
+    q4a: "This is q4a (integer)?" integer
+    q4b: "This is q4b (integer)?" integer
+    q4c: "This is q4c (integer)?" integer
     q5: "This is q5 (decimal)?" decimal
 }</value>
   </data>
@@ -170,7 +172,9 @@
     {
         section section4
         {
-            question q4
+            question q4a
+            question q4b widget slider
+            question q4c widget slider(20,40,2)
         }
     }   
     page page5 
@@ -181,7 +185,7 @@
         }
     }
     
-    default boolean {width: 300 color: #FF00F088}
+    default boolean {widget radio width: 300 color: #FF00F088}
 }</value>
   </data>
 </root>

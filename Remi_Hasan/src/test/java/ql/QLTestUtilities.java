@@ -4,12 +4,12 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import ql.antlr.QLLexer;
 import ql.antlr.QLParser;
+import ql.builder.ExpressionBuilder;
 import ql.evaluation.ExpressionEvaluator;
 import ql.evaluation.SymbolTable;
 import ql.evaluation.value.Value;
 import ql.model.Form;
 import ql.model.expression.Expression;
-import ql.builder.ExpressionBuilder;
 
 import java.io.InputStream;
 

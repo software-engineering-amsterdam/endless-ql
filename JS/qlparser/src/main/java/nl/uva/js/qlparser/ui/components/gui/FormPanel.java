@@ -224,4 +224,19 @@ public class FormPanel extends JPanel {
 
         return new Font(fontType, fontStyle, defaultFontSize);
     }
+
+    public List<String> getDuplicateLabelQuestions() {
+        LinkedList<String> duplicateLabels = new LinkedList<>();
+        HashSet<String> labels = new HashSet<>();
+
+        for (FormExpression formExpression : form.getFormExpressions()) {
+            String label = formExpression.getLabel();
+            if(label != null && labels.contains(label)) {
+                duplicateLabels.add(formExpression.getVariable().getName());
+            }
+            labels.add(label);
+        }
+
+        return duplicateLabels;
+    }
 }

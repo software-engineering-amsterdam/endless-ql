@@ -9,7 +9,7 @@ stylesheet taxOfficeExample
     }
     section "Age"
       question age
-      widget spinbox
+      widget text
   }
 
   page Finances
@@ -18,11 +18,19 @@ stylesheet taxOfficeExample
     {
       question income
 
+      question spendings
+
+      question savings
+
       section "Debts"
       {
         question debts
       }
+
     }
-    default boolean widget radio("Yes", "No")
+    default boolean {
+        color: #56f442
+        widget checkbox
+    }
   }
 }

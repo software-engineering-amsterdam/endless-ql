@@ -12,7 +12,7 @@ import qls.ast.visitors.AbstractASTTraverse;
 import qls.gui.view.PagePanel;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -87,13 +87,22 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
 
     @Override
     public JComponent visit(Page page) {
+
         List<JComponent> components = new ArrayList<>();
 
         this.definitionsStacksPush(page.getDefaultDefinitions());
 
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+
+        int i = 0;
+
         // visit children
         List<BlockElement> elements = page.getElements();
         for (BlockElement element : elements) {
+            gridBagConstraints.gridy = i;
             if (element instanceof QuestionDefinition) {
                 components.add(visit((QuestionDefinition) element));
             }
@@ -110,31 +119,27 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
     @Override
     public JComponent visit(Section section) {
 
-        JPanel sectionPanel = new JPanel();
+        JPanel sectionPanel = new JPanel(new GridBagLayout());
 
-        JLabel labelComponent = new JLabel(section.getName());
-
-        sectionPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        TitledBorder titled = new TitledBorder(section.getName());
+        sectionPanel.setBorder(titled);
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = GridBagConstraints.WEST;
 
-        gridBagConstraints.gridy = 0;
-        sectionPanel.add(labelComponent, gridBagConstraints);
-
-        int i = 1;
+        int i = 0;
 
         // visit children
         List<BlockElement> elements = section.getElements();
         for (BlockElement element : elements) {
             gridBagConstraints.gridy = i;
             if (element instanceof QuestionDefinition) {
-                sectionPanel.add(visit((QuestionDefinition) element));
+                sectionPanel.add(visit((QuestionDefinition) element), gridBagConstraints);
             }
             if (element instanceof Section) {
-                sectionPanel.add(visit((Section) element));
+                sectionPanel.add(visit((Section) element), gridBagConstraints);
             }
             i++;
         }

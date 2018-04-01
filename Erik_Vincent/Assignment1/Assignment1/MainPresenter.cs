@@ -32,11 +32,9 @@ namespace Assignment1
             {
                 InitialDirectory = Directory.GetCurrentDirectory()
             };
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                _view.ClearUI();
-                ParseFile(fileDialog.FileName);
-            }
+            if (fileDialog.ShowDialog() != DialogResult.OK) return;
+            _view.ClearUI();
+            ParseFile(fileDialog.FileName);
         }
 
         private void ExportAnswers(object sender, EventArgs e)
@@ -93,7 +91,7 @@ namespace Assignment1
             }
         }
 
-        public MessageContainer ValidateForm(QuestionForm astForm)
+        public static MessageContainer ValidateForm(QuestionForm astForm)
         {
             var messages = new MessageContainer();
             messages.Add(QLDuplicateChecker.CheckDuplicates(astForm));
@@ -106,7 +104,7 @@ namespace Assignment1
             return messages;
         }
 
-        private MessageContainer ValidateStyleSheet(StyleSheet styleSheet, QuestionForm astForm)
+        private static MessageContainer ValidateStyleSheet(StyleSheet styleSheet, QuestionForm astForm)
         {
             var messages = new MessageContainer();
             messages.Add(QLSReferenceChecker.CheckQuestionReferences(styleSheet, astForm));

@@ -44,7 +44,10 @@ class DogeMainView : View() {
     }
 
     private fun loadDogeQl() {
-        val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire file", "*.doge")))
+        val files = chooseFile(
+                "Select file",
+                arrayOf(FileChooser.ExtensionFilter("Doge questionnaire file", "*.doge"))
+        )
 
         if (files.isNotEmpty()) {
             controller.loadQuestionnaire(files.first())
@@ -52,7 +55,10 @@ class DogeMainView : View() {
     }
 
     private fun loadStyle() {
-        val files = chooseFile("Select file", arrayOf(FileChooser.ExtensionFilter("Doge questionnaire style file", "*.shiba")))
+        val files = chooseFile(
+                "Select file",
+                arrayOf(FileChooser.ExtensionFilter("Doge questionnaire style file", "*.shiba"))
+        )
 
         if (files.isNotEmpty()) {
             controller.loadStyle(files.first())

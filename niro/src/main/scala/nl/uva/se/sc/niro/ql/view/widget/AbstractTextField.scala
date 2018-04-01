@@ -1,9 +1,8 @@
 package nl.uva.se.sc.niro.ql.view.widget
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
-import javafx.scene.control.TextField
 
-abstract class AbstractQLTextField[T]() extends TextField with QLWidget[T] {
+abstract class AbstractTextField[T]() extends javafx.scene.control.TextField with Widget[T] {
   focusedProperty().addListener(new ChangeListener[java.lang.Boolean] {
     override def changed(
         observable: ObservableValue[_ <: java.lang.Boolean],

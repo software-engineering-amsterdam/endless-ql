@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.ql.view.widget
 
 import nl.uva.se.sc.niro.ql.view.format.{ FormatMasks, IntegerFormatterBuilder }
 
-class QLIntegerField() extends AbstractQLTextField[java.math.BigInteger] with FormatMasks {
+class IntegerField() extends AbstractTextField[java.math.BigInteger] with FormatMasks {
   private val integerFormatter =
     IntegerFormatterBuilder().buildInputFilter(INTEGER_MASK).buildConverter().build()
   setTextFormatter(integerFormatter)

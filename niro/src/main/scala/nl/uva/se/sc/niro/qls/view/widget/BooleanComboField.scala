@@ -4,11 +4,11 @@ import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.collections.FXCollections
 import javafx.scene.control.ChoiceBox
 import javafx.util.StringConverter
-import nl.uva.se.sc.niro.ql.view.widget.QLWidget
+import nl.uva.se.sc.niro.ql.view.widget.Widget
 
-class QLSBooleanComboField(trueLabel: String, falseLabel: String)
+class BooleanComboField(trueLabel: String, falseLabel: String)
     extends ChoiceBox[java.lang.Boolean]
-    with QLWidget[java.lang.Boolean] {
+    with Widget[java.lang.Boolean] {
   setItems(FXCollections.observableArrayList(java.lang.Boolean.TRUE, java.lang.Boolean.FALSE))
   setConverter(new StringConverter[java.lang.Boolean]() {
     override def toString(value: java.lang.Boolean): String = if (value) trueLabel else falseLabel

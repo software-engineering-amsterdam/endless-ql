@@ -5,7 +5,7 @@ import nl.uva.se.sc.niro.ql.view.ValueChangedListener
 
 import scala.collection.mutable.ArrayBuffer
 
-trait QLWidget[T] extends Node {
+trait Widget[T] extends Node {
   private val valueChangedListeners = ArrayBuffer[ValueChangedListener]()
   def value(value: T): Unit
   def value: T

@@ -3,7 +3,7 @@ package nl.uva.se.sc.niro.ql.view.widget
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.CheckBox
 
-class QLBooleanField extends CheckBox with QLWidget[java.lang.Boolean] {
+class BooleanField extends CheckBox with Widget[java.lang.Boolean] {
   selectedProperty().addListener(new ChangeListener[java.lang.Boolean] {
     override def changed(
         observable: ObservableValue[_ <: java.lang.Boolean],

@@ -7,7 +7,7 @@ import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.DatePicker
 import javafx.util.converter.LocalDateStringConverter
 
-class QLDateField() extends DatePicker with QLWidget[LocalDate] {
+class DateField() extends DatePicker with Widget[LocalDate] {
   val DATE_FORMAT = "yyyy-MM-dd"
   valueProperty().addListener(new ChangeListener[LocalDate] {
     override def changed(observable: ObservableValue[_ <: LocalDate], oldValue: LocalDate, newValue: LocalDate): Unit =

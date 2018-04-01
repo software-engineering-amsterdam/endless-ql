@@ -2,7 +2,7 @@ package nl.uva.se.sc.niro.ql.view.widget
 
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 
-class QLTextField() extends AbstractQLTextField[String] {
+class TextField() extends AbstractTextField[String] {
   textProperty().addListener(new ChangeListener[String] {
     override def changed(observable: ObservableValue[_ <: String], oldValue: String, newValue: String): Unit =
       valueChanged()

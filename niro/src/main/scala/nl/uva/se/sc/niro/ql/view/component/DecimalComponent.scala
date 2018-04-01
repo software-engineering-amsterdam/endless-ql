@@ -2,11 +2,11 @@ package nl.uva.se.sc.niro.ql.view.component
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ Answer, DecimalAnswer }
-import nl.uva.se.sc.niro.ql.view.widget.QLWidget
+import nl.uva.se.sc.niro.ql.view.widget.Widget
 
 import scala.collection.mutable
 
-case class DecimalComponent(id: String, label: Label, control: QLWidget[java.math.BigDecimal])
+case class DecimalComponent(id: String, label: Label, control: Widget[java.math.BigDecimal])
     extends Component[BigDecimal](id, label, control) {
   override def getValue: Option[DecimalAnswer] = Option(control.value).map(DecimalAnswer(_))
   override def setValue(value: Option[BigDecimal]): Unit = control.value(fromOption(value))

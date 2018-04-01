@@ -2,11 +2,11 @@ package nl.uva.se.sc.niro.ql.view.component
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ Answer, StringAnswer }
-import nl.uva.se.sc.niro.ql.view.widget.QLWidget
+import nl.uva.se.sc.niro.ql.view.widget.Widget
 
 import scala.collection.mutable
 
-case class TextComponent(id: String, label: Label, control: QLWidget[String])
+case class TextComponent(id: String, label: Label, control: Widget[String])
     extends Component[String](id, label, control) {
   override def getValue: Option[StringAnswer] = Option(control.value).map(StringAnswer)
   override def setValue(value: Option[String]): Unit = control.value(fromOption(value))

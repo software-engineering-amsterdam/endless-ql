@@ -3,11 +3,11 @@ package nl.uva.se.sc.niro.qls.view.widget
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.Slider
 import nl.uva.se.sc.niro.ql.view.format.FormatMasks
-import nl.uva.se.sc.niro.ql.view.widget.QLWidget
+import nl.uva.se.sc.niro.ql.view.widget.Widget
 
-class QLSDecimalSliderField(minimum: Double, maximum: Double)
+class IntegerSliderField(minimum: Double, maximum: Double)
     extends Slider()
-    with QLWidget[java.math.BigDecimal]
+    with Widget[java.math.BigInteger]
     with FormatMasks {
 
   setMin(minimum)
@@ -21,9 +21,9 @@ class QLSDecimalSliderField(minimum: Double, maximum: Double)
       valueChanged()
   })
 
-  override def value(newValue: java.math.BigDecimal): Unit =
+  override def value(newValue: java.math.BigInteger): Unit =
     if (newValue != null) valueProperty().setValue(newValue)
 
-  override def value: java.math.BigDecimal =
-    java.math.BigDecimal.valueOf(valueProperty().getValue)
+  override def value: java.math.BigInteger =
+    java.math.BigInteger.valueOf(valueProperty().getValue.longValue())
 }

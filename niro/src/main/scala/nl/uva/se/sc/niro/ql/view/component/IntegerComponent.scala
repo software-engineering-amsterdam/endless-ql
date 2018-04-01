@@ -2,11 +2,11 @@ package nl.uva.se.sc.niro.ql.view.component
 
 import javafx.scene.control.Label
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ Answer, IntegerAnswer }
-import nl.uva.se.sc.niro.ql.view.widget.QLWidget
+import nl.uva.se.sc.niro.ql.view.widget.Widget
 
 import scala.collection.mutable
 
-case class IntegerComponent(id: String, label: Label, control: QLWidget[java.math.BigInteger])
+case class IntegerComponent(id: String, label: Label, control: Widget[java.math.BigInteger])
     extends Component[BigInt](id, label, control) {
   override def getValue: Option[IntegerAnswer] = Option(control.value).map(IntegerAnswer(_))
   override def setValue(value: Option[BigInt]): Unit = control.value(fromOption(value))

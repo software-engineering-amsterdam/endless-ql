@@ -3,11 +3,11 @@ package nl.uva.se.sc.niro.qls.view.widget
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.Spinner
 import nl.uva.se.sc.niro.ql.view.format.{ DecimalFormatterBuilder, FormatMasks }
-import nl.uva.se.sc.niro.ql.view.widget.QLWidget
+import nl.uva.se.sc.niro.ql.view.widget.Widget
 
-class QLSMoneySpinField(minimum: Double, maximum: Double, stepSize: Double)
+class MoneySpinField(minimum: Double, maximum: Double, stepSize: Double)
     extends Spinner[Double](minimum, maximum, minimum, stepSize)
-    with QLWidget[java.math.BigDecimal]
+    with Widget[java.math.BigDecimal]
     with FormatMasks {
 
   getEditor.setTextFormatter(DecimalFormatterBuilder().buildInputFilter(MONEY_MASK).buildConverter().build())

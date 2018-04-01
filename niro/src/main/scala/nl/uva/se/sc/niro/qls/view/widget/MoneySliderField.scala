@@ -3,11 +3,11 @@ package nl.uva.se.sc.niro.qls.view.widget
 import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.Slider
 import nl.uva.se.sc.niro.ql.view.format.FormatMasks
-import nl.uva.se.sc.niro.ql.view.widget.QLWidget
+import nl.uva.se.sc.niro.ql.view.widget.Widget
 
-class QLSMoneySliderField(minimum: Double, maximum: Double)
+class MoneySliderField(minimum: Double, maximum: Double)
     extends Slider()
-    with QLWidget[java.math.BigDecimal]
+    with Widget[java.math.BigDecimal]
     with FormatMasks {
 
   setMin(minimum)

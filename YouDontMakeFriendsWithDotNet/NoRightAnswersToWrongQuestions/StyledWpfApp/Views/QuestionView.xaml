@@ -46,8 +46,8 @@
             <Grid>
                 <xctk:CalculatorUpDown 
                     Value="{Binding Path=Value, Converter={StaticResource ObjectToDecimalConverter}}"
-
-                    Increment="1" />
+                   
+                     Increment="1" />
             </Grid>
         </DataTemplate>
 
@@ -107,6 +107,37 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate x:Key="CheckboxTemplate">
+            <Grid>
+                <CheckBox 
+                    IsChecked="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NumericUpdownTemplate">
+            <Grid>
+                <xctk:IntegerUpDown 
+                    Value="{Binding Path=Value, Converter={StaticResource ObjectToIntegerConverter}}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TrackbarTemplate">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="{Binding Model.StyleModel.Widget.RangeStart}"/>
+                    <Slider 
+                    Value="{Binding Path=Value, Converter={StaticResource ObjectToIntegerConverter}}"
+                    Minimum="{Binding Model.StyleModel.Widget.RangeStart}"
+                    Maximum="{Binding Model.StyleModel.Widget.RangeEnd}"
+                    Interval="{Binding Model.StyleModel.Widget.Step}"
+                    Width="180"
+                    TickFrequency="1"/>
+                    <Label Content="{Binding Model.StyleModel.Widget.RangeEnd}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
 
         <Style x:Key="MyStyle" TargetType="Control">
             <Setter Property="Foreground" Value="{Binding Model.StyleModel.Color}"/>
@@ -139,3 +170,4 @@
             Grid.Column="1"  />
     </Grid>
 </UserControl>
+

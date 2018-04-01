@@ -77,7 +77,7 @@ class Value:
 class StringValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.String, value)
+        super().__init__(types.String(), value)
 
     @staticmethod
     def _parse(value):
@@ -87,7 +87,7 @@ class StringValue(Value):
 class IntegerValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Integer, value)
+        super().__init__(types.Integer(), value)
 
     @staticmethod
     def _parse(value):
@@ -105,7 +105,7 @@ class IntegerValue(Value):
 class DecimalValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Decimal, value)
+        super().__init__(types.Decimal(), value)
 
     @staticmethod
     def _parse(value):
@@ -123,7 +123,7 @@ class DecimalValue(Value):
 class MoneyValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Money, value)
+        super().__init__(types.Money(), value)
 
     @staticmethod
     def _parse(value):
@@ -149,7 +149,7 @@ class MoneyValue(Value):
 class BooleanValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Boolean, value)
+        super().__init__(types.Boolean(), value)
 
     @staticmethod
     def _parse(value):
@@ -171,7 +171,7 @@ class Evaluation:
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        raise errors.Type("Operation not possible between instances of " + str(left.type) + "," + str(right.type))
+        raise errors.Type("Operation not possible between instances of " + str(left.type) + " & " + str(right.type))
 
     @multimethod(Value)
     def evaluate(self, expression):

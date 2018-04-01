@@ -14,7 +14,7 @@ class Type:
         return self.__class__
 
     def __repr__(self):
-        return self._type_name
+        return self.type_name
 
     def __str__(self):
         return self.__repr__()

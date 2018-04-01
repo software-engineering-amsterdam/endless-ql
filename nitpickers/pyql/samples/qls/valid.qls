@@ -1,0 +1,23 @@
+QL: "samples/ql/valid.ql"
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Buying"
+    {
+      question age
+        widget spinbox
+      question sellingPrice
+        widget spinbox
+      question privateDebt
+        widget spinbox
+      question bigQuestion
+        widget spinbox
+      question valueResidue
+        widget spinbox
+    }
+    section "Loaning"
+      question name
+  }
+  default boolean widget radio("Yes", "No")
+}

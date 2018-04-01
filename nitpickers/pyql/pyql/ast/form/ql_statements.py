@@ -1,6 +1,6 @@
-from pyql.ast.form import statement
-from pyql.ast.form import block
 from pyql.ast.expression import expressions
+from pyql.ast.form import block
+from pyql.ast.form import statement
 
 
 class Question(statement.Statement):

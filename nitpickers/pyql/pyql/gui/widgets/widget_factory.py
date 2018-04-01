@@ -1,6 +1,6 @@
 from pyql.gui.widgets.widgets import *
-from util.types import *
 from util.multimethods import multimethod
+from util.types import *
 
 
 class WidgetFactory:
@@ -31,4 +31,3 @@ class WidgetFactory:
     @multimethod(Boolean)
     def create_widget(self, type):
         return CheckWidget
-

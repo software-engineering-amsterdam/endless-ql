@@ -8,6 +8,15 @@ else:
 # This class defines a complete listener for a parse tree produced by QLSParser.
 class QLSListener(ParseTreeListener):
 
+    # Enter a parse tree produced by QLSParser#qlsObject.
+    def enterQlsObject(self, ctx:QLSParser.QlsObjectContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#qlsObject.
+    def exitQlsObject(self, ctx:QLSParser.QlsObjectContext):
+        pass
+
+
     # Enter a parse tree produced by QLSParser#styleSheet.
     def enterStyleSheet(self, ctx:QLSParser.StyleSheetContext):
         pass
@@ -257,6 +266,15 @@ class QLSListener(ParseTreeListener):
 
     # Exit a parse tree produced by QLSParser#identifier.
     def exitIdentifier(self, ctx:QLSParser.IdentifierContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#filename.
+    def enterFilename(self, ctx:QLSParser.FilenameContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#filename.
+    def exitFilename(self, ctx:QLSParser.FilenameContext):
         pass
 
 

@@ -1,6 +1,6 @@
-from util.multimethods import multimethod
 from pyql.ast.expression.expressions import *
 from util import errors
+from util.multimethods import multimethod
 
 
 class ExpressionEvaluator:

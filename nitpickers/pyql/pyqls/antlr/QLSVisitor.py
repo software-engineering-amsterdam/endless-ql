@@ -9,6 +9,11 @@ else:
 
 class QLSVisitor(ParseTreeVisitor):
 
+    # Visit a parse tree produced by QLSParser#qlsObject.
+    def visitQlsObject(self, ctx:QLSParser.QlsObjectContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by QLSParser#styleSheet.
     def visitStyleSheet(self, ctx:QLSParser.StyleSheetContext):
         return self.visitChildren(ctx)
@@ -146,6 +151,11 @@ class QLSVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by QLSParser#identifier.
     def visitIdentifier(self, ctx:QLSParser.IdentifierContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLSParser#filename.
+    def visitFilename(self, ctx:QLSParser.FilenameContext):
         return self.visitChildren(ctx)
 
 

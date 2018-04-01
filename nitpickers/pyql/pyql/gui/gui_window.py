@@ -1,8 +1,9 @@
-from pyql.gui.widgets.widgets import *
-from pyql.gui.widgets.widget_factory import WidgetFactory
 from pyql.gui.gui_visitor import GUIVisitor
+from pyql.gui.widgets.widget_factory import WidgetFactory
+from pyql.gui.widgets.widgets import *
 from pyql.static_analysis.symbol_table import SymbolTable
 from util import errors
+from util.message_handler import MessageHandler
 
 
 class GUIWindow(ttk.Frame):
@@ -17,6 +18,14 @@ class GUIWindow(ttk.Frame):
         self._symbol_table = SymbolTable()
         self._gui_visitor = GUIVisitor(self, self._symbol_table)
         self._widget_factory = WidgetFactory()
+
+        errors = MessageHandler().errors
+        if errors:
+            for error in MessageHandler().errors:
+                self.show_error_message(error)
+            return
+        for warning in MessageHandler().warnings:
+            self.show_error_message(warning)
 
         self._statements = {}
         self.load_statements()

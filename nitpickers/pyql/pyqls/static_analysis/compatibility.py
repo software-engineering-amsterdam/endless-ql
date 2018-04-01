@@ -1,15 +1,15 @@
-from util.multimethods import multimethod
-from util import types
-from pyqls.ast.nodes.statement import QuestionStyle
-from pyqls.ast.nodes.stylesheet import StyleSheet
+from pyqls.ast.nodes import widget
 from pyqls.ast.nodes.block import Block
 from pyqls.ast.nodes.page import Page
 from pyqls.ast.nodes.section import Section
 from pyqls.ast.nodes.statement import Default
-from pyqls.ast.nodes import widget
+from pyqls.ast.nodes.statement import QuestionStyle
+from pyqls.ast.nodes.stylesheet import StyleSheet
+from util import types
 from util.ast import ASTNode
-from util.message_handler import MessageHandler
 from util.message import Error
+from util.message_handler import MessageHandler
+from util.multimethods import multimethod
 
 
 class CompatibilityTypesWidget:
@@ -25,9 +25,10 @@ class CompatibilityTypesWidget:
         widget_type = question_style.widget.type
         question = self._questions[question_style.identifier]
         if not self._compatible(widget_type, question.question_type):
-            MessageHandler().add(Error("{0} widget is not compatible with question type {1} for question {2}".format(widget_type,
-                                                                                                                     question.question_type,
-                                                                                                                     question.identifier)))
+            MessageHandler().add(
+                Error("{0} widget is not compatible with question type {1} for question {2}".format(widget_type,
+                                                                                                    question.question_type,
+                                                                                                    question.identifier)))
 
     @multimethod(Default)
     def visit(self, default):

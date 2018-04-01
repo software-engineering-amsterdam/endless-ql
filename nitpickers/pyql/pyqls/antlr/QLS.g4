@@ -4,6 +4,8 @@ grammar QLS;
  * Parser rules
  */
 
+qlsObject           : 'QL:' filename styleSheet ;
+
 styleSheet          : 'stylesheet' identifier '{' styleSheetBlock '}' ;
 
 styleSheetBlock     : styleSheetStatement+ ;
@@ -49,6 +51,8 @@ questionType        : 'boolean' #booleanType
                     ;
 
 identifier          : IDENTIFIER ;
+
+filename            : STRING ;
 
 /*
  * Lexer rules

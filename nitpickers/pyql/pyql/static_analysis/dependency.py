@@ -1,12 +1,13 @@
-from util.multimethods import multimethod
-from pyql.ast.form.form import *
+from collections import defaultdict
+
+from pyql.ast.expression.expressions import *
 from pyql.ast.form.block import *
+from pyql.ast.form.form import *
 from pyql.ast.form.ql_statements import *
+from pyql.static_analysis.symbol_table import SymbolTable
 from util import message
 from util.message_handler import MessageHandler
-from pyql.static_analysis.symbol_table import SymbolTable
-from pyql.ast.expression.expressions import *
-from collections import defaultdict
+from util.multimethods import multimethod
 
 
 class VariableDependenciesChecker:

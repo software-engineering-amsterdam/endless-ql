@@ -1,8 +1,8 @@
-from pyql.static_analysis.duplication import CheckDuplicatedQuestions
+from pyql.static_analysis.dependency import CyclicDependenciesChecker
 from pyql.static_analysis.dependency import VariableDependenciesChecker
 from pyql.static_analysis.division_by_zero import CheckDivisionByZero
+from pyql.static_analysis.duplication import CheckDuplicatedQuestions
 from util.message_handler import MessageHandler
-from pyql.static_analysis.dependency import CyclicDependenciesChecker
 
 
 class StaticChecker:

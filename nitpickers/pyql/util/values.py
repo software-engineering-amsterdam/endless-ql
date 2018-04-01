@@ -1,8 +1,9 @@
-from util import types
-from decimal import Decimal, InvalidOperation
-from util.multimethods import multimethod
-from util import errors
 import math
+from decimal import Decimal, InvalidOperation
+
+from util import errors
+from util import types
+from util.multimethods import multimethod
 
 
 class Value:

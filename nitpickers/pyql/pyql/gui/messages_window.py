@@ -14,6 +14,5 @@ class MessageWindow(ttk.Frame):
             self.show_error_message(message)
 
     def show_error_message(self, message):
-        message = "ERROR:", message
         label = ttk.Label(self, text=message, foreground='red')
         label.grid(padx=5, pady=20)

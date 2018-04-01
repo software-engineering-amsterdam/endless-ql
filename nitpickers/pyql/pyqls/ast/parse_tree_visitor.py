@@ -1,16 +1,20 @@
 from pyqls.antlr.QLSParser import QLSParser
 from pyqls.antlr.QLSVisitor import QLSVisitor
-from pyqls.ast.nodes.stylesheet import *
 from pyqls.ast.nodes.block import *
 from pyqls.ast.nodes.page import *
+from pyqls.ast.nodes.qls_object import QLSObject
 from pyqls.ast.nodes.section import *
 from pyqls.ast.nodes.statement import *
+from pyqls.ast.nodes.stylesheet import *
 from pyqls.ast.nodes.widget import *
 from util.code_location import CodeLocation
 from util.types import *
 
 
 class ParseTreeVisitor(QLSVisitor):
+
+    def visitQlsObject(self, ctx: QLSParser.QlsObjectContext):
+        return QLSObject(self.location(ctx), ctx.styleSheet().accept(self), ctx.filename().accept(self))
 
     def visitStyleSheet(self, ctx: QLSParser.StyleSheetContext):
         return StyleSheet(self.location(ctx), ctx.identifier().accept(self), ctx.styleSheetBlock().accept(self))
@@ -95,6 +99,9 @@ class ParseTreeVisitor(QLSVisitor):
 
     def visitIdentifier(self, ctx: QLSParser.IdentifierContext):
         return ctx.getText()
+
+    def visitFilename(self, ctx: QLSParser.FilenameContext):
+        return ctx.getText()[1:-1]
 
     def location(self, context):
         return CodeLocation(context.start.line, context.start.column)

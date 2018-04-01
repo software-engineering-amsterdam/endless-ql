@@ -1,5 +1,5 @@
-from util.ast import ASTNode
 from util import code_location
+from util.ast import ASTNode
 
 
 class Expression(ASTNode):

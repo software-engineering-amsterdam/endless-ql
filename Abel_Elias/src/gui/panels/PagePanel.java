@@ -9,11 +9,9 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class PagePanel extends JPanel {
-    private String key;
     private Page page;
 
     public PagePanel(String key, Page page) {
-        this.key = key;
         this.page = page;
 
         //Set header and border
@@ -23,7 +21,6 @@ public class PagePanel extends JPanel {
         border.setBorder(lineBorder);
         this.setBorder(border);
     }
-
 
     public Page getPage() {
         return page;

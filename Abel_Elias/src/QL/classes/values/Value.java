@@ -1,7 +1,5 @@
 package QL.classes.values;
 
-import QL.classes.CodeBlock;
-
 import java.util.Observable;
 
 public abstract class Value <T extends Object> extends Observable{

@@ -97,7 +97,11 @@ public class ExpressionVisitor extends QLBaseVisitor {
             case "*":
                 return left * right;
             case "/":
-                return left / right;
+                if(right != 0.0){
+                    return left / right;
+                }else{
+                    return 0.0;
+                }
             case "^":
                 return Math.pow(left,right);
             case "%":

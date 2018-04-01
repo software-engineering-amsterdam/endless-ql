@@ -1,7 +1,5 @@
 package QLS.classes;
 
-import QL.classes.Block;
-
 import java.util.List;
 
 public class Stylesheet {

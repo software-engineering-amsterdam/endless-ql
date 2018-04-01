@@ -1,18 +1,8 @@
 package QLS.parsing.visitors;
 import QL.classes.Question;
-import QLS.classes.Page;
-import QLS.classes.blocks.Block;
 import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Section;
 import QLS.classes.blocks.StyledQuestion;
-import QLS.classes.widgets.CheckBoxWidget;
-import QLS.classes.widgets.DropdownWidget;
-import QLS.classes.widgets.RadioWidget;
-import QLS.classes.widgets.SliderWidget;
-import QLS.classes.widgets.SpinBoxWidget;
-import QLS.classes.widgets.TextWidget;
-import QLS.classes.widgets.Widget;
-import QLS.classes.widgets.WidgetType;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
 
@@ -22,7 +12,6 @@ import java.util.List;
 
 public class BlockVisitor extends QLSBaseVisitor {
 
-    private WidgetVisitor widgetVisitor;
     private final LinkedHashMap<String, Section> sections;
     private final LinkedHashMap<String, StyledQuestion> styledQuestions;
     private LinkedHashMap<String, Question> questions;
@@ -30,7 +19,6 @@ public class BlockVisitor extends QLSBaseVisitor {
     private String currentParentId;
 
     public BlockVisitor(LinkedHashMap<String, Question> questions) {
-        this.widgetVisitor = new WidgetVisitor();
         this.parents = new LinkedHashMap<>();
         this.sections = new LinkedHashMap<>();
         this.styledQuestions = new LinkedHashMap<>();
@@ -61,18 +49,16 @@ public class BlockVisitor extends QLSBaseVisitor {
         return section;
     }
 
+    //TODO: Write code for visitQuestion()
     @Override
     public StyledQuestion visitQuestion(QLSParser.QuestionContext ctx) {
-        String id = ctx.IDENTIFIER().getText();
+//        String id = ctx.IDENTIFIER().getText();
+//        //Widget widget = widgetVisitor.visitWidget(ctx.widget());
+//        StyledQuestion question = new StyledQuestion(id, widget, questions.get(id), currentParentId);
+//        styledQuestions.put(id, question);
+//        return question;
 
-        WidgetType widget = null;
-        if(ctx.widget() != null){
-            widget = widgetVisitor.visitWidget(ctx.widget());
-        }
-
-        StyledQuestion question = new StyledQuestion(id, widget, questions.get(id), currentParentId);
-        styledQuestions.put(id, question);
-        return question;
+        return null;
     }
 
     public LinkedHashMap<String,Section> getSections() {

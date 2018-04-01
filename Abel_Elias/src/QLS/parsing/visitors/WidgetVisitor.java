@@ -30,6 +30,7 @@ public class WidgetVisitor extends QLSBaseVisitor {
 
     @Override
     public CheckBoxWidget visitCheckboxWidget(QLSParser.CheckboxWidgetContext ctx) {
+
         return new CheckBoxWidget((BooleanValue) currentValue);
     }
 
@@ -67,9 +68,9 @@ public class WidgetVisitor extends QLSBaseVisitor {
         return new DropDownWidget((StringValue) currentValue, options.toArray());
     }
 
-    @Override
-    public Object visitWidgetStyle(QLSParser.WidgetStyleContext ctx) {
-        //TODO
-        return super.visitWidgetStyle(ctx);
-    }
+//    @Override
+//    public Object visitWidgetStyle(QLSParser.WidgetStyleContext ctx) {
+//        //TODO
+//        return super.visitWidgetStyle(ctx);
+//    }
 }

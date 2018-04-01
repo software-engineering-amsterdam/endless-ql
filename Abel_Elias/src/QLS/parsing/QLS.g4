@@ -19,7 +19,7 @@ question : QUESTION IDENTIFIER widget?
          | QUESTION IDENTIFIER style?
          ;
 
-defaultWidget : DEFAULT type (widget | widgetStyle) NEWLINE*;
+defaultWidget : DEFAULT type (widget | style) NEWLINE*;
 
 widget : WIDGET widgetType;
 
@@ -38,11 +38,8 @@ spinboxWidget : SPINBOX;
 sliderWidget : SLIDER;
 dropdownWidget : DROPDOWN dropDownList;
 
+style : CURLY_BRACE_L widgetProperty+ CURLY_BRACE_R;
 dropDownList: BRACKET_L ((STR COMMA)* (STR)?) BRACKET_R;
-
-widgetStyle: CURLY_BRACE_L widgetProperty+ widget? CURLY_BRACE_R;
-
-style : IDENTIFIER COLON value;
 
 type : BOOLEANTYPE   #booltype
      | STRINGTYPE    #stringtype

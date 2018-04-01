@@ -5,6 +5,8 @@ import QLS.classes.Page;
 import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Section;
 import QLS.classes.blocks.StyledQuestion;
+import QLS.classes.properties.ColorProperty;
+import QLS.classes.properties.Property;
 import QLS.parsing.visitors.StylesheetVisitor;
 import gui.panels.PagePanel;
 import gui.panels.QuestionPanel;
@@ -76,7 +78,10 @@ public class QLSBuilder implements Observer {
             styledQuestion.getQuestion().getValue().addObserver(this);
         }
         QuestionPanel questionPanel = new QuestionPanel(styledQuestion.getQuestion(), styledQuestion.getWidget());
-
+        for(Property property : styledQuestion.getProperties()) {
+            if(property != null)
+                property.applyProperty(questionPanel);
+        }
 
         questionPanels.add(questionPanel);
         return questionPanel;

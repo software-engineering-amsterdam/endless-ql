@@ -175,7 +175,7 @@ class Addition:
 
     @multimethod([(MoneyValue, MoneyValue)])
     def evaluate(self, left, right):
-        return DecimalValue(left.value + right.value)
+        return MoneyValue(left.value + right.value)
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
@@ -194,7 +194,7 @@ class Subtraction:
 
     @multimethod([(MoneyValue, MoneyValue)])
     def evaluate(self, left, right):
-        return DecimalValue(left.value - right.value)
+        return MoneyValue(left.value - right.value)
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
@@ -236,7 +236,7 @@ class Division:
     @multimethod(
         [(MoneyValue, IntegerValue), (MoneyValue, DecimalValue)])
     def evaluate(self, left, right):
-        return DecimalValue(left.value / right.value)
+        return MoneyValue(left.value / right.value)
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
@@ -332,4 +332,4 @@ class Invert:
                   (DecimalValue, DecimalValue),
                   (MoneyValue, MoneyValue)])
     def evaluate(self, expression):
-        return Subtraction().evaluate(IntegerValue(0), expression.value)
+        return Multiplication().evaluate(IntegerValue(-1), expression.value)

@@ -170,7 +170,6 @@ class Literal(Expression):
     def __init__(self, location, value):
         super().__init__(location)
         self._value = value
-        self._type = type
 
     @property
     def value(self):

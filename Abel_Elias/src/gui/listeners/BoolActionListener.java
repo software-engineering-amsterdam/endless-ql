@@ -1,9 +1,6 @@
 package gui.listeners;
 
 import QL.classes.values.BooleanValue;
-import QL.classes.values.Value;
-import gui.GUIBuilder;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +21,8 @@ public class BoolActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("bln");
+
         if (checkBox.isSelected()) {
             value.setValue(true);
         } else {

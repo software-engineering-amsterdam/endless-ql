@@ -1,13 +1,9 @@
 package gui;
 
 import QL.classes.Question;
-import QL.classes.values.BooleanValue;
-import QL.classes.values.DateValue;
-import QL.classes.values.StringValue;
-import QL.classes.values.Value;
+import QL.classes.values.*;
 import QL.parsing.visitors.FormVisitor;
 import gui.panels.QuestionPanel;
-import gui.listeners.QuestionValueListener;
 import gui.widgets.CheckBoxWidget;
 import gui.widgets.DateWidget;
 import gui.widgets.TextWidget;
@@ -16,13 +12,11 @@ import java.awt.*;
 import java.util.*;
 
 public class QLBuilder implements Observer {
-
-    private JPanel mainListPanel;
+    private JPanel mainPanel;
 
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor;
-    private QuestionValueListener questionValueListener;
 
     public LinkedHashMap<String, QuestionPanel> getQuestionPanelHashMap() {
         return questionPanelHashMap;
@@ -30,13 +24,12 @@ public class QLBuilder implements Observer {
 
     public LinkedHashMap<String, Question> getQuestionHashMap() {
         return questionHashMap;
-
     }
 
     public QLBuilder(FormVisitor coreVisitor) {
-        questionHashMap = coreVisitor.getQuestions();
-        this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
         this.coreVisitor = coreVisitor;
+        this.questionHashMap = coreVisitor.getQuestions();
+        this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
     }
 
     /**
@@ -45,7 +38,6 @@ public class QLBuilder implements Observer {
      * the question it's controls through iteration
      */
     public void initQuestionPanels() {
-
         //Iterate over the questions that were passed
         Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
         while (entries.hasNext()) {
@@ -57,11 +49,10 @@ public class QLBuilder implements Observer {
         }
     }
 
-    public JPanel createMainListPanel(QuestionValueListener questionValueListener) {
-        this.mainListPanel = new JPanel(new GridBagLayout());
-        this.questionValueListener = questionValueListener;
+    public JPanel createMainListPanel() {
+        this.mainPanel = new JPanel(new GridBagLayout());
         initQuestionPanels();
-        return mainListPanel;
+        return mainPanel;
     }
 
     /**
@@ -87,25 +78,17 @@ public class QLBuilder implements Observer {
             case Value.BOOLEAN:
                 qPanel = new QuestionPanel(question, new CheckBoxWidget((BooleanValue) value));
                 break;
-            case Value.DECIMAL:
-                // add panel for decimals
-                break;
-            case Value.MONEY:
-                // add panel for decimals
-                break;
             case Value.DATE:
                 qPanel = new QuestionPanel(question, new DateWidget((DateValue) value));
                 break;
+            case Value.DECIMAL:
+            case Value.MONEY:
             case Value.INTEGER:
-                // add panel for integers
-                break;
-            default:
-                // default case
+                qPanel = new QuestionPanel(question, new TextWidget((NumericValue) value));
                 break;
         }
 
         questionPanelHashMap.put(question.getId(), qPanel);
-
         //add the questionpanel to a map containing active questionpanels
         addQuestionToPanel(qPanel, getQuestionConstraints());
     }
@@ -122,55 +105,22 @@ public class QLBuilder implements Observer {
         return gbc;
     }
 
-
-    /**
-     * update() method
-     * builds the list panel
-     *
-     * @param key       key identifier of panel
-     * @param value     the value passed
-     */
-    public void update(String key, Value value) {
-        // Update the question itself
-        updateQuestion(key, value);
-        // Change visibilities en values of the questions in the AST
-        coreVisitor.update();
-        // Update the GUI
-        updateGUI();
-    }
-
-    private void updateQuestion(String key, Value value) {
-        // Set the value in the questionHashMap
-        questionHashMap.get(key).setValue(value);
-        if(value.isDefined()) {
-            // Set the question on the questionPanelHashMap
-            questionPanelHashMap.get(key).refresh();
-
-        }
-    }
-
     /**
      * updateGUI() method
      * Updates the GUI
      */
     private void updateGUI() {
         //Iterate over the total question hashmap
-        Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry<String, Question> entry = entries.next();
-            Question question = entry.getValue();
-            if (question.isVisible()) {
-                questionPanelHashMap.get(entry.getKey()).setVisible(true);
-                if (question.isFixed()) {
-                    questionPanelHashMap.get(entry.getKey()).refresh();
+        for (QuestionPanel q : questionPanelHashMap.values()) {
+            if (q.getQuestion().isVisible()) {
+                q.setVisible(true);
+                if (q.getQuestion().isFixed()) {
+                    q.refresh();
                 }
             } else {
-                if (questionPanelHashMap.get(entry.getKey()) != null)
-                questionPanelHashMap.get(entry.getKey()).setVisible(false);
+                q.setVisible(false);
             }
         }
-        mainListPanel.revalidate();
-        mainListPanel.repaint();
     }
 
     /**
@@ -181,12 +131,15 @@ public class QLBuilder implements Observer {
      * @param gbc           The constraints
      */
     private void addQuestionToPanel(QuestionPanel questionPanel, GridBagConstraints gbc) {
-        mainListPanel.add(questionPanel, gbc);
+        mainPanel.add(questionPanel, gbc);
     }
 
     @Override
     public void update(Observable o, Object arg) {
         this.coreVisitor.update();
         this.updateGUI();
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 }

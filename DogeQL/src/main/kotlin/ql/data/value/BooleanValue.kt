@@ -1,6 +1,6 @@
 package ql.data.value
 
-import ql.data.question.SymbolType
+import ql.data.symbol.SymbolType
 
 class BooleanValue(var value: Boolean) : BaseSymbolValue(SymbolType.BOOLEAN) {
 

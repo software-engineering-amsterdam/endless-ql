@@ -1,6 +1,6 @@
 package ql.data.value
 
-import ql.data.question.SymbolType
+import ql.data.symbol.SymbolType
 import java.time.LocalDate
 
 class DateValue(var value: LocalDate) : BaseSymbolValue(SymbolType.DATE) {

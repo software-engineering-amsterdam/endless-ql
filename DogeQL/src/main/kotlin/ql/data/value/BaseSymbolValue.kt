@@ -1,6 +1,6 @@
 package ql.data.value
 
-import ql.data.question.SymbolType
+import ql.data.symbol.SymbolType
 import javax.naming.OperationNotSupportedException
 
 abstract class BaseSymbolValue(val type: SymbolType) : Comparable<BaseSymbolValue> {

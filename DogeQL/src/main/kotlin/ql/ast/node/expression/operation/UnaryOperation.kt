@@ -1,6 +1,6 @@
 package ql.ast.node.expression.operation
 
-import ql.data.question.SymbolType
+import ql.data.symbol.SymbolType
 import ql.data.value.BaseSymbolValue
 import javax.naming.OperationNotSupportedException
 

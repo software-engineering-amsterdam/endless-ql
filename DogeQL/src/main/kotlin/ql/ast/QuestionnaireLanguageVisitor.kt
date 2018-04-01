@@ -9,7 +9,7 @@ import ql.ast.node.expression.*
 import ql.ast.node.expression.operation.BinaryOperation
 import ql.ast.node.expression.operation.UnaryOperation
 import ql.common.location
-import ql.data.question.SymbolType
+import ql.data.symbol.SymbolType
 import ql.data.value.*
 
 

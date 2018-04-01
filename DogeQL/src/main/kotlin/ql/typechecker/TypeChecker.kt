@@ -12,7 +12,7 @@ import ql.typechecker.scope.ScopeVisitor
 import ql.typechecker.type.TypeErrorContext
 import ql.typechecker.type.TypeVisitor
 
-class TypeChecker(private val fileName: String, private val symbolTable: SymbolTable, private val root: QLNode) {
+class TypeChecker(private val symbolTable: SymbolTable, private val root: QLNode) {
 
     fun check(): MutableList<String> {
         val allErrors = mutableListOf<String>()

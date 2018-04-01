@@ -12,7 +12,7 @@ import ql.ast.node.expression.UnaryExpression
 import ql.visitor.QuestionnaireASTBaseVisitor
 import java.util.*
 
-class ScopeVisitor(val context: ScopeErrorContext) : QuestionnaireASTBaseVisitor<Unit> {
+class ScopeVisitor(private val context: ScopeErrorContext) : QuestionnaireASTBaseVisitor<Unit> {
 
     private val definitions = ArrayDeque<Identifier>()
     private val references = ArrayDeque<Identifier>()

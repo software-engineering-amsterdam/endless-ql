@@ -1,6 +1,6 @@
 package ui.model
 
-import ql.data.question.SymbolType
+import ql.data.symbol.SymbolType
 import ui.model.domain.Question
 
 class ViewModelFactory {

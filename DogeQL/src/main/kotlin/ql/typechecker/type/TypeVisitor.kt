@@ -9,8 +9,8 @@ import ql.ast.node.expression.BinaryExpression
 import ql.ast.node.expression.LiteralExpression
 import ql.ast.node.expression.ReferenceExpression
 import ql.ast.node.expression.UnaryExpression
-import ql.data.question.SymbolType
 import ql.data.symbol.SymbolRegistrationResult
+import ql.data.symbol.SymbolType
 import ql.data.value.BaseSymbolValue
 import ql.visitor.QuestionnaireASTBaseVisitor
 

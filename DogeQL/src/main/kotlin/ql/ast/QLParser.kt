@@ -30,7 +30,7 @@ class DogeParser {
             val ast = visitor.visit(parser.form())
 
             val symbolTable = SymbolTable()
-            errors = TypeChecker(fileName, symbolTable, ast).check()
+            errors = TypeChecker(symbolTable, ast).check()
 
 
             if (errors.isEmpty()) {

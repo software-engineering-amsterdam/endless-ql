@@ -1,6 +1,6 @@
 package ql.data.value
 
-import ql.data.question.SymbolType
+import ql.data.symbol.SymbolType
 import java.math.BigDecimal
 
 open class DecimalValue(var value: BigDecimal) : BaseSymbolValue(SymbolType.DECIMAL) {

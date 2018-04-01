@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DelegateCommand.cs" />
     <Compile Include="Models\ModelWrapperBase.cs" />
     <Compile Include="Models\Observable.cs" />
     <Compile Include="Models\QuestionnaireWrapper.cs" />

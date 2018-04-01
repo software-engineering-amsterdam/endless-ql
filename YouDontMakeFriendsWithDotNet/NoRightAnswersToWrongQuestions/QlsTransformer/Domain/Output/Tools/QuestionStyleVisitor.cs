@@ -103,7 +103,6 @@ namespace QlsTransformer.Domain.Output.Tools
 
         private Style GetStyleDefaultForType(Type questionType)
         {
-            //ToDo: replace with polymorphism!
             if (questionType == typeof(int))
             {
                 return m_integerStyle.PeekStyle();
@@ -125,7 +124,7 @@ namespace QlsTransformer.Domain.Output.Tools
                 return m_dateStyle.PeekStyle();
             }
 
-            throw new ApplicationException("Unknown type");
+            throw new ArgumentException(nameof(questionType),$"unknown");
         }
 
         private void UpdateDefaults(IStyleSheetCompartment compartment)

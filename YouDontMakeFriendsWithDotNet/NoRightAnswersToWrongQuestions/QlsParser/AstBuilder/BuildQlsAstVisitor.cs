@@ -59,7 +59,7 @@ namespace QlsParser.AstBuilder
                 case "date": return typeof(DateTime);
                 case "boolean": return typeof(bool);
                 case "string": return typeof(string);
-                default: throw new ApplicationException("unknown Type");
+                default: throw new ArgumentException(nameof(typeString),$"UnknownType {typeString}");
             }
         }
         
@@ -99,7 +99,7 @@ namespace QlsParser.AstBuilder
                 .FirstOrDefault(x => x.fontname != null)
                 ?.fontname
                 .Text
-                .Replace("\"", ""); ;
+                .Replace("\"", "");
         }
 
         private decimal? GetFontSize(QlsGrammar.QlsParser.StyleContext context)

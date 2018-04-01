@@ -11,9 +11,14 @@ import ql.ast.expressions.literals.StringLiteral;
 import ql.ast.statements.*;
 import ql.typechecker.messages.Messages;
 import ql.typechecker.messages.error.DuplicateDeclaration;
+import ql.typechecker.messages.error.InvalidOperandsTypeToOperator;
 import ql.typechecker.messages.error.TypeMismatch;
+import ql.typechecker.messages.error.UndefinedReference;
 import ql.typechecker.messages.warning.DuplicateLabel;
-import ql.types.Type;
+import ql.types.*;
+import ql.types.Boolean;
+import ql.types.Integer;
+import ql.types.String;
 import ql.visitors.ExpressionVisitor;
 import ql.visitors.FormVisitor;
 import ql.visitors.StatementVisitor;
@@ -21,12 +26,12 @@ import ql.visitors.StatementVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionVisitor implements FormVisitor, StatementVisitor<Void>, ExpressionVisitor<Type> {
+public class TypeChecker implements FormVisitor, StatementVisitor<Void>, ExpressionVisitor<Type> {
     private final Messages messages;
-    private final List<String> questionLabels;
+    private final List<java.lang.String> questionLabels;
     private final DeclarationTable declarations;
 
-    public QuestionVisitor(Messages messages) {
+    public TypeChecker(Messages messages) {
         this.messages = messages;
         this.questionLabels = new ArrayList<>();
         this.declarations = new DeclarationTable();
@@ -108,86 +113,126 @@ public class QuestionVisitor implements FormVisitor, StatementVisitor<Void>, Exp
 
     @Override
     public Type visit(Addition addition) {
-        return null;
+        return checkBinaryExpression(addition, "Addition");
     }
 
     @Override
     public Type visit(Division division) {
-        return null;
+        return checkBinaryExpression(division, "Division");
     }
 
     @Override
     public Type visit(Equal equal) {
-        return null;
+        checkBinaryExpression(equal, "Equal");
+        return new Boolean(0, "boolean");
     }
 
     @Override
     public Type visit(GreaterThan greaterThan) {
-        return null;
+        checkBinaryExpression(greaterThan, "GreaterThan");
+        return new Boolean(0, "boolean");
     }
 
     @Override
     public Type visit(GreaterThanOrEqual greaterThanOrEqual) {
-        return null;
+        checkBinaryExpression(greaterThanOrEqual, "GreaterThanOrEqual");
+        return new Boolean(0, "boolean");
     }
 
     @Override
     public Type visit(LessThan lessThan) {
-        return null;
+        checkBinaryExpression(lessThan, "LessThan");
+        return new Boolean(0, "boolean");
     }
 
     @Override
     public Type visit(LessThanOrEqual lessThanOrEqual) {
-        return null;
+        checkBinaryExpression(lessThanOrEqual, "LessThanOrEqual");
+        return new Boolean(0, "boolean");
     }
 
     @Override
     public Type visit(LogicalAnd logicalAnd) {
-        return null;
+        return checkLogicalExpression(logicalAnd);
     }
 
     @Override
     public Type visit(LogicalOr logicalOr) {
-        return null;
+        return checkLogicalExpression(logicalOr);
     }
 
     @Override
     public Type visit(Multiplication multiplication) {
-        return null;
+        return checkBinaryExpression(multiplication, "Multiplication");
     }
 
     @Override
     public Type visit(NotEqual notEqual) {
-        return null;
+        checkBinaryExpression(notEqual, "NotEqual");
+        return new Boolean(0, "boolean");
     }
 
     @Override
     public Type visit(Subtraction subtraction) {
-        return null;
+        return checkBinaryExpression(subtraction, "Subtraction");
     }
 
     @Override
     public Type visit(Identifier identifier) {
-        return null;
+        if (declarations.exists(identifier)) {
+            return declarations.find(identifier);
+        }
+
+        messages.addError(new UndefinedReference(identifier.getLineNumber(), identifier.toString()));
+        return new Unknown();
     }
 
     @Override
     public Type visit(BooleanLiteral booleanLiteral) {
-        return null;
+        return new Boolean(0, "boolean");
     }
 
     @Override
     public Type visit(IntegerLiteral integerLiteral) {
-        return null;
+        return new Integer(0, "integer");
     }
 
     @Override
     public Type visit(StringLiteral stringLiteral) {
-        return null;
+        return new String(0,"string");
     }
 
     @Override
     public Type visit(GroupExpression groupExpression) {
-        return null;
+        return groupExpression.getExpression().accept(this);
+    }
+
+    private Type checkBinaryExpression(Binary expression, java.lang.String operationName) {
+        Type leftType = expression.getLeftExpression().accept(this);
+        Type rightType = expression.getRightExpression().accept(this);
+
+        if (leftType.toString().equals(rightType.toString())) {
+            return leftType;
+        }
+
+        messages.addError(new InvalidOperandsTypeToOperator(expression.getLineNumber(), operationName));
+        return new Unknown();
+    }
+
+    private Type checkLogicalExpression(Binary expression) {
+        Type leftType = expression.getLeftExpression().accept(this);
+        Type rightType = expression.getRightExpression().accept(this);
+
+        if (!leftType.isBoolean()) {
+            messages.addError(new TypeMismatch(expression.getLineNumber(), leftType.toString()));
+            return new Unknown();
+        }
+
+        if (!rightType.isBoolean()) {
+            messages.addError(new TypeMismatch(expression.getLineNumber(), rightType.toString()));
+            return new Unknown();
+        }
+
+        return new Boolean(0, "boolean");
     }
 }

@@ -33,6 +33,7 @@ public class Main {
             QLParser.FormContext form = new TreeBuilder().build(inputStream);
             Checks.checkForm(form);
             FormVisitor coreVisitor = new FormVisitor().visitForm(form);
+
             //Pass the relevant questions to the UI builder
             GUIBuilder GUIBuilder = new GUIBuilder(coreVisitor);
         } catch (IOException e) {
@@ -47,17 +48,17 @@ public class Main {
     private void parseAndBuildQLS() {
         try {
             // QL
-            FileInputStream qlInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\resources\\QL\\formQl.ql");
+            FileInputStream qlInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\src\\resources\\QL\\formQl.ql");
             QLParser.FormContext form = new TreeBuilder().build(qlInputStream);
             FormVisitor coreVisitor = new FormVisitor().visitForm(form);
 
             // QLS
-//            FileInputStream qlsInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\resources\\QLS\\exampleForm5.qls");
-//            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
-//            StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
-//            stylesheetVisitor.visitStylesheet(stylesheetContext);
-//            new GUIBuilder(coreVisitor, stylesheetVisitor);
+            FileInputStream qlsInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\src\\resources\\QLS\\exampleForm5.qls");
+            QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
+            StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
+            stylesheetVisitor.visitStylesheet(stylesheetContext);
 
+            new GUIBuilder(coreVisitor, stylesheetVisitor);
         } catch (IOException e) {
             e.printStackTrace();
         }

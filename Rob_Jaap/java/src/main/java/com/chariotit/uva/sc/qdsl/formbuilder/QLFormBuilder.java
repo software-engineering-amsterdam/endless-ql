@@ -10,6 +10,8 @@ import com.chariotit.uva.sc.qdsl.ast.ql.type.StringExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.EvaluateVisitor;
 
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Page;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.Section;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.SectionElement;
 import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
 
 import javax.swing.*;
@@ -113,6 +115,19 @@ public class QLFormBuilder {
     private void renderQuestions(Stylesheet stylesheet) {
         for (Page page : stylesheet.getPages()) {
             System.out.println("We have a page here " + page.getLabel());
+            renderPage(page);
+        }
+    }
+
+    private void renderPage(Page page){
+        for (Section section: page.getSections()) {
+            renderSection(section);
+        }
+    }
+
+    private void renderSection(Section section){
+        for (SectionElement element: section.getElements()) {
+            System.out.println("rendering element " + element.getSourceFilePosition());
         }
     }
 

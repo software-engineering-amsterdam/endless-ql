@@ -21,8 +21,6 @@ public class BoolActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("bln");
-
         if (checkBox.isSelected()) {
             value.setValue(true);
         } else {

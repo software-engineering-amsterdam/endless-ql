@@ -34,7 +34,6 @@ namespace QLS.UnitTests.ParserTests
         [TearDown]
         public void Cleanup()
         {
-            //ToDo: this is a hack, should fix lifetime of service (possibly)
             var registry = m_serviceProvider.GetService<IDomainItemRegistry>();
             registry.Nuke();
         }

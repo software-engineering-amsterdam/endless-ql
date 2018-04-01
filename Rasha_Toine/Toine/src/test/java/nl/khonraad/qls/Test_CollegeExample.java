@@ -10,16 +10,18 @@ import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
 import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
 import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
-import nl.khonraad.qls.ast.data.Styles;
+import nl.khonraad.qls.ast.data.Design;
+import nl.khonraad.qls.ast.data.StyleElements;
 
 public class Test_CollegeExample {
 
     @Rule
     public WeldInitiator weld = WeldInitiator.from( 
             SourcePathProvider.class, 
-            Styles.class,
             QLSAbstractSyntaxTreeBuilder.class,
             ExtendedQLSBaseVisitor.class,
+            Design.class,
+            StyleElements.class,
             LoggerProducer.class 
     ).activate( ApplicationScoped.class ).build();
 

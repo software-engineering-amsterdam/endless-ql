@@ -21,7 +21,7 @@ form taxOfficeExample {
         "How much did you pay for the house?"
           payedPrice: money
         "Is the new house in good conditions?"
-          privateDebt: boolean
+          inGoodConditions: boolean
     }
 
     else{

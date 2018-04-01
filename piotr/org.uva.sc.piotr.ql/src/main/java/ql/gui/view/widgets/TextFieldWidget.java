@@ -6,6 +6,7 @@ import ql.gui.view.Widget;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 
 public class TextFieldWidget extends Widget {
 
@@ -51,5 +52,27 @@ public class TextFieldWidget extends Widget {
     @Override
     public void updateValue() {
         this.textField.setText((String) this.getQuestionModel().getQLDataTypeValue().getValue());
+    }
+
+    @Override
+    public void setWidth(Integer width) {
+        Dimension size = this.textField.getPreferredSize();
+        size.width = width;
+        this.textField.setPreferredSize(size);
+    }
+
+    @Override
+    public void setFont(String font) {
+        this.textField.setFont(new Font(font, Font.PLAIN, this.textField.getFont().getSize()));
+    }
+
+    @Override
+    public void setFontSize(Integer fontSize) {
+        this.textField.setFont(new Font(this.textField.getFont().getName(), Font.PLAIN, fontSize));
+    }
+
+    @Override
+    public void setColor(String color) {
+        this.textField.setBackground(Color.decode(color));
     }
 }

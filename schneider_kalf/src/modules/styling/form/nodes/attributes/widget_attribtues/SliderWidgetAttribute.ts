@@ -11,8 +11,6 @@ export default class SliderWidgetAttribute extends WidgetAttribute {
     }
 
     if (this.options.length !== 2) {
-      console.log("Aa ->");
-      console.log(this.options.length);
       throw ExpectedArgumentsError.make(this.getValue(), 2, this.options.length);
     }
 
@@ -27,7 +25,6 @@ export default class SliderWidgetAttribute extends WidgetAttribute {
     }
   }
 
-  // TODO: find an alternative for getValue? would be nice if it was this.getName()
   getValue(): string {
     return "slider widget";
   }

@@ -39,7 +39,7 @@ questionAssignValue : questionFormat EQUAL LPAREN* expression RPAREN*;
 
 conditionalIf       : IF LPAREN ifCondition RPAREN LBRACE questionTypes+ RBRACE nextCondition*;
 
-conditionalIfElse   : IFELSE LPAREN ifCondition RPAREN LBRACE questionTypes+ RBRACE nextCondition+;
+conditionalIfElse   : IFELSE LPAREN ifCondition RPAREN LBRACE questionTypes+ RBRACE nextCondition*;
 
 conditionalElse     : ELSE LBRACE questionTypes+ RBRACE;
 

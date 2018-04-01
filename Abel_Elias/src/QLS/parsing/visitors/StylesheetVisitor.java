@@ -39,7 +39,6 @@ public class StylesheetVisitor extends QLSBaseVisitor {
     // Node visitor
     @Override
     public Stylesheet visitStylesheet(QLSParser.StylesheetContext ctx) {
-    //  Checks.checkStyleSheet(ctx, this.questionMap);
         String id = ctx.IDENTIFIER().getText();
         List<Page> pages = new ArrayList<>();
 

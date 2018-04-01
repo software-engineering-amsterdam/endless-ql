@@ -111,7 +111,6 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="DataProvider\IQuestionnaireDataProvider.cs" />
     <Compile Include="DataProvider\QuestionnaireDataProvider.cs" />
-    <Compile Include="DelegateCommand.cs" />
     <Compile Include="Views\BooleanToComboConverter.cs" />
     <Compile Include="Views\NegativeConverter.cs" />
     <Compile Include="Views\ObjectToIntegerConverter.cs" />

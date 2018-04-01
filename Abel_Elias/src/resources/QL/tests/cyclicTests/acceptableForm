@@ -1,0 +1,5 @@
+form acceptableForm {
+	first: "First value" integer
+    second: "Value based on first question:" integer first
+	third: "Value based on second question:" integer second
+}

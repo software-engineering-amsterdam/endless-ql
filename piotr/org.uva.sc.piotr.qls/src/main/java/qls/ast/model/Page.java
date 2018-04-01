@@ -3,6 +3,7 @@ package qls.ast.model;
 import qls.ast.visitors.ASTNodeVisitor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Page extends ASTNode {
 
@@ -26,5 +27,13 @@ public class Page extends ASTNode {
 
     public List<BlockElement> getElements() {
         return elements;
+    }
+
+    public List<DefaultDefinition> getDefaultDefinitions() {
+        return this.elements.stream()
+                .filter(item -> item instanceof DefaultDefinition)
+                .map(item -> (DefaultDefinition) item)
+                .collect(Collectors.toList())
+                ;
     }
 }

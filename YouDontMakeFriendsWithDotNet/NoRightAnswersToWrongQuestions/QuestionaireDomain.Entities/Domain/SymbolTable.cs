@@ -88,8 +88,7 @@ namespace QuestionnaireDomain.Entities.Domain
             {
                 return value;
             }
-
-            // ToDo: prevent datatypes that are not string coming through as string
+            
             if (newDataType != typeof(string))
             {
                 throw new ArgumentException(

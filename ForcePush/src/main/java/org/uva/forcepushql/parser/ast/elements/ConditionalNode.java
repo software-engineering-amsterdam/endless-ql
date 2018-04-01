@@ -15,6 +15,7 @@ public class ConditionalNode extends Node
 
     public ConditionalNode()
     {
+        super(false);
         questions = new LinkedList<Node>();
     }
 

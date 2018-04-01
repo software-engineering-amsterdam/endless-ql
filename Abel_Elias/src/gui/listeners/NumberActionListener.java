@@ -37,7 +37,6 @@ public class NumberActionListener implements DocumentListener {
     }
 
     private void actionCalled() {
-        System.out.println("num");
         textField.requestFocus();
         if (!modified) {
             modified = true;

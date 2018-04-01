@@ -21,6 +21,11 @@ public class CheckboxWidget extends Widget {
     }
 
     @Override
+    public String getName() {
+        return "checkbox";
+    }
+
+    @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);
     }

@@ -69,7 +69,6 @@
     <Compile Include="..\QlsGrammar\obj\Debug\QlsVisitor.cs">
       <Link>Generated\QlsVisitor.cs</Link>
     </Compile>
-    <Compile Include="AstBuilder\AstExtensions.cs" />
     <Compile Include="AstBuilder\BuildQlsAstVisitor.cs" />
     <Compile Include="AstBuilder\ParsingErrorListener.cs" />
     <Compile Include="AstBuilder\QlsAstBuilder.cs" />

@@ -52,8 +52,6 @@ namespace QuestionnaireDomain.Entities.Domain
 
         public DomainId<IQuestionnaireRootNode> GetRoot(DomainId<IQuestionNode> node)
         {
-            // ToDo: Hack for now - assuming just one questionnaire, however will have to put parent into astnodes
-            // to do this properly
             return GetAllRefs<IQuestionnaireRootNode>().FirstOrDefault();
         }
     }

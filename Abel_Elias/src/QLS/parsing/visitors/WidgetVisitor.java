@@ -44,32 +44,32 @@ public class WidgetVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Object visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
-        //TODO
-        return super.visitRadioWidget(ctx);
+    public RadioWidget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
+        ArrayList<String> options = new ArrayList<>();
+
+        for(TerminalNode t : ctx.argList().STR()){
+            options.add(t.getText());
+        }
+
+        return new RadioWidget(currentValue, options.toArray());
     }
 
 
     @Override
-    public Object visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
-        //TODO
-        return super.visitSliderWidget(ctx);
+    public SliderWidget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
+        int min = Integer.parseInt(ctx.min.getText());
+        int max = Integer.parseInt(ctx.max.getText());
+        return new SliderWidget((NumericValue) currentValue, min, max);
     }
 
     @Override
     public DropDownWidget visitDropdownWidget(QLSParser.DropdownWidgetContext ctx) {
         ArrayList<String> options = new ArrayList<>();
 
-        for(TerminalNode t : ctx.dropDownList().STR()){
+        for(TerminalNode t : ctx.argList().STR()){
             options.add(t.getText());
         }
 
-        return new DropDownWidget((StringValue) currentValue, options.toArray());
+        return new DropDownWidget(currentValue, options.toArray());
     }
-
-//    @Override
-//    public Object visitWidgetStyle(QLSParser.WidgetStyleContext ctx) {
-//        //TODO
-//        return super.visitWidgetStyle(ctx);
-//    }
 }

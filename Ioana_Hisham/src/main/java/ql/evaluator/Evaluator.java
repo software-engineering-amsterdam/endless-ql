@@ -36,7 +36,10 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
             valueTable.add(calculableQuestion.getIdentifier(),
                     calculableQuestion.getCalculableValue().accept(this));
         }
-        questions.add(calculableQuestion);
+
+        if (!questions.contains(calculableQuestion)) {
+            questions.add(calculableQuestion);
+        }
         return null;
     }
 
@@ -69,7 +72,10 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
         if (!valueTable.exists(question.getIdentifier())) {
             valueTable.add(question.getIdentifier(), new Undefined());
         }
-        questions.add(question);
+
+        if (!questions.contains(question)) {
+            questions.add(question);
+        }
         return null;
     }
     //</editor-fold>
@@ -182,5 +188,9 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    public void clear() {
+        questions.clear();
     }
 }

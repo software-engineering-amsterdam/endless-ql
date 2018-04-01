@@ -1,0 +1,19 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Working"
+      question hasSoldHouse  
+  }
+
+  page AnotherHousing
+  {
+    section "Another Section" 
+    { 
+      section "Yet another section"
+      {
+        question hasSoldSecondHouse  
+      } 
+    }
+  }
+}

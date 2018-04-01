@@ -1,10 +1,14 @@
 package general.validators
 
-import ql.models.ast.{ Statement => QLStatement}
-import qls.models.ast.{ Statement => QLSStatement }
+import ql.models.ast.{Statement => QLStatement}
+import qls.models.ast.{Statement => QLSStatement}
 
-import ql.collectors.{ StatementCollector => StatementCollectorQL, ExpressionCollector }
-import qls.collectors.{ ElementCollector => ElementCollectorQLS }
+import ql.collectors.{
+  StatementCollector => StatementCollectorQL,
+  ExpressionCollector
+}
+
+import qls.collectors.{ElementCollector => ElementCollectorQLS}
 
 import scala.collection.JavaConversions._
 
@@ -15,10 +19,12 @@ object GeneralIdentifierValidator {
     val QLIdentifiers = getQLIdentifiers(ql)
     val QLSIdentifiers = getQLSIdentifier(qls)
 
-    QLSIdentifiers.diff(QLIdentifiers).map(undecl => {
-      val message = s"Question '${undecl} appears in QLS but not in QL"
-      return Some(new UndeclaredQuestionStyling(message))
-    })
+    QLSIdentifiers
+      .diff(QLIdentifiers)
+      .map(undecl => {
+        val message = s"Question '${undecl}' appears in QLS but not in QL"
+        return Some(new UndeclaredQuestionStyling(message))
+      })
     None
   }
 

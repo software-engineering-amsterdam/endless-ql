@@ -13,8 +13,8 @@ case class IntegerComponent(id: String, label: Label, control: Widget[java.math.
 
   override def setValue(value: Option[BigInt]): Unit = control.value(fromOption(value))
 
-  override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).map(convert))
+  override def updateValue(valueStore: mutable.Map[String, Answer]): Unit =
+    setValue(valueStore.get(id).map(convert))
 
   private def fromOption(value: Option[BigInt]): java.math.BigInteger = value.map(_.bigInteger).orNull
 

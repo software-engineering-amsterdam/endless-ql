@@ -9,13 +9,13 @@ object QLFormEvaluator {
 
   type ValueStore = Map[String, Answer]
 
-  def evaluate(qLForm: QLForm, dictionary: ValueStore): ValueStore = {
+  def evaluate(qLForm: QLForm, valueStore: ValueStore): ValueStore = {
     qLForm.symbolTable
       .map {
         case (questionId, symbol) =>
-          val optionalExpression: Option[Expression] = symbol.expression.orElse(dictionary.get(questionId))
+          val optionalExpression: Option[Expression] = symbol.expression.orElse(valueStore.get(questionId))
 
-          val optionalAnswer: Option[Answer] = optionalExpression.flatMap(_.evaluate(qLForm.symbolTable, dictionary))
+          val optionalAnswer: Option[Answer] = optionalExpression.flatMap(_.evaluate(qLForm.symbolTable, valueStore))
 
           questionId -> optionalAnswer
       }

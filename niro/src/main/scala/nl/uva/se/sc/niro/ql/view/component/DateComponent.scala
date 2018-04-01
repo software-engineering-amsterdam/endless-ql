@@ -15,8 +15,8 @@ case class DateComponent(id: String, label: Label, control: Widget[LocalDate])
 
   override def setValue(value: Option[LocalDate]): Unit = control.value(fromOption(value))
 
-  override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).map(convert))
+  override def updateValue(valueStore: mutable.Map[String, Answer]): Unit =
+    setValue(valueStore.get(id).map(convert))
 
   private def fromOption(value: Option[LocalDate]): LocalDate = value.orNull
 

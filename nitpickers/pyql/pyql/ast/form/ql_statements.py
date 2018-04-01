@@ -1,9 +1,9 @@
 from pyql.ast.expression import expressions
 from pyql.ast.form import block
-from pyql.ast.form import statement
+from pyql.ast.form.statement import Statement
 
 
-class Question(statement.Statement):
+class Question(Statement):
 
     def __init__(self, location, identifier, text, question_type):
         super().__init__(location)
@@ -46,7 +46,7 @@ class ComputedQuestion(Question):
         return "AST ComputedQuestion Statement at: " + str(self.location)
 
 
-class If(statement.Statement):
+class If(Statement):
 
     def __init__(self, location, expression: expressions.Expression, block: block.Block):
         super().__init__(location)

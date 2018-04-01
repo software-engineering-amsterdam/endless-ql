@@ -16,7 +16,8 @@ class Type:
     def __repr__(self):
         return self._type_name
 
-    __str__ = __repr__
+    def __str__(self):
+        return self.__repr__()
 
     def __eq__(self, other):
         if not isinstance(other, Type):
@@ -60,13 +61,3 @@ class Money(Type):
 
     def __init__(self):
         super().__init__("Money")
-
-
-if __name__ == "__main__":
-    m = Money()
-    s = String()
-    n = Money()
-    p = Integer()
-    print(m == s)
-    print(n == m)
-    print(p == s)

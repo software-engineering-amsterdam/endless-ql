@@ -1,4 +1,3 @@
-from util import code_location
 from util.ast import ASTNode
 
 
@@ -33,7 +32,7 @@ class UnaryExpression(Expression):
         return self._expression
 
 
-class BinaryExpression(Expression):  # abstract
+class BinaryExpression(Expression):
 
     def __init__(self, location, left, right):
         super().__init__(location)
@@ -185,12 +184,3 @@ class Literal(Expression):
 
     def __add__(self, other):
         pass
-
-
-if __name__ == "__main__":
-    loc = code_location.CodeLocation(2, 3)
-    b = And(2, "left", "right")
-    # c = Not(loc, b)
-    c = "True" == "True"
-    print(c)
-    # print(c)

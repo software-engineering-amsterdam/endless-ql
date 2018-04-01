@@ -6,7 +6,8 @@ class Message:
     def __repr__(self):
         return self._text
 
-    __str__ = __repr__
+    def __str__(self):
+        return self.__repr__()
 
     @property
     def text(self):
@@ -21,8 +22,6 @@ class Warning(Message):
     def __repr__(self):
         return "WARNING " + super().__repr__()
 
-    __str__ = __repr__
-
 
 class Error(Message):
 
@@ -31,9 +30,3 @@ class Error(Message):
 
     def __repr__(self):
         return "ERROR " + super().__str__()
-
-    __str__ = __repr__
-
-
-if __name__ == "__main__":
-    print(Message("HA"))

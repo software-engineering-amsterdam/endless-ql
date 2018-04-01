@@ -70,7 +70,8 @@ class Value:
     def __repr__(self):
         return str(self.value)
 
-    __str__ = __repr__
+    def __str__(self):
+        return self.__repr__()
 
 
 class StringValue(Value):

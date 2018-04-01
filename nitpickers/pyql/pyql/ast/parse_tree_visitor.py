@@ -9,9 +9,6 @@ from util.code_location import CodeLocation
 from util.types import *
 
 
-# TODO check if can get rid of 'if getChildCount() > 1'
-
-
 class ParseTreeVisitor(QLVisitor):
 
     def visitForm(self, ctx: QLParser.FormContext):

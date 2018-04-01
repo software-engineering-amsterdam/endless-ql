@@ -59,7 +59,7 @@ public class QLSGrammarTest {
 
     @Test
     public void testStylesheet() {
-        Stylesheet stylesheet = getStyleSheet("src/resources/QLS/exampleForm5.qls").getStylesheet();
+        Stylesheet stylesheet = getStyleSheet("resources/QLS/miscellaneous/exampleForm5.qls").getStylesheet();
 
         //name of stylesheet
         assertEquals(stylesheet.getId(), "taxOfficeExample");

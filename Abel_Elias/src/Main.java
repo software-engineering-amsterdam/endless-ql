@@ -53,7 +53,7 @@ public class Main {
             FormVisitor coreVisitor = new FormVisitor().visitForm(form);
 
             // QLS
-            FileInputStream qlsInputStream = new FileInputStream("src/resources/QLS/exampleForm5.qls");
+            FileInputStream qlsInputStream = new FileInputStream("resources/QLS/miscellaneous/exampleForm5.qls");
             QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
             stylesheetVisitor.visitStylesheet(stylesheetContext);

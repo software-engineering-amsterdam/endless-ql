@@ -98,7 +98,6 @@ public class QLFormBuilder {
                 question.getComponent().setBounds(labelWidth, currentLine * lineHeight + lineMargin,
                         inputWidth, lineHeight);
 
-
                 currentLine += 1;
             }
         }

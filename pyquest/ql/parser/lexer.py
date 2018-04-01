@@ -106,10 +106,9 @@ class QLLexer:
 
     def t_DATE_LITERAL(self, token):
         r'date\(\s*\d{1,2}\s*,\s*\d{1,2}\s*,\s*\d{1,4}\s*\)'
-        numbers = findall(r'\d\d*', token.value)
 
         try:
-            token.value = numbers
+            token.value = findall(r'\d\d*', token.value)
             return token
         except SyntaxError:
             self.errors.append('Invalid date.')

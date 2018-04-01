@@ -33,7 +33,8 @@ class TestExpressionEvaluation(Test):
             elif result_type == 'QLBoolean':
                 correct_result = QLBoolean()
             elif result_type == 'QLDate':
-                correct_result = QLDate(loads(result_value))
+                day, month, year = loads(result_value)
+                correct_result = QLDate(day, month, year)
             elif result_type == 'QLDecimal':
                 correct_result = QLDecimal(result_value)
             elif result_type == 'QLInteger':

@@ -1,3 +1,5 @@
+from datetime import date
+
 from gui.widgets.calendar import CalendarWidget
 from ql.ast.nodes.expressions.literals.date_node import DateNode
 from ql.types.boolean import QLBoolean
@@ -5,10 +7,12 @@ from ql.types.type import QLType
 
 
 class QLDate(QLType):
-    def __init__(self, date=(1, 1, 2018)):
+    def __init__(self, day=1, month=1, year=1):
         super(QLDate, self).__init__()
-        date = tuple(map(int, date))
-        self.__day, self.__month, self.__year = date
+        self.__day = int(day)
+        self.__month = int(month)
+        self.__year = int(year)
+        date(self.year, self.month, self.day)
 
     @property
     def day(self):

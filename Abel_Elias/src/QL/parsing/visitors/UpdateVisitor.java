@@ -5,13 +5,14 @@ import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class UpdateVisitor extends QLBaseVisitor {
-    public HashMap<String, Question> questionMap;
+    public LinkedHashMap<String, Question> questionMap;
     private ExpressionVisitor expVisitor;
     private boolean isVisible;
 
-    public UpdateVisitor(HashMap<String, Question> questionMap, boolean isVisible){
+    public UpdateVisitor(LinkedHashMap<String, Question> questionMap, boolean isVisible){
         this.questionMap = questionMap;
         this.expVisitor = new ExpressionVisitor(this.questionMap);
         this.isVisible = isVisible;

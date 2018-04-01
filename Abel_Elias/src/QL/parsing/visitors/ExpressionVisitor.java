@@ -6,11 +6,12 @@ import QL.classes.values.Value;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class ExpressionVisitor extends QLBaseVisitor {
-    private HashMap<String, Question> questionMap;
+    private LinkedHashMap<String, Question> questionMap;
 
-    public ExpressionVisitor(HashMap<String, Question> questionMap){
+    public ExpressionVisitor(LinkedHashMap<String, Question> questionMap){
         this.questionMap = questionMap;
     }
 

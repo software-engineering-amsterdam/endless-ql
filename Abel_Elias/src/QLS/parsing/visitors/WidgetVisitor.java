@@ -44,7 +44,7 @@ public class WidgetVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Object visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
+    public RadioWidget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
         ArrayList<String> options = new ArrayList<>();
 
         for(TerminalNode t : ctx.argList().STR()){
@@ -56,9 +56,10 @@ public class WidgetVisitor extends QLSBaseVisitor {
 
 
     @Override
-    public Object visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
-        //TODO
-        return super.visitSliderWidget(ctx);
+    public SliderWidget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
+        int min = Integer.parseInt(ctx.min.getText());
+        int max = Integer.parseInt(ctx.max.getText());
+        return new SliderWidget((NumericValue) currentValue, min, max);
     }
 
     @Override

@@ -35,7 +35,7 @@ checkboxWidget : CHECKBOX;
 textWidget : TEXT;
 radioWidget : RADIO argList;
 spinboxWidget : SPINBOX;
-sliderWidget : SLIDER;
+sliderWidget : SLIDER min=INT max=INT;
 dropdownWidget : DROPDOWN argList;
 
 style : CURLY_BRACE_L widgetProperty+ CURLY_BRACE_R;

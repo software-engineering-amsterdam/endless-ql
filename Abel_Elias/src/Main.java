@@ -48,12 +48,12 @@ public class Main {
     private void parseAndBuildQLS() {
         try {
             // QL
-            FileInputStream qlInputStream = new FileInputStream("src/resources/QL/formQl.ql");
+            FileInputStream qlInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\src\\resources\\CompleteExample\\complete.ql");
             QLParser.FormContext form = new TreeBuilder().build(qlInputStream);
             FormVisitor coreVisitor = new FormVisitor().visitForm(form);
 
             // QLS
-            FileInputStream qlsInputStream = new FileInputStream("resources/QLS/miscellaneous/exampleForm5.qls");
+            FileInputStream qlsInputStream = new FileInputStream("C:\\dev\\uva\\endless-ql\\Abel_Elias\\src\\resources\\CompleteExample\\complete.qls");
             QLSParser.StylesheetContext stylesheetContext = new TreeBuilder().buildQls(qlsInputStream);
             StylesheetVisitor stylesheetVisitor = new StylesheetVisitor(coreVisitor.getQuestions());
             stylesheetVisitor.visitStylesheet(stylesheetContext);

@@ -38,6 +38,6 @@ public class RadioWidget implements Widget {
 
     @Override
     public void refresh() {
-       //
+       //auto-refreshed
     }
 }

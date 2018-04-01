@@ -104,7 +104,7 @@ Result will be written into the `/build` folder
 - [x] duplicate question declarations with different types
 - [x] conditions that are not of the type boolean
 - [x] operands of invalid type to operators
-- [ ] cyclic dependencies between questions
+- [x] cyclic dependencies between questions (Forward referencing)
 - [x] duplicate labels (warning)
 - [x] The language supports booleans, integers and string values 
 - [x] (possibly also dates and decimals).
@@ -127,12 +127,11 @@ Result will be written into the `/build` folder
 
 ### The type checker detects:
 - [x] no references to questions that are not in the QL program
-- [ ] all questions of the QL program are placed by the QLS program.
+- [x] all questions of the QL program are placed by the QLS program.
 - [ ] (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
 - [x] you cannot place a single question multiple times.
 
 ### Requirements on the implementation:
-
 - [x] You could say QLS defines an "aspect" of questionnaires, i.e. its appearance. The challenge is to implement QLS without (invasively) changing the code pertaining to QL, and without duplicating or reimplementing the QL code. (Copying and/or duplicating is not allowed, but some changes might be needed at certain join points...).
 - [x] The QL code, and especially, the QL ASTs should be oblivious to the QLS code. Think about how you can achieve that.
 

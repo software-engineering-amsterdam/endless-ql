@@ -39,8 +39,5 @@ namespace QL.UnitTests.UI.UnitTests
 
             Assert.IsTrue(propertyEventWasRaised);
         }
-
-        // ToDo: work out why this test fails with dynamic
-        // public void WhenPropertyUpdatedWithSameValue_ShouldNotRaisePropertyChangedEvent()
     }
 }

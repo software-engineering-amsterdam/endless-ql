@@ -21,8 +21,6 @@ namespace QlsTransformer.Orchestration.QueryServices
 
         public override IEnumerable<StyledQuestionnaireModel> GetAll()
         {
-            // ToDo: this is a hack - do I even need this?
-            //should be getting this from styles output item!
             return DomainItemLocator
                 .GetAll<IStyledQuestionnaireOutputItem>()
                 .Select(x => new StyledQuestionnaireModel(x.Id, x.DisplayName));

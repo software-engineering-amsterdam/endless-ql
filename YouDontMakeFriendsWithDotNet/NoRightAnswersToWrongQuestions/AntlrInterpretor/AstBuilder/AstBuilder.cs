@@ -8,13 +8,12 @@ using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace AntlrInterpretor.AstBuilder
 {
-    //ToDo: Rename AstTree Builder, Tree is redundant
-    internal class AstTreeBuilder : IAstTreeBuilder
+    internal class AstBuilder : IAstBuilder
     {
         private readonly IAstFactory m_astFactory;
         private readonly IDomainItemLocator m_domainItemLocator;
 
-        public AstTreeBuilder(
+        public AstBuilder(
             IAstFactory astFactory, 
             IDomainItemLocator domainItemLocator)
         {

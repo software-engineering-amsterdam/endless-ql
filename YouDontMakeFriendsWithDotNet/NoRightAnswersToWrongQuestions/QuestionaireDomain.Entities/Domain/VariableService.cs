@@ -52,12 +52,13 @@ namespace QuestionnaireDomain.Entities.Domain
             {
                 return m_symbolTable.Lookup<int>(variableId);
             }
-            else if (m_symbolTable.Exists<decimal>(variableId))
+            
+            if (m_symbolTable.Exists<decimal>(variableId))
             {
                 return m_symbolTable.Lookup<decimal>(variableId);
             }
 
-            throw new ApplicationException($"question {variableName} used as numeric but is not");
+            throw new ArgumentException(nameof(variableName), $"question {variableName} used as numeric but is not");
         }
 
         private bool IsNumeric(string variableName)

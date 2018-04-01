@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
 using QlsTransformer.UI.Models;
+using QuestionnaireUI;
 using QuestionnaireUI.Models;
 
 namespace StyledWpfApp.ViewModels

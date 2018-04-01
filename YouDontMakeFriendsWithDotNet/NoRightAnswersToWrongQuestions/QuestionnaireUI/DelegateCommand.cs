@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace SimpleWPFApp
+namespace QuestionnaireUI
 {
     public class DelegateCommand : ICommand
     {

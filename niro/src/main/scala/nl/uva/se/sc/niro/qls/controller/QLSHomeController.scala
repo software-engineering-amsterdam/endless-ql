@@ -8,9 +8,9 @@ import nl.uva.se.sc.niro.ql.controller.QLHomeController
 import nl.uva.se.sc.niro.ql.model.QLModelBridge
 import nl.uva.se.sc.niro.ql.model.ast.QLForm
 import nl.uva.se.sc.niro.ql.model.gui.Form
-import nl.uva.se.sc.niro.qls.model.QLSToGUIModelBridge
+import nl.uva.se.sc.niro.qls.model.QLSModelBridge
 import nl.uva.se.sc.niro.qls.model.ast.QLStylesheet
-import nl.uva.se.sc.niro.qls.model.gui.GUIStylesheet
+import nl.uva.se.sc.niro.qls.model.gui.Stylesheet
 import nl.uva.se.sc.niro.qls.parser.QLStylesheetFacade
 
 class QLSHomeController extends QLHomeController {
@@ -42,7 +42,7 @@ class QLSHomeController extends QLHomeController {
 
   def showForm(model: QLForm, stylesheet: QLStylesheet): Unit = {
     val guiForm: Form = QLModelBridge.convertForm(model)
-    val guiStyle: GUIStylesheet = QLSToGUIModelBridge.convertStylesheet(stylesheet)
+    val guiStyle: Stylesheet = QLSModelBridge.convertStylesheet(stylesheet)
     val formController = new QLSFormController(this, model, guiForm, guiStyle)
     switchToScene(QLScenes.formScene, formController)
     formController.initializeForm()

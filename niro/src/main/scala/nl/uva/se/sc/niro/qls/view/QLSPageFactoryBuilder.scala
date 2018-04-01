@@ -5,13 +5,13 @@ import javafx.util.Callback
 import nl.uva.se.sc.niro.ql.model.gui.Form
 import nl.uva.se.sc.niro.ql.view.component.ComponentFactory
 import nl.uva.se.sc.niro.qls.controller.QLSFormController
-import nl.uva.se.sc.niro.qls.model.gui.GUIStylesheet
+import nl.uva.se.sc.niro.qls.model.gui.Stylesheet
 import nl.uva.se.sc.niro.qls.view.component.{ QLSPageFactory, QLSPageFactoryViewUpdateDecorator }
 
 class QLSPageFactoryBuilder() {
   private var controller: QLSFormController = _
   private var guiForm: Form = _
-  private var stylesheet: GUIStylesheet = _
+  private var stylesheet: Stylesheet = _
   private var componentFactory: ComponentFactory = _
 
   def buildWith(controller: QLSFormController): QLSPageFactoryBuilder = {
@@ -24,7 +24,7 @@ class QLSPageFactoryBuilder() {
     this
   }
 
-  def buildWith(stylesheet: GUIStylesheet): QLSPageFactoryBuilder = {
+  def buildWith(stylesheet: Stylesheet): QLSPageFactoryBuilder = {
     this.stylesheet = stylesheet
     this
   }

@@ -4,19 +4,19 @@ import nl.uva.se.sc.niro.ql.model.ast.AnswerType
 import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
 import nl.uva.se.sc.niro.ql.model.gui.Question
 
-case class QLSGUIQuestion(
+case class QLSQuestion(
     override val id: String,
     override val answerType: AnswerType,
     override val label: String,
     override val isReadOnly: Boolean,
     override val visibility: Expression,
-    styling: GUIStyling
+    styling: Styling
 ) extends Question(id, answerType, label, isReadOnly, visibility, component = None)
 
-object QLSGUIQuestion {
+object QLSQuestion {
 
-  def apply(question: Question, styling: GUIStyling) =
-    new QLSGUIQuestion(
+  def apply(question: Question, styling: Styling) =
+    new QLSQuestion(
       question.id,
       question.answerType,
       question.label,

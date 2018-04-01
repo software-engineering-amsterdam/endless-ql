@@ -4,13 +4,13 @@ import javafx.beans.value.{ ChangeListener, ObservableValue }
 import javafx.scene.control.Spinner
 import nl.uva.se.sc.niro.ql.model.gui.Question
 import nl.uva.se.sc.niro.ql.view.widget.{ QLWidget, QLWidgetFactory }
-import nl.uva.se.sc.niro.qls.model.gui.QLSGUIQuestion
+import nl.uva.se.sc.niro.qls.model.gui.QLSQuestion
 import nl.uva.se.sc.niro.qls.model.gui.style.{ GUIComboBoxStyle, GUIRadioStyle, GUISliderStyle, GUISpinBoxStyle }
 
 class QLSWidgetFactory extends QLWidgetFactory {
 
   override def makeBooleanWidget(question: Question): QLWidget[java.lang.Boolean] = question match {
-    case QLSGUIQuestion(_, _, _, _, _, styling) =>
+    case QLSQuestion(_, _, _, _, _, styling) =>
       styling.widgetStyle match {
         case Some(GUIComboBoxStyle(trueLabel, falseLabel)) => new QLSBooleanComboField(trueLabel, falseLabel)
         case Some(GUIRadioStyle(trueLabel, falseLabel))    => new QLSBooleanRadioField(trueLabel, falseLabel)
@@ -20,7 +20,7 @@ class QLSWidgetFactory extends QLWidgetFactory {
   }
 
   override def makeIntegerWidget(question: Question): QLWidget[java.math.BigInteger] = question match {
-    case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
+    case QLSQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
         case Some(GUISpinBoxStyle(minimum, maximum, stepSize)) =>
           if (isReadOnly) super.makeIntegerWidget(question)
@@ -33,7 +33,7 @@ class QLSWidgetFactory extends QLWidgetFactory {
   }
 
   override def makeDecimalWidget(question: Question): QLWidget[java.math.BigDecimal] = question match {
-    case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
+    case QLSQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
         case Some(GUISpinBoxStyle(minimum, maximum, stepSize)) =>
           if (isReadOnly) super.makeDecimalWidget(question) else new QLSDecimalSpinField(minimum, maximum, stepSize)
@@ -45,7 +45,7 @@ class QLSWidgetFactory extends QLWidgetFactory {
   }
 
   override def makeMoneyWidget(question: Question): QLWidget[java.math.BigDecimal] = question match {
-    case QLSGUIQuestion(_, _, _, isReadOnly, _, styling) =>
+    case QLSQuestion(_, _, _, isReadOnly, _, styling) =>
       styling.widgetStyle match {
         case Some(GUISpinBoxStyle(minimum, maximum, stepSize)) =>
           if (isReadOnly) super.makeMoneyWidget(question) else new QLSMoneySpinField(minimum, maximum, stepSize)

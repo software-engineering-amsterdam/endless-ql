@@ -4,15 +4,15 @@ import cats.Monoid
 import nl.uva.se.sc.niro.qls.model.ast.Styling
 import nl.uva.se.sc.niro.qls.model.gui.style._
 
-case class GUIStyling(
+case class Styling(
     widgetStyle: Option[GUIWidgetStyle] = None,
     width: Option[GUIWidth] = None,
     color: Option[GUIColor] = None,
     fontType: Option[GUIFontStyle] = None,
     fontSize: Option[GUIFontSize] = None) {
 
-  def ++(that: GUIStyling) =
-    GUIStyling(
+  def ++(that: Styling) =
+    Styling(
       that.widgetStyle.orElse(widgetStyle),
       that.width.orElse(width),
       that.color.orElse(color),
@@ -21,16 +21,16 @@ case class GUIStyling(
     )
 }
 
-object GUIStyling {
+object Styling {
 
-  implicit val guiStylingMonoid: Monoid[GUIStyling] = new Monoid[GUIStyling] {
-    override def empty: GUIStyling = GUIStyling()
+  implicit val guiStylingMonoid: Monoid[Styling] = new Monoid[Styling] {
+    override def empty: Styling = Styling()
 
-    override def combine(x: GUIStyling, y: GUIStyling): GUIStyling =
+    override def combine(x: Styling, y: Styling): Styling =
       x ++ y
   }
 
-  def apply(styling: Styling): GUIStyling = new GUIStyling(
+  def apply(styling: nl.uva.se.sc.niro.qls.model.ast.Styling): Styling = new Styling(
     styling.widgetType.map(GUIStyle(_)),
     styling.width.map(GUIStyle(_)),
     styling.color.map(GUIStyle(_)),

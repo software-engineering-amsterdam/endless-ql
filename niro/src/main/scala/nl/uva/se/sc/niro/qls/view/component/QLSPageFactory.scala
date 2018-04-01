@@ -10,22 +10,22 @@ import nl.uva.se.sc.niro.ql.model.ast._
 import nl.uva.se.sc.niro.ql.model.gui.Form
 import nl.uva.se.sc.niro.ql.view.component.{ Component, ComponentFactory }
 import nl.uva.se.sc.niro.qls.controller.QLSFormController
-import nl.uva.se.sc.niro.qls.model.gui.{ GUIPage, GUISection, GUIStylesheet, GUIStyling, _ }
+import nl.uva.se.sc.niro.qls.model.gui.{ Page, Section, Stylesheet, Styling, _ }
 
 class QLSPageFactory(
                       formController: QLSFormController,
                       form: Form,
-                      stylesheet: GUIStylesheet,
+                      stylesheet: Stylesheet,
                       componentFactory: ComponentFactory)
     extends Callback[Integer, Node]() {
 
-  val defaultStyles: Map[AnswerType, GUIStyling] = Map(
-    StringType -> GUIStyling(),
-    BooleanType -> GUIStyling(),
-    DateType -> GUIStyling(),
-    IntegerType -> GUIStyling(),
-    DecimalType -> GUIStyling(),
-    MoneyType -> GUIStyling()
+  val defaultStyles: Map[AnswerType, Styling] = Map(
+    StringType -> Styling(),
+    BooleanType -> Styling(),
+    DateType -> Styling(),
+    IntegerType -> Styling(),
+    DecimalType -> Styling(),
+    MoneyType -> Styling()
   )
 
   override def call(pageNumber: Integer): Node = {
@@ -35,7 +35,7 @@ class QLSPageFactory(
     makePage(page, pageToShow)
   }
 
-  def makePage(page: VBox, pageToShow: GUIPage): VBox = {
+  def makePage(page: VBox, pageToShow: Page): VBox = {
     val defaultPageStyles = mergeStyles(mergeStyles(defaultStyles, stylesheet.defaultStyles), pageToShow.defaultStyles)
 
     val components = pageToShow.sections.flatMap(section => {
@@ -47,31 +47,31 @@ class QLSPageFactory(
     page
   }
 
-  def makeSection(page: VBox, section: GUISection, defaultStyles: Map[AnswerType, GUIStyling]): Seq[Component[_]] = {
+  def makeSection(page: VBox, section: Section, defaultStyles: Map[AnswerType, Styling]): Seq[Component[_]] = {
     val defaultSectionStyles = mergeStyles(defaultStyles, section.defaultStyles)
 
     addSectionHeader(page, section)
 
     section.statements.flatMap({
-      case GUIQuestionStyling(name, style) =>
+      case QuestionStyling(name, style) =>
         form
           .collectQuestionOnName(name)
           .map(question => {
             val styleToUse = defaultSectionStyles(question.answerType) ++ style
-            val component = componentFactory.make(QLSGUIQuestion(question, styleToUse))
+            val component = componentFactory.make(QLSQuestion(question, styleToUse))
             question.component = Some(component)
             page.getChildren.add(component)
             component
           })
-      case section: GUISection => makeSection(page, section, defaultStyles)
+      case section: Section => makeSection(page, section, defaultStyles)
     })
   }
 
-  def addSectionHeader(questionsOnPage: VBox, section: GUISection): Boolean = {
+  def addSectionHeader(questionsOnPage: VBox, section: Section): Boolean = {
     questionsOnPage.getChildren.add(new Label(s"  -- ${section.name} --  "))
   }
 
-  def mergeStyles(left: Map[AnswerType, GUIStyling], right: Map[AnswerType, GUIStyling]): Map[AnswerType, GUIStyling] =
-    Semigroup[Map[AnswerType, GUIStyling]].combine(left, right)
+  def mergeStyles(left: Map[AnswerType, Styling], right: Map[AnswerType, Styling]): Map[AnswerType, Styling] =
+    Semigroup[Map[AnswerType, Styling]].combine(left, right)
 
 }

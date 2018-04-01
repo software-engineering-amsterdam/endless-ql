@@ -2,8 +2,7 @@ package nl.uva.se.sc.niro.ql.model
 
 import nl.uva.se.sc.niro.ql.model.ast.expressions.Expression
 import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.BooleanAnswer
-import nl.uva.se.sc.niro.ql.model.ast.{ Conditional, QLForm, Statement }
-import nl.uva.se.sc.niro.ql.model.gui.{ ConditionalFactory, Form, QuestionFactory }
+import nl.uva.se.sc.niro.ql.model.gui.{ ConditionalFactory, Form, Question, QuestionFactory }
 import nl.uva.se.sc.niro.util.StringUtil
 
 /**
@@ -13,16 +12,16 @@ import nl.uva.se.sc.niro.util.StringUtil
   * desired behaviour.
   */
 object QLModelBridge {
-  def convertForm(form: QLForm): Form = {
+  def convertForm(form: nl.uva.se.sc.niro.ql.model.ast.QLForm): Form = {
     Form(StringUtil.addSpaceOnCaseChange(form.formName), convertStatements(BooleanAnswer(true), form.statements))
   }
 
-  def convertStatements(visible: Expression, statements: Seq[Statement]): Seq[nl.uva.se.sc.niro.ql.model.gui.Question] = {
+  def convertStatements(visible: Expression, statements: Seq[nl.uva.se.sc.niro.ql.model.ast.Statement]): Seq[Question] = {
     statements.flatMap(statement =>
       statement match {
         case question: nl.uva.se.sc.niro.ql.model.ast.Question =>
           Seq(QuestionFactory.makeGUIQuestion(visible, question))
-        case conditional: Conditional =>
+        case conditional: nl.uva.se.sc.niro.ql.model.ast.Conditional =>
           ConditionalFactory.makeGUIConditional(visible, conditional)
         case _ =>
           Seq.empty

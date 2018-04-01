@@ -15,7 +15,7 @@ variable        :VAR
                 |NOT VAR;
 
 
-type            :(BOOL|STR|DATE|DECIMAL|MONEY);
+type            :(BOOL|STR|DATE|DECIMAL|MONEY|VAR+);
 
 //Shortcuts
 questionTypes       : (questionFormat|conditionalIf|questionAssignValue);

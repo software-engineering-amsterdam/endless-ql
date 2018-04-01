@@ -177,6 +177,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
         String name = visit((NameNode) node.getCenter());
         ValueType type = visit((TypeNode) node.getRight());
 
+
         if (type.equals(ValueType.BOOL))
         {
             question = new Radio(label, type, name);

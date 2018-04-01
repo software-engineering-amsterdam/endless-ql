@@ -180,9 +180,13 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     {
         TypeNode node = new TypeNode();
         node.setType(ValueType.valueOfString(context.getText()));
-
+        if (node.getType().equals(ValueType.UNKNOWN)){
+            System.err.println("Error: Incorrect type! Types allowed are: money, string, boolean, decimal and integer.");
+            System.exit(1);
+        }
         return node;
     }
+
 
     @Override
     public Node visitNumberExpression(GrammarParser.NumberExpressionContext context)

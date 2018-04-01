@@ -9,6 +9,9 @@ import com.chariotit.uva.sc.qdsl.ast.ql.type.MoneyExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.type.StringExpressionValue;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.EvaluateVisitor;
 
+import com.chariotit.uva.sc.qdsl.ast.qls.node.Page;
+import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -28,43 +31,56 @@ public class QLFormBuilder {
     private static Integer inputWidth       = 300;
     private static Integer contentMargin    = 14;
 
-
     private static Integer frameWidth = 600;
     private static Integer frameHeight = 600;
 
-
-
     private QLAstRoot astRoot;
     private JFrame jFrame;
+    private Stylesheet stylesheet;
     private SymbolTable symbolTable;
     private HashMap<LineElement, FormQuestion> questions;
     private VisibilityChecker visibilityChecker;
 
     public QLFormBuilder(QLAstRoot astRoot) {
         this.astRoot = astRoot;
-        this.symbolTable = astRoot.getQuestionSymbolTable();
+        this.render();
+    }
+
+    public QLFormBuilder(QLAstRoot astRoot, Stylesheet stylesheet) {
+
+        System.out.println("we have a stylesheet");
+
+        this.astRoot = astRoot;
+        this.stylesheet = stylesheet;
+        this.render();
+    }
+
+    private void render() {
+
+        this.symbolTable = this.astRoot.getQuestionSymbolTable();
 
         this.jFrame = new JFrame();
         this.jFrame.setVisible(true);
         this.jFrame.setSize(frameWidth, frameHeight);
 
 
-        this.questions = FormQuestionMapBuilder.buildMap(astRoot, this);
+        this.questions = FormQuestionMapBuilder.buildMap(this.astRoot, this);
         this.visibilityChecker = new VisibilityChecker(questions, astRoot, this);
-        this.render();
-    }
 
-    private void render() {
         updateForm();
     }
 
-
     private void updateForm() {
+
         this.evaluateAst();
 
         this.visibilityChecker.checkVisibility();
 
-        renderQuestions();
+        if (this.stylesheet != null) {
+            renderQuestions(this.stylesheet);
+        } else {
+            renderQuestions();
+        }
 
     }
 
@@ -96,9 +112,15 @@ public class QLFormBuilder {
 
         jFrame.revalidate();
         jFrame.repaint();
-
-
    }
+
+    private void renderQuestions(Stylesheet stylesheet) {
+        System.out.println("We have a style sheet now" + stylesheet.getLabel() + " --- " + stylesheet.getPages());
+
+        for (Page page : stylesheet.getPages()) {
+            System.out.println("We have a page here " + page.getLabel());
+        }
+    }
 
     private void evaluateAst() {
         EvaluateVisitor evaluateVisitor = new EvaluateVisitor(symbolTable);
@@ -106,11 +128,34 @@ public class QLFormBuilder {
     }
 
     protected JComponent componentForElement(LineElement element) {
+
+        System.out.println("Rendering " + element.getLabel().getLabel() + element.getTypeExpression().getExpression());
+
+        Expression expression = element.getTypeExpression().getExpression();
+
+        if(expression != null){
+            System.out.println("this is the expression: " + expression.getExpressionType() + "----- " + expression.getExpressionValue());
+
+            switch (expression.getExpressionType()) {
+                case MONEY:
+                    JLabel label = new JLabel();
+                    MoneyExpressionValue value = (MoneyExpressionValue)expression.getExpressionValue();
+                    if(value != null) { label.setText(value.getValue().toString()); }
+                    return label;
+                case BOOLEAN:
+                    JCheckBox checkBox = new JCheckBox();
+                    checkBox.setEnabled(false);
+                    BooleanExpressionValue value1 = (BooleanExpressionValue) expression.getExpressionValue();
+                    if(value1 != null) { checkBox.setSelected(value1.getValue()); }
+                    return checkBox;
+            }
+        }
+
         ExpressionType type = element.getTypeExpression().getTypeNode().getType();
 
         switch (type) {
             case BOOLEAN:
-                return checkBoxComponent(element);
+                return checkBoxComponent(element, true);
             case STRING:
                 return textComponent(element);
             case MONEY:
@@ -136,11 +181,11 @@ public class QLFormBuilder {
             }
 
             public void removeUpdate(DocumentEvent e) {
-                update();
+//                update();
             }
 
             public void insertUpdate(DocumentEvent e) {
-                update();
+//                update();
             }
 
             public void update() {
@@ -163,8 +208,7 @@ public class QLFormBuilder {
         return textField;
     }
 
-
-    private JCheckBox checkBoxComponent(LineElement element) {
+    private JCheckBox checkBoxComponent(LineElement element, Boolean editable) {
 
         // get the symbol table entry
         SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
@@ -172,6 +216,12 @@ public class QLFormBuilder {
         JCheckBox checkbox = new JCheckBox();
 
         checkbox.setSelected(((BooleanExpressionValue) symbol.getExpressionValue()).getValue());
+
+        if (!editable) {
+            checkbox.setSelected(true);
+            checkbox.setEnabled(false);
+            return checkbox;
+        }
 
         checkbox.addActionListener(new ActionListener() {
             @Override
@@ -213,7 +263,7 @@ public class QLFormBuilder {
         SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
         textField.setText(((MoneyExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
-        System.out.println("value for field " + element.getLabel().getLabel() + ((MoneyExpressionValue) symbol.getExpressionValue()).getValue());
+        System.out.println("value for field " + element.getTypeExpression().getExpression() + ((MoneyExpressionValue) symbol.getExpressionValue()).getValue());
 
         textField.getDocument().addDocumentListener(new DocumentListener() {
 

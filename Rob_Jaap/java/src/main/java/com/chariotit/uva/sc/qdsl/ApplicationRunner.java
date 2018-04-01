@@ -79,9 +79,13 @@ public class ApplicationRunner implements CommandLineRunner {
             if (TypeCheckError.listContainsLevel(qlsErrors, TypeCheckError.Level.ERROR)) {
                 System.exit(1);
             }
-        }
 
-        QLFormBuilder builder = new QLFormBuilder(astRoot);
+            QLFormBuilder builder = new QLFormBuilder(astRoot, stylesheet);
+
+        } else {
+
+            QLFormBuilder builder = new QLFormBuilder(astRoot);
+        }
     }
 
     @Override

@@ -2,13 +2,19 @@ package com.chariotit.uva.sc.qdsl.ast.ql.type;
 
 public class MoneyExpressionValue extends NumberExpressionValue {
 
-    private Float value;
+    private Float value = (float) 12.34;
 
     public MoneyExpressionValue(Float value) {
+
+        System.out.println("setting the value");
+
         this.value = value;
     }
 
     public Float getValue() {
+
+        System.out.println("getting the value: " + value + "END");
+
         return value;
     }
 

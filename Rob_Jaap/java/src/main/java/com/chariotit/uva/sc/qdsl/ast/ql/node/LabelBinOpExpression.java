@@ -47,14 +47,8 @@ public class LabelBinOpExpression extends Expression {
 
     @Override
     public void evaluate(SymbolTable symbolTable) {
-
         labelExpression.evaluate(symbolTable);
         expression.evaluate(symbolTable);
-
-        System.out.println("evaluating 1");
-
-        System.out.println(((MoneyExpressionValue)((BinaryOperator)operator).evaluate(symbolTable, labelExpression,
-                expression)).getValue());
 
         setExpressionValue(((BinaryOperator)operator).evaluate(symbolTable, labelExpression,
                 expression));

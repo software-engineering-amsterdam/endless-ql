@@ -31,7 +31,7 @@ public class QLSBuilder implements Observer {
 
         this.questionPanels = new ArrayList<>();
 
-        this.mainPanel = new JPanel(new GridBagLayout());
+        this.mainPanel = new JPanel();
         buildStyleSheet();
     }
 
@@ -68,7 +68,6 @@ public class QLSBuilder implements Observer {
     private SectionPanel buildSection(Section section) {
         SectionPanel sectionPanel = new SectionPanel(section);
         buildElements(sectionPanel);
-
         return sectionPanel;
     }
 
@@ -76,7 +75,6 @@ public class QLSBuilder implements Observer {
         if (!styledQuestion.getQuestion().isFixed()) {
             styledQuestion.getQuestion().getValue().addObserver(this);
         }
-
         QuestionPanel questionPanel = new QuestionPanel(styledQuestion.getQuestion(), styledQuestion.getWidget());
         questionPanels.add(questionPanel);
         return questionPanel;

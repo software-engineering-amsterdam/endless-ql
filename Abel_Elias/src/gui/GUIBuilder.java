@@ -52,11 +52,10 @@ public class GUIBuilder{
     private void initComponents() {
         //Add the panel to the frame, and set some properties
         if(styling){
-            mainPanel.add(qlsBuilder.getMainPanel());
+            mainFrame.add(qlsBuilder.getMainPanel());
         }else{
             mainFrame.add(qlBuilder.getMainPanel());
         }
-
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
     }

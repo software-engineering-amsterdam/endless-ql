@@ -1,5 +1,8 @@
 package qls.gui.view;
 
+import ql.gui.controller.SubmitFormController;
+import ql.gui.model.FormModel;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -7,37 +10,41 @@ import java.util.List;
 
 public class PagePanel extends JPanel {
 
+    private JPanel innerPanel = new JPanel(new GridBagLayout());
+    private GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    private int i = 0;
+
     public PagePanel(String name, List<JComponent> components) {
 
-        JPanel innerPanel = new JPanel(new GridBagLayout());
-
         TitledBorder titled = new TitledBorder(name);
-        innerPanel.setBorder(titled);
+        this.innerPanel.setBorder(titled);
 
-        JScrollPane scrollFrame = new JScrollPane(innerPanel);
-        innerPanel.setAutoscrolls(true);
+        JScrollPane scrollFrame = new JScrollPane(this.innerPanel);
+        this.innerPanel.setAutoscrolls(true);
         scrollFrame.setPreferredSize(new Dimension(800, 600));
 
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        this.gridBagConstraints.anchor = GridBagConstraints.WEST;
 
         // render form questions panels
-        int i = 0;
-        for (JComponent component: components) {
-            gridBagConstraints.gridy = i;
-            innerPanel.add(component, gridBagConstraints);
-            i++;
+        for (JComponent component : components) {
+            this.gridBagConstraints.gridy = this.i;
+            this.innerPanel.add(component, this.gridBagConstraints);
+            this.i++;
         }
 
-//        // Form submit
-//        JButton submit = new JButton("Submit form");
-//        submit.addActionListener(new SubmitFormController(formModel));
-//
-//        gridBagConstraints.gridy = i;
-//        innerPanel.add(submit, gridBagConstraints);
-
         this.add(scrollFrame);
-
         this.setVisible(true);
+    }
+
+    public void enableSubmitButton(FormModel formModel) {
+        // Form submit
+        JButton submit = new JButton("Submit form");
+        submit.addActionListener(new SubmitFormController(formModel));
+
+        this.gridBagConstraints.gridy = this.i;
+        this.gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        this.innerPanel.add(submit, this.gridBagConstraints);
+        this.revalidate();
+        this.repaint();
     }
 }

@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class GuiController {
     public GuiController() {
-        WindowView windowView = new WindowView();
+        WindowView windowView = new WindowView("QL Form GUI");
         JPanel openingPanel = new OpeningPanel(windowView);
         windowView.setMainPanel(openingPanel);
         windowView.formatAndShow();

@@ -7,8 +7,8 @@ public class WindowView {
 
     private final JFrame frame;
 
-    public WindowView() {
-        this.frame = new JFrame("QL Form GUI");
+    public WindowView(String title) {
+        this.frame = new JFrame(title);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 

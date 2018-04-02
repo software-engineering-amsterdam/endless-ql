@@ -20,7 +20,7 @@ import java.util.List;
 public class GuiBuilder extends AbstractASTTraverse<JComponent> {
 
     private Stylesheet stylesheet;
-    private List<JComponent> pages;
+    private List<PagePanel> pagePanels;
 
     private List<QuestionModel> questionModels;
     private LinkedHashMap<String, QuestionModel> questionModelsMap = new LinkedHashMap<>();
@@ -59,9 +59,9 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
         }
     }
 
-    public List<JComponent> getPages() {
+    public List<PagePanel> getPagePanels() {
         this.visit(this.stylesheet);
-        return this.pages;
+        return this.pagePanels;
     }
 
     public List<QuestionModel> getQuestionModels() {
@@ -71,14 +71,14 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
     @Override
     public JComponent visit(Stylesheet stylesheet) {
 
-        this.pages = new ArrayList<>();
+        this.pagePanels = new ArrayList<>();
 
         for (Page page : stylesheet.getPages()) {
-            this.pages.add(visit(page));
+            this.pagePanels.add((PagePanel) visit(page));
         }
 
         JPanel panel = new JPanel();
-        for (JComponent component : this.pages) {
+        for (JComponent component : this.pagePanels) {
             panel.add(component);
         }
 

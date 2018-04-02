@@ -9,11 +9,13 @@ import qls.ast.model.Stylesheet;
 import qls.gui.model.GuiModel;
 import qls.gui.model.Paginator;
 import qls.gui.view.InitialPanel;
+import qls.gui.view.PagePanel;
 import qls.gui.view.paginator.PaginatorView;
 import qls.logic.builders.GuiBuilder;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class GuiController {
 
@@ -22,7 +24,7 @@ public class GuiController {
 
     public GuiController() {
         this.guiModel = new GuiModel();
-        this.windowView = new WindowView();
+        this.windowView = new WindowView("QLS Form GUI");
         JPanel mainPanel = new InitialPanel(this);
         windowView.setMainPanel(mainPanel);
         windowView.formatAndShow();
@@ -64,7 +66,11 @@ public class GuiController {
             GridBagConstraints gridBagConstraints = new GridBagConstraints();
             gridBagConstraints.anchor = GridBagConstraints.WEST;
 
-            Paginator paginator = new Paginator(guiBuilder.getPages());
+            List<PagePanel> pagePanels = guiBuilder.getPagePanels();
+            PagePanel lastPage = pagePanels.get(pagePanels.size() - 1);
+            lastPage.enableSubmitButton(formModel);
+
+            Paginator paginator = new Paginator(pagePanels);
 
             JPanel pagePanel = new JPanel();
             pagePanel.add(paginator.getCurrentPage());
@@ -72,9 +78,10 @@ public class GuiController {
             JPanel paginatorView = new PaginatorView(paginator, pagePanel);
 
             gridBagConstraints.gridy = 0;
-            mainPanel.add(paginatorView, gridBagConstraints);
-            gridBagConstraints.gridy = 1;
             mainPanel.add(pagePanel, gridBagConstraints);
+            gridBagConstraints.gridy = 1;
+            gridBagConstraints.anchor = GridBagConstraints.CENTER;
+            mainPanel.add(paginatorView, gridBagConstraints);
 
             this.windowView.setMainPanel(mainPanel);
             windowView.formatAndShow();

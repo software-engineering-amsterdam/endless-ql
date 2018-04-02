@@ -1,14 +1,16 @@
 package qls.gui.model;
 
+import qls.gui.view.PagePanel;
+
 import javax.swing.*;
 import java.util.List;
 
 public class Paginator {
 
-    private List<JComponent> pages;
+    private List<PagePanel> pages;
     private Integer currentPageIndex = 0;
 
-    public Paginator(List<JComponent> pages) {
+    public Paginator(List<PagePanel> pages) {
         this.pages = pages;
     }
 

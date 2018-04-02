@@ -113,13 +113,11 @@ class CyclicDependenciesChecker:
     def print_graph(self):
         print(self.graph)
 
-    def dfs(self, start):
+    def depth_first_search(self, start):
         self.stack = [start]
-        # print("Starting traversal from", start)
         while len(self.stack) > 0:
             element = self.stack.pop()
             if not self.visited[str(element)]:
-                # print("visiting", element)
                 self.visited[str(element)] = True
                 for x in self.graph[element]:
                     self.stack.append(x)
@@ -130,7 +128,7 @@ class CyclicDependenciesChecker:
         for x in self.graph:
             self.visited[x] = False
         for x in [str(x) for x in self.graph.keys()]:
-            self.dfs(x)
+            self.depth_first_search(x)
 
     def check(self, tree):
         tree.accept(self)

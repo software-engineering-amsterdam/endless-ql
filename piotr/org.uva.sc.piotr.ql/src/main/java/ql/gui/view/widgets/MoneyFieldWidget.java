@@ -1,5 +1,8 @@
 package ql.gui.view.widgets;
 
+import jiconfont.IconFont;
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 import ql.gui.model.QuestionModel;
 import ql.gui.view.Widget;
 
@@ -14,6 +17,7 @@ import java.text.NumberFormat;
 
 public class MoneyFieldWidget extends Widget {
 
+    private final JPanel panel;
     private final JFormattedTextField field;
 
     public MoneyFieldWidget(QuestionModel questionModel) {
@@ -61,18 +65,19 @@ public class MoneyFieldWidget extends Widget {
             }
         });
 
+        IconFontSwing.register(FontAwesome.getIconFont());
+        Icon icon = IconFontSwing.buildIcon(FontAwesome.USD, 12);
+        JLabel iconLabel = new JLabel(icon);
+        this.panel = new JPanel();
         this.field = textField;
 
-
-        ImageIcon icon = new ImageIcon("./src/main/resources/images/dollar-sign.gif","this is a caption");
-
-        this.field.setBorder(BorderFactory.createMatteBorder(
-                0, 16, 0, 0, icon));
+        this.panel.add(iconLabel);
+        this.panel.add(field);
     }
 
     @Override
     public JComponent getComponent() {
-        return this.field;
+        return this.panel;
     }
 
     @Override

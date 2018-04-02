@@ -10,6 +10,11 @@ stylesheet taxOfficeExample
     section "Age"
       question age
       widget text
+    default string {
+      font: "Courier New"
+      fontsize: 18
+      color: #f442e8
+    }
   }
 
   page Finances

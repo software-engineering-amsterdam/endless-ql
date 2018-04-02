@@ -12,8 +12,17 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * WidgetFactory creates an appropriate Widget according to the Type defined and adds the defined RefreshListener (normally this is the QLGUI)
+ */
 class WidgetFactory {
 
+    /**
+     * Returns a Widget according to the given Type
+     * @param type The Type of the Widget (this defines the component assigned to it)
+     * @param listener The RefreshListener passed down to the WidgetFactory
+     * @return The appropriate Widget
+     */
     public Widget getWidget(Type type, RefreshListener listener){
         switch(type){
             case BOOL:

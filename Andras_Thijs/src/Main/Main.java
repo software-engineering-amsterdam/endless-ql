@@ -32,7 +32,6 @@ class Main {
                 conditions.addAll(c.getConditions());
             }
 
-            // TODO: Improve this?
             // Write a log line for every duplicate label.
             for(String label : checker.getDuplicateLabels())
                 System.out.println("WARNING: DUPLICATE LABEL " + label);

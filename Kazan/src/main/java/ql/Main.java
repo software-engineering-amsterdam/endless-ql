@@ -1,4 +1,4 @@
-package qls;
+package ql;
 
 import ql.ast.Form;
 import ql.gui.FormUI;
@@ -6,45 +6,41 @@ import ql.gui.FormUIFactory;
 import ql.parser.FormBuilder;
 import ql.utilities.IOHandler;
 import ql.validator.FormValidator;
-import qls.ast.Stylesheet;
-import qls.gui.QLSFormUIFactory;
-import qls.parser.StylesheetBuilder;
-import qls.validator.StylesheetValidator;
 
 import javax.swing.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+/**
+ * This program parses an input file following QL DSL specification, for which it renders a graphical form
+ */
 public class Main {
 
     public static void main(String[] args) {
 
-        //TODO: pass file (non-string) instead of filecontents to formbuilder, shorten main method
+        //TODO: pass file (non-string) instead of filecontents to formbuilder
 
         outputInDialog();
 
-        String qlFileName = "src/input/qls/correct/taxOfficeExample.ql";
+        String qlFileName = "src/input/ql/correct/ifElse.ql";
+        // String qlFileName = "src/input/ql/incorrect/validator/cyclicalBetweenQuestions.ql";
+        // String qlFileName = "src/input/ql/correct/gui/dependentValue.ql";
+        // String qlFileName = "src/input/ql/correct/gui/allComputedQuestionTypes.ql";
+        // String qlFileName = "src/input/ql/correct/gui/allQuestionTypes.ql";
+
+        // String qlFile = IOHandler.loadFileUsingDialog("ql");
         String qlFile = IOHandler.loadFile(qlFileName);
 
         Form form = FormBuilder.createForm(qlFile);
 
-        String qlsFileName = "src/input/qls/correct/taxOfficeExample.qls";
-        String qlsFile = IOHandler.loadFile(qlsFileName);
-
-        Stylesheet stylesheet = StylesheetBuilder.createStylesheet(qlsFile);
-
-        if (!FormValidator.passesChecks(form)) {
+        if (FormValidator.passesChecks(form)) {
+            FormUI formUI = new FormUIFactory().getFormUI(form);
+            formUI.display();
+        } else {
             System.out.println("Form not passing validation. See error logs for more details");
             System.exit(1);
         }
 
-        if (!StylesheetValidator.passesChecks(stylesheet)) {
-            System.out.println("Stylesheet not passing validation. See error logs for more details");
-            // System.exit(1);
-        }
-
-        FormUI formUI = new QLSFormUIFactory(stylesheet).getFormUI(form);
-        formUI.display();
     }
 
     public static void outputInDialog() {

@@ -1,5 +1,5 @@
 /*
-    Form with if-else statements, nested conditional questions, unary NOT operator
+    Form with if-else statements, conditionally declared questions, unary NOT operator
 */
 
 form ifElse {
@@ -7,9 +7,9 @@ form ifElse {
         showBlock: boolean = false
     if (showBlock) {
         "Block is shown"
-        flag: boolean = false
+        flag: boolean = true
     } else {
         "Block is hidden"
-        flag: boolean = true
+        flag2: boolean = true
     }
 }

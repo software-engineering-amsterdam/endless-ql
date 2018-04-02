@@ -25,7 +25,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     }
 
     it("error message should be empty") {
-      assert(tc.error == null)
+      assert(tc.error.isEmpty)
     }
   }
 
@@ -39,10 +39,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     }
 
     it("typechecker should contain the exception") {
-      tc.error match {
-        case IdentifierNotDeclared(_) => succeed
-        case other => fail("no correct error was set")
-      }
+      tc.error.get shouldBe a [IdentifierNotDeclared]
     }
   }
 
@@ -56,10 +53,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     }
 
     it("typechecker should contain the exception") {
-      tc.error match {
-        case ConditionalNotBoolean(_) => succeed
-        case other => fail("no correct error was set")
-      }
+      tc.error.get shouldBe a [ConditionalNotBoolean]
     }
   }
 
@@ -73,10 +67,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     }
 
     it("typechecker should contain the exception") {
-      tc.error match {
-        case DuplicateQuestionDeclaration(_) => succeed
-        case other => fail("no correct error was set")
-      }
+      tc.error.get shouldBe a [DuplicateQuestionDeclaration]
     }
   }
 
@@ -90,10 +81,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     }
 
     it("typechecker error should not be defined") {
-      tc.error match {
-        case null => succeed
-        case other => fail("no error should have been set")
-      }
+      assert(tc.error.isEmpty)
     }
 
     it("typechecker warnings should contain a single element") {
@@ -120,48 +108,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     }
 
     it("typechecker should contain the exception") {
-      tc.error match {
-        case InvalidTypeInfered(_) => succeed
-        case other => fail("no correct error was set")
-      }
+      tc.error.get shouldBe a [InvalidTypeInfered]
     }
   }
-  // describe("when ConditionalValidator contains a conditional with Money type") {
-    // val filename = s"${resourceDir}/money_type_conditional.ql"
-    // val form = FormHelper.getForm(getClass.getResource(filename))
-
-    // it("check should return an option exception") {
-      // ConditionalValidator.check(form) match {
-        // case None => fail()
-        // case Some(ConditionalNotBoolean(e)) => succeed
-        // case other => fail("wrong error thrown")
-      // }
-    // }
-  // }
-
-  // describe("when ConditionalValidator contains a valid binOp") {
-    // val filename = s"${resourceDir}/binop/simple_binop.ql"
-    // val form = FormHelper.getForm(getClass.getResource(filename))
-
-    // it("check should not return an option exception") {
-      // ConditionalValidator.check(form) match {
-        // case None => succeed
-        // case Some(ConditionalNotBoolean(e)) => fail(e)
-        // case other => fail("ConditionalValidator should not have thrown an error")
-      // }
-    // }
-  // }
-
-  // describe("when ConditionalValidator contains a binop consisting of money and boolean") {
-    // val filename = s"${resourceDir}/binop/money_bool_binop.ql"
-    // val form = FormHelper.getForm(getClass.getResource(filename))
-
-    // it("check should return an option exception") {
-      // ConditionalValidator.check(form) match {
-        // case None => fail()
-        // case Some(ConditionalNotBoolean(e)) => succeed
-        // case other => fail("wrong error thrown")
-      // }
-    // }
-  // }
 }

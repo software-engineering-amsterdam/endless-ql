@@ -6,10 +6,11 @@ import ql.visitors._
 import ql.validators._
 
 import scala.collection.JavaConversions._
+import scala.util.{Try, Success, Failure}
 
 class TypeChecker() {
 
-  var error: Exception = null
+  var error: Option[Exception] = None
   var warnings: Option[List[String]] = None
 
   val validatorList: List[BaseValidator] = List(
@@ -20,35 +21,38 @@ class TypeChecker() {
     new TypeInferenceValidator()
   )
 
-  def checkValidators(node: Statement): Option[Exception] = {
-    validatorList.map(vc => {
-      vc.check(node) match {
-        case bv @ Some(ex: IdentifierNotDeclared) => {
-          error = ex
-          return bv
+  def verifyValidator(node: Statement, validator: BaseValidator): Boolean = {
+    validator.check(node).map(ex => {
+      ex match {
+        case ex: IdentifierNotDeclared => {
+          true
         }
-        case bv @ Some(ex: ConditionalNotBoolean) => {
-          error = ex
-          return bv
+        case ex: ConditionalNotBoolean => {
+          true
         }
-        case bv @ Some(ex: DuplicateQuestionDeclaration) => {
-          error = ex
-          return bv
+        case ex: DuplicateQuestionDeclaration => {
+          true
         }
-        case Some(ex: DuplicateLabelDeclaration) => {
-          warnings = vc.getWarnings()
+        case ex: DuplicateLabelDeclaration => {
+          warnings = validator.getWarnings()
+          false
         }
-        case bv @ Some(ex: InvalidTypeInfered) => {
-          error = ex
-          return bv
+        case ex: InvalidTypeInfered => {
+          true
         }
-        case other => other
       }
-    })
-    None
+    }).getOrElse(false)
   }
 
-  def validate(node: Statement): Boolean = {
-    checkValidators(node).map(_ => false) getOrElse(true)
+  def getExceptions(node: Statement): Option[Exception] = {
+    validatorList.find(verifyValidator(node, _))
+      .flatMap(ex => {
+        error = ex.check(node)
+        error
+    })
+  }
+
+  def validate(ast: Statement): Boolean = {
+    getExceptions(ast).isEmpty
   }
 }

@@ -7,8 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
-public class MainPanel extends JPanel {
-    public MainPanel(GuiController guiController) {
+public class InitialPanel extends JPanel {
+    public InitialPanel(GuiController guiController) {
         this.setPreferredSize(new Dimension(800, 600));
 
         JFileChooser fileChooser = new JFileChooser();

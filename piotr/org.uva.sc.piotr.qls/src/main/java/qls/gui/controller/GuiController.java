@@ -7,10 +7,13 @@ import ql.gui.model.FormModel;
 import ql.gui.view.WindowView;
 import qls.ast.model.Stylesheet;
 import qls.gui.model.GuiModel;
-import qls.gui.view.MainPanel;
+import qls.gui.model.Paginator;
+import qls.gui.view.InitialPanel;
+import qls.gui.view.paginator.PaginatorView;
 import qls.logic.builders.GuiBuilder;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class GuiController {
 
@@ -20,7 +23,7 @@ public class GuiController {
     public GuiController() {
         this.guiModel = new GuiModel();
         this.windowView = new WindowView();
-        JPanel mainPanel = new MainPanel(this);
+        JPanel mainPanel = new InitialPanel(this);
         windowView.setMainPanel(mainPanel);
         windowView.formatAndShow();
     }
@@ -53,13 +56,27 @@ public class GuiController {
                     this.guiModel.getStylesheet()
             );
 
-            FormModel formModel= new FormModel(guiBuilder.getQuestionModels());
+            FormModel formModel = new FormModel(guiBuilder.getQuestionModels());
             FormController formController = new FormController(formModel);
             formModel.registerController(formController);
 
-            JPanel test = (JPanel) guiBuilder.visit(this.guiModel.getStylesheet());
+            JPanel mainPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            gridBagConstraints.anchor = GridBagConstraints.WEST;
 
-            this.windowView.setMainPanel(test);
+            Paginator paginator = new Paginator(guiBuilder.getPages());
+
+            JPanel pagePanel = new JPanel();
+            pagePanel.add(paginator.getCurrentPage());
+
+            JPanel paginatorView = new PaginatorView(paginator, pagePanel);
+
+            gridBagConstraints.gridy = 0;
+            mainPanel.add(paginatorView, gridBagConstraints);
+            gridBagConstraints.gridy = 1;
+            mainPanel.add(pagePanel, gridBagConstraints);
+
+            this.windowView.setMainPanel(mainPanel);
             windowView.formatAndShow();
 
         }

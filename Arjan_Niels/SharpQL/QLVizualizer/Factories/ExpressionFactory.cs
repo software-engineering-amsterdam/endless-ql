@@ -50,9 +50,19 @@ namespace QLVisualizer.Factories
                     return ParseidentifierNode(identifierNode);
                 case LiteralNode literalNode:
                     return ParseLiteralNode(literalNode);
+                case TextConcatinationNode textConcatinationNode:
+                    return ParseTextConcatinationNode(textConcatinationNode);
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        private ExpressionValue ParseTextConcatinationNode(TextConcatinationNode textConcatinationNode)
+        {
+            ExpressionValue leftExpressionValue = ParseExpressionNode(textConcatinationNode.Left);
+            ExpressionValue rightExpressionValue = ParseExpressionNode(textConcatinationNode.Right);
+            return leftExpressionValue.Combine(rightExpressionValue, ExpressionOperator.Plus);
+
         }
 
         private ExpressionValue ParseLogicalNode(LogicalExpressionNode logicalExpressionNode)
@@ -74,7 +84,6 @@ namespace QLVisualizer.Factories
             }
 
             return leftExpressionValue.Combine(rightExpressionValue, expressionOperator);
-
         }
 
 

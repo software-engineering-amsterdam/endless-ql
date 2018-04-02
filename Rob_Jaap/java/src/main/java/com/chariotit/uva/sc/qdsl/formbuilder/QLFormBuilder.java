@@ -116,31 +116,6 @@ public class QLFormBuilder {
         jFrame.repaint();
    }
 
-    private void renderQuestions(Stylesheet stylesheet) {
-        for (Page page : stylesheet.getPages()) {
-            System.out.println("We have a page here " + page.getLabel());
-            renderPage(page);
-        }
-    }
-
-    private void renderPage(Page page){
-        for (Section section: page.getSections()) {
-            renderSection(section);
-        }
-    }
-
-    private void renderSection(Section section){
-
-        System.out.println(questions);
-
-        for (SectionElement element: section.getElements()) {
-            if(element instanceof Question){
-                FormQuestion formQuestion = questions.get(((Question) element).getLabel());
-                System.out.println("rendering element " + ((Question) element).getLabel());
-
-            }
-        }
-    }
 
     private void evaluateAst() {
         EvaluateVisitor evaluateVisitor = new EvaluateVisitor(symbolTable);

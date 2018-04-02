@@ -34,4 +34,13 @@ public class Question extends Statement {
     public <T> T accept(StatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "description=" + description +
+                ", identifier=" + identifier +
+                ", type=" + type +
+                '}';
+    }
 }

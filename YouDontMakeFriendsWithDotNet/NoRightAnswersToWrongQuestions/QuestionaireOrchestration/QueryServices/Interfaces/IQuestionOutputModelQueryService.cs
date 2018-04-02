@@ -3,7 +3,7 @@ using QuestionnaireOrchestration.Models;
 
 namespace QuestionnaireOrchestration.QueryServices.Interfaces
 {
-    public interface IQuestionOutputModelQueryService : 
+    public interface IQuestionOutputModelQueryService :
         IModelQueryService<QuestionOutputModel>
     {
         QuestionModel GetQuestionModel(Guid questionId);

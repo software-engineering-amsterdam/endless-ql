@@ -46,7 +46,7 @@ public class WidgetFactory implements WidgetTypeVisitor<QuestionWidget, Question
 
     @Override
     public QuestionWidget visit(SpinboxType spinboxType, Question question, Value value, Boolean readOnly) {
-        return new SpinboxWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
+        return new SpinBoxWidget(question, value, readOnly, this.styleEvaluator.getStyle(question));
     }
 
     @Override

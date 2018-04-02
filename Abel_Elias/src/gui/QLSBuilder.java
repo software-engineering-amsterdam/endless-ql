@@ -1,137 +1,115 @@
 package gui;
 
-import QL.classes.Question;
-import QL.classes.values.Value;
+import QL.parsing.visitors.FormVisitor;
 import QLS.classes.Page;
 import QLS.classes.blocks.Element;
+import QLS.classes.blocks.ElementType;
 import QLS.classes.blocks.Section;
 import QLS.classes.blocks.StyledQuestion;
-import QLS.classes.widgets.CheckBoxWidget;
-import QLS.classes.widgets.TextWidget;
-import QLS.classes.widgets.WidgetType;
+import QLS.classes.properties.Property;
 import QLS.parsing.visitors.StylesheetVisitor;
-import gui.questions.PagePanel;
-import gui.questions.QuestionPanel;
+import gui.panels.PagePanel;
+import gui.panels.QuestionPanel;
+import gui.panels.SectionPanel;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
-public class QLSBuilder {
+public class QLSBuilder implements Observer {
     private StylesheetVisitor stylesheetVisitor;
-    private LinkedHashMap<StyledQuestion, JPanel> styledQuestions = new LinkedHashMap<>();
+    private FormVisitor coreVisitor;
+
     private LinkedHashMap<String, PagePanel> pages = new LinkedHashMap<>();
-    private LinkedHashMap<String, JPanel> sections = new LinkedHashMap<>();
+    private ArrayList<QuestionPanel> questionPanels;
+    private JPanel mainPanel;
 
-    public JPanel getStyleSheetPanel() {
-        return styleSheetPanel;
-    }
-
-    private JPanel styleSheetPanel;
-
-
-    public QLSBuilder(StylesheetVisitor stylesheetVisitor) {
+    public QLSBuilder(StylesheetVisitor stylesheetVisitor, FormVisitor coreVisitor) {
         this.stylesheetVisitor = stylesheetVisitor;
-        styleSheetPanel = new JPanel();
-        styleSheetPanel.setLayout(new GridLayout(0, 1));
+        this.coreVisitor = coreVisitor;
+        this.questionPanels = new ArrayList<>();
+        this.mainPanel = new JPanel();
         buildStyleSheet();
     }
 
-    public void buildStyleSheet() {
-        buildPages();
+    JPanel getMainPanel() {
+        return mainPanel;
     }
 
-    public void buildPages() {
+    private void buildStyleSheet() {
+        buildPages();
+        createStyledForm();
+    }
+
+    private void buildPages() {
         for (Page page : this.stylesheetVisitor.getPages().values()) {
             PagePanel pagePanel = new PagePanel(page.getId(), page);
-            pagePanel.setLayout(new GridLayout(0, 1));
-
-            //Set header and border
-            TitledBorder border = BorderFactory.createTitledBorder(page.getId());
-            Border lineBorder = BorderFactory.createLineBorder(Color.BLACK);
-            border.setBorder(lineBorder);
-            pagePanel.setBorder(border);
-            pages.put(page.getId(), pagePanel);
-            //styleSheetPanel.add(pagePanel);
-            buildSections(page);
+            for (Section section : page.getSections()) {
+                pagePanel.add(buildSection(section));
+            }
+            mainPanel.add(pagePanel);
         }
     }
 
-    private void buildSections(Page page) {
-        for (Section section : page.getSections()) {
-            buildSection(section);
-        }
-    }
-
-    private void buildElements(Section section) {
-        for (Element element : section.getElements()) {
-            //TODO: replace ugly instance of statements
-            if(element instanceof StyledQuestion) {
-                buildQuestion((StyledQuestion) element);
-            } else if (element instanceof Section) {
-                buildSection((Section) element);
+    private void buildElements(SectionPanel sectionPanel) {
+        for (Element element : sectionPanel.getSection().getElements()) {
+            if (element.getType().equals(ElementType.QUESTION)) {
+                sectionPanel.add(buildQuestion((StyledQuestion) element));
+            } else if (element.getType().equals(ElementType.SECTION)) {
+                sectionPanel.add(buildSection((Section) element));
             }
         }
     }
 
-    private void buildSection(Section section) {
-        JPanel sectionPanel = new JPanel();
-        sectionPanel.setLayout(new GridLayout(0, 1));
-
-        //Set header and border
-        TitledBorder border = BorderFactory.createTitledBorder(section.getName());
-        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK);
-        border.setBorder(lineBorder);
-        sectionPanel.setBorder(border);
-        sections.put(section.getName(), sectionPanel);
-        buildElements(section);
+    private SectionPanel buildSection(Section section) {
+        SectionPanel sectionPanel = new SectionPanel(section);
+        buildElements(sectionPanel);
+        return sectionPanel;
     }
 
-    private void buildQuestion(StyledQuestion question) {
-        JPanel questionPanel = new JPanel();
-        questionPanel.setLayout(new GridLayout(0, 1));
-        styledQuestions.put(question, questionPanel);
-    }
-
-
-    public void setWidgets(LinkedHashMap<String, QuestionPanel> formQuestions) {
-
-        //Remove all existing section panel content
-        for(JPanel panel : sections.values()) {
-            panel.removeAll();
+    private QuestionPanel buildQuestion(StyledQuestion styledQuestion) {
+        if (!styledQuestion.getQuestion().isFixed()) {
+            styledQuestion.getQuestion().getValue().addObserver(this);
+        }
+        QuestionPanel questionPanel = new QuestionPanel(styledQuestion.getQuestion(), styledQuestion.getWidget());
+        for (Property property : styledQuestion.getProperties()) {
+            if (property != null) {
+                property.applyProperty(questionPanel);
+            }
         }
 
-        //Add all questions to their parent section
-        for (StyledQuestion styledQuestion : styledQuestions.keySet()) {
-            String parentId = styledQuestion.getParentId();
-            if (parentId != null && sections.containsKey(parentId)) {
-                JPanel sectionPanel = sections.get(parentId);
-                QuestionPanel panel = formQuestions.get(styledQuestion.getQuestion().getId());
-                if(panel != null) {
-                    sectionPanel.add(panel);
+        questionPanels.add(questionPanel);
+        return questionPanel;
+    }
+
+    private void createStyledForm() {
+        this.updateGUI();
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    private void updateGUI() {
+        //Iterate over the total question hashmap
+        for (QuestionPanel q : questionPanels) {
+            if (q.getQuestion().isVisible()) {
+                q.setVisible(true);
+                if (q.getQuestion().isFixed()) {
+                    q.refresh();
                 }
+            } else {
+                q.setVisible(false);
             }
         }
-        for(JPanel section : sections.values()) {
-            styleSheetPanel.add(section);
-        }
+    }
 
-//        for(PagePanel pagePanel : pages.values()) {
-//            for (Map.Entry<String, JPanel> entry : sections.entrySet()) {
-//                for(Section section :pagePanel.getPage().getSections()) {
-//                    if(section.getName().equals(entry.getKey())) {
-//                        pagePanel.add(entry.getValue());
-//                    }
-//                }
-//            }
-//            styleSheetPanel.add(pagePanel);
-//        }
-        styleSheetPanel.revalidate();
-        styleSheetPanel.repaint();
+    @Override
+    public void update(Observable o, Object arg) {
+        this.coreVisitor.update();
+        this.updateGUI();
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 }

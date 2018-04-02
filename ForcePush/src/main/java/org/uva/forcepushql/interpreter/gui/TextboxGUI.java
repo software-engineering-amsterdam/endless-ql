@@ -61,18 +61,6 @@ public class TextboxGUI implements QuestionGUI
     }
 
 
-    public void setEnable(boolean b)
-    {
-        if (!b)
-        {
-            textField.setEnabled(b);
-            textField.setDisabledTextColor(Color.BLACK);
-        } else
-        {
-            textField.setEnabled(b);
-        }
-    }
-
     public void setText(String text)
     {
         textField.setText(text);

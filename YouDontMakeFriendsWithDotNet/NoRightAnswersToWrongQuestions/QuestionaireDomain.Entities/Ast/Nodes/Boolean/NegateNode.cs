@@ -10,7 +10,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean
         public NegateNode(
             Guid id,
             string definition,
-            DomainId<IBooleanLogicNode> childExpression) 
+            DomainId<IBooleanLogicNode> childExpression)
             : base(id, definition)
         {
             Expression = childExpression;

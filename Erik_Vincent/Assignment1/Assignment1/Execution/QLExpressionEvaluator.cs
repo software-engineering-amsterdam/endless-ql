@@ -152,11 +152,13 @@ namespace Assignment1.Execution
             _result = VisitConditional(expression, (a, b) => Equal(a, b));
         }
 
+        private static bool Equal(QLBoolean a, QLBoolean b) => a.Value == b.Value;
         private static bool Equal(QLInteger a, QLInteger b) => a.Value == b.Value;
         private static bool Equal(QLDecimal a, QLDecimal b) => a.Value == b.Value;
         private static bool Equal(QLDate a, QLDate b) => a.Value == b.Value;
         private static bool Equal(QLMoney a, QLMoney b) => a.Value == b.Value;
         private static bool Equal(QLString a, QLString b) => a.Value == b.Value;
+        private static bool Equal(IValue a, IValue b) => false;
 
         public void Visit(Add expression)
         {

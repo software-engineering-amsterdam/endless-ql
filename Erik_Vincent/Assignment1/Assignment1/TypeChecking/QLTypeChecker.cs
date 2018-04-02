@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Assignment1.Model.QL.AST;
 using Assignment1.Model.QL.AST.Expression;
 using Assignment1.Model.QL.AST.Value;
-using Assignment1.Parser;
 
 namespace Assignment1.TypeChecking
 {

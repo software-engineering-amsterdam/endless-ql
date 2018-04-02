@@ -1,12 +1,11 @@
 package ui.view.field
 
-import javafx.beans.property.StringProperty
 import javafx.scene.control.TextField
 import javafx.scene.control.TextInputControl
 import tornadofx.mutateOnChange
-import ui.model.QuestionViewModel
+import ui.model.viewmodel.QuestionViewModel
 
-abstract class QuestionTextField(val question: QuestionViewModel) : QuestionField() {
+abstract class QuestionTextField(question: QuestionViewModel) : QuestionField(question) {
 
     final override val root = TextField()
 
@@ -14,14 +13,6 @@ abstract class QuestionTextField(val question: QuestionViewModel) : QuestionFiel
         with(root) {
             isDisable = question.readOnly
         }
-    }
-
-    // Listener must be attached after binding model
-    // Or else it will be called before the model is updated and validated
-    fun attachListener(textProperty: StringProperty) {
-        textProperty.addListener({ _, _, _ ->
-            question.update()
-        })
     }
 
     internal fun TextInputControl.stripNonNumeric(vararg allowedChars: String = arrayOf(".", ",", "-")) = textProperty().mutateOnChange {

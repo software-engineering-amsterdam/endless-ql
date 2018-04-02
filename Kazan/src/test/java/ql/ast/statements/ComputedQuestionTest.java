@@ -3,7 +3,6 @@ package ql.ast.statements;
 import org.junit.Before;
 import org.junit.Test;
 import ql.ast.expressions.literals.*;
-import ql.ast.statements.ComputedQuestion;
 import ql.parser.FormBuilder;
 
 import java.math.BigDecimal;
@@ -14,10 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ComputedQuestionTest {
 
-    private final double DELTA = 1e-15;
-
     private FormBuilder formBuilder;
-
 
 
     @Before
@@ -34,6 +30,7 @@ public class ComputedQuestionTest {
 
     @Test
     public void canParseComputedDecimal() {
+        final double DELTA = 1e-15;
         ComputedQuestion question = (ComputedQuestion) formBuilder.createStatement("\"test\" testQuestion: decimal = 23423.03");
         DecimalLiteral decimalLiteral = (DecimalLiteral) question.getExpression();
         assertEquals(23423.03, decimalLiteral.getValue(), DELTA);

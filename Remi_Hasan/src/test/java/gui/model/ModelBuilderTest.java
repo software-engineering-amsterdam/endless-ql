@@ -6,7 +6,6 @@ import ql.QLForm;
 import qls.QLSBuilder;
 import qls.model.StyleSheet;
 
-import java.io.FileInputStream;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;

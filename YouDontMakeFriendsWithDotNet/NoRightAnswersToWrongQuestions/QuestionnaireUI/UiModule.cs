@@ -7,6 +7,7 @@ namespace QuestionnaireUI
     {
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
+            // no registrations yet
         }
     }
 }

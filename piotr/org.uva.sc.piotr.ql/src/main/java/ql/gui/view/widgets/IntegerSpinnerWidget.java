@@ -4,23 +4,25 @@ import ql.gui.model.QuestionModel;
 import ql.gui.view.Widget;
 
 import javax.swing.*;
+import java.awt.*;
 import java.math.BigInteger;
 
 public class IntegerSpinnerWidget extends Widget {
 
     private final JSpinner spinner;
+    private SpinnerNumberModel spinnerModel;
 
     public IntegerSpinnerWidget(QuestionModel questionModel) {
         super(questionModel);
 
-        SpinnerModel spinnerModel = new SpinnerNumberModel(
+        this.spinnerModel = new SpinnerNumberModel(
                 0,
                 Integer.MIN_VALUE,
                 Integer.MAX_VALUE,
                 1
         );
 
-        JSpinner spinner = new JSpinner(spinnerModel);
+        JSpinner spinner = new JSpinner(this.spinnerModel);
 
         JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spinner);
         editor.getFormat().setGroupingUsed(false);
@@ -43,5 +45,39 @@ public class IntegerSpinnerWidget extends Widget {
     @Override
     public JComponent getComponent() {
         return this.spinner;
+    }
+
+    @Override
+    public void setWidth(Integer width) {
+        Dimension size = this.spinner.getPreferredSize();
+        size.width = width;
+        this.spinner.setPreferredSize(size);
+    }
+
+    @Override
+    public void setFont(String font) {
+        this.spinner.setFont(new Font(font, Font.PLAIN, this.spinner.getFont().getSize()));
+    }
+
+    @Override
+    public void setFontSize(Integer fontSize) {
+        this.spinner.setFont(new Font(this.spinner.getFont().getName(), Font.PLAIN, fontSize));
+    }
+
+    @Override
+    public void setColor(String color) {
+        this.spinner.setBackground(Color.decode(color));
+    }
+
+    public void setMin(Integer min) {
+        this.spinnerModel.setMinimum(min);
+    }
+
+    public void setMax(Integer max) {
+        this.spinnerModel.setMaximum(max);
+    }
+
+    public void setStep(Integer step) {
+        this.spinnerModel.setStepSize(step);
     }
 }

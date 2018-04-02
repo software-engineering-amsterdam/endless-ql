@@ -21,7 +21,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
     public class ValidatorUnitTest
     {
         private IServiceProvider m_serviceProvider;
-        private IQuestionnaireValidator m_questionnaireValidator;
+        private IQuestionnaireTypeChecker m_questionnaireTypeChecker;
         private IDomainItemLocator m_domainItemLocator;
 
         [SetUp]
@@ -38,7 +38,6 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
         [TearDown]
         public void Cleanup()
         {
-            //ToDo: this is a hack, should fix lifetime of service (possibly)
             var registry = m_serviceProvider.GetService<IDomainItemRegistry>();
             registry.Nuke();
         }
@@ -48,7 +47,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             nameof(TestValidationData.RepeatedNamesDifferentTypes))]
         public void WhenRepeatedQuestionDifferentTypes_ProducesTheCorrectMetaData(
             string invalidDescription,
-            IEnumerable<Type> expectedSourceTypes,
+            IEnumerable<IQuestionType> expectedSourceTypes,
             string errorMessage)
         {
             CreateAndValidateForm(invalidDescription);
@@ -71,7 +70,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             string validDescription)
         {
             CreateAndValidateForm(validDescription);
-            Assert.AreEqual(0, m_questionnaireValidator.Results.Count);
+            Assert.AreEqual(0, m_questionnaireTypeChecker.Results.Count);
         }
 
         [TestCaseSource(
@@ -137,7 +136,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
         [TestCaseSource(
             typeof(TestValidationData),
             nameof(TestValidationData.NonNumberCalculationVariable))]
-        public void WhenGivenNonNumberInCalculation_ProducesTheCorrectMetaDatas(
+        public void WhenGivenNonNumberInCalculationx_ProducesTheCorrectMetaDatas(
             string invalidDescription,
             string errorMessage)
         {
@@ -202,7 +201,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
 
         private IList<ValidationMetaData> ResultsFor<T>() where T : ValidationMetaData
         {
-            return m_questionnaireValidator
+            return m_questionnaireTypeChecker
                 .Results
                 .OfType<T>()
                 .Cast<ValidationMetaData>()
@@ -257,14 +256,14 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
         {
             var questionnaireCreator = m_serviceProvider
                 .GetService<IQuestionnaireAstCreator>();
-            m_questionnaireValidator = m_serviceProvider
-                .GetService<IQuestionnaireValidator>();
+            m_questionnaireTypeChecker = m_serviceProvider
+                .GetService<IQuestionnaireTypeChecker>();
 
             var domainItemId = questionnaireCreator.
                 Create(validText);
 
             Assert.IsNotNull(domainItemId, @"should have created a for from a valid definition");
-            m_questionnaireValidator.Validate(domainItemId);
+            m_questionnaireTypeChecker.Validate(domainItemId);
         }
     }
 }

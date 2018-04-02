@@ -1,4 +1,4 @@
-// Generated from C:/Users/Joana Magalhães/Documents/GitHub/endless-ql/ForcePush/src/main/java/org/uva/forcepushql/parser\GrammarLexer.g4 by ANTLR 4.7
+// Generated from C:/Users/georg/Documents/GitHub/endless-ql/ForcePush/src/main/java/org/uva/forcepushql/parser\GrammarLexer.g4 by ANTLR 4.7
 package org.uva.forcepushql.parser.antlr;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -32,7 +32,7 @@ public class GrammarLexer extends Lexer {
 	};
 
 	public static final String[] ruleNames = {
-		"WHITESPACE", "COMMENT", "LINE_COMMENT", "FORM", "BOOL", "STR", "INT", 
+		"WHITESPACE", "COMMENT", "LINE_COMMENT", "FORM", "BOOLEAN", "STRING", "INTEGER",
 		"DATE", "DECIMAL", "MULTIPLEANSWER", "MONEY", "ASSIGN", "IF", "ELSE", 
 		"IFELSE", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "SEMI", "COMMA", "DOT", 
 		"PLUS", "MINUS", "MULTIPLY", "DIVIDE", "EQUAL", "LESS", "GREATER", "EQUALGREATER", 
@@ -48,8 +48,8 @@ public class GrammarLexer extends Lexer {
 		"'||'", "'!'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "WHITESPACE", "COMMENT", "LINE_COMMENT", "FORM", "BOOL", "STR", 
-		"INT", "DATE", "DECIMAL", "MULTIPLEANSWER", "MONEY", "ASSIGN", "IF", "ELSE", 
+		null, "WHITESPACE", "COMMENT", "LINE_COMMENT", "FORM", "BOOLEAN", "STRING",
+		"INTEGER", "DATE", "DECIMAL", "MULTIPLEANSWER", "MONEY", "ASSIGN", "IF", "ELSE",
 		"IFELSE", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "SEMI", "COMMA", "DOT", 
 		"PLUS", "MINUS", "MULTIPLY", "DIVIDE", "EQUAL", "LESS", "GREATER", "EQUALGREATER", 
 		"EQUALLESS", "NOTEQUAL", "ISEQUAL", "AND", "OR", "NOT", "NUM", "VAR", 

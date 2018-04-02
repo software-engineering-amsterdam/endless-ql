@@ -5,6 +5,10 @@ public abstract class InfixExpressionNode extends ExpressionNode
     private ExpressionNode left;
     private ExpressionNode right;
 
+    public InfixExpressionNode(boolean isBooleanExpression) {
+        super(isBooleanExpression);
+    }
+
     public void setLeft(ExpressionNode left)
     {
         this.left = left;
@@ -24,8 +28,6 @@ public abstract class InfixExpressionNode extends ExpressionNode
     {
         return this.right;
     }
-
-
 
 }
 

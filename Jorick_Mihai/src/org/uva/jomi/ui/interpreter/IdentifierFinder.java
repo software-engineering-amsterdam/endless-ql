@@ -29,137 +29,96 @@ public class IdentifierFinder implements Expression.Visitor<List<String>> {
 		return expr.accept(this);
 	}
 
-	/*
-	@Override
-	public List<String> visit(FormStmt stmt) {
-		return stmt.getBlockStmt().accept(this);
-	}
 
 	@Override
-	public List<String> visit(BlockStmt stmt) {
-		List<String> identifiers = new ArrayList<String>();
-		for (Stmt statement : stmt.getStatements()) {
-			identifiers = this.combineIdentifiers(identifiers, statement.accept(this));
-		}
-		return identifiers;
-	}
-
-	@Override
-	public List<String> visit(QuestionStmt stmt) {
+	public List<String> visit(IdentifierExpression expression) {
 		List<String> identifiers =  new ArrayList<String>();
-		identifiers.add(stmt.getIdentifierName());
+		identifiers.add(expression.getName());
 		return identifiers;
 	}
 
 	@Override
-	public List<String> visit(ComputedQuestionStmt stmt) {
-		List<String> identifiers =  new ArrayList<String>();
-		identifiers.add(stmt.getIdentifierName());
-		return identifiers;
+	public List<String> visit(GroupingExpression expression) {
+		return expression.visitInnerExpression(this);
 	}
 
 	@Override
-	public List<String> visit(IfStmt stmt) {
-		return stmt.getIfBlockStmt().accept(this);
+	public List<String> visit(AdditionExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(IfElseStmt stmt) {
-		List<String> identifiers = stmt.getIfBlockStmt().accept(this);
-		return this.combineIdentifiers(identifiers, stmt.getElseBlockStmt().accept(this));
-	}
-	*/
-
-
-	@Override
-	public List<String> visit(IdentifierExpression expr) {
-		List<String> identifiers =  new ArrayList<String>();
-		identifiers.add(expr.getName());
-		return identifiers;
+	public List<String> visit(SubtractionExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(GroupingExpression expr) {
-		return expr.visitInnerExpression(this);
+	public List<String> visit(MultiplicationExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(AdditionExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
+	public List<String> visit(DivisionExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(SubtractionExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
+	public List<String> visit(LessThanExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(MultiplicationExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
+	public List<String> visit(LessThanOrEqualExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(DivisionExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
+	public List<String> visit(GreaterThanExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(LessThanExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
+	public List<String> visit(GreaterThanOrEqualExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(LessThanOrEqualExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
+	public List<String> visit(NotEqualExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(GreaterThanExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
+	public List<String> visit(EqualExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(GreaterThanOrEqualExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
+	public List<String> visit(AndExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(NotEqualExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
+	public List<String> visit(OrExpression expression) {
+		return this.combineIdentifiers(expression.visitLeftExpression(this), expression.visitRightExpression(this));
 	}
 
 	@Override
-	public List<String> visit(EqualExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
+	public List<String> visit(UnaryNotExpression expression) {
+		return expression.accept(this);
 	}
 
 	@Override
-	public List<String> visit(AndExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
-	}
-
-	@Override
-	public List<String> visit(OrExpression expr) {
-		return this.combineIdentifiers(expr.visitLeftExpression(this), expr.visitRightExpression(this));
-	}
-
-	@Override
-	public List<String> visit(UnaryNotExpression expr) {
-		return expr.accept(this);
-	}
-
-	@Override
-	public List<String> visit(IntegerExpression expr) {
+	public List<String> visit(IntegerExpression expression) {
 		return new ArrayList<String>();
 	}
 
 	@Override
-	public List<String> visit(StringExpression expr) {
+	public List<String> visit(StringExpression expression) {
 		return new ArrayList<String>();
 	}
 
 	@Override
-	public List<String> visit(BooleanExpression expr) {
+	public List<String> visit(BooleanExpression expression) {
 		return new ArrayList<String>();
 	}
 

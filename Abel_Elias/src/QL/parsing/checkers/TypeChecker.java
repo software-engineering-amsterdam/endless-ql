@@ -1,20 +1,22 @@
 package QL.parsing.checkers;
+
 import QL.classes.values.Value;
 import QL.parsing.checkers.errors.TypeMismatchError;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
 import org.antlr.v4.runtime.ParserRuleContext;
+
 import java.util.Date;
 import java.util.HashMap;
 
-public class TypeChecker extends QLBaseVisitor{
+public class TypeChecker extends QLBaseVisitor {
     private HashMap<String, Object> typeMap;
 
-    TypeChecker(){
+    public TypeChecker() {
         typeMap = new HashMap();
     }
 
-    public void checkForm(QLParser.FormContext form){
+    public void checkForm(QLParser.FormContext form) {
         visit(form);
     }
 
@@ -23,7 +25,7 @@ public class TypeChecker extends QLBaseVisitor{
         String id = ctx.IDENTIFIER().getText();
         String type = ctx.type().getText();
 
-        switch(type){
+        switch (type) {
             case "boolean":
                 return typeMap.put(id, true);
             case "string":
@@ -34,6 +36,7 @@ public class TypeChecker extends QLBaseVisitor{
             case "decimal":
             case "money":
                 return typeMap.put(id, 0.0);
+            default: break;
         }
 
         return true;
@@ -53,7 +56,6 @@ public class TypeChecker extends QLBaseVisitor{
 
     @Override
     public Object visitIfStatement(QLParser.IfStatementContext ctx) {
-        System.out.println("passed here");
         Object value = visit(ctx.expression());
         return checkType(Value.BOOLEAN, value, ctx.expression(), ctx);
     }
@@ -118,23 +120,28 @@ public class TypeChecker extends QLBaseVisitor{
         return 0.0;
     }
 
-    private boolean checkType(String type, Object value, ParserRuleContext expression, ParserRuleContext code){
+    private boolean checkType(String type, Object value, ParserRuleContext expression, ParserRuleContext code) {
         boolean correct = false;
 
-        switch(type){
+        switch (type) {
             case "boolean":
-                correct = value instanceof Boolean; break;
+                correct = value instanceof Boolean;
+                break;
             case "string":
-                correct = value instanceof String; break;
+                correct = value instanceof String;
+                break;
             case "date":
-                correct = value instanceof Date; break;
+                correct = value instanceof Date;
+                break;
             case "integer":
             case "decimal":
             case "money":
-                correct = value instanceof Number; break;
+                correct = value instanceof Number;
+                break;
+            default: break;
         }
 
-        if(!correct){
+        if (!correct) {
             throw new TypeMismatchError(expression.getText(), code.getText(), type);
         }
 

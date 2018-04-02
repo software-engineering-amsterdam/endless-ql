@@ -10,4 +10,18 @@ public enum EvaluationType {
     public Boolean isLogical(){
         return this == Boolean;
     }
+
+    public EvaluationType hasPriority(EvaluationType evaluationType){
+        if(this.isArithmetic() && evaluationType.isArithmetic()){
+            if(this == Decimal || this == Money){
+                return this;
+            } else if(this == Integer && evaluationType == Integer){
+                return this;
+            }
+
+            return evaluationType;
+        }
+
+        throw new IllegalArgumentException("Cannot compare priorities of non-numeric types");
+    }
 }

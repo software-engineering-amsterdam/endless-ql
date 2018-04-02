@@ -14,6 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -164,9 +165,8 @@
       <Link>GeneratedCode\QlVisitor.cs</Link>
     </Compile>
     <Compile Include="AntlrModule.cs" />
-    <Compile Include="AstBuilder\AstExtensions.cs" />
     <Compile Include="AstBuilder\ParsingErrorListener.cs" />
-    <Compile Include="AstBuilder\AstTreeBuilder.cs" />
+    <Compile Include="AstBuilder\AstBuilder.cs" />
     <Compile Include="AstBuilder\BuildAstVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

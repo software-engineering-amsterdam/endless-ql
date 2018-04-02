@@ -1,7 +1,5 @@
 package QLS.classes;
 
-import QL.classes.Block;
-
 import java.util.List;
 
 public class Stylesheet {
@@ -13,20 +11,16 @@ public class Stylesheet {
         this.pages = pages;
     }
 
-    public List<Page> getPages() {
-        return this.pages;
-    }
-
-    public void setPages(List<Page> pages) {
-        this.pages = pages;
-    }
-
     public String getId() {
         return this.id;
     }
 
     public void setId(String id) {
         this.id = id;
-
     }
+
+    public List<Page> getPages() {
+        return pages;
+    }
+
 }

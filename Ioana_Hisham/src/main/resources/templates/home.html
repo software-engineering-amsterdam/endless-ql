@@ -1,47 +1,95 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title th:text="${title}"></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" type="text/css" href="css/home.css" />
-    </head>
-    <body>
-        <header>
-            <p id="title-header">Interpreter App</p>
-        </header>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<head>
+    <title th:text="${title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/home.css" />
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+</head>
+<body>
+<header>
+    <p id="title-header">Interpreter App</p>
+</header>
 
 
-        <div id="content">
-            <div id="input-boxes-area">
-                <div id="ql-input-box">
-                    <div class="title">
-                        <p>QL</p>
-                    </div>
-                    <div class="code-wrap">
-                        <!--<form action="#" th:action="@{/greeting}" th:object="${greeting}" method="post">
-                            <p>Id: <input type="text" th:field="*{id}" /></p>
-                            <p>Message: <input type="text" th:field="*{content}" /></p>
-                            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-                        </form>-->
+<div id="content">
+    <div id="input-boxes-area">
+
+        <form class="ql-and-qls-forms" action="#" th:action="@{/}" th:object="${userInput}" method="post">
+            <div id="ql-input-box">
+                <div class="title">
+                    <p class="title-name">QL</p>
+                    <div class="ql-and-qls-buttons">
+                        <input  type="submit" value="Submit" />
+                        <input  type="reset" value="Refresh" />
                     </div>
                 </div>
-                <div id="qls-input-box">
-                    <div class="title">
-                        <p>QLS</p>
-                    </div>
-                    <div class="code-wrap"></div>
+                <div class="code-wrap">
+                    <textarea class="ql-and-qls-input-areas" th:field="*{htmlRequestInput}"></textarea>
                 </div>
             </div>
-            <div id="result-display-area">
-                <!--TODO Inject html created from json-->
+            <div id="qls-input-box">
+                <div class="title">
+                    <p class="title-name">QL</p>
+                </div>
+                <div class="code-wrap">
+                    <textarea class="ql-and-qls-input-areas" th:field="*{cssRequestInput}"></textarea>
+                </div>
             </div>
-            <!--<h1 th:text="|Hello ${name}!|"></h1>
-            <h2 th:text="|Welcome to ${title} application|"></h2>-->
-        </div>
+        </form>
+    </div>
+    <div class="result-display-area" th:if="${interpretedOutput != null}">
+        <form class="ql-and-qls-forms">
+            <table>
+                <tr th:each="question : ${interpretedOutput.questions}">
+                    <td th:if="${question.description != null}">
+                        <H4 th:text="${question.description}" />
+                        <div th:if="${question.identifier != null}" th:id="${question.identifier}">
+                            <div th:if="${question.type != null}">
+                                <div th:if="${question.type.toString().equals('boolean')}">
+                                    <input type="radio" th:value="${question.identifier}" onchange="myFunction(this.value, 'true')"/> True
+                                    <input type="radio" th:value="${question.identifier}" onchange="myFunction(this.value, 'false')"/> False
+                                </div>
+                                <div th:if="${question.type.toString().equals('money')}">
+                                    <input type="text" name="fname"/>
+                                </div>
+                                <div th:if="${question.type.toString().equals('text')}">
+                                    <input type="text" name="fname"/>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <script>
+                function myFunction(identifier, val) {
+                    console.log(val + identifier);
+                    var car = {identifier:identifier, value:val};
+                    $.ajax({
+                      type: "POST",
+                      url: "/reset",
+                      data: JSON.stringify(car),
+                      contentType: "application/json; charset=utf-8",
+                      success: function(response) {
+                        $('html').html(response);
+                       },
+                      error: function(xhr, ajaxOptions, thrownError) {  }
+                    });
+                }
+            </script>
+        </form>
+    </div>
+    <div class="result-display-area" th:if="${interpretedOutput == null}">
+        <h1>Empty or null.</h1>
+    </div>
+    <!--<h1 th:text="|Hello ${name}!|"></h1>
+    <h2 th:text="|Welcome to ${title} application|"></h2>-->
+</div>
 
 
-        <footer>
-            <a href="https://github.com/software-engineering-amsterdam/endless-ql/tree/master/Ioana_Hisham"><p id="title-footer">Made by: Ioana Mirică &amp; Hisham Ahmed </p></a>
-        </footer>
-    </body>
+<footer>
+    <a href="https://github.com/software-engineering-amsterdam/endless-ql/tree/master/Ioana_Hisham"><p id="title-footer">Made by: Ioana Mirică &amp; Hisham Ahmed </p></a>
+</footer>
+</body>
 </html>
+

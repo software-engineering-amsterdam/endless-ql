@@ -1,17 +1,16 @@
 package ui.view.field
 
-import ui.model.IntegerViewModel
 import javafx.scene.control.TextInputControl
 import tornadofx.bind
 import tornadofx.mutateOnChange
+import ui.model.viewmodel.IntegerViewModel
 
 class IntegerField(question: IntegerViewModel) : QuestionTextField(question) {
 
     init {
-        with(root){
+        with(root) {
             stripNonInteger()
             bind(question.integerProperty)
-
             attachListener(textProperty())
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Globalization;
 using NUnit.Framework;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 
 namespace QL.UnitTests.Domain.UnitTests.Data
 {
@@ -25,20 +26,20 @@ namespace QL.UnitTests.Domain.UnitTests.Data
         {
             get
             {
-                yield return TypeResult(@"boolean", typeof(bool));
-                yield return TypeResult(@"string", typeof(string));
-                yield return TypeResult(@"decimal", typeof(decimal));
-                yield return TypeResult(@"integer", typeof(int));
-                yield return TypeResult(@"date", typeof(DateTime));
+                yield return TypeResult(@"boolean", new BooleanQuestionType());
+                yield return TypeResult(@"string", new StringQuestionType());
+                yield return TypeResult(@"decimal", new DecimalQuestionType());
+                yield return TypeResult(@"integer", new IntegerQuestionType());
+                yield return TypeResult(@"date", new DateQuestionType());
             }
         }
 
-        public static TestCaseData TypeResult(string qlType, Type dotnetType)
+        public static TestCaseData TypeResult(string qlType, IQuestionType questionType)
         {
             var formTemplate = @"form TestForm {{ q: ""i""  {0}}}";
             return new TestCaseData(
                 string.Format(formTemplate, qlType),
-                dotnetType);
+                questionType);
         }
 
         public static IEnumerable DefaultQuestionValues

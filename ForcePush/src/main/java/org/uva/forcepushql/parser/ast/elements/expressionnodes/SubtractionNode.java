@@ -6,6 +6,10 @@ import org.uva.forcepushql.parser.ast.elements.InfixExpressionNode;
 
 public class SubtractionNode extends InfixExpressionNode
 {
+    public SubtractionNode() {
+        super(false);
+    }
+
     @Override
     public String accept(ASTVisitor visitor)
     {

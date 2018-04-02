@@ -7,7 +7,7 @@ using QuestionnaireOrchestration.QueryServices.Interfaces;
 
 namespace QuestionnaireOrchestration.QueryServices
 {
-    internal abstract class ModelQueryServiceBase<T> : IModelQueryService<T> where T : DomainItemModel
+    public abstract class ModelQueryServiceBase<T> : IModelQueryService<T> where T : DomainItemModel
     {
         protected readonly IDomainItemLocator DomainItemLocator;
 

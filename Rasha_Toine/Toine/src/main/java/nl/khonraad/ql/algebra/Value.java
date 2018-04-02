@@ -1,13 +1,15 @@
 package nl.khonraad.ql.algebra;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+import java.util.function.BiFunction;
 
 import org.joda.time.DateTime;
 
 import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
-import nl.khonraad.ql.algebra.function.BinaryFunction;
+import nl.khonraad.ql.algebra.function.BinarySignature;
 import nl.khonraad.ql.algebra.function.BinaryFunctions;
-import nl.khonraad.ql.algebra.function.UnaryFunction;
+import nl.khonraad.ql.algebra.function.UnarySignature;
 import nl.khonraad.ql.algebra.function.UnaryFunctions;
 import nl.khonraad.ql.algebra.value.Operator;
 import nl.khonraad.ql.algebra.value.Storage;
@@ -15,48 +17,50 @@ import nl.khonraad.ql.algebra.value.Type;
 
 public class Value implements StringAble {
 
-    private Type                          type;
-    private Storage                       storage;
+    private Type    type;
+    private Storage storage;
 
     @Override
     public String string() {
         return storage.string();
     }
 
-    public Value(Type type, String string) {
+    public Value( Type type, String string ) {
 
         this.type = type;
         this.storage = new Storage( string );
     }
 
-    public Value(boolean b) {
+    public Value( boolean b ) {
         this( Type.Boolean, b ? "True" : "False" );
     }
 
-    public Value(DateTime m) {
+    public Value( DateTime m ) {
         this( Type.Date, SimpleDateFormatter.string( m ) );
     }
 
-    public Value(Integer i) {
+    public Value( Integer i ) {
         this( Type.Integer, Integer.toString( i ) );
     }
 
-    public Value(BigDecimal m) {
+    public Value( BigDecimal m ) {
         this( Type.Money, m.toString() );
     }
 
-    public Value(String s) {
+    public Value( String s ) {
         this( Type.String, s );
     }
 
-    public Value apply( Operator operator )  {
-        
-        return UnaryFunctions.function( UnaryFunction.signature( operator, type()) ).apply( this );
+    public Value apply( Operator operator ) {
+
+        return UnaryFunctions.function( UnarySignature.signature( operator, type() ) ).apply( this );
     }
 
-    public Value apply( Operator operator, Value operand ) {
+    public Value apply( Operator operator, Value other ) {
         
-        return BinaryFunctions.function( BinaryFunction.signature( type(), operator, operand.type() ) ).apply( this, operand );
+        BiFunction<Value, Value, Value> function = BinaryFunctions.function( BinarySignature.signature( this.type(), operator, other.type() ) );
+        
+        return function.apply( this, other );
 
     }
 
@@ -64,49 +68,19 @@ public class Value implements StringAble {
         return type;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((storage == null) ? 0 : storage.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        return result;
+        return Objects.hash( this.storage, this.type );
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    public boolean equals( Object obj ) {
-        if ( this == obj ) {
-            return true;
-        }
-        if ( obj == null ) {
-            return false;
-        }
-        if ( getClass() != obj.getClass() ) {
-            return false;
-        }
-        Value other = (Value) obj;
-        if ( storage == null ) {
-            if ( other.storage != null ) {
-                return false;
-            }
-        } else
-            if ( !storage.equals( other.storage ) ) {
-                return false;
-            }
-        if ( type != other.type ) {
-            return false;
-        }
-        return true;
-    }
+    public boolean equals( Object object ) {
 
+        if ( object == null || getClass() != object.getClass() )
+            return false;
+
+        final Value other = (Value) object;
+
+        return Objects.equals( this.storage, other.storage ) && Objects.equals( this.type, other.type );
+    }
 }

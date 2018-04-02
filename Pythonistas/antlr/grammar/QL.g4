@@ -5,19 +5,17 @@ form: FORM ID block EOF;
 block: BRACKETL NEWLINE* (stmt NEWLINE*)* BRACKETR;
 stmt: (question | if_);
 
-
 question: STRING ID COL type declaration*;
 declaration: EQUAL PARL value PARR;
-
 expression: ID | PARL expression PARR | boolean_;
 
 if_: IF_ PARL expression PARR block;
-type: (BOOLEAN | MONEY | ID);
+type: (BOOLEAN | MONEY);
 value: (INT | BOOL| ID | compute);
 
 compute: arithmetic_ | boolean_;
-arithmetic_: INT ARITHMETIC_OP INT | PARL arithmetic_ PARR;
-boolean_: INT BOOLEAN_OP INT | PARL boolean_ PARR;
+arithmetic_: INT ARITHMETIC_OP INT | PARL arithmetic_ PARR | INT | PARL INT PARR;
+boolean_: INT BOOLEAN_OP INT | PARL boolean_ PARR | BOOL BOOLEAN_OP BOOL | BOOL;
 
 // Lexer
 FORM       : 'form';
@@ -57,6 +55,4 @@ NEQ : '!=';
 
 SPACE: [ \t]+ -> skip;
 NEWLINE: '\r'? '\n' -> skip;
-
-
 OTHER: .;

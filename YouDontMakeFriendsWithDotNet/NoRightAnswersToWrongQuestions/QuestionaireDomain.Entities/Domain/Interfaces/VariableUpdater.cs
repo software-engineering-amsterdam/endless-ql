@@ -5,10 +5,10 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
 {
     internal class VariableUpdater : IVariableUpdater
     {
-        private readonly ISymbolTable m_symbolTable;
-        private readonly IQuestionnaireOutputCreator m_questionnaireOutputCreator;
-        private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ICalculationService m_calculationService;
+        private readonly IDomainItemLocator m_domainItemLocator;
+        private readonly IQuestionnaireOutputCreator m_questionnaireOutputCreator;
+        private readonly ISymbolTable m_symbolTable;
 
         public VariableUpdater(
             ISymbolTable symbolTable,

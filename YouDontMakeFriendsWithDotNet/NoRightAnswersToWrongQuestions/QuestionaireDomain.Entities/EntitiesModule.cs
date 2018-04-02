@@ -15,7 +15,6 @@ namespace QuestionnaireDomain.Entities
     {
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
-            // ToDo: make sure each service has appropriate lifetime 
             appRegistration.AddSingleton(typeof(IAstFactory), typeof(AstFactory));
             appRegistration.AddSingleton(typeof(IOutputItemFactory), typeof(OutputItemFactory));
             appRegistration.AddSingleton(typeof(IDomainItemRegistry), typeof(DomainItemRegistry));
@@ -28,7 +27,7 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IQuestionnaireOutputCreator), typeof(QuestionnaireOutputCreator));
             appRegistration.AddSingleton(typeof(IQuestionnaireOutputUpdater), typeof(QuestionnaireOutputUpdater));
             appRegistration.AddSingleton(typeof(IQuestionnaireAstCreator), typeof(QuestionnaireAstCreator));
-            appRegistration.AddSingleton(typeof(IQuestionnaireValidator), typeof(QuestionnaireValidator));
+            appRegistration.AddSingleton(typeof(IQuestionnaireTypeChecker), typeof(QuestionnaireTypeChecker));
             appRegistration.AddSingleton(typeof(IDuplicateVariableValidator), typeof(DuplicateVariableValidator));
             appRegistration.AddSingleton(typeof(IUndefinedVariableValidator), typeof(UndefinedVariableValidator));
             appRegistration.AddSingleton(typeof(IBooleanConditionValidator), typeof(BooleanConditionValidator));
@@ -40,7 +39,6 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IDuplicateTextValidator), typeof(DuplicateTextValidator));
             appRegistration.AddSingleton(typeof(ICyclicDependencyValidator), typeof(CyclicDependencyValidator));
             appRegistration.AddSingleton(typeof(IVariableService), typeof(VariableService));
-            appRegistration.AddSingleton(typeof(ITypeService), typeof(TypeService));
             appRegistration.AddSingleton(typeof(ICalculationService), typeof(CalculationService));
             appRegistration.AddSingleton(typeof(IExtractVariableVisitor), typeof(ExtractVariableVisitor));
         }

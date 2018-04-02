@@ -13,7 +13,7 @@ namespace QuestionnaireOrchestration.CommandHandlers
         {
             m_questionnaireAstCreator = questionnaireAstCreator;
         }
-        
+
         public void Execute(CreateQuestionnaireCommandMessage command)
         {
             m_questionnaireAstCreator.Create(command.Text);

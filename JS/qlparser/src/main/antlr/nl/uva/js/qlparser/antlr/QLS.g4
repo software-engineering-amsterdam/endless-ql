@@ -15,7 +15,7 @@ SECTION:    'section';
 EXPRESSION: 'expression';
 WIDGET:     'widget';
 DEFAULT:    'default';
-STYLE:      'style';
+STYLE:      'widgetStyle';
 
 // Datatypes
 DATE:       'date';
@@ -28,7 +28,6 @@ INTEGER:    'integer';
 // Special characters
 COLON:  ':';
 ASSIGN: '=';
-HASH:   '#';
 LB:     '{';
 RB:     '}';
 
@@ -45,7 +44,10 @@ WIDGETCOLOR: 'widgetcolor';
 FONTCOLOR:   'fontcolor';
 FONTTYPE:    'fonttype';
 FONTSTYLE:   'fontstyle';
+MIN:         'min';
+MAX:         'max';
 
+HEX: '#'[0-9A-F][0-9A-F][0-9A-F]([0-9A-F][0-9A-F][0-9A-F])?;
 
 // Expression, page and widget names
 NAME: [a-zA-Z][a-zA-Z0-9]*;
@@ -81,6 +83,8 @@ property
     | FONTCOLOR
     | FONTTYPE
     | FONTSTYLE
+    | MIN
+    | MAX
     ;
 
 // Higher level parsing
@@ -106,7 +110,11 @@ widgetStyle
     ;
 
 styleRule
-    : property COLON STRVAL
+    : property COLON styleVal
+    ;
+
+styleVal
+    : (HEX | NAME | INTVAL)
     ;
 
 defaultStyle

@@ -19,7 +19,7 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            DomainId<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> rootNode)
         {
             var questionNodes = m_domainItemLocator
                 .GetAll<IQuestionNode>()
@@ -30,18 +30,15 @@ namespace QuestionnaireDomain.Entities.Validators
                 .Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
-            
+
             foreach (var questionNode in questionNodes)
             {
-                if (duplicateTexts.All(x => x != questionNode.QuestionText))
-                {
-                    continue;
-                }
+                if (duplicateTexts.All(x => x != questionNode.QuestionText)) continue;
 
-                var validationData = new DuplicateTextValidationMetaData()
+                var validationData = new DuplicateTextValidationMetaData
                 {
                     Source = m_domainItemLocator.GetRef<IQuestionNode>(questionNode.Id),
-                    Message = $@"The text '{questionNode.QuestionText}' is used multiple times",
+                    Message = $@"The text '{questionNode.QuestionText}' is used multiple times"
                 };
 
                 yield return validationData;

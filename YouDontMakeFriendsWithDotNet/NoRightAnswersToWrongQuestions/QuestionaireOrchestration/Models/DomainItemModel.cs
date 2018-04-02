@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace QuestionnaireOrchestration.Models
 {
-    // ToDo: make this implement IEqualityComparer to fix the issue:
-    // Classes implementing "IEquatable<T>" should be sealed
-    public abstract class DomainItemModel
+    public abstract class DomainItemModel : IEqualityComparer<DomainItemModel>
     {
         protected DomainItemModel(Guid id, string name)
         {
@@ -16,13 +15,12 @@ namespace QuestionnaireOrchestration.Models
 
         public string Name { get; }
 
-        public override bool Equals(object obj)
+        public bool Equals(DomainItemModel x, DomainItemModel y)
         {
-            var model = obj as DomainItemModel;
-            return model != null && this == model;
+            return x != null && y != null && x.Id == y.Id;
         }
 
-        public override int GetHashCode()
+        public int GetHashCode(DomainItemModel obj)
         {
             return Id.GetHashCode();
         }

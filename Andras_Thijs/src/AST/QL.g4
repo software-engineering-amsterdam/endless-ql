@@ -20,14 +20,12 @@ AND            : '&&';
 OR             : '||';
 
 // Types
-TYPE     : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | 'money'; //TODO figuring out naming
+TYPE     : 'boolean' | 'string' | 'integer' | 'date' | 'decimal' | 'money';
 BOOLEAN  : 'true' | 'false';
-STRING   : '"'[a-zA-Z0-9?.!:;()/ \t]+'"'; // TODO: allow more characters
+STRING   : '"'[a-zA-Z0-9?.!:;()/ \t]+'"';
 INTEGER  : [0-9]+;
 DECIMAL  : [0-9]+ '.' [0-9]+;
 VARIABLE : [a-zA-Z][a-zA-Z0-9_]+;
-// For now don't specify DATE, because we don't allow operators on them (yet?).
-//DATE     : [0-9]{1,2}'-'[0-9]{1,2}'-'[0-9]{1,4} | [0-9]{1,4}'-'[0-9]{1,2}'-'[0-9]{1,2}; // Dates currently allow dd?-mm?-yy?y?y? yy?y?y?-mm?-dd?
 
 // Form structure
 form      : 'form' VARIABLE '{' question* condition* '}';

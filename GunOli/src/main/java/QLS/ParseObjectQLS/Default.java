@@ -13,24 +13,16 @@ public class Default extends QLSNode {
 
     public Default(EvaluationType type, ArrayList<Widget> widgets, int line ){
         super(line);
-        setType(type);
-        setWidgets(widgets);
+        this.type = type;
+        this.widgets = widgets;
     }
 
     public EvaluationType getType() {
         return type;
     }
 
-    public void setType(EvaluationType type) {
-        this.type = type;
-    }
-
     public ArrayList<Widget> getWidgets() {
         return widgets;
-    }
-
-    public void setWidgets(ArrayList<Widget> widgets) {
-        this.widgets = widgets;
     }
 
     @Override

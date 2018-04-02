@@ -1,82 +1,61 @@
 package gui;
 
-import QL.classes.values.Value;
-import QLS.parsing.visitors.StylesheetVisitor;
 import QL.parsing.visitors.FormVisitor;
+import QLS.parsing.visitors.StylesheetVisitor;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GUIBuilder {
+    private static final int FRAME_HEIGHT = 800; //The height of the GUI
+    private static final int FRAME_WIDTH = 800; //The width of the GUI
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which houses the list of question panels
-
     private QLBuilder qlBuilder;
     private QLSBuilder qlsBuilder;
-    private QuestionChangeListener questionChangeListener;
-
-    private int frameHeight = 800; //The height of the GUI
-    private int frameWidth = 800; //The width of the GUI
+    private boolean styling;
 
     /**
      * constructor method
      * initializes the building process of the form
      *
-     * @param coreVisitor       The main ql visitor
+     * @param coreVisitor The main ql visitor
      */
     public GUIBuilder(FormVisitor coreVisitor) {
         this.qlBuilder = new QLBuilder(coreVisitor);
-        this.questionChangeListener = new QuestionChangeListener(this);
-        //this.coreVisitor = coreVisitor;
+        this.styling = false;
+
         initFrame();
         initComponents();
     }
 
     public GUIBuilder(FormVisitor coreVisitor, StylesheetVisitor stylesheetVisitor) {
-        this.qlBuilder = new QLBuilder(coreVisitor);
-        this.questionChangeListener = new QuestionChangeListener(this);
-        this.qlsBuilder = new QLSBuilder(stylesheetVisitor);
-        initFrame();
-        initComponents(true);
+        this.qlsBuilder = new QLSBuilder(stylesheetVisitor, coreVisitor);
+        this.styling = true;
 
-        //mainFrame.add(qlsBuilder.getLayout());
-        mainFrame.add(mainPanel);
-        mainFrame.setVisible(true);
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.setVisible(true);
+        initFrame();
+        initComponents();
     }
 
     /**
      * initComponents() method
      * initializes the building process for the frame
      */
-    public void initFrame() {
+    private void initFrame() {
         //Build the frame and panels of the form (the base)
         buildFrame();
         buildMainPanel();
     }
 
-    public void initComponents() {
-        //Add a scroll pane to the form
-        mainPanel.add(new JScrollPane(qlBuilder.createMainListPanel(questionChangeListener)));
-
+    private void initComponents() {
         //Add the panel to the frame, and set some properties
-        mainFrame.add(mainPanel);
+        if (styling) {
+            mainFrame.add(qlsBuilder.getMainPanel());
+        } else {
+            mainFrame.add(qlBuilder.getMainPanel());
+        }
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
-        mainFrame.setVisible(true);
-    }
-
-    public void onQuestionChange(String key, Value value) {
-        qlBuilder.update(key, value);
-        qlsBuilder.setWidgets(qlBuilder.getQuestionPanelHashMap());
-    }
-
-    public void initComponents(boolean a)  {
-        //initStyleSheet(stylesheetVisitor);
-        qlBuilder.createMainListPanel(questionChangeListener);
-        qlsBuilder.setWidgets(qlBuilder.getQuestionPanelHashMap());
-        mainPanel.add(qlsBuilder.getStyleSheetPanel());
     }
 
     /**
@@ -86,7 +65,7 @@ public class GUIBuilder {
     private void buildFrame() {
         this.mainFrame = new JFrame("Questionnaire (QL)");
         this.mainFrame.setVisible(true);
-        this.mainFrame.setBounds(0, 0, frameHeight, frameWidth);
+        this.mainFrame.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
         this.mainFrame.setLayout(new BorderLayout());
     }
 

@@ -1,7 +1,6 @@
 package QLS.ParseObjectQLS;
 
 import QLS.Analysis.WidgetVisitorInterface;
-import com.sun.tools.jdeps.Analyzer;
 
 import java.util.ArrayList;
 

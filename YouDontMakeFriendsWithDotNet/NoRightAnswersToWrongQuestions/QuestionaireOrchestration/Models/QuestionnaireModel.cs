@@ -6,7 +6,7 @@ namespace QuestionnaireOrchestration.Models
     public class QuestionnaireModel
     {
         public QuestionnaireModel(
-            Guid questionnaireId, 
+            Guid questionnaireId,
             string questionnaireDisplayName)
         {
             QuestionnaireId = questionnaireId;
@@ -15,6 +15,7 @@ namespace QuestionnaireOrchestration.Models
 
         public Guid QuestionnaireId { get; }
         public string QuestionnaireDisplayName { get; }
+
         public IList<QuestionModel> Questions { get; }
             = new List<QuestionModel>();
     }

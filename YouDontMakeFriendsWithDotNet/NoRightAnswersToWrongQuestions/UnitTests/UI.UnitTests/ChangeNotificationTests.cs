@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
@@ -19,7 +20,7 @@ namespace QL.UnitTests.UI.UnitTests
                 "int input question",
                 true,
                 false,
-                typeof(int));
+                new IntegerQuestionType());
         }
 
         [Test]
@@ -39,8 +40,5 @@ namespace QL.UnitTests.UI.UnitTests
 
             Assert.IsTrue(propertyEventWasRaised);
         }
-
-        // ToDo: work out why this test fails with dynamic
-        // public void WhenPropertyUpdatedWithSameValue_ShouldNotRaisePropertyChangedEvent()
     }
 }

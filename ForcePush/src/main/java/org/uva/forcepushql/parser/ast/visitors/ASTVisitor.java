@@ -1,21 +1,19 @@
 package org.uva.forcepushql.parser.ast.visitors;
 
-import org.uva.forcepushql.parser.ast.elements.ConditionalNode;
-import org.uva.forcepushql.parser.ast.elements.NumberNode;
-import org.uva.forcepushql.parser.ast.elements.QuestionAssignValueNode;
-import org.uva.forcepushql.parser.ast.elements.QuestionNode;
+import org.uva.forcepushql.parser.ast.ValueType;
+import org.uva.forcepushql.parser.ast.elements.*;
 import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 import org.uva.forcepushql.interpreter.gui.JPanelGUI;
 import org.uva.forcepushql.interpreter.gui.questions.Question;
 
 import javax.swing.*;
-import java.util.LinkedList;
+import java.util.List;
 
 public interface ASTVisitor{
 
-    LinkedList<JPanel> visit(FormNode node);
+    List<JPanel> visit(FormNode node);
 
-    LinkedList<JPanelGUI> visit(ConditionalNode node);
+    List<JPanelGUI> visit(ConditionalNode node);
 
     String visit(AdditionNode node);
     String visit(SubtractionNode node);
@@ -30,14 +28,14 @@ public interface ASTVisitor{
     String visit(EqualGreaterNode node);
     String visit(NotEqualNode node);
     String visit(IsEqualNode node);
-    String visit(NegateNode node);
+    String visit(NotNode node);
 
     Question visit(QuestionNode node);
     Question visit(QuestionAssignValueNode node);
 
     String visit(LabelNode node);
     String visit(NameNode node);
-    String visit(TypeNode node);
+    ValueType visit(TypeNode node);
     String visit(VariableNode node);
     String visit(DecimalNode node);
 

@@ -10,7 +10,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean
             Guid id,
             string definition,
             DomainId<IBooleanLogicNode> leftExpression,
-            DomainId<IBooleanLogicNode> rightExpression) 
+            DomainId<IBooleanLogicNode> rightExpression)
             : base(id, definition, leftExpression, rightExpression)
         {
         }

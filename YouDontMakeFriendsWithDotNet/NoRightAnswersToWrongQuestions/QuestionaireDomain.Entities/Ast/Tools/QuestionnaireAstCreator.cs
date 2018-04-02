@@ -6,16 +6,16 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
 {
     internal class QuestionnaireAstCreator : IQuestionnaireAstCreator
     {
-        private readonly IAstTreeBuilder m_astTreeBuilder;
+        private readonly IAstBuilder m_astBuilder;
 
-        public QuestionnaireAstCreator(IAstTreeBuilder astTreeBuilder)
+        public QuestionnaireAstCreator(IAstBuilder astBuilder)
         {
-            m_astTreeBuilder = astTreeBuilder;
+            m_astBuilder = astBuilder;
         }
 
         public DomainId<IQuestionnaireRootNode> Create(string definition)
         {
-            return m_astTreeBuilder.BuildForm(definition);
+            return m_astBuilder.BuildForm(definition);
         }
     }
 }

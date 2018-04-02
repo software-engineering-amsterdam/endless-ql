@@ -5,26 +5,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.uva.app.IOHandler;
 import org.uva.ql.ast.Question;
-import org.uva.ql.ast.type.BooleanType;
 import org.uva.ql.ast.type.MoneyType;
 import org.uva.qls.QLSBuilder;
 import org.uva.qls.ast.Segment.Stylesheet;
 import org.uva.qls.ast.Style.Style;
-import org.uva.qls.ast.Style.StyleProperty.*;
-import org.uva.qls.ast.Value.ColorValue;
-import org.uva.qls.ast.Value.NumberValue;
-import org.uva.qls.ast.Value.StringValue;
 import org.uva.qls.ast.Widget.WidgetTypes.SpinboxType;
 import org.uva.qls.ast.Widget.WidgetTypes.TextType;
 import org.uva.qls.ast.Widget.WidgetTypes.WidgetType;
-import org.uva.qls.collector.StylesheetContext;
 
 import javax.swing.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class StyleEvaluatorTest {
 
@@ -48,7 +37,7 @@ public class StyleEvaluatorTest {
         JTabbedPane tabbedPane = (JTabbedPane) styleEvaluator.getLayout(null);
         Assert.assertEquals(1, tabbedPane.getTabCount());
 
-        styleEvaluator.setWidget(new Question("hasMaintLoan","", new MoneyType()), new JPanel());
+        styleEvaluator.setWidget(new Question("hasMainLoan","", new MoneyType()), new JPanel());
         tabbedPane = (JTabbedPane) styleEvaluator.getLayout(null);
         Assert.assertEquals(2, tabbedPane.getTabCount());
     }

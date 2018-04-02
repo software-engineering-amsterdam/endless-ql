@@ -1,11 +1,12 @@
 from multimethods import multimethod
 from pyql.ast.expression.expressions import *
-from pyql.util.message_handler import MessageHandler
-from pyql.util import message
+from util.message_handler import MessageHandler
+from util import message
 from pyql.ast.form.form import *
 from pyql.ast.form.ql_statements import *
 from pyql.ast.form.block import *
 import decimal
+from util.values import *
 
 
 class CheckDivisionByZero:
@@ -15,7 +16,10 @@ class CheckDivisionByZero:
 
     @multimethod(Division)
     def visit(self, expression):
-        if isinstance(expression.right, Literal) and decimal.Decimal(expression.right.value) == 0:
+        v = expression.right.value
+        i = IntegerValue(0)
+        b = expression.right.value == IntegerValue(0)
+        if isinstance(expression.right, Literal) and expression.right.value == IntegerValue(0):
             MessageHandler().add(message.Error("Division by zero: " + str(expression)))
         expression.left.accept(self)
         expression.right.accept(self)

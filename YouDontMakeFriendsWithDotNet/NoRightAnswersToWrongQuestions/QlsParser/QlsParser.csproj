@@ -69,15 +69,11 @@
     <Compile Include="..\QlsGrammar\obj\Debug\QlsVisitor.cs">
       <Link>Generated\QlsVisitor.cs</Link>
     </Compile>
-    <Compile Include="AstBuilder\AstExtensions.cs" />
     <Compile Include="AstBuilder\BuildQlsAstVisitor.cs" />
     <Compile Include="AstBuilder\ParsingErrorListener.cs" />
     <Compile Include="AstBuilder\QlsAstBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QlsParserModule.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QlsTransformer\QlsTransformer.csproj">
@@ -92,6 +88,10 @@
       <Project>{C07EEB9B-1C03-4057-B2FB-410169EC1DBE}</Project>
       <Name>QuestionnaireInfrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,15 +1,15 @@
 package ui.controller
 
-import doge.ast.DogeParser
-import doge.ast.node.QLNode
-import ui.model.domain.Question
-import doge.data.symbol.SymbolTable
-import ui.visitor.QuestionVisitor
-import doge.visitor.ValueUpdateVisitor
+import ql.ast.DogeParser
+import ql.ast.node.QLNode
+import ql.data.symbol.SymbolTable
+import ql.visitor.ValueUpdateVisitor
 import qls.ast.QlsParser
 import qls.ast.node.QlsNode
 import tornadofx.Controller
 import tornadofx.observable
+import ui.model.domain.Question
+import ui.visitor.QuestionVisitor
 import java.io.File
 
 class DogeController : Controller() {
@@ -17,6 +17,7 @@ class DogeController : Controller() {
     private var symbolTable: SymbolTable? = null
     private var ast: QLNode? = null
 
+    var infoMessages = mutableListOf<String>().observable()
     var questions = mutableListOf<Question>().observable()
     var style: QlsNode? = null
 
@@ -26,20 +27,29 @@ class DogeController : Controller() {
         parseResult?.let {
             symbolTable = it.symbolTable
             ast = it.ast
+
+            addInfoMessages(it.info)
         }
 
-        reload()
+        reloadQuestions()
+    }
+
+    private fun addInfoMessages(info: List<String>) {
+        infoMessages.removeAll()
+        infoMessages.addAll(info)
     }
 
     fun loadStyle(file: File) {
         style = QlsParser().parse(file)
     }
 
-    fun reload() {
-        symbolTable.let {
-            val visitor = QuestionVisitor(symbolTable!!)
-            val enabledQuestions = ast!!.accept(visitor)
-            updateQuestions(enabledQuestions)
+    fun reloadQuestions() {
+        if (infoMessages.isEmpty()) {
+            symbolTable.let {
+                val visitor = QuestionVisitor(symbolTable!!)
+                val enabledQuestions = ast!!.accept(visitor)
+                updateQuestions(enabledQuestions)
+            }
         }
     }
 
@@ -50,15 +60,15 @@ class DogeController : Controller() {
         }
     }
 
-    fun hasQuestion(name: String) : Boolean{
+    fun hasQuestion(name: String): Boolean {
         return questions.any { it.name == name }
     }
 
-    fun getQuestion(name : String) : Question{
+    fun getQuestion(name: String): Question {
         return questions.first { it.name == name }
     }
 
-    // Replacing observable list will break observable
+    // Replacing observable list q  with new list will break observable binding
     // That is why we update internal values
     private fun updateQuestions(newDataQuestions: List<Question>) {
 

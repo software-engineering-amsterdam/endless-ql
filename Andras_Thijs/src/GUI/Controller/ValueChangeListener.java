@@ -14,10 +14,18 @@ public class ValueChangeListener implements ActionListener {
     private final RefreshListener refreshListener;
 
 
+    /**
+     * Adds a listener to this event
+     * @param listener
+     */
     public ValueChangeListener(RefreshListener listener){
         this.refreshListener = listener;
     }
 
+    /**
+     * Signals the listeners that an action has been performed
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(refreshListener != null) {

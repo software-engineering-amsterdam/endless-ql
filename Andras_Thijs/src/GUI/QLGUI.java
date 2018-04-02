@@ -12,14 +12,26 @@ import java.awt.event.ActionEvent;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
+/**
+ * The QLGUI class is responsible for creating the JFrame displaying the QLForm
+ */
 public class QLGUI {
 
     private final QLForm form;
 
+    /**
+     * Creates an instance of the QLGUI with a given QLForm
+     * @param form The QLForm to be displayed
+     */
     public QLGUI(QLForm form){
         this.form = form;
     }
 
+    /**
+     * Renders the QLForm and creates the FormController responsible for coordinating the various elements
+     * @throws SyntaxException
+     * @throws TypeException
+     */
     public void renderForm() throws SyntaxException, TypeException {
 
         JFrame frame = new JFrame(form.getName());

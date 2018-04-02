@@ -4,7 +4,9 @@ using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
 {
-    public interface IAstToOutputVisitor { }
+    public interface IAstToOutputVisitor
+    {
+    }
 
     public interface IAstToOutputVisitor<TAst, TOutput>
         where TAst : IAstNode

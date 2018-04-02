@@ -1,22 +1,22 @@
 package nl.uva.js.qlparser.ui.components.gui;
 
+import nl.uva.js.qlparser.helpers.NonNullRun;
 import nl.uva.js.qlparser.models.ql.enums.DataType;
 import nl.uva.js.qlparser.models.ql.expressions.Form;
 import nl.uva.js.qlparser.models.ql.expressions.data.Variable;
 import nl.uva.js.qlparser.models.ql.expressions.form.FormExpression;
 import nl.uva.js.qlparser.models.qls.Stylesheet;
-import nl.uva.js.qlparser.models.qls.elements.ExpressionReference;
 import nl.uva.js.qlparser.models.qls.elements.Page;
 import nl.uva.js.qlparser.models.qls.elements.Section;
+import nl.uva.js.qlparser.models.qls.enums.Property;
 import nl.uva.js.qlparser.models.qls.enums.WidgetType;
 import nl.uva.js.qlparser.models.qls.style.DefaultStyle;
 import nl.uva.js.qlparser.models.qls.style.WidgetStyle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.*;
+import java.util.List;
 
 import static nl.uva.js.qlparser.ui.components.form.ComponentBuilder.buildSectionHeader;
 
@@ -28,16 +28,15 @@ public class FormPanel extends JPanel {
 
     private LinkedHashMap<String, Component> qlComponentsByName;
 
-    private LinkedHashMap<String, LinkedList<Component>> pages;
-    private HashMap<DataType, DefaultStyle> defaultStyles;
+    private LinkedHashMap<String, List<Component>> pages;
+    private Map<DataType, DefaultStyle> defaultStyles;
 
-    public FormPanel(Form form, int viewHeight, int formWidth, int formHeight) {
-        formContent = new JPanel();
+    public FormPanel(int viewHeight, int formWidth, int formHeight) {
+        qlComponentsByName = new LinkedHashMap<>();
+        formContent        = new JPanel();
+
         formContent.setPreferredSize(new Dimension(formWidth, formHeight));
         formContent.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        // Initial setup
-        loadComponents(form);
 
         int panelHeight = viewHeight - 5;
 
@@ -59,10 +58,10 @@ public class FormPanel extends JPanel {
         this.form = form;
         qlComponentsByName = new LinkedHashMap<>();
 
-        for (Component component : form.getComponents()) {
+        form.getComponents().forEach(component ->  {
             qlComponentsByName.put(component.getName(), component);
             formContent.add(component);
-        }
+        });
     }
 
     /**
@@ -72,10 +71,12 @@ public class FormPanel extends JPanel {
         formContent.removeAll();
         qlComponentsByName.clear();
 
-        loadComponents(form);
+        NonNullRun.consumer(form, __ -> {
+            loadComponents(form);
 
-        formContent.revalidate();
-        formContent.repaint();
+            formContent.revalidate();
+            formContent.repaint();
+        });
     }
 
     /**
@@ -85,11 +86,9 @@ public class FormPanel extends JPanel {
         pages         = new LinkedHashMap<>();
         defaultStyles = getDefaultStyles();
 
-        stylesheet.getDefaultStyles().forEach(style -> defaultStyles.put(style.getDataType(), style));
+        stylesheet.getDefaultStyles().forEach(style -> defaultStyles.replace(style.getDataType(), style));
 
-        for (Page page : stylesheet.getPages()) {
-            pages.put(page.getName(), createPageComponents(page));
-        }
+        stylesheet.getPages().forEach(page -> pages.put(page.getName(), createPageComponents(page)));
 
         // Set to first page
         setPage(pages.keySet().iterator().next());
@@ -98,8 +97,8 @@ public class FormPanel extends JPanel {
     /**
      *  Preset default values for supported widget types, as fallback.
      */
-    private HashMap<DataType, DefaultStyle> getDefaultStyles() {
-        HashMap<DataType, DefaultStyle> defaultStyles = new HashMap<>();
+    private Map<DataType, DefaultStyle> getDefaultStyles() {
+        Map<DataType, DefaultStyle> defaultStyles = new HashMap<>();
         defaultStyles.put(DataType.BOOLEAN, DefaultStyle.builder().widgetType(WidgetType.CHECKBOX).build());
         defaultStyles.put(DataType.INTEGER, DefaultStyle.builder().widgetType(WidgetType.TEXT).build());
 
@@ -115,16 +114,20 @@ public class FormPanel extends JPanel {
         formContent.repaint();
     }
 
-    private LinkedList<Component> createPageComponents(Page page) {
-        LinkedList<Component> pageComponents = new LinkedList<>();
-        for(Section section : page.getSections()) {
-            pageComponents.add(buildSectionHeader(section.getName()));
-            for (ExpressionReference reference : section.getExpressionReferences()) {
+    private List<Component> createPageComponents(Page page) {
+        List<Component> pageComponents = new LinkedList<>();
+
+        page.getSections().forEach((Section section) -> {
+            Component sectionHeader = buildSectionHeader(section.getName());
+            pageComponents.add(sectionHeader);
+
+            section.getExpressionReferences().forEach(reference -> {
                 Component component = qlComponentsByName.get(reference.getName());
                 updateWidget(component, reference.getWidgetType(), reference.getWidgetStyle());
                 pageComponents.add(component);
-            }
-        }
+            });
+        });
+
         return pageComponents;
     }
 
@@ -133,25 +136,22 @@ public class FormPanel extends JPanel {
      */
     private void updateWidget(Component component, WidgetType widgetType, WidgetStyle widgetStyle) {
         FormExpression expression = form.getExpressionsByName().get(component.getName());
-        Variable variable         = expression.getVariable();
 
-        if (variable == null) {
-            // Not a Question
-            return;
-        }
+        NonNullRun.consumer(expression.getVariable(), variable -> {
+            Panel formComponent = (Panel) component;
+            Component inputField = formComponent.getComponent(1);
 
-        Panel formComponent  = (Panel) component;
-        Component inputField = formComponent.getComponent(1);
+            Component newWidget = updateWidgetType(widgetType, variable, formComponent, inputField, widgetStyle);
+            updateWidgetStyle(widgetStyle, newWidget, variable.getDataType());
 
-        updateWidgetType(widgetType, variable, formComponent, inputField);
-        updateWidgetStyle(widgetStyle, formComponent, inputField);
-
-        component.revalidate();
-        component.repaint();
+            component.revalidate();
+            component.repaint();
+        });
     }
 
-    private void updateWidgetType(WidgetType widgetType, Variable variable, Panel formComponent, Component input) {
+    private Component updateWidgetType(WidgetType widgetType, Variable variable, Panel formComponent, Component input, WidgetStyle widgetStyle) {
         DataType dataType = variable.getDataType();
+        Component newWidget = input;
 
         if (needToReplaceWidget(widgetType, dataType)) {
             formComponent.remove(input);
@@ -160,22 +160,83 @@ public class FormPanel extends JPanel {
             if (widgetType == null) {
                 DefaultStyle defaultStyle = defaultStyles.get(dataType);
                 WidgetType defaultWidgetType = defaultStyle.getWidgetType();
-                formComponent.add(defaultWidgetType.createWidget(variable));
+                newWidget = defaultWidgetType.createWidget(variable, widgetStyle);
             } else {
-                formComponent.add(widgetType.createWidget(variable));
+                newWidget = widgetType.createWidget(variable, widgetStyle);
             }
+
+            formComponent.add(newWidget);
         }
+        return newWidget;
     }
 
     private boolean needToReplaceWidget(WidgetType widgetType, DataType dataType) {
-        boolean defaultStyleIsPresent = defaultStyles.containsKey(dataType);
-
-        WidgetType defaultWidgetType = defaultStyleIsPresent ? defaultStyles.get(dataType).getWidgetType() : null;
+        WidgetType defaultWidgetType = defaultStyles.containsKey(dataType) ? defaultStyles.get(dataType).getWidgetType() : null;
 
         return defaultWidgetType != null || widgetType != null;
     }
 
-    private void updateWidgetStyle(WidgetStyle widgetStyle, Panel formComponent, Component inputField) {
-        //TODO
+    private void updateWidgetStyle(WidgetStyle widgetStyle, Component inputField, DataType dataType) {
+        NonNullRun.consumer(getRules(widgetStyle, dataType), rules -> {
+            if (rules.containsKey(Property.FONTCOLOR)) {
+                inputField.setForeground(Color.decode(rules.get(Property.FONTCOLOR)));
+            }
+
+            if (rules.containsKey(Property.FONTSTYLE) | rules.containsKey(Property.FONTTYPE)) {
+                inputField.setFont(getNewFont(rules));
+            }
+
+            if (rules.containsKey(Property.WIDGETCOLOR)) {
+                inputField.setBackground(Color.decode(rules.get(Property.WIDGETCOLOR)));
+            }
+
+            inputField.revalidate();
+            inputField.repaint();
+        });
+    }
+
+    private Map<Property, String> getRules(WidgetStyle widgetStyle, DataType dataType) {
+        if (widgetStyle != null) return widgetStyle.getStyleRules();
+        else {
+//            If the default style is not available, return null, if it is available, return the style rules
+            return NonNullRun.function(defaultStyles.get(dataType), defaultStyle ->
+                    NonNullRun.function(defaultStyle.getWidgetStyle(), WidgetStyle::getStyleRules));
+        }
+    }
+
+    private Font getNewFont(Map<Property, String> rules) {
+        String fontType     = rules.getOrDefault(Property.FONTTYPE, new JLabel().getFont().getName());
+        int fontStyle       = Font.PLAIN;
+        int defaultFontSize = 13;
+
+        if (rules.containsKey(Property.FONTSTYLE)) {
+            switch (rules.get(Property.FONTSTYLE).toLowerCase()) {
+                case "bold":
+                    fontStyle = Font.BOLD;
+                    break;
+                case "italic":
+                    fontStyle = Font.ITALIC;
+                    break;
+                case "monospaced":
+                    break;
+            }
+        }
+
+        return new Font(fontType, fontStyle, defaultFontSize);
+    }
+
+    public List<String> getDuplicateLabelQuestions() {
+        LinkedList<String> duplicateLabels = new LinkedList<>();
+        HashSet<String> labels = new HashSet<>();
+
+        for (FormExpression formExpression : form.getFormExpressions()) {
+            String label = formExpression.getLabel();
+            if(label != null && labels.contains(label)) {
+                duplicateLabels.add(formExpression.getVariable().getName());
+            }
+            labels.add(label);
+        }
+
+        return duplicateLabels;
     }
 }

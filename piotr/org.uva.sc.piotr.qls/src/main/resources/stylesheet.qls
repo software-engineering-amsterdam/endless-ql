@@ -1,0 +1,28 @@
+stylesheet taxOfficeExample
+{
+  page PersonalData
+  {
+    section "Name"
+    {
+      question name
+        widget text
+    }
+    section "Age"
+      question age
+      widget spinbox
+  }
+
+  page Finances
+  {
+    section "Selling"
+    {
+      question income
+
+      section "Debts"
+      {
+        question debts
+      }
+    }
+    default boolean widget radio("Yes", "No")
+  }
+}

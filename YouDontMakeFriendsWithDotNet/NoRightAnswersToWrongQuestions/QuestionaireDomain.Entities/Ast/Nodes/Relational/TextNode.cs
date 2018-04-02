@@ -6,8 +6,6 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
     internal class TextNode : AstNodeBase, ITextNode
     {
-        public string Value { get; }
-
         public TextNode(
             Guid id,
             string text)
@@ -15,5 +13,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
         {
             Value = text.Replace("\"", "");
         }
+
+        public string Value { get; }
     }
 }

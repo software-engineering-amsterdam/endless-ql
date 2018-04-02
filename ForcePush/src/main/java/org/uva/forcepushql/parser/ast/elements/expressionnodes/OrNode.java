@@ -6,6 +6,10 @@ import org.uva.forcepushql.parser.ast.elements.InfixExpressionNode;
 
 public class OrNode extends InfixExpressionNode
 {
+    public OrNode() {
+        super(true);
+    }
+
     @Override
     public String accept(ASTVisitor visitor)
     {

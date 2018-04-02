@@ -6,15 +6,15 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
 {
-    internal class QuestionnaireRootNode : 
-        AstNodeBase, 
+    internal class QuestionnaireRootNode :
+        AstNodeBase,
         IQuestionnaireRootNode
     {
         public QuestionnaireRootNode(
-            Guid id, 
+            Guid id,
             string definition,
-            string questionnaireName, 
-            IEnumerable<DomainId<IStatementNode>> statements) 
+            string questionnaireName,
+            IEnumerable<DomainId<IStatementNode>> statements)
             : base(id, definition)
         {
             QuestionnaireName = questionnaireName;

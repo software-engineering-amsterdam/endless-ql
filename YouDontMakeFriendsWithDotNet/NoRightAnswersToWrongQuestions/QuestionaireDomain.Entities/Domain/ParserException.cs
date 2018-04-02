@@ -6,8 +6,6 @@ namespace QuestionnaireDomain.Entities.Domain
     [Serializable]
     public class ParserException : Exception
     {
-        public string ParseErrorDetails { get; set; }
-
         protected ParserException(
             SerializationInfo info,
             StreamingContext context) : base(info, context)
@@ -18,5 +16,7 @@ namespace QuestionnaireDomain.Entities.Domain
             : base(message, inner)
         {
         }
+
+        public string ParseErrorDetails { get; set; }
     }
 }

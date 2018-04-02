@@ -34,34 +34,34 @@ widgetType    : CHECKBOX                                                        
               | COMBO BRACKET_LEFT trueValue=TEXT COMMA falseValue=TEXT BRACKET_RIGHT       # ComboBox
               | RADIO BRACKET_LEFT trueValue=TEXT COMMA falseValue=TEXT BRACKET_RIGHT       # RadioButtons;
 
-STYLESHEET : 'stylesheet' ;
-PAGE       : 'page' ;
-SECTION    : 'section' ;
-QUESTION   : 'question' ;
+STYLESHEET    : 'stylesheet' ;
+PAGE          : 'page' ;
+SECTION       : 'section' ;
+QUESTION      : 'question' ;
 
-BOOLEAN      : 'boolean' ;
-INTEGER      : 'integer' ;
-STRING       : 'string' ;
-DECIMAL      : 'decimal' ;
-MONEY        : 'money' ;
-DATE         : 'date' ;
+BOOLEAN       : 'boolean' ;
+INTEGER       : 'integer' ;
+STRING        : 'string' ;
+DECIMAL       : 'decimal' ;
+MONEY         : 'money' ;
+DATE          : 'date' ;
 
-WIDGET       : 'widget' ;
-DEFAULT      : 'default' ;
-CHECKBOX     : 'checkbox' ;
-SPINBOX      : 'spinbox' ;
-SLIDER       : 'slider' ;
-RADIO        : 'radio' ;
-COMBO        : 'combo' ;
+WIDGET        : 'widget' ;
+DEFAULT       : 'default' ;
+CHECKBOX      : 'checkbox' ;
+SPINBOX       : 'spinbox' ;
+SLIDER        : 'slider' ;
+RADIO         : 'radio' ;
+COMBO         : 'combo' ;
 
-FONT         : 'font' ;
-FONTSIZE     : 'fontsize' ;
-COLOR        : 'color' ;
-WIDTH        : 'width' ;
-MIN          : '-' ;
+FONT          : 'font' ;
+FONTSIZE      : 'fontsize' ;
+COLOR         : 'color' ;
+WIDTH         : 'width' ;
+MIN           : '-' ;
 
-CURLY_LEFT   : '{' ;
-CURLY_RIGHT  : '}' ;
+CURLY_LEFT    : '{' ;
+CURLY_RIGHT   : '}' ;
 
 BRACKET_LEFT  : '(' ;
 BRACKET_RIGHT : ')' ;

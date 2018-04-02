@@ -103,9 +103,12 @@ public class QLFormBuilder {
             }
         }
 
-        // TODO somehow the getComponent() x coordinate is reset to 0 after revalidate().
-        // Using invalidate() the first run goes without problems. Subsequent refreshes reset the
-        // x coordinate back to 0 again.
+
+        // This is a workaround. Somehow the x component of the last element is reset to 0 after
+        // revalidate. Insert new boguselement as a workaround
+        JLabel bugFix = new JLabel("");
+        jFrame.add(bugFix);
+        bugFix.setBounds(contentMargin, currentLine * lineHeight + lineMargin, 0, 0);
 
         jFrame.revalidate();
         jFrame.repaint();
@@ -285,9 +288,13 @@ public class QLFormBuilder {
                 update();
             }
 
-            public void removeUpdate(DocumentEvent e) { update(); }
+            public void removeUpdate(DocumentEvent e) {
+                update();
+            }
 
-            public void insertUpdate(DocumentEvent e) { update(); }
+            public void insertUpdate(DocumentEvent e) {
+                update();
+            }
 
             public void update() {
 

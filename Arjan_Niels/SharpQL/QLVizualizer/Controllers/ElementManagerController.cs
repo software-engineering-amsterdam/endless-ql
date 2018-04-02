@@ -52,7 +52,7 @@ namespace QLVisualizer.Controllers
             }
             catch (Exception e)
             {
-                errors.Add(string.Format("A fatal error occured:{0}\n parsing will terminate", e.Message));
+                errors.Add(UserMessages.FatalErrorOccured(e.Message));
             }
             finally
             {
@@ -87,7 +87,7 @@ namespace QLVisualizer.Controllers
             }
             catch
             {
-                ShowError(string.Format("Unable to export the answers to {0}", filename));
+                ShowError(UserMessages.UnableToExport(filename));
             }
         }
 

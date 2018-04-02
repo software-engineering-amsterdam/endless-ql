@@ -28,5 +28,40 @@ namespace QLVisualizer
         {
             return string.Format("The style property\"{0}\" of type \"{1}\" is not supported by the \"{2}\" visualizer", styleProperty, styleType, displayTarget);
         }
+
+        public static string ExportedAnswers(string filename, string formname)
+        {
+            return string.Format("The answers of form \"{0}\" are exported to:{1}", formname, filename);
+        }
+
+        public static string ErrorsOccurred(bool single)
+        {
+            return string.Format("Error{0} occured", single ? "" : "s");
+        }
+
+        public static string SuccesfulExport()
+        {
+            return "Export succesfull";
+        }
+
+        public static string Parse()
+        {
+            return "Parse";
+        }
+
+        public static string Export()
+        {
+            return "Export";
+        }
+
+        public static string FatalErrorOccured(string message)
+        {
+            return string.Format("A fatal error occured:{0}\n parsing will terminate", message);
+        }
+
+        public static string UnableToExport(string filename)
+        {
+            return string.Format("Unable to export the answers to {0}", filename);
+        }
     }
 }

@@ -62,7 +62,7 @@ namespace QLVisualizer.Controllers.Display
         {
             MessageBox.Show(
                 string.Join("\n", errors),
-                errors.Length > 1 ? "Errors occured" : "Error occured",
+                UserMessages.ErrorsOccurred(errors.Length == 1),
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             );
@@ -71,8 +71,8 @@ namespace QLVisualizer.Controllers.Display
         protected override void ShowExportedMessage(string filename)
         {
             MessageBox.Show(
-                "Export succesfull",
-                string.Format("Answers exported to: {0}", filename),
+                UserMessages.SuccesfulExport(),
+                UserMessages.ExportedAnswers(filename, Form.Identifier),
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
@@ -177,7 +177,7 @@ namespace QLVisualizer.Controllers.Display
                 Location = new Point(23, 642),
                 Name = "parseButton",
                 Size = new Size(344, 48),
-                Text = "Parse",
+                Text = UserMessages.Parse(),
                 UseVisualStyleBackColor = true
             };
 
@@ -192,7 +192,7 @@ namespace QLVisualizer.Controllers.Display
                 Location = new Point(367, 642),
                 Name = "ExportButton",
                 Size = new Size(344, 48),
-                Text = "Export",
+                Text = UserMessages.Export(),
             };
             result.Click += (object sender, EventArgs eventArgs) => Export();
             return result;

@@ -44,5 +44,5 @@ python3 pyquest.py
 | `Ctrl+N`| Create a new .ql file |
 | `Ctrl+O`| Open a .ql file |
 | `Ctrl+S`| Save current .ql file |
-| `Shift+Ctrl+S`| Save as current .ql file |   
+| `Ctrl+Shift+S`| Save as current .ql file |   
 | `Ctrl+R` | Run current .ql file |

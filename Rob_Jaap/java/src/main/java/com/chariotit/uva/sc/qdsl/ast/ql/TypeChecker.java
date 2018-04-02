@@ -11,8 +11,6 @@ import com.chariotit.uva.sc.qdsl.ast.ql.visitor.SymbolTableBuilderVisitor;
 import com.chariotit.uva.sc.qdsl.ast.common.TypeCheckError;
 import com.chariotit.uva.sc.qdsl.ast.ql.visitor.TypeCheckVisitor;
 
-import java.awt.*;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -37,7 +35,7 @@ public class TypeChecker {
         }
 
         // Second run. TypeNode checker
-        TypeCheckVisitor typeCheckVisitor = new TypeCheckVisitor(astRoot.getQuestionSymbolTable());
+        TypeCheckVisitor typeCheckVisitor = new TypeCheckVisitor(astRoot.getSymbolTable());
         astRoot.acceptVisitor(typeCheckVisitor);
 
         // Cycledetection

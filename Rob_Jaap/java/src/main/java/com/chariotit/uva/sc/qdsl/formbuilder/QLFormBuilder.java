@@ -15,7 +15,6 @@ import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.Element;
 import javax.swing.text.NumberFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,7 +56,7 @@ public class QLFormBuilder {
 
     private void render() {
 
-        this.symbolTable = this.astRoot.getQuestionSymbolTable();
+        this.symbolTable = this.astRoot.getSymbolTable();
 
         this.jFrame = new JFrame();
         this.jFrame.setVisible(true);

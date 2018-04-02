@@ -2,16 +2,13 @@
 using QLVisualizer.Controllers.Display;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Elements.Managers.LeafTypes;
-using System;
 
 namespace QLVisualizer.Tests.Controllers.Display
 {
     [TestClass]
-    public abstract class WidgetDisplayControllerTest<T>
+    public abstract class ElementManagerDisplayControllerTest<T>
     {
-        //protected WidgetController _widgetController;
         protected WidgetDisplayController<T> _elementManagerDisplayContoller;
-        //protected ElementFactory<T> _elementFactory;
 
         protected IntQuestionManager _intWidget;
         protected BoolQuestionManager _boolWidget;

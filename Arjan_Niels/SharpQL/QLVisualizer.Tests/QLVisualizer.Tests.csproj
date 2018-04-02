@@ -50,9 +50,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Display\WidgetDisplayControllerWindowsTest.cs" />
-    <Compile Include="Controllers\Display\WidgetDisplayControllerTest.cs" />
-    <Compile Include="Controllers\WidgetControllerTest.cs" />
+    <Compile Include="Controllers\Display\ElementManagerDisplayControllerWindowsTest.cs" />
+    <Compile Include="Controllers\Display\ElementManagerDisplayControllerTest.cs" />
+    <Compile Include="Controllers\ElementManagerControllerTest.cs" />
     <Compile Include="ElementManagers\Typed\DoubleQuestionManagerTest.cs" />
     <Compile Include="ElementManagers\Typed\HexQuestionManagerTest.cs" />
     <Compile Include="Expression\ExpressionDoubleTest.cs" />
@@ -66,7 +66,6 @@
     <Compile Include="ElementManagers\Typed\BoolQuestionManagerTest.cs" />
     <Compile Include="ElementManagers\Typed\TextQuestionManagerTest.cs" />
     <Compile Include="ElementManagers\ElementManagerTest.cs" />
-    <Compile Include="Widgets\WidgetCreatorWindowsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

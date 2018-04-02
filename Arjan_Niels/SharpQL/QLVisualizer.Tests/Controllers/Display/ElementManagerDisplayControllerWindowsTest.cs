@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace QLVisualizer.Tests.Controllers.Display
 {
     [TestClass]
-    public class WidgetDisplayControllerWindowsTest : WidgetDisplayControllerTest<Control>
+    public class ElementManagerDisplayControllerWindowsTest : ElementManagerDisplayControllerTest<Control>
     {
         [TestInitialize]
         public void Initialize()

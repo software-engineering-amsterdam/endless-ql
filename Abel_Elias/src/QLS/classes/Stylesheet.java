@@ -17,6 +17,10 @@ public class Stylesheet {
 
     public void setId(String id) {
         this.id = id;
-
     }
+
+    public List<Page> getPages() {
+        return pages;
+    }
+
 }

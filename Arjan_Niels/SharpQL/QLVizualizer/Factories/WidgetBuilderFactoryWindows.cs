@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace QLVisualizer.Factories
 {
-    public class WidgetFactoryWindows
+    public class WidgetBuilderFactoryWindows
     {
         public static WidgetBuilder<Control> GetBuilder(ElementManager elementManager, IWidgetCollectionBuilder parent)
         {
@@ -63,6 +63,8 @@ namespace QLVisualizer.Factories
                     return new MoneyBuilderWindows(moneyQuestion);
                 case StringQuestionManager stringQuestion:
                     return new StringBuilderWindows(stringQuestion);
+                case HexQuestionManager hexQuestion:
+                    return new HexBuilderWindows(hexQuestion);
             }
             throw new NotImplementedException();
         }

@@ -2,7 +2,6 @@
 using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLSGrammar;
-using System;
 using static QLSGrammar.QLSGrammarParser;
 
 namespace QLParser.ParserVisitors.QLS
@@ -13,7 +12,7 @@ namespace QLParser.ParserVisitors.QLS
         {
             var specificationVisitor = new WidgetSpecificationVisitor();
             var specification = specificationVisitor.VisitWidgetspecification(context.widgetspecification());
-            var qtype = (QValueType)Enum.Parse(typeof(QValueType), context.QTYPE().GetText().ToUpper());
+            var qtype = Util.GetQValueTypeFromString(context.QTYPE().GetText());
             var style = new QLSStyle(qtype, specification);
 
             foreach (var ctx in context.stylevalue())
@@ -27,25 +26,25 @@ namespace QLParser.ParserVisitors.QLS
             var property = context.ID().GetText();
             var stringValue = "";
 
-            var type = QValueType.UNKNOWN;
+            var type = QValueType.Unknown;
             if (context.TEXT() != null)
             {
-                type = QValueType.TEXT;
+                type = QValueType.Text;
                 stringValue = context.TEXT().GetText();
             }
             else if (context.DOUBLE() != null)
             {
-                type = QValueType.DOUBLE;
+                type = QValueType.Double;
                 stringValue = context.DOUBLE().GetText();
             }
             else if (context.HEX() != null)
             {
-                type = QValueType.HEX;
+                type = QValueType.Hex;
                 stringValue = context.HEX().GetText();
             }
             else if (context.INT() != null)
             {
-                type = QValueType.INTEGER;
+                type = QValueType.Integer;
                 stringValue = context.INT().GetText();
             }
 

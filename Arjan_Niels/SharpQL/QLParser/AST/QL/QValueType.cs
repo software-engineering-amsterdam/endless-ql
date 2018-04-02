@@ -2,12 +2,12 @@
 {
     public enum QValueType
     {
-        UNKNOWN,
-        BOOLEAN,
-        MONEY,
-        TEXT,
-        INTEGER,
-        DOUBLE,
-        HEX
+        Unknown,
+        Boolean,
+        Money,
+        Text,
+        Integer,
+        Double,
+        Hex
     }
 }

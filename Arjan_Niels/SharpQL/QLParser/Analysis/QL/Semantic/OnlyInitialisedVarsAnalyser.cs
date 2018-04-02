@@ -4,29 +4,31 @@ using QLParser.Exceptions;
 
 namespace QLParser.Analysis.QL.Semantic
 {
+    /// <summary>
+    /// This analyser will check if all the variables in the form are initialized by a question.
+    /// </summary>
     public class OnlyInitialisedVarsAnalyser : IQLAnalyser, IQLVisitor
     {
-        private bool isValid = false;
+        private bool _isValid = false;
 
         public bool Analyse(QLNode node)
         {
-            this.isValid = true;
-            this.Visit(node);
+            this._isValid = true;
+            this.Visit((dynamic)node);
 
-            return isValid;
-
+            return this._isValid;
         }
 
         private bool IsIdentiierInSymbolTable(IdentifierNode node)
         {
             var valueType = SymbolTable.Get(node.ID);
-            if (valueType != QValueType.UNKNOWN)
+            if (valueType != QValueType.Unknown)
             {
                 return true;
             }
             else
             {
-                Analyser.AddMessage(string.Format("Unknown identifier '{0}' in statement", node.ID), MessageType.ERROR);
+                Analyser.AddMessage(string.Format("{0} Unknown identifier '{1}' in statement", node.Location, node.ID), Language.QL, MessageType.ERROR);
                 return false;
             }
         }
@@ -35,16 +37,17 @@ namespace QLParser.Analysis.QL.Semantic
         {
             switch (node.GetNodeType())
             {
-                case NodeType.LOGICAL_EXPRESSION:
-                case NodeType.COMPARISON_EXPRESSION:
-                case NodeType.ARTHIMETRIC_EXPRESSION:
+                case NodeType.LogicalExpression:
+                case NodeType.ComparisonExpression:
+                case NodeType.ArthimetricExpression:
+                case NodeType.TextConcatination:
                     var statementNode = (ExpressionNode)node;
                     var leftResult = AnalyseExpression(statementNode.Left);
                     var rightResult = AnalyseExpression(statementNode.Right);
                     return leftResult == rightResult;
-                case NodeType.LITERAL:
+                case NodeType.Literal:
                     return true;
-                case NodeType.IDENTIFIER:
+                case NodeType.Identifier:
                     var valueNode = (IdentifierNode)node;
                     return IsIdentiierInSymbolTable(valueNode);
                 default:
@@ -55,26 +58,24 @@ namespace QLParser.Analysis.QL.Semantic
         public void Visit(ComputedNode node)
         {
             if (!AnalyseExpression(node.Expression))
-                this.isValid = false;
-
-            VisitChildren(node);
+                this._isValid = false;
         }
 
         public void Visit(ConditionalNode node)
         {
             if (!AnalyseExpression(node.Expression))
-                this.isValid = false;
+                this._isValid = false;
             VisitChildren(node);
         }
 
         public void Visit(QLNode node)
         {
-            VisitChildren(node);
+            return;
         }
 
         public void Visit(QuestionNode node)
         {
-            VisitChildren(node);
+            return;
         }
 
         public void Visit(FormNode node)
@@ -84,13 +85,18 @@ namespace QLParser.Analysis.QL.Semantic
 
         public void Visit(ExpressionNode node)
         {
-            VisitChildren(node);
+            return;
         }
 
-        private void VisitChildren(QLNode node)
+        private void VisitChildren(QLCollectionNode node)
         {
             foreach (var child in node.Children)
                 child.Accept(this);
+        }
+
+        public void Visit(QLCollectionNode node)
+        {
+            VisitChildren(node);
         }
     }
 }

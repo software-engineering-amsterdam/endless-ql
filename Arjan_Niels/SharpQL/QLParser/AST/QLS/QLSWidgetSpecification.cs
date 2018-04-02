@@ -13,11 +13,12 @@ namespace QLParser.AST.QLS
         private const string SPNNER = "spinner";
         private const string CHECKBOX = "checkbox";
         private const string TEXTFIELD = "textfield";
+        private const string COLORPICKER = "colorpicker";
 
         public QLSWidgetSpecification()
         {
             this.WidgetTypeArguments = new List<string>();
-            this.WidgetType = WidgetType.DEFAULT;
+            this.WidgetType = WidgetType.Default;
         }
 
         public QLSWidgetSpecification(WidgetType widgetType, IList<string> widgetTypeArguments)
@@ -31,13 +32,15 @@ namespace QLParser.AST.QLS
             switch (type)
             {
                 case RADIO:
-                    return WidgetType.RADIO;
+                    return WidgetType.Radio;
                 case CHECKBOX:
-                    return WidgetType.CHECKBOX;
+                    return WidgetType.Checkbox;
                 case SPNNER:
-                    return WidgetType.SPINNER;
+                    return WidgetType.Spinner;
                 case TEXTFIELD:
-                    return WidgetType.TEXTFIELD;
+                    return WidgetType.Textfield;
+                case COLORPICKER:
+                    return WidgetType.Colorpicker;
                 default:
                     throw new UnknownNodeTypeException();
             }

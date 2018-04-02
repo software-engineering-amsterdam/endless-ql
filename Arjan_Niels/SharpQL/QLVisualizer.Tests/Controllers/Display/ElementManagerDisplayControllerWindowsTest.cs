@@ -1,19 +1,18 @@
-﻿using System.Windows.Forms;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLVisualizer.Controllers;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLVisualizer.Controllers.Display;
-using QLVisualizer.Elements.Managers.LeafTypes;
 using QLVisualizer.Elements.Managers.CollectionTypes;
+using QLVisualizer.Elements.Managers.LeafTypes;
+using System.Windows.Forms;
 
 namespace QLVisualizer.Tests.Controllers.Display
 {
     [TestClass]
-    public class WidgetDisplayControllerWindowsTest : WidgetDisplayControllerTest<Control>
+    public class ElementManagerDisplayControllerWindowsTest : ElementManagerDisplayControllerTest<Control>
     {
         [TestInitialize]
         public void Initialize()
         {
-            _elementManagerDisplayContoller = new ElementManagerDisplayContollerWindows(null, 10);
+            _elementManagerDisplayContoller = new ElementManagerDisplayContollerWindows();
             _intWidget = new IntQuestionManager("a", "q1", null, _elementManagerDisplayContoller);
             _boolWidget = new BoolQuestionManager("b", "q2", null, _elementManagerDisplayContoller);
             _stringWidget = new StringQuestionManager("c", "q3", null, _elementManagerDisplayContoller);
@@ -43,8 +42,8 @@ namespace QLVisualizer.Tests.Controllers.Display
         {
             // Set initial value
             _boolWidget.SetAnswer(true);
-            Assert.AreEqual(_boolWidget.Answer.Value, true);   
-            
+            Assert.AreEqual(_boolWidget.Answer.Value, true);
+
             // Update value
             _boolWidget.SetAnswer(false);
             Assert.AreEqual(_boolWidget.Answer.Value, false);

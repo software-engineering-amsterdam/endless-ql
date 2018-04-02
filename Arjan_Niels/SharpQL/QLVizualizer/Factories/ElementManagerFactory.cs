@@ -7,6 +7,7 @@ using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Elements.Managers.LeafTypes;
 using QLVisualizer.Expression.Enums;
 using QLVisualizer.Expression.Types;
+using QLVisualizer.Expression.Types.Numeric;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,85 +28,53 @@ namespace QLVisualizer.Factories
         }
 
         /// <summary>
-        /// Parses (AST)Node recursively
+        /// Parses Node recursively
         /// </summary>
         /// <param name="node">Node to parse</param>
         /// <param name="condition">Base condition, optional</param>
         /// <returns>Collection of widgets</returns>
         public static ElementManager ParseChildNode(QLNode node, ElementManagerController elementManagerController, ElementManagerCollection parent, ExpressionBool condition = null)
         {
-            switch (node.Type)
+            ExpressionFactory expressionFactory = new ExpressionFactory(elementManagerController);
+            switch (node)
             {
-                case NodeType.CONDITIONAL:
-                    ExpressionFactory expressionFactory = new ExpressionFactory(elementManagerController);
+                case ConditionalNode conditionalNode:
                     // Parse condition
-                    ExpressionBool newCondition = expressionFactory.GetCondition(node as ConditionalNode);
+                    ExpressionBool newCondition = expressionFactory.GetCondition(conditionalNode);
 
                     newCondition = (condition == null) ? newCondition : condition.Combine(newCondition, ExpressionOperator.And) as ExpressionBool;
 
                     // Add children with new condition
-                    parent.AddChildren(node.Children.Select(o => ParseChildNode(o, elementManagerController, parent, newCondition)).Where(o => o != null));
-
-                    // return parent
+                    parent.AddChildren(conditionalNode.Children.Select(o => ParseChildNode(o, elementManagerController, parent, newCondition)).Where(o => o != null));
                     return null;
 
-                case NodeType.FORM:
-                    throw new InvalidOperationException("Cannot stack form nodes");
+                case QuestionNode questionNode:
+                    return CreateElementManager(questionNode, condition, parent, elementManagerController, null);
 
-                case NodeType.QUESTION:
-                    return CreateElementManager(node as QuestionNode, condition, parent, elementManagerController);
-
-                case NodeType.COMPUTED:
-                    return CreateComputedWidget(node as ComputedNode, condition, parent, elementManagerController);
+                case ComputedNode computedNode:
+                    ExpressionValue expression = expressionFactory.ParseExpressionNode(computedNode.Expression);
+                    return CreateElementManager(computedNode, condition, parent, elementManagerController, expression);
             }
 
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Creates widget from QuestionNode
-        /// </summary>
-        /// <param name="questionNode">Node to parse</param>
-        /// <returns>Parsed widget</returns>
-        private static ElementManagerLeaf CreateElementManager(QuestionNode questionNode, ExpressionBool condition, ElementManagerCollection parent, ElementManagerController elementManagerController)
+        private static ElementManagerLeaf CreateElementManager(IQuestionable identifiedNode, ExpressionBool condition, ElementManagerCollection parent, ElementManagerController elementManagerController, ExpressionValue activationExpression)
         {
-            switch (questionNode.ValueType)
+            switch (identifiedNode.ValueType)
             {
-                case QValueType.BOOLEAN:
-                    return new BoolQuestionManager(questionNode.ID, questionNode.Text, parent, elementManagerController, condition);
-                case QValueType.INTEGER:
-                    return new IntQuestionManager(questionNode.ID, questionNode.Text, parent, elementManagerController, condition);
-                case QValueType.TEXT:
-                    return new StringQuestionManager(questionNode.ID, questionNode.Text, parent, elementManagerController, condition);
-                case QValueType.MONEY:
-                    return new MoneyQuestionManager(questionNode.ID, questionNode.Text, parent, elementManagerController, condition);
+                case QValueType.Boolean:
+                    return new BoolQuestionManager(identifiedNode.ID, identifiedNode.Text, parent, elementManagerController, condition, activationExpression as ExpressionBool);
+                case QValueType.Integer:
+                    return new IntQuestionManager(identifiedNode.ID, identifiedNode.Text, parent, elementManagerController, condition, activationExpression as ExpressionInt);
+                case QValueType.Text:
+                    return new StringQuestionManager(identifiedNode.ID, identifiedNode.Text, parent, elementManagerController, condition, activationExpression as ExpressionText);
+                case QValueType.Money:
+                    return new MoneyQuestionManager(identifiedNode.ID, identifiedNode.Text, parent, elementManagerController, condition, activationExpression as ExpressionDouble);
+                case QValueType.Hex:
+                    return new HexQuestionManager(identifiedNode.ID, identifiedNode.Text, parent, elementManagerController, condition, activationExpression as ExpressionHex);
             }
-            throw new InvalidOperationException("Unsupported type: " + questionNode.ValueType);
-        }
-
-        /// <summary>
-        /// Creates widget with computed value
-        /// </summary>
-        /// <param name="node">Node</param>
-        /// <param name="condition">Condition of widget</param>
-        /// <param name="elementManagerController">Widget controller</param>
-        /// <returns></returns>
-        private static ElementManagerLeaf CreateComputedWidget(ComputedNode node, ExpressionBool condition, ElementManagerCollection parent, ElementManagerController elementManagerController)
-        {
-            ExpressionFactory expressionFactory = new ExpressionFactory(elementManagerController);
-            ExpressionValue expression = expressionFactory.ParseExpressionNode(node.Expression);
-            switch (node.Expression.GetQValueType())
-            {
-                case QValueType.BOOLEAN:
-                    return new BoolQuestionManager(node.ID, node.Text, parent, elementManagerController, condition, expression as ExpressionBool);
-                case QValueType.INTEGER:
-                    return new IntQuestionManager(node.ID, node.Text, parent, elementManagerController, condition, expression as ExpressionInt);
-                case QValueType.MONEY:
-                    return new MoneyQuestionManager(node.ID, node.Text, parent, elementManagerController, condition, expression as ExpressionDouble);
-                case QValueType.DOUBLE:
-                    return new DoubleQuestionManager(node.ID, node.Text, parent, elementManagerController, condition, expression as ExpressionDouble);
-            }
-            throw new NotImplementedException();
+            throw new InvalidOperationException("Unsupported type: " + identifiedNode.ValueType);
         }
 
         /// <summary>
@@ -115,11 +84,16 @@ namespace QLVisualizer.Factories
         /// <param name="qLSNode">Styling for the form</param>
         /// <param name="controller">Controller for object creation</param>
         /// <returns>Styled form</returns>
-        public static FormManager ApplyQLS(FormManager formManager, QLSNode qLSNode, ElementManagerController controller)
+        public static FormManager ApplyQLS(FormManager formManager, QLSNode qLSNode, ElementManagerController controller, ref List<string> errors)
         {
             if (formManager.Identifier != qLSNode.ID)
-                throw new InvalidOperationException("Identifiers do not match!");
+            {
+                errors.Add("Identifiers of ql and qls do not match!");
+                return formManager;
+            }
+
             List<ElementManagerLeaf> children = formManager.Children.Select(o => (ElementManagerLeaf)o).ToList();
+
             return ReconstructElementCollection(formManager, ref children, qLSNode, controller) as FormManager;
         }
 
@@ -136,7 +110,6 @@ namespace QLVisualizer.Factories
         private static ElementManagerCollection ReconstructElementCollection(ElementManagerCollection collection, ref List<ElementManagerLeaf> children, QLSNode qlsNode, ElementManagerController controller)
         {
             collection.Children.Clear();
-            //collection.SetStyles(new List<IQLSElement>(qlsNode.NodeStyles));
 
             foreach (QLSNode node in qlsNode.Children)
             {
@@ -144,7 +117,7 @@ namespace QLVisualizer.Factories
                 {
                     case QLSNodeType.Page:
                     case QLSNodeType.Section:
-                        ElementManagerCollection collectionChild = QLSToCollection(node, collection, controller);
+                        ElementManagerCollection collectionChild = AddQLSToCollection(node, collection, controller);
                         collectionChild = ReconstructElementCollection(collectionChild, ref children, node, controller);
                         collection.AddChild(collectionChild);
                         break;
@@ -155,7 +128,7 @@ namespace QLVisualizer.Factories
 
                         ElementManagerLeaf child = foundMatches.First();
                         children.Remove(child);
-                        collection.AddChild(QLSToLeaf(node, child));
+                        collection.AddChild(AddQLSToLeaf(node, child));
                         break;
                 }
             }
@@ -163,19 +136,12 @@ namespace QLVisualizer.Factories
             return collection;
         }
 
-        /// <summary>
-        /// Sets style of a specific element manager leaf
-        /// </summary>
-        /// <param name="node">QLS instructions</param>
-        /// <param name="leaf">ElementManagerLeaf to apply style to</param>
-        /// <returns>Styled element manager leaf</returns>
-        private static ElementManagerLeaf QLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
+        private static ElementManagerLeaf AddQLSToLeaf(QLSNode node, ElementManagerLeaf leaf)
         {
-            // Leaf retrieval
-            QLSStyle style = new QLSStyle(QValueType.UNKNOWN, new QLSWidgetSpecification(WidgetType.DEFAULT, new List<string>()));
+            QLSStyle style = new QLSStyle(QValueType.Unknown, new QLSWidgetSpecification(WidgetType.Default, new List<string>()));
 
             if (node.NodeStyles.Count > 1)
-                throw new InvalidOperationException("MULTIPLE STYLES IN LEAF");
+                throw new InvalidOperationException("Multiple styles in leaf node");
             else if (node.NodeStyles.Count == 1)
                 style = node.NodeStyles[0];
 
@@ -183,14 +149,7 @@ namespace QLVisualizer.Factories
             return leaf;
         }
 
-        /// <summary>
-        /// Creates a ElementManagerCollection that is defined in a QLS node
-        /// </summary>
-        /// <param name="qlsNode">QLS instructions</param>
-        /// <param name="parent">Parent object of the new collection</param>
-        /// <param name="controller">ElementManagerController for object creation</param>
-        /// <returns>ElementManagerCollection as defined by the QLS</returns>
-        private static ElementManagerCollection QLSToCollection(QLSNode qlsNode, ElementManagerCollection parent, ElementManagerController controller)
+        private static ElementManagerCollection AddQLSToCollection(QLSNode qlsNode, ElementManagerCollection parent, ElementManagerController controller)
         {
             switch (qlsNode.NodeType)
             {
@@ -198,7 +157,6 @@ namespace QLVisualizer.Factories
                     return new PageManager(qlsNode.ID, qlsNode.ID, parent, controller);
                 case QLSNodeType.Section:
                     return new SectionManager(qlsNode.ID, qlsNode.ID, parent, controller);
-
             }
             throw new NotImplementedException();
         }

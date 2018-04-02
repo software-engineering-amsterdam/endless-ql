@@ -1,9 +1,8 @@
-﻿using System;
+﻿using QLVisualizer.Factories;
+using QLVisualizer.Properties;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using QLVisualizer.Factories;
-using QLVisualizer.Properties;
-using QLVisualizer.Elements.Managers.CollectionTypes;
 
 namespace QLVisualizer.Controllers.Display
 {
@@ -30,13 +29,17 @@ namespace QLVisualizer.Controllers.Display
         private Button _parseButton;
 
         /// <summary>
+        /// Export Button
+        /// </summary>
+        private Button _exportButton;
+
+        /// <summary>
         /// Form shown to user
         /// </summary>
         private Form _mainForm;
 
-        public ElementManagerDisplayContollerWindows(FormManager form, float topMargin) : base(form, topMargin)
+        public ElementManagerDisplayContollerWindows()
         {
-            //_elementFactory = new ControlFactory(this);
             ConstructMainWindow();
         }
 
@@ -55,19 +58,26 @@ namespace QLVisualizer.Controllers.Display
             BaseDisplay = newDisplay;
         }
 
-        /// <summary>
-        /// Shows message box with error(s) to user
-        /// </summary>
-        /// <param name="errors">One or more errors</param>
         public override void ShowError(params string[] errors)
         {
-            // Show message box
-            MessageBox.Show(string.Join("\n", errors), errors.Length > 1 ? "Errors occured" : "Error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(
+                string.Join("\n", errors),
+                UserMessages.ErrorsOccurred(errors.Length == 1),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            );
         }
 
-        /// <summary>
-        /// Resets all values that define its state
-        /// </summary>
+        protected override void ShowExportedMessage(string filename)
+        {
+            MessageBox.Show(
+                UserMessages.SuccesfulExport(),
+                UserMessages.ExportedAnswers(filename, Form.Identifier),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+        }
+
         public override void Reset()
         {
             base.Reset();
@@ -76,13 +86,11 @@ namespace QLVisualizer.Controllers.Display
 
         protected override Control CreateFormWidget()
         {
-            return WidgetFactoryWindows.GetBuilder(Form, null).Create();
+            return WidgetBuilderFactoryWindows.GetBuilder(Form, null).Create();
         }
 
         #region Main window constructors
-        /// <summary>
-        /// Construct view and assigns it to _mainForm
-        /// </summary>
+
         private void ConstructMainWindow()
         {
             // Create form
@@ -93,6 +101,7 @@ namespace QLVisualizer.Controllers.Display
             _qlInput = CreateInputTextBox();
             _qlsInput = CreateInputTextBox();
             _parseButton = CreateParseButton();
+            _exportButton = CreateExportButton();
 
             // Assign controls
             _mainForm.Controls.AddRange(new Control[]
@@ -101,22 +110,21 @@ namespace QLVisualizer.Controllers.Display
                 CreateInputTextBoxHolder(_qlInput, "QL:", true),
                 CreateInputTextBoxHolder(_qlsInput, "QLS:", false),
                 _parseButton,
+                _exportButton
             });
 
             _mainForm.ResumeLayout(false);
             _mainForm.PerformLayout();
         }
 
-        /// <summary>
-        /// Creates form element
-        /// </summary>
-        /// <returns>Form object</returns>
         private Form CreateForm()
         {
             return new Form
             {
                 AutoScaleDimensions = new SizeF(6f, 13f),
                 AutoScaleMode = AutoScaleMode.Font,
+                FormBorderStyle = FormBorderStyle.FixedSingle,
+                MaximizeBox = false,
                 ClientSize = new Size(738, 700),
                 Icon = (Icon)Resources.ResourceManager.GetObject("MainIcon"),
                 Name = "Visualizer",
@@ -124,10 +132,6 @@ namespace QLVisualizer.Controllers.Display
             };
         }
 
-        /// <summary>
-        /// Creates widget panel
-        /// </summary>
-        /// <returns>Widget panel</returns>
         private Panel CreateWidgetPanel()
         {
             return new Panel
@@ -139,10 +143,6 @@ namespace QLVisualizer.Controllers.Display
             };
         }
 
-        /// <summary>
-        /// Creates QL input textbox
-        /// </summary>
-        /// <returns>QL inputfield</returns>
         private TextBox CreateInputTextBox()
         {
             return new TextBox
@@ -152,7 +152,7 @@ namespace QLVisualizer.Controllers.Display
                 Location = new Point(12, 26),
                 Multiline = true,
                 Name = "qlInputField",
-                Size = new Size(350, 285),
+                Size = new Size(342, 285),
                 ScrollBars = ScrollBars.Both
             };
         }
@@ -162,7 +162,7 @@ namespace QLVisualizer.Controllers.Display
             Panel holder = new Panel
             {
                 Height = 311,
-                Width = 362,
+                Width = 355,
                 Location = new Point(12, isTop ? 9 : 326)
             };
             holder.Controls.Add(new Label { Text = title, Location = new Point(12, 9), Height = 12 });
@@ -176,12 +176,25 @@ namespace QLVisualizer.Controllers.Display
             {
                 Location = new Point(23, 642),
                 Name = "parseButton",
-                Size = new Size(698, 48),
-                Text = "Parse",
+                Size = new Size(344, 48),
+                Text = UserMessages.Parse(),
                 UseVisualStyleBackColor = true
             };
 
             result.Click += delegate (object sender, EventArgs eventArgs) { HandleInput(_qlInput.Text, _qlsInput.Text); };
+            return result;
+        }
+
+        private Button CreateExportButton()
+        {
+            Button result = new Button
+            {
+                Location = new Point(367, 642),
+                Name = "ExportButton",
+                Size = new Size(344, 48),
+                Text = UserMessages.Export(),
+            };
+            result.Click += (object sender, EventArgs eventArgs) => Export();
             return result;
         }
         #endregion

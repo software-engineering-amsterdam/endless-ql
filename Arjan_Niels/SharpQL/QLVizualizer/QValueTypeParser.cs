@@ -1,15 +1,12 @@
 ﻿using System;
 
-namespace QLVisualizer.Factories
+namespace QLVisualizer
 {
     public static class QValueTypeParser
     {
-        public static string ParseHexadecimal(string value)
-        {  
-            if (value.StartsWith("#") && value.Length == 7)
-                return value;
-
-            throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, "Hexadecimal"));
+        public static Hexadecimal ParseHexadecimal(string value)
+        {
+            return Hexadecimal.FromString(value);
         }
 
         public static bool ParseBoolean(string value)
@@ -26,11 +23,6 @@ namespace QLVisualizer.Factories
             if (double.TryParse(value, out result))
                 return result;
             throw new InvalidOperationException(UserMessages.ExceptionCannotParse(value, "Double"));
-        }
-
-        public static double ParseMoney(string value)
-        {
-            return ParseDouble(value);
         }
 
         public static string ParseText(string value)

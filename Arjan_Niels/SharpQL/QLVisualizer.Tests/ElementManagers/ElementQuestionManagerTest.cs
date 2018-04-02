@@ -3,7 +3,7 @@ using QLVisualizer.Elements.Managers;
 
 namespace QLVisualizer.Tests.Elements.Managers
 {
-    public  abstract class QuestionWidget<T, Y> : ElementManagerTest<T> where T : QuestionElementManager<Y>
+    public  abstract class ElementQuestionManagerTest<T, Y> : ElementManagerTest<T> where T : QuestionElementManager<Y>
     {
         [TestMethod]
         public void EditableTest()

@@ -16,7 +16,7 @@ widgettypearguments	: LPAREN TEXT (COMMA TEXT)+ RPAREN;
 
 DOUBLE				: INT PT INT
 					| PT INT;
-HEX					: HASHTAG INT;
+HEX					: HASHTAG ([0-9] | [A-F])+;
 
 /*
  * Lexer rules
@@ -38,9 +38,9 @@ COLON				: ':';
 HASHTAG				: '#';
 
 QTYPE				: 'boolean' | 'money' | 'text' | 'integer' | 'double' | 'hex';
-WIDGETTYPE			: 'checkbox' | 'spinner' | 'radio' | 'textfield';
+WIDGETTYPE			: 'checkbox' | 'spinner' | 'radio' | 'textfield' | 'colorpicker';
 
-ID					: [a-zA-Z][a-zA-Z0-9\-B]+;
+ID					: [a-zA-Z][a-zA-Z0-9\-]+;
 TEXT				: '"' .*? '"' ;
 INT					: [0-9]+;		
 PT					: '.';

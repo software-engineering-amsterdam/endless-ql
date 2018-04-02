@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime.Misc;
-using QLParser.AST.QL;
+﻿using QLParser.AST.QL;
 using System;
 using static QLGrammar.QLGrammarParser;
 
@@ -7,9 +6,11 @@ namespace QLParser.ParserVisitors.QL
 {
     public class SectionVisitor : QLGrammar.QLGrammarBaseVisitor<QLNode>
     {
-        public override QLNode VisitSection([NotNull] SectionContext context)
+        public override QLNode VisitSection(SectionContext context)
         {
-            // If the Section is a Question, process it.
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null");
+
             var questionContext = context.question();
             if (questionContext != null)
             {
@@ -17,7 +18,6 @@ namespace QLParser.ParserVisitors.QL
                 return questionVisitor.VisitQuestion(questionContext);
             }
 
-            // If it isn't a Question it is most likely to be a ConditionalBlock.
             var conditionalContext = context.conditionalBlock();
             if (conditionalContext != null)
             {
@@ -33,7 +33,7 @@ namespace QLParser.ParserVisitors.QL
             }
 
             //If it manages to reach this line; throw an exception, because it should not be possible.
-            throw new InvalidOperationException("We don't know how to process this section.");
+            throw new NotImplementedException("We don't know how to process this section.");
         }
     }
 }

@@ -8,19 +8,21 @@ namespace QLParser.AST.QLS
     public abstract class QLSNode : IQLSTraversable
     {
         public string ID { get; private set; }
+        public Location Location { get; private set; }
         public QLSNodeType NodeType { get; private set; }
         public IList<QLSNode> Children { get; private set; }
         public IList<QLSStyle> NodeStyles { get; private set; }
 
-        public QLSNode(QLSNodeType type, string id)
+        public QLSNode(Location location, QLSNodeType type, string id)
         {
             this.NodeType = type;
+            this.Location = location;
             this.ID = id;
             this.Children = new List<QLSNode>();
             this.NodeStyles = new List<QLSStyle>();
         }
 
-        public QLSNode(QLSNodeType type, string id, IList<QLSStyle> styles) : this(type, id)
+        public QLSNode(Location location, QLSNodeType type, string id, IList<QLSStyle> styles) : this(location, type, id)
         {
             this.NodeStyles = styles;
         }
@@ -36,6 +38,7 @@ namespace QLParser.AST.QLS
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
+            builder.Append(this.Location);
             builder.Append("\n");
             foreach (QLSNode child in this.Children)
                 builder.Append(child.ToString());

@@ -40,7 +40,7 @@ namespace QL_Parser.Tests.QLS.Analysis
         [TestMethod]
         public void AllIdentifiersAreUsed()
         {
-            SymbolTable.Add("soldHouseIn2010", QValueType.BOOLEAN);
+            SymbolTable.Add("soldHouseIn2010", QValueType.Boolean);
             QLSNode node = QLSParserHelper.Parse(simpleQLS);
             var analyser = new AllIdentifiersAreUsedAnalyser();
             var result = analyser.Analyse(node);
@@ -51,7 +51,7 @@ namespace QL_Parser.Tests.QLS.Analysis
         [TestMethod]
         public void NoIdentifiersAreUsed()
         {
-            SymbolTable.Add("soldHouseIn2010", QValueType.BOOLEAN);
+            SymbolTable.Add("soldHouseIn2010", QValueType.Boolean);
             QLSNode node = QLSParserHelper.Parse(simpleWithouIdentifiersQLS);
             var analyser = new AllIdentifiersAreUsedAnalyser();
             var result = analyser.Analyse(node);

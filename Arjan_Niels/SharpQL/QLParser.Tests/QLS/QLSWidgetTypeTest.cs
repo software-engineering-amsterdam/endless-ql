@@ -114,7 +114,7 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetType);
 
             var questionNode = qls.Children[0].Children[0].Children[0];
-            Assert.AreEqual(WidgetType.SPINNER, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(WidgetType.Spinner, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
             Assert.AreEqual(0, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
         }
 
@@ -124,7 +124,7 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetTypeTextfield);
 
             var questionNode = qls.Children[0].Children[0].Children[0];
-            Assert.AreEqual(WidgetType.TEXTFIELD, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(WidgetType.Textfield, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
             Assert.AreEqual(0, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
         }
 
@@ -135,7 +135,7 @@ namespace QL_Parser.Tests.QLS
             QLSNode qls = QLSParserHelper.Parse(SimpleStyleWithWidgetTypeWithArguments);
 
             var questionNode = qls.Children[0].Children[0].Children[0];
-            Assert.AreEqual(WidgetType.RADIO, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
+            Assert.AreEqual(WidgetType.Radio, questionNode.NodeStyles[0].WidgetSpecification.WidgetType);
             Assert.AreEqual(3, questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments.Count);
             Assert.AreEqual("Yes", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[0]);
             Assert.AreEqual("No", questionNode.NodeStyles[0].WidgetSpecification.WidgetTypeArguments[1]);
@@ -149,11 +149,11 @@ namespace QL_Parser.Tests.QLS
 
             var styles = qls.Children[0].Children[0].NodeStyles;
             Assert.AreEqual("width", styles[0].StylingValues[0].StyleProperty);
-            Assert.AreEqual(QValueType.INTEGER, styles[0].StylingValues[0].QValueType);
+            Assert.AreEqual(QValueType.Integer, styles[0].StylingValues[0].QValueType);
             Assert.AreEqual("100", styles[0].StylingValues[0].StyleValue);
 
             Assert.AreEqual("fontSize", styles[0].StylingValues[1].StyleProperty);
-            Assert.AreEqual(QValueType.DOUBLE, styles[0].StylingValues[1].QValueType);
+            Assert.AreEqual(QValueType.Double, styles[0].StylingValues[1].QValueType);
             Assert.AreEqual("12.5", styles[0].StylingValues[1].StyleValue);
         }
 

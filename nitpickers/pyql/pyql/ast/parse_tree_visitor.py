@@ -1,14 +1,12 @@
-from pyql.antlr.QLVisitor import QLVisitor
 from pyql.antlr.QLParser import QLParser
+from pyql.antlr.QLVisitor import QLVisitor
+from pyql.ast.expression.expressions import *
 from pyql.ast.form.block import Block
-from util.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.form.ql_statements import *
-from pyql.ast.expression.expressions import *
 from util import values
+from util.code_location import CodeLocation
 from util.types import *
-
-# TODO check if can get rid of 'if getChildCount() > 1'
 
 
 class ParseTreeVisitor(QLVisitor):
@@ -46,9 +44,6 @@ class ParseTreeVisitor(QLVisitor):
 
     def visitIntegerType(self, ctx: QLParser.IntegerTypeContext):
         return Integer()
-
-    def visitDateType(self, ctx: QLParser.DateTypeContext):
-        return Date()
 
     def visitDecimalType(self, ctx: QLParser.DecimalTypeContext):
         return Decimal()

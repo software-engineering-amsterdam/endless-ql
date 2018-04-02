@@ -18,5 +18,3 @@ class Form(ASTNode):
 
     def __repr__(self):
         return "Form at {0}".format(self.location)
-
-    __str__ = __repr__

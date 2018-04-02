@@ -15,4 +15,5 @@ class CodeLocation:
     def __repr__(self):
         return "(" + str(self.line) + "," + str(self.column) + ")"
 
-    __str__ = __repr__
+    def __str__(self):
+        return self.__repr__()

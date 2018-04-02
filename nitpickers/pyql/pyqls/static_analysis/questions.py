@@ -1,15 +1,18 @@
-from multimethods import multimethod
+from functools import reduce
+
+from pyqls.ast.nodes.block import Block
+from pyqls.ast.nodes.page import Page
+from pyqls.ast.nodes.section import InlineSection
+from pyqls.ast.nodes.section import Section
 from pyqls.ast.nodes.statement import Question
 from pyqls.ast.nodes.statement import QuestionStyle
 from pyqls.ast.nodes.stylesheet import StyleSheet
-from pyqls.ast.nodes.block import Block
-from pyqls.ast.nodes.page import Page
-from pyqls.ast.nodes.section import Section
-from pyqls.ast.nodes.section import InlineSection
+from pyqls.ast.nodes.qls_object import QLSObject
 from util.ast import ASTNode
-from util.message_handler import MessageHandler
 from util.message import *
-from functools import reduce
+from util.message_handler import MessageHandler
+from util.multimethods import multimethod
+
 
 # checks:
 #   no references to questions that are not in the QL program
@@ -29,6 +32,10 @@ class CheckQuestionsInQL:
             MessageHandler().add(Error("Question {0} from QL undefined by QLS!".format(undefined_in_qls)))
             errors_found = errors_found or True
         return errors_found
+
+    @multimethod(QLSObject)
+    def visit(self, object):
+        object.stylesheet.accept(self)
 
     @multimethod(Question)
     def visit(self, question):

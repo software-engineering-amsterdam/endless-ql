@@ -14,9 +14,10 @@ class Type:
         return self.__class__
 
     def __repr__(self):
-        return self._type_name
+        return self.type_name
 
-    __str__ = __repr__
+    def __str__(self):
+        return self.__repr__()
 
     def __eq__(self, other):
         if not isinstance(other, Type):
@@ -50,23 +51,7 @@ class Decimal(Type):
         super().__init__("Decimal")
 
 
-class Date(Type):
-
-    def __init__(self):
-        super().__init__("Date")
-
-
 class Money(Type):
 
     def __init__(self):
         super().__init__("Money")
-
-
-if __name__ == "__main__":
-    m = Money()
-    s = String()
-    n = Money()
-    p = Integer()
-    print(m == s)
-    print(n == m)
-    print(p == s)

@@ -8,5 +8,3 @@ class Statement(ASTNode):
 
     def __repr__(self):
         return "AST Statement at: " + str(self.location)
-
-    __str__ = __repr__

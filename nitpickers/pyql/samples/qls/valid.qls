@@ -1,0 +1,31 @@
+QL: "samples/ql/valid.ql"
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    section "Buying"
+    {
+      question age
+        widget spinbox
+      question sellingPrice
+        widget spinbox
+      question privateDebt
+        widget spinbox
+      question bigQuestion
+        widget spinbox
+      question valueResidue
+        widget spinbox
+      default money
+        {
+          width: 400
+          font: "Arial"
+          fontsize: 14
+          color: #999999
+          widget spinbox
+        }
+    }
+    section "Loaning"
+      question name
+  }
+  default boolean widget radio("Yes", "No")
+}

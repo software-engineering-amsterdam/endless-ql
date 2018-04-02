@@ -1,3 +1,4 @@
+QL: "samples/ql/example.ql"
 stylesheet taxOfficeExample
 {
   page Housing

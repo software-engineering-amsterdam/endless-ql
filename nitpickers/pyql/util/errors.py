@@ -31,3 +31,8 @@ class ZeroDivision(Error):
     def __init__(self, text="ZeroDivision error"):
         super().__init__(text)
 
+
+class Syntax(Error):
+
+    def __init__(self, text="Syntax error"):
+        super().__init__(text)

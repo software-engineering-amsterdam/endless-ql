@@ -12,3 +12,6 @@ class ASTNode:
 
     def accept(self, visitor):
         return visitor.visit(self)
+
+    def __str__(self):
+        return self.__repr__()

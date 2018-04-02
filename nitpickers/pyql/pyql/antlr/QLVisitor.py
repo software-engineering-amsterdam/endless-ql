@@ -59,11 +59,6 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#dateType.
-    def visitDateType(self, ctx:QLParser.DateTypeContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by QLParser#decimalType.
     def visitDecimalType(self, ctx:QLParser.DecimalTypeContext):
         return self.visitChildren(ctx)

@@ -4,6 +4,8 @@ grammar QLS;
  * Parser rules
  */
 
+qlsObject           : 'QL:' filename styleSheet ;
+
 styleSheet          : 'stylesheet' identifier '{' styleSheetBlock '}' ;
 
 styleSheetBlock     : styleSheetStatement+ ;
@@ -38,17 +40,32 @@ widgetType          : 'radio(' STRING (',' STRING)* ')'    #radioWidget
                     | 'text'                               #textWidget
                     ;
 
-defaultStatement    : 'default' questionType widget ;
+defaultStatement    : 'default' questionType widget                 #simpleDefault
+                    | 'default' questionType '{' defaultBody '}'    #defaultWithBody
+                    ;
+
+defaultBody         : styleRules* widget | widget styleRules* ;
+
+styleRules          : width | font | fontsize | color ;
+
+width               : 'width:' INT ;
+
+font                : 'font:' STRING ;
+
+fontsize            : 'fontsize:' INT ;
+
+color               : 'color:' HEX_COLOR ;
 
 questionType        : 'boolean' #booleanType
                     | 'string'  #stringType
                     | 'integer' #integerType
-                    | 'date'    #dateType
                     | 'decimal' #decimalType
                     | 'money'   #moneyType
                     ;
 
 identifier          : IDENTIFIER ;
+
+filename            : STRING ;
 
 /*
  * Lexer rules

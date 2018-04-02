@@ -19,8 +19,8 @@ public class WidgetFactory {
             case Value.MONEY:
             case Value.INTEGER:
                 return new TextWidget((NumericValue) value);
+            default: break;
         }
-
         return null;
     }
 }

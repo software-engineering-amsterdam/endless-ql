@@ -42,6 +42,7 @@ public class ExpressionVisitor extends QLBaseVisitor {
                 return left.equals(right);
             case "!=":
                 return !left.equals(right);
+            default: break;
         }
 
         return null;
@@ -58,8 +59,8 @@ public class ExpressionVisitor extends QLBaseVisitor {
                 return left && right;
             case "!=":
                 return left || right;
+            default: break;
         }
-
         return null;
     }
 
@@ -78,6 +79,7 @@ public class ExpressionVisitor extends QLBaseVisitor {
                 return left >= right;
             case "<=":
                 return left <= right;
+            default: break;
         }
 
         return null;
@@ -106,6 +108,7 @@ public class ExpressionVisitor extends QLBaseVisitor {
                 return Math.pow(left, right);
             case "%":
                 return left % right;
+            default: break;
         }
 
         return null;

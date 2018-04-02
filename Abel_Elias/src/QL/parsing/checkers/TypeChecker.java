@@ -36,6 +36,7 @@ public class TypeChecker extends QLBaseVisitor {
             case "decimal":
             case "money":
                 return typeMap.put(id, 0.0);
+            default: break;
         }
 
         return true;
@@ -137,6 +138,7 @@ public class TypeChecker extends QLBaseVisitor {
             case "money":
                 correct = value instanceof Number;
                 break;
+            default: break;
         }
 
         if (!correct) {

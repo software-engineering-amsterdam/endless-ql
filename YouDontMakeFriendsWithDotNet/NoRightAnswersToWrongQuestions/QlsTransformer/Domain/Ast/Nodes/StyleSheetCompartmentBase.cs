@@ -10,8 +10,8 @@ namespace QlsTransformer.Domain.Ast.Nodes
     internal abstract class StyleSheetCompartmentBase : AstNodeBase, IStyleSheetCompartment
     {
         protected StyleSheetCompartmentBase(
-            Guid id, 
-            string definition, 
+            Guid id,
+            string definition,
             string name,
             IEnumerable<IDefaultStyle> defaultStyle) : base(id, definition)
         {
@@ -24,7 +24,7 @@ namespace QlsTransformer.Domain.Ast.Nodes
         }
 
         public string Name { get; }
-        public DomainId<IStyleNode> IntegerStyle { get; } 
+        public DomainId<IStyleNode> IntegerStyle { get; }
         public DomainId<IStyleNode> DecimalStyle { get; }
         public DomainId<IStyleNode> DateStyle { get; }
         public DomainId<IStyleNode> StringStyle { get; }

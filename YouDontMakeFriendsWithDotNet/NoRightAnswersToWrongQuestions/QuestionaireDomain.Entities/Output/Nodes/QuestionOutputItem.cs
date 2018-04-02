@@ -27,7 +27,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
             Visible = isVisible;
             ReadOnly = isReadonly;
         }
-        
+
         public Guid Id { get; }
         public DomainId<IQuestionNode> Variable { get; }
         public string QuestionName { get; }

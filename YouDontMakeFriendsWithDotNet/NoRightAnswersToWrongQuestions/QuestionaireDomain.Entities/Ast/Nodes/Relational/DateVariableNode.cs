@@ -4,8 +4,8 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
-    internal class DateVariableNode : 
-        VariableNodeBase, 
+    internal class DateVariableNode :
+        VariableNodeBase,
         IDateVariableNode
     {
         public DateVariableNode(

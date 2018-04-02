@@ -6,14 +6,11 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation
 {
-    internal abstract class CalculationBinaryExpressionNodeBase : 
+    internal abstract class CalculationBinaryExpressionNodeBase :
         AstNodeBase
     {
-        public DomainId<ICalculationNode> LeftCalculation { get; }
-        public DomainId<ICalculationNode> RightCalculation { get; }
-
         protected CalculationBinaryExpressionNodeBase(
-            Guid id, 
+            Guid id,
             string definition,
             DomainId<ICalculationNode> leftCalculation,
             DomainId<ICalculationNode> rightCalculation) : base(id, definition)
@@ -22,6 +19,9 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation
             RightCalculation = rightCalculation;
             Children = new[] {leftCalculation, rightCalculation};
         }
+
+        public DomainId<ICalculationNode> LeftCalculation { get; }
+        public DomainId<ICalculationNode> RightCalculation { get; }
 
         public IEnumerable<DomainId<ICalculationNode>> Children { get; }
     }

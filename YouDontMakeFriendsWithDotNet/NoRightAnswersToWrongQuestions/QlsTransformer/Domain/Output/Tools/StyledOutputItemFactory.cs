@@ -21,7 +21,7 @@ namespace QlsTransformer.Domain.Output.Tools
         }
 
         public DomainId<IStyledQuestionnaireOutputItem> CreateRoot(
-            string name, 
+            string name,
             List<DomainId<IPagesOutputItem>> pages)
         {
             var questionnaireOutputItem = new StyledQuestionnaireOutputItem(
@@ -36,7 +36,7 @@ namespace QlsTransformer.Domain.Output.Tools
         }
 
         public DomainId<IPagesOutputItem> CreatePage(
-            string pageNodeName, 
+            string pageNodeName,
             List<DomainId<ISectionOutputItem>> sections)
         {
             var pageOutputItem = new PagesOutputItem(
@@ -51,7 +51,7 @@ namespace QlsTransformer.Domain.Output.Tools
         }
 
         public DomainId<ISectionOutputItem> CreateSection(
-            string sectionNodeName, 
+            string sectionNodeName,
             List<DomainId<IStyledQuestionOutputItem>> questions)
         {
             var sectionOutputItem = new SectionOutputItem(
@@ -66,7 +66,7 @@ namespace QlsTransformer.Domain.Output.Tools
         }
 
         public DomainId<IStyledQuestionOutputItem> CreateQuestion(
-            IQuestionOutputItem question, 
+            IQuestionOutputItem question,
             Style style)
         {
             var styledQuestionOutputItem = new StyledQuestionOutputItem(
@@ -77,7 +77,7 @@ namespace QlsTransformer.Domain.Output.Tools
             return DomainItemRegistration<IStyledQuestionOutputItem>(
                 styledQuestionOutputItem);
         }
-        
+
         private DomainId<T> DomainItemRegistration<T>(T node) where T : IDomainItem
         {
             m_registry.Add(node);

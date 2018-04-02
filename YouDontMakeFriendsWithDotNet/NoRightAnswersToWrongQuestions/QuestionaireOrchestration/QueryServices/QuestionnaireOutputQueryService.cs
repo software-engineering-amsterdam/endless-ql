@@ -40,10 +40,7 @@ namespace QuestionnaireOrchestration.QueryServices
                 .ToList();
 
             var questionnaireModel = new QuestionnaireModel(id, questionnaire.DisplayName);
-            foreach (var question in questions)
-            {
-                questionnaireModel.Questions.Add(question);
-            }
+            foreach (var question in questions) questionnaireModel.Questions.Add(question);
 
             return questionnaireModel;
         }

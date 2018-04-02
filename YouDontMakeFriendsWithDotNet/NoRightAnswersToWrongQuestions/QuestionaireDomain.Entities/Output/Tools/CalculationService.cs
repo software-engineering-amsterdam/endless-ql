@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
@@ -13,10 +10,10 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 {
     internal class CalculationService : ICalculationService
     {
-        private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ICalculationVisitor m_calculationVisitor;
-        private readonly ISymbolTable m_symbolTable;
+        private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IExtractVariableVisitor m_extractVariableVisitor;
+        private readonly ISymbolTable m_symbolTable;
 
         public CalculationService(
             IDomainItemLocator domainItemLocator,

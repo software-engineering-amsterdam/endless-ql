@@ -7,17 +7,16 @@ namespace QlsTransformer.Domain.Ast.Nodes
     internal class StyleSheetRootNode : StyleSheetCompartmentBase, IStyleSheetRootNode
     {
         public StyleSheetRootNode(
-            Guid id, 
+            Guid id,
             string definition,
             string styleSheetName,
             IEnumerable<IDefaultStyle> defaultStyles,
-            IEnumerable<DomainId<IPageNode>> pages) 
+            IEnumerable<DomainId<IPageNode>> pages)
             : base(id, definition, styleSheetName, defaultStyles)
         {
             Pages = pages;
         }
-        
+
         public IEnumerable<DomainId<IPageNode>> Pages { get; }
     }
 }
-    

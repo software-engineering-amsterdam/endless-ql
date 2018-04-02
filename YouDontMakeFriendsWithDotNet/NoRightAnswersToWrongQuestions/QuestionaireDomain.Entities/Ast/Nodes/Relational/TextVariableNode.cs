@@ -4,8 +4,8 @@ using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
-    internal class TextVariableNode : 
-        VariableNodeBase, 
+    internal class TextVariableNode :
+        VariableNodeBase,
         ITextVariableNode
     {
         public TextVariableNode(

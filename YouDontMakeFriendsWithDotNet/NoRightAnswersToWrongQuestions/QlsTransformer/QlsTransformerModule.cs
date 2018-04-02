@@ -24,7 +24,7 @@ namespace QlsTransformer
                 typeof(StyleSheetTypeChecker));
 
             appRegistration.AddSingleton(
-                typeof(IQlsAstFactory), 
+                typeof(IQlsAstFactory),
                 typeof(QlsAstFactory));
 
             appRegistration.AddSingleton(
@@ -40,7 +40,7 @@ namespace QlsTransformer
                 typeof(CreateStyleSheetFromTextCommandHandler));
 
             appRegistration.AddSingleton(
-                typeof(IUnknownQuestionValidator), 
+                typeof(IUnknownQuestionValidator),
                 typeof(UnknownQuestionValidator));
 
             appRegistration.AddSingleton(
@@ -54,11 +54,11 @@ namespace QlsTransformer
             appRegistration.AddSingleton(
                 typeof(IStyledQuestionnaireOutputCreator),
                 typeof(StyledQuestionnaireOutputCreator));
-            
+
             appRegistration.AddSingleton(
                 typeof(IStyleFactory),
                 typeof(StyleFactory));
-            
+
             appRegistration.AddSingleton(
                 typeof(ICorrectWidgetValidator),
                 typeof(CorrectWidgetValidator));

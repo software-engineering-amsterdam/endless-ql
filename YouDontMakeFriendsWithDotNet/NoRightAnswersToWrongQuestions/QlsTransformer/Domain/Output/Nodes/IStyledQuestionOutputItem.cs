@@ -1,5 +1,4 @@
-﻿using System;
-using QlsTransformer.Domain.Ast.Nodes;
+﻿using QlsTransformer.Domain.Ast.Nodes;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;

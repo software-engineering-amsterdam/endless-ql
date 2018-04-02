@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
@@ -25,11 +24,11 @@ namespace QuestionnaireDomain.Entities.Ast.Tools.Interfaces
         DomainId<IUserInputQuestionNode> CreateUserInputQuestion(
             string definition,
             string questionName,
-            string questionText, 
+            string questionText,
             IQuestionType questionType);
 
         DomainId<ICalculatedQuestionNode> CreateCalculatedQuestion(
-            string definition, 
+            string definition,
             string questionName,
             string questionText,
             IQuestionType questionType,
@@ -61,32 +60,32 @@ namespace QuestionnaireDomain.Entities.Ast.Tools.Interfaces
 
         DomainId<IEqualityNode> CreateEqualityOperation(
             string definition,
-            DomainId<IAstNode> leftExpression, 
+            DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression);
 
         DomainId<IAstNode> CreateMultiplicationOperation(
             string definition,
-            DomainId<ICalculationNode> leftExpression, 
+            DomainId<ICalculationNode> leftExpression,
             DomainId<ICalculationNode> rightExpression);
 
         DomainId<IAstNode> CreateDivisionOperation(
             string definition,
-            DomainId<ICalculationNode> leftExpression, 
+            DomainId<ICalculationNode> leftExpression,
             DomainId<ICalculationNode> rightExpression);
 
         DomainId<IAstNode> CreateAdditionOperation(
-            string definition, 
-            DomainId<ICalculationNode> leftExpression, 
+            string definition,
+            DomainId<ICalculationNode> leftExpression,
             DomainId<ICalculationNode> rightExpression);
 
         DomainId<IAstNode> CreateSubtractionOperation(
-            string definition, 
-            DomainId<ICalculationNode> leftExpression, 
+            string definition,
+            DomainId<ICalculationNode> leftExpression,
             DomainId<ICalculationNode> rightExpression);
 
         DomainId<IAstNode> CreateInequalityOperation(
-            string definition, 
-            DomainId<IAstNode> leftExpression, 
+            string definition,
+            DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression);
 
         DomainId<IAstNode> CreateDate(string dateText);
@@ -98,23 +97,23 @@ namespace QuestionnaireDomain.Entities.Ast.Tools.Interfaces
         DomainId<IAstNode> CreateTextVariableName(string textVariableName);
 
         DomainId<IAstNode> CreateGreaterThanOperation(
-            string definition, 
-            DomainId<IAstNode> leftExpression, 
+            string definition,
+            DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression);
 
         DomainId<IAstNode> CreateGreaterOrEqualOperation(
-            string definition, 
-            DomainId<IAstNode> leftExpression, 
+            string definition,
+            DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression);
 
         DomainId<IAstNode> CreateLessThanOperation(
-            string definition, 
-            DomainId<IAstNode> leftExpression, 
+            string definition,
+            DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression);
 
         DomainId<IAstNode> CreateLessOrEqualOperation(
-            string definition, 
-            DomainId<IAstNode> leftExpression, 
+            string definition,
+            DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression);
 
         DomainId<IUntypedVariableNode> CreateUntypedVariableName(

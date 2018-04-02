@@ -37,14 +37,12 @@ namespace QuestionnaireDomain.Entities.Validators
                 var rightName = m_domainItemLocator
                     .Get<IUntypedVariableNode>(untypedOperator.RightExpression.Id)
                     .VariableName;
-                
+
                 if (m_variableService.AreCompatible(leftName, rightName))
                 {
                     var type = m_variableService.GetQuestionType(leftName);
                     if (!type.IsValidOperation(untypedOperator))
-                    {
                         yield return IncompatableOperationError(untypedOperator, leftName, rightName);
-                    }
 
                     continue;
                 }
@@ -53,11 +51,12 @@ namespace QuestionnaireDomain.Entities.Validators
             }
         }
 
-        private ValidationMetaData IncompatibleTypeError(string leftName, string rightName, IRelationalLogicNode untypedOperator)
+        private ValidationMetaData IncompatibleTypeError(string leftName, string rightName,
+            IRelationalLogicNode untypedOperator)
         {
             var leftType = m_variableService.GetQuestionType(leftName);
             var rightType = m_variableService.GetQuestionType(rightName);
-            
+
             var leftTypeText = leftType.GetTypeDisplay();
             var rightTypeText = rightType.GetTypeDisplay();
 
@@ -73,8 +72,8 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         private ValidationMetaData IncompatableOperationError(
-            IRelationalLogicNode untypedOperator, 
-            string leftName, 
+            IRelationalLogicNode untypedOperator,
+            string leftName,
             string rightName)
         {
             var type = m_variableService.GetQuestionType(leftName);
@@ -82,7 +81,7 @@ namespace QuestionnaireDomain.Entities.Validators
             return new UnkownTypeExpressionValidationMetaData
             {
                 Message =
-                    $@"The expression '{untypedOperator.Definition}' contains the {displayType} variables " + 
+                    $@"The expression '{untypedOperator.Definition}' contains the {displayType} variables " +
                     $@"'{leftName}' and '{rightName}'. A {displayType} can only be compared for equality.",
                 Source = m_domainItemLocator.GetRef<IRelationalLogicNode>(untypedOperator.Id)
             };

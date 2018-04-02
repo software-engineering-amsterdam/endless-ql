@@ -6,6 +6,10 @@ namespace QuestionnaireUI.Models
 {
     public class QuestionWrapper : ModelWrapperBase<QuestionModel>
     {
+        public QuestionWrapper(QuestionModel model) : base(model)
+        {
+        }
+
         public Guid QuestionOutputId => GetValue<Guid>();
         public Guid QuestionVariableId => GetValue<Guid>();
         public string QuestionText => GetValue<string>();
@@ -21,10 +25,6 @@ namespace QuestionnaireUI.Models
                 Model.Value = value;
                 RaisePropertyChanged(nameof(Value));
             }
-        }
-
-        public QuestionWrapper(QuestionModel model) : base(model)
-        {
         }
     }
 }

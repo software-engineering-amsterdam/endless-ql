@@ -7,11 +7,8 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
     internal abstract class RelationalOperationNode : AstNodeBase
     {
-        public DomainId<IAstNode> LeftExpression { get; }
-        public DomainId<IAstNode> RightExpression { get; }
-
         protected RelationalOperationNode(
-            Guid id, 
+            Guid id,
             string definition,
             DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression) : base(id, definition)
@@ -19,5 +16,8 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
             LeftExpression = leftExpression;
             RightExpression = rightExpression;
         }
+
+        public DomainId<IAstNode> LeftExpression { get; }
+        public DomainId<IAstNode> RightExpression { get; }
     }
 }

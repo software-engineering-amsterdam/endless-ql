@@ -20,10 +20,10 @@ namespace QlsTransformer.Domain.Output.Tools
         }
 
         public Style(
-            IWidget widget, 
-            int width, 
-            string font, 
-            decimal fontSize, 
+            IWidget widget,
+            int width,
+            string font,
+            decimal fontSize,
             string color)
         {
             Widget = widget;

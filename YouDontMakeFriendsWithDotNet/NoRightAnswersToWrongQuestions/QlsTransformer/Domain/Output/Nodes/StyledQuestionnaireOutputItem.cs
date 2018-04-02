@@ -6,9 +6,8 @@ namespace QlsTransformer.Domain.Output.Nodes
 {
     internal class StyledQuestionnaireOutputItem : IStyledQuestionnaireOutputItem
     {
-
         public StyledQuestionnaireOutputItem(
-            Guid id, 
+            Guid id,
             string displayName)
         {
             Id = id;

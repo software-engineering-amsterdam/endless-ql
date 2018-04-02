@@ -15,6 +15,7 @@ namespace QlsTransformer.Orchestration.Models
 
         public Guid SegmentId { get; }
         public string SegmentDisplayName { get; }
+
         public IList<StyledQuestionModel> Questions { get; }
             = new List<StyledQuestionModel>();
     }

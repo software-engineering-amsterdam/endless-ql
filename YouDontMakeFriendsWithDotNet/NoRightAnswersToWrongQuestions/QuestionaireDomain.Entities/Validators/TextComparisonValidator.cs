@@ -21,7 +21,7 @@ namespace QuestionnaireDomain.Entities.Validators
         {
             return Validate<ITextVariableNode, TextComparisonValidationMetaData>(
                 rootNode,
-                x => x !=  new StringQuestionType(),
+                x => x != new StringQuestionType(),
                 @"string comparison",
                 @"string");
         }

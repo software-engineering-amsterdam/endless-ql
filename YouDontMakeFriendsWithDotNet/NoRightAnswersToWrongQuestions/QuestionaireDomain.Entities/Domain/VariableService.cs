@@ -5,7 +5,7 @@ using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Domain
 {
-    internal class VariableService : IVariableService 
+    internal class VariableService : IVariableService
     {
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ISymbolTable m_symbolTable;
@@ -32,28 +32,19 @@ namespace QuestionnaireDomain.Entities.Domain
 
         public bool AreCompatible(string variableName1, string variableName2)
         {
-            if (variableName1 == variableName2)
-            {
-                return true;
-            }
+            if (variableName1 == variableName2) return true;
 
             var leftType = GetQuestionType(variableName1);
             var rightType = GetQuestionType(variableName2);
-            return (leftType.GetType() == rightType.GetType() ) || (leftType.IsNumeric() && rightType.IsNumeric());
+            return leftType.GetType() == rightType.GetType() || leftType.IsNumeric() && rightType.IsNumeric();
         }
 
         public decimal GetNumberValue(string variableName)
         {
             var variableId = GetQuestionNode(variableName).Id;
-            if (m_symbolTable.Exists<int>(variableId))
-            {
-                return m_symbolTable.Lookup<int>(variableId);
-            }
-            
-            if (m_symbolTable.Exists<decimal>(variableId))
-            {
-                return m_symbolTable.Lookup<decimal>(variableId);
-            }
+            if (m_symbolTable.Exists<int>(variableId)) return m_symbolTable.Lookup<int>(variableId);
+
+            if (m_symbolTable.Exists<decimal>(variableId)) return m_symbolTable.Lookup<decimal>(variableId);
 
             throw new ArgumentException(nameof(variableName), $"question {variableName} used as numeric but is not");
         }

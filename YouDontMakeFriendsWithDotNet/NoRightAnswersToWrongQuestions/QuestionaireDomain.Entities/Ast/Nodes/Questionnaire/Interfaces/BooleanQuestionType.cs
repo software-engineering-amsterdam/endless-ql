@@ -16,7 +16,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
         {
             symbolTable.Add(questionId, default(bool));
         }
-        
+
         public bool IsValidOperation(IRelationalLogicNode operation)
         {
             return operation is IEqualityNode || operation is IInequalityNode;

@@ -9,11 +9,8 @@ namespace QuestionnaireDomain.Entities.Validators
 {
     public class QuestionnaireTypeChecker : IQuestionnaireTypeChecker
     {
-        private readonly List<IQuestionnairValidator> m_validators 
+        private readonly List<IQuestionnairValidator> m_validators
             = new List<IQuestionnairValidator>();
-
-        public IList<ValidationMetaData> Results { get; set; } 
-            = new List<ValidationMetaData>();
 
         public QuestionnaireTypeChecker(
             IDuplicateVariableValidator duplicateVariableValidator,
@@ -38,15 +35,16 @@ namespace QuestionnaireDomain.Entities.Validators
             m_validators.Add(duplicateTextValidator);
             m_validators.Add(cyclicDependencyValidator);
         }
-        
+
+        public IList<ValidationMetaData> Results { get; set; }
+            = new List<ValidationMetaData>();
+
         public bool Validate(DomainId<IQuestionnaireRootNode> questionnaireRootNode)
         {
             foreach (var validator in m_validators)
-            {
                 Results = Results
                     .Concat(validator.Validate(questionnaireRootNode))
                     .ToList();
-            }
 
             return Results.All(x => x.Severity != Severity.Error);
         }

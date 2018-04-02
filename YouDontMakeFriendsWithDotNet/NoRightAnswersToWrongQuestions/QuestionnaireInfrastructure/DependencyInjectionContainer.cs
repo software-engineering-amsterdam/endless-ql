@@ -7,7 +7,7 @@ namespace QuestionnaireInfrastructure
         public IServiceCollection Create()
         {
             var services = new ServiceCollection();
-            
+
             return services;
         }
     }

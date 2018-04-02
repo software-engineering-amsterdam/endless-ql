@@ -5,7 +5,7 @@ using QuestionnaireDomain.Entities.Domain.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
 {
-    public interface IQuestionType 
+    public interface IQuestionType
     {
         string GetValue(ISymbolTable symbolTable, IQuestionNode question);
         void InitializeVariable(ISymbolTable symbolTable, Guid questionId);

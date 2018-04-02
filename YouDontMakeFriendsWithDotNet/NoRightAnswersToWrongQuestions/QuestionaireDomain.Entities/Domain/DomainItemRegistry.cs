@@ -21,7 +21,7 @@ namespace QuestionnaireDomain.Entities.Domain
 
         public T Find<T>(Guid id) where T : IDomainItem
         {
-            return (T)Registry[id];
+            return (T) Registry[id];
         }
 
         public IEnumerable<T> GetAll<T>() where T : IDomainItem
@@ -39,10 +39,7 @@ namespace QuestionnaireDomain.Entities.Domain
 
         public void Delete<T>(DomainId<T> domainItem) where T : IDomainItem
         {
-            if (Registry.ContainsKey(domainItem.Id))
-            {
-                Registry.Remove(domainItem.Id);
-            }
+            if (Registry.ContainsKey(domainItem.Id)) Registry.Remove(domainItem.Id);
         }
     }
 }

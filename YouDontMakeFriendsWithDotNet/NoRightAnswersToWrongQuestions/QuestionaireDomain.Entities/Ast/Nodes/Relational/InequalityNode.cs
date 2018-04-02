@@ -5,8 +5,8 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
-    internal class InequalityNode : 
-        RelationalOperationNode, 
+    internal class InequalityNode :
+        RelationalOperationNode,
         IInequalityNode
     {
         public InequalityNode(

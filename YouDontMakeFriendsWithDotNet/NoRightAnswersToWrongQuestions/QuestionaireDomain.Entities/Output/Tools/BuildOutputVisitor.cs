@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
@@ -11,17 +9,18 @@ using QuestionnaireDomain.Entities.Output.Tools.Interfaces;
 
 namespace QuestionnaireDomain.Entities.Output.Tools
 {
-    internal class BuildOutputVisitor : 
+    internal class BuildOutputVisitor :
         IBuildOutputVisitor
     {
-        private readonly Stack<bool> m_questionsCurrentlyVisible = new Stack<bool>() ;
-        private readonly IDomainItemLocator m_domainItemLocator;
-        private readonly IOutputItemFactory m_outputItemFactory;
-        private readonly ISymbolTable m_lookup;
         private readonly IBooleanEvaluatorVisitor m_booleanEvaluator;
+        private readonly IDomainItemLocator m_domainItemLocator;
+        private readonly ISymbolTable m_lookup;
+        private readonly IOutputItemFactory m_outputItemFactory;
 
-        private readonly IList<DomainId<IQuestionOutputItem>> m_questions = 
+        private readonly IList<DomainId<IQuestionOutputItem>> m_questions =
             new List<DomainId<IQuestionOutputItem>>();
+
+        private readonly Stack<bool> m_questionsCurrentlyVisible = new Stack<bool>();
 
         public BuildOutputVisitor(
             IDomainItemLocator domainItemLocator,
@@ -50,7 +49,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         {
             var astNode = questionnaireNode
                 .ToDomainItem(m_domainItemLocator);
-            
+
             HandleStatements(astNode.Statements);
 
             var existingOutput = m_domainItemLocator
@@ -58,31 +57,21 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 .FirstOrDefault(x => x.Variable.Id == astNode.Id);
 
             if (existingOutput == null)
-            {
                 m_outputItemFactory.CreateQuestionnaireOutputItem(
                     questionnaireNode,
                     astNode.QuestionnaireName,
                     m_questions);
-            }
         }
 
         private void HandleStatements(IEnumerable<DomainId<IStatementNode>> statements)
         {
             foreach (var statement in statements)
-            {
                 if (m_domainItemLocator.Exists<IUserInputQuestionNode>(statement.Id))
-                {
                     Visit(new DomainId<IUserInputQuestionNode>(statement.Id));
-                }
                 else if (m_domainItemLocator.Exists<ICalculatedQuestionNode>(statement.Id))
-                {
                     Visit(new DomainId<ICalculatedQuestionNode>(statement.Id));
-                }
                 else if (m_domainItemLocator.Exists<IConditionalStatementNode>(statement.Id))
-                {
                     Visit(new DomainId<IConditionalStatementNode>(statement.Id));
-                }
-            }
         }
 
         private void Visit(DomainId<IUserInputQuestionNode> questionNode)
@@ -96,7 +85,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             if (existingOutput == null)
             {
                 var question = m_outputItemFactory.CreateQuestionOutputItem(
-                    new DomainId<IQuestionNode>(questionNode.Id), 
+                    new DomainId<IQuestionNode>(questionNode.Id),
                     GetValue(astNode),
                     m_questionsCurrentlyVisible.Peek(),
                     false);
@@ -150,7 +139,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         {
             return m_booleanEvaluator.Evaluate(predicate);
         }
-        
+
         private string GetValue(IQuestionNode question)
         {
             return question.QuestionType.GetValue(m_lookup, question);

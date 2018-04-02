@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using QlsTransformer.Domain.Ast.Nodes;
-using QlsTransformer.Domain.Validators.UnkownQuestion;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
@@ -26,22 +25,16 @@ namespace QlsTransformer.Domain.Validators.QuestionsUncovered
                 .GetAll<IQlsQuestionNode>()
                 .Select(x => x.Name)
                 .ToList();
-            
+
             var questionNodes = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .ToList();
 
             foreach (var questionNode in questionNodes)
             {
-                if (qlsQuestionNames.Contains(questionNode.QuestionName))
-                {
-                    continue;
-                }
+                if (qlsQuestionNames.Contains(questionNode.QuestionName)) continue;
 
-                if (TypeHasDefault(questionNode))
-                {
-                    continue;
-                }
+                if (TypeHasDefault(questionNode)) continue;
 
                 var validationData = new UncoveredQuestionValidationMetaData
                 {
@@ -58,12 +51,12 @@ namespace QlsTransformer.Domain.Validators.QuestionsUncovered
             var styleSheet = m_domainItemLocator
                 .GetAll<IStyleSheetRootNode>()
                 .FirstOrDefault();
-            
+
             // ToDo: make this work
             foreach (var styleSheetPage in styleSheet.Pages)
             {
             }
-            
+
             return true;
         }
     }

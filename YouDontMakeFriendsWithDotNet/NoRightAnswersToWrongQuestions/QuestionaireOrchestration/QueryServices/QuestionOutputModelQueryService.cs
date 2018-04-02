@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -52,6 +51,5 @@ namespace QuestionnaireOrchestration.QueryServices
                     .GetValue(m_symbolTable, variable)
             };
         }
-        
     }
 }

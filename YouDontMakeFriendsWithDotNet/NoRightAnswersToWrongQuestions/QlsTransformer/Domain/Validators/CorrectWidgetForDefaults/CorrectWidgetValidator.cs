@@ -25,13 +25,11 @@ namespace QlsTransformer.Domain.Validators.CorrectWidgetForDefaults
                 .FirstOrDefault();
 
             if (!AllWidgetsValid(styleSheet))
-            {
                 yield return new CorrectWidgetValidationMetaData
                 {
                     Source = m_domainItemLocator.GetRef<IStyleSheetRootNode>(styleSheet.Id),
                     Message = $@"The stylesheet '{styleSheet.Name}' has an invalid widget"
                 };
-            }
 
             var pages = m_domainItemLocator
                 .GetAll<IPageNode>()
@@ -39,10 +37,7 @@ namespace QlsTransformer.Domain.Validators.CorrectWidgetForDefaults
 
             foreach (var page in pages)
             {
-                if (AllWidgetsValid(page))
-                {
-                    continue;
-                }
+                if (AllWidgetsValid(page)) continue;
 
                 yield return new CorrectWidgetValidationMetaData
                 {
@@ -50,17 +45,14 @@ namespace QlsTransformer.Domain.Validators.CorrectWidgetForDefaults
                     Message = $@"The page '{page.Name}' has an invalid widget"
                 };
             }
-            
+
             var sections = m_domainItemLocator
                 .GetAll<ISectionNode>()
                 .ToList();
 
             foreach (var section in sections)
             {
-                if (AllWidgetsValid(section))
-                {
-                    continue;
-                }
+                if (AllWidgetsValid(section)) continue;
 
                 yield return new CorrectWidgetValidationMetaData
                 {
@@ -77,13 +69,11 @@ namespace QlsTransformer.Domain.Validators.CorrectWidgetForDefaults
                 ?.ToDomainItem(m_domainItemLocator)
                 .Widget;
 
-            if (booleanWidget!=null && 
+            if (booleanWidget != null &&
                 booleanWidget.GetType() != typeof(AstDropDown) &&
                 booleanWidget.GetType() != typeof(AstRadioButton) &&
                 booleanWidget.GetType() != typeof(AstCheckBox))
-            {
                 return false;
-            }
 
             var stringWidget = compartment
                 .StringStyle
@@ -92,21 +82,17 @@ namespace QlsTransformer.Domain.Validators.CorrectWidgetForDefaults
 
             if (stringWidget != null &&
                 stringWidget.GetType() != typeof(AstTextBox))
-            {
                 return false;
-            }
 
             var dateWidget = compartment
                 .DateStyle
                 ?.ToDomainItem(m_domainItemLocator)
                 .Widget;
 
-            if (dateWidget != null && 
+            if (dateWidget != null &&
                 dateWidget.GetType() != typeof(AstTextBox) &&
                 dateWidget.GetType() != typeof(AstDatePicker))
-            {
                 return false;
-            }
 
             var integerWidget = compartment
                 .IntegerStyle
@@ -116,9 +102,7 @@ namespace QlsTransformer.Domain.Validators.CorrectWidgetForDefaults
             if (integerWidget != null &&
                 integerWidget.GetType() != typeof(AstSlider) &&
                 integerWidget.GetType() != typeof(AstSpinBox))
-            {
                 return false;
-            }
 
             var decimalWidget = compartment
                 .DecimalStyle
@@ -128,12 +112,9 @@ namespace QlsTransformer.Domain.Validators.CorrectWidgetForDefaults
             if (decimalWidget != null &&
                 decimalWidget.GetType() != typeof(AstSlider) &&
                 decimalWidget.GetType() != typeof(AstSpinBox))
-            {
                 return false;
-            }
 
             return true;
-
         }
     }
 }

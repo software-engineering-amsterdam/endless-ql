@@ -11,10 +11,10 @@ using QuestionnaireOrchestration.QueryServices;
 namespace QlsTransformer.Orchestration.QueryServices
 {
     internal class StyledQuestionnaireModelQueryService :
-        ModelQueryServiceBase<StyledQuestionnaireModel>, 
+        ModelQueryServiceBase<StyledQuestionnaireModel>,
         IStyledQuestionnaireModelQueryService
     {
-        public StyledQuestionnaireModelQueryService(IDomainItemLocator domainItemLocator) : 
+        public StyledQuestionnaireModelQueryService(IDomainItemLocator domainItemLocator) :
             base(domainItemLocator)
         {
         }
@@ -30,10 +30,10 @@ namespace QlsTransformer.Orchestration.QueryServices
         {
             var domainItem = DomainItemLocator
                 .Get<IStyledQuestionnaireOutputItem>(firstItemId);
-                
+
 
             var model = new StyledQuestionnaireModel(
-                domainItem.Id, 
+                domainItem.Id,
                 domainItem.DisplayName);
 
             foreach (var pageId in domainItem.Pages)

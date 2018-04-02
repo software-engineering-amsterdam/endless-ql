@@ -6,7 +6,7 @@ namespace QlsTransformer.Domain.Ast.Nodes
     internal class StyleNode : AstNodeBase, IStyleNode
     {
         public StyleNode(
-            Guid id, 
+            Guid id,
             string definition,
             IWidget widget,
             int? width,

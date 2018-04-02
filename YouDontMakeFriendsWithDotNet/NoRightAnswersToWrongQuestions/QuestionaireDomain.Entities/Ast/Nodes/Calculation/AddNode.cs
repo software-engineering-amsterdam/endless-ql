@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation.Interfaces;
-using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation
 {
-    internal class AddNode : 
-        CalculationBinaryExpressionNodeBase, 
+    internal class AddNode :
+        CalculationBinaryExpressionNodeBase,
         IAddNode
     {
         public AddNode(
             Guid id,
             string definition,
             DomainId<ICalculationNode> leftCalculation,
-            DomainId<ICalculationNode> rightCalculation) : 
-            base(id, definition,leftCalculation,rightCalculation)
+            DomainId<ICalculationNode> rightCalculation) :
+            base(id, definition, leftCalculation, rightCalculation)
         {
         }
     }

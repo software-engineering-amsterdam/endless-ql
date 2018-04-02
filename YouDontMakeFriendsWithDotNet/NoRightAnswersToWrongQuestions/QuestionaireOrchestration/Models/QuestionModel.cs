@@ -6,11 +6,11 @@ namespace QuestionnaireOrchestration.Models
     public class QuestionModel
     {
         public QuestionModel(
-            Guid questionOutputId, 
+            Guid questionOutputId,
             Guid questionVariableId,
-            string questionText, 
-            bool visible, 
-            bool readOnly, 
+            string questionText,
+            bool visible,
+            bool readOnly,
             IQuestionType questionType)
         {
             QuestionVariableId = questionVariableId;

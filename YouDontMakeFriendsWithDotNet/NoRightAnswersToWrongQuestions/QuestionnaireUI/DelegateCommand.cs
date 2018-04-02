@@ -5,15 +5,12 @@ namespace QuestionnaireUI
 {
     public class DelegateCommand : ICommand
     {
-        private readonly Action<object> m_execute;
         private readonly Func<object, bool> m_canExecute;
+        private readonly Action<object> m_execute;
 
         public DelegateCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            if (execute == null)
-            {
-                throw new ArgumentNullException(nameof(execute));
-            }
+            if (execute == null) throw new ArgumentNullException(nameof(execute));
 
             m_execute = execute;
             m_canExecute = canExecute;
@@ -36,4 +33,4 @@ namespace QuestionnaireUI
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
-}    
+}

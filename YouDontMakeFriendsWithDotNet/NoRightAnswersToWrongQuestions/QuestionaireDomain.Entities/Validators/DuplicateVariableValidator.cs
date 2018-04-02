@@ -26,7 +26,7 @@ namespace QuestionnaireDomain.Entities.Validators
                 .ToList();
 
             var questionNameAndTypes = questionNodes
-                .Select(x => new { x.QuestionName, x.QuestionType })
+                .Select(x => new {x.QuestionName, x.QuestionType})
                 .ToList();
 
             foreach (var questionNode in questionNodes)
@@ -41,7 +41,10 @@ namespace QuestionnaireDomain.Entities.Validators
                     var validationData = new DuplicateVariableValidationMetaData
                     {
                         Source = m_domainItemLocator.GetRef<IQuestionNode>(questionNode.Id),
-                        Message = $@"The Question identifier '{questionNode.QuestionName}' is used multiple times with different types",
+                        Message =
+                            $@"The Question identifier '{
+                                    questionNode.QuestionName
+                                }' is used multiple times with different types"
                     };
 
                     yield return validationData;

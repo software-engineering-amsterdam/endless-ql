@@ -12,8 +12,6 @@ namespace QlsTransformer.Domain.Output.Tools
 {
     internal class QuestionStyleVisitor : IQuestionStyleVisitor
     {
-        private Dictionary<Type, StyleStack> StyleStacks { get; } = new Dictionary<Type, StyleStack>();
-
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IStyledOutputItemFactory m_styledOutputItemFactory;
         private readonly IStyleFactory m_styleFactory;
@@ -33,6 +31,8 @@ namespace QlsTransformer.Domain.Output.Tools
             StyleStacks.Add(typeof(StringQuestionType), new StyleStack(m_styleFactory.CreateStringBaseStyle()));
             StyleStacks.Add(typeof(BooleanQuestionType), new StyleStack(m_styleFactory.CreateBoolBaseStyle()));
         }
+
+        private Dictionary<Type, StyleStack> StyleStacks { get; } = new Dictionary<Type, StyleStack>();
 
         public DomainId<IStyledQuestionnaireOutputItem> Build(
             DomainId<IStyleSheetRootNode> node)
@@ -92,7 +92,7 @@ namespace QlsTransformer.Domain.Output.Tools
                 .GetAll<IQuestionOutputItem>()
                 .FirstOrDefault(x => x.QuestionName == questionNode.Name);
 
-            Style defaultStyle = GetStyleDefaultForType(question.QuestionType);
+            var defaultStyle = GetStyleDefaultForType(question.QuestionType);
             var style = m_styleFactory.CreateMergedStyle(defaultStyle, questionStyle);
 
             var section = m_styledOutputItemFactory.CreateQuestion(question, style);
@@ -102,7 +102,8 @@ namespace QlsTransformer.Domain.Output.Tools
         private Style GetStyleDefaultForType(IQuestionType questionType)
         {
             var styleStack = StyleStacks[questionType.GetType()];
-            return styleStack.PeekStyle();    throw new ArgumentException(nameof(questionType),$"unknown");
+            return styleStack.PeekStyle();
+            throw new ArgumentException(nameof(questionType), $"unknown");
         }
 
         private void UpdateDefaults(IStyleSheetCompartment compartment)
@@ -135,10 +136,7 @@ namespace QlsTransformer.Domain.Output.Tools
 
         private void PopDefaults()
         {
-            foreach (var styleStack in StyleStacks.Values)
-            {
-                styleStack.PopStyle();
-            }
+            foreach (var styleStack in StyleStacks.Values) styleStack.PopStyle();
         }
 
         private void Visit(DomainId<IStyleSheetRootNode> styleSheetNodeId)

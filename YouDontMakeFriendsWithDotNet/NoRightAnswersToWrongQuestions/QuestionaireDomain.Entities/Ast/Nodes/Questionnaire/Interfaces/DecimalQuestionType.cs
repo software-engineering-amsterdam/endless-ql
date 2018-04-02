@@ -24,7 +24,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
         {
             return true;
         }
-        
+
         public string GetTypeDisplay()
         {
             return @"decimal";

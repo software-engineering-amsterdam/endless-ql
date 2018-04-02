@@ -15,7 +15,7 @@ namespace QlsTransformer.Domain.Ast.Nodes
             Name = name;
             Style = questionStyle;
         }
-        
+
         public string Name { get; }
         public DomainId<IStyleNode> Style { get; }
     }

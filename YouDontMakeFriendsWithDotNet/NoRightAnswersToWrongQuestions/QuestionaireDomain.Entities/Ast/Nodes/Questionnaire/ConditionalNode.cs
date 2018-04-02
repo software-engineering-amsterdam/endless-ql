@@ -7,15 +7,11 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
 {
-    internal class ConditionalNode : 
-        AstNodeBase, 
+    internal class ConditionalNode :
+        AstNodeBase,
         IConditionalStatementNode
     {
-        public DomainId<IBooleanLogicNode> Predicate { get; }
-        public IEnumerable<DomainId<IStatementNode>> Consequent { get; }
-        public IEnumerable<DomainId<IStatementNode>> Alternative { get; }
-
-        public ConditionalNode(Guid id, 
+        public ConditionalNode(Guid id,
             string definition,
             DomainId<IBooleanLogicNode> predicate,
             IEnumerable<DomainId<IStatementNode>> consequent,
@@ -25,5 +21,9 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
             Consequent = consequent ?? new List<DomainId<IStatementNode>>();
             Alternative = alternative ?? new List<DomainId<IStatementNode>>();
         }
+
+        public DomainId<IBooleanLogicNode> Predicate { get; }
+        public IEnumerable<DomainId<IStatementNode>> Consequent { get; }
+        public IEnumerable<DomainId<IStatementNode>> Alternative { get; }
     }
 }

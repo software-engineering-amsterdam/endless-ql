@@ -131,7 +131,6 @@ public class SymbolTableBuilderVisitor extends NodeVisitor {
     @Override
     public void visitAstRoot(QLAstRoot astRoot) {
         astRoot.setQuestionSymbolTable(questionSymbolTable);
-        astRoot.setFormSymbolTable(formSymbolTable);
     }
 
     @Override

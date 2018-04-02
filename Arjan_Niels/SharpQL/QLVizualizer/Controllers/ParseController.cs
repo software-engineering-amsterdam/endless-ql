@@ -12,6 +12,36 @@ namespace QLVisualizer.Controllers
     {
         public FormManager Parse(string rawQl, string rawQls, ElementManagerController elementManagerController, ref List<string> errors)
         {
+            if (rawQl == "")
+            {
+                errors.Add("Cannot parse empty QL");
+                return null;
+            }
+            else if (rawQls == "")
+            {
+                return OnlyQL(rawQl, elementManagerController, ref errors);
+            }
+            else
+            {
+                return QLQLS(rawQl, rawQls, elementManagerController, ref errors);
+            }
+
+        }
+
+        protected FormManager OnlyQL(string rawQL, ElementManagerController elementManagerController, ref List<string> errors)
+        {
+            FormNode formNode = QLParserHelper.Parse(rawQL);
+            if (!Analyser.Analyse(formNode))
+            {
+                errors.AddRange(Analyser.GetErrors());
+                return null;
+            }
+
+            return ElementManagerFactory.CreateForm(formNode, elementManagerController);
+        }
+
+        private FormManager QLQLS(string rawQl, string rawQls, ElementManagerController elementManagerController, ref List<string> errors)
+        {
             FormNode formNode = QLParserHelper.Parse(rawQl);
             QLSNode qlsNode = QLSParserHelper.Parse(rawQls);
             if (!Analyser.Analyse(formNode, qlsNode))

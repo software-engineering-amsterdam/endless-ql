@@ -10,10 +10,10 @@ namespace QLParser.AST.QL.ExpressionNodes
 
         public LogicalOperator Operator { get; private set; }
 
-        public LogicalExpressionNode(Location location, IExpressionNode left, LogicalOperator opr, IExpressionNode right) : base(location, NodeType.LOGICAL_EXPRESSION)
+        public LogicalExpressionNode(Location location, IExpressionNode left, LogicalOperator op, IExpressionNode right) : base(location, NodeType.LogicalExpression)
         {
             this.Left = left;
-            this.Operator = opr;
+            this.Operator = op;
             this.Right = right;
         }
 
@@ -22,9 +22,9 @@ namespace QLParser.AST.QL.ExpressionNodes
             switch (opr)
             {
                 case AND:
-                    return LogicalOperator.AND;
+                    return LogicalOperator.And;
                 case OR:
-                    return LogicalOperator.OR;
+                    return LogicalOperator.Or;
                 default:
                     throw new UnknownOperatorException(string.Format("QL doesn't know what to do with {0}", opr));
             }

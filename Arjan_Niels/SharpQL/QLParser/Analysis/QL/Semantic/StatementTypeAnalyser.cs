@@ -6,21 +6,31 @@ using QLParser.Exceptions;
 
 namespace QLParser.Analysis.QL.Semantic
 {
+    /// <summary>
+    /// This analyser checks if all the statements are valid and of the right type.
+    /// </summary>
     public class StatementTypeAnalyser : IQLAnalyser
     {
         public bool Analyse(QLNode node)
         {
             var result = true;
             var expression = GetExpression(node);
-            if (expression != null && AnalyseExpression(expression) == StatementType.UNKNOWN)
+            if (expression != null && AnalyseExpression(expression) == StatementType.Unknown)
             {
-                Analyser.AddMessage(string.Format("{0} - This expression isn't valid.", node.Location), MessageType.ERROR);
+                Analyser.AddMessage(string.Format("{0} - This expression isn't valid.", node.Location), Language.QL, MessageType.ERROR);
                 return false;
             }
 
-            foreach (QLNode child in node.Children)
-                if (!Analyse(child))
-                    result = false;
+            switch (node)
+            {
+                case QLCollectionNode collectionNode:
+                    foreach (QLNode child in collectionNode.Children)
+                        if (!Analyse(child))
+                            result = false;
+                    break;
+                default:
+                    return true;
+            }
 
             return result;
         }
@@ -29,20 +39,24 @@ namespace QLParser.Analysis.QL.Semantic
         {
             switch (node.GetNodeType())
             {
-                case NodeType.LOGICAL_EXPRESSION:
+                case NodeType.LogicalExpression:
                     var logicalNode = (LogicalExpressionNode)node;
                     return Analyze(logicalNode);
 
-                case NodeType.COMPARISON_EXPRESSION:
+                case NodeType.ComparisonExpression:
                     var comparisonNode = (ComparisonExpressionNode)node;
                     return Analyze(comparisonNode);
 
-                case NodeType.ARTHIMETRIC_EXPRESSION:
+                case NodeType.ArthimetricExpression:
                     var arthimetric = (ArthimetricExpressionNode)node;
                     return Analyze(arthimetric);
 
-                case NodeType.LITERAL:
-                case NodeType.IDENTIFIER:
+                case NodeType.TextConcatination:
+                    var textNode = (TextConcatinationNode)node;
+                    return Analyze(textNode);
+
+                case NodeType.Literal:
+                case NodeType.Identifier:
                     return StatementTypeEvaluator.GetStatementType(node);
             }
 
@@ -58,19 +72,27 @@ namespace QLParser.Analysis.QL.Semantic
         {
             switch (node.GetNodeType())
             {
-                case NodeType.CONDITIONAL:
+                case NodeType.Conditional:
                     var conditional = (ConditionalNode)node;
                     return conditional.Expression;
-                case NodeType.COMPUTED:
+                case NodeType.Computed:
                     var computed = (ComputedNode)node;
                     return computed.Expression;
-                case NodeType.ARTHIMETRIC_EXPRESSION:
-                case NodeType.COMPARISON_EXPRESSION:
-                case NodeType.LOGICAL_EXPRESSION:
+                case NodeType.ArthimetricExpression:
+                case NodeType.ComparisonExpression:
+                case NodeType.LogicalExpression:
                     return node as IExpressionNode;
                 default:
                     return null;
             }
+        }
+
+        private StatementType Analyze(TextConcatinationNode node)
+        {
+            StatementType left = AnalyseExpression(node.Left);
+            StatementType right = AnalyseExpression(node.Right);
+
+            return left == right && left == StatementType.Text ? StatementType.Text : StatementType.Unknown;
         }
 
         private StatementType Analyze(ComparisonExpressionNode node)
@@ -80,10 +102,10 @@ namespace QLParser.Analysis.QL.Semantic
 
             switch (node.Operator)
             {
-                case ComparisonOperator.EQ:
-                    return (left == right) ? StatementType.BOOLEAN : StatementType.UNKNOWN;
+                case ComparisonOperator.Equal:
+                    return (left == right) ? StatementType.Boolean : StatementType.Unknown;
                 default:
-                    return (left == right && left == StatementType.NUMERIC) ? StatementType.BOOLEAN : StatementType.UNKNOWN;
+                    return (left == right && left == StatementType.Numeric) ? StatementType.Boolean : StatementType.Unknown;
             }
         }
 
@@ -92,7 +114,7 @@ namespace QLParser.Analysis.QL.Semantic
             StatementType left = AnalyseExpression(node.Left);
             StatementType right = AnalyseExpression(node.Right);
 
-            return (left == right && left == StatementType.NUMERIC) ? StatementType.NUMERIC : StatementType.UNKNOWN;
+            return (left == right && left == StatementType.Numeric) ? StatementType.Numeric : StatementType.Unknown;
         }
 
         private StatementType Analyze(LogicalExpressionNode node)
@@ -100,7 +122,7 @@ namespace QLParser.Analysis.QL.Semantic
             StatementType left = AnalyseExpression(node.Left);
             StatementType right = AnalyseExpression(node.Right);
 
-            return (left == right && left == StatementType.BOOLEAN) ? StatementType.BOOLEAN : StatementType.UNKNOWN;
+            return (left == right && left == StatementType.Boolean) ? StatementType.Boolean : StatementType.Unknown;
         }
     }
 }

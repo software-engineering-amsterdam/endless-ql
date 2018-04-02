@@ -3,19 +3,20 @@ package QL.parsing.checkers;
 import QL.parsing.checkers.errors.CyclicError;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CyclicChecker extends QLBaseVisitor{
+public class CyclicChecker extends QLBaseVisitor {
     private HashMap<String, ArrayList<String>> pointerMap;
     private String currentQuestion;
 
-    public CyclicChecker(){
+    public CyclicChecker() {
         pointerMap = new HashMap();
     }
 
-    public void checkForm(QLParser.FormContext form){
+    public void checkForm(QLParser.FormContext form) {
         visit(form);
         checkForCyclicDependencies();
     }
@@ -24,7 +25,7 @@ public class CyclicChecker extends QLBaseVisitor{
     public Boolean visitNormalQuestion(QLParser.NormalQuestionContext ctx) {
         currentQuestion = ctx.IDENTIFIER().getText();
 
-        if(!pointerMap.containsKey(currentQuestion)){
+        if (!pointerMap.containsKey(currentQuestion)) {
             ArrayList<String> pointers = new ArrayList();
             pointerMap.put(currentQuestion, pointers);
         }
@@ -36,7 +37,7 @@ public class CyclicChecker extends QLBaseVisitor{
     public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         currentQuestion = ctx.IDENTIFIER().getText();
 
-        if(!pointerMap.containsKey(currentQuestion)){
+        if (!pointerMap.containsKey(currentQuestion)) {
             ArrayList<String> pointers = new ArrayList();
             pointerMap.put(currentQuestion, pointers);
         }
@@ -49,7 +50,7 @@ public class CyclicChecker extends QLBaseVisitor{
         String id = ctx.getText();
         pointerMap.get(currentQuestion).add(id);
 
-        if(pointerMap.containsKey(id)){
+        if (pointerMap.containsKey(id)) {
             pointerMap.get(currentQuestion).addAll(pointerMap.get(id));
         }
 
@@ -62,7 +63,7 @@ public class CyclicChecker extends QLBaseVisitor{
         return null;
     }
 
-    private void checkForCyclicDependencies(){
+    private void checkForCyclicDependencies() {
         String current;
         ArrayList<String> pointers;
 
@@ -70,8 +71,8 @@ public class CyclicChecker extends QLBaseVisitor{
             current = (String) e.getKey();
             pointers = (ArrayList<String>) e.getValue();
 
-            for(String pointer : pointers){
-                if(pointerMap.get(pointer).contains(current)){
+            for (String pointer : pointers) {
+                if (pointerMap.get(pointer).contains(current)) {
                     throw new CyclicError(current, pointer);
                 }
             }

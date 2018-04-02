@@ -18,16 +18,16 @@ namespace QLParser.Tests.QL
             FormNode node = QLParserHelper.Parse(_simpleComputedForm);
 
             var computed = node.Children
-                .Where(x => x.Type == NodeType.COMPUTED)
+                .Where(x => x.Type == NodeType.Computed)
                 .Select(x => x as ComputedNode)
                 .First();
 
-            Assert.AreEqual(NodeType.COMPUTED, computed.Type);
+            Assert.AreEqual(NodeType.Computed, computed.Type);
             Assert.AreEqual("simpleSum", computed.ID);
             Assert.AreEqual("Simple sum:", computed.Text);
-            Assert.AreEqual(QValueType.DOUBLE, computed.ValueType);
-            Assert.AreEqual(NodeType.ARTHIMETRIC_EXPRESSION, computed.Expression.GetNodeType());
-            Assert.AreEqual(QValueType.DOUBLE, computed.Expression.GetQValueType());
+            Assert.AreEqual(QValueType.Double, computed.ValueType);
+            Assert.AreEqual(NodeType.ArthimetricExpression, computed.Expression.GetNodeType());
+            Assert.AreEqual(QValueType.Double, computed.Expression.GetQValueType());
         }
     }
 }

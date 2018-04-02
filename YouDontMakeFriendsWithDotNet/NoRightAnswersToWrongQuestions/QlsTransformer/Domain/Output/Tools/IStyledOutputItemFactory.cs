@@ -8,19 +8,19 @@ namespace QlsTransformer.Domain.Output.Tools
     public interface IStyledOutputItemFactory
     {
         DomainId<IStyledQuestionnaireOutputItem> CreateRoot(
-            string name, 
+            string name,
             List<DomainId<IPagesOutputItem>> pages);
 
         DomainId<IPagesOutputItem> CreatePage(
-            string pageNodeName, 
+            string pageNodeName,
             List<DomainId<ISectionOutputItem>> sections);
 
         DomainId<ISectionOutputItem> CreateSection(
-            string sectionNodeName, 
+            string sectionNodeName,
             List<DomainId<IStyledQuestionOutputItem>> questions);
 
         DomainId<IStyledQuestionOutputItem> CreateQuestion(
-            IQuestionOutputItem question, 
+            IQuestionOutputItem question,
             Style style);
     }
 }

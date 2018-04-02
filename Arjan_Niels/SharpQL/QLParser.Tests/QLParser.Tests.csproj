@@ -48,6 +48,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="QLS\DefaultStyles\DefaultStyleInPagesTests.cs" />
+    <Compile Include="QLS\DefaultStyles\DefaultStyleInStylesheetsTests.cs" />
+    <Compile Include="QLS\DefaultStyles\DefaultStylesInSectionTests.cs" />
     <Compile Include="QL\Analysis\Evaluator\StatementTypeEvaluatorTests.cs" />
     <Compile Include="QL\Analysis\Semantic\OnlyInitialisedVarsAnalyserTests.cs" />
     <Compile Include="QL\Analysis\Semantic\DuplicateVariableAnalyserTest.cs" />
@@ -65,7 +68,6 @@
     <Compile Include="QL\Expressions\LogicalExpressionTests.cs" />
     <Compile Include="QL\SymbolTableTests.cs" />
     <Compile Include="QL\Validators\ASTValidatorTests.cs" />
-    <Compile Include="QL\Validators\QuestionHasNoChildrenTests.cs" />
     <Compile Include="QL\Validators\SingleFormValidatorTests.cs" />
     <Compile Include="QL\FormNameTest.cs" />
     <Compile Include="FormExamples.cs" />

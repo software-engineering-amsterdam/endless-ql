@@ -4,18 +4,17 @@ import QL.parsing.checkers.errors.DuplicateVarError;
 import QL.parsing.checkers.errors.UndeclaredVarError;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.LinkedHashMap;
 
 public class VariableChecker extends QLBaseVisitor {
     private LinkedHashMap<String, String> variableMap;
 
-    public VariableChecker(){
+    public VariableChecker() {
         this.variableMap = new LinkedHashMap<>();
     }
 
-    public void checkForm(QLParser.FormContext form){
+    public void checkForm(QLParser.FormContext form) {
         visitForm(form);
     }
 
@@ -25,23 +24,23 @@ public class VariableChecker extends QLBaseVisitor {
         String type = ctx.type().getText();
         checkVariableDuplication(id, type);
 
-        this.variableMap.put(id,type);
+        this.variableMap.put(id, type);
         return true;
     }
 
     @Override
-    public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx){
+    public Object visitFixedQuestion(QLParser.FixedQuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
         String type = ctx.type().getText();
         checkVariableDuplication(id, type);
         visit(ctx.expression());
 
-        this.variableMap.put(id,type);
+        this.variableMap.put(id, type);
         return true;
     }
 
     @Override
-    public Boolean visitIdentifier(QLParser.IdentifierContext ctx)  {
+    public Boolean visitIdentifier(QLParser.IdentifierContext ctx) {
         checkVariableExistence(ctx.getText());
         return true;
     }
@@ -53,7 +52,7 @@ public class VariableChecker extends QLBaseVisitor {
         visit(ctx.expression());
 
         visitBlock(ctx.ifBlock);
-        if(ctx.elseBlock != null){
+        if (ctx.elseBlock != null) {
             visitBlock(ctx.elseBlock);
         }
 
@@ -62,13 +61,13 @@ public class VariableChecker extends QLBaseVisitor {
     }
 
     private void checkVariableDuplication(String id, String type) {
-        if(variableMap.containsKey(id) && !variableMap.get(id).equals(type)){
+        if (variableMap.containsKey(id) && !variableMap.get(id).equals(type)) {
             throw new DuplicateVarError(id);
         }
     }
 
     private void checkVariableExistence(String id) {
-        if(!variableMap.containsKey(id)) {
+        if (!variableMap.containsKey(id)) {
             throw new UndeclaredVarError(id);
         }
     }

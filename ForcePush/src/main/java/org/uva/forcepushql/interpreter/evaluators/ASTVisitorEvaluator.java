@@ -237,7 +237,7 @@ public class ASTVisitorEvaluator implements ASTVisitor
 
         if (expression.isBooleanExpression())
         {
-            messages.addMessage("The calculation on varible " + question.answerNameValue() + " is not a math expression.",
+            messages.addMessage("The calculation on variable " + question.answerNameValue() + " is not a math expression.",
                     Messages.MessageTypes.ERROR);
         }
 

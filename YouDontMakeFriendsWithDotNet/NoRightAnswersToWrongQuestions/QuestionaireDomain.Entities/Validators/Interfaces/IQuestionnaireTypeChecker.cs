@@ -8,6 +8,7 @@ namespace QuestionnaireDomain.Entities.Validators.Interfaces
     public interface IQuestionnaireTypeChecker
     {
         IList<ValidationMetaData> Results { get; set; }
+
         bool Validate(
             DomainId<IQuestionnaireRootNode> questionnaireRootNode);
     }

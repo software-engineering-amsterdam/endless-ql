@@ -6,7 +6,7 @@ namespace QlsTransformer.Orchestration.Models
     {
         public StyledQuestionModel(
             QuestionModel questionModel,
-            StyleModel styleModel) 
+            StyleModel styleModel)
             : base(
                 questionModel.QuestionOutputId,
                 questionModel.QuestionVariableId,

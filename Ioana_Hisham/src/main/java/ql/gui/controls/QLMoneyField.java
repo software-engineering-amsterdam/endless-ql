@@ -20,7 +20,6 @@ public class QLMoneyField extends QLControl {
         spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 1
         ));
-        //this.textField.setOnMouseClicked(event -> onValueChange.changed(identifier, value(textField.getText())));
         this.spinner.setOnMouseClicked(event -> changeValue(identifier, onValueChange));
     }
 
@@ -31,23 +30,18 @@ public class QLMoneyField extends QLControl {
         } else {
             value = new IntegerValue(Integer.parseInt(textField.getText()));
         }
-        onValueChange.changed(identifier, createValue(spinner));
+        onValueChange.changed(identifier, value(spinner));
     }
 
-    private Value createValue(Spinner<Integer> spinner) {
+    private Value value(Spinner<Integer> spinner) {
         return new IntegerValue(spinner.getValue());
-    }
-
-    private IntegerValue value(String text) {
-        return new IntegerValue(Integer.parseInt(text));
     }
 
     @Override
     public void setValue(Value value) {
         if (value.getValue() != null) {
-            textField.setText(String.valueOf(value.getValue()));
+            spinner.getValueFactory().setValue(value.getValue());
         }
-        //this.textField.setText((String) value.getValue());
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.chariotit.uva.sc.qdsl.ast.ql.type;
 
 public class MoneyExpressionValue extends NumberExpressionValue {
 
-    private Float value = (float) 12.34;
+    private Float value;
 
     public MoneyExpressionValue(Float value) { this.value = value; }
 

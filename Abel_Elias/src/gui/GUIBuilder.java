@@ -1,27 +1,25 @@
 package gui;
 
-import QLS.parsing.visitors.StylesheetVisitor;
 import QL.parsing.visitors.FormVisitor;
+import QLS.parsing.visitors.StylesheetVisitor;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GUIBuilder{
+public class GUIBuilder {
+    private static final int FRAME_HEIGHT = 800; //The height of the GUI
+    private static final int FRAME_WIDTH = 800; //The width of the GUI
     private JFrame mainFrame; //The frame on which the form is located
     private JPanel mainPanel; //The panel on which houses the list of question panels
-
     private QLBuilder qlBuilder;
     private QLSBuilder qlsBuilder;
     private boolean styling;
-
-    private static final int FRAME_HEIGHT = 800; //The height of the GUI
-    private static final int FRAME_WIDTH = 800; //The width of the GUI
 
     /**
      * constructor method
      * initializes the building process of the form
      *
-     * @param coreVisitor       The main ql visitor
+     * @param coreVisitor The main ql visitor
      */
     public GUIBuilder(FormVisitor coreVisitor) {
         this.qlBuilder = new QLBuilder(coreVisitor);
@@ -51,9 +49,9 @@ public class GUIBuilder{
 
     private void initComponents() {
         //Add the panel to the frame, and set some properties
-        if(styling){
+        if (styling) {
             mainFrame.add(qlsBuilder.getMainPanel());
-        }else{
+        } else {
             mainFrame.add(qlBuilder.getMainPanel());
         }
         mainFrame.setVisible(true);

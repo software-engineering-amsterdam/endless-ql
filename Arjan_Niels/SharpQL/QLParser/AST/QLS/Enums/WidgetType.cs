@@ -2,10 +2,11 @@
 {
     public enum WidgetType
     {
-        DEFAULT,
-        RADIO,
-        SPINNER,
-        CHECKBOX,
-        TEXTFIELD
+        Default,
+        Radio,
+        Spinner,
+        Checkbox,
+        Textfield,
+        Colorpicker
     }
 }

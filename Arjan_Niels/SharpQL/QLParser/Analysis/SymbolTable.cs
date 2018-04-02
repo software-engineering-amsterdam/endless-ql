@@ -37,12 +37,6 @@ namespace QLParser.Analysis
             throw new KeyNotFoundException(string.Format("Unknown variable {0}", id));
         }
 
-        /// <summary>
-        /// This function adds a variable to the SymbolTable. In case of an error a message will
-        /// be added to the analyser.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="type"></param>
         public static bool Add(string id, QValueType type)
         {
             if (!Instance.TypeMap.ContainsKey(id))
@@ -59,13 +53,9 @@ namespace QLParser.Analysis
             if (Instance.TypeMap.ContainsKey(identifier))
                 return Instance.TypeMap[identifier];
             else
-                return QValueType.UNKNOWN;
+                return QValueType.Unknown;
         }
 
-        /// <summary>
-        /// This function clears the TypeMap with all its values and should only
-        /// be used for testing purposes.
-        /// </summary>
         public static void Reset()
         {
             Instance.TypeMap.Clear();

@@ -9,10 +9,10 @@ namespace QlsTransformer.Orchestration.Models
     public class StyleModel
     {
         public StyleModel(
-            IWidget widget, 
-            int width, 
-            string font, 
-            decimal fontSize, 
+            IWidget widget,
+            int width,
+            string font,
+            decimal fontSize,
             string color)
         {
             Widget = widget;
@@ -20,9 +20,10 @@ namespace QlsTransformer.Orchestration.Models
             Font = font;
             FontSize = fontSize;
             var drawColor = FromHtml(color);
-            var wpfColor = WpfColor.FromArgb(drawColor.A,drawColor.R,drawColor.G,drawColor.B);
+            var wpfColor = WpfColor.FromArgb(drawColor.A, drawColor.R, drawColor.G, drawColor.B);
             Color = new SolidColorBrush(wpfColor);
         }
+
         public IWidget Widget { get; }
         public int Width { get; }
         public string Font { get; }

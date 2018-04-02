@@ -1,5 +1,4 @@
-﻿using System;
-using QlsTransformer.Domain.Ast.Nodes;
+﻿using QlsTransformer.Domain.Ast.Nodes;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -14,7 +13,7 @@ namespace QlsTransformer.Domain.Output.Nodes
         bool Visible { get; set; }
         bool ReadOnly { get; }
         string Value { get; set; }
-        Type QuestionType { get; }
+        IQuestionType QuestionType { get; }
         IWidget Widget { get; }
         int Width { get; }
         string Font { get; }

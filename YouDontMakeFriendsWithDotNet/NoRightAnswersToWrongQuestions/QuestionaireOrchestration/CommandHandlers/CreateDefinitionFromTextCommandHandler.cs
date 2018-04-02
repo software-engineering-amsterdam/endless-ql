@@ -24,7 +24,7 @@ namespace QuestionnaireOrchestration.CommandHandlers
             IDomainItemLocator domainItemLocator,
             IQuestionnaireOutputCreator outputCreator,
             IQuestionnaireTypeChecker questionnaireTypeChecker
-            )
+        )
         {
             m_astCreator = astCreator;
             m_domainItemLocator = domainItemLocator;
@@ -39,7 +39,7 @@ namespace QuestionnaireOrchestration.CommandHandlers
             var questionnaireRef = m_domainItemLocator
                 .GetAllRefs<IQuestionnaireRootNode>()
                 .FirstOrDefault();
-            
+
             var isValid = m_questionnaireTypeChecker
                 .Validate(questionnaireRef);
 
@@ -50,7 +50,7 @@ namespace QuestionnaireOrchestration.CommandHandlers
                     m_questionnaireTypeChecker
                         .Results
                         .Select(x => x.Message));
-                throw new QlValidationException(errorMessage,null);
+                throw new QlValidationException(errorMessage, null);
             }
 
             m_outputCreator.CreateOrUpdate(questionnaireRef);

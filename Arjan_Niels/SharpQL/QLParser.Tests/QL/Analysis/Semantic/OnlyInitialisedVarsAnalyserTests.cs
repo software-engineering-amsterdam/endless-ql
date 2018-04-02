@@ -44,7 +44,7 @@ namespace QLParser.Tests.Analysis.Semantic
 
             Assert.IsFalse(result);
             Assert.AreEqual(1, Analyser.GetErrors().Count);
-            Assert.AreEqual("ERROR Unknown identifier 'notInitialisedVar' in statement", Analyser.GetErrors()[0]);
+            Assert.AreEqual("[QL] ERROR [1,74] Unknown identifier 'notInitialisedVar' in statement", Analyser.GetErrors()[0]);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace QLParser.Tests.Analysis.Semantic
 
             Assert.IsFalse(result);
             Assert.AreEqual(1, Analyser.GetErrors().Count);
-            Assert.AreEqual("ERROR Unknown identifier 'notInitialisedVar' in statement", Analyser.GetErrors()[0]);
+            Assert.AreEqual("[QL] ERROR [1,224] Unknown identifier 'notInitialisedVar' in statement", Analyser.GetErrors()[0]);
         }
     }
 }

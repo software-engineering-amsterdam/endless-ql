@@ -4,13 +4,16 @@
  * Parser Rules
 */
 form					: FORM formName LCURLY (section)* RCURLY;
-section					: computedVariable | question | conditionalBlock;
+section					: question | computedVariable | conditionalBlock;
 question				: TEXT ID COLON QTYPE;
-computedVariable		: TEXT ID COLON QTYPE EQUAL (artithmeticExpression | comparisonExpression);
+computedVariable		: TEXT ID COLON QTYPE EQUAL (textConcatination | artithmeticExpression | comparisonExpression);
+
 formName				: ID;
 
 conditionalBlock		: IF logicalExpression LCURLY (section)* RCURLY;
 
+textConcatination		: (TEXT | ID) PLUS textConcatination
+						| TERMINAL=(TEXT | ID);
 
 logicalExpression		: LEFT=logicalExpression OPR=(AND | OR) RIGHT=logicalExpression
 						| comparisonExpression

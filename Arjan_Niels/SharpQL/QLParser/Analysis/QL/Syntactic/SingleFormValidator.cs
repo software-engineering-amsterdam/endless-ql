@@ -16,7 +16,7 @@ namespace QLParser.Analysis.QL.Syntactic
         {
             //Reset the formNodeCount
             formNodeCount = 0;
-            if (node.Type == NodeType.FORM)
+            if (node.Type == NodeType.Form)
                 this.Visit(node as FormNode);
             else
                 this.Visit(node);
@@ -24,21 +24,21 @@ namespace QLParser.Analysis.QL.Syntactic
             this.Visit(node);
 
             if (formNodeCount == 0)
-                Analyser.AddMessage("There has no form been defined", MessageType.ERROR);
+                Analyser.AddMessage("There has no form been defined", Language.QL, MessageType.ERROR);
             else if (formNodeCount > 1)
-                Analyser.AddMessage("There can only be one form", MessageType.ERROR);
+                Analyser.AddMessage("There can only be one form", Language.QL, MessageType.ERROR);
 
             return formNodeCount == 1;
         }
 
         public void Visit(QuestionNode node)
         {
-            VisitChildren(node);
+            return;
         }
 
         public void Visit(ComputedNode node)
         {
-            VisitChildren(node);
+            return;
         }
 
         public void Visit(FormNode node)
@@ -49,12 +49,12 @@ namespace QLParser.Analysis.QL.Syntactic
 
         public void Visit(QLNode node)
         {
-            VisitChildren(node);
+            return;
         }
 
         public void Visit(ExpressionNode node)
         {
-            VisitChildren(node);
+            return;
         }
 
         public void Visit(ConditionalNode node)
@@ -62,7 +62,12 @@ namespace QLParser.Analysis.QL.Syntactic
             VisitChildren(node);
         }
 
-        private void VisitChildren(QLNode node)
+        public void Visit(QLCollectionNode node)
+        {
+            VisitChildren(node);
+        }
+
+        private void VisitChildren(QLCollectionNode node)
         {
             foreach (var child in node.Children)
                 child.Accept(this);

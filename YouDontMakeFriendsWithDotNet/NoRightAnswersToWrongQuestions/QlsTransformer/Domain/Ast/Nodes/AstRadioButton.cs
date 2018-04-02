@@ -3,8 +3,8 @@
     public class AstRadioButton : BinaryWidget, IRadioButton
     {
         public AstRadioButton(
-            string trueText, 
-            string falseText) 
+            string trueText,
+            string falseText)
             : base(trueText, falseText)
         {
         }

@@ -11,6 +11,10 @@ import ql.ast.statements.Question;
 import ql.evaluator.Evaluator;
 import ql.gui.controls.ControlVisitor;
 import ql.gui.controls.QLControl;
+import ql.typechecker.SemanticAnalyzer;
+import ql.typechecker.messages.Messages;
+import ql.typechecker.messages.error.Error;
+import ql.typechecker.messages.warning.Warning;
 import ql.values.Value;
 
 import java.io.IOException;
@@ -30,6 +34,7 @@ public class Form extends Application implements OnValueChange{
 
     @Override
     public void start(Stage stage) {
+        checkForMessages();
         formPane(stage);
         initializeForm();
         stage.show();
@@ -39,14 +44,31 @@ public class Form extends Application implements OnValueChange{
         ASTBuilder astBuilder = new ASTBuilder();
         InputStream input = Form.class.getResourceAsStream("/form.ql");
         form = astBuilder.build(input);
-        //todo add typechecker
-        //todo print errors/warnings
-        //visitor.visit(parseTree);
+    }
+
+    private void checkForMessages() {
+        SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
+        Messages messages = semanticAnalyzer.checkForm(form);
+
+        if (messages.hasErrors()) {
+            messages.errors().forEach(this::printError);
+            System.exit(1);
+        }
+
+        messages.warnings().forEach(this::printWarning);
+    }
+
+    private void printError(Error error) {
+        System.out.println(error.message());
+    }
+
+    private void printWarning(Warning warning) {
+        System.out.println(warning.message());
     }
 
     public void initializeForm() {
-        //this.reset();
-        //evaluator.clear();
+        this.reset();
+        evaluator.clear();
         evaluator.visit(form);
 
         for (Question question: evaluator.questions()) {
@@ -71,15 +93,13 @@ public class Form extends Application implements OnValueChange{
     }
 
     private void add(QLControl qlControl, Question question) {
-        if (evaluator.valueTable().exists(question.getIdentifier())) {
-            qlControl.setValue(evaluator.valueTable().find(question.getIdentifier()));
-        }
+        qlControl.setValue(evaluator.valueTable().find(question.getIdentifier()));
         formPane.add(qlControl.gridPane(), 0, row++);
     }
 
     @Override
     public void changed(Identifier identifier, Value value) {
-        evaluator.valueTable().add(identifier, value);
+        evaluator.storeValues(identifier, value);
         initializeForm();
     }
 }

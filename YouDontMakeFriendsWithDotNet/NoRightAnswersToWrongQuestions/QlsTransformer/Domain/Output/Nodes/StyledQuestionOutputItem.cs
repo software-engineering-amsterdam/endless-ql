@@ -38,7 +38,7 @@ namespace QlsTransformer.Domain.Output.Nodes
         public bool Visible { get; set; }
         public bool ReadOnly { get; }
         public string Value { get; set; }
-        public Type QuestionType { get; }
+        public IQuestionType QuestionType { get; }
         public IWidget Widget { get; }
         public int Width { get; }
         public string Font { get; }

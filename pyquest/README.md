@@ -44,5 +44,9 @@ python3 pyquest.py
 | `Ctrl+N`| Create a new .ql file |
 | `Ctrl+O`| Open a .ql file |
 | `Ctrl+S`| Save current .ql file |
-| `Shift+Ctrl+S`| Save as current .ql file |   
+| `Ctrl+Shift+S`| Save as current .ql file |   
 | `Ctrl+R` | Run current .ql file |
+
+### Screencast
+
+[screencast zip file](https://www.dropbox.com/s/uv62m47utid751z/screencast.zip?dl=0)

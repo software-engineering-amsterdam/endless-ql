@@ -20,10 +20,7 @@ namespace QlsTransformer.UI.Models
 
         private void InitializeCollectionProperties(SectionModel model)
         {
-            if (model.Questions == null)
-            {
-                throw new ArgumentException("questions cannot be null");
-            }
+            if (model.Questions == null) throw new ArgumentException("questions cannot be null");
 
             Questions = new ObservableCollection<StyledQuestionWrapper>(
                 model.Questions.Select(x => new StyledQuestionWrapper(x)));

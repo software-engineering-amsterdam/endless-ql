@@ -5,13 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimpleWPFApp" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:questionnaireUi="clr-namespace:QuestionnaireUI;assembly=QuestionnaireUI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <local:TypeTemplateSelection x:Key="TemplateSelector" />
-        <local:ObjectToIntegerConverter x:Key="ObjectToIntegerConverter"/>
-        <local:ObjectToDecimalConverter x:Key="ObjectToDecimalConverter"/>
+        <questionnaireUi:ObjectToIntegerConverter x:Key="ObjectToIntegerConverter"/>
+        <questionnaireUi:ObjectToDecimalConverter x:Key="ObjectToDecimalConverter"/>
         <DataTemplate x:Key="DefaultTemplate">
             <Grid>
                 <Label 
@@ -33,14 +34,10 @@
         <DataTemplate x:Key="IntTemplate">
             <Grid>
                 <xctk:IntegerUpDown 
-                    Value="{Binding Path=Value, Converter={StaticResource ObjectToIntegerConverter}}"
+                    Value="{Binding Path=Value, Mode=TwoWay,  Converter={StaticResource ObjectToIntegerConverter}}"
+                    Increment="1"
 
-                    Increment="1" />
-                <!--<TextBox Text="{Binding Value
-                        , Mode=TwoWay
-                        , UpdateSourceTrigger=LostFocus}"
-                         MinWidth ="180" />-->
-            </Grid>
+                    UpdateValueOnEnterKey="True"/></Grid>
         </DataTemplate>
 
 
@@ -48,13 +45,8 @@
             <Grid>
                 <xctk:CalculatorUpDown 
                     Value="{Binding Path=Value, Converter={StaticResource ObjectToDecimalConverter}}"
-
-                    Increment="1" />
-                <!--<TextBox 
-                    Text="{Binding Value
-                        , Mode=TwoWay
-                        , UpdateSourceTrigger=LostFocus}" 
-                    MinWidth ="180" />-->
+                    Increment="1"
+                    UpdateValueOnEnterKey="True"/>
             </Grid>
         </DataTemplate>
         

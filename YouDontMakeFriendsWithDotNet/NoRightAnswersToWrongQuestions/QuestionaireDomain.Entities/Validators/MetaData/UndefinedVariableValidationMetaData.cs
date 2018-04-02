@@ -2,7 +2,7 @@
 {
     public class UndefinedVariableValidationMetaData : ValidationMetaData
     {
-        public UndefinedVariableValidationMetaData() 
+        public UndefinedVariableValidationMetaData()
             : base(Severity.Error)
         {
         }

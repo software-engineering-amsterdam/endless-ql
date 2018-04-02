@@ -11,11 +11,11 @@ namespace QuestionnaireDomain.Entities.Domain
             this IEnumerable<DomainId<IAstNode>> nodes,
             IDomainItemLocator domainItemLocator) where T : IAstNode
         {
-            return nodes.Select(x => To<T>(x, domainItemLocator)).ToList(); 
+            return nodes.Select(x => To<T>(x, domainItemLocator)).ToList();
         }
 
         public static DomainId<T> To<T>(
-            this DomainId<IAstNode> node, 
+            this DomainId<IAstNode> node,
             IDomainItemLocator domainItemLocator) where T : IAstNode
         {
             var domainItem = domainItemLocator.Get<T>(node.Id);

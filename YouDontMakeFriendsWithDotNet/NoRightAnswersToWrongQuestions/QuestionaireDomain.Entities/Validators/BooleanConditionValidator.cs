@@ -21,7 +21,7 @@ namespace QuestionnaireDomain.Entities.Validators
         {
             return Validate<IBooleanVariableNode, BooleanConditionValidationMetaData>(
                 rootNode,
-                x => x != typeof(bool),
+                x => !(x is BooleanQuestionType),
                 @"condition",
                 @"bool");
         }

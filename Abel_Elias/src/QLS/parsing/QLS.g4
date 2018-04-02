@@ -2,7 +2,7 @@
 grammar QLS;
 
 /** Parser rules */
-stylesheet : STYLESHEET IDENTIFIER CURLY_BRACE_L page* NEWLINE* CURLY_BRACE_R EOF; // form
+stylesheet : STYLESHEET IDENTIFIER NEWLINE* CURLY_BRACE_L page* NEWLINE* CURLY_BRACE_R EOF; // form
 
 page : PAGE IDENTIFIER CURLY_BRACE_L section* defaultWidget* CURLY_BRACE_R NEWLINE*; // content
 
@@ -35,7 +35,7 @@ checkboxWidget : CHECKBOX;
 textWidget : TEXT;
 radioWidget : RADIO argList;
 spinboxWidget : SPINBOX;
-sliderWidget : SLIDER;
+sliderWidget : SLIDER min=INT max=INT;
 dropdownWidget : DROPDOWN argList;
 
 style : CURLY_BRACE_L widgetProperty+ CURLY_BRACE_R;

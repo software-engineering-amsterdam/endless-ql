@@ -8,7 +8,7 @@ namespace QlsTransformer.Orchestration.Models
     {
         public StyledQuestionnaireModel(
             Guid questionnaireId,
-            string questionnaireDisplayName) 
+            string questionnaireDisplayName)
             : base(questionnaireId, questionnaireDisplayName)
         {
             QuestionnaireId = questionnaireId;

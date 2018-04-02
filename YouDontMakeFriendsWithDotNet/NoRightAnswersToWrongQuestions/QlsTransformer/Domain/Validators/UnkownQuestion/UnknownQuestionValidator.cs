@@ -24,7 +24,7 @@ namespace QlsTransformer.Domain.Validators.UnkownQuestion
             var qlsQuestionNodes = m_domainItemLocator
                 .GetAll<IQlsQuestionNode>()
                 .ToList();
-            
+
             var questionNames = m_domainItemLocator
                 .GetAll<IQuestionOutputItem>()
                 .Select(x => x.QuestionName)
@@ -32,10 +32,7 @@ namespace QlsTransformer.Domain.Validators.UnkownQuestion
 
             foreach (var qlsQuestionNode in qlsQuestionNodes)
             {
-                if (questionNames.Contains(qlsQuestionNode.Name))
-                {
-                    continue;
-                }
+                if (questionNames.Contains(qlsQuestionNode.Name)) continue;
 
                 var validationData = new UnknownQuestionValidationMetaData
                 {

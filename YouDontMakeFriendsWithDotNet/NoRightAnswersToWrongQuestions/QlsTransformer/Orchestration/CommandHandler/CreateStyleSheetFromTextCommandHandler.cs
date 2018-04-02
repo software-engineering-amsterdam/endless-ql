@@ -12,13 +12,13 @@ using QuestionnaireInfrastructure.API;
 namespace QlsTransformer.Orchestration.CommandHandler
 {
     internal class CreateStyleSheetFromTextCommandHandler :
-            ICommandHandler<CreateStyleSheetFromTextCommand>
+        ICommandHandler<CreateStyleSheetFromTextCommand>
     {
+        private readonly IDomainItemLocator m_domainItemLocator;
+        private readonly IStyledQuestionnaireOutputCreator m_outputCreator;
 
         private readonly IStyleSheetCreator m_styleSheetAstCreator;
-        private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IStyleSheetTypeChecker m_styleSheetTypeChecker;
-        private readonly IStyledQuestionnaireOutputCreator m_outputCreator;
 
         public CreateStyleSheetFromTextCommandHandler(
             IStyleSheetCreator styleSheetAstCreator,

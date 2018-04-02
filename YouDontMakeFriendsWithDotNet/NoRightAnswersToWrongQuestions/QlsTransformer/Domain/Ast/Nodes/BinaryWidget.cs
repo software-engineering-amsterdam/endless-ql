@@ -7,6 +7,7 @@
             TrueText = trueText;
             FalseText = falseText;
         }
+
         public string TrueText { get; }
         public string FalseText { get; }
     }

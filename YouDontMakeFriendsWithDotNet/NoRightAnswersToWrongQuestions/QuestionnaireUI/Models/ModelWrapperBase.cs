@@ -10,10 +10,7 @@ namespace QuestionnaireUI.Models
     {
         protected ModelWrapperBase(T model)
         {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
+            if (model == null) throw new ArgumentNullException(nameof(model));
 
             Model = model;
         }
@@ -39,33 +36,24 @@ namespace QuestionnaireUI.Models
             [CallerMemberName] string propertyName = null)
         {
             var propertyInfo = Model.GetType().GetProperty(propertyName);
-            return (TValue)propertyInfo.GetValue(Model);
+            return (TValue) propertyInfo.GetValue(Model);
         }
 
         protected void RegisterCollection<TWrapper, TModel>(
             ObservableCollection<TWrapper> questions,
-            IList<TModel> modelQuestions) 
+            IList<TModel> modelQuestions)
             where TWrapper : ModelWrapperBase<TModel>
         {
             questions.CollectionChanged += (s, e) =>
             {
                 if (e.OldItems != null)
-                {
                     foreach (var item in e.OldItems.Cast<TWrapper>())
-                    {
                         modelQuestions.Remove(item.Model);
-                    }
-                }
 
                 if (e.NewItems != null)
-                {
                     foreach (var item in e.NewItems.Cast<TWrapper>())
-                    {
                         modelQuestions.Add(item.Model);
-                    }
-                }
             };
         }
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean;
 using QuestionnaireDomain.Entities.Ast.Nodes.Boolean.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Calculation;
@@ -24,7 +23,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
         private readonly ISymbolTable m_symbolTable;
 
         public AstFactory(
-            IIdMaker ids, 
+            IIdMaker ids,
             IDomainItemRegistry registry,
             ISymbolTable symbolTable)
         {
@@ -46,15 +45,15 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
 
             return DomainItemRegistration<IQuestionnaireRootNode>(questionnaire);
         }
-        
+
         public DomainId<IConditionalStatementNode> CreateConditional(
-            string definition, 
-            DomainId<IBooleanLogicNode> predicate, 
+            string definition,
+            DomainId<IBooleanLogicNode> predicate,
             IEnumerable<DomainId<IStatementNode>> consequent,
             IEnumerable<DomainId<IStatementNode>> alternative)
         {
             var condition = new ConditionalNode(
-                m_ids.Next, 
+                m_ids.Next,
                 definition,
                 predicate,
                 consequent,
@@ -67,7 +66,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             string definition,
             string questionName,
             string questionText,
-            Type questionType)
+            IQuestionType questionType)
         {
             var question = new UserInputQuestionNode(
                 m_ids.Next,
@@ -76,43 +75,17 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
                 questionText,
                 questionType);
 
-            InitializeVariable(question.Id, questionType);
+            questionType.InitializeVariable(m_symbolTable, question.Id);
+
             return DomainItemRegistration<IUserInputQuestionNode>(question);
         }
 
-        private void InitializeVariable(Guid questionId, Type questionType)
-        {
-            if (questionType == typeof(bool))
-            {
-                m_symbolTable.Add(questionId, default(bool));
-            }
-
-            if (questionType == typeof(decimal))
-            {
-                m_symbolTable.Add(questionId, default(decimal));
-            }
-
-            if (questionType == typeof(int))
-            {
-                m_symbolTable.Add(questionId, default(int));
-            }
-
-            if (questionType == typeof(DateTime))
-            {
-                m_symbolTable.Add(questionId, default(DateTime));
-            }
-            
-            if (questionType == typeof(string))
-            {
-                m_symbolTable.Add(questionId, default(string));
-            }
-        }
 
         public DomainId<ICalculatedQuestionNode> CreateCalculatedQuestion(
-            string definition, 
-            string questionName, 
-            string questionText, 
-            Type questionType,
+            string definition,
+            string questionName,
+            string questionText,
+            IQuestionType questionType,
             DomainId<ICalculationNode> calculation)
         {
             var question = new CalculatedQuestionNode(
@@ -146,7 +119,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
 
         public DomainId<IBooleanLiteralNode> CreateBooleanLiteral(string booleanString)
         {
-            var literal = new BooleanLiteralNode(m_ids.Next,booleanString);
+            var literal = new BooleanLiteralNode(m_ids.Next, booleanString);
             return DomainItemRegistration<IBooleanLiteralNode>(literal);
         }
 
@@ -156,9 +129,9 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             DomainId<IBooleanLogicNode> rightExpression)
         {
             var andNode = new AndNode(
-                m_ids.Next, 
+                m_ids.Next,
                 definition,
-                leftExpression, 
+                leftExpression,
                 rightExpression);
 
             return DomainItemRegistration<IAndNode>(andNode);
@@ -170,9 +143,9 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             DomainId<IBooleanLogicNode> rightExpression)
         {
             var orNode = new OrNode(
-                m_ids.Next, 
+                m_ids.Next,
                 definition,
-                leftExpression, 
+                leftExpression,
                 rightExpression);
 
             return DomainItemRegistration<IOrNode>(orNode);
@@ -183,7 +156,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             DomainId<IBooleanLogicNode> childExpression)
         {
             var negateNode = new NegateNode(
-                m_ids.Next, 
+                m_ids.Next,
                 definition,
                 childExpression);
 
@@ -192,13 +165,13 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
 
         public DomainId<IEqualityNode> CreateEqualityOperation(
             string definition,
-            DomainId<IAstNode> leftExpression, 
+            DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression)
         {
             var equalityNode = new EqualityNode(
-                m_ids.Next, 
+                m_ids.Next,
                 definition,
-                leftExpression, 
+                leftExpression,
                 rightExpression);
 
             return DomainItemRegistration<IEqualityNode>(equalityNode);
@@ -206,7 +179,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
 
         public DomainId<IAstNode> CreateMultiplicationOperation(
             string definition,
-            DomainId<ICalculationNode> leftExpression, 
+            DomainId<ICalculationNode> leftExpression,
             DomainId<ICalculationNode> rightExpression)
         {
             var multiplicationNode = new MultiplyNode(
@@ -220,7 +193,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
 
         public DomainId<IAstNode> CreateDivisionOperation(
             string definition,
-            DomainId<ICalculationNode> leftExpression, 
+            DomainId<ICalculationNode> leftExpression,
             DomainId<ICalculationNode> rightExpression)
         {
             var divisionNode = new DivideNode(
@@ -233,8 +206,8 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
         }
 
         public DomainId<IAstNode> CreateAdditionOperation(
-            string definition, 
-            DomainId<ICalculationNode> leftExpression, 
+            string definition,
+            DomainId<ICalculationNode> leftExpression,
             DomainId<ICalculationNode> rightExpression)
         {
             var addNode = new AddNode(
@@ -247,8 +220,8 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
         }
 
         public DomainId<IAstNode> CreateSubtractionOperation(
-            string definition, 
-            DomainId<ICalculationNode> leftExpression, 
+            string definition,
+            DomainId<ICalculationNode> leftExpression,
             DomainId<ICalculationNode> rightExpression)
         {
             var subtractNode = new SubtractNode(
@@ -261,7 +234,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
         }
 
         public DomainId<IAstNode> CreateInequalityOperation(
-            string definition, DomainId<IAstNode> leftExpression, 
+            string definition, DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression)
         {
             var inequalityNode = new InequalityNode(
@@ -310,8 +283,8 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
         }
 
         public DomainId<IAstNode> CreateGreaterThanOperation(
-            string definition, 
-            DomainId<IAstNode> leftExpression, 
+            string definition,
+            DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression)
         {
             var greaterThanNode = new GreaterThanNode(
@@ -324,8 +297,8 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
         }
 
         public DomainId<IAstNode> CreateGreaterOrEqualOperation(
-            string definition, 
-            DomainId<IAstNode> leftExpression, 
+            string definition,
+            DomainId<IAstNode> leftExpression,
             DomainId<IAstNode> rightExpression)
         {
             var greaterOrEqualNode = new GreaterOrEqualNode(
@@ -337,7 +310,8 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             return DomainItemRegistration<IGreaterOrEqualNode>(greaterOrEqualNode);
         }
 
-        public DomainId<IAstNode> CreateLessThanOperation(string definition, DomainId<IAstNode> leftExpression, DomainId<IAstNode> rightExpression)
+        public DomainId<IAstNode> CreateLessThanOperation(string definition, DomainId<IAstNode> leftExpression,
+            DomainId<IAstNode> rightExpression)
         {
             var lessThanNode = new LessThanNode(
                 m_ids.Next,
@@ -348,7 +322,8 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             return DomainItemRegistration<ILessThanNode>(lessThanNode);
         }
 
-        public DomainId<IAstNode> CreateLessOrEqualOperation(string definition, DomainId<IAstNode> leftExpression, DomainId<IAstNode> rightExpression)
+        public DomainId<IAstNode> CreateLessOrEqualOperation(string definition, DomainId<IAstNode> leftExpression,
+            DomainId<IAstNode> rightExpression)
         {
             var lessOrEqualNode = new LessOrEqualNode(
                 m_ids.Next,

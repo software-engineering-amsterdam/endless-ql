@@ -14,16 +14,6 @@ namespace QuestionnaireOrchestration.Models
         public Guid Id { get; }
 
         public string Name { get; }
-        
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        protected bool Equals(DomainItemModel other)
-        {
-            return other.Id == Id;
-        }
 
         public bool Equals(DomainItemModel x, DomainItemModel y)
         {
@@ -33,6 +23,16 @@ namespace QuestionnaireOrchestration.Models
         public int GetHashCode(DomainItemModel obj)
         {
             return Id.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        protected bool Equals(DomainItemModel other)
+        {
+            return other.Id == Id;
         }
     }
 }

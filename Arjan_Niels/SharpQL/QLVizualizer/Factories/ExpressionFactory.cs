@@ -1,11 +1,12 @@
 ﻿using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
+using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression;
-using QLVisualizer.Expression.Types;
-using System;
-using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLVisualizer.Expression.Enums;
+using QLVisualizer.Expression.Types;
+using QLVisualizer.Expression.Types.Numeric;
+using System;
 
 namespace QLVisualizer.Factories
 {
@@ -26,35 +27,44 @@ namespace QLVisualizer.Factories
         public ExpressionBool GetCondition(ConditionalNode conditionalNode)
         {
             ExpressionValue expression = ParseExpressionNode(conditionalNode.Expression);
-            switch (expression.Type)
+            switch (expression)
             {
-                case ExpressionType.Bool:
-                    return expression as ExpressionBool;
+                case ExpressionBool boolExpression:
+                    return boolExpression;
                 default:
-                    throw new InvalidOperationException(string.Format("Cannot use expression with type of {0} as a condition.", expression.Type));
+                    throw new InvalidOperationException(string.Format("Cannot use expression with type of {0} as a condition.", expression.ExpressionType));
             }
         }
 
         public ExpressionValue ParseExpressionNode(IExpressionNode node)
         {
-            switch (node.GetNodeType())
+            switch (node)
             {
-                case NodeType.ARTHIMETRIC_EXPRESSION:
-                    return ParseArthimeticNode(node as ArthimetricExpressionNode);
-                case NodeType.COMPARISON_EXPRESSION:
-                    return ParseComparisonNode(node as ComparisonExpressionNode);
-                case NodeType.LOGICAL_EXPRESSION:
-                    return ParseLogicalNode(node as LogicalExpressionNode);
-                case NodeType.IDENTIFIER:
-                    return ParseIdentifyerNode(node as IdentifierNode);
-                case NodeType.LITERAL:
-                    return ParseLiteralNode(node as LiteralNode);
+                case ArthimetricExpressionNode arthimetricNode:
+                    return ParseArthimeticNode(arthimetricNode);
+                case ComparisonExpressionNode comparisonNode:
+                    return ParseComparisonNode(comparisonNode);
+                case LogicalExpressionNode logicalNode:
+                    return ParseLogicalNode(logicalNode);
+                case IdentifierNode identifierNode:
+                    return ParseidentifierNode(identifierNode);
+                case LiteralNode literalNode:
+                    return ParseLiteralNode(literalNode);
+                case TextConcatinationNode textConcatinationNode:
+                    return ParseTextConcatinationNode(textConcatinationNode);
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        // logical expression (&&, ||)
+        private ExpressionValue ParseTextConcatinationNode(TextConcatinationNode textConcatinationNode)
+        {
+            ExpressionValue leftExpressionValue = ParseExpressionNode(textConcatinationNode.Left);
+            ExpressionValue rightExpressionValue = ParseExpressionNode(textConcatinationNode.Right);
+            return leftExpressionValue.Combine(rightExpressionValue, ExpressionOperator.Plus);
+
+        }
+
         private ExpressionValue ParseLogicalNode(LogicalExpressionNode logicalExpressionNode)
         {
             ExpressionValue leftExpressionValue = ParseExpressionNode(logicalExpressionNode.Left);
@@ -63,10 +73,10 @@ namespace QLVisualizer.Factories
             ExpressionOperator expressionOperator = ExpressionOperator.Undefined;
             switch (logicalExpressionNode.Operator)
             {
-                case LogicalOperator.AND:
+                case LogicalOperator.And:
                     expressionOperator = ExpressionOperator.And;
                     break;
-                case LogicalOperator.OR:
+                case LogicalOperator.Or:
                     expressionOperator = ExpressionOperator.Or;
                     break;
                 default:
@@ -74,10 +84,9 @@ namespace QLVisualizer.Factories
             }
 
             return leftExpressionValue.Combine(rightExpressionValue, expressionOperator);
-
         }
 
-        // compares
+
         private ExpressionValue ParseComparisonNode(ComparisonExpressionNode comparisonExpressionNode)
         {
             ExpressionValue leftExpressionValue = ParseExpressionNode(comparisonExpressionNode.Left);
@@ -86,19 +95,19 @@ namespace QLVisualizer.Factories
             ExpressionOperator expressionOperator = ExpressionOperator.Undefined;
             switch (comparisonExpressionNode.Operator)
             {
-                case ComparisonOperator.EQ:
+                case ComparisonOperator.Equal:
                     expressionOperator = ExpressionOperator.Equals;
                     break;
-                case ComparisonOperator.GE:
+                case ComparisonOperator.GreaterEqual:
                     expressionOperator = ExpressionOperator.GreaterEquals;
                     break;
-                case ComparisonOperator.GT:
+                case ComparisonOperator.GreaterThan:
                     expressionOperator = ExpressionOperator.GreaterThan;
                     break;
-                case ComparisonOperator.LE:
+                case ComparisonOperator.LessEqual:
                     expressionOperator = ExpressionOperator.LessEquals;
                     break;
-                case ComparisonOperator.LT:
+                case ComparisonOperator.LessThan:
                     expressionOperator = ExpressionOperator.LessThan;
                     break;
                 default:
@@ -115,16 +124,16 @@ namespace QLVisualizer.Factories
             ExpressionOperator expressionOperator = ExpressionOperator.Undefined;
             switch (arthimeticExpressionNode.Operator)
             {
-                case ArthimetricOperator.DIV:
+                case ArthimetricOperator.Div:
                     expressionOperator = ExpressionOperator.Divide;
                     break;
-                case ArthimetricOperator.MINUS:
+                case ArthimetricOperator.Minus:
                     expressionOperator = ExpressionOperator.Minus;
                     break;
-                case ArthimetricOperator.PLUS:
+                case ArthimetricOperator.Plus:
                     expressionOperator = ExpressionOperator.Plus;
                     break;
-                case ArthimetricOperator.MULT:
+                case ArthimetricOperator.Mult:
                     expressionOperator = ExpressionOperator.Multiply;
                     break;
                 default:
@@ -134,35 +143,41 @@ namespace QLVisualizer.Factories
             return leftExpressionValue.Combine(rightExpressionValue, expressionOperator);
         }
 
-        private ExpressionValue ParseIdentifyerNode(IdentifierNode identifierNode)
+        private ExpressionValue ParseidentifierNode(IdentifierNode identifierNode)
         {
             switch (identifierNode.GetQValueType())
             {
-                case QValueType.BOOLEAN:
+                case QValueType.Boolean:
                     return new ExpressionBool(new LazyElementExpressionLink<bool>(_elementManagerController, identifierNode.ID));
-                case QValueType.INTEGER:
+                case QValueType.Integer:
                     return new ExpressionInt(new LazyElementExpressionLink<int>(_elementManagerController, identifierNode.ID));
-                case QValueType.DOUBLE:
-                case QValueType.MONEY:
+                case QValueType.Double:
+                case QValueType.Money:
                     return new ExpressionDouble(new LazyElementExpressionLink<double>(_elementManagerController, identifierNode.ID));
+                case QValueType.Text:
+                    return new ExpressionText(new LazyElementExpressionLink<string>(_elementManagerController, identifierNode.ID));
+                case QValueType.Hex:
+                    return new ExpressionHex(new LazyElementExpressionLink<Hexadecimal>(_elementManagerController, identifierNode.ID));
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        // Absolute values
         private ExpressionValue ParseLiteralNode(LiteralNode literalNode)
         {
             switch (literalNode.GetQValueType())
             {
-                case QValueType.BOOLEAN:
+                case QValueType.Boolean:
                     return new ExpressionBool(new string[0], () => QValueTypeParser.ParseBoolean(literalNode.Value));
-                case QValueType.INTEGER:
+                case QValueType.Integer:
                     return new ExpressionInt(new string[0], () => QValueTypeParser.ParseInteger(literalNode.Value));
-                case QValueType.DOUBLE:
-                    return new ExpressionDouble(new string[0], () => QValueTypeParser.ParseMoney(literalNode.Value));
-                case QValueType.MONEY:
+                case QValueType.Double:
+                case QValueType.Money:
                     return new ExpressionDouble(new string[0], () => QValueTypeParser.ParseDouble(literalNode.Value));
+                case QValueType.Text:
+                    return new ExpressionText(new string[0], () => QValueTypeParser.ParseText(literalNode.Value));
+                case QValueType.Hex:
+                    return new ExpressionHex(new string[0], () => QValueTypeParser.ParseHexadecimal(literalNode.Value));
                 default:
                     throw new NotImplementedException();
             }

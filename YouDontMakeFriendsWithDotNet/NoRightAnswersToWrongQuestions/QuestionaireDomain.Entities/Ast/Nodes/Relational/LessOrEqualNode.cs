@@ -5,8 +5,8 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
-    internal class LessOrEqualNode : 
-        RelationalOperationNode, 
+    internal class LessOrEqualNode :
+        RelationalOperationNode,
         ILessOrEqualNode
     {
         public LessOrEqualNode(

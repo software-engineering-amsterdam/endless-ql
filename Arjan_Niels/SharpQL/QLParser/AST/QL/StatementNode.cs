@@ -6,11 +6,11 @@
         public string Operator { get; private set; }
         public IExpressionNode RightSide { get; private set; }
 
-        public StatementNode(Location location, IExpressionNode lhs, string opr, IExpressionNode rhs) : base(location, NodeType.LOGICAL_EXPRESSION)
+        public StatementNode(Location location, IExpressionNode left, string op, IExpressionNode right) : base(location, NodeType.LogicalExpression)
         {
-            this.LeftSide = lhs;
-            this.Operator = opr;
-            this.RightSide = rhs;
+            this.LeftSide = left;
+            this.Operator = op;
+            this.RightSide = right;
         }
 
         public override string ToString()
@@ -26,12 +26,12 @@
             if (leftSideType == rightSideType)
                 return leftSideType;
             else
-                return QValueType.UNKNOWN;
+                return QValueType.Unknown;
         }
 
         public override void Accept(IQLVisitor visitor)
         {
-            visitor.Visit(this);
+            visitor.Visit((dynamic)this);
         }
     }
 }

@@ -46,10 +46,7 @@ namespace QlsTransformer.Domain.Output.Tools
 
         public Style PopStyle()
         {
-            if (m_styleStack.Count == 1)
-            {
-                return m_styleStack.Peek();
-            }
+            if (m_styleStack.Count == 1) return m_styleStack.Peek();
 
             return m_styleStack.Pop();
         }

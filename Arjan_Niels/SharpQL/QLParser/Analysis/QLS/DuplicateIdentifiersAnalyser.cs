@@ -6,25 +6,25 @@ namespace QLParser.Analysis.QLS
 {
     public class DuplicateIdentifiersAnalyser : IQLSAnalyser, IQLSVisitor
     {
-        private IList<string> VisitedIDs;
+        private IList<QLSNode> _visitedNodes;
         public DuplicateIdentifiersAnalyser()
         {
-            this.VisitedIDs = new List<string>();
+            this._visitedNodes = new List<QLSNode>();
         }
 
         public bool Analyse(QLSNode node)
         {
-            this.VisitedIDs.Clear();
+            this._visitedNodes.Clear();
             this.Visit(node);
 
             var isValid = true;
-            foreach (var id in this.VisitedIDs.Distinct())
+            foreach (var visitedNode in this._visitedNodes)
             {
-                var idCount = this.VisitedIDs.Count(x => x == id);
+                var idCount = this._visitedNodes.Count(x => x.ID == visitedNode.ID);
                 if (idCount > 1)
                 {
                     isValid = false;
-                    Analyser.AddMessage(string.Format("Duplicate key in QLS: {0}", id), MessageType.WARNING);
+                    Analyser.AddMessage(string.Format("{0} Duplicate key in QLS: {1}", visitedNode.Location, visitedNode.ID), Language.QLS, MessageType.WARNING);
                 }
             }
 
@@ -33,7 +33,7 @@ namespace QLParser.Analysis.QLS
 
         public void Visit(QLSQuestionNode node)
         {
-            this.VisitedIDs.Add(node.ID);
+            this._visitedNodes.Add(node);
 
             VisitChildren(node);
         }

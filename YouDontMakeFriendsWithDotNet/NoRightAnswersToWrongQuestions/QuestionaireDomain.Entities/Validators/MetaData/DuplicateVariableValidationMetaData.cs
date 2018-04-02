@@ -2,7 +2,7 @@
 {
     public class DuplicateVariableValidationMetaData : ValidationMetaData
     {
-        public DuplicateVariableValidationMetaData() 
+        public DuplicateVariableValidationMetaData()
             : base(Severity.Error)
         {
         }

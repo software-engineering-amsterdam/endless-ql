@@ -1,25 +1,21 @@
 ﻿namespace QLParser.Analysis
 {
-    public enum MessageType
-    {
-        ERROR,
-        WARNING
-    }
-
     public class AnalyserMessage
     {
-        public MessageType Type { get; private set; }
+        public MessageType MessageType { get; private set; }
+        public Language Language { get; private set; }
         public string Message { get; private set; }
 
-        public AnalyserMessage(string message, MessageType type)
+        public AnalyserMessage(string message, Language language, MessageType messageType)
         {
             this.Message = message;
-            this.Type = type;
+            this.Language = language;
+            this.MessageType = messageType;
         }
 
         public override string ToString()
         {
-            return string.Format("{0} {1}", this.Type, this.Message);
+            return string.Format("[{0}] {1} {2}", this.Language, this.MessageType, this.Message);
         }
     }
 }

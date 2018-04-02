@@ -15,12 +15,13 @@ import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.Element;
 import javax.swing.text.NumberFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.NumberFormat;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class QLFormBuilder {
     private JFrame jFrame;
     private Stylesheet stylesheet;
     private SymbolTable symbolTable;
-    private HashMap<LineElement, FormQuestion> questions;
+    private LinkedHashMap<LineElement, FormQuestion> questions;
     private VisibilityChecker visibilityChecker;
 
     public QLFormBuilder(QLAstRoot astRoot) {
@@ -55,7 +56,7 @@ public class QLFormBuilder {
 
     private void render() {
 
-        this.symbolTable = this.astRoot.getQuestionSymbolTable();
+        this.symbolTable = this.astRoot.getSymbolTable();
 
         this.jFrame = new JFrame();
         this.jFrame.setVisible(true);
@@ -75,7 +76,8 @@ public class QLFormBuilder {
         this.visibilityChecker.checkVisibility();
 
         if (this.stylesheet != null) {
-            renderQuestions(this.stylesheet);
+//            renderQuestions(this.stylesheet);
+            renderQuestions();
         } else {
             renderQuestions();
         }
@@ -103,35 +105,17 @@ public class QLFormBuilder {
             }
         }
 
-        // TODO somehow the getComponent() x coordinate is reset to 0 after revalidate().
-        // Using invalidate() the first run goes without problems. Subsequent refreshes reset the
-        // x coordinate back to 0 again.
+
+        // This is a workaround. Somehow the x component of the last element is reset to 0 after
+        // revalidate. Insert new boguselement as a workaround
+        JLabel workaroundLabel = new JLabel("");
+        jFrame.add(workaroundLabel);
+        workaroundLabel.setBounds(contentMargin, currentLine * lineHeight + lineMargin, 0, 0);
 
         jFrame.revalidate();
         jFrame.repaint();
    }
 
-    private void renderQuestions(Stylesheet stylesheet) {
-        for (Page page : stylesheet.getPages()) {
-            System.out.println("We have a page here " + page.getLabel());
-            renderPage(page);
-        }
-    }
-
-    private void renderPage(Page page){
-        for (Section section: page.getSections()) {
-            renderSection(section);
-        }
-    }
-
-    private void renderSection(Section section){
-        for (SectionElement element: section.getElements()) {
-            if(element instanceof Question){
-                FormElement element = symbolTable.getEntry((Question) element))
-            }
-            System.out.println("rendering element " + element.getSourceFilePosition());
-        }
-    }
 
     private void evaluateAst() {
         EvaluateVisitor evaluateVisitor = new EvaluateVisitor(symbolTable);
@@ -146,15 +130,15 @@ public class QLFormBuilder {
         if(expression != null){
             switch (expression.getExpressionType()) {
                 case MONEY:
-                    JLabel label = new JLabel();
+                    JLabel moneyLabel = new JLabel();
                     MoneyExpressionValue moneyExpressionValue = (MoneyExpressionValue)expression.getExpressionValue();
-                    if(moneyExpressionValue != null) { label.setText(moneyExpressionValue.getValue().toString()); }
-                    return label;
+                    if(moneyExpressionValue != null) { moneyLabel.setText(moneyExpressionValue.getValue().toString()); }
+                    return moneyLabel;
                 case INTEGER:
-                    JLabel label = new JLabel();
+                    JLabel integerLabel = new JLabel();
                     IntegerExpressionValue integerExpressionValue = (IntegerExpressionValue)expression.getExpressionValue();
-                    if(integerExpressionValue != null) { label.setText(integerExpressionValue.getValue().toString()); }
-                    return label;
+                    if(integerExpressionValue != null) { integerLabel.setText(integerExpressionValue.getValue().toString()); }
+                    return integerLabel;
                 case BOOLEAN:
                     JCheckBox checkBox = new JCheckBox();
                     checkBox.setEnabled(false);
@@ -275,17 +259,11 @@ public class QLFormBuilder {
 
         textField.setText(((MoneyExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
-        textField.getDocument().addDocumentListener(new DocumentListener() {
+        textField.addFocusListener(new FocusListener() {
 
-            public void changedUpdate(DocumentEvent e) {
-                update();
-            }
+            public void focusGained(FocusEvent e) { }
 
-            public void removeUpdate(DocumentEvent e) {
-                update();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
+            public void focusLost(FocusEvent e) {
                 update();
             }
 
@@ -300,13 +278,10 @@ public class QLFormBuilder {
                             .parseFloat(textField.getText()));
 
                     updateForm();
-
-                    textField.requestFocus();
-
                 }
             }
-        });
 
+        });
 
         // return the text field that is configured by the formatter
         return textField;
@@ -329,16 +304,15 @@ public class QLFormBuilder {
 
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
-        textField.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                update();
-            }
+        SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
 
-            public void removeUpdate(DocumentEvent e) {
-                update();
-            }
+        textField.setText(((StringExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
-            public void insertUpdate(DocumentEvent e) {
+        textField.addFocusListener(new FocusListener() {
+
+            public void focusGained(FocusEvent e) { }
+
+            public void focusLost(FocusEvent e) {
                 update();
             }
 
@@ -354,6 +328,7 @@ public class QLFormBuilder {
                     updateForm();
                 }
             }
+
         });
 
         // return the text field that is configured by the formatter

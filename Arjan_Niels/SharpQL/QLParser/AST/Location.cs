@@ -4,7 +4,7 @@ namespace QLParser.AST
 {
     public struct Location
     {
-        public static Location Null = new Location(0, 0);
+        public static readonly Location Empty = new Location(0, 0);
         public int LineIndex { get; set; }
         public int CharIndex { get; set; }
 

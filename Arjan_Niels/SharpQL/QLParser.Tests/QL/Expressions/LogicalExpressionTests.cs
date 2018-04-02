@@ -90,7 +90,7 @@ namespace QLParser.Tests.QL.Expressions
         public void SingleVariableNameTest()
         {
             var statement = _simpleForm.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as IdentifierNode;
 
@@ -101,55 +101,55 @@ namespace QLParser.Tests.QL.Expressions
         public void SingleLiteralTrueTest()
         {
             var statement = _simpleLiteralTrueForm.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as LiteralNode;
 
             Assert.AreEqual("true", statement.Value);
-            Assert.AreEqual(QValueType.BOOLEAN, statement.QValueType);
-            Assert.AreEqual(QValueType.BOOLEAN, statement.GetQValueType());
+            Assert.AreEqual(QValueType.Boolean, statement.QValueType);
+            Assert.AreEqual(QValueType.Boolean, statement.GetQValueType());
         }
 
         [TestMethod]
         public void SingleLiteralFalseTest()
         {
             var statement = _simpleLiteralFalseForm.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as LiteralNode;
 
             Assert.AreEqual("false", statement.Value);
-            Assert.AreEqual(QValueType.BOOLEAN, statement.QValueType);
-            Assert.AreEqual(QValueType.BOOLEAN, statement.GetQValueType());
+            Assert.AreEqual(QValueType.Boolean, statement.QValueType);
+            Assert.AreEqual(QValueType.Boolean, statement.GetQValueType());
         }
 
         [TestMethod]
         public void ComplexLiteralFormTest()
         {
             var statement = _complexLiteralForm.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as LogicalExpressionNode;
 
             // Both
-            Assert.AreEqual(QValueType.BOOLEAN, statement.GetQValueType());
+            Assert.AreEqual(QValueType.Boolean, statement.GetQValueType());
 
             // Left side
             var left = statement.Left as LiteralNode;
             Assert.AreEqual("true", left.Value);
-            Assert.AreEqual(QValueType.BOOLEAN, left.QValueType);
+            Assert.AreEqual(QValueType.Boolean, left.QValueType);
 
             // Right side
             var right = statement.Right as LiteralNode;
             Assert.AreEqual("false", right.Value);
-            Assert.AreEqual(QValueType.BOOLEAN, right.QValueType);
+            Assert.AreEqual(QValueType.Boolean, right.QValueType);
         }
 
         [TestMethod]
         public void ComplexVariableTest()
         {
             var statement = _complexeForm.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as LogicalExpressionNode;
 
@@ -157,7 +157,7 @@ namespace QLParser.Tests.QL.Expressions
             var rightSide = (IdentifierNode)statement.Right;
 
             Assert.AreEqual("soldAHouse", leftSide.ID);
-            Assert.AreEqual(LogicalOperator.AND, statement.Operator);
+            Assert.AreEqual(LogicalOperator.And, statement.Operator);
             Assert.AreEqual("hasSeenHouseOfCards", rightSide.ID);
         }
 
@@ -165,27 +165,27 @@ namespace QLParser.Tests.QL.Expressions
         public void ComplexNestedStatementFormTest()
         {
             var statement = _nestedStatementForm.Children
-                .Where(x => x.Type == NodeType.CONDITIONAL)
+                .Where(x => x.Type == NodeType.Conditional)
                 .Select(x => x as ConditionalNode)
                 .First().Expression as LogicalExpressionNode;
 
             var leftSide = (LogicalExpressionNode)statement.Left;
             var rightSide = (LogicalExpressionNode)statement.Right;
-            Assert.AreEqual(LogicalOperator.AND, statement.Operator);
+            Assert.AreEqual(LogicalOperator.And, statement.Operator);
 
             // lhs
             var leftLeftValue = (IdentifierNode)leftSide.Left;
             var leftRightValue = (IdentifierNode)leftSide.Right;
 
             Assert.AreEqual("firstArgument", leftLeftValue.ID);
-            Assert.AreEqual(LogicalOperator.OR, leftSide.Operator);
+            Assert.AreEqual(LogicalOperator.Or, leftSide.Operator);
             Assert.AreEqual("secondArgument", leftRightValue.ID);
 
             // rhs
             var rightLeftValue = (IdentifierNode)rightSide.Left;
             var rightRightValue = (IdentifierNode)rightSide.Right;
             Assert.AreEqual("thirdArgument", rightLeftValue.ID);
-            Assert.AreEqual(LogicalOperator.OR, rightSide.Operator);
+            Assert.AreEqual(LogicalOperator.Or, rightSide.Operator);
             Assert.AreEqual("forthArgument", rightRightValue.ID);
         }
     }

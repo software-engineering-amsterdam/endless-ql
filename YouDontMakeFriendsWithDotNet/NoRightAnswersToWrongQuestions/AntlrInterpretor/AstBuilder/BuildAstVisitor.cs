@@ -171,15 +171,15 @@ namespace AntlrInterpretor.AstBuilder
             }
         }
 
-        private Type GetQuestionType(QlParser.QuestionContext question)
+        private IQuestionType GetQuestionType(QlParser.QuestionContext question)
         {
             switch (question.questionType().chosenType.Type)
             {
-                case QlParser.BOOLTYPE: return typeof(bool);
-                case QlParser.STRINGTYPE: return typeof(string);
-                case QlParser.INTTYPE: return typeof(int);
-                case QlParser.DATETYPE: return typeof(DateTime);
-                case QlParser.DECIMALTYPE: return typeof(decimal);
+                case QlParser.BOOLTYPE: return new BooleanQuestionType();
+                case QlParser.STRINGTYPE: return new StringQuestionType();
+                case QlParser.INTTYPE: return new IntegerQuestionType();
+                case QlParser.DATETYPE: return new DateQuestionType();
+                case QlParser.DECIMALTYPE: return new DecimalQuestionType();
                 default:
                     throw new ParserException(
                         $@"QuestionType '{question.questionType().chosenType.Type}' handled in the parse tree but not by the AST",

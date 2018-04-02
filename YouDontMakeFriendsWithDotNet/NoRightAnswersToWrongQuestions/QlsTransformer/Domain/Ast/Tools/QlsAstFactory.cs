@@ -21,7 +21,7 @@ namespace QlsTransformer.Domain.Ast.Tools
         }
 
         public DomainId<IStyleSheetRootNode> CreateStyleSheet(
-            string definition, 
+            string definition,
             string styleSheetName,
             IEnumerable<IDefaultStyle> defaultStyles,
             IEnumerable<DomainId<IPageNode>> pages)
@@ -69,7 +69,7 @@ namespace QlsTransformer.Domain.Ast.Tools
         }
 
         public DomainId<IQlsQuestionNode> CreateQuestion(
-            string definition, 
+            string definition,
             string questionName,
             DomainId<IStyleNode> questionStyle)
         {
@@ -83,11 +83,11 @@ namespace QlsTransformer.Domain.Ast.Tools
         }
 
         public DomainId<IAstNode> CreateStyle(
-            string definition, 
-            IWidget widget, 
-            int? width, 
-            decimal? fontSize, 
-            string font, 
+            string definition,
+            IWidget widget,
+            int? width,
+            decimal? fontSize,
+            string font,
             string color)
         {
             var styleNode = new StyleNode(
@@ -101,7 +101,7 @@ namespace QlsTransformer.Domain.Ast.Tools
 
             return DomainItemRegistration<IStyleNode>(styleNode);
         }
-        
+
         private DomainId<T> DomainItemRegistration<T>(T node) where T : IDomainItem
         {
             m_registry.Add(node);

@@ -9,7 +9,7 @@ public class CheckBoxWidget implements Widget {
     private JCheckBox checkBox;
     private BooleanValue value;
 
-    public CheckBoxWidget(BooleanValue value){
+    public CheckBoxWidget(BooleanValue value) {
         this.value = value;
 
         checkBox = new JCheckBox();

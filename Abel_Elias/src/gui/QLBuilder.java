@@ -1,14 +1,18 @@
 package gui;
 
 import QL.classes.Question;
-import QL.classes.values.*;
+import QL.classes.values.Value;
 import QL.parsing.visitors.FormVisitor;
 import gui.panels.QuestionPanel;
 import gui.widgets.WidgetFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 public class QLBuilder implements Observer {
     private JPanel mainPanel;
@@ -16,14 +20,13 @@ public class QLBuilder implements Observer {
     private LinkedHashMap<String, Question> questionHashMap; //collection of questions
     private LinkedHashMap<String, QuestionPanel> questionPanelHashMap; //collection of questionpanels currently active
     private FormVisitor coreVisitor;
-    GridBagConstraints gbc;
+    private GridBagConstraints gbc;
 
     public QLBuilder(FormVisitor coreVisitor) {
         this.coreVisitor = coreVisitor;
         this.questionHashMap = coreVisitor.getQuestions();
         this.questionPanelHashMap = new LinkedHashMap<String, QuestionPanel>();
         this.gbc = initGBC();
-
         this.mainPanel = new JPanel(new GridBagLayout());
         initQuestionPanels();
     }
@@ -33,7 +36,7 @@ public class QLBuilder implements Observer {
      * Initialize the creation of the panels containing
      * the question it's controls through iteration
      */
-    public void initQuestionPanels() {
+    private void initQuestionPanels() {
         //Iterate over the questions that were passed
         Iterator<Map.Entry<String, Question>> entries = questionHashMap.entrySet().iterator();
         while (entries.hasNext()) {
@@ -54,13 +57,13 @@ public class QLBuilder implements Observer {
      * Build each individual type of question panel and add
      * these to the list panel
      *
-     * @param question  the question passed
+     * @param question the question passed
      */
     private void buildQuestionPanel(Question question) {
         Value value = question.getValue();
         QuestionPanel qPanel = new QuestionPanel(question, WidgetFactory.getDefaultWidget(value));
 
-        if(!question.isFixed()){
+        if (!question.isFixed()) {
             value.addObserver(this);
         }
         if (!question.isVisible()) {
@@ -106,7 +109,6 @@ public class QLBuilder implements Observer {
     public void update(Observable o, Object arg) {
         this.coreVisitor.update();
         this.updateGUI();
-
         mainPanel.revalidate();
         mainPanel.repaint();
     }

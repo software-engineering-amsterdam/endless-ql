@@ -20,10 +20,7 @@ namespace QlsTransformer.UI.Models
 
         private void InitializeCollectionProperties(PageModel model)
         {
-            if (model.Sections == null)
-            {
-                throw new ArgumentException("segments cannot be null");
-            }
+            if (model.Sections == null) throw new ArgumentException("segments cannot be null");
 
             Sections = new ObservableCollection<SectionWrapper>(
                 model.Sections.Select(x => new SectionWrapper(x)));

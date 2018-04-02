@@ -25,7 +25,7 @@ namespace QLParser.Analysis.QL.Syntactic
             if (node.Children.Count != 0)
             {
                 isValid = false;
-                Analyser.AddMessage(errorMessage, MessageType.ERROR);
+                Analyser.AddMessage(errorMessage, LanguageType.QL, MessageType.ERROR);
             }
 
             VisitChildren(node);

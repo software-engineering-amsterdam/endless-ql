@@ -1,16 +1,17 @@
 ﻿using System;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 
 namespace QuestionnaireOrchestration.Models
 {
     public class QuestionModel
     {
         public QuestionModel(
-            Guid questionOutputId, 
+            Guid questionOutputId,
             Guid questionVariableId,
-            string questionText, 
-            bool visible, 
-            bool readOnly, 
-            Type questionType)
+            string questionText,
+            bool visible,
+            bool readOnly,
+            IQuestionType questionType)
         {
             QuestionVariableId = questionVariableId;
             QuestionOutputId = questionOutputId;
@@ -26,6 +27,6 @@ namespace QuestionnaireOrchestration.Models
         public bool Visible { get; }
         public bool ReadOnly { get; }
         public dynamic Value { get; set; }
-        public Type QuestionType { get; }
+        public IQuestionType QuestionType { get; }
     }
 }

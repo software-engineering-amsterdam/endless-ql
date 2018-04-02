@@ -2,15 +2,16 @@ package gui.panels;
 
 import QL.classes.Question;
 import gui.widgets.Widget;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 public class QuestionPanel extends JPanel {
+    final JLabel questionLabel;
     private Question question;
     private Boolean isActive;
     private Widget widget;
-    final JLabel questionLabel;
 
     public QuestionPanel(Question question, Widget widget) {
         this.question = question;
@@ -49,7 +50,7 @@ public class QuestionPanel extends JPanel {
         this.questionLabel.setFont(newFont);
     }
 
-    public void refresh(){
+    public void refresh() {
         widget.refresh();
         this.setVisible(question.isVisible());
     }

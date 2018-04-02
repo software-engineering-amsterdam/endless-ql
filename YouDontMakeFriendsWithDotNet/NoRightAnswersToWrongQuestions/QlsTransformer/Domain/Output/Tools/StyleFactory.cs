@@ -4,21 +4,11 @@ namespace QlsTransformer.Domain.Output.Tools
 {
     internal class StyleFactory : IStyleFactory
     {
-        private Style CreateBaseStyle()
-        {
-            return new Style(
-                new AstTextBox(),
-                100,
-                "Arial",
-                10m,
-                "#FF000000");
-        }
-
         public Style CreateIntegerBaseStyle()
         {
             return new Style(
                 CreateBaseStyle(),
-                widget: new AstSpinBox());
+                new AstSpinBox());
         }
 
         public Style CreateDecimalBaseStyle()
@@ -30,7 +20,7 @@ namespace QlsTransformer.Domain.Output.Tools
         {
             return new Style(
                 CreateBaseStyle(),
-                widget: new AstDatePicker());
+                new AstDatePicker());
         }
 
         public Style CreateStringBaseStyle()
@@ -42,15 +32,12 @@ namespace QlsTransformer.Domain.Output.Tools
         {
             return new Style(
                 CreateBaseStyle(),
-                widget: new AstCheckBox());
+                new AstCheckBox());
         }
 
         public Style CreateMergedStyle(Style originalStyle, IStyleNode newStyle)
         {
-            if (newStyle == null)
-            {
-                return originalStyle;
-            }
+            if (newStyle == null) return originalStyle;
 
             return new Style(
                 originalStyle,
@@ -59,6 +46,16 @@ namespace QlsTransformer.Domain.Output.Tools
                 newStyle.Font,
                 newStyle.FontSize,
                 newStyle.Color);
+        }
+
+        private Style CreateBaseStyle()
+        {
+            return new Style(
+                new AstTextBox(),
+                100,
+                "Arial",
+                10m,
+                "#FF000000");
         }
     }
 }

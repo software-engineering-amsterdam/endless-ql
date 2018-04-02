@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using QLParser.AST.QLS;
+﻿using QLParser.AST.QLS;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace QLVisualizer.Elements.Managers
 {
     public abstract class ElementManagerCollection : ElementManager
     {
-        /// <summary>
-        /// Children of this ElementManager
-        /// </summary>
         public List<ElementManager> Children { get; private set; }
 
-        public ElementManagerCollection(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null) :
-            base(identifyer, text, xmlName, controller, activationExpression)
+
+        public ElementManagerCollection(string identifier, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null) :
+            base(identifier, text, xmlName, controller, activationExpression)
         {
             Children = new List<ElementManager>();
             Styles = new List<QLSStyle>();
@@ -24,7 +22,7 @@ namespace QLVisualizer.Elements.Managers
         public List<QLSStyle> Styles { get; private set; }
 
         /// <summary>
-        /// Add child, set parent of ElementManager
+        /// Add child, sets parent of ElementManager
         /// </summary>
         /// <param name="elementManager">ElementManager to add as child</param>
         public virtual void AddChild(ElementManager elementManager)
@@ -33,6 +31,10 @@ namespace QLVisualizer.Elements.Managers
             elementManager.Parent = this;
         }
 
+        /// <summary>
+        /// Add children, sets parent of ElementManager
+        /// </summary>
+        /// <param name="elementManagers">ElementManagers to add as children</param>
         public void AddChildren(IEnumerable<ElementManager> elementManagers)
         {
             foreach (ElementManager elementManager in elementManagers)
@@ -71,11 +73,6 @@ namespace QLVisualizer.Elements.Managers
             return string.Format("<{0} identifier=\"{1}\">{2}</{0}>", XMLElementName, Identifier, string.Join("", Children.Select(o => o.ToXML())));
         }
 
-        public Dictionary<string, ElementManager> FindByID(params string[] identifiers)
-        {
-            return FindRecursiveByID(new List<string>(identifiers)).Item2;
-        }
-
         public Dictionary<string, ElementManagerLeaf> FindLeafsByID(params string[] identifiers)
         {
             return FindRecursiveLeafsById(new List<string>(identifiers)).Item2;
@@ -108,33 +105,6 @@ namespace QLVisualizer.Elements.Managers
             }
 
             return new Tuple<List<string>, Dictionary<string, ElementManagerLeaf>>(targets, result);
-        }
-
-        private Tuple<List<string>, Dictionary<string, ElementManager>> FindRecursiveByID(List<string> targets)
-        {
-            Dictionary<string, ElementManager> result = new Dictionary<string, ElementManager>();
-            foreach (ElementManager child in Children)
-            {
-                switch (child)
-                {
-                    case ElementManagerCollection childCollection:
-                        Tuple<List<string>, Dictionary<string, ElementManager>> recResult = childCollection.FindRecursiveByID(targets);
-                        foreach (string identifier in recResult.Item1)
-                            targets.Remove(identifier);
-
-                        result.Concat(recResult.Item2);
-                        break;
-                    default:
-                        if (targets.Contains(child.Identifier))
-                            result.Add(child.Identifier, child);
-                        break;
-                }
-
-                if (targets.Count == 0)
-                    break;
-            }
-
-            return new Tuple<List<string>, Dictionary<string, ElementManager>>(targets, result);
         }
 
         public void AddStyle(params QLSStyle[] styles)

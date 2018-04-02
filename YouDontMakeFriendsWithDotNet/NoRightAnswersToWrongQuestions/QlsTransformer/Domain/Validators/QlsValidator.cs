@@ -14,9 +14,6 @@ namespace QlsTransformer.Domain.Validators
         private readonly List<IStyleSheetValidator> m_validators
             = new List<IStyleSheetValidator>();
 
-        public IList<ValidationMetaData> Results { get; set; }
-            = new List<ValidationMetaData>();
-
         public StyleSheetTypeChecker(
             IUnknownQuestionValidator unknownQuestionValidator,
             ICorrectWidgetValidator correctWidgetValidator)
@@ -25,14 +22,15 @@ namespace QlsTransformer.Domain.Validators
             m_validators.Add(correctWidgetValidator);
         }
 
+        public IList<ValidationMetaData> Results { get; set; }
+            = new List<ValidationMetaData>();
+
         public bool Validate(DomainId<IStyleSheetRootNode> styleSheetRootNode)
         {
             foreach (var validator in m_validators)
-            {
                 Results = Results
                     .Concat(validator.Validate(styleSheetRootNode))
                     .ToList();
-            }
 
             return Results.All(x => x.Severity != Severity.Error);
         }
@@ -41,6 +39,7 @@ namespace QlsTransformer.Domain.Validators
     public interface IStyleSheetTypeChecker
     {
         IList<ValidationMetaData> Results { get; set; }
+
         bool Validate(
             DomainId<IStyleSheetRootNode> styleSheetRootNode);
     }

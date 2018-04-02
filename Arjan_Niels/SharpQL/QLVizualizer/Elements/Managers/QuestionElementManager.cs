@@ -1,4 +1,5 @@
-﻿using QLVisualizer.Controllers;
+﻿using QLParser.AST.QL;
+using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 using System.Collections.Generic;
 
@@ -68,7 +69,7 @@ namespace QLVisualizer.Elements.Managers
 
         public override string ToXML()
         {
-            return string.Format("<{0} identifier=\"{1}\" type=\"{2}\" valid=\"{3}\">{4}</{0}>", XMLElementName, Identifier, typeof(T), Answer.IsValid, Answer.Value);
+            return string.Format("<{0} identifier=\"{1}\" type=\"{2}\" valid=\"{3}\">{4}</{0}>", XMLElementName, Identifier, GetQValueType(), Answer.IsValid, Answer.Value);
         }
 
         public override string AnswerToString()
@@ -77,5 +78,7 @@ namespace QLVisualizer.Elements.Managers
                 return Answer.Value.ToString();
             return string.Empty;
         }
+
+        protected abstract QValueType GetQValueType();
     }
 }

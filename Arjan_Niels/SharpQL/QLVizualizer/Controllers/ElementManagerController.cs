@@ -1,6 +1,7 @@
 ﻿using QLVisualizer.Elements.Managers.CollectionTypes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace QLVisualizer.Controllers
 {
@@ -57,6 +58,8 @@ namespace QLVisualizer.Controllers
             {
                 if (errors.Count > 0)
                     ShowError(errors.ToArray());
+                else
+                    DisplayForm();
             }
         }
 
@@ -73,5 +76,21 @@ namespace QLVisualizer.Controllers
         {
             Form = null;
         }
+
+        protected void Export()
+        {
+            string filename = string.Format("{0}.xml", Form.Identifier);
+            try
+            {
+                File.WriteAllText(filename, AnswersToXml());
+                ShowExportedMessage(filename);
+            }
+            catch
+            {
+                ShowError(string.Format("Unable to export the answers to {0}", filename));
+            }
+        }
+
+        protected abstract void ShowExportedMessage(string filename);
     }
 }

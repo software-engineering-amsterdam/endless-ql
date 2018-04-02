@@ -1,4 +1,5 @@
-﻿using QLVisualizer.Controllers;
+﻿using QLParser.AST.QL;
+using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 
 namespace QLVisualizer.Elements.Managers.LeafTypes
@@ -10,11 +11,18 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
         {
         }
 
+        protected override QValueType GetQValueType()
+        {
+            return QValueType.Boolean;
+        }
+
         protected override QuestionElementValue<bool> ParseInput(string input)
         {
             bool result = false;
             bool valid = bool.TryParse(input, out result);
             return new QuestionElementValue<bool>(result, valid);
         }
+
+
     }
 }

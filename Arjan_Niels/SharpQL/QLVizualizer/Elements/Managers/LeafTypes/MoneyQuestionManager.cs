@@ -1,4 +1,5 @@
-﻿using QLVisualizer.Controllers;
+﻿using QLParser.AST.QL;
+using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 using System;
 
@@ -11,6 +12,11 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
         public MoneyQuestionManager(string identifier, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) :
             base(identifier, text, parent, controller, activationExpression, answerExpression)
         {
+        }
+
+        protected override QValueType GetQValueType()
+        {
+            return QValueType.Money;
         }
 
         protected override QuestionElementValue<double> ParseInput(string input)

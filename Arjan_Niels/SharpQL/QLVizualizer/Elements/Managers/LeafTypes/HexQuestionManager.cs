@@ -1,4 +1,5 @@
-﻿using QLVisualizer.Controllers;
+﻿using QLParser.AST.QL;
+using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 
 namespace QLVisualizer.Elements.Managers.LeafTypes
@@ -8,6 +9,11 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
         public HexQuestionManager(string identifier, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<Hexadecimal> answerExpression = null)
             : base(identifier, text, parent, controller, activationExpression, answerExpression)
         {
+        }
+
+        protected override QValueType GetQValueType()
+        {
+            return QValueType.Hex;
         }
 
         protected override QuestionElementValue<Hexadecimal> ParseInput(string input)

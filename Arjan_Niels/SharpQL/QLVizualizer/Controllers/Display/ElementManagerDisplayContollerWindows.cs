@@ -29,6 +29,11 @@ namespace QLVisualizer.Controllers.Display
         private Button _parseButton;
 
         /// <summary>
+        /// Export Button
+        /// </summary>
+        private Button _exportButton;
+
+        /// <summary>
         /// Form shown to user
         /// </summary>
         private Form _mainForm;
@@ -63,6 +68,16 @@ namespace QLVisualizer.Controllers.Display
             );
         }
 
+        protected override void ShowExportedMessage(string filename)
+        {
+            MessageBox.Show(
+                "Export succesfull",
+                string.Format("Answers exported to: {0}", filename),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+        }
+
         public override void Reset()
         {
             base.Reset();
@@ -86,6 +101,7 @@ namespace QLVisualizer.Controllers.Display
             _qlInput = CreateInputTextBox();
             _qlsInput = CreateInputTextBox();
             _parseButton = CreateParseButton();
+            _exportButton = CreateExportButton();
 
             // Assign controls
             _mainForm.Controls.AddRange(new Control[]
@@ -94,6 +110,7 @@ namespace QLVisualizer.Controllers.Display
                 CreateInputTextBoxHolder(_qlInput, "QL:", true),
                 CreateInputTextBoxHolder(_qlsInput, "QLS:", false),
                 _parseButton,
+                _exportButton
             });
 
             _mainForm.ResumeLayout(false);
@@ -159,12 +176,25 @@ namespace QLVisualizer.Controllers.Display
             {
                 Location = new Point(23, 642),
                 Name = "parseButton",
-                Size = new Size(698, 48),
+                Size = new Size(344, 48),
                 Text = "Parse",
                 UseVisualStyleBackColor = true
             };
 
             result.Click += delegate (object sender, EventArgs eventArgs) { HandleInput(_qlInput.Text, _qlsInput.Text); };
+            return result;
+        }
+
+        private Button CreateExportButton()
+        {
+            Button result = new Button
+            {
+                Location = new Point(367, 642),
+                Name = "ExportButton",
+                Size = new Size(344, 48),
+                Text = "Export",
+            };
+            result.Click += (object sender, EventArgs eventArgs) => Export();
             return result;
         }
         #endregion

@@ -43,7 +43,7 @@ class QLSFormController(homeController: QLHomeController, model: QLForm, guiForm
       .buildWith(new QLSWidgetFactory())
       .build()
 
-    val pageFactpry = new QLSPageFactoryBuilder()
+    val pageFactory = new QLSPageFactoryBuilder()
       .buildWith(guiForm)
       .buildWith(stylesheet)
       .buildWith(componentFactory)
@@ -52,7 +52,7 @@ class QLSFormController(homeController: QLHomeController, model: QLForm, guiForm
 
     pagination.setPageCount(stylesheet.pages.size)
     pagination.setPadding(new Insets(00.0, 20.0, 00.0, 20.0))
-    pagination.setPageFactory(pageFactpry)
+    pagination.setPageFactory(pageFactory)
 
     questionArea.setContent(pagination)
     questionArea.setFitToHeight(true)

@@ -20,9 +20,9 @@ stylesheet taxOfficeExample
       section "You sold a house"
       {
         question sellingPrice
-          widget spinbox (-1.9, 2.3, 0.3)
+          widget spinbox (0.0, 3000000, 1000)
         question privateDebt
-          widget spinbox (100, 3000, 15)
+          widget spinbox (0.0, 1000000, 100)
         question valueResidue
         default money
         {

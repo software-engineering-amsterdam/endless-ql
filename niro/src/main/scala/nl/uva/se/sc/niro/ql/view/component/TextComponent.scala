@@ -13,8 +13,8 @@ case class TextComponent(id: String, label: Label, control: Widget[String])
 
   override def setValue(value: Option[String]): Unit = control.value(fromOption(value))
 
-  override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).flatMap(answer => Option(answer).map(_.value.toString).filter(_.nonEmpty)))
+  override def updateValue(valueStore: mutable.Map[String, Answer]): Unit =
+    setValue(valueStore.get(id).flatMap(answer => Option(answer).map(_.value.toString).filter(_.nonEmpty)))
 
   private def fromOption(value: Option[String]): String = value.orNull
 }

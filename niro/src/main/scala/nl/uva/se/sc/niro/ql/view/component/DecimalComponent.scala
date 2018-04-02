@@ -13,8 +13,8 @@ case class DecimalComponent(id: String, label: Label, control: Widget[java.math.
 
   override def setValue(value: Option[BigDecimal]): Unit = control.value(fromOption(value))
 
-  override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).map(convert))
+  override def updateValue(valueStore: mutable.Map[String, Answer]): Unit =
+    setValue(valueStore.get(id).map(convert))
 
   private def fromOption(value: Option[BigDecimal]): java.math.BigDecimal = value.map(_.bigDecimal).orNull
 

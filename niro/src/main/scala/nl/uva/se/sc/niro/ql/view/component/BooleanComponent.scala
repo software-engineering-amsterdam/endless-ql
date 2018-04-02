@@ -13,8 +13,8 @@ case class BooleanComponent(id: String, label: Label, control: Widget[java.lang.
 
   override def setValue(value: Option[Boolean]): Unit = control.value(fromOption(value))
 
-  override def updateValue(dictionary: mutable.Map[String, Answer]): Unit =
-    setValue(dictionary.get(id).map(convert))
+  override def updateValue(valueStore: mutable.Map[String, Answer]): Unit =
+    setValue(valueStore.get(id).map(convert))
 
   private def fromOption(value: Option[Boolean]): Boolean = value.getOrElse(false)
 

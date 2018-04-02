@@ -24,7 +24,7 @@ abstract class Component[T](id: String, label: Label, control: Widget[_]) extend
   def setReadOnly(value: Boolean): Unit = control.setDisable(value)
   def isReadOnly: Boolean = control.isDisabled
 
-  def updateValue(dictionary: mutable.Map[String, Answer]): Unit
+  def updateValue(valueStore: mutable.Map[String, Answer]): Unit
 
   def getValue: Option[Answer]
 

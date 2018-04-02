@@ -9,7 +9,7 @@ public class DateValue extends Value<Date> {
         setType(Value.DATE);
     }
 
-    public DateValue(){
+    public DateValue() {
         this(new Date());
     }
 

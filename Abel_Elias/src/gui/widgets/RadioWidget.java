@@ -1,7 +1,6 @@
 package gui.widgets;
 
 import QL.classes.values.Value;
-import gui.listeners.DropDownListener;
 import gui.listeners.RadioActionListener;
 
 import javax.swing.*;
@@ -11,7 +10,7 @@ public class RadioWidget implements Widget {
     private Value value;
     private ButtonGroup buttonGroup;
 
-    public RadioWidget(Value value, Object[] options){
+    public RadioWidget(Value value, Object[] options) {
         this.value = value;
         radioBox = new JPanel();
 
@@ -19,7 +18,7 @@ public class RadioWidget implements Widget {
         JRadioButton current;
         RadioActionListener listener = new RadioActionListener(value);
 
-        for(Object option : options){
+        for (Object option : options) {
             current = new JRadioButton(option.toString());
             current.setActionCommand(option.toString());
             current.addActionListener(listener);
@@ -38,6 +37,6 @@ public class RadioWidget implements Widget {
 
     @Override
     public void refresh() {
-       //
+        //auto-refreshed
     }
 }

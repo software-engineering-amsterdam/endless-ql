@@ -1,6 +1,5 @@
 package gui.listeners;
 
-import QL.classes.values.BooleanValue;
 import QL.classes.values.DateValue;
 import org.jdatepicker.JDatePicker;
 

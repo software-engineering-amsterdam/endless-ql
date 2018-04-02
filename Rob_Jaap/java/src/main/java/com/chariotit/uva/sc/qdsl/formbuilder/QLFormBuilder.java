@@ -20,7 +20,7 @@ import javax.swing.text.NumberFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public class QLFormBuilder {
     private JFrame jFrame;
     private Stylesheet stylesheet;
     private SymbolTable symbolTable;
-    private HashMap<LineElement, FormQuestion> questions;
+    private LinkedHashMap<LineElement, FormQuestion> questions;
     private VisibilityChecker visibilityChecker;
 
     public QLFormBuilder(QLAstRoot astRoot) {
@@ -125,11 +125,15 @@ public class QLFormBuilder {
     }
 
     private void renderSection(Section section){
+
+        System.out.println(questions);
+
         for (SectionElement element: section.getElements()) {
             if(element instanceof Question){
-                FormElement element = symbolTable.getEntry((Question) element))
+                FormQuestion formQuestion = questions.get(((Question) element).getLabel());
+                System.out.println("rendering element " + ((Question) element).getLabel());
+
             }
-            System.out.println("rendering element " + element.getSourceFilePosition());
         }
     }
 
@@ -146,15 +150,15 @@ public class QLFormBuilder {
         if(expression != null){
             switch (expression.getExpressionType()) {
                 case MONEY:
-                    JLabel label = new JLabel();
+                    JLabel moneyLabel = new JLabel();
                     MoneyExpressionValue moneyExpressionValue = (MoneyExpressionValue)expression.getExpressionValue();
-                    if(moneyExpressionValue != null) { label.setText(moneyExpressionValue.getValue().toString()); }
-                    return label;
+                    if(moneyExpressionValue != null) { moneyLabel.setText(moneyExpressionValue.getValue().toString()); }
+                    return moneyLabel;
                 case INTEGER:
-                    JLabel label = new JLabel();
+                    JLabel integerLabel = new JLabel();
                     IntegerExpressionValue integerExpressionValue = (IntegerExpressionValue)expression.getExpressionValue();
-                    if(integerExpressionValue != null) { label.setText(integerExpressionValue.getValue().toString()); }
-                    return label;
+                    if(integerExpressionValue != null) { integerLabel.setText(integerExpressionValue.getValue().toString()); }
+                    return integerLabel;
                 case BOOLEAN:
                     JCheckBox checkBox = new JCheckBox();
                     checkBox.setEnabled(false);
@@ -281,13 +285,9 @@ public class QLFormBuilder {
                 update();
             }
 
-            public void removeUpdate(DocumentEvent e) {
-                update();
-            }
+            public void removeUpdate(DocumentEvent e) { update(); }
 
-            public void insertUpdate(DocumentEvent e) {
-                update();
-            }
+            public void insertUpdate(DocumentEvent e) { update(); }
 
             public void update() {
 

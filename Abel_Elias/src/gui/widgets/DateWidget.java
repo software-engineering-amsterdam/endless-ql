@@ -1,19 +1,16 @@
 package gui.widgets;
 
-import QL.classes.values.BooleanValue;
 import QL.classes.values.DateValue;
 import org.jdatepicker.JDatePicker;
 
-import javax.swing.*;
 import java.util.Calendar;
-import java.util.Date;
 
 public class DateWidget implements Widget {
     private JDatePicker picker;
     private DateValue value;
     private Calendar cal;
 
-    public DateWidget(DateValue value){
+    public DateWidget(DateValue value) {
         this.value = value;
         this.cal = Calendar.getInstance();
         picker = new JDatePicker();

@@ -2,14 +2,7 @@ package tests.QLS;
 
 import QL.classes.Question;
 import QL.classes.values.BooleanValue;
-import QL.classes.values.DateValue;
-import QL.classes.values.DecimalValue;
-import QL.classes.values.IntegerValue;
-import QL.classes.values.MoneyValue;
-import QL.classes.values.StringValue;
 import QL.parsing.TreeBuilder;
-import QL.parsing.gen.QLParser;
-import QL.parsing.visitors.FormVisitor;
 import QLS.classes.Page;
 import QLS.classes.Stylesheet;
 import QLS.classes.blocks.Section;
@@ -20,25 +13,22 @@ import gui.widgets.CheckBoxWidget;
 import gui.widgets.DropDownWidget;
 import gui.widgets.SpinBoxWidget;
 import gui.widgets.TextWidget;
-import javafx.scene.control.Slider;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.dnd.DropTargetDragEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class QLSGrammarTest {
 
     private LinkedHashMap<String, Question> questionLinkedHashMap;
+
     @Before
     public void init() {
         questionLinkedHashMap = new LinkedHashMap<>();
@@ -87,7 +77,7 @@ public class QLSGrammarTest {
 
     @Test
     public void testSections() {
-        List<Section> sectionList =  new ArrayList<Section>(
+        List<Section> sectionList = new ArrayList<Section>(
                 getStyleSheet("src/resources/QLS/tests/sectionsSheet.qls").getSections().values());
 
         //amount of sections
@@ -110,7 +100,7 @@ public class QLSGrammarTest {
 
     @Test
     public void testStyledQuestions() {
-        List<StyledQuestion> styledQuestionList =  new ArrayList<StyledQuestion>(
+        List<StyledQuestion> styledQuestionList = new ArrayList<StyledQuestion>(
                 getStyleSheet("src/resources/QLS/tests/styledQuestionsSheet.qls").getQuestions().values());
 
         //amount of sections
@@ -129,7 +119,7 @@ public class QLSGrammarTest {
 
     @Test
     public void testWidgetTypes() {
-        List<StyledQuestion> styledQuestionList =  new ArrayList<StyledQuestion>(
+        List<StyledQuestion> styledQuestionList = new ArrayList<StyledQuestion>(
                 getStyleSheet("src/resources/QLS/tests/styledQuestionTypes.qls").getQuestions().values());
 
         //Test for each value

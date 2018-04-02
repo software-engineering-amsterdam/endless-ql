@@ -3,9 +3,9 @@ package gui;
 import QL.parsing.visitors.FormVisitor;
 import QLS.classes.Page;
 import QLS.classes.blocks.Element;
+import QLS.classes.blocks.ElementType;
 import QLS.classes.blocks.Section;
 import QLS.classes.blocks.StyledQuestion;
-import QLS.classes.properties.ColorProperty;
 import QLS.classes.properties.Property;
 import QLS.parsing.visitors.StylesheetVisitor;
 import gui.panels.PagePanel;
@@ -13,7 +13,6 @@ import gui.panels.QuestionPanel;
 import gui.panels.SectionPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Observable;
@@ -30,14 +29,12 @@ public class QLSBuilder implements Observer {
     public QLSBuilder(StylesheetVisitor stylesheetVisitor, FormVisitor coreVisitor) {
         this.stylesheetVisitor = stylesheetVisitor;
         this.coreVisitor = coreVisitor;
-
         this.questionPanels = new ArrayList<>();
-
         this.mainPanel = new JPanel();
         buildStyleSheet();
     }
 
-    public JPanel getMainPanel() {
+    JPanel getMainPanel() {
         return mainPanel;
     }
 
@@ -58,10 +55,9 @@ public class QLSBuilder implements Observer {
 
     private void buildElements(SectionPanel sectionPanel) {
         for (Element element : sectionPanel.getSection().getElements()) {
-            //TODO: replace ugly instance of statements
-            if (element instanceof StyledQuestion) {
+            if (element.getType().equals(ElementType.QUESTION)) {
                 sectionPanel.add(buildQuestion((StyledQuestion) element));
-            } else if (element instanceof Section) {
+            } else if (element.getType().equals(ElementType.SECTION)) {
                 sectionPanel.add(buildSection((Section) element));
             }
         }
@@ -78,16 +74,17 @@ public class QLSBuilder implements Observer {
             styledQuestion.getQuestion().getValue().addObserver(this);
         }
         QuestionPanel questionPanel = new QuestionPanel(styledQuestion.getQuestion(), styledQuestion.getWidget());
-        for(Property property : styledQuestion.getProperties()) {
-            if(property != null)
+        for (Property property : styledQuestion.getProperties()) {
+            if (property != null) {
                 property.applyProperty(questionPanel);
+            }
         }
 
         questionPanels.add(questionPanel);
         return questionPanel;
     }
 
-    public void createStyledForm() {
+    private void createStyledForm() {
         this.updateGUI();
         mainPanel.revalidate();
         mainPanel.repaint();

@@ -17,6 +17,11 @@ public class DropdownWidget extends Widget {
     }
 
     @Override
+    public String getName() {
+        return "dropdown";
+    }
+
+    @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);
     }

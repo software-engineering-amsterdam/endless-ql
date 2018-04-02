@@ -9,6 +9,11 @@ public class TextWidget extends Widget {
     }
 
     @Override
+    public String getName() {
+        return "text";
+    }
+
+    @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);
     }

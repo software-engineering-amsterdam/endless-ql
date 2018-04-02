@@ -10,9 +10,6 @@ public class AbstractASTTraverse<T> implements ASTNodeVisitor<T> {
         for (Page page : stylesheet.getPages()) {
             page.accept(this);
         }
-        for (DefaultDefinition definition : stylesheet.getDefaultDefinitions()) {
-            definition.accept(this);
-        }
         return null;
     }
 

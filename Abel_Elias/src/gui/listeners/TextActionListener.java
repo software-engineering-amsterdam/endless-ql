@@ -1,6 +1,7 @@
 package gui.listeners;
 
 import QL.classes.values.StringValue;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -37,7 +38,6 @@ public class TextActionListener implements DocumentListener {
     }
 
     private void actionCalled() {
-        System.out.println("txt");
         textField.requestFocus();
         if (!modified) {
             modified = true;

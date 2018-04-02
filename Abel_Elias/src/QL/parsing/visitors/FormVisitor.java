@@ -5,11 +5,10 @@ import QL.parsing.checkers.Checks;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class FormVisitor extends QLBaseVisitor {
-    public LinkedHashMap<String, Question> questionMap;
+    private LinkedHashMap<String, Question> questionMap;
     private BlockVisitor blockVisitor;
     private UpdateVisitor updateVisitor;
     private QLParser.FormContext form;
@@ -30,7 +29,7 @@ public class FormVisitor extends QLBaseVisitor {
         return this;
     }
 
-    public LinkedHashMap<String, Question> update(){
+    public LinkedHashMap<String, Question> update() {
         updateVisitor.visitBlock(form.block());
         return questionMap;
     }

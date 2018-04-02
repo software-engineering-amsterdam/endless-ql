@@ -1,6 +1,5 @@
 package gui.widgets;
 
-import QL.classes.values.StringValue;
 import QL.classes.values.Value;
 import gui.listeners.DropDownListener;
 
@@ -10,7 +9,7 @@ public class DropDownWidget implements Widget {
     private JComboBox comboBox;
     private Value value;
 
-    public DropDownWidget(Value value, Object[] options){
+    public DropDownWidget(Value value, Object[] options) {
         this.value = value;
 
         comboBox = new JComboBox(options);

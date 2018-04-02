@@ -1,0 +1,18 @@
+stylesheet taxOfficeExample
+{
+  page Complete{
+    section "Personal"{
+      question name
+      question age
+        widget slider 0 99
+      question month
+        widget dropdown ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Nov", "Dec"]
+    }
+    section "Study"{
+        question study
+        question fav
+            widget radio ["Construction", "Process", "Testing"]
+        question startDate
+    }
+  }
+}

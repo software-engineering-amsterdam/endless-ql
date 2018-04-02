@@ -6,6 +6,8 @@ public abstract class Widget extends TypeProperty {
         super(metaInformation);
     }
 
+    public abstract String getName();
+
     static public class BooleanParameters {
         String valueTrue;
         String valueFalse;

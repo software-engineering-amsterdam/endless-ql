@@ -8,12 +8,23 @@ import QLExceptions.TypeException;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The QuestionPanel class contains a QL Question and a Widget as a JPanel
+ */
 
 public class QuestionPanel extends JPanel{
     private final Question question;
     private boolean isAvailable;
     private Widget widget;
 
+
+    /**
+     *
+     * @param question  The QL Questioned housed by the panel
+     * @param listener  The listener that will be passed down to the Widget (normally this is the QLGUI containing the panel)
+     * @throws SyntaxException
+     * @throws TypeException
+     */
     public QuestionPanel(Question question, RefreshListener listener) throws SyntaxException, TypeException {
         this.question = question;
         this.setName(question.getName());
@@ -34,6 +45,11 @@ public class QuestionPanel extends JPanel{
         this.add(component);
     }
 
+    /**
+     * Makes the panel visible if all the necessary conditions are met and adjust the value if the Question has an expression
+     * @throws SyntaxException
+     * @throws TypeException
+     */
     public void refreshPanel() throws SyntaxException, TypeException {
         updateTerm();
         setVisibility();
@@ -52,7 +68,7 @@ public class QuestionPanel extends JPanel{
                 case MONEY: ((JTextField) widget.getComponent()).setText(String.valueOf(question.getResult().getFloat())); break;
                 case INT: ((JTextField) widget.getComponent()).setText(String.valueOf(question.getResult().getFloat())); break;
                 case DECIMAL: ((JTextField) widget.getComponent()).setText(String.valueOf(question.getResult().getFloat())); break;
-                case DATE: ((JTextField) widget.getComponent()).setText(question.getResult().getString()); break; //TODO do something with date
+                case DATE: ((JTextField) widget.getComponent()).setText(question.getResult().getString()); break;
                 default: break;
             }
         } else {
@@ -90,6 +106,12 @@ public class QuestionPanel extends JPanel{
         this.setVisible(this.isAvailable);
     }
 
+    /**
+     * Returns the value of the Question
+     * @return Returns either the value if set, or "undefined" otherwise
+     * @throws SyntaxException
+     * @throws TypeException
+     */
     public String getResult() throws SyntaxException, TypeException {
         String result = "\"" + question.getName() + "\"" + ":\"";
         if(question.isAvailable())

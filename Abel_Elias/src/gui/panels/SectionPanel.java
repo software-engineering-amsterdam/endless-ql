@@ -1,6 +1,5 @@
 package gui.panels;
 
-import QLS.classes.Page;
 import QLS.classes.blocks.Section;
 
 import javax.swing.*;

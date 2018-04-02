@@ -49,4 +49,37 @@ public class BooleanRadioWidget extends Widget {
         this.yesButton.setSelected((Boolean) this.getQuestionModel().getQLDataTypeValue().getValue());
         this.noButton.setSelected(!(Boolean) this.getQuestionModel().getQLDataTypeValue().getValue());
     }
+
+    @Override
+    public void setWidth(Integer width) {
+        Dimension size = this.radioPanel.getPreferredSize();
+        size.width = width;
+        this.radioPanel.setPreferredSize(size);
+    }
+
+    @Override
+    public void setFont(String font) {
+        this.yesButton.setFont(new Font(font, Font.PLAIN, this.yesButton.getFont().getSize()));
+        this.noButton.setFont(new Font(font, Font.PLAIN, this.noButton.getFont().getSize()));
+    }
+
+    @Override
+    public void setFontSize(Integer fontSize) {
+        this.yesButton.setFont(new Font(this.yesButton.getFont().getName(), Font.PLAIN, fontSize));
+        this.noButton.setFont(new Font(this.noButton.getFont().getName(), Font.PLAIN, fontSize));
+    }
+
+    @Override
+    public void setColor(String color) {
+        this.radioPanel.setBackground(Color.decode(color));
+    }
+
+    public void setYesText(String yesText) {
+        this.yesButton.setText(yesText);
+    }
+
+    public void setNoText(String noText) {
+        this.yesButton.setText(noText);
+    }
+
 }

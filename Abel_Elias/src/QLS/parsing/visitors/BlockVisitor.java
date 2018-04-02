@@ -1,6 +1,6 @@
 package QLS.parsing.visitors;
+
 import QL.classes.Question;
-import QL.classes.values.Value;
 import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Section;
 import QLS.classes.blocks.StyledQuestion;
@@ -18,8 +18,8 @@ public class BlockVisitor extends QLSBaseVisitor {
 
     private final LinkedHashMap<String, Section> sections;
     private final LinkedHashMap<String, StyledQuestion> styledQuestions;
-    private LinkedHashMap<String, Question> questionMap;
     private final LinkedHashMap<String, Element> parents;
+    private LinkedHashMap<String, Question> questionMap;
     private String currentParentId;
     private WidgetVisitor widgetVisitor;
     private PropertyVisitor propertyVisitor;
@@ -65,15 +65,15 @@ public class BlockVisitor extends QLSBaseVisitor {
         Question question = questionMap.get(id);
 
         Widget widget = null;
-        if(ctx.widget() != null){
+        if (ctx.widget() != null) {
             widget = widgetVisitor.visitWidget(ctx.widget(), question.getValue());
-        }else{
+        } else {
             widget = WidgetFactory.getDefaultWidget(question.getValue());
         }
 
         List<Property> properties = new ArrayList<>();
-        if(ctx.style() != null) {
-            for(QLSParser.WidgetPropertyContext c: ctx.style().widgetProperty()) {
+        if (ctx.style() != null) {
+            for (QLSParser.WidgetPropertyContext c : ctx.style().widgetProperty()) {
                 properties.add((Property) propertyVisitor.visitWidgetProperty(c));
             }
         }
@@ -84,15 +84,15 @@ public class BlockVisitor extends QLSBaseVisitor {
         return styledQuestion;
     }
 
-    public LinkedHashMap<String,Section> getSections() {
+    public LinkedHashMap<String, Section> getSections() {
         return sections;
     }
 
-    public LinkedHashMap<String,StyledQuestion> getQuestions() {
+    public LinkedHashMap<String, StyledQuestion> getQuestions() {
         return styledQuestions;
     }
 
-    public LinkedHashMap<String,Element> getParents() {
+    public LinkedHashMap<String, Element> getParents() {
         return parents;
     }
 }

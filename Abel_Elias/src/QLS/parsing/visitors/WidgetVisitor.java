@@ -1,23 +1,21 @@
 package QLS.parsing.visitors;
 
-import QL.classes.Question;
 import QL.classes.values.BooleanValue;
 import QL.classes.values.NumericValue;
 import QL.classes.values.StringValue;
 import QL.classes.values.Value;
-import QLS.classes.blocks.Element;
-import QLS.classes.blocks.Section;
-import QLS.classes.blocks.StyledQuestion;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
-import gui.widgets.*;
+import gui.widgets.CheckBoxWidget;
+import gui.widgets.DropDownWidget;
+import gui.widgets.RadioWidget;
+import gui.widgets.SliderWidget;
+import gui.widgets.SpinBoxWidget;
+import gui.widgets.TextWidget;
+import gui.widgets.Widget;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class WidgetVisitor extends QLSBaseVisitor {
     private Value currentValue;
@@ -44,10 +42,10 @@ public class WidgetVisitor extends QLSBaseVisitor {
     }
 
     @Override
-    public Object visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
+    public RadioWidget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
         ArrayList<String> options = new ArrayList<>();
 
-        for(TerminalNode t : ctx.argList().STR()){
+        for (TerminalNode t : ctx.argList().STR()) {
             options.add(t.getText());
         }
 
@@ -56,16 +54,17 @@ public class WidgetVisitor extends QLSBaseVisitor {
 
 
     @Override
-    public Object visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
-        //TODO
-        return super.visitSliderWidget(ctx);
+    public SliderWidget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
+        int min = Integer.parseInt(ctx.min.getText());
+        int max = Integer.parseInt(ctx.max.getText());
+        return new SliderWidget((NumericValue) currentValue, min, max);
     }
 
     @Override
     public DropDownWidget visitDropdownWidget(QLSParser.DropdownWidgetContext ctx) {
         ArrayList<String> options = new ArrayList<>();
 
-        for(TerminalNode t : ctx.argList().STR()){
+        for (TerminalNode t : ctx.argList().STR()) {
             options.add(t.getText());
         }
 

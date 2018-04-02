@@ -5,16 +5,17 @@ import QL.classes.values.NumericValue;
 import QL.classes.values.Value;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
 
 public class ExpressionVisitor extends QLBaseVisitor {
-    private HashMap<String, Question> questionMap;
+    private LinkedHashMap<String, Question> questionMap;
 
-    public ExpressionVisitor(HashMap<String, Question> questionMap){
+    public ExpressionVisitor(LinkedHashMap<String, Question> questionMap) {
         this.questionMap = questionMap;
     }
 
-    public Object visitExpression(QLParser.ExpressionContext ctx){
+    public Object visitExpression(QLParser.ExpressionContext ctx) {
         return visit(ctx);
     }
 
@@ -22,9 +23,9 @@ public class ExpressionVisitor extends QLBaseVisitor {
     public Object visitIdentifier(QLParser.IdentifierContext ctx) {
         Value value = questionMap.get(ctx.IDENTIFIER().getText()).getValue();
 
-        if(value instanceof NumericValue){
+        if (value instanceof NumericValue) {
             return ((NumericValue) value).getComputationValue();
-        }else{
+        } else {
             return value.getValue();
         }
 
@@ -32,15 +33,16 @@ public class ExpressionVisitor extends QLBaseVisitor {
 
     @Override
     public Boolean visitEqExpression(QLParser.EqExpressionContext ctx) {
-        Object left =  visitExpression(ctx.left);
+        Object left = visitExpression(ctx.left);
         Object right = visitExpression(ctx.right);
         String operator = ctx.equalsOperator().getText();
 
-        switch (operator){
+        switch (operator) {
             case "==":
                 return left.equals(right);
             case "!=":
                 return !left.equals(right);
+            default: break;
         }
 
         return null;
@@ -52,13 +54,13 @@ public class ExpressionVisitor extends QLBaseVisitor {
         Boolean right = (boolean) visitExpression(ctx.right);
         String operator = ctx.boolOperator().getText();
 
-        switch (operator){
+        switch (operator) {
             case "&&":
                 return left && right;
             case "!=":
                 return left || right;
+            default: break;
         }
-
         return null;
     }
 
@@ -68,7 +70,7 @@ public class ExpressionVisitor extends QLBaseVisitor {
         Double right = (double) visitExpression(ctx.right);
         String operator = ctx.comparisonOperator().getText();
 
-        switch (operator){
+        switch (operator) {
             case ">":
                 return left > right;
             case "<":
@@ -77,6 +79,7 @@ public class ExpressionVisitor extends QLBaseVisitor {
                 return left >= right;
             case "<=":
                 return left <= right;
+            default: break;
         }
 
         return null;
@@ -96,11 +99,16 @@ public class ExpressionVisitor extends QLBaseVisitor {
             case "*":
                 return left * right;
             case "/":
-                return left / right;
+                if (right != 0.0) {
+                    return left / right;
+                } else {
+                    return 0.0;
+                }
             case "^":
-                return Math.pow(left,right);
+                return Math.pow(left, right);
             case "%":
                 return left % right;
+            default: break;
         }
 
         return null;

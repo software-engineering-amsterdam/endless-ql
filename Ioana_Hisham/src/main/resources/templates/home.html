@@ -47,8 +47,8 @@
                         <div th:if="${question.identifier != null}" th:id="${question.identifier}">
                             <div th:if="${question.type != null}">
                                 <div th:if="${question.type.toString().equals('boolean')}">
-                                    <input type="radio" th:value="${question.identifier}" name="true"/> True
-                                    <input type="radio" value="false"/> False
+                                    <input type="radio" th:value="${question.identifier}" onchange="myFunction(this.value, 'true')"/> True
+                                    <input type="radio" th:value="${question.identifier}" onchange="myFunction(this.value, 'false')"/> False
                                 </div>
                                 <div th:if="${question.type.toString().equals('money')}">
                                     <input type="text" name="fname"/>
@@ -62,36 +62,21 @@
                 </tr>
             </table>
             <script>
-            // You're probably clicking something to initiate update
-            var $whatIsClicked = $('#thisIsGettingAnnying');
-
-            // .live persists on the page even after other ajax calls
-            // So when the thing is clicked
-            $whatIsClicked.live('click', function() {
-
-               // Grab the information needed to update
-               var theId = $('#whatever-the-id-is').val(); //Or it could be .text()
-               var theFilename = $('#whatever-the-filename').val();
-               var theDescript = $('#whatever-the-description').val();
-
-               // Let's edit the description!
-               $.ajax({
-                 type: "POST",
-                 url: "OrderDetail/_EditDescription", // the method we are calling
-                 contentType: "application/json; charset=utf-8",
-                 data: {id: theId, filename: theFilename, description: theDescript},
-                 dataType: "json",
-                 success: function (result) {
-                     alert('Yay! It worked!');
-                     // Or if you are returning something
-                     alert('I returned... ' + result.WhateverIsReturning);
-                 },
-                 error: function (result) {
-                     alert('Oh no :(');
-                 }
-             });
-            });
-        </script>
+                function myFunction(identifier, val) {
+                    console.log(val + identifier);
+                    var car = {identifier:identifier, value:val};
+                    $.ajax({
+                      type: "POST",
+                      url: "/reset",
+                      data: JSON.stringify(car),
+                      contentType: "application/json; charset=utf-8",
+                      success: function(response) {
+                        $('html').html(response);
+                       },
+                      error: function(xhr, ajaxOptions, thrownError) {  }
+                    });
+                }
+            </script>
         </form>
     </div>
     <div class="result-display-area" th:if="${interpretedOutput == null}">

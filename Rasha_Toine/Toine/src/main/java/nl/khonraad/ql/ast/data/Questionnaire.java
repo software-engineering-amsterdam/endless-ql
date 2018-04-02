@@ -1,10 +1,12 @@
 package nl.khonraad.ql.ast.data;
 
+import java.util.Optional;
+
 import nl.khonraad.ql.QLVisitor;
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 
 public interface Questionnaire {
 
@@ -12,11 +14,11 @@ public interface Questionnaire {
 
     Iterable<Question> questions();
 
-    Question findComputedQuestion( Identifier identifier );
+    Optional<Question> findComputedQuestion( Identifier identifier );
 
-    Question findAnswerableQuestion( Identifier identifier );
+    Optional<Question> findAnswerableQuestion( Identifier identifier );
 
-    Value storeAnswerableQuestion( Identifier identifier, Label label, Type type );
+    void storeAnswerableQuestion( Identifier identifier, Label label, Type type );
 
     Value storeComputedQuestion( Identifier identifier, Label label, Value value );
 

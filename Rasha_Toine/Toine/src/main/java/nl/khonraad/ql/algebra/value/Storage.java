@@ -2,18 +2,15 @@ package nl.khonraad.ql.algebra.value;
 
 import java.util.Objects;
 
-import nl.khonraad.ql.algebra.StringAble;
+public class Storage {
 
-public class Storage implements StringAble {
+    String string;
 
-    private String  string;
-    
-    public Storage( String string) {
+    Storage( String string ) {
         this.string = string;
     }
 
-    @Override
-    public String string() {
+    String string() {
         return string;
     }
 
@@ -32,4 +29,5 @@ public class Storage implements StringAble {
 
         return Objects.equals( this.string, other.string );
     }
+
 }

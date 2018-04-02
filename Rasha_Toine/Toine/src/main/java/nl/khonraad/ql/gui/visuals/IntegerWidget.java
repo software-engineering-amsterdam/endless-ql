@@ -7,8 +7,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
 

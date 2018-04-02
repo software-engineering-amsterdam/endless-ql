@@ -1,4 +1,4 @@
-package nl.khonraad.ql.algebra;
+package nl.khonraad.ql.algebra.value;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -11,17 +11,16 @@ import nl.khonraad.ql.algebra.function.BinarySignature;
 import nl.khonraad.ql.algebra.function.BinaryFunctions;
 import nl.khonraad.ql.algebra.function.UnarySignature;
 import nl.khonraad.ql.algebra.function.UnaryFunctions;
-import nl.khonraad.ql.algebra.value.Operator;
-import nl.khonraad.ql.algebra.value.Storage;
-import nl.khonraad.ql.algebra.value.Type;
 
-public class Value implements StringAble {
+public class Value {
 
-    private Type    type;
-    private Storage storage;
+    public static Value Unit = new Value( null, null );
 
-    @Override
+    private Type        type;
+    private Storage     storage;
+
     public String string() {
+
         return storage.string();
     }
 
@@ -57,9 +56,9 @@ public class Value implements StringAble {
     }
 
     public Value apply( Operator operator, Value other ) {
-        
+
         BiFunction<Value, Value, Value> function = BinaryFunctions.function( BinarySignature.signature( this.type(), operator, other.type() ) );
-        
+
         return function.apply( this, other );
 
     }
@@ -83,4 +82,5 @@ public class Value implements StringAble {
 
         return Objects.equals( this.storage, other.storage ) && Objects.equals( this.type, other.type );
     }
+
 }

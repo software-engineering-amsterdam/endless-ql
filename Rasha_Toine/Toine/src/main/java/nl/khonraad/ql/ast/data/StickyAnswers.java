@@ -6,9 +6,9 @@ import java.util.Map;
 import org.joda.time.DateTime;
 
 import nl.khonraad.ql.algebra.Identifier;
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 
 public class StickyAnswers {
 

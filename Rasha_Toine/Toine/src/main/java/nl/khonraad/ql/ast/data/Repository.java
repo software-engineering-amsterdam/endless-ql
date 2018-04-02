@@ -1,11 +1,12 @@
 package nl.khonraad.ql.ast.data;
 
 import java.util.List;
+import java.util.Optional;
 
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
 
 public class Repository {
@@ -30,10 +31,9 @@ public class Repository {
         }
     }
 
-    Value storeAnswerableQuestion( Identifier identifier, Label label, Type type ) {
+    void storeAnswerableQuestion( Identifier identifier, Label label, Type type ) {
 
         questions.add( new Question( BehaviouralType.ANSWERABLE, identifier, label, stickyAnswers.get( identifier, type ) ) );
-        return null;
     }
 
     Value storeComputedQuestion( Identifier identifier, Label label, Value value ) {
@@ -43,15 +43,15 @@ public class Repository {
         return value;
     }
 
-    Question findQuestion( BehaviouralType behaviouralType, Identifier identifier ) {
+    Optional<Question> findQuestion( BehaviouralType behaviouralType, Identifier identifier ) {
 
         for ( Question question : questions ) {
             if ( behaviouralType.equals( question.getBehaviouralType() )
                     && question.identifier().equals( identifier ) ) {
-                return question;
+                return Optional.of( question );
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public List<Question> questions() {

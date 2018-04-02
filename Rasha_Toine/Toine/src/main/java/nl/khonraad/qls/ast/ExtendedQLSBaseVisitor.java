@@ -4,8 +4,8 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 import nl.khonraad.qls.QLSBaseVisitor;
 import nl.khonraad.qls.QLSParser;
 import nl.khonraad.qls.ast.data.StyleElement;

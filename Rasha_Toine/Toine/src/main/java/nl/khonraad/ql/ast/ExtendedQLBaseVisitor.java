@@ -2,6 +2,7 @@ package nl.khonraad.ql.ast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -9,9 +10,9 @@ import nl.khonraad.ql.QLBaseVisitor;
 import nl.khonraad.ql.QLParser;
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Operator;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.ast.data.Question;
 
@@ -40,13 +41,13 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
         Identifier identifier = new Identifier( ctx.Identifier().getText() );
 
-        Question question = questionnaire.findAnswerableQuestion( identifier );
+        Optional<Question> question = questionnaire.findAnswerableQuestion( identifier );
 
-        if ( question != null ) {
+        if ( question.isPresent() ) {
 
             forwardReferences.remove( identifier );
 
-            return question.value();
+            return question.get().value();
 
         }
         throw new RuntimeException( REFERENCES_UNDEFINED_QUESTION + identifier );
@@ -60,14 +61,15 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
         Type type = Type.type( ctx.type().getText() );
 
-        Question question = questionnaire.findAnswerableQuestion( identifier );
+        Optional<Question> question = questionnaire.findAnswerableQuestion( identifier );
 
-        if ( question != null ) {
+        if ( question.isPresent() ) {
 
             throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Duplicate declaration "
                     + ctx.Identifier().getText() );
         }
-        return questionnaire.storeAnswerableQuestion( identifier, label, type );
+        questionnaire.storeAnswerableQuestion( identifier, label, type );
+        return Value.Unit;
     }
 
     private IllegalStateException reportError( int l, int c, String message ) {

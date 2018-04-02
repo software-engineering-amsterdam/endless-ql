@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.quicktheories.core.Gen;
 
 import nl.khonraad.ql.algebra.value.Operator;
+import nl.khonraad.ql.algebra.value.Value;
 
 public class Test_Value {
 

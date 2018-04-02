@@ -3,6 +3,7 @@ package nl.khonraad.ql.integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -11,8 +12,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import nl.khonraad.ql.algebra.Identifier;
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
 import nl.khonraad.ql.ast.data.Questionnaire;
@@ -46,8 +47,8 @@ public class Test_CollegeExample {
         questionnaire.storeAnswer( new Identifier( "hasBoughtHouse" ), new Value( true ) );
         questionnaire.storeAnswer( new Identifier( "hasMaintLoan" ), new Value( true ) );
 
-        assertNull( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ) );
-        assertNull( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ) );
+        assertTrue( !questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
+        assertTrue( !questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
 
         questionnaire.visitSource( visitor );
 
@@ -59,7 +60,7 @@ public class Test_CollegeExample {
 
         questionnaire.visitSource( visitor );
 
-        assertEquals( "a", "200000.00", questionnaire.findComputedQuestion( new Identifier( "valueResidue" ) ).value().string() );
+        assertEquals( "a", "200000.00", questionnaire.findComputedQuestion( new Identifier( "valueResidue" ) ).get().value().string() );
 
     }
 }

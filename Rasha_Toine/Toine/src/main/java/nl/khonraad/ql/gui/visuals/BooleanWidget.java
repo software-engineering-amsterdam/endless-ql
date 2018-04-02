@@ -2,8 +2,8 @@ package nl.khonraad.ql.gui.visuals;
 
 import javax.swing.JComboBox;
 
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
 import nl.khonraad.qls.ast.data.StyleElement;

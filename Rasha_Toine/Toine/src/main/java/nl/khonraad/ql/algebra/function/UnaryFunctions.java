@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import nl.khonraad.ql.algebra.Value;
+import nl.khonraad.ql.algebra.value.Value;
 
 public class UnaryFunctions {
 

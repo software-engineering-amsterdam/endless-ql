@@ -40,8 +40,8 @@ public class Test_Calculator {
 
         questionnaire.visitSource( visitor );
 
-        assertEquals( "a", 14, Integer.parseInt( questionnaire.findComputedQuestion( new Identifier( "a" ) ).value().string() ) );
-        assertEquals( "b", 20, Integer.parseInt( questionnaire.findComputedQuestion( new Identifier( "b" ) ).value().string() ) );
-        assertEquals( "c", true, Boolean.parseBoolean( questionnaire.findComputedQuestion( new Identifier( "c" ) ).value().string() ) );
+        assertEquals( "a", 14, Integer.parseInt( questionnaire.findComputedQuestion( new Identifier( "a" ) ).get().value().string() ) );
+        assertEquals( "b", 20, Integer.parseInt( questionnaire.findComputedQuestion( new Identifier( "b" ) ).get().value().string() ) );
+        assertEquals( "c", true, Boolean.parseBoolean( questionnaire.findComputedQuestion( new Identifier( "c" ) ).get().value().string() ) );
     }
 }

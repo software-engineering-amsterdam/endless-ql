@@ -2,7 +2,8 @@ package nl.khonraad.ql.algebra;
 
 import java.util.Objects;
 
-public class Label implements StringAble {
+
+public class Label {
 
     private String string;
 
@@ -10,7 +11,6 @@ public class Label implements StringAble {
         this.string = string;
     }
 
-    @Override
     public String string() {
         return string;
     }

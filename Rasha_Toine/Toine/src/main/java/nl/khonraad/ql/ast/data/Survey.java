@@ -1,5 +1,7 @@
 package nl.khonraad.ql.ast.data;
 
+import java.util.Optional;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -9,8 +11,8 @@ import org.slf4j.Logger;
 import nl.khonraad.ql.QLVisitor;
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
 import nl.khonraad.ql.ast.data.Question.BehaviouralType;
 import nl.khonraad.ql.cdi.LoggingAspect;
@@ -51,16 +53,16 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
         return questionRepository.questions();
     }
 
-    @Override public Question findComputedQuestion( Identifier identifier ) {
+    @Override public Optional<Question> findComputedQuestion( Identifier identifier ) {
         return questionRepository.findQuestion( BehaviouralType.COMPUTED, identifier );
     }
 
-    @Override public Question findAnswerableQuestion( Identifier identifier ) {
+    @Override public Optional<Question> findAnswerableQuestion( Identifier identifier ) {
         return questionRepository.findQuestion( BehaviouralType.ANSWERABLE, identifier );
     }
 
-    @Override public Value storeAnswerableQuestion( Identifier identifier, Label label, Type type ) {
-        return questionRepository.storeAnswerableQuestion( identifier, label, type );
+    @Override public void storeAnswerableQuestion( Identifier identifier, Label label, Type type ) {
+        questionRepository.storeAnswerableQuestion( identifier, label, type );
     }
 
     @Override public Value storeComputedQuestion( Identifier identifier, Label label, Value value ) {
@@ -71,8 +73,8 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
     public void storeAnswer( Identifier identifier, Value value ) {
 
         questionRepository.storeAnwer( identifier, value );
-        if ( eventQueue != null ) {
+//        if ( eventQueue != null ) {
             eventQueue.fire( new VisualizeEvent() );
-        }
+//        }
     }
 }

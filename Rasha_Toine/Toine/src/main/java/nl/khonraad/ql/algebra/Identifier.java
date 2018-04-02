@@ -2,7 +2,8 @@ package nl.khonraad.ql.algebra;
 
 import java.util.Objects;
 
-public class Identifier implements StringAble {
+
+public class Identifier {
 
     private String string;
 
@@ -11,7 +12,6 @@ public class Identifier implements StringAble {
         this.string = string;
     }
 
-    @Override
     public String string() {
 
         return string;

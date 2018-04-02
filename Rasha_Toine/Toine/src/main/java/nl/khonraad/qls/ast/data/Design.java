@@ -6,8 +6,8 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 import nl.khonraad.ql.cdi.SourcePathProvider;
 import nl.khonraad.ql.gui.application.VisualizeEvent;
 import nl.khonraad.qls.QLSVisitor;

@@ -153,40 +153,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         
         private string GetValue(IQuestionNode question)
         {
-            var type = GetQuestionType(question.Id);
-            if (type == typeof(bool))
-            {
-                return m_lookup.Lookup<bool>(question.Id).ToString();
-            }
-
-            if (type == typeof(string))
-            {
-                return m_lookup.Lookup<string>(question.Id) ?? "";
-            }
-
-            if (type == typeof(decimal))
-            {
-                return m_lookup.Lookup<decimal>(question.Id).ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (type == typeof(int))
-            {
-                return m_lookup.Lookup<decimal>(question.Id).ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (type == typeof(DateTime))
-            {
-                return m_lookup.Lookup<DateTime>(question.Id).ToString(CultureInfo.InvariantCulture);
-            }
-
-            throw new ArgumentException($@"value lookup for type '{type}' not implemented");
-        }
-
-        private Type GetQuestionType(Guid questionId)
-        {
-            return m_domainItemLocator
-                .Get<IQuestionNode>(questionId)
-                ?.QuestionType;
+            return question.QuestionType.GetValue(m_lookup, question);
         }
     }
 }

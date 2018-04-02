@@ -12,7 +12,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
     {
         public string QuestionName { get; }
         public string QuestionText { get; }
-        public Type QuestionType { get; }
+        public IQuestionType QuestionType { get; }
         public DomainId<ICalculationNode> CalculatedValue { get; }
 
         public CalculatedQuestionNode(
@@ -20,7 +20,7 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
             string definition,
             string questionId, 
             string questionText, 
-            Type questionType,
+            IQuestionType questionType,
             DomainId<ICalculationNode> calculation) 
             : base(id, definition)
         {

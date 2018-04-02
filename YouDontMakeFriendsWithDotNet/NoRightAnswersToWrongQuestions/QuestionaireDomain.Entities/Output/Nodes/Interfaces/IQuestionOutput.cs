@@ -11,7 +11,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes.Interfaces
         string QuestionText { get; }
         bool Visible { get; set; }
         bool ReadOnly { get; }
-        Type QuestionType { get; }
+        IQuestionType QuestionType { get; }
         string Value { get; set; }
     }
 }

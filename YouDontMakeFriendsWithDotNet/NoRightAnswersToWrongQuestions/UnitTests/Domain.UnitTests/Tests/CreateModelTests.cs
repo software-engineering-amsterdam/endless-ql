@@ -69,7 +69,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             nameof(TestModelCreationData.QuestionTypes))]
         public void GivenAValidType_ReturnsQuestionOfCorrectType(
            string validDefinition,
-           Type questionType) 
+           IQuestionType questionType) 
         {
             CreateOutputForm(validDefinition);
             var domainItem = m_domainItemLocator
@@ -78,8 +78,8 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
 
             Assert.NotNull(domainItem);
             Assert.AreEqual(
-                expected: questionType, 
-                actual: domainItem.QuestionType);
+                expected: questionType.GetType(), 
+                actual: domainItem.QuestionType.GetType());
         }
         
         [TestCaseSource(

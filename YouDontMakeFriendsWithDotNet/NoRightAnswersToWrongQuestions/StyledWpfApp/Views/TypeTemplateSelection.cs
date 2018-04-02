@@ -51,59 +51,14 @@ namespace StyledWpfApp.Views
                 return GetNumericUpdownTemplate();
             }
 
-            if (question.Model.QuestionType == typeof(string))
-            {
-                return GetStringTemplate();
-            }
-            if (question.Model.QuestionType == typeof(bool))
-            {
-                return GetBoolTemplate();
-            }
-            if (question.Model.QuestionType == typeof(decimal))
-            {
-                return GetDecimalTemplate();
-            }
-            if (question.Model.QuestionType == typeof(int))
-            {
-                return GetIntTemplate();
-            }
-            if (question.Model.QuestionType == typeof(DateTime))
-            {
-                return GetDateTemplate();
-            }
-            throw new ArgumentException($"Unhandled question data type in display '{question.Model.QuestionType}'");
+            return question.Model.QuestionType.GetTemplate(container);
         }
 
         private DataTemplate GetDefaultTemplate()
         {
             return GetTemplate("DefaultTemplate");
         }
-
-        private DataTemplate GetDateTemplate()
-        {
-            return GetTemplate("DateTemplate");
-        }
-
-        private DataTemplate GetIntTemplate()
-        {
-            return GetTemplate("IntTemplate");
-        }
-
-        private DataTemplate GetDecimalTemplate()
-        {
-            return GetTemplate("DecimalTemplate");
-        }
-
-        private DataTemplate GetBoolTemplate()
-        {
-            return GetTemplate("BoolTemplate");
-        }
-
-        private DataTemplate GetStringTemplate()
-        {
-            return GetTemplate("StringTemplate");
-        }
-
+        
         private DataTemplate GetRadioTemplate()
         {
             return GetTemplate("RadioTemplate");

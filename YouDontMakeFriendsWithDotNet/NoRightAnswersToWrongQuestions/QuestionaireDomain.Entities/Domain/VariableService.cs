@@ -25,7 +25,7 @@ namespace QuestionnaireDomain.Entities.Domain
                 .FirstOrDefault(x => x.QuestionName == variableName);
         }
 
-        public Type GetQuestionType(string variableName)
+        public IQuestionType GetQuestionType(string variableName)
         {
             return GetQuestionNode(variableName)?.QuestionType;
         }
@@ -37,12 +37,9 @@ namespace QuestionnaireDomain.Entities.Domain
                 return true;
             }
 
-            if (GetQuestionType(variableName1) == GetQuestionType(variableName2))
-            {
-                return true;
-            }
-
-            return IsNumeric(variableName1) && IsNumeric(variableName2);
+            var leftType = GetQuestionType(variableName1);
+            var rightType = GetQuestionType(variableName2);
+            return (leftType.GetType() == rightType.GetType() ) || (leftType.IsNumeric() && rightType.IsNumeric());
         }
 
         public decimal GetNumberValue(string variableName)
@@ -59,12 +56,6 @@ namespace QuestionnaireDomain.Entities.Domain
             }
 
             throw new ArgumentException(nameof(variableName), $"question {variableName} used as numeric but is not");
-        }
-
-        private bool IsNumeric(string variableName)
-        {
-            var type = GetQuestionType(variableName);
-            return type == typeof(decimal) || type == typeof(int);
         }
     }
 }

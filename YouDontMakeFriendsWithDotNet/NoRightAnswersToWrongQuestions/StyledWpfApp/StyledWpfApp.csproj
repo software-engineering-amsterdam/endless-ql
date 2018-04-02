@@ -113,7 +113,6 @@
     <Compile Include="DataProvider\QuestionnaireDataProvider.cs" />
     <Compile Include="Views\BooleanToComboConverter.cs" />
     <Compile Include="Views\NegativeConverter.cs" />
-    <Compile Include="Views\ObjectToIntegerConverter.cs" />
     <Compile Include="Views\TypeTemplateSelection.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />
     <Compile Include="ViewModels\IQuestionViewModel.cs" />

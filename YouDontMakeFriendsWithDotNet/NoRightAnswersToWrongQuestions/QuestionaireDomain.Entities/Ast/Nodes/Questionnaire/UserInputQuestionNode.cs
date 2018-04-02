@@ -10,14 +10,14 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire
     {
         public string QuestionName { get; }
         public string QuestionText { get; }
-        public Type QuestionType { get; }
+        public IQuestionType QuestionType { get; }
 
         public UserInputQuestionNode(
             Guid id, 
             string definition,
             string questionId, 
             string questionText, 
-            Type questionType) : base(id, definition)
+            IQuestionType questionType) : base(id, definition)
         {
             QuestionName = questionId;
             QuestionText = questionText;

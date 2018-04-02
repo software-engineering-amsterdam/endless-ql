@@ -21,7 +21,7 @@ namespace QuestionnaireDomain.Entities.Validators
 
         protected IEnumerable<ValidationMetaData> Validate<TNode, TData>(
             DomainId<IQuestionnaireRootNode> questionnaireRootNode,
-            Func<Type, bool> correctTypePredicate,
+            Func<IQuestionType, bool> correctTypePredicate,
             string comparisonType,
             string expectedType)
             where TNode : IVariableNode

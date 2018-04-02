@@ -111,7 +111,6 @@
     <Compile Include="DataProvider\QuestionnaireDataProvider.cs" />
     <Compile Include="DataProvider\IQuestionnaireDataProvider.cs" />
     <Compile Include="IQuestionnaireViewModel.cs" />
-    <Compile Include="ObjectToIntegerConverter.cs" />
     <Compile Include="Question.xaml.cs">
       <DependentUpon>Question.xaml</DependentUpon>
     </Compile>

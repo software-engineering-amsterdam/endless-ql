@@ -26,13 +26,13 @@ namespace QuestionnaireDomain.Entities.Ast.Tools.Interfaces
             string definition,
             string questionName,
             string questionText, 
-            Type questionType);
+            IQuestionType questionType);
 
         DomainId<ICalculatedQuestionNode> CreateCalculatedQuestion(
             string definition, 
             string questionName,
             string questionText,
-            Type questionType,
+            IQuestionType questionType,
             DomainId<ICalculationNode> calculation);
 
         DomainId<INumberNode> CreateNumber(string numberText);

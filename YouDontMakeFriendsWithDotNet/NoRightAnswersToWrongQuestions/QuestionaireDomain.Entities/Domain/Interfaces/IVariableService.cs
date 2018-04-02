@@ -7,7 +7,7 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
 {
     public interface IVariableService
     {
-        Type GetQuestionType(string variableName);
+        IQuestionType GetQuestionType(string variableName);
         bool AreCompatible(string variableName1, string variableName2);
         decimal GetNumberValue(string variableName);
         IQuestionNode GetQuestionNode(string variableName);

@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
@@ -24,9 +25,8 @@ namespace QL.UnitTests.UI.UnitTests
                 "int input question",
                 true,
                 false,
-                typeof(int));
+                new IntegerQuestionType());
         }
-
 
         [Test]
         public void WhenQuestionnaireWrapperGivenModel_ShouldbeContainedInModelProperty()

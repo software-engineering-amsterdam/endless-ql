@@ -67,7 +67,7 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
             string definition,
             string questionName,
             string questionText,
-            Type questionType)
+            IQuestionType questionType)
         {
             var question = new UserInputQuestionNode(
                 m_ids.Next,
@@ -76,43 +76,17 @@ namespace QuestionnaireDomain.Entities.Ast.Tools
                 questionText,
                 questionType);
 
-            InitializeVariable(question.Id, questionType);
+            questionType.InitializeVariable(m_symbolTable,question.Id);
+       
             return DomainItemRegistration<IUserInputQuestionNode>(question);
         }
 
-        private void InitializeVariable(Guid questionId, Type questionType)
-        {
-            if (questionType == typeof(bool))
-            {
-                m_symbolTable.Add(questionId, default(bool));
-            }
-
-            if (questionType == typeof(decimal))
-            {
-                m_symbolTable.Add(questionId, default(decimal));
-            }
-
-            if (questionType == typeof(int))
-            {
-                m_symbolTable.Add(questionId, default(int));
-            }
-
-            if (questionType == typeof(DateTime))
-            {
-                m_symbolTable.Add(questionId, default(DateTime));
-            }
-            
-            if (questionType == typeof(string))
-            {
-                m_symbolTable.Add(questionId, default(string));
-            }
-        }
-
+    
         public DomainId<ICalculatedQuestionNode> CreateCalculatedQuestion(
             string definition, 
             string questionName, 
             string questionText, 
-            Type questionType,
+            IQuestionType questionType,
             DomainId<ICalculationNode> calculation)
         {
             var question = new CalculatedQuestionNode(

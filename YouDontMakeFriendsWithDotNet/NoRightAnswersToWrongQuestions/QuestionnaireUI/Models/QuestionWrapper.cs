@@ -1,4 +1,5 @@
 ﻿using System;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireOrchestration.Models;
 
 namespace QuestionnaireUI.Models
@@ -8,7 +9,7 @@ namespace QuestionnaireUI.Models
         public Guid QuestionOutputId => GetValue<Guid>();
         public Guid QuestionVariableId => GetValue<Guid>();
         public string QuestionText => GetValue<string>();
-        public Type QuestionType => GetValue<Type>();
+        public IQuestionType QuestionType => GetValue<IQuestionType>();
         public bool ReadOnly => GetValue<bool>();
         public bool Visible => GetValue<bool>();
 

@@ -22,7 +22,7 @@ namespace QuestionnaireDomain.Entities.Validators
         {
             return Validate<IDateVariableNode, DateComparisonValidationMetaData>(
                 rootNode,
-                x => x != typeof(DateTime),
+                x => x != new DateQuestionType(),
                 @"date comparison",
                 @"date");
         }

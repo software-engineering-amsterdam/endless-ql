@@ -1,6 +1,7 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 using SimpleWPFApp;
@@ -15,8 +16,20 @@ namespace QL.UnitTests.AppTests.SimpleWPFAppUnitTests
         public void WhenProvidedData_ShouldLoadQuestionnaire()
         {
             var model = new QuestionnaireModel(Guid.NewGuid(), "");
-            var qmodel1 = new QuestionModel(Guid.NewGuid(), Guid.NewGuid(), "1", true, false, typeof(bool));
-            var qmodel2 = new QuestionModel(Guid.NewGuid(), Guid.NewGuid(), "2", true, false, typeof(bool));
+            var qmodel1 = new QuestionModel(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                "1",
+                true,
+                false,
+                new BooleanQuestionType());
+            var qmodel2 = new QuestionModel(
+                Guid.NewGuid(), 
+                Guid.NewGuid(), 
+                "2", 
+                true, 
+                false,
+                new BooleanQuestionType());
             model.Questions.Add(qmodel1);
             model.Questions.Add(qmodel2);
             var wrappedModel = new QuestionnaireWrapper(model);

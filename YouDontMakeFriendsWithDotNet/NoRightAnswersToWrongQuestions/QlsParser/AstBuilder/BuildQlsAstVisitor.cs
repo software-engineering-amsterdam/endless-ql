@@ -4,6 +4,7 @@ using QlsGrammar;
 using QlsTransformer.Domain.Ast.Nodes;
 using QlsTransformer.Domain.Ast.Tools;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 
@@ -50,15 +51,15 @@ namespace QlsParser.AstBuilder
             return new DefaultStyle(type, style);
         }
 
-        private Type GetAstType(string typeString)
+        private IQuestionType GetAstType(string typeString)
         {
             switch (typeString)
             {
-                case "integer" : return typeof(int);
-                case "decimal": return typeof(decimal);
-                case "date": return typeof(DateTime);
-                case "boolean": return typeof(bool);
-                case "string": return typeof(string);
+                case "integer" : return new IntegerQuestionType();
+                case "decimal": return new DecimalQuestionType();
+                case "date": return new DateQuestionType();
+                case "boolean": return new BooleanQuestionType();
+                case "string": return new StringQuestionType();
                 default: throw new ArgumentException(nameof(typeString),$"UnknownType {typeString}");
             }
         }

@@ -47,7 +47,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             nameof(TestValidationData.RepeatedNamesDifferentTypes))]
         public void WhenRepeatedQuestionDifferentTypes_ProducesTheCorrectMetaData(
             string invalidDescription,
-            IEnumerable<Type> expectedSourceTypes,
+            IEnumerable<IQuestionType> expectedSourceTypes,
             string errorMessage)
         {
             CreateAndValidateForm(invalidDescription);
@@ -136,7 +136,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
         [TestCaseSource(
             typeof(TestValidationData),
             nameof(TestValidationData.NonNumberCalculationVariable))]
-        public void WhenGivenNonNumberInCalculation_ProducesTheCorrectMetaDatas(
+        public void WhenGivenNonNumberInCalculationx_ProducesTheCorrectMetaDatas(
             string invalidDescription,
             string errorMessage)
         {

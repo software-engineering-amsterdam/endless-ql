@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
 {
@@ -6,6 +6,6 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces
     {
         string QuestionName { get; }
         string QuestionText { get; }
-        Type QuestionType { get; }
+        IQuestionType QuestionType { get; }
     }
 }

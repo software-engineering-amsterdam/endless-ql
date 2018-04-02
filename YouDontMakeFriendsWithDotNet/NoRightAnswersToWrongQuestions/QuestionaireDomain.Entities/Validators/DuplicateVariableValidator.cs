@@ -34,7 +34,7 @@ namespace QuestionnaireDomain.Entities.Validators
                 var mismatchCount = questionNameAndTypes
                     .Count(x =>
                         x.QuestionName == questionNode.QuestionName
-                        && x.QuestionType != questionNode.QuestionType);
+                        && x.QuestionType.GetType() != questionNode.QuestionType.GetType());
 
                 if (mismatchCount > 1)
                 {

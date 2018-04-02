@@ -21,7 +21,7 @@ namespace QuestionnaireDomain.Entities.Validators
         {
             return Validate<ICalculationVariableNode, MathComparisonValidationMetaData>(
                 rootNode,
-                x => x != typeof(int) && x != typeof(decimal),
+                x => !x.IsNumeric(),
                 @"number comparison",
                 @"number");
         }

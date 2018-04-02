@@ -35,6 +35,7 @@ namespace QuestionnaireOrchestration.QueryServices
         {
             var question = DomainItemLocator
                 .Get<IQuestionOutputItem>(questionId);
+
             var variable = DomainItemLocator
                 .Get<IQuestionNode>(question.Variable.Id);
 
@@ -46,40 +47,11 @@ namespace QuestionnaireOrchestration.QueryServices
                 question.ReadOnly,
                 question.QuestionType)
             {
-                Value = GetValue(variable)
+                Value = question
+                    .QuestionType
+                    .GetValue(m_symbolTable, variable)
             };
         }
-
-
-        private string GetValue(IQuestionNode question)
-        {
-            var type = question.QuestionType;
-            if (type == typeof(bool))
-            {
-                return m_symbolTable.Lookup<bool>(question.Id).ToString();
-            }
-
-            if (type == typeof(string))
-            {
-                return m_symbolTable.Lookup<string>(question.Id) ?? "";
-            }
-
-            if (type == typeof(decimal))
-            {
-                return m_symbolTable.Lookup<decimal>(question.Id).ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (type == typeof(int))
-            {
-                return m_symbolTable.Lookup<int>(question.Id).ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (type == typeof(DateTime))
-            {
-                return m_symbolTable.Lookup<DateTime>(question.Id).ToString(CultureInfo.InvariantCulture);
-            }
-
-            throw new ArgumentException($@"value lookup for type '{type}' not implemented");
-        }
+        
     }
 }

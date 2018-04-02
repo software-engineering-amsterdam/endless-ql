@@ -76,7 +76,8 @@ public class QLFormBuilder {
         this.visibilityChecker.checkVisibility();
 
         if (this.stylesheet != null) {
-            renderQuestions(this.stylesheet);
+//            renderQuestions(this.stylesheet);
+            renderQuestions();
         } else {
             renderQuestions();
         }
@@ -107,9 +108,9 @@ public class QLFormBuilder {
 
         // This is a workaround. Somehow the x component of the last element is reset to 0 after
         // revalidate. Insert new boguselement as a workaround
-        JLabel bugFix = new JLabel("");
-        jFrame.add(bugFix);
-        bugFix.setBounds(contentMargin, currentLine * lineHeight + lineMargin, 0, 0);
+        JLabel workaroundLabel = new JLabel("");
+        jFrame.add(workaroundLabel);
+        workaroundLabel.setBounds(contentMargin, currentLine * lineHeight + lineMargin, 0, 0);
 
         jFrame.revalidate();
         jFrame.repaint();

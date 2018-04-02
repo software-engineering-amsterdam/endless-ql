@@ -152,7 +152,7 @@ namespace QLVisualizer.Controllers.Display
                 Location = new Point(12, 26),
                 Multiline = true,
                 Name = "qlInputField",
-                Size = new Size(350, 285),
+                Size = new Size(342, 285),
                 ScrollBars = ScrollBars.Both
             };
         }
@@ -162,7 +162,7 @@ namespace QLVisualizer.Controllers.Display
             Panel holder = new Panel
             {
                 Height = 311,
-                Width = 362,
+                Width = 355,
                 Location = new Point(12, isTop ? 9 : 326)
             };
             holder.Controls.Add(new Label { Text = title, Location = new Point(12, 9), Height = 12 });

@@ -2,14 +2,12 @@ package QLS.parsing.visitors;
 
 import QL.classes.Question;
 import QLS.classes.Page;
+import QLS.classes.Stylesheet;
 import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Section;
-import QLS.classes.Stylesheet;
 import QLS.classes.blocks.StyledQuestion;
-import QLS.parsing.checkers.Checks;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
-import gui.panels.QuestionPanel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class StylesheetVisitor extends QLSBaseVisitor {
-    private HashMap<String,Question> questionMap;
+    private HashMap<String, Question> questionMap;
     private BlockVisitor blockVisitor;
     private Stylesheet stylesheet;
     private LinkedHashMap<String, Page> pages;
@@ -26,7 +24,7 @@ public class StylesheetVisitor extends QLSBaseVisitor {
     private LinkedHashMap<String, Element> parents;
 
 
-    public StylesheetVisitor(LinkedHashMap<String, Question> questionMap){
+    public StylesheetVisitor(LinkedHashMap<String, Question> questionMap) {
         this.questionMap = questionMap;
         this.blockVisitor = new BlockVisitor(questionMap);
         this.parents = new LinkedHashMap<>();
@@ -70,19 +68,19 @@ public class StylesheetVisitor extends QLSBaseVisitor {
         return page;
     }
 
-    public LinkedHashMap<String,Section> getSections() {
+    public LinkedHashMap<String, Section> getSections() {
         return sections;
     }
 
-    public LinkedHashMap<String,Page> getPages() {
+    public LinkedHashMap<String, Page> getPages() {
         return pages;
     }
 
-    public LinkedHashMap<String,StyledQuestion> getQuestions() {
+    public LinkedHashMap<String, StyledQuestion> getQuestions() {
         return questions;
     }
 
-    public LinkedHashMap<String,Element> getParents() {
+    public LinkedHashMap<String, Element> getParents() {
         return parents;
     }
 

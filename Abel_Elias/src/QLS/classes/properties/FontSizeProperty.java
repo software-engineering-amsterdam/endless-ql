@@ -1,6 +1,5 @@
 package QLS.classes.properties;
 
-import QL.classes.values.IntegerValue;
 import gui.panels.QuestionPanel;
 
 public class FontSizeProperty extends Property {

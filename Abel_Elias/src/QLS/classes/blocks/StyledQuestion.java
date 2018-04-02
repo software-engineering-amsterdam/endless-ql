@@ -36,10 +36,12 @@ public class StyledQuestion extends Element {
         return this.parentId;
     }
 
-    public Widget getWidget(){
+    public Widget getWidget() {
         return this.widget;
     }
 
-    public List<Property> getProperties() { return properties; }
+    public List<Property> getProperties() {
+        return properties;
+    }
 
 }

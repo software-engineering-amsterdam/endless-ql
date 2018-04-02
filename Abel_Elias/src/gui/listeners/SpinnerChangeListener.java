@@ -1,14 +1,10 @@
 package gui.listeners;
 
-import QL.classes.values.BooleanValue;
 import QL.classes.values.NumericValue;
-import QL.classes.values.Value;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * BoolActionListener

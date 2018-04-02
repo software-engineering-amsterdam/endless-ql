@@ -6,7 +6,7 @@ import QL.parsing.gen.QLParser;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CyclicCheckerTest extends CheckerTest{
+public class CyclicCheckerTest extends CheckerTest {
 
     private CyclicChecker cyclicChecker;
 

@@ -1,8 +1,6 @@
 package gui.widgets;
 
-import QL.classes.values.BooleanValue;
 import QL.classes.values.NumericValue;
-import gui.listeners.BoolActionListener;
 import gui.listeners.SliderChangeListener;
 
 import javax.swing.*;
@@ -13,7 +11,7 @@ public class SliderWidget implements Widget {
     private JLabel label;
     private NumericValue value;
 
-    public SliderWidget(NumericValue value, int min, int max){
+    public SliderWidget(NumericValue value, int min, int max) {
         this.value = value;
 
         label = new JLabel();

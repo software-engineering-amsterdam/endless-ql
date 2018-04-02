@@ -1,6 +1,7 @@
 package gui.listeners;
 
 import QL.classes.values.BooleanValue;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

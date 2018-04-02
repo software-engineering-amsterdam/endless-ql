@@ -7,14 +7,14 @@ import QLS.parsing.gen.QLSParser;
 
 import java.util.HashMap;
 
-public class QuestionChecker extends QLSBaseVisitor{
+public class QuestionChecker extends QLSBaseVisitor {
     private HashMap<String, Question> questionMap;
 
-    QuestionChecker(HashMap<String, Question> questionMap){
+    QuestionChecker(HashMap<String, Question> questionMap) {
         this.questionMap = questionMap;
     }
 
-    void checkStyleSheet(QLSParser.StylesheetContext stylesheet){
+    void checkStyleSheet(QLSParser.StylesheetContext stylesheet) {
         visitStylesheet(stylesheet);
     }
 
@@ -22,7 +22,7 @@ public class QuestionChecker extends QLSBaseVisitor{
     public Object visitQuestion(QLSParser.QuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
 
-        if(!this.questionMap.containsKey(id)){
+        if (!this.questionMap.containsKey(id)) {
             throw new NonExistingQuestionError(id);
         }
 

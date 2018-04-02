@@ -12,7 +12,7 @@ public class TextWidget implements Widget {
     private JTextField textField;
     private Value value;
 
-    public TextWidget(StringValue value){
+    public TextWidget(StringValue value) {
         this.value = value;
 
         textField = new JTextField("", 20);
@@ -21,7 +21,7 @@ public class TextWidget implements Widget {
         refresh();
     }
 
-    public TextWidget(NumericValue value){
+    public TextWidget(NumericValue value) {
         this.value = value;
 
         textField = new JTextField("", 20);

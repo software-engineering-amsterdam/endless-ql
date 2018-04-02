@@ -1,4 +1,5 @@
 package gui.widgets;
+
 import javax.swing.*;
 
 public interface Widget<T extends JComponent> {

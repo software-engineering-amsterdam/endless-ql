@@ -1,14 +1,18 @@
 package gui;
 
 import QL.classes.Question;
-import QL.classes.values.*;
+import QL.classes.values.Value;
 import QL.parsing.visitors.FormVisitor;
 import gui.panels.QuestionPanel;
 import gui.widgets.WidgetFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 public class QLBuilder implements Observer {
     private JPanel mainPanel;
@@ -53,13 +57,13 @@ public class QLBuilder implements Observer {
      * Build each individual type of question panel and add
      * these to the list panel
      *
-     * @param question  the question passed
+     * @param question the question passed
      */
     private void buildQuestionPanel(Question question) {
         Value value = question.getValue();
         QuestionPanel qPanel = new QuestionPanel(question, WidgetFactory.getDefaultWidget(value));
 
-        if(!question.isFixed()){
+        if (!question.isFixed()) {
             value.addObserver(this);
         }
         if (!question.isVisible()) {

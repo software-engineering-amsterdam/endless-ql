@@ -1,11 +1,11 @@
 package QL.parsing;
 
+import QL.parsing.gen.QLLexer;
+import QL.parsing.gen.QLParser;
 import QLS.parsing.gen.QLSLexer;
 import QLS.parsing.gen.QLSParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import QL.parsing.gen.QLLexer;
-import QL.parsing.gen.QLParser;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,10 +1,13 @@
 package gui.widgets;
 
-import QL.classes.values.*;
-import gui.panels.QuestionPanel;
+import QL.classes.values.BooleanValue;
+import QL.classes.values.DateValue;
+import QL.classes.values.NumericValue;
+import QL.classes.values.StringValue;
+import QL.classes.values.Value;
 
 public class WidgetFactory {
-    public static Widget getDefaultWidget(Value value){
+    public static Widget getDefaultWidget(Value value) {
         switch (value.getType()) {
             case Value.STRING:
                 return new TextWidget((StringValue) value);

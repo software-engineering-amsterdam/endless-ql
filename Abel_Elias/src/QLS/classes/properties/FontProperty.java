@@ -1,6 +1,5 @@
 package QLS.classes.properties;
 
-import QL.classes.values.StringValue;
 import gui.panels.QuestionPanel;
 
 public class FontProperty extends Property {

@@ -4,7 +4,6 @@ import QLS.classes.Page;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 

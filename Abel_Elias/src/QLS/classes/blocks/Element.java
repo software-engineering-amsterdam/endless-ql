@@ -1,7 +1,7 @@
 package QLS.classes.blocks;
 
 public abstract class Element {
-     private ElementType type;
+    private ElementType type;
 
     public Element(ElementType type) {
         this.type = type;

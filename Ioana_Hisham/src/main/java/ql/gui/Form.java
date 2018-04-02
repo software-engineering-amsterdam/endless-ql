@@ -45,8 +45,8 @@ public class Form extends Application implements OnValueChange{
     }
 
     public void initializeForm() {
-        //this.reset();
-        //evaluator.clear();
+        this.reset();
+        evaluator.clear();
         evaluator.visit(form);
 
         for (Question question: evaluator.questions()) {
@@ -71,15 +71,15 @@ public class Form extends Application implements OnValueChange{
     }
 
     private void add(QLControl qlControl, Question question) {
-        if (evaluator.valueTable().exists(question.getIdentifier())) {
+        //if (evaluator.isQuestionModified(question.getIdentifier())) {
             qlControl.setValue(evaluator.valueTable().find(question.getIdentifier()));
-        }
+        //}
         formPane.add(qlControl.gridPane(), 0, row++);
     }
 
     @Override
     public void changed(Identifier identifier, Value value) {
-        evaluator.valueTable().add(identifier, value);
+        evaluator.storeValues(identifier, value);
         initializeForm();
     }
 }

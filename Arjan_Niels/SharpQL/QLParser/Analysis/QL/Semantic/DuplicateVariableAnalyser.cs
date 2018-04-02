@@ -6,8 +6,7 @@ using System.Linq;
 namespace QLParser.Analysis.QL.Semantic
 {
     /// <summary>
-    /// The TypeAnalyser walks over the tree and looks if all the variable type
-    /// are in compliance with the language.
+    /// The DuplicateVariableAnalyser walks over the tree and looks if their are any duplicate variables.
     /// </summary>
     public class DuplicateVariableAnalyser : IQLAnalyser, IQLVisitor
     {
@@ -21,25 +20,22 @@ namespace QLParser.Analysis.QL.Semantic
         /// <summary>
         /// This function will return true if it doesn't encounter any problems. 
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="logErrors"></param>
-        /// <returns></returns>
         public bool Analyse(QLNode node)
         {
             // Reset the Analyser
             this.VisitedIDs.Clear();
 
             // This visit discovers all the identifiers.
-            this.Visit(node);
+            this.Visit((dynamic)node);
             return VisitedIDs.Count == VisitedIDs.Distinct().Count();
         }
 
-        public bool AddVariable(string id, QValueType type)
+        private bool AddVariable(string id, QValueType type)
         {
             VisitedIDs.Add(id);
             if (!SymbolTable.Add(id, type))
             {
-                Analyser.AddMessage(string.Format("Duplicate identifier {0} {1}", id, type), MessageType.ERROR);
+                Analyser.AddMessage(string.Format("Duplicate identifier {0} {1}", id, type), Language.QL, MessageType.ERROR);
                 return false;
             }
 
@@ -51,8 +47,6 @@ namespace QLParser.Analysis.QL.Semantic
             var id = node.ID;
             var type = node.ValueType;
             AddVariable(id, type);
-
-            VisitChildren(node);
         }
 
         public void Visit(ComputedNode node)
@@ -60,21 +54,9 @@ namespace QLParser.Analysis.QL.Semantic
             var id = node.ID;
             var type = node.ValueType;
             AddVariable(id, type);
-
-            VisitChildren(node);
         }
 
         public void Visit(FormNode node)
-        {
-            VisitChildren(node);
-        }
-
-        public void Visit(QLNode node)
-        {
-            VisitChildren(node);
-        }
-
-        public void Visit(ExpressionNode node)
         {
             VisitChildren(node);
         }
@@ -84,10 +66,20 @@ namespace QLParser.Analysis.QL.Semantic
             VisitChildren(node);
         }
 
-        private void VisitChildren(QLNode node)
+        private void VisitChildren(QLCollectionNode node)
         {
             foreach (var child in node.Children)
                 child.Accept(this);
+        }
+
+        public void Visit(QLCollectionNode node)
+        {
+            VisitChildren(node);
+        }
+
+        public void Visit(ExpressionNode node)
+        {
+            return;
         }
     }
 }

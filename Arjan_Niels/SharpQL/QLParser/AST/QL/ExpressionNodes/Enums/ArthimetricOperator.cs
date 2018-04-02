@@ -2,9 +2,9 @@
 {
     public enum ArthimetricOperator
     {
-        MULT,
-        DIV,
-        PLUS,
-        MINUS
+        Mult,
+        Div,
+        Plus,
+        Minus
     }
 }

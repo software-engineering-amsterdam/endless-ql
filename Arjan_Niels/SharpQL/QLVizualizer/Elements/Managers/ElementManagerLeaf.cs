@@ -16,8 +16,8 @@ namespace QLVisualizer.Elements.Managers
         private QLSStyle _style;
 
 
-        public ElementManagerLeaf(string identifyer, string text, string xmlName, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null) : 
-            base(identifyer, text, xmlName, controller, activationExpression)
+        public ElementManagerLeaf(string identifier, string text, string xmlName, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null) : 
+            base(identifier, text, xmlName, controller, activationExpression)
         {
             Parent = parent;
         }

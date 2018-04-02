@@ -12,14 +12,14 @@
             <id>ql</id>
             <properties>
                 <application.name>ql-forms</application.name>
-                <application.main.class>nl.uva.se.sc.niro.gui.application.QLForms</application.main.class>
+                <application.main.class>nl.uva.se.sc.niro.ql.application.QLForms</application.main.class>
             </properties>
         </profile>
     </profiles>
 
 	<properties>
         <application.name>qls-forms</application.name>
-        <application.main.class>nl.uva.se.sc.niro.gui.application.QLSForms</application.main.class>
+        <application.main.class>nl.uva.se.sc.niro.qls.application.QLSForms</application.main.class>
 
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -42,7 +42,6 @@
 		<antlr4.version>4.7.1</antlr4.version>
 		<junit.version>4.12</junit.version>
         <pprint.version>0.5.3</pprint.version>
-		<scalafmt.version>0.7_1.4.0</scalafmt.version>
 		<scala-csv.version>1.3.5</scala-csv.version>
 		<cats.version>0.9.0</cats.version>
 	</properties>
@@ -128,24 +127,6 @@
 						<id>antlr</id>
 						<goals>
 							<goal>antlr4</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.antipathy</groupId>
-				<artifactId>mvn-scalafmt</artifactId>
-				<version>${scalafmt.version}</version>
-				<configuration>
-					<parameters>${project.basedir}/src/main/scala ${project.basedir}/src/test/scala</parameters>
-					<configLocation>${project.basedir}/scalafmt.conf</configLocation>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>format</goal>
 						</goals>
 					</execution>
 				</executions>

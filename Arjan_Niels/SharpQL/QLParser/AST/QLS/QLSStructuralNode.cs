@@ -5,11 +5,11 @@ namespace QLParser.AST.QLS
 {
     public class QLSStructuralNode : QLSNode
     {
-        public QLSStructuralNode(QLSNodeType type, string id) : base(type, id)
+        public QLSStructuralNode(Location location, QLSNodeType type, string id) : base(location, type, id)
         {
         }
 
-        public QLSStructuralNode(QLSNodeType type, string id, IList<QLSStyle> styles) : base(type, id, styles)
+        public QLSStructuralNode(Location location, QLSNodeType type, string id, IList<QLSStyle> styles) : base(location, type, id, styles)
         {
         }
 

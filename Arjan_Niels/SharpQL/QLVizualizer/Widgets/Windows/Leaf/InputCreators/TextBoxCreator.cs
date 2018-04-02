@@ -13,21 +13,19 @@ namespace QLVisualizer.Widgets.Windows.Leaf.InputCreators
             FlowLayoutPanel holder = new FlowLayoutPanel { FlowDirection = FlowDirection.TopDown };
             holder.Controls.Add(styler.StyleElement(new Label { Text = text[0] }));
 
-
             // Create and style textbox
             Control textbox = CreateTextBox(questionElementManager);
             textbox.Text = questionElementManager.AnswerToString();
             textbox = styler.StyleElement(textbox);
             holder.Controls.Add(textbox);
-            
+
             // Add events on holder
             questionElementManager.OnActiveChange += (string identifier, bool isActive) => holder.Visible = isActive;
             holder.Visible = questionElementManager.Active;
 
-
             return styler.StyleElement(holder);
         }
-        
+
         private Control CreateTextBox(QuestionElementManager<T> questionElementManager)
         {
             TextBox textBox = new TextBox();

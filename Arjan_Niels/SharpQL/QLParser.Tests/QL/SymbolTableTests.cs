@@ -74,7 +74,7 @@ namespace QLParser.Tests.QL
             var hasSucceeded = validator.Analyse(OneVarForm);
 
             Assert.IsTrue(hasSucceeded);
-            Assert.AreEqual(QValueType.BOOLEAN, SymbolTable.Get("boughtAHouse"));
+            Assert.AreEqual(QValueType.Boolean, SymbolTable.Get("boughtAHouse"));
         }
         #endregion
 
@@ -107,8 +107,8 @@ namespace QLParser.Tests.QL
             var hasSucceeded = validator.Analyse(MultipleVarForm);
 
             Assert.IsTrue(hasSucceeded);
-            Assert.AreEqual(QValueType.BOOLEAN, SymbolTable.Get("boughtAHouse"));
-            Assert.AreEqual(QValueType.MONEY, SymbolTable.Get("priceHouse"));
+            Assert.AreEqual(QValueType.Boolean, SymbolTable.Get("boughtAHouse"));
+            Assert.AreEqual(QValueType.Money, SymbolTable.Get("priceHouse"));
         }
         #endregion
     }

@@ -34,14 +34,10 @@
         <DataTemplate x:Key="IntTemplate">
             <Grid>
                 <xctk:IntegerUpDown 
-                    Value="{Binding Path=Value, Converter={StaticResource ObjectToIntegerConverter}}"
+                    Value="{Binding Path=Value, Mode=TwoWay,  Converter={StaticResource ObjectToIntegerConverter}}"
+                    Increment="1"
 
-                    Increment="1" />
-                <!--<TextBox Text="{Binding Value
-                        , Mode=TwoWay
-                        , UpdateSourceTrigger=LostFocus}"
-                         MinWidth ="180" />-->
-            </Grid>
+                    UpdateValueOnEnterKey="True"/></Grid>
         </DataTemplate>
 
 
@@ -49,13 +45,8 @@
             <Grid>
                 <xctk:CalculatorUpDown 
                     Value="{Binding Path=Value, Converter={StaticResource ObjectToDecimalConverter}}"
-
-                    Increment="1" />
-                <!--<TextBox 
-                    Text="{Binding Value
-                        , Mode=TwoWay
-                        , UpdateSourceTrigger=LostFocus}" 
-                    MinWidth ="180" />-->
+                    Increment="1"
+                    UpdateValueOnEnterKey="True"/>
             </Grid>
         </DataTemplate>
         

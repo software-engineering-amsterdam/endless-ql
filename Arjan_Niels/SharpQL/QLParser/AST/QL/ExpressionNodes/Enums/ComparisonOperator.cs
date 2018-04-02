@@ -2,10 +2,10 @@
 {
     public enum ComparisonOperator
     {
-        GT,
-        GE,
-        LT,
-        LE,
-        EQ
+        GreaterThan,
+        GreaterEqual,
+        LessThan,
+        LessEqual,
+        Equal
     }
 }

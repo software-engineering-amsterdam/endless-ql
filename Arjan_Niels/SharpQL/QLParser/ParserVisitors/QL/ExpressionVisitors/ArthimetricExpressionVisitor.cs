@@ -1,26 +1,29 @@
-﻿using Antlr4.Runtime.Misc;
-using QLGrammar;
+﻿using QLGrammar;
 using QLParser.AST;
 using QLParser.AST.QL;
 using QLParser.AST.QL.ExpressionNodes;
 using QLParser.AST.QL.ExpressionNodes.Enums;
 using QLParser.Exceptions;
+using System;
 using static QLGrammar.QLGrammarParser;
 
 namespace QLParser.ParserVisitors.QL.ExpressionVisitors
 {
     public class ArthimetricExpressionVisitor : QLGrammarBaseVisitor<IExpressionNode>
     {
-        public override IExpressionNode VisitArtithmeticExpression([NotNull] ArtithmeticExpressionContext context)
+        public override IExpressionNode VisitArtithmeticExpression(ArtithmeticExpressionContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("Context can't be null");
+
             if (context.ID() != null)
                 return new IdentifierNode(Location.FromContext(context), context.ID().GetText());
 
             if (context.DOUBLE() != null)
-                return new LiteralNode(Location.FromContext(context), context.DOUBLE().GetText(), QValueType.DOUBLE);
+                return new LiteralNode(Location.FromContext(context), context.DOUBLE().GetText(), QValueType.Double);
 
             if (context.INT() != null)
-                return new LiteralNode(Location.FromContext(context), context.INT().GetText(), QValueType.INTEGER);
+                return new LiteralNode(Location.FromContext(context), context.INT().GetText(), QValueType.Integer);
 
             if (context.MULT() != null || context.DIV() != null || context.PLUS() != null || context.MINUS() != null)
             {
@@ -33,10 +36,8 @@ namespace QLParser.ParserVisitors.QL.ExpressionVisitors
             if (context.artithmeticExpression() != null)
                 return VisitArtithmeticExpression(context.artithmeticExpression()[0]);
 
-
             return base.VisitArtithmeticExpression(context);
         }
-
 
         private ArthimetricOperator GetArthimeticOperator(ArtithmeticExpressionContext context)
         {

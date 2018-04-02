@@ -8,49 +8,28 @@ namespace QLVisualizer.Elements.Managers
 {
     public abstract class ElementManager : IStylable
     {
-        /// <summary>
-        /// Unique identifyer of the Element & ElementManager
-        /// </summary>
         public string Identifier { get; private set; }
 
-        /// <summary>
-        /// Name of XML tag for this manager
-        /// </summary>
         protected string XMLElementName { get; private set; }
 
-        /// <summary>
-        /// Text of the ElementManager
-        /// </summary>
         public string Text { get; private set; }
 
-        /// <summary>
-        /// Indication if the Element should be shown
-        /// </summary>
         public bool Active { get; private set; }
 
-        /// <summary>
-        /// Parent of this manager
-        /// </summary>
         public ElementManagerCollection Parent;
 
-        /// <summary>
-        /// Expression for activation evaluation
-        /// </summary>
         protected ExpressionBool _activationExpression { get; private set; }
 
-        /// <summary>
-        /// ElementManager controller that this ElementManager receives updates from
-        /// </summary>
         protected ElementManagerController _elementManagerController;
 
         public delegate void ActiveChanged(string identifier, bool isActive);
 
         public event ActiveChanged OnActiveChange;
 
-        public ElementManager(string identifyer, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null)
+        public ElementManager(string identifier, string text, string xmlName, ElementManagerController controller, ExpressionBool activationExpression = null)
         {
             Text = text;
-            Identifier = identifyer;
+            Identifier = identifier;
             XMLElementName = xmlName;
             _elementManagerController = controller;
 
@@ -58,7 +37,7 @@ namespace QLVisualizer.Elements.Managers
             Active = activationExpression == null;
         }
 
-        
+
         public virtual void RegisterListeners()
         {
             Dictionary<string, ElementManagerLeaf> targets = _elementManagerController.Form.FindLeafsByID(GetActivationTargetIDs().ToArray());
@@ -80,19 +59,21 @@ namespace QLVisualizer.Elements.Managers
                 OnActiveChange.Invoke(Identifier, Active);
         }
 
+
+        protected void InvokeActiveChange(string identifier, bool active)
+        {
+            OnActiveChange?.Invoke(identifier, active);
+        }
+
         public void SetActive(bool value)
         {
-            if(Active != value)
+            if (Active != value)
             {
                 Active = value;
-                OnActiveChange?.Invoke(Identifier, Active);
+                InvokeActiveChange(Identifier, Active);
             }
         }
 
-        /// <summary>
-        /// Exports Element to XML
-        /// </summary>
-        /// <returns>XML representation of the element</returns>
         public abstract string ToXML();
 
         public abstract void SetStyle(QLSStyle style);

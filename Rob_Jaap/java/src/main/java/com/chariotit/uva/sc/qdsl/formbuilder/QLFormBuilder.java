@@ -15,10 +15,11 @@ import com.chariotit.uva.sc.qdsl.ast.qls.node.Stylesheet;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.Element;
 import javax.swing.text.NumberFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.NumberFormat;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -55,7 +56,7 @@ public class QLFormBuilder {
 
     private void render() {
 
-        this.symbolTable = this.astRoot.getQuestionSymbolTable();
+        this.symbolTable = this.astRoot.getSymbolTable();
 
         this.jFrame = new JFrame();
         this.jFrame.setVisible(true);
@@ -75,7 +76,8 @@ public class QLFormBuilder {
         this.visibilityChecker.checkVisibility();
 
         if (this.stylesheet != null) {
-            renderQuestions(this.stylesheet);
+//            renderQuestions(this.stylesheet);
+            renderQuestions();
         } else {
             renderQuestions();
         }
@@ -106,39 +108,14 @@ public class QLFormBuilder {
 
         // This is a workaround. Somehow the x component of the last element is reset to 0 after
         // revalidate. Insert new boguselement as a workaround
-        JLabel bugFix = new JLabel("");
-        jFrame.add(bugFix);
-        bugFix.setBounds(contentMargin, currentLine * lineHeight + lineMargin, 0, 0);
+        JLabel workaroundLabel = new JLabel("");
+        jFrame.add(workaroundLabel);
+        workaroundLabel.setBounds(contentMargin, currentLine * lineHeight + lineMargin, 0, 0);
 
         jFrame.revalidate();
         jFrame.repaint();
    }
 
-    private void renderQuestions(Stylesheet stylesheet) {
-        for (Page page : stylesheet.getPages()) {
-            System.out.println("We have a page here " + page.getLabel());
-            renderPage(page);
-        }
-    }
-
-    private void renderPage(Page page){
-        for (Section section: page.getSections()) {
-            renderSection(section);
-        }
-    }
-
-    private void renderSection(Section section){
-
-        System.out.println(questions);
-
-        for (SectionElement element: section.getElements()) {
-            if(element instanceof Question){
-                FormQuestion formQuestion = questions.get(((Question) element).getLabel());
-                System.out.println("rendering element " + ((Question) element).getLabel());
-
-            }
-        }
-    }
 
     private void evaluateAst() {
         EvaluateVisitor evaluateVisitor = new EvaluateVisitor(symbolTable);
@@ -282,17 +259,11 @@ public class QLFormBuilder {
 
         textField.setText(((MoneyExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
-        textField.getDocument().addDocumentListener(new DocumentListener() {
+        textField.addFocusListener(new FocusListener() {
 
-            public void changedUpdate(DocumentEvent e) {
-                update();
-            }
+            public void focusGained(FocusEvent e) { }
 
-            public void removeUpdate(DocumentEvent e) {
-                update();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
+            public void focusLost(FocusEvent e) {
                 update();
             }
 
@@ -307,13 +278,10 @@ public class QLFormBuilder {
                             .parseFloat(textField.getText()));
 
                     updateForm();
-
-                    textField.requestFocus();
-
                 }
             }
-        });
 
+        });
 
         // return the text field that is configured by the formatter
         return textField;
@@ -336,16 +304,15 @@ public class QLFormBuilder {
 
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
-        textField.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                update();
-            }
+        SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
 
-            public void removeUpdate(DocumentEvent e) {
-                update();
-            }
+        textField.setText(((StringExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
-            public void insertUpdate(DocumentEvent e) {
+        textField.addFocusListener(new FocusListener() {
+
+            public void focusGained(FocusEvent e) { }
+
+            public void focusLost(FocusEvent e) {
                 update();
             }
 
@@ -361,6 +328,7 @@ public class QLFormBuilder {
                     updateForm();
                 }
             }
+
         });
 
         // return the text field that is configured by the formatter

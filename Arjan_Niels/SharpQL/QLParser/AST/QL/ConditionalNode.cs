@@ -1,10 +1,10 @@
 ﻿namespace QLParser.AST.QL
 {
-    public class ConditionalNode : QLNode
+    public class ConditionalNode : QLCollectionNode
     {
         public IExpressionNode Expression { get; private set; }
 
-        public ConditionalNode(Location location, IExpressionNode statementNode) : base(location, NodeType.CONDITIONAL)
+        public ConditionalNode(Location location, IExpressionNode statementNode) : base(location, NodeType.Conditional)
         {
             this.Expression = statementNode;
         }

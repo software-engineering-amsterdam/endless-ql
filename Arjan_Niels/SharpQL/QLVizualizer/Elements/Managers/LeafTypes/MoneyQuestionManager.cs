@@ -1,14 +1,22 @@
-﻿using System;
+﻿using QLParser.AST.QL;
 using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
+using System;
 
 namespace QLVisualizer.Elements.Managers.LeafTypes
 {
     public class MoneyQuestionManager : QuestionElementManager<double>
     {
-        public MoneyQuestionManager(string identifyer, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) : 
-            base(identifyer, text, parent, controller, activationExpression, answerExpression)
+        private const int _numberOfDecimals = 2;
+
+        public MoneyQuestionManager(string identifier, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<double> answerExpression = null) :
+            base(identifier, text, parent, controller, activationExpression, answerExpression)
         {
+        }
+
+        protected override QValueType GetQValueType()
+        {
+            return QValueType.Money;
         }
 
         protected override QuestionElementValue<double> ParseInput(string input)
@@ -23,7 +31,7 @@ namespace QLVisualizer.Elements.Managers.LeafTypes
 
         protected override QuestionElementValue<double> Validate(double input)
         {
-            return new QuestionElementValue<double>(Math.Round(input, 2), true);
+            return new QuestionElementValue<double>(Math.Round(input, _numberOfDecimals), true);
         }
     }
 }

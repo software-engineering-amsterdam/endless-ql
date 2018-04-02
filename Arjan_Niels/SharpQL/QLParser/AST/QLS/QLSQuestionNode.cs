@@ -5,11 +5,11 @@ namespace QLParser.AST.QLS
 {
     public class QLSQuestionNode : QLSNode
     {
-        public QLSQuestionNode(string id) : base(QLSNodeType.Question, id)
+        public QLSQuestionNode(Location location, string id) : base(location, QLSNodeType.Question, id)
         {
         }
 
-        public QLSQuestionNode(string id, IList<QLSStyle> styles) : base(QLSNodeType.Question, id, styles)
+        public QLSQuestionNode(Location location, string id, IList<QLSStyle> styles) : base(location, QLSNodeType.Question, id, styles)
         {
         }
 

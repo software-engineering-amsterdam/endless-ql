@@ -10,14 +10,11 @@ public class QLAstRoot extends AstNode {
 
     private List<Form> forms;
 
-    // TODO check if formSymbolTable used
-    private SymbolTable formSymbolTable;
-    private SymbolTable questionSymbolTable;
+    private SymbolTable symbolTable;
 
     private QLAstRoot(SourceFilePosition filePosition) {
         super(filePosition);
-        formSymbolTable = new SymbolTable();
-        questionSymbolTable = new SymbolTable();
+        symbolTable = new SymbolTable();
     }
 
     public QLAstRoot(List<Form> forms, SourceFilePosition filePosition) {
@@ -34,20 +31,12 @@ public class QLAstRoot extends AstNode {
         this.forms = forms;
     }
 
-    public SymbolTable getFormSymbolTable() {
-        return formSymbolTable;
+    public SymbolTable getSymbolTable() {
+        return symbolTable;
     }
 
-    public void setFormSymbolTable(SymbolTable formSymbolTable) {
-        this.formSymbolTable = formSymbolTable;
-    }
-
-    public SymbolTable getQuestionSymbolTable() {
-        return questionSymbolTable;
-    }
-
-    public void setQuestionSymbolTable(SymbolTable questionSymbolTable) {
-        this.questionSymbolTable = questionSymbolTable;
+    public void setSymbolTable(SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
     }
 
     public void acceptVisitor(NodeVisitor visitor) {

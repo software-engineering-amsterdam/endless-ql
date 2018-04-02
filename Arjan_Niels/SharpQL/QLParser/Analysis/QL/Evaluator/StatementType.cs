@@ -2,9 +2,9 @@
 {
     public enum StatementType
     {
-        BOOLEAN,
-        TEXT,
-        NUMERIC,
-        UNKNOWN
+        Boolean,
+        Text,
+        Numeric,
+        Unknown
     }
 }

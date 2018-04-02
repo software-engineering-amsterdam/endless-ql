@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Analysis\Analyser.cs" />
     <Compile Include="Analysis\IQLSAnalyser.cs" />
+    <Compile Include="Analysis\MessageType.cs" />
     <Compile Include="Analysis\QLS\AllIdentifiersAreUsedAnalyser.cs" />
     <Compile Include="Analysis\QLS\DuplicateIdentifiersAnalyser.cs" />
     <Compile Include="Analysis\QLS\UnknownIdentifiersAnalyser.cs" />
@@ -74,16 +75,18 @@
     <Compile Include="AST\QL\ExpressionNodes\Enums\LogicalOperator.cs" />
     <Compile Include="AST\QL\ExpressionNodes\ExpressionNode.cs" />
     <Compile Include="AST\QL\ExpressionNodes\LogicalExpressionNode.cs" />
+    <Compile Include="AST\QL\ExpressionNodes\TextConcatinationNode.cs" />
     <Compile Include="AST\QL\FormNode.cs" />
     <Compile Include="AST\QL\IExpressionNode.cs" />
+    <Compile Include="AST\QL\IIdentifiedNode.cs" />
     <Compile Include="AST\QL\IQLTraversable.cs" />
     <Compile Include="AST\QL\IQLVisitor.cs" />
+    <Compile Include="AST\QL\QLCollectionNode.cs" />
     <Compile Include="AST\QL\QLNode.cs" />
     <Compile Include="AST\QL\NodeType.cs" />
     <Compile Include="AST\QL\QuestionNode.cs" />
     <Compile Include="AST\QL\StatementNode.cs" />
     <Compile Include="Analysis\SymbolTable.cs" />
-    <Compile Include="Analysis\QL\Syntactic\QuestionHasNoChildrenValidator.cs" />
     <Compile Include="Analysis\QL\Syntactic\SingleFormValidator.cs" />
     <Compile Include="AST\QL\QValueType.cs" />
     <Compile Include="AST\QL\IdentifierNode.cs" />
@@ -98,6 +101,8 @@
     <Compile Include="Exceptions\UnknownNodeTypeException.cs" />
     <Compile Include="Exceptions\UnknownOperatorException.cs" />
     <Compile Include="Exceptions\UnknownQValueTypeException.cs" />
+    <Compile Include="Language.cs" />
+    <Compile Include="ParserVisitors\QL\ExpressionVisitors\TextConcatinationVisitor.cs" />
     <Compile Include="QLSParserHelper.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="ParserVisitors\QL\ExpressionVisitors\ArthimetricExpressionVisitor.cs" />

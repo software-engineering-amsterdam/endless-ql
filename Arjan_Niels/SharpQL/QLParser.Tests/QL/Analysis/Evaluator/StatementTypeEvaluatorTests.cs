@@ -13,77 +13,77 @@ namespace QL_Parser.Tests.Analysis.Evaluator
         [TestMethod]
         public void GetStatementResultTypeMoneyTest()
         {
-            var lhs = new LiteralNode(Location.Null, "10.0", QValueType.MONEY);
-            var rhs = new LiteralNode(Location.Null, "5.0", QValueType.MONEY);
-            Assert.AreEqual(QValueType.MONEY, StatementTypeEvaluator.GetStatementResultType(lhs, rhs));
+            var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.Money);
+            var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.Money);
+            Assert.AreEqual(QValueType.Money, StatementTypeEvaluator.GetStatementResultType(lhs, rhs));
         }
 
         [TestMethod]
         public void GetStatementResultTypeMoneyAndDoubleTest()
         {
-            var lhs = new LiteralNode(Location.Null, "10.0", QValueType.MONEY);
-            var rhs = new LiteralNode(Location.Null, "5.0", QValueType.DOUBLE);
-            Assert.AreEqual(QValueType.MONEY, StatementTypeEvaluator.GetStatementResultType(lhs, rhs));
+            var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.Money);
+            var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.Double);
+            Assert.AreEqual(QValueType.Money, StatementTypeEvaluator.GetStatementResultType(lhs, rhs));
         }
 
         [TestMethod]
         public void GetStatementResulTypetDoubleTest()
         {
-            var lhs = new LiteralNode(Location.Null, "10.0", QValueType.DOUBLE);
-            var rhs = new LiteralNode(Location.Null, "5.0", QValueType.DOUBLE);
-            Assert.AreEqual(QValueType.DOUBLE, StatementTypeEvaluator.GetStatementResultType(lhs, rhs));
+            var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.Double);
+            var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.Double);
+            Assert.AreEqual(QValueType.Double, StatementTypeEvaluator.GetStatementResultType(lhs, rhs));
         }
 
         [TestMethod]
         public void GetStatementResultTypeDoubleAndIntTest()
         {
-            var lhs = new LiteralNode(Location.Null, "10.0", QValueType.DOUBLE);
-            var rhs = new LiteralNode(Location.Null, "5", QValueType.INTEGER);
-            Assert.AreEqual(QValueType.DOUBLE, StatementTypeEvaluator.GetStatementResultType(lhs, rhs));
+            var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.Double);
+            var rhs = new LiteralNode(Location.Empty, "5", QValueType.Integer);
+            Assert.AreEqual(QValueType.Double, StatementTypeEvaluator.GetStatementResultType(lhs, rhs));
         }
 
         [TestMethod]
         public void GetStatementResultTypeIntTest()
         {
-            var lhs = new LiteralNode(Location.Null, "10.0", QValueType.INTEGER);
-            var rhs = new LiteralNode(Location.Null, "5", QValueType.INTEGER);
-            Assert.AreEqual(QValueType.INTEGER, StatementTypeEvaluator.GetStatementResultType(lhs, rhs));
+            var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.Integer);
+            var rhs = new LiteralNode(Location.Empty, "5", QValueType.Integer);
+            Assert.AreEqual(QValueType.Integer, StatementTypeEvaluator.GetStatementResultType(lhs, rhs));
         }
 
         [TestMethod]
         public void ExpressionNodeResultTypeDoubleTest()
         {
-            var lhs = new LiteralNode(Location.Null, "10.0", QValueType.DOUBLE);
-            var rhs = new LiteralNode(Location.Null, "5.0", QValueType.DOUBLE);
-            var expression = new ArthimetricExpressionNode(Location.Null, lhs, ArthimetricOperator.MULT, rhs);
-            Assert.AreEqual(QValueType.DOUBLE, expression.GetQValueType());
+            var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.Double);
+            var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.Double);
+            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.Mult, rhs);
+            Assert.AreEqual(QValueType.Double, expression.GetQValueType());
         }
 
         [TestMethod]
         public void ExpressionNodeResultTypeDoubleAndMoneyTest()
         {
-            var lhs = new LiteralNode(Location.Null, "10.0", QValueType.MONEY);
-            var rhs = new LiteralNode(Location.Null, "5.0", QValueType.DOUBLE);
-            var expression = new ArthimetricExpressionNode(Location.Null, lhs, ArthimetricOperator.MULT, rhs);
-            Assert.AreEqual(QValueType.MONEY, expression.GetQValueType());
+            var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.Money);
+            var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.Double);
+            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.Mult, rhs);
+            Assert.AreEqual(QValueType.Money, expression.GetQValueType());
         }
 
         [TestMethod]
         public void ExpressionNodeResultTypeIntAndMoneyTest()
         {
-            var lhs = new LiteralNode(Location.Null, "10.0", QValueType.MONEY);
-            var rhs = new LiteralNode(Location.Null, "5.0", QValueType.INTEGER);
-            var expression = new ArthimetricExpressionNode(Location.Null, lhs, ArthimetricOperator.MULT, rhs);
-            Assert.AreEqual(QValueType.MONEY, expression.GetQValueType());
+            var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.Money);
+            var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.Integer);
+            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.Mult, rhs);
+            Assert.AreEqual(QValueType.Money, expression.GetQValueType());
         }
 
         [TestMethod]
         public void ExpressionNodeResultTypeDoubleAndIntTest()
         {
-            var lhs = new LiteralNode(Location.Null, "10.0", QValueType.DOUBLE);
-            var rhs = new LiteralNode(Location.Null, "5.0", QValueType.INTEGER);
-            var expression = new ArthimetricExpressionNode(Location.Null, lhs, ArthimetricOperator.MULT, rhs);
-            Assert.AreEqual(QValueType.DOUBLE, expression.GetQValueType());
+            var lhs = new LiteralNode(Location.Empty, "10.0", QValueType.Double);
+            var rhs = new LiteralNode(Location.Empty, "5.0", QValueType.Integer);
+            var expression = new ArthimetricExpressionNode(Location.Empty, lhs, ArthimetricOperator.Mult, rhs);
+            Assert.AreEqual(QValueType.Double, expression.GetQValueType());
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿namespace QLParser.AST.QL
 {
-    public class QuestionNode : QLNode
+    public class QuestionNode : QLNode, IQuestionable
     {
         public string ID { get; private set; }
         public string Text { get; private set; }
         public QValueType ValueType { get; private set; }
 
-        public QuestionNode(Location location, string id, string text, QValueType questionType) : base(location, NodeType.QUESTION)
+        public QuestionNode(Location location, string id, string text, QValueType questionType) : base(location, NodeType.Question)
         {
             this.ID = id;
             this.Text = text;

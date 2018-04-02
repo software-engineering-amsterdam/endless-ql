@@ -1,13 +1,13 @@
-﻿using Antlr4.Runtime.Misc;
-using QLParser.AST.QLS;
+﻿using QLParser.AST.QLS;
 using System.Collections.Generic;
+using System.Linq;
 using static QLSGrammar.QLSGrammarParser;
 
 namespace QLParser.ParserVisitors.QLS
 {
     public class WidgetSpecificationVisitor : QLSGrammar.QLSGrammarBaseVisitor<QLSWidgetSpecification>
     {
-        public override QLSWidgetSpecification VisitWidgetspecification([NotNull] WidgetspecificationContext context)
+        public override QLSWidgetSpecification VisitWidgetspecification(WidgetspecificationContext context)
         {
             if (context == null)
                 return new QLSWidgetSpecification();
@@ -20,17 +20,18 @@ namespace QLParser.ParserVisitors.QLS
 
         private IList<string> VisitWidgetTypeArguments(WidgettypeargumentsContext context)
         {
-            var arguments = new List<string>();
             if (context.children == null)
-                return arguments;
+                return new List<string>();
 
-            // This loop gets all the strings positioned at the odd indexes. The strings on the 
-            // even positions are interpunction, therefore we want to skip them.
-            for (var i = 0; i < context.children.Count; i++)
+            var rawArguments = context.children.Select(x => x.GetText());
+            return GetUneven(rawArguments).Select(x => Util.RemoveQuotes(x)).ToList();
+        }
+
+        private IEnumerable<string> GetUneven(IEnumerable<string> values)
+        {
+            for (var i = 0; i < values.Count(); i++)
                 if (i % 2 != 0)
-                    arguments.Add(Util.RemoveQuotes(context.children[i].GetText()));
-
-            return arguments;
+                    yield return values.ElementAt(i);
         }
     }
 }

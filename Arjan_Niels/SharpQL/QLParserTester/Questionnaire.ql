@@ -28,4 +28,16 @@
 	}
 		"Diff:"
 			diff: money = buyingPrice - 10.0
+
+	"What is your name?"
+		name: text		
+
+	"What is your middle name?"
+		middlename: text		
+
+	"What is your lastname?"
+		lastname: text		
+
+	"Fullname"
+		fullName: text = name + middlename + lastname
 }

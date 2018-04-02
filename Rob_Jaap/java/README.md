@@ -1,3 +1,7 @@
+##### Authors
+* Rob Kunst (10458417)
+* Jaap Koetsier (10440615)
+
 ##### Techniques:
 * Java Spring Boot
 * Maven

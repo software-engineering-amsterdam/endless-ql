@@ -1,6 +1,7 @@
-﻿using QLVisualizer.Elements.Managers;
-using QLVisualizer.Elements.Managers.CollectionTypes;
+﻿using QLVisualizer.Elements.Managers.CollectionTypes;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace QLVisualizer.Controllers
 {
@@ -12,15 +13,15 @@ namespace QLVisualizer.Controllers
     public abstract class ElementManagerController
     {
         /// <summary>
-        /// Collection of widgets, dictionary on widget identifyer
+        /// Collection of widgets, dictionary on widget identifier
         /// </summary>
         public FormManager Form { get; private set; }
 
         private ParseController _parseController;
 
-        public ElementManagerController(FormManager formManager)
+        public ElementManagerController()
         {
-            Form = formManager;
+            Form = null;
             _parseController = new ParseController();
         }
 
@@ -44,51 +45,22 @@ namespace QLVisualizer.Controllers
 
         protected void HandleInput(string rawQL, string rawQLS)
         {
-            Form = HandleQL(rawQL);
-            if (rawQLS != "")
-                Form = HandleQLS(rawQLS);
-            RegisterActiveChangedListener(Form);
-            DisplayForm();
-        }
-
-
-        private FormManager HandleQLS(string rawQLS)
-        {
-            return _parseController.ParseQLS(rawQLS, Form, this).Item2;
-        }
-
-        protected void RegisterActiveChangedListener(ElementManagerCollection elementManagerCollection)
-        {
-            foreach (ElementManager child in elementManagerCollection.Children)
-                switch (child)
-                {
-                    case ElementManagerCollection collection:
-                        collection.OnActiveChange += ElementActiveChanged;
-                        RegisterActiveChangedListener(collection);
-                        break;
-                    case ElementManagerLeaf leaf:
-                        leaf.OnActiveChange += ElementActiveChanged;
-                        break;
-                }
-        }
-
-        private void ElementActiveChanged(string identifier, bool isActive)
-        {
-            DisplayForm();
-        }
-
-        /// <summary>
-        /// Handles QL-language input
-        /// </summary>
-        /// <param name="rawQL">Raw QL-language string</param>
-        private FormManager HandleQL(string rawQL)
-        {
-            Tuple<string[], FormManager> parseResults = _parseController.ParseQL(rawQL, this);
-            if (parseResults.Item1.Length > 0)
-                ShowError(parseResults.Item1);
-            else
-                return parseResults.Item2;
-            return null;
+            List<string> errors = new List<string>();
+            try
+            {
+                Form = _parseController.Parse(rawQL, rawQLS, this, ref errors);
+            }
+            catch (Exception e)
+            {
+                errors.Add(UserMessages.FatalErrorOccured(e.Message));
+            }
+            finally
+            {
+                if (errors.Count > 0)
+                    ShowError(errors.ToArray());
+                else
+                    DisplayForm();
+            }
         }
 
         /// <summary>
@@ -104,5 +76,21 @@ namespace QLVisualizer.Controllers
         {
             Form = null;
         }
+
+        protected void Export()
+        {
+            string filename = string.Format("{0}.xml", Form.Identifier);
+            try
+            {
+                File.WriteAllText(filename, AnswersToXml());
+                ShowExportedMessage(filename);
+            }
+            catch
+            {
+                ShowError(UserMessages.UnableToExport(filename));
+            }
+        }
+
+        protected abstract void ShowExportedMessage(string filename);
     }
 }

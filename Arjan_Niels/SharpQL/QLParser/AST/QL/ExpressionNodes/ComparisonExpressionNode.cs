@@ -13,10 +13,10 @@ namespace QLParser.AST.QL.ExpressionNodes
 
         public ComparisonOperator Operator { get; private set; }
 
-        public ComparisonExpressionNode(Location location, IExpressionNode left, ComparisonOperator opr, IExpressionNode right) : base(location, NodeType.COMPARISON_EXPRESSION)
+        public ComparisonExpressionNode(Location location, IExpressionNode left, ComparisonOperator op, IExpressionNode right) : base(location, NodeType.ComparisonExpression)
         {
             this.Left = left;
-            this.Operator = opr;
+            this.Operator = op;
             this.Right = right;
         }
 
@@ -25,15 +25,15 @@ namespace QLParser.AST.QL.ExpressionNodes
             switch (opr)
             {
                 case GT:
-                    return ComparisonOperator.GT;
+                    return ComparisonOperator.GreaterThan;
                 case GE:
-                    return ComparisonOperator.GE;
+                    return ComparisonOperator.GreaterEqual;
                 case LT:
-                    return ComparisonOperator.LT;
+                    return ComparisonOperator.LessThan;
                 case LE:
-                    return ComparisonOperator.LE;
+                    return ComparisonOperator.LessEqual;
                 case EQ:
-                    return ComparisonOperator.EQ;
+                    return ComparisonOperator.Equal;
                 default:
                     throw new UnknownOperatorException(string.Format("We don't know what to do with this operator: {0}", opr));
             }

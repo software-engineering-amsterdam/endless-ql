@@ -8,17 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DeclarationTable {
-    private final Map<Identifier, Type> declarations = new HashMap<>();
+    private final Map<String, Type> declarations = new HashMap<>();
 
     public Type add(Identifier id, Type value) {
-        return declarations.put(id, value);
+        return declarations.put(id.toString(), value);
     }
 
     public Type find(Identifier id) {
-        return declarations.get(id);
+        return declarations.get(id.toString());
     }
 
     public boolean exists(Identifier id) {
-        return declarations.containsKey(id);
+        return declarations.containsKey(id.toString());
     }
 }

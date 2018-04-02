@@ -19,6 +19,8 @@ import javax.swing.text.Element;
 import javax.swing.text.NumberFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.NumberFormat;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -282,17 +284,11 @@ public class QLFormBuilder {
 
         textField.setText(((MoneyExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
-        textField.getDocument().addDocumentListener(new DocumentListener() {
+        textField.addFocusListener(new FocusListener() {
 
-            public void changedUpdate(DocumentEvent e) {
-                update();
-            }
+            public void focusGained(FocusEvent e) { }
 
-            public void removeUpdate(DocumentEvent e) {
-                update();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
+            public void focusLost(FocusEvent e) {
                 update();
             }
 
@@ -307,13 +303,10 @@ public class QLFormBuilder {
                             .parseFloat(textField.getText()));
 
                     updateForm();
-
-                    textField.requestFocus();
-
                 }
             }
-        });
 
+        });
 
         // return the text field that is configured by the formatter
         return textField;
@@ -336,16 +329,15 @@ public class QLFormBuilder {
 
         JFormattedTextField textField = new JFormattedTextField(formatter);
 
-        textField.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                update();
-            }
+        SymbolTableEntry symbol = symbolTable.getEntry(element.getLabel().getLabel());
 
-            public void removeUpdate(DocumentEvent e) {
-                update();
-            }
+        textField.setText(((StringExpressionValue) symbol.getExpressionValue()).getValue().toString());
 
-            public void insertUpdate(DocumentEvent e) {
+        textField.addFocusListener(new FocusListener() {
+
+            public void focusGained(FocusEvent e) { }
+
+            public void focusLost(FocusEvent e) {
                 update();
             }
 
@@ -361,6 +353,7 @@ public class QLFormBuilder {
                     updateForm();
                 }
             }
+
         });
 
         // return the text field that is configured by the formatter

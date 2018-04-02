@@ -11,6 +11,7 @@ trait RangeCheck {
       answerType: AnswerType,
       minimum: Double,
       maximum: Double): Seq[Option[TypeCheckError]] = {
+
     if (answerType == IntegerType) {
       Seq(
         checkRange("SliderRangeCheck", minimum, maximum),

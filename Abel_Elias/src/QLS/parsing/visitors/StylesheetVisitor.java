@@ -1,7 +1,6 @@
 package QLS.parsing.visitors;
 
 import QL.classes.Question;
-import QLS.classes.blocks.Block;
 import QLS.classes.Page;
 import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Section;

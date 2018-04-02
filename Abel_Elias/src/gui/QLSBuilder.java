@@ -3,6 +3,7 @@ package gui;
 import QL.parsing.visitors.FormVisitor;
 import QLS.classes.Page;
 import QLS.classes.blocks.Element;
+import QLS.classes.blocks.ElementType;
 import QLS.classes.blocks.Section;
 import QLS.classes.blocks.StyledQuestion;
 import QLS.classes.properties.ColorProperty;
@@ -58,10 +59,9 @@ public class QLSBuilder implements Observer {
 
     private void buildElements(SectionPanel sectionPanel) {
         for (Element element : sectionPanel.getSection().getElements()) {
-            //TODO: replace ugly instance of statements
-            if (element instanceof StyledQuestion) {
+            if (element.getType().equals(ElementType.QUESTION)) {
                 sectionPanel.add(buildQuestion((StyledQuestion) element));
-            } else if (element instanceof Section) {
+            } else if (element.getType().equals(ElementType.SECTION)) {
                 sectionPanel.add(buildSection((Section) element));
             }
         }

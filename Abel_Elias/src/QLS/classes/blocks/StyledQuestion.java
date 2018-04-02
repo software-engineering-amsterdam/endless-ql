@@ -15,7 +15,7 @@ public class StyledQuestion extends Element {
     private List<Property> properties;
 
     public StyledQuestion(String name, Question question, String parentId, Widget widget, List<Property> properties) {
-        super();
+        super(ElementType.QUESTION);
         this.name = name;
         this.widget = widget;
         this.question = question;

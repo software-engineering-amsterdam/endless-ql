@@ -1,6 +1,7 @@
 package QL.Analysis;
 
 import QL.AST.Form;
+import QL.AST.Question;
 
 public class CycleDetector {
     private final Form form;
@@ -10,6 +11,7 @@ public class CycleDetector {
     }
 
     public void detectCycles(){
-
+        for(Question question : form.getQuestions()){
+        }
     }
 }

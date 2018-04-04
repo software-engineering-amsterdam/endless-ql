@@ -25,7 +25,6 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
         Expression left = visit(ctx.left);
         Expression right = visit(ctx.right);
         String operator = ctx.operator().getText();
-        System.out.println(operator);
 
         switch(operator){
             case "+" : return new AdditionExpression(left, right, line);

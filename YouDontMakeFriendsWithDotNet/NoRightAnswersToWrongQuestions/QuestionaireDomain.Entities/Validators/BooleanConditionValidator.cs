@@ -17,11 +17,11 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            DomainId<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> rootNode)
         {
             return Validate<IBooleanVariableNode, BooleanConditionValidationMetaData>(
-                questionnaireRootNode,
-                x => x != typeof(bool),
+                rootNode,
+                x => !(x is BooleanQuestionType),
                 @"condition",
                 @"bool");
         }

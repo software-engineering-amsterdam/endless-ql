@@ -4,8 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using QlsParser;
 using QlsTransformer;
-using QlsTransformer.Ast.Nodes;
-using QlsTransformer.Ast.Tools;
+using QlsTransformer.Domain.Ast.Nodes;
+using QlsTransformer.Domain.Ast.Tools;
 using QuestionnaireDomain.Entities;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireInfrastructure;
@@ -34,7 +34,6 @@ namespace QLS.UnitTests.ParserTests
         [TearDown]
         public void Cleanup()
         {
-            //ToDo: this is a hack, should fix lifetime of service (possibly)
             var registry = m_serviceProvider.GetService<IDomainItemRegistry>();
             registry.Nuke();
         }

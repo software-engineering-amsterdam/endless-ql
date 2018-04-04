@@ -14,12 +14,18 @@ public class IntegerValue extends Value {
 
     @Override
     public Value add(Value value) {
+        if (value.getValue() == null) {
+            return new Undefined();
+        }
         IntegerValue integerValue = (IntegerValue) value;
         return new IntegerValue(this.value + integerValue.getValue());
     }
 
     @Override
     public Value divide(Value value) {
+        if (value.getValue() == null) {
+            return new Undefined();
+        }
         IntegerValue integerValue = (IntegerValue) value;
         return new IntegerValue(this.value / integerValue.getValue());
     }
@@ -56,6 +62,9 @@ public class IntegerValue extends Value {
 
     @Override
     public Value multiply(Value value) {
+        if (value.getValue() == null) {
+            return new Undefined();
+        }
         IntegerValue integerValue = (IntegerValue) value;
         return new IntegerValue(this.value * integerValue.getValue());
     }
@@ -68,6 +77,9 @@ public class IntegerValue extends Value {
 
     @Override
     public Value subtract(Value value) {
+        if (value.getValue() == null) {
+            return new Undefined();
+        }
         IntegerValue integerValue = (IntegerValue) value;
         return new IntegerValue(this.value - integerValue.getValue());
     }

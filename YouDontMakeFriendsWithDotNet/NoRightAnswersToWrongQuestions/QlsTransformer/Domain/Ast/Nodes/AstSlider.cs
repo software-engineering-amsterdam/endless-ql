@@ -1,10 +1,10 @@
-﻿namespace QlsTransformer.Ast.Nodes
+﻿namespace QlsTransformer.Domain.Ast.Nodes
 {
     public class AstSlider : ISlider
     {
         public AstSlider(
-            int rangeStart, 
-            int rangeEnd, 
+            int rangeStart,
+            int rangeEnd,
             int step)
         {
             RangeStart = rangeStart;

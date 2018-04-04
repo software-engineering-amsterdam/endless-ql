@@ -20,6 +20,8 @@ namespace Assignment1.TypeChecking
             _warnings.AddRange(tuple.warnings);
         }
 
+        public void Add(MessageContainer messages) => Add(messages.ToTuple());
+
         public (IEnumerable<string> errors, IEnumerable<string> warnings) ToTuple() => (_errors, _warnings);
     }
 }

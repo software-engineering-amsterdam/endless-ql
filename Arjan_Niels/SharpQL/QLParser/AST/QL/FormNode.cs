@@ -1,10 +1,10 @@
 ﻿namespace QLParser.AST.QL
 {
-    public class FormNode : QLNode
+    public class FormNode : QLCollectionNode
     {
         public string FormName { get; set; }
 
-        public FormNode(Location location, string formName) : base(location, NodeType.FORM)
+        public FormNode(Location location, string formName) : base(location, NodeType.Form)
         {
             this.FormName = formName;
         }

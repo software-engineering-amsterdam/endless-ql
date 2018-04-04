@@ -34,6 +34,8 @@
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression.ZipFile">
@@ -46,6 +48,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\Nodes\Boolean\Interfaces\IAndNode.cs" />
@@ -69,9 +72,14 @@
     <Compile Include="Ast\Nodes\Common\Interfaces\IUntypedVariableNode.cs" />
     <Compile Include="Ast\Nodes\Common\Interfaces\IVariableNode.cs" />
     <Compile Include="Ast\Nodes\Common\UntypedVariableNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\BooleanQuestionType.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\DateQuestionType.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\DecimalQuestionType.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\ICalculatedQuestionNode.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IConditionalStatementNode.cs" />
     <Compile Include="Ast\Nodes\Boolean\Interfaces\IOrNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IntegerQuestionType.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IQuestionType.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IStatementNode.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\INonTerminal.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IQuestionnaireRootNode.cs" />
@@ -79,6 +87,8 @@
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IQuestionNode.cs" />
     <Compile Include="Ast\Nodes\Boolean\Interfaces\IUnaryExpressionNode.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IUserInputQuestionNode.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\QuestionTypeBase.cs" />
+    <Compile Include="Ast\Nodes\Questionnaire\Interfaces\StringQuestionType.cs" />
     <Compile Include="Ast\Nodes\Relational\Interfaces\IDateVariableNode.cs" />
     <Compile Include="Ast\Nodes\Relational\Interfaces\IEqualityNode.cs" />
     <Compile Include="Ast\Nodes\Relational\Interfaces\IGreaterOrEqualNode.cs" />
@@ -92,14 +102,12 @@
     <Compile Include="Ast\Nodes\Relational\Interfaces\ITextVariableNode.cs" />
     <Compile Include="Ast\Tools\Interfaces\IQuestionnaireAstCreator.cs" />
     <Compile Include="Ast\Tools\QuestionnaireAstCreator.cs" />
-    <Compile Include="Domain\CalculationVariableVisitor.cs" />
+    <Compile Include="Domain\AstExtensions.cs" />
     <Compile Include="Domain\DomainItemLocator.cs" />
-    <Compile Include="Domain\Interfaces\ITypeService.cs" />
     <Compile Include="Domain\Interfaces\IVariableService.cs" />
     <Compile Include="Domain\Interfaces\IVariableUpdater.cs" />
     <Compile Include="Domain\Interfaces\VariableUpdater.cs" />
     <Compile Include="Domain\QlValidationException.cs" />
-    <Compile Include="Domain\TypeService.cs" />
     <Compile Include="Domain\VariableService.cs" />
     <Compile Include="Output\Tools\BooleanEvaluatorVisitor.cs" />
     <Compile Include="Output\Tools\BuildOutputVisitor.cs" />
@@ -119,7 +127,7 @@
     <Compile Include="Domain\Interfaces\IDomainItem.cs" />
     <Compile Include="Domain\Interfaces\IDomainItemLocator.cs" />
     <Compile Include="Domain\Interfaces\IDomainItemRegistry.cs" />
-    <Compile Include="Ast\Tools\Interfaces\IAstTreeBuilder.cs" />
+    <Compile Include="Ast\Tools\Interfaces\IAstBuilder.cs" />
     <Compile Include="Ast\Nodes\Questionnaire\Interfaces\IQuestionnaireNode.cs" />
     <Compile Include="Output\Tools\Interfaces\IQuestionnaireOutputCreator.cs" />
     <Compile Include="Output\Nodes\Interfaces\IQuestionOutput.cs" />
@@ -180,6 +188,7 @@
     <Compile Include="Validators\Interfaces\IDuplicateTextValidator.cs" />
     <Compile Include="Validators\Interfaces\IMathComparisonValidator.cs" />
     <Compile Include="Validators\Interfaces\IMathExpressionValidator.cs" />
+    <Compile Include="Validators\Interfaces\IQuestionnairValidator.cs" />
     <Compile Include="Validators\Interfaces\ITextComparisonValidator.cs" />
     <Compile Include="Validators\Interfaces\IUnknownTypeValidator.cs" />
     <Compile Include="Validators\MathComparisonValidator.cs" />

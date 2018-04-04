@@ -1,0 +1,30 @@
+stylesheet styledQuestionsSheet
+{
+  page firstPage
+  {
+    section "section1"
+    {
+        question styledQuestion1
+            widget checkbox
+    }
+  }
+  page secondPage
+  {
+    section "section2"
+    {
+        question styledQuestion2
+            widget checkbox
+    }
+  }
+  page thirdPage
+  {
+    section "section2"
+    {
+        section "section3"
+        {
+            question styledQuestion3
+                widget checkbox
+        }
+    }
+  }
+}

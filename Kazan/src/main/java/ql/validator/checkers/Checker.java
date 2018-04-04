@@ -2,13 +2,14 @@ package ql.validator.checkers;
 
 import issuetracker.Error;
 import issuetracker.Warning;
-import ql.ast.Form;
 
 import java.util.List;
 
-public interface Checker {
+public interface Checker<T> {
 
-    boolean passesTests(Form form);
+    //TODO: Handle allow for stylesheet parameter
+
+    boolean passesTests(T ast);
 
     List<Error> getErrors();
 

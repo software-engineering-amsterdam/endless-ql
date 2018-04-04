@@ -12,12 +12,18 @@ public class QuestionView extends JPanel {
     private final Widget widget;
     private final QuestionModel questionModel;
 
-    public QuestionView(QuestionModel questionModel) {
+    public QuestionView(QuestionModel questionModel, Widget widget) {
         super(new GridBagLayout());
-        questionModel.setQuestionView(this);
 
+        if (widget != null){
+            this.widget = widget;
+        } else {
+            this.widget = createDefaultWidget(questionModel);
+        }
+
+        questionModel.setQuestionView(this);
         this.questionModel = questionModel;
-        this.widget = createDefaultWidget(questionModel);
+
         JLabel labelComponent = new JLabel(questionModel.getQuestionLabel());
 
         this.setBorder(new EmptyBorder(5, 5, 5, 5));

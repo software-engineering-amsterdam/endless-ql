@@ -7,6 +7,10 @@ public class NumberNode extends ExpressionNode
 {
     private int value;
 
+    public NumberNode() {
+        super(false);
+    }
+
     public void setValue(int value)
     {
         this.value = value;

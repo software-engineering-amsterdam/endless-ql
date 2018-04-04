@@ -163,7 +163,7 @@ public class QLGrammarTest {
         String symbolMoney = ((LineElement) (elements.get(2))).getLabel().getLabel();
         String symbolString = ((LineElement) (elements.get(3))).getLabel().getLabel();
 
-        SymbolTable symbolTable = astRoot.getQuestionSymbolTable();
+        SymbolTable symbolTable = astRoot.getSymbolTable();
 
         assertTrue(((BooleanExpressionValue) symbolTable.getEntry(symbolBoolean)
                 .getExpressionValue()).getValue().equals(false));

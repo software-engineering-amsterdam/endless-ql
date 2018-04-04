@@ -1,6 +1,7 @@
 import unittest
-from pyql.ast import code_location
+
 from pyql.ast.form import block
+from util import code_location
 
 
 class TestBlock(unittest.TestCase):

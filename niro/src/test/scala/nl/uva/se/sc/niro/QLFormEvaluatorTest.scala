@@ -1,10 +1,10 @@
 package nl.uva.se.sc.niro
 
-import nl.uva.se.sc.niro.model.ql._
-import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator
-import nl.uva.se.sc.niro.model.ql.evaluation.QLFormEvaluator.ValueStore
-import nl.uva.se.sc.niro.model.ql.expressions._
-import nl.uva.se.sc.niro.model.ql.expressions.answers.{ BooleanAnswer, DateAnswer, DecimalAnswer, IntegerAnswer }
+import nl.uva.se.sc.niro.ql.model.ast._
+import nl.uva.se.sc.niro.ql.model.ast.evaluation.QLFormEvaluator
+import nl.uva.se.sc.niro.ql.model.ast.evaluation.QLFormEvaluator.ValueStore
+import nl.uva.se.sc.niro.ql.model.ast.expressions._
+import nl.uva.se.sc.niro.ql.model.ast.expressions.answers.{ BooleanAnswer, DateAnswer, DecimalAnswer, IntegerAnswer }
 import org.scalatest.WordSpec
 
 class QLFormEvaluatorTest extends WordSpec {

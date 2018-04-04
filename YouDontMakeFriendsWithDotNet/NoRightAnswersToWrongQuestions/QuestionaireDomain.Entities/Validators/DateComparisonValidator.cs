@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Ast.Nodes.Relational.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
@@ -18,11 +17,11 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            DomainId<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> rootNode)
         {
             return Validate<IDateVariableNode, DateComparisonValidationMetaData>(
-                questionnaireRootNode,
-                x => x != typeof(DateTime),
+                rootNode,
+                x => x != new DateQuestionType(),
                 @"date comparison",
                 @"date");
         }

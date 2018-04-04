@@ -1,76 +1,73 @@
 package QLS.parsing.visitors;
 
-import QL.parsing.gen.QLBaseVisitor;
-import QLS.classes.widgets.CheckBoxWidget;
-import QLS.classes.widgets.DropdownWidget;
-import QLS.classes.widgets.RadioWidget;
-import QLS.classes.widgets.SliderWidget;
-import QLS.classes.widgets.SpinBoxWidget;
-import QLS.classes.widgets.TextWidget;
-import QLS.classes.widgets.Widget;
-import QLS.classes.widgets.WidgetType;
+import QL.classes.values.BooleanValue;
+import QL.classes.values.NumericValue;
+import QL.classes.values.StringValue;
+import QL.classes.values.Value;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
+import gui.widgets.CheckBoxWidget;
+import gui.widgets.DropDownWidget;
+import gui.widgets.RadioWidget;
+import gui.widgets.SliderWidget;
+import gui.widgets.SpinBoxWidget;
+import gui.widgets.TextWidget;
+import gui.widgets.Widget;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.util.ArrayList;
 
 public class WidgetVisitor extends QLSBaseVisitor {
+    private Value currentValue;
 
-    @Override
-    public Widget visitWidget(QLSParser.WidgetContext ctx) {
-        return new Widget(visitWidgetType(ctx.widgetType()));
-    }
-
-    @Override
-    public WidgetType visitWidgetType(QLSParser.WidgetTypeContext ctx) {
-        if(ctx.checkboxWidget() != null) {
-            return visitCheckboxWidget(ctx.checkboxWidget());
-        } else if(ctx.textWidget() != null) {
-            return visitTextWidget(ctx.textWidget());
-        } else if (ctx.radioWidget() != null) {
-            return visitRadioWidget(ctx.radioWidget());
-        } else if (ctx.spinboxWidget() != null) {
-            return visitSpinboxWidget(ctx.spinboxWidget());
-        } else if (ctx.sliderWidget() != null) {
-            return visitSliderWidget(ctx.sliderWidget());
-        } else if (ctx.dropdownWidget() != null) {
-            return visitDropdownWidget(ctx.dropdownWidget());
-        }  else {
-            return null;
-        }
+    public Widget visitWidget(QLSParser.WidgetContext ctx, Value value) {
+        this.currentValue = value;
+        return (Widget) super.visitWidgetType(ctx.widgetType());
     }
 
     @Override
     public CheckBoxWidget visitCheckboxWidget(QLSParser.CheckboxWidgetContext ctx) {
-        return new CheckBoxWidget();
-    }
 
-    @Override
-    public TextWidget visitTextWidget(QLSParser.TextWidgetContext ctx) {
-        return new TextWidget();
-    }
-
-    @Override
-    public RadioWidget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
-        if (ctx.STR().size() != 0) {
-            return new RadioWidget(ctx.STR(0).getText(), ctx.STR(1).getText());
-        }
-        return new RadioWidget();
+        return new CheckBoxWidget((BooleanValue) currentValue);
     }
 
     @Override
     public SpinBoxWidget visitSpinboxWidget(QLSParser.SpinboxWidgetContext ctx) {
-        return new SpinBoxWidget();
+        return new SpinBoxWidget((NumericValue) currentValue);
     }
+
+    @Override
+    public TextWidget visitTextWidget(QLSParser.TextWidgetContext ctx) {
+        return new TextWidget((StringValue) currentValue);
+    }
+
+    @Override
+    public RadioWidget visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
+        ArrayList<String> options = new ArrayList<>();
+
+        for (TerminalNode t : ctx.argList().STR()) {
+            options.add(t.getText());
+        }
+
+        return new RadioWidget(currentValue, options.toArray());
+    }
+
 
     @Override
     public SliderWidget visitSliderWidget(QLSParser.SliderWidgetContext ctx) {
-        return new SliderWidget();
+        int min = Integer.parseInt(ctx.min.getText());
+        int max = Integer.parseInt(ctx.max.getText());
+        return new SliderWidget((NumericValue) currentValue, min, max);
     }
 
     @Override
-    public DropdownWidget visitDropdownWidget(QLSParser.DropdownWidgetContext ctx) {
-        if (ctx.STR().size() != 0) {
-            return new DropdownWidget(ctx.STR(0).getText(), ctx.STR(1).getText());
+    public DropDownWidget visitDropdownWidget(QLSParser.DropdownWidgetContext ctx) {
+        ArrayList<String> options = new ArrayList<>();
+
+        for (TerminalNode t : ctx.argList().STR()) {
+            options.add(t.getText());
         }
-        return new DropdownWidget();
+
+        return new DropDownWidget(currentValue, options.toArray());
     }
 }

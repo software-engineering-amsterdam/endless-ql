@@ -8,10 +8,10 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Boolean
     internal abstract class BooleanBinaryNodeBase : AstNodeBase
     {
         protected BooleanBinaryNodeBase(
-            Guid id, 
-            string definition, 
-            DomainId<IBooleanLogicNode> leftExpression, 
-            DomainId<IBooleanLogicNode> rightExpression) 
+            Guid id,
+            string definition,
+            DomainId<IBooleanLogicNode> leftExpression,
+            DomainId<IBooleanLogicNode> rightExpression)
             : base(id, definition)
         {
             LeftExpression = leftExpression;

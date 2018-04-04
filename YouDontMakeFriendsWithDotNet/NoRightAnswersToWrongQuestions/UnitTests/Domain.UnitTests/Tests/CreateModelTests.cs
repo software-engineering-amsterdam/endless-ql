@@ -41,12 +41,10 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
         [TearDown]
         public void Cleanup()
         {
-            //ToDo: this is a hack, should fix lifetime of service (possibly)
             var registry = m_serviceProvider.GetService<IDomainItemRegistry>();
             registry.Nuke();
         }
-
-
+        
         [TestCaseSource(
             typeof(TestModelCreationData),
             nameof(TestModelCreationData.SimpleQuestionnaireCases))]
@@ -71,7 +69,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             nameof(TestModelCreationData.QuestionTypes))]
         public void GivenAValidType_ReturnsQuestionOfCorrectType(
            string validDefinition,
-           Type questionType) 
+           IQuestionType questionType) 
         {
             CreateOutputForm(validDefinition);
             var domainItem = m_domainItemLocator
@@ -80,8 +78,8 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
 
             Assert.NotNull(domainItem);
             Assert.AreEqual(
-                expected: questionType, 
-                actual: domainItem.QuestionType);
+                expected: questionType.GetType(), 
+                actual: domainItem.QuestionType.GetType());
         }
         
         [TestCaseSource(
@@ -101,7 +99,6 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
                 expected: questionValue,
                 actual: outputItem.Value);
         }
-
 
         [TestCaseSource(
             typeof(TestModelCreationData),
@@ -132,19 +129,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             int newValueVariable2)
         {
             CreateOutputForm(validDefinition);
-            var actualInitialVisibleCount = GetVisibleCount();
-            var actualInitialInvisibleCount = GetInvisibleCount();
-
-            UpdateVariable(@"q1", newValueVariable1);
-            UpdateVariable(@"q2", newValueVariable2);
-
-            var actualNewVisibleCount = GetVisibleCount();
-            var actualNewInvisibleCount = GetInvisibleCount();
-
-            Assert.AreEqual(expected: 3, actual: actualInitialVisibleCount);
-            Assert.AreEqual(expected: 2, actual: actualInitialInvisibleCount);
-            Assert.AreEqual(expected: 4, actual: actualNewVisibleCount);
-            Assert.AreEqual(expected: 1, actual: actualNewInvisibleCount);
+            TrueToFalse(newValueVariable1, newValueVariable2);
         }
 
         [TestCaseSource(
@@ -156,20 +141,8 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             int newValueVariable2)
         {
             CreateOutputForm(validDefinition);
-            var actualInitialVisibleCount = GetVisibleCount();
-            var actualInitialInvisibleCount = GetInvisibleCount();
-
-            UpdateVariable(@"q1", newValueVariable1);
-            UpdateVariable(@"q2", newValueVariable2);
-
-            var actualNewVisibleCount = GetVisibleCount();
-            var actualNewInvisibleCount = GetInvisibleCount();
-
-            Assert.AreEqual(expected: 4, actual: actualInitialVisibleCount);
-            Assert.AreEqual(expected: 1, actual: actualInitialInvisibleCount);
-            Assert.AreEqual(expected: 3, actual: actualNewVisibleCount);
-            Assert.AreEqual(expected: 2, actual: actualNewInvisibleCount);
-        }
+            FalseToTrue(newValueVariable1, newValueVariable2);
+          }
 
         [TestCaseSource(
             typeof(TestModelCreationData),
@@ -180,6 +153,33 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             decimal newValueVariable2)
         {
             CreateOutputForm(validDefinition);
+            TrueToFalse(newValueVariable1, newValueVariable2);
+        }
+
+        private void TrueToFalse<T>(T newValueVariable1, T newValueVariable2)
+        {
+            ChangeVisibilityCheck(
+                newValueVariable1, 
+                newValueVariable2,
+                3,2,4,1);
+        }
+
+        private void FalseToTrue<T>(T newValueVariable1, T newValueVariable2)
+        {
+            ChangeVisibilityCheck(
+                newValueVariable1,
+                newValueVariable2,
+                4,1,3,2);
+        }
+
+        private void ChangeVisibilityCheck<T>(
+            T newValueVariable1,
+            T newValueVariable2,
+            int expectedInitialVisibleCount,
+            int expectedInitialInvisibleCount,
+            int expectedNewVisibleCount,
+            int expectedNewInvisibleCount)
+        {
             var actualInitialVisibleCount = GetVisibleCount();
             var actualInitialInvisibleCount = GetInvisibleCount();
 
@@ -189,10 +189,18 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             var actualNewVisibleCount = GetVisibleCount();
             var actualNewInvisibleCount = GetInvisibleCount();
 
-            Assert.AreEqual(expected: 3, actual: actualInitialVisibleCount);
-            Assert.AreEqual(expected: 2, actual: actualInitialInvisibleCount);
-            Assert.AreEqual(expected: 4, actual: actualNewVisibleCount);
-            Assert.AreEqual(expected: 1, actual: actualNewInvisibleCount);
+            Assert.AreEqual(
+                expected: expectedInitialVisibleCount, 
+                actual: actualInitialVisibleCount);
+            Assert.AreEqual(
+                expected: expectedInitialInvisibleCount, 
+                actual: actualInitialInvisibleCount);
+            Assert.AreEqual(
+                expected: expectedNewVisibleCount, 
+                actual: actualNewVisibleCount);
+            Assert.AreEqual(
+                expected: expectedNewInvisibleCount, 
+                actual: actualNewInvisibleCount);
         }
 
         [TestCaseSource(
@@ -204,19 +212,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             decimal newValueVariable2)
         {
             CreateOutputForm(validDefinition);
-            var actualInitialVisibleCount = GetVisibleCount();
-            var actualInitialInvisibleCount = GetInvisibleCount();
-
-            UpdateVariable(@"q1", newValueVariable1);
-            UpdateVariable(@"q2", newValueVariable2);
-
-            var actualNewVisibleCount = GetVisibleCount();
-            var actualNewInvisibleCount = GetInvisibleCount();
-
-            Assert.AreEqual(expected: 4, actual: actualInitialVisibleCount);
-            Assert.AreEqual(expected: 1, actual: actualInitialInvisibleCount);
-            Assert.AreEqual(expected: 3, actual: actualNewVisibleCount);
-            Assert.AreEqual(expected: 2, actual: actualNewInvisibleCount);
+            FalseToTrue(newValueVariable1, newValueVariable2);
         }
 
         [TestCaseSource(
@@ -228,19 +224,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             DateTime newValueVariable2)
         {
             CreateOutputForm(validDefinition);
-            var actualInitialVisibleCount = GetVisibleCount();
-            var actualInitialInvisibleCount = GetInvisibleCount();
-
-            UpdateVariable(@"q1", newValueVariable1);
-            UpdateVariable(@"q2", newValueVariable2);
-
-            var actualNewVisibleCount = GetVisibleCount();
-            var actualNewInvisibleCount = GetInvisibleCount();
-
-            Assert.AreEqual(expected: 3, actual: actualInitialVisibleCount);
-            Assert.AreEqual(expected: 2, actual: actualInitialInvisibleCount);
-            Assert.AreEqual(expected: 4, actual: actualNewVisibleCount);
-            Assert.AreEqual(expected: 1, actual: actualNewInvisibleCount);
+            TrueToFalse(newValueVariable1, newValueVariable2);
         }
 
         [TestCaseSource(

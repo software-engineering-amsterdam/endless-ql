@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using NUnit.Framework;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 
 namespace QL.UnitTests.Domain.UnitTests.Data
 {
@@ -12,17 +13,17 @@ namespace QL.UnitTests.Domain.UnitTests.Data
             {
                 yield return new TestCaseData(
                     @"form John { q: ""i""  date q: ""2"" string}",
-                    new[] {typeof(DateTime), typeof(string)},
+                    new IQuestionType[] {new DateQuestionType(), new StringQuestionType()},
                     @"The Question identifier 'q' is used multiple times with different types");
 
                 yield return new TestCaseData(
                     @"form Matthew { x: ""i"" integer x: ""2"" decimal x: ""3"" string }",
-                    new[] {typeof(int), typeof(decimal), typeof(string)},
+                    new IQuestionType[] {new IntegerQuestionType(), new DecimalQuestionType(), new StringQuestionType()},
                     @"The Question identifier 'x' is used multiple times with different types");
 
                 yield return new TestCaseData(
                     @"form Matthew { xj: ""i"" integer xj: ""2"" decimal xj: ""3"" decimal }",
-                    new[] {typeof(int), typeof(decimal), typeof(decimal)},
+                    new IQuestionType[] {new IntegerQuestionType(), new DecimalQuestionType(), new DecimalQuestionType()},
                     @"The Question identifier 'xj' is used multiple times with different types");
             }
         }
@@ -59,31 +60,31 @@ namespace QL.UnitTests.Domain.UnitTests.Data
             {
                 yield return new TestCaseData(
                     @"form Phil { pm: ""i"" integer if (pm) { q2: ""i"" integer} }",
-                    @"The variable 'pm' is in a condition but is not a bool, it is 'System.Int32'");
+                    $@"The variable 'pm' is in a condition but is not a bool, it is '{new IntegerQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Grant { gm: ""i"" date if (gm) { q2: ""i"" integer} }",
-                    @"The variable 'gm' is in a condition but is not a bool, it is 'System.DateTime'");
+                    $@"The variable 'gm' is in a condition but is not a bool, it is '{new DateQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Peggy { pm: ""i"" decimal if (pm) { q2: ""i"" integer} }",
-                    @"The variable 'pm' is in a condition but is not a bool, it is 'System.Decimal'");
+                    $@"The variable 'pm' is in a condition but is not a bool, it is '{new DecimalQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Sam { sm: ""i"" string if (sm) { q2: ""i"" integer} }",
-                    @"The variable 'sm' is in a condition but is not a bool, it is 'System.String'");
+                    $@"The variable 'sm' is in a condition but is not a bool, it is '{new StringQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Billy { bm: ""i"" integer if (bm && True) { q2: ""i"" integer} }",
-                    @"The variable 'bm' is in a condition but is not a bool, it is 'System.Int32'");
+                    $@"The variable 'bm' is in a condition but is not a bool, it is '{new IntegerQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Sharron { sm: ""i"" date if (False || sm) { q2: ""i"" integer} }",
-                    @"The variable 'sm' is in a condition but is not a bool, it is 'System.DateTime'");
+                    $@"The variable 'sm' is in a condition but is not a bool, it is '{new DateQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Tiffany { tm: ""i"" decimal if (!tm) { q2: ""i"" integer} }",
-                    @"The variable 'tm' is in a condition but is not a bool, it is 'System.Decimal'");
+                    $@"The variable 'tm' is in a condition but is not a bool, it is '{new DecimalQuestionType()}'");
             }
         }
 
@@ -93,19 +94,19 @@ namespace QL.UnitTests.Domain.UnitTests.Data
             {
                 yield return new TestCaseData(
                     @"form Arthur { af: ""i"" integer if (19/02/1985 == af) { q2: ""i"" integer} }",
-                    @"The variable 'af' is in a date comparison but is not a date, it is 'System.Int32'");
+                    $@"The variable 'af' is in a date comparison but is not a date, it is '{new IntegerQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Pauleen { pf: ""i"" boolean if (pf != 19/2/85) { q2: ""i"" integer} }",
-                    @"The variable 'pf' is in a date comparison but is not a date, it is 'System.Boolean'");
+                    $@"The variable 'pf' is in a date comparison but is not a date, it is '{new BooleanQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Mark { mf: ""i"" decimal if (mf > 14/02/2003) { q2: ""i"" integer} }",
-                    @"The variable 'mf' is in a date comparison but is not a date, it is 'System.Decimal'");
+                    $@"The variable 'mf' is in a date comparison but is not a date, it is '{new DecimalQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Michelle { mf: ""i"" string if (31/12/94 <= mf) { q2: ""i"" integer} }",
-                    @"The variable 'mf' is in a date comparison but is not a date, it is 'System.String'");
+                    $@"The variable 'mf' is in a date comparison but is not a date, it is '{new StringQuestionType()}'");
             }
         }
         
@@ -115,11 +116,11 @@ namespace QL.UnitTests.Domain.UnitTests.Data
             {
                 yield return new TestCaseData(
                     @"form Ian { ib: ""i"" integer if (""a string"" == ib) { q2: ""i"" integer} }",
-                    @"The variable 'ib' is in a string comparison but is not a string, it is 'System.Int32'");
+                    $@"The variable 'ib' is in a string comparison but is not a string, it is '{new IntegerQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Kathy { kb: ""i"" boolean if (kb != ""another sting"") { q2: ""i"" integer} }",
-                    @"The variable 'kb' is in a string comparison but is not a string, it is 'System.Boolean'");
+                    $@"The variable 'kb' is in a string comparison but is not a string, it is '{new BooleanQuestionType()}'");
                }
         }
 
@@ -129,19 +130,19 @@ namespace QL.UnitTests.Domain.UnitTests.Data
             {
                 yield return new TestCaseData(
                     @"form Ricky { rb: ""i"" date if (1 == rb) { q2: ""i"" integer} }",
-                    @"The variable 'rb' is in a number comparison but is not a number, it is 'System.DateTime'");
+                    $@"The variable 'rb' is in a number comparison but is not a number, it is '{new DateQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Pat { pb: ""i"" string if (pb != 10.5) { q2: ""i"" integer} }",
-                    @"The variable 'pb' is in a number comparison but is not a number, it is 'System.String'");
+                    $@"The variable 'pb' is in a number comparison but is not a number, it is '{new StringQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Frank { fb: ""i"" boolean if (-200 <= fb) { q2: ""i"" integer} }",
-                    @"The variable 'fb' is in a number comparison but is not a number, it is 'System.Boolean'");
+                    $@"The variable 'fb' is in a number comparison but is not a number, it is '{new BooleanQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Bianca { bb: ""i"" date if (bb > -365.25) { q2: ""i"" integer} }",
-                    @"The variable 'bb' is in a number comparison but is not a number, it is 'System.DateTime'");
+                    $@"The variable 'bb' is in a number comparison but is not a number, it is '{new DateQuestionType()}'");
             }
         }
 
@@ -258,31 +259,31 @@ form ComplexCyclic1 {
             {
                 yield return new TestCaseData(
                     @"form Charlie { cs: ""i"" boolean clc: ""c"" decimal  = (cs) }",
-                    @"The variable 'cs' is in a calculation but is not a number, it is 'System.Boolean'");
+                    $@"The variable 'cs' is in a calculation but is not a number, it is '{new BooleanQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Kat { ks: ""i"" date clc: ""c"" decimal  = (ks) }",
-                    @"The variable 'ks' is in a calculation but is not a number, it is 'System.DateTime'");
+                    $@"The variable 'ks' is in a calculation but is not a number, it is '{new DateQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Zoe { zs: ""i"" string clc: ""c"" decimal  = (zs) }",
-                    @"The variable 'zs' is in a calculation but is not a number, it is 'System.String'");
+                    $@"The variable 'zs' is in a calculation but is not a number, it is '{new StringQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form LittleMo { lms: ""i"" boolean clc: ""c"" decimal  = (lms + 100) }",
-                    @"The variable 'lms' is in a calculation but is not a number, it is 'System.Boolean'");
+                    $@"The variable 'lms' is in a calculation but is not a number, it is '{new BooleanQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Lynne { ls: ""i"" date clc: ""c"" decimal  = (99 - ls) }",
-                    @"The variable 'ls' is in a calculation but is not a number, it is 'System.DateTime'");
+                    $@"The variable 'ls' is in a calculation but is not a number, it is '{new DateQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Viv { vs: ""i"" string clc: ""c"" decimal  = (123.45 * vs) }",
-                    @"The variable 'vs' is in a calculation but is not a number, it is 'System.String'");
+                    $@"The variable 'vs' is in a calculation but is not a number, it is '{new StringQuestionType()}'");
 
                 yield return new TestCaseData(
                     @"form Luke { ls: ""i"" string clc: ""c"" decimal  = (ls / -999.25) }",
-                    @"The variable 'ls' is in a calculation but is not a number, it is 'System.String'");
+                    $@"The variable 'ls' is in a calculation but is not a number, it is '{new StringQuestionType()}'");
             }
         }
 

@@ -21,7 +21,7 @@ namespace QLParser.Tests.QL.Expressions
         {
             FormNode form = QLParserHelper.Parse(_simpleIntegerForm);
             var comparisonNode = form.Children
-            .Where(x => x.Type == NodeType.CONDITIONAL)
+            .Where(x => x.Type == NodeType.Conditional)
             .Select(x => x as ConditionalNode)
             .First().Expression as ComparisonExpressionNode;
 
@@ -30,10 +30,10 @@ namespace QLParser.Tests.QL.Expressions
             var right = comparisonNode.Right as LiteralNode;
 
             Assert.AreEqual("10", left.Value);
-            Assert.AreEqual(QValueType.INTEGER, left.QValueType);
-            Assert.AreEqual(ComparisonOperator.LT, opr);
+            Assert.AreEqual(QValueType.Integer, left.QValueType);
+            Assert.AreEqual(ComparisonOperator.LessThan, opr);
             Assert.AreEqual("5", right.Value);
-            Assert.AreEqual(QValueType.INTEGER, left.QValueType);
+            Assert.AreEqual(QValueType.Integer, left.QValueType);
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace QLParser.Tests.QL.Expressions
         {
             FormNode form = QLParserHelper.Parse(_simpleDoubleForm);
             var comparisonNode = form.Children
-            .Where(x => x.Type == NodeType.CONDITIONAL)
+            .Where(x => x.Type == NodeType.Conditional)
             .Select(x => x as ConditionalNode)
             .First().Expression as ComparisonExpressionNode;
 
@@ -50,10 +50,10 @@ namespace QLParser.Tests.QL.Expressions
             var right = comparisonNode.Right as LiteralNode;
 
             Assert.AreEqual("10.0", left.Value);
-            Assert.AreEqual(QValueType.DOUBLE, left.QValueType);
-            Assert.AreEqual(ComparisonOperator.GT, opr);
+            Assert.AreEqual(QValueType.Double, left.QValueType);
+            Assert.AreEqual(ComparisonOperator.GreaterThan, opr);
             Assert.AreEqual("5.5", right.Value);
-            Assert.AreEqual(QValueType.DOUBLE, left.QValueType);
+            Assert.AreEqual(QValueType.Double, left.QValueType);
         }
     }
 }

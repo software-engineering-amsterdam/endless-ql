@@ -6,7 +6,7 @@ using QuestionnaireOrchestration.Commands;
 
 namespace QuestionnaireOrchestration.CommandHandlers
 {
-    internal class UpdateValuesCommandHandler : 
+    internal class UpdateValuesCommandHandler :
         ICommandHandler<UpdateValuesCommand>
     {
         private readonly IDomainItemLocator m_domainItemLocator;

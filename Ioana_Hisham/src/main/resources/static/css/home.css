@@ -10,13 +10,7 @@ body {
     flex-direction: column;
 }
 
-#content {
-    flex-grow: 1;
-
-    display: flex;
-    flex-direction: row;
-}
-
+/*---------- HEADER ----------*/
 header {
     background-color: #000000;
     padding: 13px;
@@ -26,6 +20,13 @@ header {
     color: #ffffff;
 }
 
+#title-header {
+    margin: 0;
+    margin-left: 7px;
+}
+/*---------- HEADER ----------*/
+
+/*---------- FOOTER ----------*/
 footer {
     background-color: #343436;
     padding: 7px;
@@ -36,12 +37,39 @@ footer {
     box-shadow: 0 -1px 1px black;
 }
 
+#title-footer {
+    margin: 0;
+}
+
+a:visited {
+    color: #ffffff;
+}
+
+a:hover {
+    color: #32cd32;
+}
+/*---------- FOOTER ----------*/
+
+/*---------- CONTENT ----------*/
+#content {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: row;
+}
+
 #input-boxes-area {
     flex-grow: 1;
     width: 30%;
 
     display: flex;
     flex-direction: column;
+}
+
+.result-display-area {
+    flex-grow: 1;
+    width: 70%;
+    margin: 7px;
 }
 
 #ql-input-box {
@@ -80,31 +108,49 @@ footer {
 .code-wrap {
     flex-grow: 9;
     background-color: #1d1f20;
+
+    display: flex;
+    flex-direction: column;
 }
 
-#result-display-area {
+.ql-and-qls-forms {
     flex-grow: 1;
-    width: 70%;
+
+    display: flex;
+    flex-direction: column;
 }
 
-#title-header {
-    margin: 0;
-    margin-left: 7px;
+.ql-and-qls-input-areas {
+    resize: none;
+    white-space: nowrap;
+    width: 99%;
+    border: none;
+    margin-left: 2px;
+    padding: 0;
+    background-color: #1d1f20;
+    color: white;
+    flex-grow: 1;
+}
+.title-name, .ql-and-qls-buttons {
+    display: inline-block;
 }
 
-#title-footer {
-    margin: 0;
+.ql-and-qls-buttons {
+    float: right;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-top : 5px;
 }
 
-a:visited {
-    color: #ffffff;
+input[type="submit"], input[type="reset"] {
+    /*padding: 20px;*/
+    cursor: pointer;
+    border-radius: 8px;
 }
 
-a:hover {
-    color: #32cd32;
+input[type="submit"],input[type="reset"]{
+    padding: 5px;
+    /*background:transparent url('http://www.w3.org/html/logo/downloads/HTML5_Logo_32.png') no-repeat;*/
+    /*background: url('/images/runV1.png') no-repeat;*/
 }
-
-/*h1 {
-    color: navy;
-    margin-left: 20px;
-}*/
+/*---------- CONTENT ----------*/

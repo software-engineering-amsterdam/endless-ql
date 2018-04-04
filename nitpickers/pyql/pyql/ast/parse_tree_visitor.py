@@ -1,18 +1,12 @@
-from pyql.antlr.QLVisitor import QLVisitor
 from pyql.antlr.QLParser import QLParser
+from pyql.antlr.QLVisitor import QLVisitor
+from pyql.ast.expression.expressions import *
 from pyql.ast.form.block import Block
-from pyql.ast.code_location import CodeLocation
 from pyql.ast.form.form import Form
 from pyql.ast.form.ql_statements import *
-from pyql.ast.expression.expressions import *
-from pyql.util.types import *
-from pyql.util.values import MoneyValue
-from pyql.util.values import IntegerValue
-from pyql.util.values import StringValue
-from pyql.util.values import DecimalValue
-from pyql.util.values import BooleanValue
-
-# TODO check if can get rid of 'if getChildCount() > 1'
+from util import values
+from util.code_location import CodeLocation
+from util.types import *
 
 
 class ParseTreeVisitor(QLVisitor):
@@ -50,9 +44,6 @@ class ParseTreeVisitor(QLVisitor):
 
     def visitIntegerType(self, ctx: QLParser.IntegerTypeContext):
         return Integer()
-
-    def visitDateType(self, ctx: QLParser.DateTypeContext):
-        return Date()
 
     def visitDecimalType(self, ctx: QLParser.DecimalTypeContext):
         return Decimal()
@@ -113,19 +104,20 @@ class ParseTreeVisitor(QLVisitor):
         return self.visitChildren(ctx)
 
     def visitMoneyLiteral(self, ctx: QLParser.MoneyLiteralContext):
-        return Literal(self.location(ctx), MoneyValue(self.trimLeadingZeros(ctx.getText()[1:])))
+        return Literal(self.location(ctx), values.MoneyValue(self.trimLeadingZeros(ctx.getText()[1:])))
 
     def visitDecimalLiteral(self, ctx: QLParser.DecimalLiteralContext):
-        return Literal(self.location(ctx), DecimalValue(self.trimLeadingZeros(ctx.getText())))
+        return Literal(self.location(ctx), values.DecimalValue(self.trimLeadingZeros(ctx.getText())))
 
     def visitIntLiteral(self, ctx: QLParser.IntLiteralContext):
-        return Literal(self.location(ctx), IntegerValue(self.trimLeadingZeros(ctx.getText())))
+        return Literal(self.location(ctx), values.IntegerValue(self.trimLeadingZeros(ctx.getText())))
 
     def visitStringLiteral(self, ctx: QLParser.StringLiteralContext):
-        return Literal(self.location(ctx), StringValue(ctx.getText()))
+        return Literal(self.location(ctx), values.StringValue(ctx.getText()))
 
     def visitBoolLiteral(self, ctx: QLParser.BoolLiteralContext):
-        return Literal(self.location(ctx), BooleanValue(ctx.getText()))
+        value = ctx.getText() == "true"
+        return Literal(self.location(ctx), values.BooleanValue(value))
 
     def visitIdentifier(self, ctx: QLParser.IdentifierContext):
         return Identifier(self.location(ctx), ctx.getText())
@@ -152,7 +144,7 @@ class ParseTreeVisitor(QLVisitor):
     def unaryExpressionFactory(self, location, expression, operator):
         switcher = {
             "!": Not(location, expression),
-            "-": Subtraction(location, Literal(location, IntegerValue("0")), expression)
+            "-": Subtraction(location, Literal(location, values.IntegerValue("0")), expression)
         }
         return switcher.get(operator)
 

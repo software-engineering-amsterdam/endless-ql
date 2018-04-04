@@ -1,22 +1,33 @@
 stylesheet taxOfficeExample {
-    default boolean widget radio
+    default boolean widget dropdown
 
     page Personalia {
         section "Personalia" {
             expression name
             expression age
-                widget spinbox style {
+                widget spinbox widgetStyle {
                     min:18
                     max:100
                 }
             expression grade
+                widgetStyle {
+                    fonttype: Monospaced
+                    fontstyle: Bold
+                }
+            expression unicorns
+                widgetStyle {
+                    widgetcolor: #76E0E1
+                    fontcolor: #E13D8E
+                    fonttype: Serif
+                    fontstyle: Italic
+                }
         }
     }
 
     page Housing {
         section "My house" {
             expression rating
-                widget slider style {
+                widget slider widgetStyle {
                     min:0
                     max:5
                 }
@@ -24,7 +35,7 @@ stylesheet taxOfficeExample {
 
         section "Buying" {
             expression hasBoughtHouse
-            widget checkbox
+              widget radio
         }
 
         section "Loaning" {
@@ -35,10 +46,7 @@ stylesheet taxOfficeExample {
     page Selling {
         section "Selling" {
             expression hasSoldHouse
-            widget dropdown
-        }
-
-        section "You sold a house" {
+                widget dropdown
             expression blockSold
         }
     }

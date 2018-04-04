@@ -47,13 +47,4 @@ public class BooleanValue implements Value {
         return value.logicalOr(this);
     }
 
-    @Override
-    public Value negate(BooleanValue value) {
-        return new BooleanValue(!value.getValue());
-    }
-
-    @Override
-    public Value negate(Value value) {
-        return value.negate(this);
-    }
 }

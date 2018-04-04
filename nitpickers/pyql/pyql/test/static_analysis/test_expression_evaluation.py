@@ -1,5 +1,7 @@
 import unittest
-from pyql.util.values import *
+
+from util.values import *
+
 from pyql.static_analysis.expression_evaluator import ExpressionEvaluator
 from pyql.static_analysis.symbol_table import SymbolTable
 

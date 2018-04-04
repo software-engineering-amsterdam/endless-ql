@@ -1,4 +1,4 @@
-﻿namespace QlsTransformer.Ast.Nodes
+﻿namespace QlsTransformer.Domain.Ast.Nodes
 {
     public abstract class BinaryWidget : IBinaryWidget
     {
@@ -7,6 +7,7 @@
             TrueText = trueText;
             FalseText = falseText;
         }
+
         public string TrueText { get; }
         public string FalseText { get; }
     }

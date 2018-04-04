@@ -4,17 +4,23 @@ grammar QLS;
 
 stylesheet      : 'stylesheet' IDENTIFIER LEFTBRACKET page* RIGHTBRACKET;
 
-page            : 'page' IDENTIFIER block;
+page            : 'page' IDENTIFIER LEFTBRACKET component+ defaultRule* RIGHTBRACKET;
 
-block           : LEFTBRACKET component* RIGHTBRACKET;
-
-component       : section
-                | defaultWidget
+section         : 'section' STRINGLITERAL LEFTBRACKET component+ defaultRule* RIGHTBRACKET
+                | 'section' STRINGLITERAL component
                 ;
 
-section         : 'section' IDENTIFIER block;
+component       : section
+                | question
+                ;
 
-defaultWidget   : 'default' type (widget | widgetStyle);
+question        : 'question' IDENTIFIER widget?
+//              | 'question' IDENTIFIER styleRule?
+                ;
+
+defaultRule     : 'default' type widget                                                     #widgetRule
+                | 'default' type style                                                      #styleRule
+                ;
 
 widget          : 'widget' widgetType;
 
@@ -26,21 +32,25 @@ type            : 'boolean'                                                     
                 | 'date'                                                                    #dateType
                 ;
 
-widgetType      : 'slider' sliderMap                                                        #sliderWidget
-                | 'spinbox' (LEFTPARENTHESES yes=STRINGLITERAL RIGHTPARENTHESES)?           #spinboxWidget
-                | 'text'                                                                    #textWidget
-                | 'radio' choiceMap?                                                        #radioWidget
-                | 'checkbox'                                                                #checkboxWidget
-                | 'dropdown' choiceMap?                                                     #dropdownWidget
+widgetType      : 'slider' sliderMap                                                        #sliderType
+                | 'spinbox'                                                                 #spinboxType
+                | 'textfield'                                                               #textfieldType
+                | 'radio' choiceMap?                                                        #radioType
+                | 'checkbox'  (LEFTPARENTHESES yes=STRINGLITERAL RIGHTPARENTHESES)?         #checkboxType
+                | 'dropdown' choiceMap?                                                     #dropdownType
                 ;
 
-sliderMap       : LEFTPARENTHESES start=INTEGERLITERAL',' end=INTEGERLITERAL',' step=INTEGERLITERAL RIGHTPARENTHESES;
+sliderMap       : LEFTPARENTHESES start=INTEGERLITERAL COMMA end=INTEGERLITERAL COMMA step=INTEGERLITERAL RIGHTPARENTHESES;
 
-choiceMap       : LEFTPARENTHESES yes=STRINGLITERAL ',' no=STRINGLITERAL RIGHTPARENTHESES;
+choiceMap       : LEFTPARENTHESES yes=STRINGLITERAL COMMA no=STRINGLITERAL RIGHTPARENTHESES;
 
-widgetStyle     : LEFTBRACKET styleRule+ widget? RIGHTBRACKET;
+style           : LEFTBRACKET styleProperty+ widget? RIGHTBRACKET;
 
-styleRule       : IDENTIFIER COLON value;
+styleProperty   : 'width' COLON INTEGERLITERAL                                              #widthProperty
+                | 'font' COLON STRINGLITERAL                                                #fontProperty
+                | 'fontsize' COLON INTEGERLITERAL                                           #fontSizeProperty
+                | 'color' COLON HEXCOLOR                                                    #colorProperty
+                ;
 
 value           : INTEGERLITERAL
                 | STRINGLITERAL
@@ -49,16 +59,11 @@ value           : INTEGERLITERAL
 
 
 
-
-
-
-
 //Literals
 //HEXCOLOR            : '#' ('0'..'9' | 'a'..'f'){6};
 HEXCOLOR            : '#' ('0'..'9' | 'a'..'f')+;
 INTEGERLITERAL      : DIGIT+;
-STRINGLITERAL       : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'?'|'.'|','|':')* '"';
-//DECIMALLITERAL      : DIGIT+ '.' DIGIT+;
+STRINGLITERAL       : '"' (~('"' | '\\' | '\r' | '\n'))* '"';
 
 IDENTIFIER          : ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 DIGIT               : [0-9];

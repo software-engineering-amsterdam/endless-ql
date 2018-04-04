@@ -4,29 +4,55 @@ using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers.CollectionTypes;
 using QLVisualizer.Factories;
-using System;
+using System.Collections.Generic;
 
 namespace QLVisualizer.Controllers
 {
     public class ParseController
     {
-        
-        public Tuple<string[], FormManager> ParseQL(string rawQL, ElementManagerController elementManagerController)
+        public FormManager Parse(string rawQl, string rawQls, ElementManagerController elementManagerController, ref List<string> errors)
         {
-            FormNode node = QLParserHelper.Parse(rawQL);
-            Analyser.Reset();
-            if (!Analyser.Analyse(node))
-                return new Tuple<string[], FormManager>(Analyser.GetErrors().ToArray(), null);
+            if (rawQl == "")
+            {
+                errors.Add("Cannot parse empty QL");
+                return null;
+            }
+            else if (rawQls == "")
+            {
+                return OnlyQL(rawQl, elementManagerController, ref errors);
+            }
+            else
+            {
+                return QLQLS(rawQl, rawQls, elementManagerController, ref errors);
+            }
 
-            FormManager formManager = ElementManagerFactory.CreateForm(node, elementManagerController);
-            return new Tuple<string[], FormManager>(new string[0], formManager);
         }
 
-        public Tuple<string[], FormManager> ParseQLS(string rawQLS, FormManager form, ElementManagerController elementManagerController)
+        protected FormManager OnlyQL(string rawQL, ElementManagerController elementManagerController, ref List<string> errors)
         {
-            QLSNode qlsNode = QLSParserHelper.Parse(rawQLS);
-            form = ElementManagerFactory.ApplyQLS(form, qlsNode, elementManagerController);
-            return new Tuple<string[], FormManager>(new string[0], form);
+            FormNode formNode = QLParserHelper.Parse(rawQL);
+            if (!Analyser.Analyse(formNode))
+            {
+                errors.AddRange(Analyser.GetErrors());
+                return null;
+            }
+
+            return ElementManagerFactory.CreateForm(formNode, elementManagerController);
+        }
+
+        private FormManager QLQLS(string rawQl, string rawQls, ElementManagerController elementManagerController, ref List<string> errors)
+        {
+            FormNode formNode = QLParserHelper.Parse(rawQl);
+            QLSNode qlsNode = QLSParserHelper.Parse(rawQls);
+            if (!Analyser.Analyse(formNode, qlsNode))
+            {
+                errors.AddRange(Analyser.GetErrors());
+                return null;
+            }
+
+            FormManager result = ElementManagerFactory.CreateForm(formNode, elementManagerController);
+            result = ElementManagerFactory.ApplyQLS(result, qlsNode, elementManagerController, ref errors);
+            return result;
         }
     }
 }

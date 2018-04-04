@@ -3,6 +3,7 @@ package ql.gui.widgets;
 import ql.ast.statements.Question;
 import ql.environment.Environment;
 import ql.environment.values.BooleanValue;
+import ql.environment.values.Value;
 import ql.gui.WidgetListener;
 
 import javax.swing.*;
@@ -14,12 +15,19 @@ public class CheckboxWidget extends BaseWidget {
     public CheckboxWidget(Environment environment, Question question, boolean isEditable) {
         super(environment, question, isEditable);
         checkBox = new JCheckBox();
-        checkBox.setEnabled(isEditable);
+        setValue();
+        setEditable(isEditable);
     }
 
     @Override
     public void setValue() {
+        BooleanValue value = (BooleanValue) environment.getQuestionValue(question.getId()).getValue();
+        checkBox.setSelected(value.getValue());
+    }
 
+    @Override
+    public Value getValue() {
+        return new BooleanValue(checkBox.isSelected());
     }
 
     @Override
@@ -28,9 +36,14 @@ public class CheckboxWidget extends BaseWidget {
     }
 
     @Override
+    public void setEditable(boolean isEditable) {
+        checkBox.setEnabled(isEditable);
+    }
+
+    @Override
     public void registerChangeListener(WidgetListener widgetListener) {
         checkBox.addActionListener(e -> {
-            if (isEditable) widgetListener.onQuestionUpdated(question, new BooleanValue(checkBox.isSelected()));
+            if (isEditable) widgetListener.onInputValueUpdated(question, getValue());
         });
     }
 

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using QlsGrammar;
-using QlsTransformer.Ast.Nodes;
-using QlsTransformer.Ast.Tools;
+using QlsTransformer.Domain.Ast.Nodes;
+using QlsTransformer.Domain.Ast.Tools;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 
@@ -50,16 +51,16 @@ namespace QlsParser.AstBuilder
             return new DefaultStyle(type, style);
         }
 
-        private Type GetAstType(string typeString)
+        private IQuestionType GetAstType(string typeString)
         {
             switch (typeString)
             {
-                case "integer" : return typeof(int);
-                case "decimal": return typeof(decimal);
-                case "date": return typeof(DateTime);
-                case "boolean": return typeof(bool);
-                case "string": return typeof(string);
-                default: throw new ApplicationException("unknown Type");
+                case "integer" : return new IntegerQuestionType();
+                case "decimal": return new DecimalQuestionType();
+                case "date": return new DateQuestionType();
+                case "boolean": return new BooleanQuestionType();
+                case "string": return new StringQuestionType();
+                default: throw new ArgumentException(nameof(typeString),$"UnknownType {typeString}");
             }
         }
         
@@ -99,7 +100,7 @@ namespace QlsParser.AstBuilder
                 .FirstOrDefault(x => x.fontname != null)
                 ?.fontname
                 .Text
-                .Replace("\"", ""); ;
+                .Replace("\"", "");
         }
 
         private decimal? GetFontSize(QlsGrammar.QlsParser.StyleContext context)
@@ -131,8 +132,12 @@ namespace QlsParser.AstBuilder
                 .FirstOrDefault(x => x.widget != null)
                 ?.widget
                 .controlType();
+            
+            return CreateWidget(chosenWidget);
+        }
 
-            // ToDo: make a factory to create these widgets
+        private static IWidget CreateWidget(QlsGrammar.QlsParser.ControlTypeContext chosenWidget)
+        {
             if (chosenWidget == null)
             {
                 return null;
@@ -155,48 +160,65 @@ namespace QlsParser.AstBuilder
 
             if (chosenWidget.RADIOBUTTON() != null)
             {
-                if (chosenWidget.trueFalseText() == null)
-                {
-                    return new AstRadioButton("true", "false");
-                }
-                else
-                {
-                    return new AstRadioButton(
-                        chosenWidget.trueFalseText().trueText.Text.Replace("\"", ""),
-                        chosenWidget.trueFalseText().falseText.Text.Replace("\"", ""));
-                }
+                return CreateRadioButton(chosenWidget);
             }
 
             if (chosenWidget.COMBOBOX() != null)
             {
-                if (chosenWidget.trueFalseText() == null)
-                {
-                    return new AstDropDown("true", "false");
-                }
-                else
-                {
-                    return new AstDropDown(
-                        chosenWidget.trueFalseText().trueText.Text.Replace("\"", ""),
-                        chosenWidget.trueFalseText().falseText.Text.Replace("\"", ""));
-                }
+                return CreateDropDown(chosenWidget);
             }
 
             if (chosenWidget.TRACKBAR() != null)
             {
-                if (chosenWidget.sliderRange() == null)
-                {
-                    return new AstSlider(0, 100, 1);
-                }
-                else
-                {
-                    return new AstSlider(
-                        int.Parse(chosenWidget.sliderRange().rangeStart.Text),
-                        int.Parse(chosenWidget.sliderRange().rangeEnd.Text),
-                        int.Parse(chosenWidget.sliderRange().step.Text));
-                }
+                return CreateSlider(chosenWidget);
             }
 
             return null;
+        }
+
+        private static AstSlider CreateSlider(QlsGrammar.QlsParser.ControlTypeContext sliderWidgetContext)
+        {
+            if (sliderWidgetContext.sliderRange() == null)
+            {
+                return new AstSlider(0, 100, 1);
+            }
+
+            return new AstSlider(
+                int.Parse(sliderWidgetContext.sliderRange().rangeStart.Text),
+                int.Parse(sliderWidgetContext.sliderRange().rangeEnd.Text),
+                int.Parse(sliderWidgetContext.sliderRange().step.Text));
+        }
+
+        private static AstDropDown CreateDropDown(QlsGrammar.QlsParser.ControlTypeContext dropdownWidget)
+        {
+            return new AstDropDown(
+                GetTrueText(dropdownWidget),
+                GetFalseText(dropdownWidget));
+        }
+
+        private static AstRadioButton CreateRadioButton(QlsGrammar.QlsParser.ControlTypeContext radioWidget)
+        {
+            return new AstRadioButton(
+                GetTrueText(radioWidget),
+                GetFalseText(radioWidget));
+        }
+
+        private static string GetFalseText(QlsGrammar.QlsParser.ControlTypeContext chosenWidget)
+        {
+            return chosenWidget
+                       .trueFalseText()
+                       ?.falseText
+                       .Text
+                       .Replace("\"", "") ?? "false";
+        }
+
+        private static string GetTrueText(QlsGrammar.QlsParser.ControlTypeContext chosenWidget)
+        {
+            return chosenWidget
+                       .trueFalseText()
+                       ?.trueText
+                       .Text
+                       .Replace("\"", "") ?? "true";
         }
 
         public override DomainId<IAstNode> VisitPage(

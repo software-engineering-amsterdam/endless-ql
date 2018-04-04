@@ -8,15 +8,15 @@ import QLS.parsing.gen.QLSParser;
 
 import java.util.HashMap;
 
-public class WidgetChecker extends QLSBaseVisitor{
+public class WidgetChecker extends QLSBaseVisitor {
     private HashMap<String, Question> questionMap;
     private String currentQuestionID;
 
-    WidgetChecker(HashMap<String, Question> questionMap){
+    WidgetChecker(HashMap<String, Question> questionMap) {
         this.questionMap = questionMap;
     }
 
-    void checkStyleSheet(QLSParser.StylesheetContext stylesheet){
+    void checkStyleSheet(QLSParser.StylesheetContext stylesheet) {
         visitStylesheet(stylesheet);
     }
 
@@ -25,7 +25,7 @@ public class WidgetChecker extends QLSBaseVisitor{
         this.currentQuestionID = ctx.IDENTIFIER().getText();
         QLSParser.WidgetContext widget = ctx.widget();
 
-        if(widget != null){
+        if (widget != null) {
             visitWidget(widget);
         }
 
@@ -36,7 +36,7 @@ public class WidgetChecker extends QLSBaseVisitor{
     public Object visitCheckboxWidget(QLSParser.CheckboxWidgetContext ctx) {
         String type = questionMap.get(currentQuestionID).getValue().getType();
 
-        if(!type.equals(Value.BOOLEAN)){
+        if (!type.equals(Value.BOOLEAN)) {
             throw new WrongWidgetError(ctx.CHECKBOX().getText(), currentQuestionID);
         }
 
@@ -47,7 +47,7 @@ public class WidgetChecker extends QLSBaseVisitor{
     public Object visitTextWidget(QLSParser.TextWidgetContext ctx) {
         String type = questionMap.get(currentQuestionID).getValue().getType();
 
-        if(!type.equals(Value.STRING)){
+        if (!type.equals(Value.STRING)) {
             throw new WrongWidgetError(ctx.TEXT().getText(), currentQuestionID);
         }
 
@@ -58,7 +58,7 @@ public class WidgetChecker extends QLSBaseVisitor{
     public Object visitRadioWidget(QLSParser.RadioWidgetContext ctx) {
         String type = questionMap.get(currentQuestionID).getValue().getType();
 
-        if(!type.equals(Value.BOOLEAN)){
+        if (!type.equals(Value.BOOLEAN)) {
             throw new WrongWidgetError(ctx.RADIO().getText(), currentQuestionID);
         }
 

@@ -34,6 +34,8 @@
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -47,16 +49,24 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DelegateCommand.cs" />
     <Compile Include="Models\ModelWrapperBase.cs" />
     <Compile Include="Models\Observable.cs" />
     <Compile Include="Models\QuestionnaireWrapper.cs" />
     <Compile Include="Models\QuestionWrapper.cs" />
+    <Compile Include="ObjectToDecimalConverter.cs" />
+    <Compile Include="ObjectToIntegerConverter.cs" />
     <Compile Include="UiModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QuestionaireDomain.Entities\QuestionnaireDomain.Entities.csproj">
+      <Project>{D9C8C06A-CB84-41FA-B393-3B8E66C1183C}</Project>
+      <Name>QuestionnaireDomain.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QuestionaireOrchestration\QuestionnaireOrchestration.csproj">
       <Project>{93708D27-D769-4064-8A54-6BFEF8B09F29}</Project>
       <Name>QuestionnaireOrchestration</Name>

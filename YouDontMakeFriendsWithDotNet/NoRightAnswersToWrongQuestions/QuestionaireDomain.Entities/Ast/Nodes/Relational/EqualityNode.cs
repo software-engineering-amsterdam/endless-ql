@@ -5,15 +5,15 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
-    internal class EqualityNode : 
-        RelationalOperationNode, 
+    internal class EqualityNode :
+        RelationalOperationNode,
         IEqualityNode
     {
         public EqualityNode(
             Guid id,
             string definition,
             DomainId<IAstNode> leftExpression,
-            DomainId<IAstNode> rightExpression) 
+            DomainId<IAstNode> rightExpression)
             : base(id, definition, leftExpression, rightExpression)
         {
         }

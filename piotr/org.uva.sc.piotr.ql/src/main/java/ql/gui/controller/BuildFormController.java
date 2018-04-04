@@ -12,7 +12,7 @@ import ql.gui.view.WindowView;
 
 import java.io.IOException;
 
-final class BuildFormController {
+final public class BuildFormController {
     public static Form buildForm(String selectedFilePath, WindowView windowView) {
         CharStream charStream;
 

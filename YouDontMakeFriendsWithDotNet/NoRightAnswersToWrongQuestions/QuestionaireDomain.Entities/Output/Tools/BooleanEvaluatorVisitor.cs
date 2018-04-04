@@ -14,10 +14,10 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 {
     internal class BooleanEvaluatorVisitor : IBooleanEvaluatorVisitor
     {
-        private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ICalculationVisitor m_calculationVisitor;
+        private readonly IDomainItemLocator m_domainItemLocator;
         private readonly ISymbolTable m_lookup;
-        
+
         public BooleanEvaluatorVisitor(
             IDomainItemLocator domainItemLocator,
             ICalculationVisitor calculationVisitor,
@@ -62,13 +62,11 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 .FirstOrDefault(x => x.QuestionName == variableNodeId.VariableName);
 
             if (question == null || !m_lookup.Exists(question.Id))
-            {
                 throw new ArgumentException($@"variable node '{variableNodeId.DisplayName}' variable not initialized");
-            }
 
             return question.Id;
         }
-        
+
         public object Evaluate(IUntypedVariableNode node)
         {
             var question = m_domainItemLocator
@@ -76,9 +74,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
                 .FirstOrDefault(x => x.QuestionName == node.VariableName);
 
             if (question == null || !m_lookup.Exists(question.Id))
-            {
                 throw new ArgumentException($@"untyped '{node.DisplayName}' variable not initialized");
-            }
 
             return m_lookup.Lookup(question.Id);
         }
@@ -104,12 +100,12 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             dynamic d = expresion;
             return !Evaluate(d);
         }
-        
+
         public DateTime Evaluate(IDateNode node)
         {
             return node.Value;
         }
-        
+
         public string Evaluate(ITextNode node)
         {
             return node.Value;
@@ -119,7 +115,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         {
             return EvaluateLeft(node) == EvaluateRight(node);
         }
-        
+
         public bool Evaluate(IInequalityNode node)
         {
             return EvaluateLeft(node) != EvaluateRight(node);

@@ -17,7 +17,7 @@ public class Validator {
 
     public List<TypeCheckError> typeCheckQLS(Stylesheet stylesheet) {
 
-        TypeCheckVisitor visitor = new TypeCheckVisitor(astRoot.getQuestionSymbolTable());
+        TypeCheckVisitor visitor = new TypeCheckVisitor(astRoot.getSymbolTable());
         stylesheet.acceptVisitor(visitor);
 
         return visitor.getErrors();

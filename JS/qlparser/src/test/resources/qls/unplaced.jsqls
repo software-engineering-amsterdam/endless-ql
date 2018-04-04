@@ -1,0 +1,32 @@
+stylesheet taxOfficeExample {
+    default boolean widget radio
+
+    page Personalia {
+        section "Personalia" {
+            expression name
+            expression age
+            expression grade
+        }
+    }
+
+    page Housing {
+        section "Buying" {
+
+           // Oops, forgot to place hasBoughtHouse :(
+
+        }
+
+        section "Loaning" {
+            expression hasMaintLoan
+        }
+    }
+
+    page Selling {
+        section "Selling" {
+            expression hasSoldHouse
+                widget dropdown
+            expression blockSold
+        }
+    }
+}
+

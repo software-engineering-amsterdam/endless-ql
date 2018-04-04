@@ -2,6 +2,7 @@ package ql.evaluator;
 
 import ql.ast.Form;
 import ql.ast.expressions.GroupExpression;
+import ql.ast.expressions.IdentifierSet;
 import ql.ast.expressions.binary.*;
 import ql.ast.expressions.Identifier;
 import ql.ast.expressions.literals.BooleanLiteral;
@@ -17,8 +18,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Evaluator implements FormVisitor, StatementVisitor<Void>, ExpressionVisitor<Value> {
-    private final ValueTable valueTable = new ValueTable();
+    private final ValueTable valueTable;
+    private final IdentifierSet identifierSet;
     private List<Question> questions = new ArrayList<>();
+
+    public Evaluator() {
+        this.valueTable = new ValueTable();
+        this.identifierSet = new IdentifierSet();
+    }
+
+    public void storeValues(Identifier identifier, Value value) {
+        identifierSet.add(identifier);
+        valueTable.add(identifier, value);
+    }
 
     //<editor-fold desc="FormVisitor">
     @Override
@@ -32,11 +44,14 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
     //<editor-fold desc="StatementVisitor">
     @Override
     public Void visit(CalculableQuestion calculableQuestion) {
-        if (!valueTable.exists(calculableQuestion.getIdentifier())) {
-            valueTable.add(calculableQuestion.getIdentifier(),
-                    calculableQuestion.getCalculableValue().accept(this));
+        if (!identifierSet.exists(calculableQuestion.getIdentifier())) {
+            Value value = calculableQuestion.getCalculableValue().accept(this);
+            valueTable.add(calculableQuestion.getIdentifier(), value);
         }
-        questions.add(calculableQuestion);
+
+        if (!questions.contains(calculableQuestion)) {
+            questions.add(calculableQuestion);
+        }
         return null;
     }
 
@@ -66,10 +81,13 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
 
     @Override
     public Void visit(Question question) {
-        if (!valueTable.exists(question.getIdentifier())) {
+        if (!identifierSet.exists(question.getIdentifier())) {
             valueTable.add(question.getIdentifier(), new Undefined());
         }
-        questions.add(question);
+
+        if (!questions.contains(question)) {
+            questions.add(question);
+        }
         return null;
     }
     //</editor-fold>
@@ -178,5 +196,13 @@ public class Evaluator implements FormVisitor, StatementVisitor<Void>, Expressio
     }
     public ValueTable valueTable() {
         return valueTable;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public void clear() {
+        questions.clear();
     }
 }

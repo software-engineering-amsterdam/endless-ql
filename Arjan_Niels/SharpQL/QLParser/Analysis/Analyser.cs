@@ -24,9 +24,9 @@ namespace QLParser.Analysis
         }
         #endregion
 
-        private List<IQLAnalyser> _qlAnalysers;
-        private List<IQLSAnalyser> _qlsAnalysers;
-        private List<AnalyserMessage> _messages;
+        private IList<IQLAnalyser> _qlAnalysers;
+        private IList<IQLSAnalyser> _qlsAnalysers;
+        private IList<AnalyserMessage> _messages;
 
         private Analyser()
         {
@@ -34,7 +34,6 @@ namespace QLParser.Analysis
             this._qlAnalysers = new List<IQLAnalyser>()
             {
                 // Syntactic
-                new QuestionHasNoChildrenValidator(),
                 new SingleFormValidator(),
 
                 // Semantic
@@ -52,6 +51,8 @@ namespace QLParser.Analysis
 
         public static bool Analyse(QLNode node)
         {
+            Reset();
+
             if (node == null)
                 return false;
 
@@ -91,9 +92,9 @@ namespace QLParser.Analysis
             return result;
         }
 
-        public static void AddMessage(string message, MessageType type)
+        public static void AddMessage(string message, Language languageType, MessageType messageType)
         {
-            Instance._messages.Add(new AnalyserMessage(message, type));
+            Instance._messages.Add(new AnalyserMessage(message, languageType, messageType));
         }
 
         public static List<string> GetErrors()

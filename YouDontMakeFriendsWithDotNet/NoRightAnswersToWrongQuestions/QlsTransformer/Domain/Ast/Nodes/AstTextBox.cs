@@ -1,6 +1,6 @@
-﻿namespace QlsTransformer.Ast.Nodes
+﻿namespace QlsTransformer.Domain.Ast.Nodes
 {
     public class AstTextBox : ITextBox
-    { 
+    {
     }
 }

@@ -1,0 +1,174 @@
+﻿<UserControl x:Class="StyledWpfApp.Views.QuestionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StyledWpfApp.Views" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:questionnaireUi="clr-namespace:QuestionnaireUI;assembly=QuestionnaireUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <local:TypeTemplateSelection x:Key="TemplateSelector" />
+        <questionnaireUi:ObjectToIntegerConverter x:Key="ObjectToIntegerConverter"/>
+        <questionnaireUi:ObjectToDecimalConverter x:Key="ObjectToDecimalConverter"/>
+        <local:NegativeConverter x:Key="NegativeConverter"/>
+        <local:BooleanToComboConverter x:Key="BooleanToComboConverter"/>
+
+        <DataTemplate x:Key="DefaultTemplate">
+            <Grid>
+                <Label 
+                    Content="unknown type" 
+                    MinWidth ="180" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="StringTemplate">
+            <Grid>
+                <TextBox 
+                    Text="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=LostFocus}" 
+                    MinWidth ="180" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="IntTemplate">
+            <Grid>
+                <xctk:IntegerUpDown 
+                    Value="{Binding Path=Value, Converter={StaticResource ObjectToIntegerConverter}}"
+
+                    Increment="1" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DecimalTemplate">
+            <Grid>
+                <xctk:CalculatorUpDown 
+                    Value="{Binding Path=Value, Converter={StaticResource ObjectToDecimalConverter}}"
+                   
+                     Increment="1" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="BoolTemplate">
+            <Grid>
+                <CheckBox 
+                    IsChecked="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="RadioTemplate">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton 
+                    GroupName="RadioBool" 
+                    IsChecked="{Binding Value}"
+                    Content="{Binding Model.StyleModel.Widget.TrueText}"/>
+                <RadioButton 
+                    GroupName="RadioBool" 
+                    IsChecked="{Binding Path=Value, Converter={StaticResource NegativeConverter}}"
+                    Content="{Binding Model.StyleModel.Widget.FalseText}"/>
+                </StackPanel>
+           </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ComboTemplate">
+            <Grid>
+                <ComboBox SelectedIndex="{Binding Path=Value, Converter={StaticResource BooleanToComboConverter}}">
+                    <ComboBoxItem Content="{Binding Model.StyleModel.Widget.TrueText}"/>
+                    <ComboBoxItem Content="{Binding Model.StyleModel.Widget.FalseText}"/>
+                </ComboBox>
+            </Grid>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="DateTemplate">
+            <Grid>
+                <DatePicker 
+                    SelectedDate="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=LostFocus
+                        , TargetNullValue=''}"
+                    SelectedDateFormat="Long" 
+                    FirstDayOfWeek="Monday"
+                />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TextboxTemplate">
+            <Grid>
+                <TextBox 
+                    Text="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=LostFocus}" 
+                    MinWidth ="180" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CheckboxTemplate">
+            <Grid>
+                <CheckBox 
+                    IsChecked="{Binding Value
+                        , Mode=TwoWay
+                        , UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NumericUpdownTemplate">
+            <Grid>
+                <xctk:IntegerUpDown 
+                    Value="{Binding Path=Value, Converter={StaticResource ObjectToIntegerConverter}}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TrackbarTemplate">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="{Binding Model.StyleModel.Widget.RangeStart}"/>
+                    <Slider 
+                    Value="{Binding Path=Value, Converter={StaticResource ObjectToIntegerConverter}}"
+                    Minimum="{Binding Model.StyleModel.Widget.RangeStart}"
+                    Maximum="{Binding Model.StyleModel.Widget.RangeEnd}"
+                    Interval="{Binding Model.StyleModel.Widget.Step}"
+                    Width="180"
+                    TickFrequency="1"/>
+                    <Label Content="{Binding Model.StyleModel.Widget.RangeEnd}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="MyStyle" TargetType="Control">
+            <Setter Property="Foreground" Value="{Binding Model.StyleModel.Color}"/>
+            <Setter Property="FontSize" Value="{Binding Model.StyleModel.FontSize}"/>
+            <Setter Property="FontFamily" Value="{Binding Model.StyleModel.FontFamily}"/>
+            <Setter Property="Width" Value="{Binding Model.StyleModel.Width}"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid 
+        Visibility="{Binding Path=Visible,
+              Converter={StaticResource BoolToVis}}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Label 
+            Grid.Column="0" 
+            Style="{StaticResource MyStyle}">
+            <TextBlock 
+                Text="{Binding Model.QuestionText}"
+                TextWrapping="Wrap"/>
+        </Label>
+
+        <ContentControl 
+            Content="{Binding}" 
+            ContentTemplateSelector="{StaticResource TemplateSelector}" 
+            Grid.Column="1"  />
+    </Grid>
+</UserControl>
+

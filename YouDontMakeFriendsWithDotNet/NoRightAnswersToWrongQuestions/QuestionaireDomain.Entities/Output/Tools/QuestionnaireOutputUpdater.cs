@@ -26,7 +26,7 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             var name = questionnaireRootNode
                 .ToDomainItem(m_domainItemLocator)
                 .QuestionnaireName;
-            //ToDo: this assumes a single root node with the same name
+
             return m_domainItemLocator
                 .GetAll<IQuestionnaireOutputItem>()
                 .FirstOrDefault(x => x.DisplayName == name);

@@ -31,16 +31,12 @@ public class QuestionUI implements WidgetListener, EnvironmentListener {
         widget.registerChangeListener(this);
 
         panel = new JPanel(new BorderLayout());
-        panel.add(label, BorderLayout.CENTER);
+        panel.add(label, BorderLayout.WEST);
         panel.add(widget.getComponent(), BorderLayout.EAST);
 
         panel.setPreferredSize(new Dimension(600, 50));
 
         setVisible(isVisible());
-    }
-
-    public void update() {
-        widget.setValue();
     }
 
     public JComponent getComponent() {
@@ -57,7 +53,7 @@ public class QuestionUI implements WidgetListener, EnvironmentListener {
     }
 
     @Override
-    public void onQuestionUpdated(Question question, Value value) {
+    public void onInputValueUpdated(Question question, Value value) {
         environment.setValue(question.getId(), value);
     }
 

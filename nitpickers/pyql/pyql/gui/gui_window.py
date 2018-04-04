@@ -1,10 +1,13 @@
-from pyql.gui.widgets.widgets import *
-from pyql.gui.widgets.widget_factory import WidgetFactory
 from pyql.gui.gui_visitor import GUIVisitor
+from pyql.gui.widgets.widget_factory import WidgetFactory
+from pyql.gui.widgets.widgets import *
 from pyql.static_analysis.symbol_table import SymbolTable
+from util import errors
+from util.message_handler import MessageHandler
 
 
 class GUIWindow(ttk.Frame):
+
     def __init__(self, parent, ast):
         ttk.Frame.__init__(self)
         self.root = parent
@@ -16,14 +19,19 @@ class GUIWindow(ttk.Frame):
         self._gui_visitor = GUIVisitor(self, self._symbol_table)
         self._widget_factory = WidgetFactory()
 
+        error_messages = MessageHandler().errors
+        if error_messages:
+            for error in error_messages:
+                self.show_error_message(error)
+            return
+
+        for warning in MessageHandler().warnings:
+            self.show_error_message(warning)
+
         self._statements = {}
         self.load_statements()
 
-    def create_update_button(self):
-        btn_update = ttk.Button(self, text='Update', command=self.btn_update)
-        btn_update.grid(columnspan=4)
-
-    def build_statement(self, type, text, value):
+    def build_statement(self, identifier, type, text, value):
         frame = ttk.Frame(self, width=60)
         frame.grid(padx=5, pady=5)
         frame.columnconfigure(0, minsize=400)
@@ -32,16 +40,19 @@ class GUIWindow(ttk.Frame):
         label = ttk.Label(frame, text=text, anchor="w")
         label.grid(column=0, row=0, padx=5, pady=5, sticky='w')
 
-        widget = self._widget_factory.widget(frame, type, value)
+        widget = self._widget_factory.widget(frame, identifier, type, value)
         widget.grid(column=1, row=0, padx=5, pady=5, sticky='w')
+        widget.bind("<FocusOut>", self.update_form)
+        widget.bind("<Return>", self.update_form)
+        widget.lift()
         return label, widget
 
     def add_question(self, identifier, type, text, value):
-        label, widget = self.build_statement(type, text, value)
+        label, widget = self.build_statement(identifier, type, text, value)
         self._statements[identifier] = (label, widget)
 
     def add_computed_question(self, identifier, type, text, value):
-        label, widget = self.build_statement(type, text, value)
+        label, widget = self.build_statement(identifier, type, text, value)
         widget.configure(state='disabled')
         self._statements[identifier] = (label, widget)
 
@@ -51,23 +62,22 @@ class GUIWindow(ttk.Frame):
 
         self._statements.clear()
 
-    def show_error_message(self, message):
-        message = "ERROR:", message
-        label = ttk.Label(self, text=message, foreground='red')
-        label.grid(padx=5, pady=20)
-
     def load_statements(self):
         try:
             self._ast.accept(self._gui_visitor)
-        except Exception as e:
+        except errors.Error as e:
             self.show_error_message(e)
-        self.create_update_button()
 
-    def btn_update(self):
-        for identifier, (_, widget) in self._statements.items():
-            widget_value = widget.get()
-            if widget_value is not None:
-                self._symbol_table.update_or_create(identifier, widget_value)
+    def show_error_message(self, message):
+        label = ttk.Label(self, text=message, foreground='red')
+        label.grid(padx=5, pady=20)
+
+    def update_form(self, w):
+        identifier = w.widget.identifier
+        value = w.widget.get()
+
+        if value is not None:
+            self._symbol_table.update_or_create(identifier, value)
 
         self.clear_statements()
         self.load_statements()

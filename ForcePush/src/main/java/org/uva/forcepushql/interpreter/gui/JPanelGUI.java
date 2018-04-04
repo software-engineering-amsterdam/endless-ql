@@ -1,12 +1,5 @@
 package org.uva.forcepushql.interpreter.gui;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.uva.forcepushql.interpreter.evaluators.ASTExpressionVisitorEvaluator;
-import org.uva.forcepushql.parser.antlr.GrammarLexer;
-import org.uva.forcepushql.parser.antlr.GrammarParser;
-import org.uva.forcepushql.parser.ast.elements.ExpressionNode;
-import org.uva.forcepushql.parser.ast.visitors.BuildASTExpressionVisitor;
 import org.uva.forcepushql.interpreter.gui.questions.Question;
 import org.uva.forcepushql.interpreter.gui.questions.Radio;
 import org.uva.forcepushql.interpreter.gui.questions.Textbox;
@@ -15,60 +8,45 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
+import java.util.List;
 
 public class JPanelGUI{
 
     private LinkedList<QuestionGUI> questionGUIS;
-    private HashMap<String, Boolean> booleanValues;
-    private HashMap<String, Double> numberValues;
-    private HashMap<String, String> calculations;
-    private int height = 0;
     private JPanel panel;
 
-    public JPanelGUI()
-    {
-        booleanValues = new HashMap<>();
-        numberValues = new HashMap<>();
-        calculations = new HashMap<>();
-    }
 
-    public void createPanel(LinkedList<Question> questions, int height)
+    public void createPanel(List<Question> questions)
     {
         panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         questionGUIS = new LinkedList<QuestionGUI>();
 
         for (Question q : questions)
         {
-
-            this.height += 30;
-
-
             if (q instanceof Radio)
             {
+                JPanel smallPanel = new JPanel();
                 RadioGUI radioGUI = new RadioGUI((Radio) q);
-                panel.add(radioGUI.getLabel());
-                panel.add(radioGUI.getOptions()[0]);
-                panel.add(radioGUI.getOptions()[1]);
+                smallPanel.add(radioGUI.getLabel());
+                smallPanel.add(radioGUI.getOptions()[0]);
+                smallPanel.add(radioGUI.getOptions()[1]);
                 questionGUIS.add(radioGUI);
+                panel.add(smallPanel);
+
             } else if (q instanceof Textbox)
             {
+                JPanel smallPanel = new JPanel();
                 TextboxGUI textboxGUI = new TextboxGUI((Textbox) q);
-                panel.add(textboxGUI.getLabel());
-                panel.add(textboxGUI.getTextField());
+                smallPanel.add(textboxGUI.getLabel());
+                smallPanel.add(textboxGUI.getTextField());
                 questionGUIS.add(textboxGUI);
+                panel.add(smallPanel);
             }
         }
 
-        panel.setPreferredSize(new Dimension(300, height + this.height));
-
+        panel.revalidate();
     }
-
-    public int getHeight()
-    {
-        return height;
-    }
-
 
 
     public QuestionGUI getQuestion(String name)

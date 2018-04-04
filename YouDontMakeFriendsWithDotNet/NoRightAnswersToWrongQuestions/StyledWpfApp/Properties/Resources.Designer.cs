@@ -63,8 +63,18 @@ namespace StyledWpfApp.Properties {
         /// <summary>
         ///   Looks up a localized string similar to form TestQuestionnaire 
         ///{
-        ///    q1: &quot;This is q1 (boolean)?&quot; boolean
-        ///}.
+        ///    q1a: &quot;This is q1a (boolean)?&quot; boolean
+        ///    q1b: &quot;This is q1b (boolean)?&quot; boolean
+        ///    q1c: &quot;This is q1c (boolean)?&quot; boolean
+        ///    q1d: &quot;This is q1d (boolean)?&quot; boolean
+        ///    q1e: &quot;This is q1e (boolean)?&quot; boolean
+        ///    q1f: &quot;This is q1f (boolean)?&quot; boolean
+        ///    q1g: &quot;This is q1g (boolean)?&quot; boolean
+        ///    q2a: &quot;This is q2a (date)?&quot; date
+        ///    q2b: &quot;This is q2b (date)?&quot; date
+        ///    q3: &quot;This is q3 (string)?&quot; string
+        ///    q4a: &quot;This is q4a (integer)?&quot; integer
+        ///    q4b: &quot;This is q4b (inte [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ExampleForm {
             get {
@@ -79,10 +89,17 @@ namespace StyledWpfApp.Properties {
         ///    {
         ///        section section1 
         ///        {
-        ///            question q1 widget radio(&quot;ja&quot;, &quot;Nee&quot;)
+        ///            question q1a 
+        ///            question q1b widget checkbox
+        ///            question q1c {width: 50 font: &quot;Comic Sans&quot; color: #FFFF0000 }
+        ///            question q1d {widget radio color: #FFF0F000 }
+        ///            question q1e {widget dropdown fontsize: 22}
+        ///            question q1f widget radio(&quot;joey&quot;,&quot;chandler&quot;)
+        ///            question q1g widget dropdown(&quot;ren&quot;,&quot;stimpy&quot;)
         ///        }
-        ///    }
-        ///}.
+        ///    }    
+        ///    page page2 
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ExampleStyleSheet {
             get {

@@ -4,6 +4,7 @@ import org.uva.forcepushql.parser.antlr.GrammarParser;
 import org.uva.forcepushql.parser.antlr.GrammarParser.QuestionFormatContext;
 import org.uva.forcepushql.parser.antlr.GrammarParserBaseVisitor;
 import org.uva.forcepushql.parser.antlr.GrammarParserVisitor;
+import org.uva.forcepushql.parser.ast.ValueType;
 import org.uva.forcepushql.parser.ast.elements.*;
 import org.uva.forcepushql.parser.ast.elements.expressionnodes.*;
 
@@ -12,10 +13,67 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
 {
 
 
+    static InfixExpressionNode getInfixExpressionNode(int i)
+    {
+        InfixExpressionNode node;
+        if (i == GrammarParser.LESS)
+        {
+            node = new LessNode();
+
+        } else if (i == GrammarParser.GREATER)
+        {
+            node = new GreaterNode();
+
+        } else if (i == GrammarParser.EQUALLESS)
+        {
+            node = new EqualLessNode();
+
+        } else if (i == GrammarParser.EQUALGREATER)
+        {
+            node = new EqualGreaterNode();
+
+        } else if (i == GrammarParser.NOTEQUAL)
+        {
+            node = new NotEqualNode();
+
+        } else if (i == GrammarParser.ISEQUAL)
+        {
+            node = new IsEqualNode();
+
+        } else if (i == GrammarParser.PLUS)
+        {
+            node = new AdditionNode();
+
+        } else if (i == GrammarParser.MINUS)
+        {
+            node = new SubtractionNode();
+
+        } else if (i == GrammarParser.MULTIPLY)
+        {
+            node = new MultiplicationNode();
+
+        } else if (i == GrammarParser.DIVIDE)
+        {
+            node = new DivisionNode();
+
+        } else
+        {
+            try
+            {
+                throw new Exception("Invalid Node type");
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        return node;
+    }
+
     @Override
     public Node visitCompileUnit(GrammarParser.CompileUnitContext context)
     {
-        return context.accept(this);
+        return context.formStructure().accept(this);
     }
 
     @Override
@@ -26,7 +84,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         node.setName(context.variable().getText());
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
-            node.setOneQuestion(q.accept(this));
+            node.addOneQuestion(q.accept(this));
         }
 
         return node;
@@ -39,7 +97,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         node.setCondition(context.ifCondition().accept(this));
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
-            node.setOneQuestion(q.accept(this));
+            node.addOneQuestion(q.accept(this));
         }
 
         for (GrammarParser.NextConditionContext c : context.nextCondition())
@@ -56,7 +114,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         node.setCondition(context.ifCondition().accept(this));
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
-            node.setOneQuestion(q.accept(this));
+            node.addOneQuestion(q.accept(this));
         }
 
         for (GrammarParser.NextConditionContext c : context.nextCondition())
@@ -74,7 +132,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         node.setCondition(null);
         for (GrammarParser.QuestionTypesContext q : context.questionTypes())
         {
-            node.setOneQuestion(q.accept(this));
+            node.addOneQuestion(q.accept(this));
         }
         return node;
     }
@@ -121,10 +179,11 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     public Node visitType(GrammarParser.TypeContext context)
     {
         TypeNode node = new TypeNode();
-        node.setType(context.getText());
+        node.setType(ValueType.valueOfString(context.getText()));
 
         return node;
     }
+
 
     @Override
     public Node visitNumberExpression(GrammarParser.NumberExpressionContext context)
@@ -198,41 +257,8 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         InfixExpressionNode node;
 
         int i = context.comp.getType();
-        if (i == GrammarParser.LESS)
-        {
-            node = new LessNode();
-
-        } else if (i == GrammarParser.GREATER)
-        {
-            node = new GreaterNode();
-
-        } else if (i == GrammarParser.EQUALLESS)
-        {
-            node = new EqualLessNode();
-
-        } else if (i == GrammarParser.EQUALGREATER)
-        {
-            node = new EqualGreaterNode();
-
-        } else if (i == GrammarParser.NOTEQUAL)
-        {
-            node = new NotEqualNode();
-
-        } else if (i == GrammarParser.ISEQUAL)
-        {
-            node = new IsEqualNode();
-
-        } else
-        {
-            try
-            {
-                throw new Exception("Invalid Node type");
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            return null;
-        }
+        node = getInfixExpressionNode(i);
+        if (node == null) return null;
 
         node.setLeft((ExpressionNode) context.left.accept(this));
         node.setRight((ExpressionNode) context.right.accept(this));
@@ -247,33 +273,7 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
         InfixExpressionNode node;
 
         int i = context.op.getType();
-        if (i == GrammarParser.PLUS)
-        {
-            node = new AdditionNode();
-
-        } else if (i == GrammarParser.MINUS)
-        {
-            node = new SubtractionNode();
-
-        } else if (i == GrammarParser.MULTIPLY)
-        {
-            node = new MultiplicationNode();
-
-        } else if (i == GrammarParser.DIVIDE)
-        {
-            node = new DivisionNode();
-
-        } else
-        {
-            try
-            {
-                throw new Exception("Invalid Node type");
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            return null;
-        }
+        node = getInfixExpressionNode(i);
 
 
         node.setLeft((ExpressionNode) context.left.accept(this));
@@ -286,10 +286,10 @@ public class BuildASTVisitor extends GrammarParserBaseVisitor<Node> implements G
     @Override
     public Node visitUnaryExpression(GrammarParser.UnaryExpressionContext context)
     {
-        NegateNode negateNode = new NegateNode();
-        negateNode.setInnerNode((ExpressionNode) context.expression().accept(this));
-        negateNode.getInnerNode();
-        return negateNode;
+        NotNode notNode = new NotNode();
+        notNode.setInnerNode((ExpressionNode) context.expression().accept(this));
+        notNode.getInnerNode();
+        return notNode;
     }
 
 

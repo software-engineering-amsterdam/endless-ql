@@ -6,10 +6,10 @@ import java.util.logging.Logger;
 
 public class ValidationResult {
 
-    private Logger logger;
+    private final Logger logger;
 
-    private List<String> errors;
-    private List<String> warnings;
+    private final List<String> errors;
+    private final List<String> warnings;
 
     public ValidationResult() {
         logger = Logger.getGlobal();

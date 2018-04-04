@@ -7,60 +7,64 @@ import java.util.function.BiFunction;
 
 import org.joda.time.DateTime;
 
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
+import nl.khonraad.ql.algebra.value.Value;
 
 public class BinaryFunctions {
 
-    private static Map<BinaryFunction, BiFunction<Value, Value, Value>> map = new HashMap<>();
+    private static Map<BinarySignature, BiFunction<Value, Value, Value>> map = new HashMap<>();
 
     static {
         
-        map.put( BinaryFunction.BooleanAndBoolean, ( a, b ) -> new Value( isTrue( a ) && isTrue( b ) ) );
-        map.put( BinaryFunction.BooleanEqualsBoolean, ( a, b ) -> new Value( a.equals( b ) ) );
-        map.put( BinaryFunction.BooleanOrBoolean, ( a, b ) -> new Value( isTrue( a ) || isTrue( b ) ) );
+        map.put( BinarySignature.BooleanAndBoolean, ( a, b ) -> new Value( isTrue( a ) && isTrue( b ) ) );
+        map.put( BinarySignature.BooleanEqualsBoolean, ( a, b ) -> new Value( a.equals( b ) ) );
+        map.put( BinarySignature.BooleanOrBoolean, ( a, b ) -> new Value( isTrue( a ) || isTrue( b ) ) );
 
-        map.put( BinaryFunction.DatePlusInteger, ( a, b ) -> new Value( date( a ).plusDays( integer( b ) ) ) );
-        map.put( BinaryFunction.DateMinusInteger, ( a, b ) -> new Value( date( a ).minusDays( integer( b ) ) ) );
-        map.put( BinaryFunction.DateLessDate, ( a, b ) -> new Value( date( a ).compareTo( date( b ) ) < 0 ) );
-        map.put( BinaryFunction.DateMoreDate, ( a, b ) -> new Value( date( a ).compareTo( date( b ) ) < 1 ) );
-        map.put( BinaryFunction.DateEqualsDate, ( a, b ) -> new Value( a.equals( b ) ) );
-        map.put( BinaryFunction.DateMoreDate, ( a, b ) -> new Value( date( a ).compareTo( date( b ) ) > 0 ) );
-        map.put( BinaryFunction.DateNotLessDate, ( a, b ) -> new Value( date( a ).compareTo( date( b ) ) > -1 ) );
+        map.put( BinarySignature.DatePlusInteger, ( a, b ) -> new Value( date( a ).plusDays( integer( b ) ) ) );
+        map.put( BinarySignature.DateMinusInteger, ( a, b ) -> new Value( date( a ).minusDays( integer( b ) ) ) );
+        map.put( BinarySignature.DateLessDate, ( a, b ) -> new Value( date( a ).compareTo( date( b ) ) < 0 ) );
+        map.put( BinarySignature.DateMoreDate, ( a, b ) -> new Value( date( a ).compareTo( date( b ) ) < 1 ) );
+        map.put( BinarySignature.DateEqualsDate, ( a, b ) -> new Value( a.equals( b ) ) );
+        map.put( BinarySignature.DateMoreDate, ( a, b ) -> new Value( date( a ).compareTo( date( b ) ) > 0 ) );
+        map.put( BinarySignature.DateNotLessDate, ( a, b ) -> new Value( date( a ).compareTo( date( b ) ) > -1 ) );
 
-        map.put( BinaryFunction.IntegerTimesInteger, ( a, b ) -> new Value( (integer( a ) * integer( b )) ) );
-        map.put( BinaryFunction.IntegerTimesMoney, ( a, b ) -> new Value( money( a ).multiply( money( b ) ) ) );
-        map.put( BinaryFunction.IntegerPlusInteger, ( a, b ) -> new Value( (integer( a ) + integer( b )) ) );
-        map.put( BinaryFunction.IntegerMinusInteger, ( a, b ) -> new Value( (integer( a ) - integer( b )) ) );
-        map.put( BinaryFunction.IntegerDividedByInteger, ( a, b ) -> new Value( (integer( a ) / integer( b )) ) );
-        map.put( BinaryFunction.IntegerLessInteger, ( a, b ) -> new Value( integer( a ).compareTo( integer( b ) ) < 0 ) );
-        map.put( BinaryFunction.IntegerNotMoreInteger, ( a, b ) -> new Value( integer( a ).compareTo( integer( b ) ) < 1 ) );
-        map.put( BinaryFunction.IntegerEqualsInteger, ( a, b ) -> new Value( a.equals( b ) ) );
-        map.put( BinaryFunction.IntegerMoreInteger, ( a, b ) -> new Value( integer( a ).compareTo( integer( b ) ) > 0 ) );
-        map.put( BinaryFunction.IntegerNotLessInteger, ( a, b ) -> new Value( integer( a ).compareTo( integer( b ) ) > -1 ) );
+        map.put( BinarySignature.IntegerTimesInteger, ( a, b ) -> new Value( (integer( a ) * integer( b )) ) );
+        map.put( BinarySignature.IntegerTimesMoney, ( a, b ) -> new Value( money( a ).multiply( money( b ) ) ) );
+        map.put( BinarySignature.IntegerPlusInteger, ( a, b ) -> new Value( (integer( a ) + integer( b )) ) );
+        map.put( BinarySignature.IntegerMinusInteger, ( a, b ) -> new Value( (integer( a ) - integer( b )) ) );
+        map.put( BinarySignature.IntegerDividedByInteger, ( a, b ) -> new Value( (integer( a ) / integer( b )) ) );
+        map.put( BinarySignature.IntegerLessInteger, ( a, b ) -> new Value( integer( a ).compareTo( integer( b ) ) < 0 ) );
+        map.put( BinarySignature.IntegerNotMoreInteger, ( a, b ) -> new Value( integer( a ).compareTo( integer( b ) ) < 1 ) );
+        map.put( BinarySignature.IntegerEqualsInteger, ( a, b ) -> new Value( a.equals( b ) ) );
+        map.put( BinarySignature.IntegerMoreInteger, ( a, b ) -> new Value( integer( a ).compareTo( integer( b ) ) > 0 ) );
+        map.put( BinarySignature.IntegerNotLessInteger, ( a, b ) -> new Value( integer( a ).compareTo( integer( b ) ) > -1 ) );
 
-        map.put( BinaryFunction.MoneyTimesInteger, ( a, b ) -> new Value( money( a ).multiply( money( b ) ) ) );
-        map.put( BinaryFunction.MoneyPlusMoney, ( a, b ) -> new Value( money( a ).add( money( b ) ) ) );
-        map.put( BinaryFunction.MoneyMinusMoney, ( a, b ) -> new Value( money( a ).subtract( money( b ) ) ) );
-        map.put( BinaryFunction.MoneyDividedByInteger, ( a, b ) -> new Value( money( a ).divide( money( b ) ) ) );
-        map.put( BinaryFunction.MoneyLessMoney, ( a, b ) -> new Value( money( a ).compareTo( money( b ) ) < 0 ) );
-        map.put( BinaryFunction.MoneyNotMoreMoney, ( a, b ) -> new Value( money( a ).compareTo( money( b ) ) < 1 ) );
-        map.put( BinaryFunction.MoneyEqualsMoney, ( a, b ) -> new Value( a.equals( b ) ) );
-        map.put( BinaryFunction.MoneyMoreMoney, ( a, b ) -> new Value( money( a ).compareTo( money( b ) ) > 0 ) );
-        map.put( BinaryFunction.MoneyNotLessMoney, ( a, b ) -> new Value( money( a ).compareTo( money( b ) ) > -1 ) );
+        map.put( BinarySignature.MoneyTimesInteger, ( a, b ) -> new Value( money( a ).multiply( money( b ) ) ) );
+        map.put( BinarySignature.MoneyPlusMoney, ( a, b ) -> new Value( money( a ).add( money( b ) ) ) );
+        map.put( BinarySignature.MoneyMinusMoney, ( a, b ) -> new Value( money( a ).subtract( money( b ) ) ) );
+        map.put( BinarySignature.MoneyDividedByInteger, ( a, b ) -> new Value( money( a ).divide( money( b ) ) ) );
+        map.put( BinarySignature.MoneyLessMoney, ( a, b ) -> new Value( money( a ).compareTo( money( b ) ) < 0 ) );
+        map.put( BinarySignature.MoneyNotMoreMoney, ( a, b ) -> new Value( money( a ).compareTo( money( b ) ) < 1 ) );
+        map.put( BinarySignature.MoneyEqualsMoney, ( a, b ) -> new Value( a.equals( b ) ) );
+        map.put( BinarySignature.MoneyMoreMoney, ( a, b ) -> new Value( money( a ).compareTo( money( b ) ) > 0 ) );
+        map.put( BinarySignature.MoneyNotLessMoney, ( a, b ) -> new Value( money( a ).compareTo( money( b ) ) > -1 ) );
 
-        map.put( BinaryFunction.StringPlusInteger, ( a, b ) -> new Value( string(a) + string(b) ) );
-        map.put( BinaryFunction.StringPlusMoney, ( a, b ) -> new Value( string(a) + string(b) ) );
-        map.put( BinaryFunction.StringPlusString, ( a, b ) -> new Value( string(a) + string(b) ) );
-        map.put( BinaryFunction.StringLessString, ( a, b ) -> new Value( string( a ).compareTo( string( b ) ) < 0 ) );
-        map.put( BinaryFunction.StringNotMoreString, ( a, b ) -> new Value( string( a ).compareTo( string( b ) ) < 1 ) );
-        map.put( BinaryFunction.StringEqualsString, ( a, b ) -> new Value( a.equals( b ) ) );
-        map.put( BinaryFunction.StringMoreString, ( a, b ) -> new Value( string( a ).compareTo( string( b ) ) > 0 ) );
-        map.put( BinaryFunction.StringNotLessString, ( a, b ) -> new Value( string( a ).compareTo( string( b ) ) > -1 ) );
+        map.put( BinarySignature.StringPlusInteger, ( a, b ) -> new Value( string(a) + string(b) ) );
+        map.put( BinarySignature.StringPlusMoney, ( a, b ) -> new Value( string(a) + string(b) ) );
+        map.put( BinarySignature.StringPlusString, ( a, b ) -> new Value( string(a) + string(b) ) );
+        map.put( BinarySignature.StringLessString, ( a, b ) -> new Value( string( a ).compareTo( string( b ) ) < 0 ) );
+        map.put( BinarySignature.StringNotMoreString, ( a, b ) -> new Value( string( a ).compareTo( string( b ) ) < 1 ) );
+        map.put( BinarySignature.StringEqualsString, ( a, b ) -> new Value( a.equals( b ) ) );
+        map.put( BinarySignature.StringMoreString, ( a, b ) -> new Value( string( a ).compareTo( string( b ) ) > 0 ) );
+        map.put( BinarySignature.StringNotLessString, ( a, b ) -> new Value( string( a ).compareTo( string( b ) ) > -1 ) );
 
     }
 
-    // consistent name 'boolean' is reserved by Java
+    public static BiFunction<Value, Value, Value> function( BinarySignature function ) {
+        return map.get( function );
+    }
+
+    // inconsistent name  as 'boolean' is reserved by Java!
     private static boolean isTrue( Value value ) {
         return new Boolean( value.string() );
     }
@@ -79,9 +83,5 @@ public class BinaryFunctions {
 
     private static String string( Value value ) {
         return value.string();
-    }
-
-    public static BiFunction<Value, Value, Value> function( BinaryFunction expression ) {
-        return map.get( expression );
     }
 }

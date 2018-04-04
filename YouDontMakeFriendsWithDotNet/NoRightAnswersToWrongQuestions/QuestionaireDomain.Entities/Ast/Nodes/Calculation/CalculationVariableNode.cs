@@ -6,11 +6,11 @@ using QuestionnaireDomain.Entities.Domain;
 
 namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation
 {
-    internal class CalculationVariableNode : 
-        VariableNodeBase, 
+    internal class CalculationVariableNode :
+        VariableNodeBase,
         ICalculationVariableNode
     {
-        public CalculationVariableNode(Guid id, string variableName) 
+        public CalculationVariableNode(Guid id, string variableName)
             : base(id, variableName)
         {
         }

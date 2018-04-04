@@ -16,19 +16,16 @@ namespace QlsTransformer.UI.Models
         public Guid PageId => GetValue<Guid>();
         public string PageDisplayName => GetValue<string>();
 
-        public ObservableCollection<SegmentWrapper> Segments { get; private set; }
+        public ObservableCollection<SectionWrapper> Sections { get; private set; }
 
         private void InitializeCollectionProperties(PageModel model)
         {
-            if (model.Segments == null)
-            {
-                throw new ArgumentException("segments cannot be null");
-            }
+            if (model.Sections == null) throw new ArgumentException("segments cannot be null");
 
-            Segments = new ObservableCollection<SegmentWrapper>(
-                model.Segments.Select(x => new SegmentWrapper(x)));
+            Sections = new ObservableCollection<SectionWrapper>(
+                model.Sections.Select(x => new SectionWrapper(x)));
 
-            RegisterCollection(Segments, model.Segments);
+            RegisterCollection(Sections, model.Sections);
         }
     }
 }

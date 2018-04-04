@@ -1,4 +1,5 @@
-﻿using QLParser.AST.QL;
+﻿using QLParser;
+using QLParser.AST.QL;
 using QLParser.AST.QLS;
 using QLVisualizer.Elements.Managers;
 using System;
@@ -31,7 +32,7 @@ namespace QLVisualizer.Widgets.Collection
                 if (!_styleValues.ContainsKey(style.QValueType))
                     _styleValues.Add(style.QValueType, style);
                 else
-                    _styleValues[style.QValueType] = style.CombineWith(_styleValues[style.QValueType]);
+                    _styleValues[style.QValueType] = Util.CombineStyles(_styleValues[style.QValueType], style);
             }
         }
 
@@ -47,7 +48,7 @@ namespace QLVisualizer.Widgets.Collection
 
         public void AddChild(IWidgetBuilder child)
         {
-            // TODO: refactor
+            // Type check on child, must be of same generic type
             if (child as WidgetBuilder<T> == null)
                 throw new InvalidOperationException("Invalid type added!");
 
@@ -57,15 +58,8 @@ namespace QLVisualizer.Widgets.Collection
         public override void ApplyParentStyle(params QLSStyle[] elements)
         {
             AddStyles(elements);
-            foreach(WidgetBuilder<T> widgetBuilder in _children)
+            foreach (WidgetBuilder<T> widgetBuilder in _children)
                 widgetBuilder.ApplyParentStyle(_styleValues.Values.ToArray());
         }
-        /*{
-            base.ApplyParentStyle(elements);
-
-            // Update children when collection style is changed
-            foreach (IWidgetBuilder widgetBuilder in _children)
-                widgetBuilder.SetParentStyle(_qlsValues);
-        }*/
     }
 }

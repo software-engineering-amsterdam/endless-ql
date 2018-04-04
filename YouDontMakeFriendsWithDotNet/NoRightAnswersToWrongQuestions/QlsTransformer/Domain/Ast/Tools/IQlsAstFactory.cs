@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using QlsTransformer.Ast.Nodes;
+using QlsTransformer.Domain.Ast.Nodes;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 
-namespace QlsTransformer.Ast.Tools
+namespace QlsTransformer.Domain.Ast.Tools
 {
     public interface IQlsAstFactory
     {
         DomainId<IStyleSheetRootNode> CreateStyleSheet(
-            string definition, 
+            string definition,
             string styleSheetName,
             IEnumerable<IDefaultStyle> defaultStyles,
             IEnumerable<DomainId<IPageNode>> pages);
@@ -24,18 +24,18 @@ namespace QlsTransformer.Ast.Tools
             string sectionName,
             IEnumerable<IDefaultStyle> defaultStyles,
             IEnumerable<DomainId<IQlsQuestionNode>> questions);
-        
+
         DomainId<IQlsQuestionNode> CreateQuestion(
             string definition,
             string questionName,
             DomainId<IStyleNode> questionStyle);
 
         DomainId<IAstNode> CreateStyle(
-            string definition, 
-            IWidget widget, 
-            int? width, 
-            decimal? fontSize, 
-            string font, 
+            string definition,
+            IWidget widget,
+            int? width,
+            decimal? fontSize,
+            string font,
             string color);
     }
 }

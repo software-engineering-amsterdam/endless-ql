@@ -2,7 +2,6 @@ package ql.environment.values;
 
 public class BooleanValue implements Value<Boolean> {
 
-    //TODO for all: hoe handelen we null values? Catch je nullpointerExceptions ergens
     private final Boolean value;
 
     public BooleanValue(Boolean value) {
@@ -14,8 +13,9 @@ public class BooleanValue implements Value<Boolean> {
             value = true;
         } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("false")) {
             value = false;
+        } else {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
     }
 
     @Override

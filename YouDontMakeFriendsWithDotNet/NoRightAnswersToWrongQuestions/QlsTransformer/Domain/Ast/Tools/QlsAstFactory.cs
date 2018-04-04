@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using QlsTransformer.Ast.Nodes;
+﻿using System.Collections.Generic;
+using QlsTransformer.Domain.Ast.Nodes;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
 using QuestionnaireInfrastructure.API;
 
-namespace QlsTransformer.Ast.Tools
+namespace QlsTransformer.Domain.Ast.Tools
 {
     internal class QlsAstFactory : IQlsAstFactory
     {
@@ -22,7 +21,7 @@ namespace QlsTransformer.Ast.Tools
         }
 
         public DomainId<IStyleSheetRootNode> CreateStyleSheet(
-            string definition, 
+            string definition,
             string styleSheetName,
             IEnumerable<IDefaultStyle> defaultStyles,
             IEnumerable<DomainId<IPageNode>> pages)
@@ -70,7 +69,7 @@ namespace QlsTransformer.Ast.Tools
         }
 
         public DomainId<IQlsQuestionNode> CreateQuestion(
-            string definition, 
+            string definition,
             string questionName,
             DomainId<IStyleNode> questionStyle)
         {
@@ -84,11 +83,11 @@ namespace QlsTransformer.Ast.Tools
         }
 
         public DomainId<IAstNode> CreateStyle(
-            string definition, 
-            IWidget widget, 
-            int? width, 
-            decimal? fontSize, 
-            string font, 
+            string definition,
+            IWidget widget,
+            int? width,
+            decimal? fontSize,
+            string font,
             string color)
         {
             var styleNode = new StyleNode(
@@ -102,7 +101,7 @@ namespace QlsTransformer.Ast.Tools
 
             return DomainItemRegistration<IStyleNode>(styleNode);
         }
-        
+
         private DomainId<T> DomainItemRegistration<T>(T node) where T : IDomainItem
         {
             m_registry.Add(node);

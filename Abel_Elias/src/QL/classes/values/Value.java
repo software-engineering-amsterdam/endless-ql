@@ -1,8 +1,8 @@
 package QL.classes.values;
 
-import QL.classes.CodeBlock;
+import java.util.Observable;
 
-public abstract class Value <T extends Object>{
+public abstract class Value<T extends Object> extends Observable {
     public static final String BOOLEAN = "boolean",
             DECIMAL = "decimal",
             INTEGER = "integer",
@@ -14,30 +14,35 @@ public abstract class Value <T extends Object>{
     private T value;
     private String type;
 
-    Value(T value){
+    Value(T value) {
         this.value = value;
     }
 
-    public T getValue(){
+    public T getValue() {
         return value;
     }
 
-    //TODO: put setType in constructor??
-    public void setType(String type){
-        this.type = type;
-    }
-
-    public void setValue(T value){
+    public void setValue(T value) {
         this.value = value;
+
+        if (countObservers() > 0) {
+            setChanged();
+            notifyObservers();
+        }
     }
 
-    public String getType(){
+    public String getType() {
         return type;
+    }
+
+    //TODO: put setType in constructor??
+    public void setType(String type) {
+        this.type = type;
     }
 
     public abstract void setValueGeneric(Object o);
 
-    public boolean isDefined () {
+    public boolean isDefined() {
         return true;
     }
 }

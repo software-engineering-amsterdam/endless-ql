@@ -19,6 +19,7 @@ import org.uva.ql.evaluator.value.Value;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -51,7 +52,7 @@ public class ExpressionEvaluatorTest {
 
 
         // Test exceptions
-        List<List<Expression>> exceptions = getLiteralPairs(Arrays.asList(IntegerLiteral.class));
+        List<List<Expression>> exceptions = getLiteralPairs(Collections.singletonList(IntegerLiteral.class));
         for (List<Expression> parameters : exceptions) {
             addition = new Addition(parameters.get(0), parameters.get(1));
             try{
@@ -75,7 +76,7 @@ public class ExpressionEvaluatorTest {
         Assert.assertFalse((Boolean) result.getValue());
 
         // Test exceptions
-        List<List<Expression>> exceptions = getLiteralPairs(Arrays.asList(BooleanLiteral.class));
+        List<List<Expression>> exceptions = getLiteralPairs(Collections.singletonList(BooleanLiteral.class));
         for (List<Expression> parameters : exceptions) {
             and = new And(parameters.get(0), parameters.get(1));
             try{
@@ -102,7 +103,7 @@ public class ExpressionEvaluatorTest {
 
 
         // Test exceptions
-        List<List<Expression>> exceptions = getLiteralPairs(Arrays.asList(IntegerLiteral.class));
+        List<List<Expression>> exceptions = getLiteralPairs(Collections.singletonList(IntegerLiteral.class));
         for (List<Expression> parameters : exceptions) {
             division = new Division(parameters.get(0), parameters.get(1));
             try{
@@ -175,7 +176,7 @@ public class ExpressionEvaluatorTest {
 
 
         // Test exceptions
-        List<List<Expression>> exceptions = getLiteralPairs(Arrays.asList(IntegerLiteral.class));
+        List<List<Expression>> exceptions = getLiteralPairs(Collections.singletonList(IntegerLiteral.class));
         for (List<Expression> parameters : exceptions) {
             greaterThan = new GreaterThan(parameters.get(0), parameters.get(1));
             try{
@@ -209,7 +210,7 @@ public class ExpressionEvaluatorTest {
         Assert.assertFalse((boolean)result.getValue());
 
         // Test exceptions
-        List<List<Expression>> exceptions = getLiteralPairs(Arrays.asList(IntegerLiteral.class));
+        List<List<Expression>> exceptions = getLiteralPairs(Collections.singletonList(IntegerLiteral.class));
         for (List<Expression> parameters : exceptions) {
             greaterThanEqualTo = new GreaterThanEqualTo(parameters.get(0), parameters.get(1));
             try{
@@ -244,7 +245,7 @@ public class ExpressionEvaluatorTest {
 
 
         // Test exceptions
-        List<List<Expression>> exceptions = getLiteralPairs(Arrays.asList(IntegerLiteral.class));
+        List<List<Expression>> exceptions = getLiteralPairs(Collections.singletonList(IntegerLiteral.class));
         for (List<Expression> parameters : exceptions) {
             lessThan = new LessThan(parameters.get(0), parameters.get(1));
             try{
@@ -278,7 +279,7 @@ public class ExpressionEvaluatorTest {
         Assert.assertTrue((boolean)result.getValue());
 
         // Test exceptions
-        List<List<Expression>> exceptions = getLiteralPairs(Arrays.asList(IntegerLiteral.class));
+        List<List<Expression>> exceptions = getLiteralPairs(Collections.singletonList(IntegerLiteral.class));
         for (List<Expression> parameters : exceptions) {
             lessThanEqualTo = new LessThanEqualTo(parameters.get(0), parameters.get(1));
             try{
@@ -305,7 +306,7 @@ public class ExpressionEvaluatorTest {
 
 
         // Test exceptions
-        List<List<Expression>> exceptions = getLiteralPairs(Arrays.asList(IntegerLiteral.class));
+        List<List<Expression>> exceptions = getLiteralPairs(Collections.singletonList(IntegerLiteral.class));
         for (List<Expression> parameters : exceptions) {
             multiplication = new Multiplication(parameters.get(0), parameters.get(1));
             try{
@@ -375,7 +376,7 @@ public class ExpressionEvaluatorTest {
         Assert.assertFalse((Boolean) result.getValue());
 
         // Test exceptions
-        List<List<Expression>> exceptions = getLiteralPairs(Arrays.asList(BooleanLiteral.class));
+        List<List<Expression>> exceptions = getLiteralPairs(Collections.singletonList(BooleanLiteral.class));
         for (List<Expression> parameters : exceptions) {
             or = new Or(parameters.get(0), parameters.get(1));
             try{
@@ -402,7 +403,7 @@ public class ExpressionEvaluatorTest {
 
 
         // Test exceptions
-        List<List<Expression>> exceptions = getLiteralPairs(Arrays.asList(IntegerLiteral.class));
+        List<List<Expression>> exceptions = getLiteralPairs(Collections.singletonList(IntegerLiteral.class));
         for (List<Expression> parameters : exceptions) {
             subtraction = new Subtraction(parameters.get(0), parameters.get(1));
             try{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
@@ -26,7 +27,7 @@ namespace QL.UnitTests.UI.UnitTests
                 "int input question",
                 true,
                 false,
-                typeof(int));
+                new StringQuestionType());
 
             m_inputQuestion2 = new QuestionModel(
                 new Guid("9568D4CB-7287-4431-9810-E95A83D050EB"),
@@ -34,7 +35,7 @@ namespace QL.UnitTests.UI.UnitTests
                 "string input question",
                 true,
                 false,
-                typeof(string));
+                new StringQuestionType());
 
             m_questionnaire.Questions.Add(m_inputQuestion1);
             m_questionnaire.Questions.Add(m_inputQuestion2);

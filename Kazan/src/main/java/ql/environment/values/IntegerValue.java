@@ -1,9 +1,11 @@
 package ql.environment.values;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.util.Objects;
 
 public class IntegerValue extends NumericValue<Integer> {
-    //make all final
+
     private final Integer value;
 
     public IntegerValue(int value) {
@@ -11,7 +13,7 @@ public class IntegerValue extends NumericValue<Integer> {
     }
 
     public IntegerValue(String input) {
-        value = Integer.parseInt(input);
+        value = NumberUtils.toInt(input, 0);
     }
 
     @Override

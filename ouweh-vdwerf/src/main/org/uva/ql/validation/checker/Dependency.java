@@ -2,8 +2,8 @@ package org.uva.ql.validation.checker;
 
 class Dependency {
 
-    private String from;
-    private String to;
+    private final String from;
+    private final String to;
 
     Dependency(String left, String right) {
         this.from = left;

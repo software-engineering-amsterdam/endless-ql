@@ -12,5 +12,4 @@ namespace QuestionnaireDomain.Entities.Domain.Interfaces
         T Lookup<T>(Guid variableRef);
         object Lookup(Guid variableRef);
     }
-    
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AntlrInterpretor;
 using Microsoft.Extensions.DependencyInjection;
+using QlsParser;
 using QlsTransformer;
 using QuestionnaireDomain.Entities;
 using QuestionnaireInfrastructure;
@@ -27,8 +28,9 @@ namespace StyledWpfApp
             collection.AddModule(new AntlrModule());
             collection.AddModule(new EntitiesModule());
             collection.AddModule(new OrchestrationModule());
-            //collection.AddModule(new UiModule());
+            collection.AddModule(new UiModule());
             collection.AddModule(new QlsTransformerModule());
+            collection.AddModule(new QlsParserModule());
             collection.AddTransient(
                 typeof(IStyledQuestionnaireViewModel),
                 typeof(StyledQuestionnaireViewModel));

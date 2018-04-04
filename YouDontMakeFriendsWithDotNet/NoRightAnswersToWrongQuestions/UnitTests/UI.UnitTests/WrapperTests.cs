@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireOrchestration.Models;
 using QuestionnaireUI.Models;
 
@@ -10,7 +11,6 @@ namespace QL.UnitTests.UI.UnitTests
     {
         private QuestionnaireModel m_questionnaire;
         private QuestionModel m_inputQuestion1;
-        private QuestionModel m_inputQuestion2;
 
         [SetUp]
         public void Init()
@@ -25,17 +25,8 @@ namespace QL.UnitTests.UI.UnitTests
                 "int input question",
                 true,
                 false,
-                typeof(int));
-
-            m_inputQuestion2 = new QuestionModel(
-                new Guid("9568D4CB-7287-4431-9810-E95A83D050EB"),
-                new Guid("CE5B413F-13B4-446A-8019-6856EDC8AE7F"),
-                "string input question",
-                true,
-                false,
-                typeof(string));
+                new IntegerQuestionType());
         }
-
 
         [Test]
         public void WhenQuestionnaireWrapperGivenModel_ShouldbeContainedInModelProperty()
@@ -131,7 +122,7 @@ namespace QL.UnitTests.UI.UnitTests
         [Test]
         public void WhenUpdatingQuestionWrapper_ShouldSetUnderlyingModelValues()
         {
-            var wrapper = new QuestionWrapper(m_inputQuestion1)
+            new QuestionWrapper(m_inputQuestion1)
             {
                 Value = "100"
             };

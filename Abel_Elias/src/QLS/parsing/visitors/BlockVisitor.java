@@ -1,20 +1,14 @@
 package QLS.parsing.visitors;
+
 import QL.classes.Question;
-import QLS.classes.Page;
-import QLS.classes.blocks.Block;
 import QLS.classes.blocks.Element;
 import QLS.classes.blocks.Section;
 import QLS.classes.blocks.StyledQuestion;
-import QLS.classes.widgets.CheckBoxWidget;
-import QLS.classes.widgets.DropdownWidget;
-import QLS.classes.widgets.RadioWidget;
-import QLS.classes.widgets.SliderWidget;
-import QLS.classes.widgets.SpinBoxWidget;
-import QLS.classes.widgets.TextWidget;
-import QLS.classes.widgets.Widget;
-import QLS.classes.widgets.WidgetType;
+import QLS.classes.properties.Property;
 import QLS.parsing.gen.QLSBaseVisitor;
 import QLS.parsing.gen.QLSParser;
+import gui.widgets.Widget;
+import gui.widgets.WidgetFactory;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -22,19 +16,21 @@ import java.util.List;
 
 public class BlockVisitor extends QLSBaseVisitor {
 
-    private WidgetVisitor widgetVisitor;
     private final LinkedHashMap<String, Section> sections;
     private final LinkedHashMap<String, StyledQuestion> styledQuestions;
-    private LinkedHashMap<String, Question> questions;
     private final LinkedHashMap<String, Element> parents;
+    private LinkedHashMap<String, Question> questionMap;
     private String currentParentId;
+    private WidgetVisitor widgetVisitor;
+    private PropertyVisitor propertyVisitor;
 
-    public BlockVisitor(LinkedHashMap<String, Question> questions) {
-        this.widgetVisitor = new WidgetVisitor();
+    public BlockVisitor(LinkedHashMap<String, Question> questionMap) {
         this.parents = new LinkedHashMap<>();
         this.sections = new LinkedHashMap<>();
         this.styledQuestions = new LinkedHashMap<>();
-        this.questions = questions;
+        this.widgetVisitor = new WidgetVisitor();
+        this.propertyVisitor = new PropertyVisitor();
+        this.questionMap = questionMap;
     }
 
     @Override
@@ -50,7 +46,7 @@ public class BlockVisitor extends QLSBaseVisitor {
 
     @Override
     public Section visitSection(QLSParser.SectionContext ctx) {
-        String id = ctx.IDENTIFIER().getText();
+        String id = ctx.STR().getText();
         List<Element> elements = new ArrayList<>();
         currentParentId = id;
         for (QLSParser.ElementContext c : ctx.element()) {
@@ -61,24 +57,42 @@ public class BlockVisitor extends QLSBaseVisitor {
         return section;
     }
 
+
+    //TODO: Write code for visitQuestion()
     @Override
     public StyledQuestion visitQuestion(QLSParser.QuestionContext ctx) {
         String id = ctx.IDENTIFIER().getText();
-        Widget widget = widgetVisitor.visitWidget(ctx.widget());
-        StyledQuestion question = new StyledQuestion(id, widget, questions.get(id), currentParentId);
-        styledQuestions.put(id, question);
-        return question;
+        Question question = questionMap.get(id);
+
+        Widget widget = null;
+        if (ctx.widget() != null) {
+            widget = widgetVisitor.visitWidget(ctx.widget(), question.getValue());
+        } else {
+            widget = WidgetFactory.getDefaultWidget(question.getValue());
+        }
+
+        List<Property> properties = new ArrayList<>();
+        if (ctx.style() != null) {
+            for (QLSParser.WidgetPropertyContext c : ctx.style().widgetProperty()) {
+                properties.add((Property) propertyVisitor.visitWidgetProperty(c));
+            }
+        }
+
+        StyledQuestion styledQuestion = new StyledQuestion(id, question, currentParentId, widget, properties);
+        this.styledQuestions.put(id, styledQuestion);
+
+        return styledQuestion;
     }
 
-    public LinkedHashMap<String,Section> getSections() {
+    public LinkedHashMap<String, Section> getSections() {
         return sections;
     }
 
-    public LinkedHashMap<String,StyledQuestion> getQuestions() {
+    public LinkedHashMap<String, StyledQuestion> getQuestions() {
         return styledQuestions;
     }
 
-    public LinkedHashMap<String,Element> getParents() {
+    public LinkedHashMap<String, Element> getParents() {
         return parents;
     }
 }

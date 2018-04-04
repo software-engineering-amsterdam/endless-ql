@@ -2,11 +2,10 @@ package nl.khonraad.ql.ast.data;
 
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
-import nl.khonraad.ql.algebra.StringAble;
-import nl.khonraad.ql.algebra.Value;
 import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.value.Value;
 
-public class Question implements StringAble {
+public class Question {
 
     public enum BehaviouralType {
 
@@ -18,7 +17,7 @@ public class Question implements StringAble {
     private Label           label;
     private Value           value;
 
-    public Question(BehaviouralType behaviouralType, Identifier identifier, Label label, Value value) {
+    public Question( BehaviouralType behaviouralType, Identifier identifier, Label label, Value value ) {
 
         this.behaviouralType = behaviouralType;
         this.identifier = identifier;
@@ -46,7 +45,6 @@ public class Question implements StringAble {
         return value.type();
     }
 
-    @Override
     public String string() {
         return value.string();
     }
@@ -55,10 +53,7 @@ public class Question implements StringAble {
 
         if ( this.value.type() != value.type() )
             throw new RuntimeException( "TYPE_ERROR" );
-        
         this.value = value;
-        
         return value;
     }
-
 }

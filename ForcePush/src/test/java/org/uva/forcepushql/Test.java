@@ -1,6 +1,7 @@
 package org.uva.forcepushql;
 
 import org.antlr.v4.runtime.*;
+import org.uva.forcepushql.interpreter.gui.JPanelGUI;
 import org.uva.forcepushql.parser.antlr.GrammarLexer;
 import org.uva.forcepushql.parser.antlr.GrammarParser;
 import org.uva.forcepushql.parser.ast.visitors.BuildASTVisitor;
@@ -39,34 +40,32 @@ public class Test
         //String value = form.accept(new ASTVisitorEvaluator());
 
 
-
-
-        JFrame guiFrame = new JFrame("MainFrame");
-        guiFrame.setLocationRelativeTo(null);
+        JFrame guiFrame = new JFrame("Questionnaire");
 
         guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        guiFrame.setTitle("Questionnaire");
         guiFrame.setSize(720,720);
+        guiFrame.setLayout(new BorderLayout());
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weighty = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.gridx = GridBagConstraints.NONE;
 
-        guiFrame.setLayout(null);
 
         //ADD PANELS
         LinkedList<JPanel> jPanels = form.accept(new ASTVisitorEvaluator());
-        Insets insets = guiFrame.getInsets();
-        int height = 5;
 
         for (JPanel jp: jPanels) {
-            guiFrame.add(jp);
-            Dimension size = jp.preferredSize();
-            jp.setBounds(220 + insets.left, height + insets.top, size.width, size.height);
-            height += 95;
+            mainPanel.add(jp, gbc);
+
         }
 
-        /*size = panel2.preferredSize();
-        panel2.setBounds(220 + insets.left, 100 + insets.top, 20 + size.width, size.height);*/
 
+        guiFrame.add(mainPanel, BorderLayout.CENTER);
+        guiFrame.setLocation(300, 300);
         guiFrame.setVisible(true);
-
 
     }
 }

@@ -78,6 +78,30 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -87,11 +111,15 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="DataProvider\IQuestionnaireDataProvider.cs" />
     <Compile Include="DataProvider\QuestionnaireDataProvider.cs" />
-    <Compile Include="DelegateCommand.cs" />
+    <Compile Include="Views\BooleanToComboConverter.cs" />
+    <Compile Include="Views\NegativeConverter.cs" />
+    <Compile Include="Views\TypeTemplateSelection.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />
+    <Compile Include="ViewModels\IQuestionViewModel.cs" />
     <Compile Include="ViewModels\ISectionViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\IStyledQuestionnaireViewModel.cs" />
+    <Compile Include="ViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\SectionViewModel.cs" />
     <Compile Include="ViewModels\StyledQuestionnaireViewModel.cs" />
     <Compile Include="Views\PageView.xaml.cs">
@@ -99,6 +127,9 @@
     </Compile>
     <Compile Include="Views\QuestionnaireView.xaml.cs">
       <DependentUpon>QuestionnaireView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\QuestionView.xaml.cs">
+      <DependentUpon>QuestionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RadioButtonView.xaml.cs">
       <DependentUpon>RadioButtonView.xaml</DependentUpon>
@@ -119,6 +150,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\QuestionnaireView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\QuestionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,6 +183,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -163,6 +199,10 @@
     <ProjectReference Include="..\AntlrInterpretor\AntlrInterpretor.csproj">
       <Project>{7676F4F1-42FC-4A13-8A20-8826B139C98B}</Project>
       <Name>AntlrInterpretor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QlsParser\QlsParser.csproj">
+      <Project>{7B1CE303-25CF-426A-9EB8-2CE377AC7DF7}</Project>
+      <Name>QlsParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\QlsTransformer\QlsTransformer.csproj">
       <Project>{4214F8B0-A5FA-4426-B71C-16CED6FA0A63}</Project>

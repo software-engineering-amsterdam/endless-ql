@@ -1,5 +1,4 @@
-from pyql.ast.ast import ASTNode
-from pyql.ast import code_location
+from util.ast import ASTNode
 
 
 class Expression(ASTNode):
@@ -33,7 +32,7 @@ class UnaryExpression(Expression):
         return self._expression
 
 
-class BinaryExpression(Expression):  # abstract
+class BinaryExpression(Expression):
 
     def __init__(self, location, left, right):
         super().__init__(location)
@@ -171,7 +170,6 @@ class Literal(Expression):
     def __init__(self, location, value):
         super().__init__(location)
         self._value = value
-        self._type = type
 
     @property
     def value(self):
@@ -182,12 +180,3 @@ class Literal(Expression):
 
     def __repr__(self):
         return str(self.value.value)
-
-
-if __name__ == "__main__":
-    loc = code_location.CodeLocation(2, 3)
-    b = And(2, "left", "right")
-    # c = Not(loc, b)
-    c = "True" == "True"
-    print(c)
-    # print(c)

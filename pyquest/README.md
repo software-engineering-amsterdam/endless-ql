@@ -32,12 +32,21 @@ sudo pip3 install termcolor
 python3 pyquest.py
 ```
 
-## Shortkeys
+### Optional arguments
+```
+-t, --test	Perform tests.
+```
 
-| Shortkey | Action |
+### GUI Shortcuts
+
+| Shortcut | Action |
 | ------ | ------ |
 | `Ctrl+N`| Create a new .ql file |
 | `Ctrl+O`| Open a .ql file |
 | `Ctrl+S`| Save current .ql file |
-| `Shift+Ctrl+S`| Save as current .ql file |   
+| `Ctrl+Shift+S`| Save as current .ql file |   
 | `Ctrl+R` | Run current .ql file |
+
+### Screencast
+
+[screencast zip file](https://www.dropbox.com/s/uv62m47utid751z/screencast.zip?dl=0)

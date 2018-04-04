@@ -1,7 +1,7 @@
-from pyql.ast import ast
+from util.ast import ASTNode
 
 
-class Statement(ast.ASTNode):
+class Statement(ASTNode):
 
     def __init__(self, location):
         super().__init__(location)

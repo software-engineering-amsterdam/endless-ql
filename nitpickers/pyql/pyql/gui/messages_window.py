@@ -1,9 +1,8 @@
-import tkinter
-
 from pyql.gui.widgets.widgets import *
 
 
 class MessageWindow(ttk.Frame):
+
     def __init__(self, parent, messages):
         ttk.Frame.__init__(self, parent)
         self.root = parent
@@ -15,6 +14,5 @@ class MessageWindow(ttk.Frame):
             self.show_error_message(message)
 
     def show_error_message(self, message):
-        message = "ERROR:", message
         label = ttk.Label(self, text=message, foreground='red')
         label.grid(padx=5, pady=20)

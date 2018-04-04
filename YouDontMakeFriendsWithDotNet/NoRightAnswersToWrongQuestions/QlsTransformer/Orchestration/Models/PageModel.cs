@@ -15,7 +15,8 @@ namespace QlsTransformer.Orchestration.Models
 
         public Guid PageId { get; }
         public string PageDisplayName { get; }
-        public IList<SegmentModel> Segments { get; }
-            = new List<SegmentModel>();
+
+        public IList<SectionModel> Sections { get; }
+            = new List<SectionModel>();
     }
 }

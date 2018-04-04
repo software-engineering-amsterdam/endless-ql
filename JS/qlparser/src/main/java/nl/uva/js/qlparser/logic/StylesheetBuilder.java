@@ -28,9 +28,6 @@ public class StylesheetBuilder {
         QLSParser parser = new QLSParser(new CommonTokenStream(lexer));
         parser.addErrorListener(errorListener);
 
-        Stylesheet stylesheet = new QLSVisitor().visitStylesheet(parser.stylesheet());
-        stylesheet.checkType();
-
-        return stylesheet;
+        return new QLSVisitor().visitStylesheet(parser.stylesheet());
     }
 }

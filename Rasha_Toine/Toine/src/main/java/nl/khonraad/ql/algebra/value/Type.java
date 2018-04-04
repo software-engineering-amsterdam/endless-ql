@@ -8,18 +8,21 @@ public enum Type {
 
     Boolean("boolean"), Date("date"), Integer("integer"), Money("money"), String("string");
 
-    private String qlName;
+    private String languageDefinedName;
 
     private Type(String qlName) {
 
-        this.qlName = qlName;
+        this.languageDefinedName = qlName;
     }
     
+    public String string() {
+        return languageDefinedName;
+    }
     public static Type type( String qlName ) {
 
         for ( Type type : values() ) {
 
-            if ( type.qlName.equals( qlName ) ) {
+            if ( type.languageDefinedName.equals( qlName ) ) {
 
                 return type;
             }

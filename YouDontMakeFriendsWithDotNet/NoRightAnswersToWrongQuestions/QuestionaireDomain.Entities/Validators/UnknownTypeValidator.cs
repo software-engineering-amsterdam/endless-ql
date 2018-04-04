@@ -14,20 +14,17 @@ namespace QuestionnaireDomain.Entities.Validators
     {
         private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IVariableService m_variableService;
-        private readonly ITypeService m_typeService;
 
         public UnknownTypeValidator(
             IDomainItemLocator domainItemLocator,
-            IVariableService variableService,
-            ITypeService typeService)
+            IVariableService variableService)
         {
             m_domainItemLocator = domainItemLocator;
             m_variableService = variableService;
-            m_typeService = typeService;
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            DomainId<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> rootNode)
         {
             var untypedOperators = GetUntypedOperators();
 
@@ -44,10 +41,8 @@ namespace QuestionnaireDomain.Entities.Validators
                 if (m_variableService.AreCompatible(leftName, rightName))
                 {
                     var type = m_variableService.GetQuestionType(leftName);
-                    if (!m_typeService.IsValidOperationForType(untypedOperator, type))
-                    {
+                    if (!type.IsValidOperation(untypedOperator))
                         yield return IncompatableOperationError(untypedOperator, leftName, rightName);
-                    }
 
                     continue;
                 }
@@ -56,13 +51,14 @@ namespace QuestionnaireDomain.Entities.Validators
             }
         }
 
-        private ValidationMetaData IncompatibleTypeError(string leftName, string rightName, IRelationalLogicNode untypedOperator)
+        private ValidationMetaData IncompatibleTypeError(string leftName, string rightName,
+            IRelationalLogicNode untypedOperator)
         {
             var leftType = m_variableService.GetQuestionType(leftName);
             var rightType = m_variableService.GetQuestionType(rightName);
-            
-            var leftTypeText = m_typeService.GetTypeDisplay(leftType);
-            var rightTypeText = m_typeService.GetTypeDisplay(rightType);
+
+            var leftTypeText = leftType.GetTypeDisplay();
+            var rightTypeText = rightType.GetTypeDisplay();
 
             return new UnkownTypeExpressionValidationMetaData
             {
@@ -75,14 +71,17 @@ namespace QuestionnaireDomain.Entities.Validators
             };
         }
 
-        private ValidationMetaData IncompatableOperationError( IRelationalLogicNode untypedOperator, string leftName, string rightName)
+        private ValidationMetaData IncompatableOperationError(
+            IRelationalLogicNode untypedOperator,
+            string leftName,
+            string rightName)
         {
             var type = m_variableService.GetQuestionType(leftName);
-            var displayType = m_typeService.GetTypeDisplay(type);
+            var displayType = type.GetTypeDisplay();
             return new UnkownTypeExpressionValidationMetaData
             {
                 Message =
-                    $@"The expression '{untypedOperator.Definition}' contains the {displayType} variables " + 
+                    $@"The expression '{untypedOperator.Definition}' contains the {displayType} variables " +
                     $@"'{leftName}' and '{rightName}'. A {displayType} can only be compared for equality.",
                 Source = m_domainItemLocator.GetRef<IRelationalLogicNode>(untypedOperator.Id)
             };

@@ -8,12 +8,12 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Calculation
 {
     internal class NumberNode : AstNodeBase, INumberNode
     {
-        public decimal Value { get; }
-
         public NumberNode(Guid id, string numberText) : base(id, numberText)
         {
             Value = decimal.Parse(numberText);
         }
+
+        public decimal Value { get; }
 
         public IEnumerable<DomainId<ICalculationNode>> Children => new List<DomainId<ICalculationNode>>();
     }

@@ -11,7 +11,6 @@ import java.util.List;
 public class FormUIFactory {
 
     public FormUI getFormUI(Form form) {
-        //TODO: optionally move form to environment constructor
         Environment environment = new FormEnvironment(form);
         environment.evaluate();
 
@@ -22,7 +21,7 @@ public class FormUIFactory {
         return new FormUI(questions);
     }
 
-    public QuestionUI getQuestionUI(Environment environment, Question question) {
+    private QuestionUI getQuestionUI(Environment environment, Question question) {
         return new QuestionUI(environment, question);
     }
 

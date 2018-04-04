@@ -1,22 +1,22 @@
 package QL.classes;
+
 import QL.classes.values.Value;
 
-public class Question<T>{
+public class Question<T> {
     private String id;
     private String questionText;
     private Value<T> value;
     private boolean isFixed;
     private boolean isVisible;
 
-    public Question(String id, String questionText, Value<T> value, boolean isFixed){
+    public Question(String id, String questionText, Value<T> value, boolean isFixed) {
         this.id = id;
         this.isFixed = isFixed;
         this.value = value;
         this.questionText = questionText;
-        this.isVisible = isVisible;
     }
 
-    public Question(String id, String questionText, Value<T> value, boolean isFixed, boolean isVisible){
+    public Question(String id, String questionText, Value<T> value, boolean isFixed, boolean isVisible) {
         this.id = id;
         this.isFixed = isFixed;
         this.value = value;
@@ -33,15 +33,15 @@ public class Question<T>{
     }
 
 
-    public String getText(){
+    public String getText() {
         return questionText;
     }
 
-    public Value<T> getValue(){
+    public Value<T> getValue() {
         return value;
     }
 
-    public Question setValue(Value<T> value){
+    public Question setValue(Value<T> value) {
         this.value = value;
         return this;
     }
@@ -50,11 +50,11 @@ public class Question<T>{
         return this.isVisible;
     }
 
-    public void setVisibility(boolean isVisible){
+    public void setVisibility(boolean isVisible) {
         this.isVisible = isVisible;
     }
 
-    public boolean isFixed(){
+    public boolean isFixed() {
         return this.isFixed;
     }
 

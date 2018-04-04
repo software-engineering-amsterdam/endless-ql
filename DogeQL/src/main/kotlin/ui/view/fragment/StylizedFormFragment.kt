@@ -1,6 +1,9 @@
 package ui.view.fragment
 
-import tornadofx.*
+import tornadofx.Drawer
+import tornadofx.Fragment
+import tornadofx.drawer
+import tornadofx.onChange
 import ui.controller.DogeController
 import ui.visitor.StyleVisitor
 
@@ -8,7 +11,7 @@ class StylizedFormFragment : Fragment() {
 
     private val controller: DogeController by inject()
     private val visitor = StyleVisitor()
-    override var root = drawer {  }
+    override var root = drawer { }
 
     init {
         val style = controller.style

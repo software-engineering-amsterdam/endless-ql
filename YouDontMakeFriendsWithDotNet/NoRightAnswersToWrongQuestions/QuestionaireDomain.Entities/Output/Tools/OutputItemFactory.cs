@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Domain.Interfaces;
@@ -12,12 +11,12 @@ namespace QuestionnaireDomain.Entities.Output.Tools
 {
     internal class OutputItemFactory : IOutputItemFactory
     {
+        private readonly IDomainItemLocator m_domainItemLocator;
         private readonly IIdMaker m_ids;
         private readonly IDomainItemRegistry m_registry;
-        private readonly IDomainItemLocator m_domainItemLocator;
 
         public OutputItemFactory(
-            IIdMaker ids, 
+            IIdMaker ids,
             IDomainItemRegistry registry,
             IDomainItemLocator domainItemLocator)
         {
@@ -31,10 +30,10 @@ namespace QuestionnaireDomain.Entities.Output.Tools
             string displayName,
             IList<DomainId<IQuestionOutputItem>> questions)
         {
-            var questionnaireOutputItem= new QuestionnaireOutputItem(
+            var questionnaireOutputItem = new QuestionnaireOutputItem(
                 variable,
                 m_ids.Next,
-                displayName) {Questions = questions };
+                displayName) {Questions = questions};
 
             return DomainItemRegistration<IQuestionnaireOutputItem>(
                 questionnaireOutputItem);
@@ -43,12 +42,12 @@ namespace QuestionnaireDomain.Entities.Output.Tools
         public DomainId<IQuestionOutputItem> CreateQuestionOutputItem(
             DomainId<IQuestionNode> variable,
             string value,
-            bool isVisible, 
+            bool isVisible,
             bool isReadonly)
         {
             var question = m_domainItemLocator
                 .Get<IQuestionNode>(variable.Id);
-            
+
             var questionOutputItem = new QuestionOutputItem(
                 m_ids.Next,
                 variable,

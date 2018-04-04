@@ -172,7 +172,7 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
             string validText,
             string expectedId,
             string expectedText,
-            Type expectedType)
+            IQuestionType expectedType)
         {
             CreateForm(validText);
             var question = m_domainItemLocator
@@ -191,9 +191,8 @@ namespace QL.UnitTests.Domain.UnitTests.Tests
                 actual: question.QuestionText,
                 message: "The question text did not match");
 
-            Assert.AreEqual(
-                expected: expectedType, 
-                actual: question.QuestionType,
+            Assert.IsTrue(
+                expectedType.GetType() == question.QuestionType.GetType(),
                 message: "The question type did not match");
         }
 

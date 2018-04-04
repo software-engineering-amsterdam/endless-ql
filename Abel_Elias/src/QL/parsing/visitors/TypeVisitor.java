@@ -1,15 +1,17 @@
 package QL.parsing.visitors;
 
-import QL.classes.CodeBlock;
-import QL.classes.Question;
-import QL.classes.values.*;
+import QL.classes.values.BooleanValue;
+import QL.classes.values.DateValue;
+import QL.classes.values.DecimalValue;
+import QL.classes.values.IntegerValue;
+import QL.classes.values.MoneyValue;
+import QL.classes.values.StringValue;
+import QL.classes.values.Value;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
 
-import java.util.HashMap;
-
 public class TypeVisitor extends QLBaseVisitor {
-    public Value visitType(QLParser.TypeContext ctx){
+    public Value visitType(QLParser.TypeContext ctx) {
         return (Value) visit(ctx);
     }
 

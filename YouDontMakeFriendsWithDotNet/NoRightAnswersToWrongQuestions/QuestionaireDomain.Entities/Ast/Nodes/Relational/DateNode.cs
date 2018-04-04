@@ -8,8 +8,6 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
 {
     internal class DateNode : AstNodeBase, IDateNode
     {
-        public DateTime Value { get; }
-
         public DateNode(
             Guid id,
             string dateText)
@@ -19,11 +17,11 @@ namespace QuestionnaireDomain.Entities.Ast.Nodes.Relational
             var culture = new CultureInfo("en-GB");
             var styles = DateTimeStyles.None;
             if (!DateTime.TryParse(dateText, culture, styles, out parsedDateTime))
-            {
                 throw new ParserException($"could not parse '{dateText}' into a date", null);
-            }
 
             Value = parsedDateTime;
         }
+
+        public DateTime Value { get; }
     }
 }

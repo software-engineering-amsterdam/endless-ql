@@ -15,6 +15,10 @@ public class Messages {
         errors = new ArrayList<>();
     }
 
+    public boolean hasErrors() {
+        return errors.size() > 0;
+    }
+
     public void addWarning(Warning warning){
         warnings.add(warning);
     }

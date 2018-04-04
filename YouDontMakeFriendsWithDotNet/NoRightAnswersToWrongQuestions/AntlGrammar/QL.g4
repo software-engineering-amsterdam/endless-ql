@@ -89,7 +89,6 @@ mathValue: INTEGER
          | DECIMAL
          ;
 
-//ToDo: rename relational
 conditionValue: INTEGER 
               | DECIMAL 
               | DATE

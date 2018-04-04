@@ -15,7 +15,6 @@ namespace QuestionnaireDomain.Entities
     {
         public void RegisterDependencies(IServiceCollection appRegistration)
         {
-            // ToDo: make sure each service has appropriate lifetime 
             appRegistration.AddSingleton(typeof(IAstFactory), typeof(AstFactory));
             appRegistration.AddSingleton(typeof(IOutputItemFactory), typeof(OutputItemFactory));
             appRegistration.AddSingleton(typeof(IDomainItemRegistry), typeof(DomainItemRegistry));
@@ -40,7 +39,6 @@ namespace QuestionnaireDomain.Entities
             appRegistration.AddSingleton(typeof(IDuplicateTextValidator), typeof(DuplicateTextValidator));
             appRegistration.AddSingleton(typeof(ICyclicDependencyValidator), typeof(CyclicDependencyValidator));
             appRegistration.AddSingleton(typeof(IVariableService), typeof(VariableService));
-            appRegistration.AddSingleton(typeof(ITypeService), typeof(TypeService));
             appRegistration.AddSingleton(typeof(ICalculationService), typeof(CalculationService));
             appRegistration.AddSingleton(typeof(IExtractVariableVisitor), typeof(ExtractVariableVisitor));
         }

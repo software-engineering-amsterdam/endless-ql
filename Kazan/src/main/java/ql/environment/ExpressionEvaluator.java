@@ -12,7 +12,7 @@ import ql.environment.values.*;
 
 public class ExpressionEvaluator implements ExpressionVisitor<Value> {
 
-    private ValueStore valueStore;
+    private final ValueStore valueStore;
 
     public ExpressionEvaluator(ValueStore valueStore) {
         this.valueStore = valueStore;
@@ -37,9 +37,8 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value> {
         try {
             return getLeftValue(node).divide(getRightValue(node));
         } catch (ArithmeticException e) {
-            // issueTracker.addError(node.getRight(), "Attempted to divide by zero.");
+            throw new IllegalArgumentException("Attempted to divide by zero.");
         }
-        return null;
     }
 
     @Override
@@ -132,7 +131,6 @@ public class ExpressionEvaluator implements ExpressionVisitor<Value> {
         return valueStore.getValue(variable.getName());
     }
 
-    //TODO: remove, place accept directly in visits
     private Value getLeftValue(BinaryOperation node) {
         return node.getLeft().accept(this);
     }

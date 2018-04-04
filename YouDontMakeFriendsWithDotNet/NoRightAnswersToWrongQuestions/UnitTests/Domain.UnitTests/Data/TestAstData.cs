@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using QL.UnitTests.Domain.UnitTests.Utilities;
+using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 
 namespace QL.UnitTests.Domain.UnitTests.Data
 {
@@ -53,7 +54,6 @@ form CommentFormML {}";
 form CommentFormMLX {}";
                 yield return new TestCaseData(multilineComment2, @"CommentFormMLX");
                 yield return new TestCaseData(@"form /* //inline */ CommentFormCIC {}", @"CommentFormCIC");
-                // ToDo: Add instring comments and make sure they print
             }
         }
 
@@ -105,37 +105,37 @@ form CommentFormML {}";
                     "form NameForm { x : \"xyz\"  boolean }",
                     @"x",
                     @"xyz",
-                    typeof(bool));
+                    new BooleanQuestionType());
                 yield return new TestCaseData(
                     "form NameForm { qname : \"this is a question\"  string }",
                     @"qname",
                     @"this is a question",
-                    typeof(string));
+                    new StringQuestionType());
                 yield return new TestCaseData(
                     $"form NameForm {{ {NewLine} qname2 : \"this is a question too\"  decimal{NewLine}  }} ",
                     @"qname2",
                     @"this is a question too",
-                    typeof(decimal));
+                    new DecimalQuestionType());
                 yield return new TestCaseData(
                     $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" date{NewLine}    qname4 : \"this is a question four\" boolean }} ",
                     @"qname3",
                     @"this is a question three",
-                    typeof(DateTime));
+                    new DateQuestionType());
                 yield return new TestCaseData(
                     $"form NameForm {{{NewLine}    whoop : \"this is a question three\" integer{NewLine}    qname4 : \"this is a question four\" boolean }} ",
                     @"whoop",
                     @"this is a question three",
-                    typeof(int));
+                    new IntegerQuestionType());
                 yield return new TestCaseData(
                     $"form NameForm {{{NewLine}    qname3 : \"this is a question three\" boolean{NewLine}    qname4 : \"this is a question four\" boolean }} ",
                     @"qname3",
                     @"this is a question three",
-                    typeof(bool));
+                    new BooleanQuestionType());
                 yield return new TestCaseData(
                     $"form NameForm {{ \"xyz\" {NewLine} x: boolean {NewLine} \"xxx\" {NewLine} y: boolean {NewLine}}}",
                     @"x",
                     @"xyz",
-                    typeof(bool));
+                    new BooleanQuestionType());
             }
         }
 
@@ -148,8 +148,6 @@ form CommentFormML {}";
                     "form NameForm { x: \"xyz\" integer = (10 + 20) }",
                     new[] {@"10+20"},
                     new[] {10m, 20m}, noVarNames);
-                // ToDo: test decimal, multiply, divide, minus, divide by zert
-                // ToDo: test with single and multiple variables
             }
         }
 
@@ -174,11 +172,11 @@ form CommentFormML {}";
         {
             get
             {
-                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", typeof(bool));
-                yield return new TestCaseData("form NameForm { x : \"xyz\"  string }", typeof(string));
-                yield return new TestCaseData("form NameForm { x : \"xyz\"  integer }", typeof(int));
-                yield return new TestCaseData("form NameForm { x : \"xyz\"  date }", typeof(DateTime));
-                yield return new TestCaseData("form NameForm { x : \"xyz\"  decimal }", typeof(decimal));
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  boolean }", new BooleanQuestionType());
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  string }", new StringQuestionType());
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  integer }", new IntegerQuestionType());
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  date }", new DateQuestionType());
+                yield return new TestCaseData("form NameForm { x : \"xyz\"  decimal }", new DecimalQuestionType());
             }
         }
 
@@ -341,10 +339,6 @@ form CommentFormML {}";
                     definitions: new[] {"true==true"},
                     operators: new BooleanOperatorCount {EqualityCount = 1},
                     subdefinitions: new[] {"true==true"});
-
-                // ToDo: test inequality in a to relational test, i.e. "false!=true"
-                // ToDo: continue conversion of old tests
-                // ToDo: random testing for these
             }
         }
 

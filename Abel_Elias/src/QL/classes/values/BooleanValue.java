@@ -6,12 +6,12 @@ public class BooleanValue extends Value<Boolean> {
         setType(Value.BOOLEAN);
     }
 
-    public BooleanValue(){
+    public BooleanValue() {
         this(false);
     }
 
     @Override
     public void setValueGeneric(Object o) {
-        setValue((boolean) o );
+        setValue((boolean) o);
     }
 }

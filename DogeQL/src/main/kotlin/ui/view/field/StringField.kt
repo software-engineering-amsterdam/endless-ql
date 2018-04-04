@@ -1,13 +1,12 @@
 package ui.view.field
 
-import ui.model.StringViewModel
 import tornadofx.bind
 import tornadofx.stripWhitespace
-import ui.view.field.QuestionTextField
+import ui.model.viewmodel.StringViewModel
 
-class StringField(question : StringViewModel) : QuestionTextField(question){
+class StringField(question: StringViewModel) : QuestionTextField(question) {
     init {
-        with(root){
+        with(root) {
             stripWhitespace()
             bind(question.stringProperty)
             attachListener(textProperty())

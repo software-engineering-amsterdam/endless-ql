@@ -1,7 +1,7 @@
 package QL.parsing.visitors;
 
 import QL.classes.Question;
-import QL.classes.values.*;
+import QL.classes.values.Value;
 import QL.parsing.gen.QLBaseVisitor;
 import QL.parsing.gen.QLParser;
 
@@ -13,7 +13,7 @@ public class BlockVisitor extends QLBaseVisitor {
     private TypeVisitor typeVisitor;
     private boolean isVisible;
 
-    public BlockVisitor(LinkedHashMap<String, Question> questionMap, boolean isVisible){
+    public BlockVisitor(LinkedHashMap<String, Question> questionMap, boolean isVisible) {
         this.questionMap = questionMap;
         this.expVisitor = new ExpressionVisitor(questionMap);
         this.typeVisitor = new TypeVisitor();
@@ -55,9 +55,9 @@ public class BlockVisitor extends QLBaseVisitor {
 
         new BlockVisitor(questionMap, isVisible && condition).visitBlock(ifBlock);
 
-        if(elseBlock != null){
+        if (elseBlock != null) {
             new BlockVisitor(questionMap, isVisible && !condition).visitBlock(elseBlock);
-        }else if(elseIfStatement != null){
+        } else if (elseIfStatement != null) {
             this.visitIfStatement(elseIfStatement);
         }
 

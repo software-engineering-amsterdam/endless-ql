@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using QuestionnaireUI;
 using QuestionnaireUI.Models;
 using SimpleWPFApp.DataProvider;
 
@@ -48,6 +49,7 @@ namespace SimpleWPFApp
         }
 
         public ICommand DataChangedCommand { get; private set; }
+
         private QuestionnaireWrapper m_questionnaire;
 
         public QuestionnaireWrapper Questionnaire

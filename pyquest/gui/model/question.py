@@ -3,13 +3,13 @@ from ql.ast.visitors.expression_evaluator import ExpressionEvaluator
 
 
 class QuestionModel:
-    def __init__(self, label, identifier, answer_type, answer, computed, show_condition):
+    def __init__(self, label, identifier, answer_type, answer, computed, visibility_condition):
         self.__label = label
         self.__identifier = identifier
         self.__answer_type = answer_type
         self.__answer = answer
         self.__computed = computed
-        self.__show_condition = show_condition
+        self.__visibility_condition = visibility_condition
         self.__widget = None
         self.__widget_label = None
 
@@ -38,8 +38,8 @@ class QuestionModel:
         return self.__computed
 
     @property
-    def show_condition(self):
-        return self.__show_condition
+    def visibility_condition(self):
+        return self.__visibility_condition
 
     @property
     def widget(self):
@@ -57,19 +57,17 @@ class QuestionModel:
     def widget_label(self, value):
         self.__widget_label = value
 
-    def evaluate_show_condition(self, form):
+    def evaluate_visibility_condition(self, form):
         visitor = ExpressionEvaluator(form)
-        visitor.visit(self.show_condition)
-
+        visitor.visit(self.visibility_condition)
         return visitor.result
 
     def evaluate_answer(self, form):
         visitor = ExpressionEvaluator(form)
         visitor.visit(self.answer)
-
         return visitor.result
 
-    def pyqt5_render(self, layout, form, show=True):
+    def pyqt5_render(self, layout, form, visible=True):
         self.widget_label = Label(self.label)
 
         if self.computed:
@@ -78,7 +76,7 @@ class QuestionModel:
         else:
             self.widget = self.answer_type.pyqt5_default_widget()
 
-        if not show:
+        if not visible:
             self.widget.hide()
             self.widget_label.hide()
 

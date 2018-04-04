@@ -1,0 +1,36 @@
+stylesheet taxOfficeExample
+{
+  page PersonalData
+  {
+    section "Name"
+    {
+      question name
+        widget text
+    }
+    section "Age"
+      question age
+      widget text
+  }
+
+  page Finances
+  {
+    section "Selling"
+    {
+      question income
+
+      question spendings
+
+      question savings
+
+      section "Debts"
+      {
+        question debts
+      }
+
+    }
+    default boolean {
+        color: #56f442
+        widget checkbox
+    }
+  }
+}

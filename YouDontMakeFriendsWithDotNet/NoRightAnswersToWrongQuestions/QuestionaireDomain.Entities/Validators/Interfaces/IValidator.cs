@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using QuestionnaireDomain.Entities.Ast.Nodes.Common.Interfaces;
-using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Validators.MetaData;
 
@@ -10,9 +9,5 @@ namespace QuestionnaireDomain.Entities.Validators.Interfaces
     {
         IEnumerable<ValidationMetaData> Validate(
             DomainId<T> rootNode);
-    }
-
-    public interface IQuestionnairValidator : IValidator<IQuestionnaireRootNode>
-    {
     }
 }

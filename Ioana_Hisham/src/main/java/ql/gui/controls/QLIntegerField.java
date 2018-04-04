@@ -3,6 +3,7 @@ package ql.gui.controls;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import ql.gui.OnValueChange;
 import ql.values.IntegerValue;
 import ql.values.Value;
 

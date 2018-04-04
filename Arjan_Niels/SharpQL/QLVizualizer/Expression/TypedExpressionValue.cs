@@ -19,9 +19,6 @@ namespace QLVisualizer.Expression.Types
         /// </summary>
         private List<ExpressionOperator> _operatorChain;
 
-        /// <summary>
-        /// Result of expression
-        /// </summary>
         public T Result
         {
             get
@@ -43,10 +40,6 @@ namespace QLVisualizer.Expression.Types
             _operatorChain = new List<ExpressionOperator>();
         }
 
-        /// <summary>
-        /// Creates single delegate as expression
-        /// </summary>
-        /// <returns>Delegate expression</returns>
         protected Func<T> GetExpression()
         {
             Func<T> resultExpression = _expressionChain[0];
@@ -56,32 +49,13 @@ namespace QLVisualizer.Expression.Types
             return resultExpression;
         }
 
-        /// <summary>
-        /// Combine expressions with eachother
-        /// </summary>
-        /// <param name="expression1">Left hand side expression</param>
-        /// <param name="expression2">Right hand side expression</param>
-        /// <param name="op">Operator</param>
-        /// <returns>Resulting expression</returns>
         protected abstract Func<T> CombineExpressions(Func<T> expression1, Func<T> expression2, ExpressionOperator op);
 
-        /// <summary>
-        /// Checks if combination is possible
-        /// </summary>
-        /// <param name="expressionValue">Expression to combine with</param>
-        /// <param name="op">Operators for expression</param>
-        /// <returns>Is valid combination</returns>
         protected bool ValidCombine(ExpressionValue expressionValue, ExpressionOperator op)
         {
-            return CompatibleTypes.Contains(expressionValue.Type) && CompatibleOperators.Contains(op);
+            return CompatibleTypes.Contains(expressionValue.ExpressionType) && CompatibleOperators.Contains(op);
         }
 
-        /// <summary>
-        /// Checks if a comparison is possible
-        /// </summary>
-        /// <param name="expressionValue">Expression to compare with</param>
-        /// <param name="op">Comparison operator</param>
-        /// <returns>Is valid comparison</returns>
         protected bool ValidCompare(ExpressionValue expressionValue, ExpressionOperator op)
         {
             return ExpressionOperators.Comparison.Contains(op) && CompatibleOperators.Contains(op);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
@@ -18,5 +17,5 @@ namespace QuestionnaireDomain.Entities.Output.Tools.Interfaces
             string value,
             bool isVisible,
             bool isReadonly);
-   }
+    }
 }

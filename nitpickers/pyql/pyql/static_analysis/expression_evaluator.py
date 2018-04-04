@@ -1,5 +1,6 @@
-from multimethods import multimethod
 from pyql.ast.expression.expressions import *
+from util import errors
+from util.multimethods import multimethod
 
 
 class ExpressionEvaluator:
@@ -24,7 +25,7 @@ class ExpressionEvaluator:
         try:
             return division.left.accept(self) / division.right.accept(self)
         except ZeroDivisionError:
-            raise ZeroDivisionError(str(division.left) + " / " + str(division.right) + " can not divide by zero.")
+            raise errors.ZeroDivision(str(division.left) + " / " + str(division.right) + " can not divide by zero.")
 
     @multimethod(Addition)
     def visit(self, addition):

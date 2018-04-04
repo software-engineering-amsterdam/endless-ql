@@ -1,12 +1,11 @@
 from multimethods import multimethod
 
-from ql.ast.nodes.statements.form_node import FormNode
-from ql.ast.nodes.statements.if_node import IfNode
-from ql.ast.nodes.statements.question_node import QuestionNode
+from ql.ast.nodes.statements.form_statement import FormNode
+from ql.ast.nodes.statements.if_statement import IfNode
+from ql.ast.nodes.statements.question_statement import QuestionNode
 
 
 class IdentifierTypeVisitor:
-
     def __init__(self):
         self.__symbol_table = []
 
@@ -26,5 +25,7 @@ class IdentifierTypeVisitor:
 
     @multimethod(QuestionNode)
     def visit(self, node):
-        self.__symbol_table.append({'identifier': node.identifier,
-                                    'answer_type': node.answer_type})
+        self.__symbol_table.append({
+            'identifier': node.identifier,
+            'answer_type': node.answer_type,
+        })

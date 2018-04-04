@@ -12,7 +12,7 @@ public class UndefinedValue extends NumericValue {
     }
 
     @Override
-    public boolean isDefined () {
+    public boolean isDefined() {
         return false;
     }
 

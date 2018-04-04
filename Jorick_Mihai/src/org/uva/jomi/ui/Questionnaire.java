@@ -10,17 +10,21 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.uva.jomi.ui.elements.core.Frame;
-import org.uva.jomi.ui.elements.core.Panel;
+import org.uva.jomi.ui.storage.StorageFactory.StorageType;
+import org.uva.jomi.ui.views.core.Frame;
+import org.uva.jomi.ui.views.core.Panel;
 
 public class Questionnaire implements ActionListener {
+	
+	private QLForm form;
 
 	private Frame frame;
 	
 	private JMenuItem openQL;
+	private JMenuItem storeAnswersTxt;
+	private JMenuItem storeAnswersJson;
 	
 	private List<Panel> panels = new ArrayList<Panel>();
 	
@@ -44,12 +48,24 @@ public class Questionnaire implements ActionListener {
 		menu.getAccessibleContext().setAccessibleDescription("");
 		menuBar.add(menu);
 
-		//a group of JMenuItems
+		//Create Open QL menu
 		openQL = new JMenuItem("Open QL",KeyEvent.VK_T);
 		openQL.setName("openql");
-		openQL.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
 		openQL.addActionListener(this);
 		menu.add(openQL);
+		
+		//Create store answers menu
+		storeAnswersTxt = new JMenuItem("Store answers to text", KeyEvent.VK_S);
+		storeAnswersTxt.setName("Store answers to text");
+		storeAnswersTxt.addActionListener(this);
+		menu.add(storeAnswersTxt);
+		
+		//Create store answers menu
+		storeAnswersJson = new JMenuItem("Store answers to json", KeyEvent.VK_S);
+		storeAnswersJson.setName("Store answers to json");
+		storeAnswersJson.addActionListener(this);
+		menu.add(storeAnswersJson);
+		
 
 		this.frame.setJMenuBar(menuBar);
 	}
@@ -59,22 +75,35 @@ public class Questionnaire implements ActionListener {
 		if(e.getSource().equals(this.openQL)) {
 			this.openQLFile();
 		}
+		if(e.getSource().equals(this.storeAnswersTxt)) {
+			this.storeAnswers(StorageType.TEXT);
+		}
+		if(e.getSource().equals(this.storeAnswersJson)) {
+			this.storeAnswers(StorageType.JSON);
+		}
 	}
 	
+	private void storeAnswers(StorageType type) {
+		this.form.store(type);
+	}
+
 	private void removeAllPanels() {
 		for(Panel panel : this.panels) {
 			this.frame.remove(panel);
 		}
 	}
 
-	private void showForm(QLForm form) {
+	private void showForm(QLForm form) {		
 		this.removeAllPanels();
+		Panel mainPanel = new Panel();
 		
 		this.panels = form.getPanels();
 		for(Panel panel : this.panels) {
-			this.frame.add(panel);
-			panel.setVisible(true);
+			mainPanel.add(panel);
 		}
+		
+		this.frame.add(mainPanel);
+		mainPanel.setVisible(true);
 		this.frame.setVisible(true);
 	}
 	
@@ -85,8 +114,8 @@ public class Questionnaire implements ActionListener {
         int returnVal = chooser.showOpenDialog(null);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
         	
-        		QLForm form = new QLForm(chooser.getSelectedFile().getAbsolutePath());
-        		this.showForm(form);
+        		this.form = new QLForm(chooser.getSelectedFile().getAbsolutePath());
+        		this.showForm(this.form);
         }
 	}
 }

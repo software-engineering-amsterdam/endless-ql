@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from pyql.util.values import *
+
+from util.values import *
 
 
 class ValidatingEntry(ttk.Entry):
@@ -12,11 +13,16 @@ class ValidatingEntry(ttk.Entry):
         pass
 
 
-class IntegerWidget(ValidatingEntry):
+class NumberWidget(ValidatingEntry):
 
-    def __init__(self, parent, value=""):
+    def __init__(self, parent, identifier, value=""):
         super().__init__(parent)
         super().insert(0, value)
+        self._identifier = identifier
+
+    @property
+    def identifier(self):
+        return self._identifier
 
     def get(self):
         try:
@@ -35,9 +41,14 @@ class IntegerWidget(ValidatingEntry):
 
 class DecimalWidget(ValidatingEntry):
 
-    def __init__(self, parent, value=""):
+    def __init__(self, parent, identifier, value=""):
         super().__init__(parent)
         super().insert(0, value)
+        self._identifier = identifier
+
+    @property
+    def identifier(self):
+        return self._identifier
 
     def get(self):
         try:
@@ -56,9 +67,14 @@ class DecimalWidget(ValidatingEntry):
 
 class MoneyWidget(ValidatingEntry):
 
-    def __init__(self, parent, value=""):
+    def __init__(self, parent, identifier, value=""):
         super().__init__(parent)
         super().insert(0, value)
+        self._identifier = identifier
+
+    @property
+    def identifier(self):
+        return self._identifier
 
     def get(self):
         try:
@@ -75,11 +91,16 @@ class MoneyWidget(ValidatingEntry):
         return "MoneyWidget"
 
 
-class StringWidget(ValidatingEntry):
+class TextWidget(ValidatingEntry):
 
-    def __init__(self, parent, value=""):
+    def __init__(self, parent, identifier, value=""):
         super().__init__(parent)
         super().insert(0, value)
+        self._identifier = identifier
+
+    @property
+    def identifier(self):
+        return self._identifier
 
     def get(self):
         try:
@@ -96,9 +117,10 @@ class StringWidget(ValidatingEntry):
         return "StringWidget"
 
 
-class BooleanWidget(ttk.Checkbutton):
+class CheckWidget(ttk.Checkbutton):
 
-    def __init__(self, parent, value=False):
+    def __init__(self, parent, identifier, value=False):
+        self._identifier = identifier
         self._value = tk.BooleanVar()
 
         if value:
@@ -106,6 +128,10 @@ class BooleanWidget(ttk.Checkbutton):
 
         super().__init__(parent, command=(parent.register(self.onchange)), variable=self._value)
         self.onchange()
+
+    @property
+    def identifier(self):
+        return self._identifier
 
     def get(self):
         try:
@@ -126,9 +152,10 @@ class BooleanWidget(ttk.Checkbutton):
 
 class RadioWidget(ttk.Frame):
 
-    def __init__(self, parent, state=False):
+    def __init__(self, parent, identifier, state=False):
         super().__init__(parent)
         self.root = parent
+        self._identifier = identifier
 
         self._state = tk.BooleanVar()
         if state:
@@ -139,6 +166,10 @@ class RadioWidget(ttk.Frame):
 
         self._radio_yes.grid(column=0, row=0, padx=5)
         self._radio_no.grid(column=1, row=0, padx=5)
+
+    @property
+    def identifier(self):
+        return self._identifier
 
     def get(self):
         try:

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLVisualizer.Expression.Enums;
 using QLVisualizer.Expression.Types;
+using QLVisualizer.Expression.Types.Numeric;
 
 namespace QLVisualizer.Tests.Expression
 {

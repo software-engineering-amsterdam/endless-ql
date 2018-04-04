@@ -1,13 +1,19 @@
-﻿using QLVisualizer.Controllers;
+﻿using QLParser.AST.QL;
+using QLVisualizer.Controllers;
 using QLVisualizer.Expression.Types;
 
 namespace QLVisualizer.Elements.Managers.LeafTypes
 {
     public class IntQuestionManager : QuestionElementManager<int>
     {
-        public IntQuestionManager(string identifyer, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<int> answerExpression = null) : 
-            base(identifyer, text, parent, controller, activationExpression, answerExpression)
+        public IntQuestionManager(string identifier, string text, ElementManagerCollection parent, ElementManagerController controller, ExpressionBool activationExpression = null, TypedExpressionValue<int> answerExpression = null) :
+            base(identifier, text, parent, controller, activationExpression, answerExpression)
         {
+        }
+
+        protected override QValueType GetQValueType()
+        {
+            return QValueType.Integer;
         }
 
         protected override QuestionElementValue<int> ParseInput(string input)

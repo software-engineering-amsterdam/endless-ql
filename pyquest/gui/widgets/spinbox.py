@@ -5,7 +5,7 @@ class SpinBox(QSpinBox):
     def __init__(self):
         super(QSpinBox, self).__init__()
         self.setMaximum(2**31 - 1)
-        self.setMinimum(- self.maximum())
+        self.setMinimum(-self.maximum())
 
     def get_value(self, ql_type):
         return ql_type(self.value())

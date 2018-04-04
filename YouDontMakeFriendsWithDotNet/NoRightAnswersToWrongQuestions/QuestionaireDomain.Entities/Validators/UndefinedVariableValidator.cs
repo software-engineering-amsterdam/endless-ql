@@ -20,7 +20,7 @@ namespace QuestionnaireDomain.Entities.Validators
         }
 
         public IEnumerable<ValidationMetaData> Validate(
-            DomainId<IQuestionnaireRootNode> questionnaireRootNode)
+            DomainId<IQuestionnaireRootNode> rootNode)
         {
             var variableNodes = m_domainItemLocator
                 .GetAll<IVariableNode>();
@@ -35,13 +35,11 @@ namespace QuestionnaireDomain.Entities.Validators
                     .Any(x => x.QuestionName == variableNode.VariableName);
 
                 if (!nameIsDefined)
-                {
                     yield return new UndefinedVariableValidationMetaData
                     {
                         Message = $"The variable '{variableNode.VariableName}' has not been defined",
                         Source = m_domainItemLocator.GetRef<IVariableNode>(variableNode.Id)
                     };
-                }
             }
         }
     }

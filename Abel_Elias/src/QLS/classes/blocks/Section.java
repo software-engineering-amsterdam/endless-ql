@@ -7,7 +7,7 @@ public class Section extends Element {
     private List<Element> elements;
 
     public Section(String name, List<Element> elements) {
-        super();
+        super(ElementType.SECTION);
         this.name = name;
         this.elements = elements;
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Policy;
 using QuestionnaireDomain.Entities.Ast.Nodes.Questionnaire.Interfaces;
 using QuestionnaireDomain.Entities.Domain;
 using QuestionnaireDomain.Entities.Output.Nodes.Interfaces;
@@ -13,7 +12,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
             DomainId<IQuestionNode> variable,
             string questionName,
             string questionText,
-            Type questionType,
+            IQuestionType questionType,
             string value,
             bool isVisible,
             bool isReadonly)
@@ -28,7 +27,7 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
             Visible = isVisible;
             ReadOnly = isReadonly;
         }
-        
+
         public Guid Id { get; }
         public DomainId<IQuestionNode> Variable { get; }
         public string QuestionName { get; }
@@ -37,6 +36,6 @@ namespace QuestionnaireDomain.Entities.Output.Nodes
         public bool Visible { get; set; }
         public bool ReadOnly { get; }
         public string Value { get; set; }
-        public Type QuestionType { get; }
+        public IQuestionType QuestionType { get; }
     }
 }

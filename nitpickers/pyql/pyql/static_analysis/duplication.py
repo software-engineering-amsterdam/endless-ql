@@ -1,13 +1,13 @@
-from multimethods import multimethod
-from pyql.ast.form.form import Form
 from pyql.ast.form.block import Block
-from pyql.ast.form.ql_statements import Question
+from pyql.ast.form.form import Form
 from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
-from pyql.ast.ast import ASTNode
-from pyql.util import message
-from pyql.util.message_handler import MessageHandler
+from pyql.ast.form.ql_statements import Question
 from pyql.static_analysis.symbol_table import SymbolTable
+from util import message
+from util.ast import ASTNode
+from util.message_handler import MessageHandler
+from util.multimethods import multimethod
 
 
 class CheckDuplicatedQuestions:
@@ -28,7 +28,8 @@ class CheckDuplicatedQuestions:
 
     @multimethod(Block)
     def visit(self, block):
-        [q.accept(self) for q in block.statements]
+        for statement in block.statements:
+            statement.accept(self)
 
     @multimethod(Question)
     def visit(self, question):

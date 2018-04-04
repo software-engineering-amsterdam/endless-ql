@@ -1,15 +1,15 @@
 package ui.controller
 
-import doge.ast.DogeParser
-import doge.ast.node.QLNode
-import ui.model.domain.Question
-import doge.data.symbol.SymbolTable
-import ui.visitor.QuestionVisitor
-import doge.visitor.ValueUpdateVisitor
+import ql.ast.DogeParser
+import ql.ast.node.QLNode
+import ql.data.symbol.SymbolTable
+import ql.visitor.ValueUpdateVisitor
 import qls.ast.QlsParser
 import qls.ast.node.QlsNode
 import tornadofx.Controller
 import tornadofx.observable
+import ui.model.domain.Question
+import ui.visitor.QuestionVisitor
 import java.io.File
 
 class DogeController : Controller() {
@@ -34,7 +34,7 @@ class DogeController : Controller() {
         reloadQuestions()
     }
 
-    private fun addInfoMessages(info: List<String>){
+    private fun addInfoMessages(info: List<String>) {
         infoMessages.removeAll()
         infoMessages.addAll(info)
     }
@@ -44,7 +44,7 @@ class DogeController : Controller() {
     }
 
     fun reloadQuestions() {
-        if (infoMessages.isEmpty()){
+        if (infoMessages.isEmpty()) {
             symbolTable.let {
                 val visitor = QuestionVisitor(symbolTable!!)
                 val enabledQuestions = ast!!.accept(visitor)
@@ -60,11 +60,11 @@ class DogeController : Controller() {
         }
     }
 
-    fun hasQuestion(name: String) : Boolean{
+    fun hasQuestion(name: String): Boolean {
         return questions.any { it.name == name }
     }
 
-    fun getQuestion(name : String) : Question{
+    fun getQuestion(name: String): Question {
         return questions.first { it.name == name }
     }
 

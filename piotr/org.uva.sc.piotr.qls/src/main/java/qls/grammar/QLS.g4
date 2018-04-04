@@ -1,44 +1,30 @@
 grammar QLS ;
 
 stylesheet
-    : 'stylesheet' name=IDENTIFIER BEGIN stylesheetElement* END
+    : 'stylesheet' name=IDENTIFIER BEGIN pageDefinition+ END
     ;
 
-stylesheetElement
-    : pageDefition | defaultTypeDefinition
+pageDefinition
+    : 'page' name=IDENTIFIER
+    BEGIN ( blockElement )+ END
+    ;
+
+blockElement
+    : questionDefinition
+    | section
+    | defaultDefinition
 ;
 
-pageDefition
-    : 'page' title=IDENTIFIER BEGIN pageElement+ END
-    ;
-
-pageElement
-    : questionDefinition
-    | section
-    | defaultTypeDefinition
-    ;
-
 section
-    : 'section' title=STRING (BEGIN sectionElement+ END | questionDefinition)
+    : 'section' name=STRING (BEGIN blockElement+ END | questionDefinition)
     ;
-
-sectionElement
-    : questionDefinition
-    | section
-    | defaultTypeDefinition
-    ;
-
 
 questionDefinition
     : 'question' name=IDENTIFIER (widgetDefinition)?
     ;
 
-defaultTypeDefinition
-    : 'default' type=dataType (widgetDefinition | dataTypeDefinionBlock)
-    ;
-
-dataTypeDefinionBlock
-    : BEGIN typeDefinitionProperty* END
+defaultDefinition
+    : 'default' type=dataType (widgetDefinition | BEGIN typeDefinitionProperty* END)
     ;
 
 typeDefinitionProperty
@@ -50,12 +36,12 @@ typeDefinitionProperty
     ;
 
 dataType
-    : TYPE_BOOLEAN          #TypeDeclarationBoolean
-    | TYPE_STRING           #TypeDeclarationString
-    | TYPE_INTEGER          #TypeDeclarationInteger
-    | TYPE_DECIMAL          #TypeDeclarationDecimal
-    | TYPE_MONEY            #TypeDeclarationMoney
-    | TYPE_DATE             #TypeDeclarationDate
+    : TYPE_BOOLEAN
+    | TYPE_STRING
+    | TYPE_INTEGER
+    | TYPE_DECIMAL
+    | TYPE_MONEY
+    | TYPE_DATE
     ;
 
 widgetDefinition
@@ -63,12 +49,12 @@ widgetDefinition
     ;
 
 widget
-    : WIDGET_BOOL_CHECKBOX booleanParameters?           #WidgetCheckboxDefinition
-    | WIDGET_BOOL_DROPDOWN booleanParameters?           #WidgetDropdownDefinition
-    | WIDGET_BOOL_RADIO booleanParameters?              #WidgetRadioDefinition
-    | WIDGET_INTEGER_SPINBOX integerParameters?         #WidgetSpinboxDefinition
-    | WIDGET_INTEGER_SLIDER integerParameters?          #WidgetSliderDefinition
-    | WIDGET_TEXT                                       #WidgetTextDefinition
+    : WIDGET_BOOL_CHECKBOX booleanParameters?
+    | WIDGET_BOOL_DROPDOWN booleanParameters?
+    | WIDGET_BOOL_RADIO booleanParameters?
+    | WIDGET_INTEGER_SPINBOX integerParameters?
+    | WIDGET_INTEGER_SLIDER integerParameters?
+    | WIDGET_TEXT
 
     ;
 
@@ -77,7 +63,7 @@ booleanParameters
     ;
 
 integerParameters
-    : OPEN_PARENTHESIS 'min' '=' INTEGER ',' 'max' '=' INTEGER ',' 'step' '=' INTEGER CLOSE_PARENTHESIS
+    : OPEN_PARENTHESIS 'min' '=' min=INTEGER ',' 'max' '=' max=INTEGER ',' 'step' '=' step=INTEGER CLOSE_PARENTHESIS
     ;
 
 // widget keywords

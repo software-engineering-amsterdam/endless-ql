@@ -1,5 +1,7 @@
 package ql.environment.values;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.math.BigDecimal;
 
 public class MoneyValue extends NumericValue<BigDecimal> {
@@ -16,7 +18,7 @@ public class MoneyValue extends NumericValue<BigDecimal> {
     }
 
     public MoneyValue(String input) {
-        value = new BigDecimal(input);
+        value = new BigDecimal(NumberUtils.toDouble(input, 0));
     }
 
     private void round() {
@@ -80,7 +82,6 @@ public class MoneyValue extends NumericValue<BigDecimal> {
 
     @Override
     public Value subtract(MoneyValue value) {
-        //terms are flipped back since we flip the terms in the double dispacht in subtract(Value value)
         return new MoneyValue(value.getValue().subtract(getValue()));
     }
 

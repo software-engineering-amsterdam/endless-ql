@@ -21,7 +21,7 @@ namespace QuestionnaireDomain.Entities.Validators
 
         protected IEnumerable<ValidationMetaData> Validate<TNode, TData>(
             DomainId<IQuestionnaireRootNode> questionnaireRootNode,
-            Func<Type, bool> correctTypePredicate,
+            Func<IQuestionType, bool> correctTypePredicate,
             string comparisonType,
             string expectedType)
             where TNode : IVariableNode
@@ -41,14 +41,14 @@ namespace QuestionnaireDomain.Entities.Validators
                     ?.QuestionType;
 
                 if (type == null || correctTypePredicate(type))
-                {
                     yield return new TData
                     {
                         Message =
-                            $@"The variable '{variableNode.VariableName}' is in a {comparisonType} but is not a {expectedType}, it is '{type}'",
+                            $@"The variable '{variableNode.VariableName}' is in a {comparisonType} but is not a {
+                                    expectedType
+                                }, it is '{type}'",
                         Source = m_domainItemLocator.GetRef<TNode>(variableNode.Id)
                     };
-                }
             }
         }
     }

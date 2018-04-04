@@ -2,7 +2,6 @@ package nl.khonraad.ql.integration;
 
 import static nl.khonraad.ql.algebra.values.Value.True;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import javax.enterprise.context.ApplicationScoped;

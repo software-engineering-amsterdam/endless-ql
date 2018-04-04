@@ -22,6 +22,6 @@ public interface Questionnaire {
 
     Value storeComputedQuestion( Identifier identifier, Label label, Value value );
 
-    void storeAnswer( Identifier identifier, Value value );
+    void storeAnswer( Question question, Value value );
 
 }

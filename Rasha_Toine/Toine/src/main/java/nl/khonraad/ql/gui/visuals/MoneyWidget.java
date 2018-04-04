@@ -41,7 +41,7 @@ public class MoneyWidget implements QuestionnaireAccessor {
 
             String dec = new BigDecimal( current ).setScale( 2, RoundingMode.HALF_EVEN ).toString();
 
-            questionnaire().storeAnswer( question.identifier(), Value.typed( Type.Money, dec ) );
+            questionnaire().storeAnswer( question, Value.typed( Type.Money, dec ) );
 
         } );
     }

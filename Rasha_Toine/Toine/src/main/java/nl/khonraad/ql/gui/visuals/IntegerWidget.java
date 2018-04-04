@@ -36,7 +36,7 @@ public class IntegerWidget implements QuestionnaireAccessor {
 
             String current = source.getModel().getValue().toString();
 
-            questionnaire().storeAnswer( question.identifier(), Value.typed( Type.Integer, current ) );
+            questionnaire().storeAnswer( question, Value.typed( Type.Integer, current ) );
         } );
     }
 }

@@ -25,14 +25,7 @@ import nl.khonraad.ql.domain.Survey;
 public class Test_CollegeExample {
 
     @Rule
-    public WeldInitiator weld = WeldInitiator.from( 
-            SourcePathProvider.class, 
-            QLAbstractSyntaxTreeBuilder.class, 
-            ExtendedQLBaseVisitor.class, 
-            Survey.class, 
-            Repository.class, 
-            LoggerProducer.class 
-    ).activate( ApplicationScoped.class ).build();
+    public WeldInitiator weld = WeldInitiator.from( SourcePathProvider.class, QLAbstractSyntaxTreeBuilder.class, ExtendedQLBaseVisitor.class, Survey.class, Repository.class, LoggerProducer.class ).activate( ApplicationScoped.class ).build();
 
     @Test
     public void test_Calculations() throws Exception {
@@ -43,9 +36,9 @@ public class Test_CollegeExample {
 
         questionnaire.visitSource( visitor );
 
-        questionnaire.storeAnswer( new Identifier( "hasSoldHouse" ), True );
-        questionnaire.storeAnswer( new Identifier( "hasBoughtHouse" ), True );
-        questionnaire.storeAnswer( new Identifier( "hasMaintLoan" ), True );
+        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "hasSoldHouse" ) ).get(), True );
+        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "hasBoughtHouse" ) ).get(), True );
+        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "hasMaintLoan" ) ).get(), True );
 
         assertTrue( !questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
         assertTrue( !questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
@@ -55,8 +48,8 @@ public class Test_CollegeExample {
         assertNotNull( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ) );
         assertNotNull( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ) );
 
-        questionnaire.storeAnswer( new Identifier( "sellingPrice" ), Value.typed( Type.Money, "1000000.00" ) );
-        questionnaire.storeAnswer( new Identifier( "privateDebt" ), Value.typed( Type.Money, "800000.00" ) );
+        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).get(), Value.typed( Type.Money, "1000000.00" ) );
+        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).get(), Value.typed( Type.Money, "800000.00" ) );
 
         questionnaire.visitSource( visitor );
 

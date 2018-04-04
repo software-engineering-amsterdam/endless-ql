@@ -49,11 +49,10 @@ public class Question {
         return value.string();
     }
 
-    Value setValue( Value value ) {
+    void setValue( Value value ) {
 
         if ( this.value.type() != value.type() )
             throw new RuntimeException( "TYPE_ERROR" );
         this.value = value;
-        return value;
     }
 }

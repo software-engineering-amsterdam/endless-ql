@@ -46,14 +46,9 @@ public class Questions implements Iterable<Question> {
 
     void add( Question question ) {
         questionList.add( question );
-
     }
 
-    void storeAnswer( Identifier identifier, Value value ) {
-
-        Optional<Question> question = findQuestion( BehaviouralType.ANSWERABLE, identifier );
-        if ( question.isPresent() ) {
-            question.get().setValue( value );
-        }
+    void storeAnswer( Question question, Value value ) {
+        question.setValue( value );
     }
 }

@@ -46,8 +46,7 @@ public class Repository {
     Optional<Question> findQuestion( BehaviouralType behaviouralType, Identifier identifier ) {
 
         for ( Question question : questions ) {
-            if ( behaviouralType.equals( question.getBehaviouralType() )
-                    && question.identifier().equals( identifier ) ) {
+            if ( behaviouralType.equals( question.getBehaviouralType() ) && question.identifier().equals( identifier ) ) {
                 return Optional.of( question );
             }
         }
@@ -58,7 +57,7 @@ public class Repository {
         return questions.listQuestions();
     }
 
-    public void storeAnwer( Identifier identifier, Value value ) {
-        questions.storeAnswer( identifier, value );
+    public void storeAnwer( Question question, Value value ) {
+        questions.storeAnswer( question, value );
     }
 }

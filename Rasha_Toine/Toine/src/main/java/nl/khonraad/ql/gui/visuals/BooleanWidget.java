@@ -70,9 +70,9 @@ public class BooleanWidget implements QuestionnaireAccessor {
 
             String selectedString = (String) combo.getSelectedItem();
 
-            Value result = displayedValues.value( selectedString );
+            Value choiceMade = displayedValues.value( selectedString );
 
-            questionnaire().storeAnswer( question.identifier(), result );
+            questionnaire().storeAnswer( question, choiceMade );
         } );
     }
 }

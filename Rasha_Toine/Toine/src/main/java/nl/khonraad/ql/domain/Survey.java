@@ -73,9 +73,9 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
 
     @LoggingAspect
     @Override
-    public void storeAnswer( Identifier identifier, Value value ) {
+    public void storeAnswer( Question question, Value value ) {
 
-        questionRepository.storeAnwer( identifier, value );
+        questionRepository.storeAnwer( question, value );
         eventQueue.fire( new VisualizeEvent() );
     }
 }

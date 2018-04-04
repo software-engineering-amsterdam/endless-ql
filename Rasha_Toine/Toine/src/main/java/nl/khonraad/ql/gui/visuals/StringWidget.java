@@ -26,7 +26,7 @@ public class StringWidget implements QuestionnaireAccessor {
                 JTextField textField = (JTextField) e.getSource();
                 String current = textField.getText();
 
-                questionnaire().storeAnswer( question.identifier(), Value.typed( Type.String, current ) );
+                questionnaire().storeAnswer( question, Value.typed( Type.String, current ) );
             }
 
             @Override

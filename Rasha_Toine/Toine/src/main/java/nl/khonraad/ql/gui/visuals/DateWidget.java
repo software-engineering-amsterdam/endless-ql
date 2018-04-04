@@ -27,7 +27,7 @@ public class DateWidget implements QuestionnaireAccessor {
                 JTextField textField = (JTextField) e.getSource();
                 String current = textField.getText();
 
-                questionnaire().storeAnswer( question.identifier(), Value.typed( Type.Date, current ) );
+                questionnaire().storeAnswer( question, Value.typed( Type.Date, current ) );
             }
 
             @Override

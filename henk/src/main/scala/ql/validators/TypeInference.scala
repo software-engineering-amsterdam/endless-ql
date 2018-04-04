@@ -24,4 +24,19 @@ class TypeInferenceValidator extends BaseValidator {
     })
     None
   }
+
+  def execute(ast: Statement): Unit = {
+    StatementCollector.getComputations(ast).map((comp) => {
+      var varDecl = comp.varDecl
+      var valAssign = comp.valAssign
+      (ValidatorHelper.infereExpression(valAssign.expression, ast), varDecl.typeDecl)
+    })
+    .find{ case (typeLeft, typeRight) => {
+      typeLeft.getOrElse(None) != typeRight
+    }}
+    .map{ case (_, _) => {
+      val message = "Computation is getting a different type assigned than declared!"
+      throw InvalidTypeInfered(message)
+    }}
+  }
 }

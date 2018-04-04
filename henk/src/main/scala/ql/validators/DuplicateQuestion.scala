@@ -29,6 +29,19 @@ class DuplicateQuestionValidator extends BaseValidator {
       case (VarDecl(lrt, lid), VarDecl(rrt, rid)) => {
         lrt != rrt && lid == rid
       }
-      case other => false
+      case _ => false
     }
+
+  def execute(ast: Statement): Unit = {
+    val questions = StatementCollector.getQuestions(ast)
+
+    questions.find(question => {
+      !questions.filter(x => notEqualVarDecl(x.varDecl, question.varDecl))
+        .isEmpty
+    })
+    .map(question => {
+      val message = s"Question with label: '${question.label}' already exists"
+      throw new DuplicateQuestionDeclaration(message)
+    })
+  }
 }

@@ -8,51 +8,31 @@ import ql.validators._
 import scala.collection.JavaConversions._
 import scala.util.{Try, Success, Failure}
 
-class TypeChecker() {
+class TypeChecker {
 
   var error: Option[Exception] = None
   var warnings: Option[List[String]] = None
 
-  val validatorList: List[BaseValidator] = List(
+  val criticalValidators: List[BaseValidator] = List(
     new IdentifierValidator(),
     new ConditionalValidator(),
     new DuplicateQuestionValidator(),
-    new DuplicateLabelValidator(),
     new TypeInferenceValidator()
   )
+  
+  val nonCriticalValidators: List[WarningValidator] = List(
+    new DuplicateLabelValidator()
+  )
 
-  def verifyValidator(node: Statement, validator: BaseValidator): Boolean = {
-    validator.check(node).map(ex => {
-      ex match {
-        case ex: IdentifierNotDeclared => {
-          true
-        }
-        case ex: ConditionalNotBoolean => {
-          true
-        }
-        case ex: DuplicateQuestionDeclaration => {
-          true
-        }
-        case ex: DuplicateLabelDeclaration => {
-          warnings = validator.getWarnings()
-          false
-        }
-        case ex: InvalidTypeInfered => {
-          true
-        }
-      }
-    }).getOrElse(false)
-  }
-
-  def getExceptions(node: Statement): Option[Exception] = {
-    validatorList.find(verifyValidator(node, _))
-      .flatMap(ex => {
-        error = ex.check(node)
-        error
+  def runValidators(ast: Statement): Unit = {
+    criticalValidators.forEach(_.execute(ast))
+    nonCriticalValidators.find(!_.execute(ast))
+      .map(failedValidator => {
+        warnings = failedValidator.getWarnings
     })
   }
 
-  def validate(ast: Statement): Boolean = {
-    getExceptions(ast).isEmpty
+  def run(ast: Statement): Unit = {
+    runValidators(ast)
   }
 }

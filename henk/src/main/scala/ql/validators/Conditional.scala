@@ -38,4 +38,16 @@ class ConditionalValidator extends BaseValidator {
     }
     None
   }
+
+  def execute(ast: Statement): Unit = {
+    StatementCollector.getIfStatements(ast)
+      .map(_.expression)
+      .find(expr => {
+        !ValidatorHelper.isBooleanType(expr, ast)
+      })
+      .map(expr => {
+        val message = s"Expression in if '${expr}' does not evaluate to a boolean value"
+        throw new ConditionalNotBoolean("nope")
+      })
+  }
 }

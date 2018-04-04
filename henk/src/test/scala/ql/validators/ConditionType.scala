@@ -4,7 +4,7 @@ import ql.spec.helpers._
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
 
-class ConditionTypeSpec extends FunSpec {
+class ConditionTypeValidatorSpec extends FunSpec {
   val resourceDir = "ql/typechecking/conditions"
   val validator = new ConditionalValidator()
 
@@ -13,7 +13,7 @@ class ConditionTypeSpec extends FunSpec {
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      assert(validator.check(form).isEmpty)
+      noException should be thrownBy validator.execute(form)
     }
   }
 
@@ -21,15 +21,17 @@ class ConditionTypeSpec extends FunSpec {
     val filename = s"${resourceDir}/money_type_conditional.ql"
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
-    validator.check(form).get shouldBe a [ConditionalNotBoolean]
+    it("should raise an exception") {
+      an [ConditionalNotBoolean] should be thrownBy validator.execute(form)
+    }
   }
 
   describe("when ConditionalValidator contains a valid binOp") {
     val filename = s"${resourceDir}/binop/simple_binop.ql"
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
-    it("check should not return an option exception") {
-      assert(validator.check(form).isEmpty)
+    it("should not raise an exception") {
+      noException should be thrownBy validator.execute(form)
     }
   }
 
@@ -38,8 +40,8 @@ class ConditionTypeSpec extends FunSpec {
     val filename = s"${resourceDir}/binop/money_bool_binop.ql"
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
-    it("check should return an option exception") {
-      validator.check(form).get shouldBe a [ConditionalNotBoolean]
+    it("should raise an exception") {
+      an [ConditionalNotBoolean] should be thrownBy validator.execute(form)
     }
   }
 }

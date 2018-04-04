@@ -2,17 +2,10 @@ import ql.models.ast._
 import ql.validators._
 import ql.spec.helpers._
 
-import scala.io.Source
-import scala.util.{Try, Success, Failure}
-
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
-import org.scalatest.BeforeAndAfter
 
-import org.antlr.v4.runtime._
-import org.antlr.v4.runtime.tree._
-
-class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
+class TypeCheckerSpec extends FunSpec {
   val resourceDir = "ql/typechecking"
 
   describe("when TypeChecker validates a valid form") {
@@ -20,12 +13,12 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
-    it("should return true") {
-      assert(tc.validate(form))
+    it("typechecker should not raise an exception") {
+      noException should be thrownBy tc.run(form)
     }
 
     it("error message should be empty") {
-      assert(tc.error.isEmpty)
+      assert(tc.warnings.isEmpty)
     }
   }
 
@@ -35,11 +28,7 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     val tc = new TypeChecker()
 
     it("should return false") {
-      assert(!tc.validate(form))
-    }
-
-    it("typechecker should contain the exception") {
-      tc.error.get shouldBe a [IdentifierNotDeclared]
+      a [IdentifierNotDeclared] should be thrownBy tc.run(form)
     }
   }
 
@@ -48,12 +37,8 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
-    it("should return false") {
-      assert(!tc.validate(form))
-    }
-
-    it("typechecker should contain the exception") {
-      tc.error.get shouldBe a [ConditionalNotBoolean]
+    it("typechecker should raise an exception") {
+      a [ConditionalNotBoolean] should be thrownBy tc.run(form)
     }
   }
 
@@ -62,12 +47,8 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
-    it("should return false") {
-      assert(!tc.validate(form))
-    }
-
-    it("typechecker should contain the exception") {
-      tc.error.get shouldBe a [DuplicateQuestionDeclaration]
+    it("typechecker should raise an exception") {
+      a [DuplicateQuestionDeclaration] should be thrownBy tc.run(form)
     }
   }
 
@@ -76,12 +57,8 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
-    it("should return true") {
-      assert(tc.validate(form))
-    }
-
-    it("typechecker error should not be defined") {
-      assert(tc.error.isEmpty)
+    it("no exception should have been raised") {
+      noException should be thrownBy tc.run(form)
     }
 
     it("typechecker warnings should contain a single element") {
@@ -103,12 +80,8 @@ class TypeCheckerSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
     val tc = new TypeChecker()
 
-    it("should return false") {
-      assert(!tc.validate(form))
-    }
-
     it("typechecker should contain the exception") {
-      tc.error.get shouldBe a [InvalidTypeInfered]
+      a [InvalidTypeInfered] should be thrownBy tc.run(form)
     }
   }
 }

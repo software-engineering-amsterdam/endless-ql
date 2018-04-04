@@ -51,4 +51,9 @@ object ValidatorHelper {
       case bv: UnaryOperand => infereUnary(bv, ast)
     }
   }
+
+  def isBooleanType(expression: Expression, ast: Statement): Boolean = {
+    val inferedType = infereExpression(expression, ast)
+    inferedType.isDefined && inferedType.get == BooleanType
+  }
 }

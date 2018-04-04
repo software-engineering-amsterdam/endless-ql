@@ -45,8 +45,8 @@ public class Test_CollegeExample {
 
         questionnaire.visitSource( visitor );
 
-        assertNotNull( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ) );
-        assertNotNull( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ) );
+        assertTrue( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
+        assertTrue( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
 
         questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).get(), Value.typed( Type.Money, "1000000.00" ) );
         questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).get(), Value.typed( Type.Money, "800000.00" ) );

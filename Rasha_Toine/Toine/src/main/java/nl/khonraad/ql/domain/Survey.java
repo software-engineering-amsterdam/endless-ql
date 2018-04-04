@@ -15,7 +15,6 @@ import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
 import nl.khonraad.ql.cdi.LoggingAspect;
-import nl.khonraad.ql.cdi.SourcePathProvider;
 import nl.khonraad.ql.domain.Question.BehaviouralType;
 import nl.khonraad.ql.gui.application.VisualizeEvent;
 
@@ -23,9 +22,6 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
 
     @Inject
     Logger                              logger;
-
-    @Inject
-    SourcePathProvider                  qLSource;
 
     @Inject
     Event<VisualizeEvent>               eventQueue;

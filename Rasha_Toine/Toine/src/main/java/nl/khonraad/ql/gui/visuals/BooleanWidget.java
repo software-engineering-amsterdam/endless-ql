@@ -3,44 +3,76 @@ package nl.khonraad.ql.gui.visuals;
 import java.util.Optional;
 
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
 import nl.khonraad.ql.domain.Question;
 import nl.khonraad.qls.ast.data.StyleElement;
-import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
 
 public class BooleanWidget implements QuestionnaireAccessor {
 
-    JComboBox<String> jComboBox;
+    private JComboBox<String> jComboBox;
+
+    JComponent jComponent() {
+        return jComboBox;
+    }
+
+    class DisplayedValues {
+
+        private String[] displayedStrings = { Value.FalseString, Value.TrueString };
+
+        DisplayedValues( Optional<StyleElement> styleElement ) {
+
+            if ( styleElement.isPresent() ) {
+
+                displayedStrings[0] = styleElement.get().styledFalseString();
+                displayedStrings[1] = styleElement.get().styledTrueString();
+            }
+        }
+
+        String[] arrayOfStrings() {
+            return displayedStrings;
+        }
+
+        String display( Value value ) {
+            if ( value.equals( Value.False ) ) {
+                return displayedStrings[0];
+            }
+            return displayedStrings[1];
+        }
+
+        public Value value( String string ) {
+            if ( displayedStrings[0].equals( string ) ) {
+                return Value.False;
+            }
+            return Value.True;
+        }
+
+    }
 
     public BooleanWidget( Question question, Optional<StyleElement> styleElement ) {
 
-        /*
-         * TODO styleElement has to be linked to question! Decorator?
-         */
+        DisplayedValues displayedValues = new DisplayedValues( styleElement );
 
-        StyleElement justFalseOrTrue = new StyleElement( Type.Boolean, Value.False.string(), Value.True.string() );
+        jComboBox = new JComboBox<>( displayedValues.arrayOfStrings() );
 
-        String[] initializer = { styleElement.orElse( justFalseOrTrue ).falseString(),
-                styleElement.orElse( justFalseOrTrue ).trueString(), };
+        Value value = question.value();
 
-        jComboBox = new JComboBox<>( initializer );
+        String selectedAsInitial = displayedValues.display( value );
 
-        String selected = question.value().equals( Value.False ) ? initializer[0] : initializer[1];
-
-        jComboBox.setSelectedItem( selected );
+        jComboBox.setSelectedItem( selectedAsInitial );
 
         jComboBox.addActionListener( e -> {
 
             @SuppressWarnings( "unchecked" )
             JComboBox<String> combo = (JComboBox<String>) e.getSource();
 
-            String current = (String) combo.getSelectedItem();
+            String selectedString = (String) combo.getSelectedItem();
 
-            String result = initializer[0].equals( current ) ? Value.False.string() : Value.True.string();
+            Value result = displayedValues.value( selectedString );
 
-            questionnaire().storeAnswer( question.identifier(), Value.typed( Type.Boolean, result ) );
+            questionnaire().storeAnswer( question.identifier(), result );
         } );
     }
 }

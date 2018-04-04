@@ -13,6 +13,6 @@ public interface Styling {
 
     void storeElementDefault( StyleElement styleElement );
 
-    Optional<StyleElement> find( Type type );
+    Optional<StyleElement> styleElement( Type type );
 
 }

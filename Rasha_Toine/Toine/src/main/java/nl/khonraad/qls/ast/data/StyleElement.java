@@ -7,17 +7,17 @@ public class StyleElement {
     Type          type;
     DisplayValues displayValues;
 
-    public StyleElement( Type type, String falseString, String trueString ) {
+    public StyleElement( Type type, String styledTrueString, String styledFalseString ) {
 
         this.type = type;
-        displayValues = new DisplayValues( falseString, trueString );
+        displayValues = new DisplayValues( styledFalseString, styledTrueString );
     }
 
-    public String trueString() {
+    public String styledTrueString() {
         return displayValues.trueString();
     }
 
-    public String falseString() {
+    public String styledFalseString() {
         return displayValues.falseString();
     }
 

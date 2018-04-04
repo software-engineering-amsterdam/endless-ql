@@ -10,11 +10,11 @@ import nl.khonraad.ql.QLBaseVisitor;
 import nl.khonraad.ql.QLParser;
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
-import nl.khonraad.ql.algebra.value.Operator;
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.algebra.value.Value;
-import nl.khonraad.ql.ast.data.Questionnaire;
-import nl.khonraad.ql.ast.data.Question;
+import nl.khonraad.ql.algebra.values.Operator;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
+import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.domain.Questionnaire;
 
 public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
@@ -89,8 +89,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
         Value value = visit( ctx.expression() );
 
         if ( !type.equals( value.type() ) ) {
-            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Type error "
-                    + ctx.Identifier().getText() );
+            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Type error " + ctx.Identifier().getText() );
         }
         return questionnaire.storeComputedQuestion( identifier, label, value );
     }
@@ -104,15 +103,14 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
         try {
             return expression.apply( Operator.parse( operator ) );
         } catch (Exception e) {
-            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Exception "
-                    + ctx.expression().getText() );
+            throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Exception " + ctx.expression().getText() );
         }
     }
 
     @Override
     public Value visitExpressionQuotedString( QLParser.ExpressionQuotedStringContext ctx ) {
 
-        return new Value( Type.String, ctx.QuotedString().getText() );
+        return Value.typed( Type.String, ctx.QuotedString().getText() );
     }
 
     @Override
@@ -131,8 +129,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExpression_AdditionOperator_Expression(
-            QLParser.Expression_AdditionOperator_ExpressionContext ctx ) {
+    public Value visitExpression_AdditionOperator_Expression( QLParser.Expression_AdditionOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
@@ -148,8 +145,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExpression_EqualityOperator_Expression(
-            QLParser.Expression_EqualityOperator_ExpressionContext ctx ) {
+    public Value visitExpression_EqualityOperator_Expression( QLParser.Expression_EqualityOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
@@ -163,8 +159,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExpression_LogicalOperator_Expression(
-            QLParser.Expression_LogicalOperator_ExpressionContext ctx ) {
+    public Value visitExpression_LogicalOperator_Expression( QLParser.Expression_LogicalOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
@@ -178,8 +173,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExpression_OrderingOperator_Expression(
-            QLParser.Expression_OrderingOperator_ExpressionContext ctx ) {
+    public Value visitExpression_OrderingOperator_Expression( QLParser.Expression_OrderingOperator_ExpressionContext ctx ) {
 
         Value left = visit( ctx.expression( 0 ) );
         Value right = visit( ctx.expression( 1 ) );
@@ -196,25 +190,25 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
     @Override
     public Value visitExpressionMoneyConstant( QLParser.ExpressionMoneyConstantContext ctx ) {
 
-        return new Value( Type.Money, ctx.MoneyConstant().getText() );
+        return Value.typed( Type.Money, ctx.MoneyConstant().getText() );
     }
 
     @Override
     public Value visitExpressionDateConstant( QLParser.ExpressionDateConstantContext ctx ) {
 
-        return new Value( Type.Date, ctx.DateConstant().getText() );
+        return Value.typed( Type.Date, ctx.DateConstant().getText() );
     }
 
     @Override
     public Value visitExpressionIntegerConstant( QLParser.ExpressionIntegerConstantContext ctx ) {
 
-        return new Value( Type.Integer, ctx.IntegerConstant().getText() );
+        return Value.typed( Type.Integer, ctx.IntegerConstant().getText() );
     }
 
     @Override
     public Value visitExpressionBooleanConstant( QLParser.ExpressionBooleanConstantContext ctx ) {
 
-        return new Value( Type.Boolean, ctx.BooleanConstant().getText() );
+        return Value.typed( Type.Boolean, ctx.BooleanConstant().getText() );
     }
 
     @Override
@@ -228,7 +222,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
         Value value = visit( ctx.expression() );
 
-        if ( value.equals( new Value( true ) ) ) {
+        if ( value.equals( Value.True ) ) {
             visitChildren( ctx.block() );
         }
         return value;

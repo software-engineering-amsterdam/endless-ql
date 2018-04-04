@@ -1,5 +1,6 @@
 package nl.khonraad.ql.integration;
 
+import static nl.khonraad.ql.algebra.values.Value.True;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -11,15 +12,15 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import nl.khonraad.ql.algebra.Identifier;
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.algebra.value.Value;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
-import nl.khonraad.ql.ast.data.Questionnaire;
-import nl.khonraad.ql.ast.data.Survey;
-import nl.khonraad.ql.ast.data.Repository;
 import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
+import nl.khonraad.ql.domain.Questionnaire;
+import nl.khonraad.ql.domain.Repository;
+import nl.khonraad.ql.domain.Survey;
 
 public class Test_CollegeExample {
 
@@ -30,7 +31,7 @@ public class Test_CollegeExample {
             ExtendedQLBaseVisitor.class, 
             Survey.class, 
             Repository.class, 
-            LoggerProducer.class
+            LoggerProducer.class 
     ).activate( ApplicationScoped.class ).build();
 
     @Test
@@ -42,9 +43,9 @@ public class Test_CollegeExample {
 
         questionnaire.visitSource( visitor );
 
-        questionnaire.storeAnswer( new Identifier( "hasSoldHouse" ), new Value( true ) );
-        questionnaire.storeAnswer( new Identifier( "hasBoughtHouse" ), new Value( true ) );
-        questionnaire.storeAnswer( new Identifier( "hasMaintLoan" ), new Value( true ) );
+        questionnaire.storeAnswer( new Identifier( "hasSoldHouse" ), True );
+        questionnaire.storeAnswer( new Identifier( "hasBoughtHouse" ), True );
+        questionnaire.storeAnswer( new Identifier( "hasMaintLoan" ), True );
 
         assertTrue( !questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
         assertTrue( !questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
@@ -54,8 +55,8 @@ public class Test_CollegeExample {
         assertNotNull( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ) );
         assertNotNull( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ) );
 
-        questionnaire.storeAnswer( new Identifier( "sellingPrice" ), new Value( Type.Money, "1000000.00" ) );
-        questionnaire.storeAnswer( new Identifier( "privateDebt" ), new Value( Type.Money, "800000.00" ) );
+        questionnaire.storeAnswer( new Identifier( "sellingPrice" ), Value.typed( Type.Money, "1000000.00" ) );
+        questionnaire.storeAnswer( new Identifier( "privateDebt" ), Value.typed( Type.Money, "800000.00" ) );
 
         questionnaire.visitSource( visitor );
 

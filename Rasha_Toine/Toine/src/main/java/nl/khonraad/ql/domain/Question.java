@@ -1,9 +1,9 @@
-package nl.khonraad.ql.ast.data;
+package nl.khonraad.ql.domain;
 
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.algebra.value.Value;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 
 public class Question {
 

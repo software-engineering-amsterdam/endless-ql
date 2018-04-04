@@ -1,12 +1,12 @@
-package nl.khonraad.ql.algebra.value;
+package nl.khonraad.ql.algebra.values;
 
 import java.util.Objects;
 
-public class Storage {
+class MutableValue {
 
     String string;
 
-    Storage( String string ) {
+    MutableValue( String string ) {
         this.string = string;
     }
 
@@ -25,7 +25,7 @@ public class Storage {
         if ( object == null || getClass() != object.getClass() )
             return false;
 
-        final Storage other = (Storage) object;
+        final MutableValue other = (MutableValue) object;
 
         return Objects.equals( this.string, other.string );
     }

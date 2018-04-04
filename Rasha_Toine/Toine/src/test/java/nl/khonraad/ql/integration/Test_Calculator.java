@@ -11,11 +11,11 @@ import org.junit.Test;
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
-import nl.khonraad.ql.ast.data.Questionnaire;
-import nl.khonraad.ql.ast.data.Survey;
-import nl.khonraad.ql.ast.data.Repository;
 import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
+import nl.khonraad.ql.domain.Questionnaire;
+import nl.khonraad.ql.domain.Repository;
+import nl.khonraad.ql.domain.Survey;
 import nl.khonraad.qls.ast.data.StyleElements;
 
 public class Test_Calculator {

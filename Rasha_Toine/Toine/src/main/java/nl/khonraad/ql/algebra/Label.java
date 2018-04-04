@@ -2,7 +2,6 @@ package nl.khonraad.ql.algebra;
 
 import java.util.Objects;
 
-
 public class Label {
 
     private String string;
@@ -22,12 +21,10 @@ public class Label {
 
     @Override
     public boolean equals( Object object ) {
-
-        if ( object == null || getClass() != object.getClass() )
+        if ( object == null || getClass() != object.getClass() ) {
             return false;
-
+        }
         final Label other = (Label) object;
-
         return Objects.equals( this.string, other.string );
     }
 }

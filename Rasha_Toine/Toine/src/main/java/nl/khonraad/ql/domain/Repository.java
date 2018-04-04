@@ -1,13 +1,13 @@
-package nl.khonraad.ql.ast.data;
+package nl.khonraad.ql.domain;
 
 import java.util.List;
 import java.util.Optional;
 
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.algebra.value.Value;
-import nl.khonraad.ql.ast.data.Question.BehaviouralType;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
+import nl.khonraad.ql.domain.Question.BehaviouralType;
 
 public class Repository {
 

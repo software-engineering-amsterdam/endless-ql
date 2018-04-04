@@ -1,8 +1,11 @@
 package nl.khonraad.qls.ast.data;
 
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.algebra.value.Value;
 import nl.khonraad.qls.QLSVisitor;
+
+import java.util.Optional;
+
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 
 public interface Styling {
 
@@ -10,6 +13,6 @@ public interface Styling {
 
     void storeElementDefault( StyleElement styleElement );
 
-    StyleElement find( Type type );
+    Optional<StyleElement> find( Type type );
 
 }

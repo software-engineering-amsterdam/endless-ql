@@ -1,31 +1,33 @@
 package nl.khonraad.ql.gui.visuals;
 
+import java.util.Optional;
+
 import javax.swing.JComboBox;
 
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.algebra.value.Value;
-import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
+import nl.khonraad.ql.domain.Question;
 import nl.khonraad.qls.ast.data.StyleElement;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 
 public class BooleanWidget implements QuestionnaireAccessor {
 
     JComboBox<String> jComboBox;
 
-    String            displayForFalse = new Value( false ).string();
-    String            displayForTrue  = new Value( true ).string();
-
-    public BooleanWidget( Question question, StyleElement styleElement ) {
+    public BooleanWidget( Question question, Optional<StyleElement> styleElement ) {
 
         /*
          * TODO styleElement has to be linked to question! Decorator?
          */
-        if ( styleElement != null ) {
 
-            jComboBox = new JComboBox<>( styleElement.displayValues() );
-        }
+        StyleElement justFalseOrTrue = new StyleElement( Type.Boolean, Value.False.string(), Value.True.string() );
 
-        String selected = question.value().equals( new Value( true ) ) ? displayForTrue : displayForFalse;
+        String[] initializer = { styleElement.orElse( justFalseOrTrue ).falseString(),
+                styleElement.orElse( justFalseOrTrue ).trueString(), };
+
+        jComboBox = new JComboBox<>( initializer );
+
+        String selected = question.value().equals( Value.False ) ? initializer[0] : initializer[1];
 
         jComboBox.setSelectedItem( selected );
 
@@ -36,10 +38,9 @@ public class BooleanWidget implements QuestionnaireAccessor {
 
             String current = (String) combo.getSelectedItem();
 
-            String result = displayForFalse.equals( current ) ? new Value( false ).string()
-                    : new Value( true ).string();
+            String result = initializer[0].equals( current ) ? Value.False.string() : Value.True.string();
 
-            questionnaire().storeAnswer( question.identifier(), new Value( Type.Boolean, result ) );
+            questionnaire().storeAnswer( question.identifier(), Value.typed( Type.Boolean, result ) );
         } );
     }
 }

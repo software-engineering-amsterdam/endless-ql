@@ -1,4 +1,5 @@
-package nl.khonraad.ql.ast.data;
+package nl.khonraad.ql.domain;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,8 +8,8 @@ import org.joda.time.DateTime;
 
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.algebra.value.Value;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 
 public class StickyAnswers {
 
@@ -19,19 +20,19 @@ public class StickyAnswers {
         switch ( type ) {
 
             case Boolean:
-                return new Value( false );
+                return Value.False;
 
             case Date:
-                return new Value( Type.Date, SimpleDateFormatter.string( new DateTime() ) );
+                return Value.typed( Type.Date, SimpleDateFormatter.string( new DateTime() ) );
 
             case Integer:
-                return new Value( Type.Integer, "0" );
+                return Value.typed( Type.Integer, "0" );
 
             case Money:
-                return new Value( Type.Money, "0.00" );
+                return Value.typed( Type.Money, "0.00" );
 
             case String:
-                return new Value( Type.String, "" );
+                return Value.typed( Type.String, "" );
         }
         throw new RuntimeException( "'Constructor' not implemented for type " + type );
     }

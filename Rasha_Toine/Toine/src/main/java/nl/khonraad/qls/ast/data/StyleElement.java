@@ -1,23 +1,24 @@
 package nl.khonraad.qls.ast.data;
 
-import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.values.Type;
 
 public class StyleElement {
 
-    Type   type;
-    String forTrue;
-    String forFalse;
+    Type          type;
+    DisplayValues displayValues;
 
-    public StyleElement( Type type, String forTrue, String forFalse ) {
+    public StyleElement( Type type, String falseString, String trueString ) {
 
         this.type = type;
-        this.forTrue = forTrue;
-        this.forFalse = forFalse;
-
+        displayValues = new DisplayValues( falseString, trueString );
     }
 
-    public String[] displayValues() {
-
-        return new String[] { forFalse, forTrue };
+    public String trueString() {
+        return displayValues.trueString();
     }
+
+    public String falseString() {
+        return displayValues.falseString();
+    }
+
 }

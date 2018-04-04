@@ -1,4 +1,4 @@
-package nl.khonraad.ql.ast.data;
+package nl.khonraad.ql.domain;
 
 import java.util.Optional;
 
@@ -11,12 +11,12 @@ import org.slf4j.Logger;
 import nl.khonraad.ql.QLVisitor;
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.algebra.value.Value;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
-import nl.khonraad.ql.ast.data.Question.BehaviouralType;
 import nl.khonraad.ql.cdi.LoggingAspect;
 import nl.khonraad.ql.cdi.SourcePathProvider;
+import nl.khonraad.ql.domain.Question.BehaviouralType;
 import nl.khonraad.ql.gui.application.VisualizeEvent;
 
 @ApplicationScoped public class Survey implements Questionnaire {
@@ -36,7 +36,8 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
     @Inject
     private QLAbstractSyntaxTreeBuilder qLAstBuilder;
 
-    @Override public void visitSource( QLVisitor<Value> visitor ) {
+    @Override
+    public void visitSource( QLVisitor<Value> visitor ) {
 
         try {
 
@@ -49,32 +50,36 @@ import nl.khonraad.ql.gui.application.VisualizeEvent;
         }
     }
 
-    @Override public Iterable<Question> questions() {
+    @Override
+    public Iterable<Question> questions() {
         return questionRepository.questions();
     }
 
-    @Override public Optional<Question> findComputedQuestion( Identifier identifier ) {
+    @Override
+    public Optional<Question> findComputedQuestion( Identifier identifier ) {
         return questionRepository.findQuestion( BehaviouralType.COMPUTED, identifier );
     }
 
-    @Override public Optional<Question> findAnswerableQuestion( Identifier identifier ) {
+    @Override
+    public Optional<Question> findAnswerableQuestion( Identifier identifier ) {
         return questionRepository.findQuestion( BehaviouralType.ANSWERABLE, identifier );
     }
 
-    @Override public void storeAnswerableQuestion( Identifier identifier, Label label, Type type ) {
+    @Override
+    public void storeAnswerableQuestion( Identifier identifier, Label label, Type type ) {
         questionRepository.storeAnswerableQuestion( identifier, label, type );
     }
 
-    @Override public Value storeComputedQuestion( Identifier identifier, Label label, Value value ) {
+    @Override
+    public Value storeComputedQuestion( Identifier identifier, Label label, Value value ) {
         return questionRepository.storeComputedQuestion( identifier, label, value );
     }
 
-    @Override @LoggingAspect
+    @LoggingAspect
+    @Override
     public void storeAnswer( Identifier identifier, Value value ) {
 
         questionRepository.storeAnwer( identifier, value );
-//        if ( eventQueue != null ) {
-            eventQueue.fire( new VisualizeEvent() );
-//        }
+        eventQueue.fire( new VisualizeEvent() );
     }
 }

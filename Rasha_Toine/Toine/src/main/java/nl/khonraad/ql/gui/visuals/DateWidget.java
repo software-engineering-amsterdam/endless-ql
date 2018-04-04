@@ -1,14 +1,15 @@
 package nl.khonraad.ql.gui.visuals;
 
+
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.algebra.value.Value;
-import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
+import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 
 public class DateWidget implements QuestionnaireAccessor {
 
@@ -26,7 +27,7 @@ public class DateWidget implements QuestionnaireAccessor {
                 JTextField textField = (JTextField) e.getSource();
                 String current = textField.getText();
 
-                questionnaire().storeAnswer( question.identifier(), new Value( Type.Date, current ) );
+                questionnaire().storeAnswer( question.identifier(), Value.typed( Type.Date, current ) );
             }
 
             @Override

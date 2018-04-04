@@ -1,4 +1,4 @@
-package nl.khonraad.ql.algebra.value;
+package nl.khonraad.ql.algebra.values;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -7,54 +7,55 @@ import java.util.function.BiFunction;
 import org.joda.time.DateTime;
 
 import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
-import nl.khonraad.ql.algebra.function.BinarySignature;
-import nl.khonraad.ql.algebra.function.BinaryFunctions;
-import nl.khonraad.ql.algebra.function.UnarySignature;
-import nl.khonraad.ql.algebra.function.UnaryFunctions;
+import nl.khonraad.ql.algebra.functions.BinaryFunctions;
+import nl.khonraad.ql.algebra.functions.BinarySignature;
+import nl.khonraad.ql.algebra.functions.UnaryFunctions;
+import nl.khonraad.ql.algebra.functions.UnarySignature;
 
-public class Value {
+final class ImmutableValue implements Value {
 
-    public static Value Unit = new Value( null, null );
+    private Type              type;
+    private MutableValue      mutableValue;
 
-    private Type        type;
-    private Storage     storage;
-
+    @Override
     public String string() {
 
-        return storage.string();
+        return mutableValue.string();
     }
 
-    public Value( Type type, String string ) {
+    public ImmutableValue( Type type, String string ) {
 
         this.type = type;
-        this.storage = new Storage( string );
+        this.mutableValue = new MutableValue( string );
     }
 
-    public Value( boolean b ) {
+    ImmutableValue( boolean b ) {
         this( Type.Boolean, b ? "True" : "False" );
     }
 
-    public Value( DateTime m ) {
+    public ImmutableValue( DateTime m ) {
         this( Type.Date, SimpleDateFormatter.string( m ) );
     }
 
-    public Value( Integer i ) {
+    public ImmutableValue( Integer i ) {
         this( Type.Integer, Integer.toString( i ) );
     }
 
-    public Value( BigDecimal m ) {
+    public ImmutableValue( BigDecimal m ) {
         this( Type.Money, m.toString() );
     }
 
-    public Value( String s ) {
+    public ImmutableValue( String s ) {
         this( Type.String, s );
     }
 
+    @Override
     public Value apply( Operator operator ) {
 
         return UnaryFunctions.function( UnarySignature.signature( operator, type() ) ).apply( this );
     }
 
+    @Override
     public Value apply( Operator operator, Value other ) {
 
         BiFunction<Value, Value, Value> function = BinaryFunctions.function( BinarySignature.signature( this.type(), operator, other.type() ) );
@@ -63,13 +64,14 @@ public class Value {
 
     }
 
+    @Override
     public Type type() {
         return type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash( this.storage, this.type );
+        return Objects.hash( this.mutableValue, this.type );
     }
 
     @Override
@@ -78,9 +80,10 @@ public class Value {
         if ( object == null || getClass() != object.getClass() )
             return false;
 
-        final Value other = (Value) object;
+        final ImmutableValue other = (ImmutableValue) object;
 
-        return Objects.equals( this.storage, other.storage ) && Objects.equals( this.type, other.type );
+        return Objects.equals( this.mutableValue, other.mutableValue ) && Objects.equals( this.type, other.type );
     }
+
 
 }

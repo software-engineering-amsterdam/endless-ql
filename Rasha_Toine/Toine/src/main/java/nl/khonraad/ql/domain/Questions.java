@@ -1,4 +1,4 @@
-package nl.khonraad.ql.ast.data;
+package nl.khonraad.ql.domain;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,8 +7,8 @@ import java.util.Optional;
 
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
-import nl.khonraad.ql.algebra.value.Value;
-import nl.khonraad.ql.ast.data.Question.BehaviouralType;
+import nl.khonraad.ql.algebra.values.Value;
+import nl.khonraad.ql.domain.Question.BehaviouralType;
 
 public class Questions implements Iterable<Question> {
 

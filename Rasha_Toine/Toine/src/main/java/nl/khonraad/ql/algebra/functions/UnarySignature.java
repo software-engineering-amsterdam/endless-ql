@@ -1,15 +1,15 @@
-package nl.khonraad.ql.algebra.function;
+package nl.khonraad.ql.algebra.functions;
 
-import nl.khonraad.ql.algebra.value.Operator;
-import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.values.Operator;
+import nl.khonraad.ql.algebra.values.Type;
 
 public enum UnarySignature {
 
-    NotBoolean(Operator.Not, Type.Boolean),
-    PlusInteger(Operator.Plus, Type.Integer),
-    PlusMoney(Operator.Plus, Type.Money),
-    MinusMoney(Operator.Minus, Type.Money),
-    MinusInteger(Operator.Minus, Type.Integer);
+    NotBoolean(     Operator.Not,   Type.Boolean ),
+    PlusInteger(    Operator.Plus,  Type.Integer ),
+    PlusMoney(      Operator.Plus,  Type.Money   ),
+    MinusMoney(     Operator.Minus, Type.Money   ),
+    MinusInteger(   Operator.Minus, Type.Integer );
 
     private Operator operator;
     private Type     operandType;

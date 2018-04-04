@@ -11,14 +11,14 @@ import javax.swing.JPanel;
 
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
-import nl.khonraad.ql.ast.data.Question;
-import nl.khonraad.ql.ast.data.Question.BehaviouralType;
-import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.cdi.LoggingAspect;
+import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.domain.Questionnaire;
+import nl.khonraad.ql.domain.Question.BehaviouralType;
 import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
 import nl.khonraad.qls.ast.data.Styling;
+import nl.khonraad.ql.algebra.values.Type;
 
 @SuppressWarnings( "serial" )
 

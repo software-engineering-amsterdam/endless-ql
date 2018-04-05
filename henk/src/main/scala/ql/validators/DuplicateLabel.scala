@@ -8,24 +8,29 @@ import scala.collection.JavaConversions._
 
 case class DuplicateLabelDeclaration(label: String) extends Exception(label)
 
-class DuplicateLabelValidator extends BaseValidator {
-  var warnings: List[String] = List()
+class DuplicateLabelValidator extends WarningValidator {
+  var warnings: Option[List[String]] = None
 
-  def check(ast: Statement): Option[Exception] = {
-    val labels = StatementCollector.getQuestions(ast).map(_.label)
-    val distinctedLabels = labels.distinct
-    if(labels != distinctedLabels) {
+  def execute(ast: Root): Boolean = {
+    val statements = FormCollector.getStatements(ast)
+    val labels = statements.flatMap(StatementCollector.getQuestions(_))
+      .map(_.label)
+    
+    warnings = getDuplicateLabels(labels)
+      .map(toPrettyLabels)
 
-      warnings = labels.diff(distinctedLabels).map{ duplicateLabel => {
-        s"Label '${duplicateLabel} is duplicate'"
-      }}
-      Some(new DuplicateLabelDeclaration("duplicate label detected"))
-    } else {
-      None
-    }
+    warnings.isEmpty
+  }
+
+  private def toPrettyLabels(labels: List[String]): List[String] = {
+    labels.map(label => s"Label '${label} is duplicate'")
+  }
+
+  def getDuplicateLabels(labels: List[String]): Option[List[String]] = {
+    Option(labels.diff(labels.distinct)).filter(!_.isEmpty)
   }
 
   override def getWarnings(): Option[List[String]] = {
-    Some(warnings)
+    warnings
   }
 }

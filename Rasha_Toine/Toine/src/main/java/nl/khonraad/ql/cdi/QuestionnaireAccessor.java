@@ -5,8 +5,8 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 
-import nl.khonraad.ql.ast.data.Questionnaire;
-import nl.khonraad.ql.ast.data.Survey;
+import nl.khonraad.ql.domain.Questionnaire;
+import nl.khonraad.ql.domain.Survey;
 
 public interface QuestionnaireAccessor {
 

@@ -21,11 +21,7 @@ class ArithmeticOpSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should not return an option exception") {
-      validator.check(form) match {
-        case None => succeed
-        case Some(ConditionalNotBoolean(e)) => fail(e)
-        case other => fail("ConditionalValidator should not have thrown an error")
-      }
+        noException should be thrownBy validator.execute(form)
     }
   }
 }

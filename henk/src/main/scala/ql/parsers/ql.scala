@@ -18,15 +18,15 @@ object QLParser {
     return parser
   }
 
-  def getForm(location: URL): Statement = {
+  def getRoot(location: URL): Root = {
     val source = Source.fromURL(location)
     val sourcedLines = source.mkString
     source.close
 
-    val visitor = new StatementVisitor()
+    val visitor = new FormVisitor()
     val parser = getParser(sourcedLines)
     val tree = parser.root()
 
-    return visitor.visit(tree)
+    return visitor.visitRoot(tree)
   }
 }

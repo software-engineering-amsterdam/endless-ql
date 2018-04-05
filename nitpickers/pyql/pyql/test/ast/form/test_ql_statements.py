@@ -1,9 +1,9 @@
 import unittest
-from util import code_location
-from pyql.ast.form import ql_statements
 
 from pyql.ast.expression import expressions
 from pyql.ast.form import block
+from pyql.ast.form import ql_statements
+from util import code_location
 
 
 class TestQuestion(unittest.TestCase):

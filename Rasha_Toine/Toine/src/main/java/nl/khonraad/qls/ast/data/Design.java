@@ -1,15 +1,14 @@
 package nl.khonraad.qls.ast.data;
 
+import java.util.Optional;
+
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.algebra.Value;
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.cdi.SourcePathProvider;
-import nl.khonraad.ql.gui.application.VisualizeEvent;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.qls.QLSVisitor;
 import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
 
@@ -17,12 +16,6 @@ import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
 
     @Inject
     Logger                               logger;
-
-    @Inject
-    SourcePathProvider                   qLSource;
-
-    @Inject
-    Event<VisualizeEvent>                eventQueue;
 
     @Inject
     StyleElements                        styleElements;
@@ -50,7 +43,7 @@ import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
     }
 
     @Override
-    public StyleElement find( Type type ) {
+    public Optional<StyleElement> styleElement( Type type ) {
         return styleElements.find( type );
     }
 

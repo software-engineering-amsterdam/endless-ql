@@ -4,22 +4,23 @@ grammar QLS;
 
 stylesheet      : 'stylesheet' IDENTIFIER LEFTBRACKET page* RIGHTBRACKET;
 
-page            : 'page' IDENTIFIER LEFTBRACKET (section | defaultRule)* RIGHTBRACKET;
+page            : 'page' IDENTIFIER LEFTBRACKET component+ defaultRule* RIGHTBRACKET;
 
-section         : 'section' STRINGLITERAL LEFTBRACKET segment* RIGHTBRACKET
-                | 'section' STRINGLITERAL segment
+section         : 'section' STRINGLITERAL LEFTBRACKET component+ defaultRule* RIGHTBRACKET
+                | 'section' STRINGLITERAL component
                 ;
 
-segment         : section
+component       : section
                 | question
-                | defaultRule
                 ;
 
 question        : 'question' IDENTIFIER widget?
 //              | 'question' IDENTIFIER styleRule?
                 ;
 
-defaultRule     : 'default' type (widget | widgetStyle);
+defaultRule     : 'default' type widget                                                     #widgetRule
+                | 'default' type style                                                      #styleRule
+                ;
 
 widget          : 'widget' widgetType;
 
@@ -31,19 +32,19 @@ type            : 'boolean'                                                     
                 | 'date'                                                                    #dateType
                 ;
 
-widgetType      : 'slider' sliderMap                                                        #sliderWidget
-                | 'spinbox'                                                                 #spinboxWidget
-                | 'text'                                                                    #textWidget
-                | 'radio' choiceMap?                                                        #radioWidget
-                | 'checkbox'  (LEFTPARENTHESES yes=STRINGLITERAL RIGHTPARENTHESES)?         #checkboxWidget
-                | 'dropdown' choiceMap?                                                     #dropdownWidget
+widgetType      : 'slider' sliderMap                                                        #sliderType
+                | 'spinbox'                                                                 #spinboxType
+                | 'textfield'                                                               #textfieldType
+                | 'radio' choiceMap?                                                        #radioType
+                | 'checkbox'  (LEFTPARENTHESES yes=STRINGLITERAL RIGHTPARENTHESES)?         #checkboxType
+                | 'dropdown' choiceMap?                                                     #dropdownType
                 ;
 
 sliderMap       : LEFTPARENTHESES start=INTEGERLITERAL COMMA end=INTEGERLITERAL COMMA step=INTEGERLITERAL RIGHTPARENTHESES;
 
 choiceMap       : LEFTPARENTHESES yes=STRINGLITERAL COMMA no=STRINGLITERAL RIGHTPARENTHESES;
 
-widgetStyle     : LEFTBRACKET styleProperty+ widget? RIGHTBRACKET;
+style           : LEFTBRACKET styleProperty+ widget? RIGHTBRACKET;
 
 styleProperty   : 'width' COLON INTEGERLITERAL                                              #widthProperty
                 | 'font' COLON STRINGLITERAL                                                #fontProperty

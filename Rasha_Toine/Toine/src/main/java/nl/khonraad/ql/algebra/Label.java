@@ -2,7 +2,7 @@ package nl.khonraad.ql.algebra;
 
 import java.util.Objects;
 
-public class Label implements StringAble {
+public class Label {
 
     private String string;
 
@@ -10,7 +10,6 @@ public class Label implements StringAble {
         this.string = string;
     }
 
-    @Override
     public String string() {
         return string;
     }
@@ -22,12 +21,10 @@ public class Label implements StringAble {
 
     @Override
     public boolean equals( Object object ) {
-
-        if ( object == null || getClass() != object.getClass() )
+        if ( object == null || getClass() != object.getClass() ) {
             return false;
-
+        }
         final Label other = (Label) object;
-
         return Objects.equals( this.string, other.string );
     }
 }

@@ -23,12 +23,9 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
     }
 
     public void typeCheck(){
-        try {
-            for (Question question : form.getQuestions()) {
-                question.getAnswer().accept(this);
-            }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        for (Question question : form.getQuestions()) {
+            question.getCondition().accept(this);   //check conditions to match boolean
+            question.getAnswer().accept(this);      //check answers to match question type
         }
     }
 
@@ -38,7 +35,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
         boolean validType = leftType.isArithmetic() && rightType.isArithmetic();
 
         if(validType){ return leftType.hasPriority(rightType);}
-        else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-numeric argument passed at line: "  + expression.getLineNumber());}
+        else{ throw new IllegalArgumentException("Invalid arithmetic expression: non-numeric argument passed at line: "  + expression.getLineNumber());}
     }
 
     private EvaluationType checkComparisonExpression(BinaryExpression expression, String operator){
@@ -47,7 +44,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
         boolean validType = leftType.isArithmetic() && rightType.isArithmetic();
 
         if(validType){ return EvaluationType.Boolean;}
-        else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-boolean argument passed at line: " + expression.getLineNumber());}
+        else{ throw new IllegalArgumentException("Invalid logical expression: non-boolean argument passed at line: " + expression.getLineNumber());}
     }
 
     private EvaluationType checkLogicalExpression(BinaryExpression expression, String operator){
@@ -56,7 +53,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
         boolean validType = leftType.isLogical() && rightType.isLogical();
 
         if(validType){ return EvaluationType.Boolean;}
-        else{ throw new IllegalArgumentException("Invalid '" + operator + "' expression: non-boolean argument passed at line: " + expression.getLineNumber());}
+        else{ throw new IllegalArgumentException("Invalid logical expression: non-boolean argument passed at line: " + expression.getLineNumber());}
     }
 
     @Override
@@ -104,9 +101,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
     }
 
     @Override
-    public EvaluationType visit(LessOrEqualExpression expression) {
-        return checkComparisonExpression(expression, "<=");
-    }
+    public EvaluationType visit(LessOrEqualExpression expression) { return checkComparisonExpression(expression, "<="); }
 
     @Override
     public EvaluationType visit(LessThanExpression expression) {
@@ -114,9 +109,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType> {
     }
 
     @Override
-    public EvaluationType visit(MultiplicationExpression expression) {
-        return checkArithmeticExpression(expression, "*");
-    }
+    public EvaluationType visit(MultiplicationExpression expression) { return checkArithmeticExpression(expression, "*"); }
 
     @Override
     public EvaluationType visit(OrExpression expression) {

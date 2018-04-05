@@ -1,10 +1,10 @@
-from pyql.ast.form.form import Form
 from pyql.ast.form.block import Block
-from pyql.ast.form.ql_statements import Question
+from pyql.ast.form.form import Form
 from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
+from pyql.ast.form.ql_statements import Question
 from util.ast import ASTNode
-from multimethods import multimethod
+from util.multimethods import multimethod
 from util.types import Type
 
 

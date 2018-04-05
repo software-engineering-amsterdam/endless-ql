@@ -1,11 +1,12 @@
 import os
 
 from antlr4 import *
+
 from pyql.antlr.QLLexer import QLLexer
 from pyql.antlr.QLParser import QLParser
+from antlr4.error.ErrorListener import ErrorListener
 from pyql.ast.parse_tree_visitor import ParseTreeVisitor
 from pyql.static_analysis.static_checker import StaticChecker
-from pyql.antlr.antlr_error_listener import AntlrErrorListener
 
 
 def run_ql_file(file):
@@ -13,7 +14,7 @@ def run_ql_file(file):
     lexer = QLLexer(input)
     stream = CommonTokenStream(lexer)
     parser = QLParser(stream)
-    parser._listeners = AntlrErrorListener()
+    parser._listeners = ErrorListener()
     parse_tree = parser.form()
 
     visitor = ParseTreeVisitor()
@@ -32,7 +33,7 @@ def is_ql_program_valid(file):
 
 
 def get_ql_files_from_directory(directory):
-    test_global_directory = "samples/"
+    test_global_directory = "samples"
     test_directory = os.path.join(test_global_directory, directory)
 
     files = []

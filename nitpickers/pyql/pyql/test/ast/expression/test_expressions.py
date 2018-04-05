@@ -1,6 +1,7 @@
 import unittest
-from util import code_location
+
 from pyql.ast.expression import expressions
+from util import code_location
 
 
 class TestExpression(unittest.TestCase):

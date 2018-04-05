@@ -1,17 +1,18 @@
-from multimethods import multimethod
-from pyql.ast.form.form import Form
+from pyql.ast.expression.expressions import Identifier
 from pyql.ast.form.block import Block
-from pyql.ast.form.ql_statements import Question
+from pyql.ast.form.form import Form
 from pyql.ast.form.ql_statements import ComputedQuestion
 from pyql.ast.form.ql_statements import If
 from pyql.ast.form.ql_statements import IfElse
-from util.ast import ASTNode
-from pyql.ast.expression.expressions import Identifier
-from util.types import Type
+from pyql.ast.form.ql_statements import Question
 from pyql.static_analysis.expression_evaluator import ExpressionEvaluator
+from util.ast import ASTNode
+from util.multimethods import multimethod
+from util.types import Type
 
 
 class GUIVisitor:
+
     def __init__(self, gui_window, symbol_table):
         self._gui_window = gui_window
         self._symbol_table = symbol_table

@@ -1,5 +1,6 @@
 package nl.khonraad.ql.gui.visuals;
 
+
 import java.awt.Dimension;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,10 +10,10 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-import nl.khonraad.ql.algebra.Value;
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.ast.data.Question;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
+import nl.khonraad.ql.domain.Question;
 
 public class MoneyWidget implements QuestionnaireAccessor {
 
@@ -40,7 +41,7 @@ public class MoneyWidget implements QuestionnaireAccessor {
 
             String dec = new BigDecimal( current ).setScale( 2, RoundingMode.HALF_EVEN ).toString();
 
-            questionnaire().storeAnswer( question.identifier(), new Value( Type.Money, dec ) );
+            questionnaire().storeAnswer( question, Value.typed( Type.Money, dec ) );
 
         } );
     }

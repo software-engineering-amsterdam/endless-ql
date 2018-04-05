@@ -8,6 +8,15 @@ else:
 # This class defines a complete listener for a parse tree produced by QLSParser.
 class QLSListener(ParseTreeListener):
 
+    # Enter a parse tree produced by QLSParser#qlsObject.
+    def enterQlsObject(self, ctx:QLSParser.QlsObjectContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#qlsObject.
+    def exitQlsObject(self, ctx:QLSParser.QlsObjectContext):
+        pass
+
+
     # Enter a parse tree produced by QLSParser#styleSheet.
     def enterStyleSheet(self, ctx:QLSParser.StyleSheetContext):
         pass
@@ -188,12 +197,75 @@ class QLSListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLSParser#defaultStatement.
-    def enterDefaultStatement(self, ctx:QLSParser.DefaultStatementContext):
+    # Enter a parse tree produced by QLSParser#simpleDefault.
+    def enterSimpleDefault(self, ctx:QLSParser.SimpleDefaultContext):
         pass
 
-    # Exit a parse tree produced by QLSParser#defaultStatement.
-    def exitDefaultStatement(self, ctx:QLSParser.DefaultStatementContext):
+    # Exit a parse tree produced by QLSParser#simpleDefault.
+    def exitSimpleDefault(self, ctx:QLSParser.SimpleDefaultContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#defaultWithBody.
+    def enterDefaultWithBody(self, ctx:QLSParser.DefaultWithBodyContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#defaultWithBody.
+    def exitDefaultWithBody(self, ctx:QLSParser.DefaultWithBodyContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#defaultBody.
+    def enterDefaultBody(self, ctx:QLSParser.DefaultBodyContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#defaultBody.
+    def exitDefaultBody(self, ctx:QLSParser.DefaultBodyContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#styleRules.
+    def enterStyleRules(self, ctx:QLSParser.StyleRulesContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#styleRules.
+    def exitStyleRules(self, ctx:QLSParser.StyleRulesContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#width.
+    def enterWidth(self, ctx:QLSParser.WidthContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#width.
+    def exitWidth(self, ctx:QLSParser.WidthContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#font.
+    def enterFont(self, ctx:QLSParser.FontContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#font.
+    def exitFont(self, ctx:QLSParser.FontContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#fontsize.
+    def enterFontsize(self, ctx:QLSParser.FontsizeContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#fontsize.
+    def exitFontsize(self, ctx:QLSParser.FontsizeContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#color.
+    def enterColor(self, ctx:QLSParser.ColorContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#color.
+    def exitColor(self, ctx:QLSParser.ColorContext):
         pass
 
 
@@ -224,15 +296,6 @@ class QLSListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLSParser#dateType.
-    def enterDateType(self, ctx:QLSParser.DateTypeContext):
-        pass
-
-    # Exit a parse tree produced by QLSParser#dateType.
-    def exitDateType(self, ctx:QLSParser.DateTypeContext):
-        pass
-
-
     # Enter a parse tree produced by QLSParser#decimalType.
     def enterDecimalType(self, ctx:QLSParser.DecimalTypeContext):
         pass
@@ -257,6 +320,15 @@ class QLSListener(ParseTreeListener):
 
     # Exit a parse tree produced by QLSParser#identifier.
     def exitIdentifier(self, ctx:QLSParser.IdentifierContext):
+        pass
+
+
+    # Enter a parse tree produced by QLSParser#filename.
+    def enterFilename(self, ctx:QLSParser.FilenameContext):
+        pass
+
+    # Exit a parse tree produced by QLSParser#filename.
+    def exitFilename(self, ctx:QLSParser.FilenameContext):
         pass
 
 

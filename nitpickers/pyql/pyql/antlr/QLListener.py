@@ -98,15 +98,6 @@ class QLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by QLParser#dateType.
-    def enterDateType(self, ctx:QLParser.DateTypeContext):
-        pass
-
-    # Exit a parse tree produced by QLParser#dateType.
-    def exitDateType(self, ctx:QLParser.DateTypeContext):
-        pass
-
-
     # Enter a parse tree produced by QLParser#decimalType.
     def enterDecimalType(self, ctx:QLParser.DecimalTypeContext):
         pass

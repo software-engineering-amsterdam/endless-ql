@@ -5,10 +5,10 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 
-import nl.khonraad.ql.algebra.Value;
-import nl.khonraad.ql.algebra.value.Type;
-import nl.khonraad.ql.ast.data.Question;
 import nl.khonraad.ql.cdi.QuestionnaireAccessor;
+import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 
 public class StringWidget implements QuestionnaireAccessor {
 
@@ -26,7 +26,7 @@ public class StringWidget implements QuestionnaireAccessor {
                 JTextField textField = (JTextField) e.getSource();
                 String current = textField.getText();
 
-                questionnaire().storeAnswer( question.identifier(), new Value( Type.String, current ) );
+                questionnaire().storeAnswer( question, Value.typed( Type.String, current ) );
             }
 
             @Override

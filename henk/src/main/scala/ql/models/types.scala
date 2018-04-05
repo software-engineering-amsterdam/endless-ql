@@ -4,7 +4,7 @@ import ql.models._
 
 sealed trait NodeType
 
-case class BooleanType() extends NodeType
-case class MoneyType() extends NodeType
-case class IntegerType() extends NodeType
-case class StringType() extends NodeType
+case object BooleanType extends NodeType
+case object MoneyType extends NodeType
+case object IntegerType extends NodeType
+case object StringType extends NodeType

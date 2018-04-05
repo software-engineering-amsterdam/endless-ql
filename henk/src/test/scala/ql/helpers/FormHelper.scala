@@ -9,21 +9,27 @@ import java.net.URL
 
 object FormHelper {
   def getQuestions(location: URL): List[Question] = {
-    val form = QLParser.getForm(location)
-    StatementCollector.getQuestions(form)
+    val root = QLParser.getRoot(location)
+    FormCollector.getStatements(root).flatMap(StatementCollector.getQuestions)
   }
 
   def getIfStatements(location: URL): List[IfStatement] = {
-    val form = QLParser.getForm(location)
-    StatementCollector.getIfStatements(form)
+    val root = QLParser.getRoot(location)
+    FormCollector.getStatements(root).flatMap(StatementCollector.getIfStatements)
+  }
+
+  def getElseStatements(location: URL): List[ElseStatement] = {
+    val root = QLParser.getRoot(location)
+    FormCollector.getStatements(root).flatMap(StatementCollector.getElseStatements)
   }
 
   def getExpressions(location: URL): List[Expression] = {
-    val form = QLParser.getForm(location)
-    ExpressionCollector.getExpressions(form)
+    val root = QLParser.getRoot(location)
+    FormCollector.getStatements(root).map(StatementCollector.getExpressions).flatten ++
+    FormCollector.getExpressions(root)
   }
 
-  def getRoot(location: URL): Statement = {
-    QLParser.getForm(location)
+  def getRoot(location: URL): Root = {
+    QLParser.getRoot(location)
   }
 }

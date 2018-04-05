@@ -17,11 +17,9 @@ import QL.QLVisitor.ExpressionTable;
 
 public class EvaluationVisitor implements ExpressionVisitorInterface<Value> {
     private EvaluatorFactory evaluatorFactory;
-    private Form form;
     private ExpressionTable expressionTable;
 
     public EvaluationVisitor(Form form){
-        this.form = form;
         this.evaluatorFactory = new EvaluatorFactory();
         this.expressionTable = form.getExpressionTable();
     }

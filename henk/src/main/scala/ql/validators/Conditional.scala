@@ -8,34 +8,16 @@ import scala.collection.JavaConversions._
 case class ConditionalNotBoolean(label: String) extends Exception(label)
 
 class ConditionalValidator extends BaseValidator {
-  def check(root: Statement): Option[Exception] = {
-    val ifStmts = StatementCollector.getIfStatements(root)
-
-    ifStmts.forEach { stmt =>
-      {
-        val expressionType = ValidatorHelper.infereExpression(stmt.expression, root)
-        
-        expressionType match {
-          case Some(BooleanType()) => None
-          case Some(IntegerType()) => {
-            val message = "Conditional type evaluation can't result in Integer"
-            return Some(new ConditionalNotBoolean(message))
-          }
-          case Some(StringType()) => {
-            val message = "Conditional type evaluation can't result in String"
-            return Some(new ConditionalNotBoolean(message))
-          }
-          case Some(MoneyType()) => {
-            val message = "Conditional type evaluation can't result in Money"
-            return Some(new ConditionalNotBoolean(message))
-          }
-          case None => {
-            val message = "Expression in conditional has to evaluate to type Boolean"
-            return Some(new ConditionalNotBoolean(message))
-          }
-        }
-      }
-    }
-    None
+  def execute(ast: Root): Unit = {
+    val statements = FormCollector.getStatements(ast)
+    statements.flatMap(StatementCollector.getIfStatements(_))
+      .map(_.expression)
+      .find(expr => {
+        !ValidatorHelper.isBooleanType(expr, ast)
+      })
+      .map(expr => {
+        val message = s"Expression in if '${expr}' does not evaluate to a boolean value"
+        throw new ConditionalNotBoolean("nope")
+      })
   }
 }

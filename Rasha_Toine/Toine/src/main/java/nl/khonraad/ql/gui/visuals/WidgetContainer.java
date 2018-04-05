@@ -2,6 +2,7 @@ package nl.khonraad.ql.gui.visuals;
 
 import java.awt.GridLayout;
 import java.awt.Panel;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -11,14 +12,15 @@ import javax.swing.JPanel;
 
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.algebra.value.Type;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
-import nl.khonraad.ql.ast.data.Question;
-import nl.khonraad.ql.ast.data.Question.BehaviouralType;
-import nl.khonraad.ql.ast.data.Questionnaire;
 import nl.khonraad.ql.cdi.LoggingAspect;
+import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.domain.Questionnaire;
+import nl.khonraad.ql.domain.Question.BehaviouralType;
 import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
+import nl.khonraad.qls.ast.data.StyleElement;
 import nl.khonraad.qls.ast.data.Styling;
+import nl.khonraad.ql.algebra.values.Type;
 
 @SuppressWarnings( "serial" )
 
@@ -37,7 +39,7 @@ public class WidgetContainer extends Panel {
     Questionnaire          questionnaire;
 
     @Inject
-    Styling                 design;
+    Styling                styling;
 
     @PostConstruct
     public void postConstruct() {
@@ -51,7 +53,7 @@ public class WidgetContainer extends Panel {
         removeAll();
 
         questionnaire.visitSource( extendedQLBaseVisitor );
-        design.visitSource( extendedQLSBaseVisitor );
+        styling.visitSource( extendedQLSBaseVisitor );
 
         for ( Question question : questionnaire.questions() ) {
 
@@ -86,10 +88,12 @@ public class WidgetContainer extends Panel {
 
         if ( behaviouralType == BehaviouralType.ANSWERABLE ) {
 
+            Optional<StyleElement> styleElement = styling.styleElement( type );
+
             switch ( type ) {
 
                 case Boolean:
-                    return addToParent( parentPanel, new BooleanWidget( question, design.find( type ) ).jComboBox );
+                    return addToParent( parentPanel, new BooleanWidget( question, styleElement ).jComponent() );
 
                 case Date:
                     return addToParent( parentPanel, new DateWidget( question ).jTextField );

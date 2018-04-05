@@ -1,8 +1,9 @@
-from util import types
-from decimal import Decimal, InvalidOperation
-from multimethods import multimethod
-from util import errors
 import math
+from decimal import Decimal, InvalidOperation
+
+from util import errors
+from util import types
+from util.multimethods import multimethod
 
 
 class Value:
@@ -47,6 +48,9 @@ class Value:
     def __invert__(self):
         return Not().evaluate()
 
+    def __bool__(self):
+        raise errors.Syntax("Value " + str(self.value) + " can not be evaluated to a BooleanValue")
+
     @property
     def value(self):
         return self._value
@@ -66,13 +70,14 @@ class Value:
     def __repr__(self):
         return str(self.value)
 
-    __str__ = __repr__
+    def __str__(self):
+        return self.__repr__()
 
 
 class StringValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.String, value)
+        super().__init__(types.String(), value)
 
     @staticmethod
     def _parse(value):
@@ -82,7 +87,7 @@ class StringValue(Value):
 class IntegerValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Integer, value)
+        super().__init__(types.Integer(), value)
 
     @staticmethod
     def _parse(value):
@@ -100,7 +105,7 @@ class IntegerValue(Value):
 class DecimalValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Decimal, value)
+        super().__init__(types.Decimal(), value)
 
     @staticmethod
     def _parse(value):
@@ -118,7 +123,7 @@ class DecimalValue(Value):
 class MoneyValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Money, value)
+        super().__init__(types.Money(), value)
 
     @staticmethod
     def _parse(value):
@@ -127,7 +132,12 @@ class MoneyValue(Value):
     @staticmethod
     def is_valid_input(value):
         is_decimal = DecimalValue.is_valid_input(value)
-        decimal_places = - Decimal(value).as_tuple().exponent
+
+        try:
+            decimal_places = 0 - Decimal(value).as_tuple().exponent
+        except InvalidOperation:
+            return False
+
         if is_decimal and decimal_places <= 2:
             return True
         return False
@@ -139,7 +149,7 @@ class MoneyValue(Value):
 class BooleanValue(Value):
 
     def __init__(self, value):
-        super().__init__(types.Boolean, value)
+        super().__init__(types.Boolean(), value)
 
     @staticmethod
     def _parse(value):
@@ -157,7 +167,18 @@ class BooleanValue(Value):
         return self.value
 
 
-class Addition:
+class Evaluation:
+
+    @multimethod(Value, Value)
+    def evaluate(self, left, right):
+        raise errors.Type("Operation not possible between instances of " + str(left.type) + " & " + str(right.type))
+
+    @multimethod(Value)
+    def evaluate(self, expression):
+        raise errors.Type("Operation not possible on " + str(expression.type))
+
+
+class Addition(Evaluation):
 
     @multimethod([(StringValue, StringValue)])
     def evaluate(self, left, right):
@@ -177,10 +198,10 @@ class Addition:
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        raise TypeError("Incompatible operand types for addition")
+        super().evaluate(left, right)
 
 
-class Subtraction:
+class Subtraction(Evaluation):
 
     @multimethod([(IntegerValue, IntegerValue)])
     def evaluate(self, left, right):
@@ -196,10 +217,10 @@ class Subtraction:
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        raise TypeError("Incompatible operand types for addition")
+        super().evaluate(left, right)
 
 
-class Multiplication:
+class Multiplication(Evaluation):
 
     @multimethod([(IntegerValue, IntegerValue)])
     def evaluate(self, left, right):
@@ -217,10 +238,10 @@ class Multiplication:
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        raise TypeError("Incompatible operand types for multiplication")
+        super().evaluate(left, right)
 
 
-class Division:
+class Division(Evaluation):
 
     @multimethod([(IntegerValue, IntegerValue)])
     def evaluate(self, left, right):
@@ -238,10 +259,62 @@ class Division:
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
-        raise TypeError("Incompatible operand types for multiplication")
+        super().evaluate(left, right)
 
 
-class Equality:
+class LowerThan(Evaluation):
+
+    @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
+                  (DecimalValue, DecimalValue),
+                  (MoneyValue, MoneyValue)])
+    def evaluate(self, left, right):
+        return BooleanValue(left.value < right.value)
+
+    @multimethod(Value, Value)
+    def evaluate(self, left, right):
+        super().evaluate(left, right)
+
+
+class LowerEqual(Evaluation):
+
+    @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
+                  (DecimalValue, DecimalValue),
+                  (MoneyValue, MoneyValue)])
+    def evaluate(self, left, right):
+        return BooleanValue(left.value <= right.value)
+
+    @multimethod(Value, Value)
+    def evaluate(self, left, right):
+        super().evaluate(left, right)
+
+
+class GreaterThan(Evaluation):
+
+    @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
+                  (DecimalValue, DecimalValue),
+                  (MoneyValue, MoneyValue)])
+    def evaluate(self, left, right):
+        return BooleanValue(left.value > right.value)
+
+    @multimethod(Value, Value)
+    def evaluate(self, left, right):
+        super().evaluate(left, right)
+
+
+class GreaterEqual(Evaluation):
+
+    @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
+                  (DecimalValue, DecimalValue),
+                  (MoneyValue, MoneyValue)])
+    def evaluate(self, left, right):
+        return BooleanValue(left.value >= right.value)
+
+    @multimethod(Value, Value)
+    def evaluate(self, left, right):
+        super().evaluate(left, right)
+
+
+class Equality(Evaluation):
 
     @multimethod([(IntegerValue, IntegerValue), (DecimalValue, DecimalValue), (MoneyValue, MoneyValue),
                   (StringValue, StringValue), (BooleanValue, BooleanValue), (IntegerValue, DecimalValue),
@@ -254,80 +327,32 @@ class Equality:
         return BooleanValue(False)
 
 
-class NonEquality:
+class NonEquality(Evaluation):
 
     @multimethod(Value, Value)
     def evaluate(self, left, right):
         return not Equality().evaluate(left, right)
 
 
-class LowerThan:
-
-    @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
-                  (DecimalValue, DecimalValue),
-                  (MoneyValue, MoneyValue)])
-    def evaluate(self, left, right):
-        return BooleanValue(left.value < right.value)
-
-    @multimethod(Value, Value)
-    def evaluate(self, left, right):
-        return BooleanValue(False)
-
-    @multimethod(Value, Value)
-    def evaluate(self, left, right):
-        raise TypeError("Operation not possible between instances of ", left.type, ",", right.type)
-
-
-class LowerEqual:
-
-    @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
-                  (DecimalValue, DecimalValue),
-                  (MoneyValue, MoneyValue)])
-    def evaluate(self, left, right):
-        return BooleanValue(left.value <= right.value)
-
-    @multimethod(Value, Value)
-    def evaluate(self, left, right):
-        return BooleanValue(False)
-
-
-class GreaterThan:
-
-    @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
-                  (DecimalValue, DecimalValue),
-                  (MoneyValue, MoneyValue)])
-    def evaluate(self, left, right):
-        return BooleanValue(left.value > right.value)
-
-    @multimethod(Value, Value)
-    def evaluate(self, left, right):
-        return BooleanValue(False)
-
-
-class GreaterEqual:
-
-    @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
-                  (DecimalValue, DecimalValue),
-                  (MoneyValue, MoneyValue)])
-    def evaluate(self, left, right):
-        return BooleanValue(left.value >= right.value)
-
-    @multimethod(Value, Value)
-    def evaluate(self, left, right):
-        return BooleanValue(False)
-
-
-class Not:
+class Not(Evaluation):
 
     @multimethod(BooleanValue)
     def evaluate(self, expression):
         return BooleanValue(not expression.value)
 
+    @multimethod(Value)
+    def evaluate(self, expression):
+        super().evaluate(expression)
 
-class Invert:
+
+class Invert(Evaluation):
 
     @multimethod([(IntegerValue, IntegerValue), (IntegerValue, DecimalValue), (DecimalValue, IntegerValue),
                   (DecimalValue, DecimalValue),
                   (MoneyValue, MoneyValue)])
     def evaluate(self, expression):
         return Multiplication().evaluate(IntegerValue(-1), expression.value)
+
+    @multimethod(Value)
+    def evaluate(self, expression):
+        super().evaluate(expression)

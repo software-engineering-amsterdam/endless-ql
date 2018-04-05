@@ -1,10 +1,12 @@
 package nl.khonraad.qls.ast.data;
 
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import nl.khonraad.ql.algebra.values.Type;
 
-import nl.khonraad.ql.algebra.value.Type;
 
 public class StyleElements {
 
@@ -15,13 +17,13 @@ public class StyleElements {
         styleElementList.add( styleElement );
     }
 
-    StyleElement find( Type type ) {
+    Optional<StyleElement> find( Type type ) {
 
         for ( StyleElement styleElement : styleElementList ) {
             if ( styleElement.type.equals( type ) ) {
-                return styleElement;
+                return Optional.of( styleElement );
             }
         }
-        return null;
+        return Optional.empty();
     }
 }

@@ -1,8 +1,8 @@
 package nl.khonraad.ql.integration;
 
+import static nl.khonraad.ql.algebra.values.Value.True;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -11,27 +11,20 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import nl.khonraad.ql.algebra.Identifier;
-import nl.khonraad.ql.algebra.Value;
-import nl.khonraad.ql.algebra.value.Type;
+import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
-import nl.khonraad.ql.ast.data.Questionnaire;
-import nl.khonraad.ql.ast.data.Survey;
-import nl.khonraad.ql.ast.data.Repository;
 import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
+import nl.khonraad.ql.domain.Questionnaire;
+import nl.khonraad.ql.domain.Repository;
+import nl.khonraad.ql.domain.Survey;
 
 public class Test_CollegeExample {
 
     @Rule
-    public WeldInitiator weld = WeldInitiator.from( 
-            SourcePathProvider.class, 
-            QLAbstractSyntaxTreeBuilder.class, 
-            ExtendedQLBaseVisitor.class, 
-            Survey.class, 
-            Repository.class, 
-            LoggerProducer.class
-    ).activate( ApplicationScoped.class ).build();
+    public WeldInitiator weld = WeldInitiator.from( SourcePathProvider.class, QLAbstractSyntaxTreeBuilder.class, ExtendedQLBaseVisitor.class, Survey.class, Repository.class, LoggerProducer.class ).activate( ApplicationScoped.class ).build();
 
     @Test
     public void test_Calculations() throws Exception {
@@ -42,24 +35,24 @@ public class Test_CollegeExample {
 
         questionnaire.visitSource( visitor );
 
-        questionnaire.storeAnswer( new Identifier( "hasSoldHouse" ), new Value( true ) );
-        questionnaire.storeAnswer( new Identifier( "hasBoughtHouse" ), new Value( true ) );
-        questionnaire.storeAnswer( new Identifier( "hasMaintLoan" ), new Value( true ) );
+        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "hasSoldHouse" ) ).get(), True );
+        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "hasBoughtHouse" ) ).get(), True );
+        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "hasMaintLoan" ) ).get(), True );
 
-        assertNull( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ) );
-        assertNull( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ) );
-
-        questionnaire.visitSource( visitor );
-
-        assertNotNull( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ) );
-        assertNotNull( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ) );
-
-        questionnaire.storeAnswer( new Identifier( "sellingPrice" ), new Value( Type.Money, "1000000.00" ) );
-        questionnaire.storeAnswer( new Identifier( "privateDebt" ), new Value( Type.Money, "800000.00" ) );
+        assertTrue( !questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
+        assertTrue( !questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
 
         questionnaire.visitSource( visitor );
 
-        assertEquals( "a", "200000.00", questionnaire.findComputedQuestion( new Identifier( "valueResidue" ) ).value().string() );
+        assertTrue( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
+        assertTrue( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
+
+        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).get(), Value.typed( Type.Money, "1000000.00" ) );
+        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).get(), Value.typed( Type.Money, "800000.00" ) );
+
+        questionnaire.visitSource( visitor );
+
+        assertEquals( "a", "200000.00", questionnaire.findComputedQuestion( new Identifier( "valueResidue" ) ).get().value().string() );
 
     }
 }

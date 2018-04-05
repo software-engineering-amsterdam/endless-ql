@@ -36,6 +36,7 @@ DIS: '||';
 NOT: '!';
 
 IF: 'if';
+ELSE: 'else';
 
 fragment DIGIT: '0'..'9';
 INTEGER: DIGIT+;
@@ -71,9 +72,10 @@ computation: label varDecl valAssign;
 question: label varDecl;
 label: STRINGLIT;
 
-conditional: ifStmt;
+conditional: ifStmt (elseStmt)?;
 
 ifStmt: IF OB expr CB OCB stmt* CCB;
+elseStmt: ELSE OCB stmt* CCB;
 
 expr:
   OB expr CB #bracketExpression |

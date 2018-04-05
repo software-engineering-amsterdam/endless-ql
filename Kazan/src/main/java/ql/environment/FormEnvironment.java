@@ -13,11 +13,12 @@ import ql.environment.datastore.ValueStore;
 import ql.environment.values.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 
-public class FormEnvironment implements FormStatementVisitor<String>, Environment {
+public class FormEnvironment implements FormStatementVisitor<List<String>>, Environment {
 
     private final ExpressionStore expressionStore;
     private final QuestionStore questionStore;
@@ -88,15 +89,18 @@ public class FormEnvironment implements FormStatementVisitor<String>, Environmen
     @Override
     public boolean questionIsVisible(String questionId) {
         if (questionStore.hasConditionDependency(questionId)) {
-            Expression conditionExpression = questionStore.getConditionDependency(questionId);
-            BooleanValue condition = (BooleanValue) expressionEvaluator.evaluate(conditionExpression);
-            return condition.getValue();
+            for (Expression conditionExpression : questionStore.getConditionDependencies(questionId)) {
+                BooleanValue condition = (BooleanValue) expressionEvaluator.evaluate(conditionExpression);
+                if (!condition.getValue()) {
+                    return false;
+                }
+            }
         }
         return true;
     }
 
     @Override
-    public String visit(Form form) {
+    public List<String> visit(Form form) {
         for (Statement statement : form.getStatements()) {
             statement.accept(this);
         }
@@ -104,7 +108,7 @@ public class FormEnvironment implements FormStatementVisitor<String>, Environmen
     }
 
     @Override
-    public String visit(Question question) {
+    public List<String> visit(Question question) {
         questionStore.addQuestion(question);
         // Initialise environment with default values
         valueStore.setValue(question.getId(), question.getType().accept(new TypeVisitor<Value>() {
@@ -145,44 +149,50 @@ public class FormEnvironment implements FormStatementVisitor<String>, Environmen
             }
 
         }));
-        return question.getId();
+        return Collections.singletonList(question.getId());
     }
 
     @Override
-    public String visit(ComputedQuestion question) {
+    public List<String> visit(ComputedQuestion question) {
         questionStore.addQuestion(question);
         expressionStore.addExpression(question.getId(), question.getExpression());
-        return question.getId();
+        return Collections.singletonList(question.getId());
     }
 
-    //TODO: handle nested dependencies within which parent is false but child is true
     @Override
-    public String visit(IfStatement node) {
+    public List<String> visit(IfStatement node) {
+        List<String> dependingQuestions = new ArrayList<>();
+
         for (Statement statement : node.getIfStatements()) {
-            String identifier = statement.accept(this);
-            if (identifier != null) {
+            List<String> identifiers = statement.accept(this);
+            for (String identifier : identifiers) {
                 questionStore.addConditionDependency(identifier, node.getCondition());
             }
+            dependingQuestions.addAll(identifiers);
         }
-        return null;
+        return dependingQuestions;
     }
 
     @Override
-    public String visit(IfElseStatement node) {
+    public List<String> visit(IfElseStatement node) {
+        List<String> dependingQuestions = new ArrayList<>();
+
         for (Statement statement : node.getIfStatements()) {
-            String identifier = statement.accept(this);
-            if (identifier != null) {
+            List<String> identifiers = statement.accept(this);
+            for (String identifier : identifiers) {
                 questionStore.addConditionDependency(identifier, node.getCondition());
             }
+            dependingQuestions.addAll(identifiers);
         }
 
         for (Statement statement : node.getElseStatements()) {
-            String identifier = statement.accept(this);
-            if (identifier != null) {
+            List<String> identifiers = statement.accept(this);
+            for (String identifier : identifiers) {
                 questionStore.addConditionDependency(identifier, new Negation(node.getCondition(), node.getSourceLocation()));
             }
+            dependingQuestions.addAll(identifiers);
         }
-        return null;
+        return dependingQuestions;
     }
 
 }

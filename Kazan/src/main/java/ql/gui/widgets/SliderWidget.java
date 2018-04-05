@@ -3,7 +3,6 @@ package ql.gui.widgets;
 import ql.ast.statements.Question;
 import ql.environment.Environment;
 import ql.environment.values.DecimalValue;
-import ql.environment.values.IntegerValue;
 import ql.environment.values.Value;
 import ql.gui.WidgetListener;
 
@@ -19,13 +18,13 @@ public class SliderWidget extends BaseWidget {
 
         Value value = environment.getQuestionValue(question.getId());
         Number number = value != null ? (Number) value.getValue() : 0;
-        int CURRENT_VALUE = number.intValue();
-        int START = 0;
-        int END = CURRENT_VALUE + 10;
+        final int CURRENT_VALUE = number.intValue();
+        final int START = 0;
+        final int END = CURRENT_VALUE + 10;
 
         slider = new JSlider(START, END, CURRENT_VALUE);
-        slider.setMinorTickSpacing(5);
-        slider.setMajorTickSpacing(10);
+        slider.setMinorTickSpacing((END - START) / 10);
+        slider.setMajorTickSpacing((END - START) / 5);
         slider.setSnapToTicks(true);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
@@ -37,8 +36,14 @@ public class SliderWidget extends BaseWidget {
 
     @Override
     public void setValue() {
-        IntegerValue value = (IntegerValue) environment.getQuestionValue(question.getId());
-        slider.setValue(value.getValue());
+        Value value = environment.getQuestionValue(question.getId());
+        Number number = value != null ? (Number) value.getValue() : 0;
+        slider.setValue(number.intValue());
+    }
+
+    @Override
+    public Value getValue() {
+        return new DecimalValue(slider.getValue());
     }
 
     @Override
@@ -56,7 +61,7 @@ public class SliderWidget extends BaseWidget {
         slider.addChangeListener(e -> {
             //wait until user has released slider before updating
             if (!slider.getValueIsAdjusting() && isEditable) {
-                widgetListener.onInputValueUpdated(question, new DecimalValue(slider.getValue()));
+                widgetListener.onInputValueUpdated(question, getValue());
             }
         });
     }

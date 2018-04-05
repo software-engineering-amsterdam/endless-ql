@@ -3,11 +3,11 @@ package qls.visitors
 import grammar._
 
 import qls.models.ast._
-import ql.models.ast.{ Identifier, StringValue, ExpressionValue }
+import ql.models.ast.{ Identifier, StringValue, Expression }
 
 import scala.collection.JavaConversions._
 
-class ExpressionVisitor extends QLSBaseVisitor[ExpressionValue] {
+class ExpressionVisitor extends QLSBaseVisitor[Expression] {
 
   override def visitIdentifier(
       ctx: QLSParser.IdentifierContext): Identifier = {

@@ -43,9 +43,7 @@ object ValidatorHelper {
 
   def infereExpression(expression: Expression, ast: Root): Option[NodeType] = {
     expression match {
-      case IntegerValue(_) => Some(IntegerType)
-      case BooleanValue(_) => Some(BooleanType)
-      case StringValue(_) => Some(StringType)
+      case ev: ExpressionValue => Some(ev.hasNodeType)
       case bv @ Identifier(_) => TypeCollector.getTypeDecl(bv, ast)
       case bv: BinaryOperand => infereBinary(bv, ast)
       case bv: UnaryOperand => infereUnary(bv, ast)

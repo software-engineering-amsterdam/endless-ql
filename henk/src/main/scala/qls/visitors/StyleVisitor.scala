@@ -53,14 +53,6 @@ class StyleVisitor extends QLSBaseVisitor[Configuration] {
     ColorStyling(StringValue(ctx.hex_color.getText))
   }
 
-  def infereType(value: ExpressionValue): NodeType = {
-    value match {
-      case IntegerValue(_) => IntegerType
-      case StringValue(_)  => StringType
-      case BooleanValue(_) => BooleanType
-    }
-  }
-
   override def visitWidgetStyling(
       ctx: QLSParser.WidgetStylingContext): Configuration = {
     val widget = ctx.WIDGET_TYPE.getText match {
@@ -69,19 +61,19 @@ class StyleVisitor extends QLSBaseVisitor[Configuration] {
         val options = Option(ctx.optionValues)
           .map(optionVisitor.visit)
           .getOrElse(List(BooleanValue(false), BooleanValue(true)))
-        val returnType = options.headOption.map(infereType)
+        val returnType = options.headOption.map(_.hasNodeType)
         RadioWidget(returnType)
       }
       case "checkbox" => {
         val options =
           Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        val returnType = options.headOption.map(infereType)
+        val returnType = options.headOption.map(_.hasNodeType)
         CheckboxWidget(returnType, options)
       }
       case "slider" => {
         val options =
           Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
-        val returnType = options.headOption.map(infereType)
+        val returnType = options.headOption.map(_.hasNodeType)
         SliderWidget(returnType, options)
       }
       case "dropdown" => {

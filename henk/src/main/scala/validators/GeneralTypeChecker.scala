@@ -24,7 +24,7 @@ import scala.collection.JavaConversions._
 case class IncompatibleTypes(label: String) extends Exception(label)
 
 class GeneralTypeCheckerValidator extends BaseValidator {
-  def check(ql: QLRoot, qls: QLSStatement): Option[IncompatibleTypes] = {
+  def execute(ql: QLRoot, qls: QLSStatement): Unit = {
     val statements = FormCollector.getStatements(ql)
     val qql = statements.flatMap(StatementCollectorQL.getQuestions)
 
@@ -38,7 +38,7 @@ class GeneralTypeCheckerValidator extends BaseValidator {
           if (!widgetExpression.canHold(varDeclQL.typeDecl)) {
             val message =
               s"Widget '${widgetExpression}' cannot hold '${varDeclQL.typeDecl}'"
-            return Some(new IncompatibleTypes(message))
+            throw new IncompatibleTypes(message)
           }
         })
 
@@ -46,12 +46,11 @@ class GeneralTypeCheckerValidator extends BaseValidator {
           if (widgetType != varDeclQL.typeDecl) {
             val message =
               s"Type mismatch: QL has '${varDeclQL.typeDecl}' declared while QLS has '${widgetType}'"
-            return Some(new IncompatibleTypes(message))
+            throw new IncompatibleTypes(message)
           }
         })
       })
     })
-    None
   }
 
   def getWidgetStyling(style: Styling): Option[WidgetExpression] = {

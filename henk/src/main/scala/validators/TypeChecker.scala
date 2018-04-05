@@ -7,9 +7,7 @@ import general.validators._
 
 import scala.collection.JavaConversions._
 
-class GeneralTypeChecker() {
-
-  var error: Exception = null
+class GeneralTypeChecker {
 
   val validatorList: List[BaseValidator] = List(
     new GeneralIdentifierValidator(),
@@ -17,27 +15,11 @@ class GeneralTypeChecker() {
     new GeneralTypeCheckerValidator()
   )
 
-  def checkValidators(ql: QLRoot, qls: QLSStatement): Option[Exception] = {
-    validatorList.map(vc => {
-      vc.check(ql, qls) match {
-        case bv @ Some(ex: UndeclaredQuestionStyling) => {
-          error = ex
-          return bv
-        }
-        case bv @ Some(ex: IncompatibleTypes) => {
-          error = ex
-          return bv
-        }
-        case bv @ Some(ex: UnplacedQuestion) => {
-          error = ex
-          return bv
-        }
-      }
-    })
-    None
+  def runValidators(ql: QLRoot, qls: QLSStatement): Unit = {
+    validatorList.forEach(_.execute(ql, qls))
   }
 
-  def validate(ql: QLRoot, qls: QLSStatement): Boolean = {
-    checkValidators(ql, qls).map(_ => false) getOrElse(true)
+  def run(ql: QLRoot, qls: QLSStatement): Unit = {
+    runValidators(ql, qls)
   }
 }

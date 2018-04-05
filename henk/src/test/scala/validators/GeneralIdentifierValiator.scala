@@ -15,8 +15,7 @@ class GeneralIdentifierValidatorSpec extends FunSpec {
     val qls = QLSHelper.getRoot(getClass.getResource(s"${resourceDir}/simple.qls"))
 
     it("should return None") {
-      val result = validator.check(ql, qls)
-      assert(result == None)
+      noException should be thrownBy validator.execute(ql, qls)
     }
   }
 
@@ -26,10 +25,7 @@ class GeneralIdentifierValidatorSpec extends FunSpec {
     val qls = QLSHelper.getRoot(getClass.getResource(s"${resourceDir}/simple.qls"))
 
     it("should return option with exception") {
-      validator.check(ql, qls).get match {
-        case ex: UndeclaredQuestionStyling => succeed
-        case other => fail("should have thrown error")
-      }
+      a [UndeclaredQuestionStyling] should be thrownBy validator.execute(ql, qls)
     }
   }
 }

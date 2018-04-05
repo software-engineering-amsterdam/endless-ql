@@ -16,7 +16,7 @@ import scala.collection.JavaConversions._
 case class UndeclaredQuestionStyling(label: String) extends Exception(label)
 
 class GeneralIdentifierValidator extends BaseValidator {
-  def check(ql: QLRoot, qls: QLSStatement): Option[Exception] = {
+  def execute(ql: QLRoot, qls: QLSStatement): Unit = {
     val QLIdentifiers = getQLIdentifiers(ql)
     val QLSIdentifiers = getQLSIdentifier(qls)
 
@@ -24,9 +24,8 @@ class GeneralIdentifierValidator extends BaseValidator {
       .diff(QLIdentifiers)
       .map(undecl => {
         val message = s"Question '${undecl}' appears in QLS but not in QL"
-        return Some(new UndeclaredQuestionStyling(message))
+        throw new UndeclaredQuestionStyling(message)
       })
-    None
   }
 
   def getQLIdentifiers(ql: QLRoot): List[String] = {

@@ -15,7 +15,7 @@ class GeneralQuestionPlacementValidatorSpec extends FunSpec {
     val qls = QLSHelper.getRoot(getClass.getResource(s"${resourceDir}/simple.qls"))
 
     it("should return None") {
-      assert(validator.check(ql, qls).isEmpty)
+      noException should be thrownBy validator.execute(ql, qls)
     }
   }
 
@@ -25,7 +25,7 @@ class GeneralQuestionPlacementValidatorSpec extends FunSpec {
     val qls = QLSHelper.getRoot(getClass.getResource(s"${resourceDir}/deeply_nested.qls"))
 
     it("should return None") {
-      assert(validator.check(ql, qls).isEmpty)
+      noException should be thrownBy validator.execute(ql, qls)
     }
   }
 
@@ -33,14 +33,14 @@ class GeneralQuestionPlacementValidatorSpec extends FunSpec {
     val resourceDir = "general/validator/question_placement/invalid"
     val ql = QLHelper.getRoot(getClass.getResource(s"${resourceDir}/simple.ql"))
     val qls = QLSHelper.getRoot(getClass.getResource(s"${resourceDir}/simple.qls"))
-    val result = validator.check(ql, qls).get
 
     it("should return option with exception") {
-      result shouldBe a [UnplacedQuestion]
+      a [UnplacedQuestion] should be thrownBy validator.execute(ql, qls)
     }
 
     it("should contain question name in message") {
-      result.label should include("hasSoldSecondHouse")
+      val caught = the [UnplacedQuestion] thrownBy(validator.execute(ql, qls))
+      assert(caught.label.contains("hasSoldSecondHouse"))
     }
   }
 }

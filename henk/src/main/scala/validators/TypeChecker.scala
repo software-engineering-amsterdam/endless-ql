@@ -1,6 +1,6 @@
 package general.validators
 
-import ql.models.ast.{ Statement => QLStatement }
+import ql.models.ast.{ Root => QLRoot }
 import qls.models.ast.{ Statement => QLSStatement }
 
 import general.validators._
@@ -17,7 +17,7 @@ class GeneralTypeChecker() {
     new GeneralTypeCheckerValidator()
   )
 
-  def checkValidators(ql: QLStatement, qls: QLSStatement): Option[Exception] = {
+  def checkValidators(ql: QLRoot, qls: QLSStatement): Option[Exception] = {
     validatorList.map(vc => {
       vc.check(ql, qls) match {
         case bv @ Some(ex: UndeclaredQuestionStyling) => {
@@ -32,13 +32,12 @@ class GeneralTypeChecker() {
           error = ex
           return bv
         }
-        case other => other
       }
     })
     None
   }
 
-  def validate(ql: QLStatement, qls: QLSStatement): Boolean = {
+  def validate(ql: QLRoot, qls: QLSStatement): Boolean = {
     checkValidators(ql, qls).map(_ => false) getOrElse(true)
   }
 }

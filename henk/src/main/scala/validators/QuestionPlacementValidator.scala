@@ -1,11 +1,12 @@
 package general.validators
 
-import ql.models.ast.{Statement => QLStatement}
+import ql.models.ast.{Root => QLRoot}
 import qls.models.ast.{Statement => QLSStatement}
 
 import ql.collectors.{
   StatementCollector => StatementCollectorQL,
-  ExpressionCollector
+  ExpressionCollector,
+  FormCollector
 }
 
 import qls.collectors.{ElementCollector => ElementCollectorQLS}
@@ -15,7 +16,7 @@ import scala.collection.JavaConversions._
 case class UnplacedQuestion(label: String) extends Exception(label)
 
 class GeneralQuestionPlacementValidator extends BaseValidator {
-  def check(ql: QLStatement, qls: QLSStatement): Option[UnplacedQuestion] = {
+  def check(ql: QLRoot, qls: QLSStatement): Option[UnplacedQuestion] = {
     val QLIdentifiers = getQLIdentifiers(ql)
     val QLSIdentifiers = getQLSIdentifier(qls)
 
@@ -28,8 +29,9 @@ class GeneralQuestionPlacementValidator extends BaseValidator {
     None
   }
 
-  def getQLIdentifiers(ql: QLStatement): List[String] = {
-    val questions = StatementCollectorQL.getQuestions(ql)
+  def getQLIdentifiers(ql: QLRoot): List[String] = {
+    val questions = FormCollector.getStatements(ql).flatMap(StatementCollectorQL.getQuestions)
+    // val questions = StatementCollectorQL.getQuestions(ql)
     val vardecls = questions.flatMap(ExpressionCollector.getIdentifiers)
     vardecls.map(_.id)
   }

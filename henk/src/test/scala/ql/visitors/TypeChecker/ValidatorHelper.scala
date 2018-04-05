@@ -13,7 +13,7 @@ import org.antlr.v4.runtime.tree._
 
 class ValidatorHelperSpec extends FunSpec with BeforeAndAfter {
   val validator = ValidatorHelper
-  val stubbed_ast = Root(FormHeader(Identifier("stub")), FormBody(List()))
+  val stubbed_ast = Root(Header(Identifier("stub")), Body(List()))
 
   describe("matching return type") {
     describe("Logical operands") {

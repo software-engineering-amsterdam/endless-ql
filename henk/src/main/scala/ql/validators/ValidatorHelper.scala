@@ -24,7 +24,7 @@ object ValidatorHelper {
     }
   }
   
-  def infereBinary(expression: BinaryOperand, ast: Statement): Option[NodeType] = {
+  def infereBinary(expression: BinaryOperand, ast: Root): Option[NodeType] = {
     val typeLeft = infereExpression(expression.lhs, ast)
     val typeRight = infereExpression(expression.rhs, ast)
 
@@ -36,12 +36,12 @@ object ValidatorHelper {
     }
   }
 
-  def infereUnary(unaryOperand: UnaryOperand, ast: Statement): Option[NodeType] = {
+  def infereUnary(unaryOperand: UnaryOperand, ast: Root): Option[NodeType] = {
     val expressionType = infereExpression(unaryOperand.expr, ast)
     expressionType.flatMap(expr => matchExpressionType(unaryOperand, expr))
   }
 
-  def infereExpression(expression: Expression, ast: Statement): Option[NodeType] = {
+  def infereExpression(expression: Expression, ast: Root): Option[NodeType] = {
     expression match {
       case IntegerValue(_) => Some(IntegerType)
       case BooleanValue(_) => Some(BooleanType)
@@ -52,7 +52,7 @@ object ValidatorHelper {
     }
   }
 
-  def isBooleanType(expression: Expression, ast: Statement): Boolean = {
+  def isBooleanType(expression: Expression, ast: Root): Boolean = {
     val inferedType = infereExpression(expression, ast)
     inferedType.isDefined && inferedType.get == BooleanType
   }

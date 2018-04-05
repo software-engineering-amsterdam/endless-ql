@@ -2,15 +2,15 @@ package ql.validators
 
 import ql.models.ast._
 abstract class Validator {
-  def execute(ast: Statement): Any
+  def execute(ast: Root): Any
 }
 
 trait BaseValidator extends Validator {
-  def execute(ast: Statement): Unit
+  def execute(ast: Root): Unit
 }
 
 trait WarningValidator extends Validator {
-  def execute(ast: Statement): Boolean
+  def execute(ast: Root): Boolean
 
   def getWarnings(): Option[List[String]]
 }

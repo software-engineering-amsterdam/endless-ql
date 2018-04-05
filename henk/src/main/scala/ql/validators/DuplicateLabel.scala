@@ -11,8 +11,10 @@ case class DuplicateLabelDeclaration(label: String) extends Exception(label)
 class DuplicateLabelValidator extends WarningValidator {
   var warnings: Option[List[String]] = None
 
-  def execute(ast: Statement): Boolean = {
-    val labels = StatementCollector.getQuestions(ast).map(_.label)
+  def execute(ast: Root): Boolean = {
+    val statements = FormCollector.getStatements(ast)
+    val labels = statements.flatMap(StatementCollector.getQuestions(_))
+      .map(_.label)
     
     warnings = getDuplicateLabels(labels)
       .map(toPrettyLabels)

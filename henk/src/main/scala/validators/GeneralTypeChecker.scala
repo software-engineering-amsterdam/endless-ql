@@ -1,6 +1,6 @@
 package general.validators
 
-import ql.models.ast.{Statement => QLStatement, NodeType}
+import ql.models.ast.{Root => QLRoot, NodeType}
 import qls.models.ast.{
   Statement => QLSStatement,
   Identifier,
@@ -11,7 +11,8 @@ import qls.models.ast.{
 import ql.collectors.{
   StatementCollector => StatementCollectorQL,
   ExpressionCollector,
-  TypeCollector
+  TypeCollector,
+  FormCollector
 }
 
 import qls.collectors.{
@@ -24,8 +25,9 @@ import scala.collection.JavaConversions._
 case class IncompatibleTypes(label: String) extends Exception(label)
 
 class GeneralTypeCheckerValidator extends BaseValidator {
-  def check(ql: QLStatement, qls: QLSStatement): Option[IncompatibleTypes] = {
-    val qql = StatementCollectorQL.getQuestions(ql)
+  def check(ql: QLRoot, qls: QLSStatement): Option[IncompatibleTypes] = {
+    val statements = FormCollector.getStatements(ql)
+    val qql = statements.flatMap(StatementCollectorQL.getQuestions)
 
     qql.map(question => {
       val varDeclQL = question.varDecl

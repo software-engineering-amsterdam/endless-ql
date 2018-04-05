@@ -1,10 +1,10 @@
 package general.validators
 
-import ql.models.ast.{ Statement => QLStatement }
+import ql.models.ast.{ Root => QLRoot }
 import qls.models.ast.{ Statement => QLSStatement }
 
 trait BaseValidator {
-  def check(ql: QLStatement, qls: QLSStatement): Option[Exception]
+  def check(ql: QLRoot, qls: QLSStatement): Option[Exception]
 
   def getError(): Option[Exception] = {
     None

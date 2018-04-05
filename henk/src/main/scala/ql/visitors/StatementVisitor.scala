@@ -10,23 +10,6 @@ class StatementVisitor extends QLBaseVisitor[Statement] {
   val expressionVisitor = new ExpressionVisitor()
   val typeVisitor = new TypeVisitor()
 
-  override def visitRoot(ctx: QLParser.RootContext): Statement = {
-    val body = visit(ctx.formBody)
-    val header = visit(ctx.formHeader)
-    Root(header, body)
-  }
-
-  override def visitFormHeader(
-      ctx: QLParser.FormHeaderContext): Statement = {
-    FormHeader(expressionVisitor.visit(ctx.identifier))
-  }
-
-
-  override def visitFormBody(ctx: QLParser.FormBodyContext): Statement = {
-    val statements = ctx.stmt.map(visit).toList
-    FormBody(statements)
-  }
-
   override def visitQuestion(ctx: QLParser.QuestionContext): Statement = {
     val varDecl = visitVarDecl(ctx.varDecl)
     Question(varDecl, ctx.label.getText.replace("\"", ""))
@@ -45,18 +28,18 @@ class StatementVisitor extends QLBaseVisitor[Statement] {
   }
 
   override def visitConditional(ctx: QLParser.ConditionalContext): Statement = {
-    val ifStmt = visit(ctx.ifStmt)
+    val ifStmt = visitIfStmt(ctx.ifStmt)
     val elseStmt = Option(ctx.elseStmt).map(visitElseStmt)
     ConditionalStatement(ifStmt, elseStmt)
   }
 
-  override def visitIfStmt(ctx: QLParser.IfStmtContext): Statement = {
+  override def visitIfStmt(ctx: QLParser.IfStmtContext): IfStatement = {
     val statements = ctx.stmt.map(visit).toList
     val predicate = expressionVisitor.visit(ctx.expr)
     IfStatement(predicate, statements)
   }
 
-  override def visitElseStmt(ctx: QLParser.ElseStmtContext): Statement = {
+  override def visitElseStmt(ctx: QLParser.ElseStmtContext): ElseStatement = {
     val statements = ctx.stmt.map(visit).toList
     ElseStatement(statements)
   }

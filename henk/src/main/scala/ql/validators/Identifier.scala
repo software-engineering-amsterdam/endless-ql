@@ -8,16 +8,27 @@ import scala.collection.JavaConversions._
 case class IdentifierNotDeclared(label: String) extends Exception(label)
 
 class IdentifierValidator extends BaseValidator {
-  def execute(ast: Statement): Unit = {
-    val declaredIdentifiers = StatementCollector
-      .getVarDecls(ast)
-      .flatMap(ExpressionCollector.getIdentifiers)
+  def execute(ast: Root): Unit = {
+    val declaredIdentifiers = getDeclaredIdentifiers(ast)
+    val foundIdentifiers = getIdentifiers(ast)
 
-    val foundIdentifiers = ExpressionCollector.getIdentifiers(ast)
-
-    foundIdentifiers.distinct.diff(declaredIdentifiers)
+    foundIdentifiers.distinct
+      .diff(declaredIdentifiers)
       .map(undeclaredIdentifier => {
         throw new IdentifierNotDeclared(undeclaredIdentifier.id)
       })
+  }
+
+  def getDeclaredIdentifiers(ast: Root): List[Identifier] = {
+    FormCollector
+      .getStatements(ast)
+      .flatMap(StatementCollector.getVarDecls)
+      .flatMap(ExpressionCollector.getIdentifiers)
+  }
+
+  def getIdentifiers(ast: Root): List[Identifier] = {
+    FormCollector
+      .getStatements(ast)
+      .flatMap(ExpressionCollector.getIdentifiers)
   }
 }

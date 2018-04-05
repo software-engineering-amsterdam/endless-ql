@@ -24,7 +24,7 @@ class TypeChecker {
     new DuplicateLabelValidator()
   )
 
-  def runValidators(ast: Statement): Unit = {
+  def runValidators(ast: Root): Unit = {
     criticalValidators.forEach(_.execute(ast))
     nonCriticalValidators.find(!_.execute(ast))
       .map(failedValidator => {
@@ -32,7 +32,7 @@ class TypeChecker {
     })
   }
 
-  def run(ast: Statement): Unit = {
+  def run(ast: Root): Unit = {
     runValidators(ast)
   }
 }

@@ -29,4 +29,17 @@ object QLSParser {
 
     return visitor.visit(tree)
   }
+
+  def getRoot(location: URL): Root = {
+    val source = Source.fromURL(location)
+    val sourcedLines = source.mkString
+    source.close
+
+    val visitor = new StatementVisitor()
+    val parser = getParser(sourcedLines)
+    val tree = parser.root()
+
+    return visitor.visitRoot(tree)
+  }
+
 }

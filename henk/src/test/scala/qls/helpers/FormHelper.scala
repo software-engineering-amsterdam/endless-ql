@@ -10,8 +10,8 @@ import java.net.URL
 object FormHelper {
   val parser = QLSParser
 
-  def getRoot(location: URL): Statement = {
-    parser.getForm(location)
+  def getRoot(location: URL): Root = {
+    parser.getRoot(location)
   }
 
   def getPages(location: URL): List[Page] = {

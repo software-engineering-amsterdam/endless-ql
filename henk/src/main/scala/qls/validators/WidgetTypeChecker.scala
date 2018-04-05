@@ -8,26 +8,24 @@ import scala.collection.JavaConversions._
 
 case class IncompatibleWidgetType(label: String) extends Exception(label)
 
-object WidgetTypeCheckerValidator {
-  def check(qls: Statement): Option[Exception] = {
-    val defaultDecls = ElementCollector.getDefaultDecls(qls)
+class WidgetTypeCheckerValidator extends QLSValidator {
+  def execute(qls: Root): Unit = {
+    ElementCollector.getDefaultDecls(qls)
+      .map(decl => {
+        getWidgetStyling(decl.styling).map(widgetExpression => {
+          if(!widgetExpression.canHold(decl.nodeType)) {
+            val message = s"Widget '${widgetExpression}' cannot hold '${decl.nodeType}'"
+            throw new IncompatibleWidgetType(message)
+          }
+        })
 
-    defaultDecls.map(decl => {
-      getWidgetStyling(decl.styling).map(widgetExpression => {
-        if(!widgetExpression.canHold(decl.nodeType)) {
-          val message = s"Widget '${widgetExpression}' cannot hold '${decl.nodeType}'"
-          return Some(new IncompatibleWidgetType(message))
-        }
+        getWidgetType(decl.styling).map(widgetType => {
+          if(widgetType != decl.nodeType) {
+            val message = s"Type of defaultdecl '${decl.nodeType}' and widget type are not compatible"
+            throw new IncompatibleWidgetType(message)
+          }
+        })
       })
-
-      getWidgetType(decl.styling).map(widgetType => {
-        if(widgetType != decl.nodeType) {
-          val message = s"Type of defaultdecl '${decl.nodeType}' and widget type are not compatible"
-          return Some(new IncompatibleWidgetType(message))
-        }
-      })
-    })
-    None
   }
 
   def getWidgetStyling(style: Styling): Option[WidgetExpression] = {

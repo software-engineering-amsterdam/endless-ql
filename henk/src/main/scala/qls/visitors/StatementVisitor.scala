@@ -10,7 +10,7 @@ class StatementVisitor extends QLSBaseVisitor[Statement] {
   val expressionVisitor = new ExpressionVisitor()
   val elementVisitor = new ElementVisitor()
 
-  override def visitRoot(ctx: QLSParser.RootContext): Statement = {
+  override def visitRoot(ctx: QLSParser.RootContext): Root = {
     val body = visitRootBody(ctx.rootBody)
     val header = visitRootHeader(ctx.rootHeader)
     Root(header, body)

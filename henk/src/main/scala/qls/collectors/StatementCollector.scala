@@ -5,6 +5,10 @@ import qls.models.ast._
 import scala.collection.JavaConversions._
 
 object StatementCollector {
+  def getDisplayItems(node: Statement): List[DisplayItem] = {
+    flattenStatements(node).collect { case p: Page => p.content }.flatten
+  }
+
   def getPages(node: Statement): List[Page] = {
     flattenStatements(node).collect { case p: Page => p }
   }

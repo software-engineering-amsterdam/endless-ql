@@ -6,9 +6,7 @@ import scala.collection.JavaConversions._
 
 object ElementCollector {
   def getElements(node: Statement): List[DisplayItem] = {
-    StatementCollector.getPages(node)
-      .flatMap(_.content)
-      .flatMap(flattenElements)
+    StatementCollector.getDisplayItems(node).flatMap(flattenElements)
   }
 
   def getSections(node: Statement): List[Section] = {

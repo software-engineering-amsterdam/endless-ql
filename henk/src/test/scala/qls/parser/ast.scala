@@ -1,4 +1,13 @@
-import ql.models.ast.{ BooleanType, StringType, IntegerType }
+import ql.models.ast.{
+  BooleanType,
+  StringType,
+  IntegerType,
+  IntegerValue,
+  StringValue,
+  BooleanValue,
+  Identifier
+}
+
 import qls.models.ast._
 import qls.spec.helpers._
 
@@ -49,7 +58,8 @@ class QLSASTParserSpec extends FunSpec {
       }
 
       it("should contain colorStyling") {
-        styling.configuration should contain(ColorStyling(StringValue("#999999")))
+        styling.configuration should contain(
+          ColorStyling(StringValue("#999999")))
       }
 
       it("should contain WidgetStyling") {
@@ -63,7 +73,8 @@ class QLSASTParserSpec extends FunSpec {
 
     describe("should contain a question with inline styling") {
       val formLoc = getClass.getResource("qls/parser/advanced_styling.qls")
-      val question = FormHelper.getQuestion(formLoc, Identifier("hasBoughtHouse"))
+      val question =
+        FormHelper.getQuestion(formLoc, Identifier("hasBoughtHouse"))
       val styling = question.flatMap(x => x.styling).getOrElse(Styling(List()))
 
       it("getQuestion should have returned something") {
@@ -71,7 +82,8 @@ class QLSASTParserSpec extends FunSpec {
       }
 
       it("should contain widthStyling") {
-        styling.configuration should contain(WidgetStyling(CheckboxWidget(None, List())))
+        styling.configuration should contain(
+          WidgetStyling(CheckboxWidget(None, List())))
       }
     }
 
@@ -81,13 +93,15 @@ class QLSASTParserSpec extends FunSpec {
       val styling = question.flatMap(x => x.styling).getOrElse(Styling(List()))
 
       it("getQuestion should have returned something") {
-        question.flatMap(x => Some(succeed)).getOrElse(fail("no question found"))
+        question
+          .flatMap(x => Some(succeed))
+          .getOrElse(fail("no question found"))
       }
 
       it("should contain widthStyling") {
-        val expected = WidgetStyling(CheckboxWidget(Some(StringType),
-          List(StringValue("first"), StringValue("second"))
-        ))
+        val expected = WidgetStyling(
+          CheckboxWidget(Some(StringType),
+                         List(StringValue("first"), StringValue("second"))))
         styling.configuration should contain(expected)
       }
     }
@@ -100,10 +114,10 @@ class QLSASTParserSpec extends FunSpec {
     it("should contain radio widget") {
       val expected = DefaultDecl(
         BooleanType,
-          Styling(
-            List(
-              WidgetStyling(
-                RadioWidget(Some(BooleanType))
+        Styling(
+          List(
+            WidgetStyling(
+              RadioWidget(Some(BooleanType))
             )
           )
         )
@@ -114,10 +128,10 @@ class QLSASTParserSpec extends FunSpec {
     it("should contain dropdown widget") {
       val expected = DefaultDecl(
         BooleanType,
-          Styling(
-            List(
-              WidgetStyling(
-                DropdownWidget(Some(BooleanType))
+        Styling(
+          List(
+            WidgetStyling(
+              DropdownWidget(Some(BooleanType))
             )
           )
         )
@@ -128,11 +142,11 @@ class QLSASTParserSpec extends FunSpec {
     it("should contain slider widget") {
       val expected = DefaultDecl(
         IntegerType,
-          Styling(
-            List(
-              WidgetStyling(
-                SliderWidget(Some(IntegerType), List(IntegerValue(1), IntegerValue(2))
-              )
+        Styling(
+          List(
+            WidgetStyling(
+              SliderWidget(Some(IntegerType),
+                           List(IntegerValue(1), IntegerValue(2)))
             )
           )
         )
@@ -156,7 +170,8 @@ class QLSASTParserSpec extends FunSpec {
   }
 
   describe("should contain a defaultdecl with advanced styling") {
-    val formLoc = getClass.getResource("qls/parser/default_advanced_styling.qls")
+    val formLoc =
+      getClass.getResource("qls/parser/default_advanced_styling.qls")
     val defaultDecl = FormHelper.getDefaultDecls(formLoc).head
     val styling = defaultDecl.styling
 
@@ -181,7 +196,8 @@ class QLSASTParserSpec extends FunSpec {
     }
 
     it("should contain WidgetStyling") {
-      styling.configuration should contain(WidgetStyling(SpinboxWidget(Some(IntegerType))))
+      styling.configuration should contain(
+        WidgetStyling(SpinboxWidget(Some(IntegerType))))
     }
   }
 }

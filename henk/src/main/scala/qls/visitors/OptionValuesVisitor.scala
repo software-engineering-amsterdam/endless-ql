@@ -3,6 +3,7 @@ package qls.visitors
 import grammar._
 
 import qls.models.ast._
+import ql.models.ast.{ ExpressionValue, StringValue, BooleanValue, IntegerValue }
 
 import scala.collection.JavaConversions._
 

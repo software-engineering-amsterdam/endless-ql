@@ -2,12 +2,22 @@ package qls.visitors
 
 import grammar._
 
-import ql.models.ast.{ BooleanType, StringType, IntegerType, NodeType}
+import ql.models.ast.{
+  BooleanType,
+  StringType,
+  IntegerType,
+  NodeType,
+  IntegerValue,
+  StringValue,
+  BooleanValue,
+  ExpressionValue
+}
+
 import qls.models.ast._
 
 import scala.collection.JavaConversions._
 
-class StyleVisitor extends QLSBaseVisitor[StylingConfiguration] {
+class StyleVisitor extends QLSBaseVisitor[Configuration] {
 
   val expressionVisitor = new ExpressionVisitor()
   val optionVisitor = new OptionValuesVisitor()
@@ -46,27 +56,31 @@ class StyleVisitor extends QLSBaseVisitor[StylingConfiguration] {
   def infereType(value: ExpressionValue): NodeType = {
     value match {
       case IntegerValue(_) => IntegerType
-      case StringValue(_) => StringType
+      case StringValue(_)  => StringType
       case BooleanValue(_) => BooleanType
     }
   }
 
   override def visitWidgetStyling(
-      ctx: QLSParser.WidgetStylingContext): StylingConfiguration = {
+      ctx: QLSParser.WidgetStylingContext): Configuration = {
     val widget = ctx.WIDGET_TYPE.getText match {
       case "spinbox" => SpinboxWidget(Some(IntegerType))
       case "radio" => {
-        val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List(BooleanValue(false), BooleanValue(true)))
+        val options = Option(ctx.optionValues)
+          .map(optionVisitor.visit)
+          .getOrElse(List(BooleanValue(false), BooleanValue(true)))
         val returnType = options.headOption.map(infereType)
         RadioWidget(returnType)
       }
       case "checkbox" => {
-        val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
+        val options =
+          Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
         val returnType = options.headOption.map(infereType)
         CheckboxWidget(returnType, options)
       }
       case "slider" => {
-        val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
+        val options =
+          Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
         val returnType = options.headOption.map(infereType)
         SliderWidget(returnType, options)
       }

@@ -1,6 +1,7 @@
 package qls.collectors
 
 import qls.models.ast._
+import ql.models.ast.{ Identifier }
 
 import scala.collection.JavaConversions._
 

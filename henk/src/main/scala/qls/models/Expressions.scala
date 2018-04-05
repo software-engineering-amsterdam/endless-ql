@@ -1,22 +1,22 @@
 package qls.models.ast
 
-import ql.models.ast.{ NodeType, IntegerType, StringType, BooleanType }
+import ql.models.ast.{ NodeType, IntegerType, StringType, BooleanType, ExpressionValue }
 
 trait Expression
 
-sealed trait ExpressionValue extends Expression
-case class IntegerValue(value: Int) extends ExpressionValue
-case class BooleanValue(value: Boolean) extends ExpressionValue
-case class StringValue(value: String) extends ExpressionValue
+// sealed trait ExpressionValue extends Expression
+// case class IntegerValue(value: Int) extends ExpressionValue
+// case class BooleanValue(value: Boolean) extends ExpressionValue
+// case class StringValue(value: String) extends ExpressionValue
 
-case class Identifier(id: String) extends Expression
+// case class Identifier(id: String) extends Expression
 
 sealed trait WidgetExpression extends Expression {
   def widgetType: Option[NodeType]
   def canHold(nodeType: NodeType): Boolean
 }
 
-case class SliderWidget(widgetType: Option[NodeType], values: List[Expression])
+case class SliderWidget(widgetType: Option[NodeType], values: List[ExpressionValue])
     extends WidgetExpression {
   override def toString = "SliderWidget"
   def canHold(nodeType: NodeType): Boolean = {

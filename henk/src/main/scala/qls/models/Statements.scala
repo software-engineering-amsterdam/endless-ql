@@ -1,5 +1,7 @@
 package qls.models.ast
 
+import ql.models.ast.{ Identifier }
+
 sealed trait Statement
 
 case class Root(header: RootHeader, body: RootBody) extends Statement

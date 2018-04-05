@@ -1,5 +1,7 @@
 package qls.spec.helpers
 
+import ql.models.ast.{ Identifier }
+
 import qls.models.ast._
 import qls.parsers._
 import qls.collectors._

@@ -1,9 +1,8 @@
 package general.validators
 
-import ql.models.ast.{Root => QLRoot, NodeType}
+import ql.models.ast.{Root => QLRoot, NodeType, Identifier }
 import qls.models.ast.{
   Statement => QLSStatement,
-  Identifier,
   Styling,
   WidgetExpression
 }
@@ -32,7 +31,7 @@ class GeneralTypeCheckerValidator extends BaseValidator {
     qql.map(question => {
       val varDeclQL = question.varDecl
       val questionQLS =
-        ElementCollectorQLS.getQuestion(qls, Identifier(varDeclQL.id.id)).get
+        ElementCollectorQLS.getQuestion(qls, varDeclQL.id).get
 
       questionQLS.styling.map(x => {
         getWidgetStyling(x).map(widgetExpression => {

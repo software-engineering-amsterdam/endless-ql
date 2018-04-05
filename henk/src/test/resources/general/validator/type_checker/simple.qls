@@ -1,0 +1,14 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    question hasSoldHouse  
+    {
+      width: 400
+        font: "Arial" 
+        fontsize: 14
+        color: #999999
+        widget radio("Yes", "No")
+    }
+  }
+}

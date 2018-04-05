@@ -1,0 +1,10 @@
+stylesheet taxOfficeExample
+{
+  page Housing
+  {
+    default boolean widget radio("Yes", "No")
+    default boolean widget dropdown
+    default integer widget slider(1,2)
+    default string widget text
+  }
+}

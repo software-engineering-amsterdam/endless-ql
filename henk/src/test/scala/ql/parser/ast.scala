@@ -10,7 +10,7 @@ class QLASTParserSpec extends FunSpec {
       val questions =
         FormHelper.getQuestions(getClass.getResource("ql/simple.ql"))
       val expected =
-        Question(VarDecl(BooleanType(), Identifier("hasSoldHouse")),
+        Question(VarDecl(BooleanType, Identifier("hasSoldHouse")),
                  "Did you sell a house in 2010?")
 
       questions should contain(expected)
@@ -20,9 +20,9 @@ class QLASTParserSpec extends FunSpec {
   it("should contain two questions") {
     val questions = FormHelper.getQuestions(
       getClass.getResource("ql/two_statements_simple.ql"))
-    val q1 = Question(VarDecl(BooleanType(), Identifier("hasSoldHouse")),
+    val q1 = Question(VarDecl(BooleanType, Identifier("hasSoldHouse")),
                       "Did you sell a house in 2010?")
-    val q2 = Question(VarDecl(BooleanType(), Identifier("hasSoldHouse")),
+    val q2 = Question(VarDecl(BooleanType, Identifier("hasSoldHouse")),
                       "Did you sell a house in 2011?")
 
     questions should contain(q1)
@@ -35,12 +35,12 @@ class QLASTParserSpec extends FunSpec {
     val expected = IfStatement(
       Identifier("hasSoldHouse"),
       List(
-        Question(VarDecl(MoneyType(), Identifier("sellingPrice")),
+        Question(VarDecl(MoneyType, Identifier("sellingPrice")),
                  "What was the selling price?"),
-        Question(VarDecl(MoneyType(), Identifier("privateDebt")),
+        Question(VarDecl(MoneyType, Identifier("privateDebt")),
                  "Private debts for the sold house:"),
         Computation(
-          VarDecl(MoneyType(), Identifier("valueResidue")),
+          VarDecl(MoneyType, Identifier("valueResidue")),
           ValAssign(
             MinOp(
               Identifier("sellingPrice"),
@@ -60,10 +60,32 @@ class QLASTParserSpec extends FunSpec {
     val expected = IfStatement(
       Identifier("hasSoldHouse"),
       List(
-        Question(VarDecl(MoneyType(), Identifier("sellingPrice")),
+        Question(VarDecl(MoneyType, Identifier("sellingPrice")),
                  "What was the selling price?")
       )
     )
     ifStmt should contain(expected)
+  }
+
+  it("should contain an else block") {
+    val elseStmt = FormHelper.getElseStatements(
+      getClass.getResource("ql/else.ql"))
+
+    val expected = ElseStatement(
+      List(
+        Question(VarDecl(BooleanType, Identifier("soldThirdHouse")),
+                 "Did you sell a house in 2010?")
+      )
+    )
+    elseStmt should contain(expected)
+  }
+
+  it("statements in else block should also be expanded") {
+    val questions = FormHelper.getQuestions(
+      getClass.getResource("ql/else.ql"))
+
+    val expected = Question(VarDecl(BooleanType, Identifier("soldThirdHouse")),
+                 "Did you sell a house in 2010?")
+    questions should contain(expected)
   }
 }

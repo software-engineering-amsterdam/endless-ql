@@ -55,7 +55,7 @@ class ExpressionVisitor extends QLBaseVisitor[Expression] {
   }
 
   override def visitIdentifier(
-      ctx: QLParser.IdentifierContext): Expression = {
+      ctx: QLParser.IdentifierContext): Identifier = {
     Identifier(ctx.getText)
   }
 

@@ -36,8 +36,18 @@ case class DivOp(rhs: Expression, lhs: Expression) extends ArithmeticOperand
 case class UnaryNotOp(expr: Expression) extends UnaryOperand
 case class UnaryMinOp(expr: Expression) extends UnaryOperand
 
-case class IntegerValue(value: Int) extends Expression
-case class BooleanValue(value: Boolean) extends Expression
-case class StringValue(value: String) extends Expression
-
 case class Identifier(id: String) extends Expression
+
+sealed trait ExpressionValue extends Expression {
+  def hasNodeType: NodeType
+}
+case class IntegerValue(value: Int) extends ExpressionValue {
+  def hasNodeType = IntegerType
+}
+
+case class BooleanValue(value: Boolean) extends ExpressionValue {
+  def hasNodeType = BooleanType
+}
+case class StringValue(value: String) extends ExpressionValue {
+  def hasNodeType = StringType
+}

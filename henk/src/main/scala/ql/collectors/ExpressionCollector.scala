@@ -4,16 +4,8 @@ import ql.models.ast._
 import ql.parsers._
 
 object ExpressionCollector {
-  def getExpressions(node: Statement): List[Expression] = {
-    StatementCollector.flattenStatements(node).collect {
-      case ifStmt: IfStatement => ifStmt.expression
-      case assign: ValAssign => assign.expression
-      case decl: VarDecl => decl.id
-    }
-  }
-
   def getIdentifiers(statement: Statement): List[Identifier] = {
-    getExpressions(statement).collect {
+    StatementCollector.getExpressions(statement).collect {
       case id: Identifier => id
     }
   }

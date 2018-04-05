@@ -2,17 +2,10 @@ import ql.models.ast._
 import ql.validators._
 import ql.spec.helpers._
 
-import scala.io.Source
-import scala.util.{Try, Success, Failure}
-
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
-import org.scalatest.BeforeAndAfter
 
-import org.antlr.v4.runtime._
-import org.antlr.v4.runtime.tree._
-
-class DuplicateLabelSpec extends FunSpec with BeforeAndAfter {
+class DuplicateLabelSpec extends FunSpec {
   val resourceDir = "ql/typechecking/duplicate_label"
   val validator = new DuplicateLabelValidator()
 
@@ -20,12 +13,8 @@ class DuplicateLabelSpec extends FunSpec with BeforeAndAfter {
     val filename = s"${resourceDir}/simple.ql"
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
-    it("check should not return an option exception") {
-      validator.check(form) match {
-        case None => succeed
-        case Some(DuplicateLabelDeclaration(e)) => fail(e)
-        case other => fail("ConditionalValidator should not have thrown an error")
-      }
+    it("execute should return true") {
+      assert(validator.execute(form))
     }
   }
 
@@ -34,17 +23,12 @@ class DuplicateLabelSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("execute should return an option exception") {
-      validator.check(form) match {
-        case None => fail()
-        case Some(DuplicateLabelDeclaration(e)) => succeed
-        case other => fail("wrong error thrown")
-      }
+      assert(!validator.execute(form))
     }
 
     it("getWarnings should return list containing one label") {
       validator.getWarnings match {
         case Some(list: List[String]) => {
-          println(list)
           if(list.size == 1) {
             succeed
           } else {
@@ -60,12 +44,8 @@ class DuplicateLabelSpec extends FunSpec with BeforeAndAfter {
     val filename = s"${resourceDir}/double_duplicate_label.ql"
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
-    it("check should return an option exception") {
-      validator.check(form) match {
-        case None => fail()
-        case Some(DuplicateLabelDeclaration(e)) => succeed
-        case other => fail("wrong error thrown")
-      }
+    it("execute should return an option exception") {
+      assert(!validator.execute(form))
     }
 
     it("getWarnings should return list containing two similiar labels") {
@@ -87,17 +67,12 @@ class DuplicateLabelSpec extends FunSpec with BeforeAndAfter {
     val form = FormHelper.getRoot(getClass.getResource(filename))
 
     it("check should return an option exception") {
-      validator.check(form) match {
-        case None => fail()
-        case Some(DuplicateLabelDeclaration(e)) => succeed
-        case other => fail("wrong error thrown")
-      }
+      assert(!validator.execute(form))
     }
 
     it("getWarnings should return list containing two different labels") {
       validator.getWarnings match {
         case Some(list: List[String]) => {
-          println(list)
           if(list.size == 2 && list.distinct.size == 2) {
             succeed
           } else {

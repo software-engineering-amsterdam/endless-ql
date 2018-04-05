@@ -17,27 +17,27 @@ object FormHelper {
   }
 
   def getPages(location: URL): List[Page] = {
-    val form = parser.getForm(location)
+    val form = parser.getRoot(location)
     StatementCollector.getPages(form) 
   }
 
   def getSections(location: URL): List[Section] = {
-    val form = parser.getForm(location)
+    val form = parser.getRoot(location)
     ElementCollector.getSections(form) 
   }
 
   def getDefaultDecls(location: URL): List[DefaultDecl] = {
-    val form = parser.getForm(location)
+    val form = parser.getRoot(location)
     ElementCollector.getDefaultDecls(form) 
   }
 
   def getQuestion(location: URL, identifier: Identifier): Option[Question] = {
-    val form = parser.getForm(location)
+    val form = parser.getRoot(location)
     ElementCollector.getQuestion(form, identifier) 
   }
 
   def getQuestions(location: URL): List[Question] = {
-    val form = parser.getForm(location)
+    val form = parser.getRoot(location)
     ElementCollector.getQuestions(form) 
   }
 }

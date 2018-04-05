@@ -33,7 +33,6 @@ class QLSASTParserSpec extends FunSpec {
       val styling = question.flatMap(x => x.styling).getOrElse(Styling(List()))
 
       it("getQuestion should have returned something") {
-        // question.flatMap(x => Some(succeed)).getOrElse(fail("no question found"))
         assert(!question.isEmpty)
       }
 
@@ -104,7 +103,7 @@ class QLSASTParserSpec extends FunSpec {
           Styling(
             List(
               WidgetStyling(
-                RadioWidget(Some(BooleanType), List(PolarValue("Yes"), PolarValue("No")))
+                RadioWidget(Some(BooleanType))
             )
           )
         )
@@ -118,7 +117,7 @@ class QLSASTParserSpec extends FunSpec {
           Styling(
             List(
               WidgetStyling(
-                DropdownWidget(Some(BooleanType), List(BooleanValue(true), BooleanValue(false)))
+                DropdownWidget(Some(BooleanType))
             )
           )
         )

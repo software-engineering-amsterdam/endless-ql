@@ -8,7 +8,6 @@ sealed trait ExpressionValue extends Expression
 case class IntegerValue(value: Int) extends ExpressionValue
 case class BooleanValue(value: Boolean) extends ExpressionValue
 case class StringValue(value: String) extends ExpressionValue
-case class PolarValue(value: String) extends ExpressionValue
 
 case class Identifier(id: String) extends Expression
 
@@ -23,7 +22,7 @@ case class SliderWidget(widgetType: Option[NodeType], values: List[Expression])
   def canHold(nodeType: NodeType): Boolean = {
     nodeType match {
       case IntegerType => true
-      case other => false
+      case _ => false
     }
   }
 }
@@ -49,13 +48,12 @@ case class TextWidget(widgetType: Option[NodeType]) extends WidgetExpression {
   }
 }
 
-case class RadioWidget(widgetType: Option[NodeType], values: List[ExpressionValue])
+case class RadioWidget(widgetType: Option[NodeType])
     extends WidgetExpression {
   override def toString = "RadioWidget"
   def canHold(nodeType: NodeType): Boolean = {
     nodeType match {
-      case IntegerType => true
-      case StringType => true
+      case BooleanType => true
       case other => false
     }
   }
@@ -74,8 +72,7 @@ case class CheckboxWidget(widgetType: Option[NodeType],
   }
 }
 
-case class DropdownWidget(widgetType: Option[NodeType],
-                          values: List[ExpressionValue])
+case class DropdownWidget(widgetType: Option[NodeType])
     extends WidgetExpression {
   override def toString = "DropdownWidget"
   def canHold(nodeType: NodeType): Boolean = {

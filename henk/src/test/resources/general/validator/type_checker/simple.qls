@@ -8,7 +8,7 @@ stylesheet taxOfficeExample
         font: "Arial" 
         fontsize: 14
         color: #999999
-        widget radio("1","2")
+        widget radio("Yes", "No")
     }
   }
 }

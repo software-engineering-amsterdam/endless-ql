@@ -48,7 +48,6 @@ class StyleVisitor extends QLSBaseVisitor[StylingConfiguration] {
       case IntegerValue(_) => IntegerType
       case StringValue(_) => StringType
       case BooleanValue(_) => BooleanType
-      case PolarValue(_) => BooleanType
     }
   }
 
@@ -57,9 +56,9 @@ class StyleVisitor extends QLSBaseVisitor[StylingConfiguration] {
     val widget = ctx.WIDGET_TYPE.getText match {
       case "spinbox" => SpinboxWidget(Some(IntegerType))
       case "radio" => {
-        val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
+        val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List(BooleanValue(false), BooleanValue(true)))
         val returnType = options.headOption.map(infereType)
-        RadioWidget(returnType, options)
+        RadioWidget(returnType)
       }
       case "checkbox" => {
         val options = Option(ctx.optionValues).map(optionVisitor.visit).getOrElse(List())
@@ -72,7 +71,7 @@ class StyleVisitor extends QLSBaseVisitor[StylingConfiguration] {
         SliderWidget(returnType, options)
       }
       case "dropdown" => {
-        DropdownWidget(Some(BooleanType), List(BooleanValue(true), BooleanValue(false)))
+        DropdownWidget(Some(BooleanType))
       }
       case "text" => {
         TextWidget(None)

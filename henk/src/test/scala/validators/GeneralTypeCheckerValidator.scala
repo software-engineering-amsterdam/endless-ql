@@ -30,7 +30,7 @@ class GeneralTypeCheckerValidatorSpec extends FunSpec {
     }
 
     it("should contain question name in message") {
-      result.label should include("QL has 'StringType'")
+      result.label should include("QL has 'BooleanType'")
       result.label should include("QLS has 'IntegerType'")
     }
   }

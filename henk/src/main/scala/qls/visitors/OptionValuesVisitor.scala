@@ -15,9 +15,7 @@ class OptionValuesVisitor extends QLSBaseVisitor[List[ExpressionValue]] {
   }
 
   override def visitPolarOptions(ctx: QLSParser.PolarOptionsContext): List[ExpressionValue] = {
-    ctx.POLAR_LIT.map(x => {
-      PolarValue(x.getText.replace("\"", ""))
-    }).toList
+    List(BooleanValue(false), BooleanValue(true))
   }
 
   override def visitIntegerOptions(ctx: QLSParser.IntegerOptionsContext): List[ExpressionValue] = {

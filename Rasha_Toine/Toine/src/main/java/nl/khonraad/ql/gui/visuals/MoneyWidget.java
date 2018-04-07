@@ -12,10 +12,10 @@ import javax.swing.SwingConstants;
 
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
-import nl.khonraad.ql.cdi.QuestionnaireAccessor;
-import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.cdi.InterpretorAccessor;
+import nl.khonraad.ql.language.Question;
 
-public class MoneyWidget implements QuestionnaireAccessor {
+public class MoneyWidget implements InterpretorAccessor {
 
     JSpinner jSpinner;
 
@@ -41,7 +41,7 @@ public class MoneyWidget implements QuestionnaireAccessor {
 
             String dec = new BigDecimal( current ).setScale( 2, RoundingMode.HALF_EVEN ).toString();
 
-            questionnaire().storeAnswer( question, Value.typed( Type.Money, dec ) );
+            interpretor().assign( question, Value.typed( Type.Money, dec ) );
 
         } );
     }

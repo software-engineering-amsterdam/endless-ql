@@ -5,6 +5,7 @@ grammar QL;
     void normalizeQuotedString() {
         String normalized = getText();
         normalized = normalized.substring(1, normalized.length()-1);
+        normalized = normalized.replaceAll( "\\\\n","<br/>" );
         normalized = normalized.replaceAll("\\\\(.)", "$1");
         setText(normalized);
     }

@@ -1,4 +1,4 @@
-package nl.khonraad.ql.domain;
+package nl.khonraad.ql.language;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,9 +8,9 @@ import java.util.Optional;
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Value;
-import nl.khonraad.ql.domain.Question.BehaviouralType;
+import nl.khonraad.ql.language.Question.BehaviouralType;
 
-public class Questions implements Iterable<Question> {
+class Questions implements Iterable<Question> {
 
     private List<Question> questionList = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class Questions implements Iterable<Question> {
         return Optional.empty();
     }
 
-    List<Question> listQuestions() {
+    List<Question> list() {
         return questionList;
     }
 

@@ -1,4 +1,4 @@
-package nl.khonraad.qls.ast.data;
+package nl.khonraad.qls.language;
 
 public class DisplayValues {
 

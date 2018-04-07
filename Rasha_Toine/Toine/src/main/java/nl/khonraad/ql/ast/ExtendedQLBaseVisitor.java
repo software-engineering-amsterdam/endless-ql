@@ -13,13 +13,13 @@ import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Operator;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
-import nl.khonraad.ql.domain.Question;
-import nl.khonraad.ql.domain.Questionnaire;
+import nl.khonraad.ql.language.QLInterpretor;
+import nl.khonraad.ql.language.Question;
 
 public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
     @Inject
-    private Questionnaire       questionnaire;
+    private QLInterpretor       interpretor;
 
     private List<Identifier>    forwardReferences             = new ArrayList<>();
 
@@ -41,7 +41,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
         Identifier identifier = new Identifier( ctx.Identifier().getText() );
 
-        Optional<Question> question = questionnaire.findAnswerableQuestion( identifier );
+        Optional<Question> question = interpretor.queryAnswerableQuestion( identifier );
 
         if ( question.isPresent() ) {
 
@@ -50,7 +50,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
             return question.get().value();
 
         }
-        throw new RuntimeException( REFERENCES_UNDEFINED_QUESTION + identifier );
+        throw new RuntimeException( REFERENCES_UNDEFINED_QUESTION + identifier.string() );
     }
 
     @Override
@@ -61,14 +61,15 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
 
         Type type = Type.type( ctx.type().getText() );
 
-        Optional<Question> question = questionnaire.findAnswerableQuestion( identifier );
+        Optional<Question> question = interpretor.queryAnswerableQuestion( identifier );
 
         if ( question.isPresent() ) {
 
             throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Duplicate declaration "
                     + ctx.Identifier().getText() );
         }
-        questionnaire.storeAnswerableQuestion( identifier, label, type );
+        interpretor.declareAsAnswerableQuestion( identifier, label, type );
+        
         return Value.Unit;
     }
 
@@ -91,7 +92,7 @@ public final class ExtendedQLBaseVisitor extends QLBaseVisitor<Value> {
         if ( !type.equals( value.type() ) ) {
             throw reportError( ctx.start.getLine(), ctx.start.getCharPositionInLine(), "Type error " + ctx.Identifier().getText() );
         }
-        return questionnaire.storeComputedQuestion( identifier, label, value );
+        return interpretor.declareAsComputedQuestion( identifier, label, value );
     }
 
     @Override

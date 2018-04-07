@@ -11,8 +11,6 @@ import javax.interceptor.InvocationContext;
     @AroundInvoke
     public Object logMethodEntry( InvocationContext ctx ) throws Exception {
 
-        Object object = ctx.proceed();
-
-        return object;
+        return ctx.proceed();
     }
 }

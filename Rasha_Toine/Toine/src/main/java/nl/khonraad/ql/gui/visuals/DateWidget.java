@@ -6,12 +6,12 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 
-import nl.khonraad.ql.cdi.QuestionnaireAccessor;
-import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.cdi.InterpretorAccessor;
+import nl.khonraad.ql.language.Question;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
 
-public class DateWidget implements QuestionnaireAccessor {
+public class DateWidget implements InterpretorAccessor {
 
     JTextField jTextField;
     
@@ -27,7 +27,7 @@ public class DateWidget implements QuestionnaireAccessor {
                 JTextField textField = (JTextField) e.getSource();
                 String current = textField.getText();
 
-                questionnaire().storeAnswer( question, Value.typed( Type.Date, current ) );
+                interpretor().assign( question, Value.typed( Type.Date, current ) );
             }
 
             @Override

@@ -4,73 +4,163 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.algebra.values.Type;
-import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.qls.QLSBaseVisitor;
 import nl.khonraad.qls.QLSParser;
-import nl.khonraad.qls.ast.data.StyleElement;
-import nl.khonraad.qls.ast.data.Styling;
+import nl.khonraad.qls.language.StyleNode;
+import nl.khonraad.qls.language.QLSInterpretor;
+import nl.khonraad.qls.language.StyleNodeTree;
+import nl.khonraad.qls.language.StyleNodeTree.NodeType;
 
-public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<Value> {
+public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<String> {
 
     @Inject
-    Logger  logger;
+    Logger                 logger;
 
     @Inject
-    Styling questionLangugaeStyle;
+    private QLSInterpretor interpretor;
+
+    StyleNodeTree<StyleNode>       treeNodePointer;
 
     @Override
-    public Value visitType( QLSParser.TypeContext ctx ) {
+    public String visitType( QLSParser.TypeContext ctx ) {
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitStylesheet( QLSParser.StylesheetContext ctx ) {
+    public String visitStylesheet( QLSParser.StylesheetContext ctx ) {
+
+        treeNodePointer = new StyleNodeTree<>( new StyleNode( NodeType.Stylesheet, ctx.Identifier().getText() ));
+
+        visitChildren( ctx );
+
+        interpretor.declareStyleSheet( treeNodePointer );
+
+        return ctx.Identifier().getText();
+
+    }
+
+    @Override
+    public String visitPage( QLSParser.PageContext ctx ) {
+
+        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.Page, ctx.Identifier().getText() ));
+
+        visitChildren( ctx );
+
+        treeNodePointer = treeNodePointer.parent();
+
+        return ctx.Identifier().getText();
+    }
+
+    @Override
+    public String visitSection( QLSParser.SectionContext ctx ) {
+
+        treeNodePointer = treeNodePointer.addChild( new StyleNode(NodeType.Section,  ctx.QuotedString().getText() ));
+
+        visitChildren( ctx );
+
+        treeNodePointer = treeNodePointer.parent();
+
+        return ctx.QuotedString().getText();
+    }
+
+    @Override
+    public String visitQuestion( QLSParser.QuestionContext ctx ) {
+
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.Question, ctx.Identifier().getText() ));
+
+        visitChildren( ctx );
+
+        treeNodePointer = treeNodePointer.parent();
+
+        return ctx.Identifier().getText();
+    }
+
+    @Override
+    public String visitSectionElements( QLSParser.SectionElementsContext ctx ) {
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitPage( QLSParser.PageContext ctx ) {
+    public String visitSectionElement( QLSParser.SectionElementContext ctx ) {
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitSection( QLSParser.SectionContext ctx ) {
+    public String visitDefaultStyle( QLSParser.DefaultStyleContext ctx ) {
+
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.DefaultStyle, ctx.questionType().getText() ));
+
+        visitChildren( ctx );
+
+        treeNodePointer = treeNodePointer.parent();
+
+        return ctx.questionType().getText();
+
+    }
+
+    @Override
+    public String visitQuestionType( QLSParser.QuestionTypeContext ctx ) {
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitQuestion( QLSParser.QuestionContext ctx ) {
+    public String visitStyling( QLSParser.StylingContext ctx ) {
+
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitStatement( QLSParser.StatementContext ctx ) {
+    public String visitGivenWidgetType( QLSParser.GivenWidgetTypeContext ctx ) {
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.Widget, ctx.widgetType().getText() ));
+
+        visitChildren( ctx );
+
+        treeNodePointer = treeNodePointer.parent();
+
+        return "";
+    }
+
+    @Override
+    public String visitGivenWidth( QLSParser.GivenWidthContext ctx ) {
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.Width, ctx.IntegerConstant().getText() ));
+
+        visitChildren( ctx );
+
+        treeNodePointer = treeNodePointer.parent();
+
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitDefaultstyle( QLSParser.DefaultstyleContext ctx ) {
+    public String visitGivenColor( QLSParser.GivenColorContext ctx ) {
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.Color, ctx.HexConstant().getText() ));
 
-        logger.info( ctx.type().getText() );
+        visitChildren( ctx );
 
-        if ( "boolean".equals( ctx.type().getText() ) ) {
+        treeNodePointer = treeNodePointer.parent();
 
-            String t = ctx.widget().QuotedString( 0 ).getText();
-            String f = ctx.widget().QuotedString( 1 ).getText();
-
-            questionLangugaeStyle.storeElementDefault( new StyleElement( Type.Boolean, t, f ) );
-        }
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitAttribute( QLSParser.AttributeContext ctx ) {
+    public String visitGivenFont( QLSParser.GivenFontContext ctx ) {
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.Font, ctx.QuotedString().getText() ));
+
+        visitChildren( ctx );
+
+        treeNodePointer = treeNodePointer.parent();
+
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitWidget( QLSParser.WidgetContext ctx ) {
+    public String visitGivenFontsize( QLSParser.GivenFontsizeContext ctx ) {
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.FontSize,ctx.IntegerConstant().getText() ));
+
+        visitChildren( ctx );
+
+        treeNodePointer = treeNodePointer.parent();
+
         return visitChildren( ctx );
     }
 }

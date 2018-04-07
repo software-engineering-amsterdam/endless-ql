@@ -5,16 +5,17 @@ import java.util.Optional;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-import nl.khonraad.ql.cdi.QuestionnaireAccessor;
-import nl.khonraad.ql.domain.Question;
-import nl.khonraad.qls.ast.data.StyleElement;
+import nl.khonraad.ql.cdi.InterpretorAccessor;
+import nl.khonraad.ql.language.Question;
+import nl.khonraad.qls.language.StyleElement;
 import nl.khonraad.ql.algebra.values.Value;
 
-public class BooleanWidget implements QuestionnaireAccessor {
+public class BooleanWidget implements InterpretorAccessor {
 
     private JComboBox<String> jComboBox;
 
     JComponent jComponent() {
+        
         return jComboBox;
     }
 
@@ -51,28 +52,22 @@ public class BooleanWidget implements QuestionnaireAccessor {
 
     }
 
+    
     public BooleanWidget( Question question, Optional<StyleElement> styleElement ) {
 
         DisplayedValues displayedValues = new DisplayedValues( styleElement );
-
         jComboBox = new JComboBox<>( displayedValues.arrayOfStrings() );
-
         Value value = question.value();
-
         String selectedAsInitial = displayedValues.display( value );
-
         jComboBox.setSelectedItem( selectedAsInitial );
-
+        
         jComboBox.addActionListener( e -> {
 
             @SuppressWarnings( "unchecked" )
             JComboBox<String> combo = (JComboBox<String>) e.getSource();
-
             String selectedString = (String) combo.getSelectedItem();
-
             Value choiceMade = displayedValues.value( selectedString );
-
-            questionnaire().storeAnswer( question, choiceMade );
+            interpretor().assign( question, choiceMade );
         } );
     }
 }

@@ -13,9 +13,11 @@ public class Main {
 
         SeContainer container = SeContainerInitializer.newInstance().initialize();
 
-        container.select( SourcePathProvider.class ).get().setSourcePathQL( "/CollegeExample.ql" );
+        container.select( SourcePathProvider.class ).get().setSourcePathQL( "/Kipling.ql" );
+
         container.select( SourcePathProvider.class ).get().setSourcePathQLS( "/CollegeExample.qls" );
-        
+
         container.select( Visualizer.class ).get().run();
+
     }
 }

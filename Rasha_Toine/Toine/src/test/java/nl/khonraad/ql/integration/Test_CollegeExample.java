@@ -17,42 +17,49 @@ import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
 import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
-import nl.khonraad.ql.domain.Questionnaire;
-import nl.khonraad.ql.domain.Repository;
-import nl.khonraad.ql.domain.Survey;
+import nl.khonraad.ql.language.QLInterpretor;
+import nl.khonraad.ql.language.QLLanguage;
+import nl.khonraad.ql.language.Question;
 
 public class Test_CollegeExample {
 
+    QLInterpretor interpretor;
+    
     @Rule
-    public WeldInitiator weld = WeldInitiator.from( SourcePathProvider.class, QLAbstractSyntaxTreeBuilder.class, ExtendedQLBaseVisitor.class, Survey.class, Repository.class, LoggerProducer.class ).activate( ApplicationScoped.class ).build();
+    public WeldInitiator weld = WeldInitiator.from( SourcePathProvider.class, QLAbstractSyntaxTreeBuilder.class, ExtendedQLBaseVisitor.class, QLLanguage.class, LoggerProducer.class ).activate( ApplicationScoped.class ).build();
 
+    private Question questionLabeled( String s ) {
+        
+        return interpretor.queryAnswerableQuestion( new Identifier( "hasSoldHouse" ) ).get();
+    }
     @Test
     public void test_Calculations() throws Exception {
 
         weld.select( SourcePathProvider.class ).get().setSourcePathQL( "/nl/khonraad/ql/integration/CollegeExample.ql" );
-        Questionnaire questionnaire = weld.select( Survey.class ).get();
+        interpretor = weld.select( QLLanguage.class ).get();
         ExtendedQLBaseVisitor visitor = weld.select( ExtendedQLBaseVisitor.class ).get();
 
-        questionnaire.visitSource( visitor );
+        interpretor.visitSource( visitor );
 
-        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "hasSoldHouse" ) ).get(), True );
-        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "hasBoughtHouse" ) ).get(), True );
-        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "hasMaintLoan" ) ).get(), True );
+        interpretor.assign( questionLabeled( "hasSoldHouse" ), True );
+        
+        interpretor.assign( interpretor.queryAnswerableQuestion( new Identifier( "hasBoughtHouse" ) ).get(), True );
+        interpretor.assign( interpretor.queryAnswerableQuestion( new Identifier( "hasMaintLoan" ) ).get(), True );
 
-        assertTrue( !questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
-        assertTrue( !questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
+        assertTrue( !interpretor.queryAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
+        assertTrue( !interpretor.queryAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
 
-        questionnaire.visitSource( visitor );
+        interpretor.visitSource( visitor );
 
-        assertTrue( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
-        assertTrue( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
+        assertTrue( interpretor.queryAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
+        assertTrue( interpretor.queryAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
 
-        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "sellingPrice" ) ).get(), Value.typed( Type.Money, "1000000.00" ) );
-        questionnaire.storeAnswer( questionnaire.findAnswerableQuestion( new Identifier( "privateDebt" ) ).get(), Value.typed( Type.Money, "800000.00" ) );
+        interpretor.assign( interpretor.queryAnswerableQuestion( new Identifier( "sellingPrice" ) ).get(), Value.typed( Type.Money, "1000000.00" ) );
+        interpretor.assign( interpretor.queryAnswerableQuestion( new Identifier( "privateDebt" ) ).get(), Value.typed( Type.Money, "800000.00" ) );
 
-        questionnaire.visitSource( visitor );
+        interpretor.visitSource( visitor );
 
-        assertEquals( "a", "200000.00", questionnaire.findComputedQuestion( new Identifier( "valueResidue" ) ).get().value().string() );
+        assertEquals( "a", "200000.00", interpretor.queryComputedQuestion( new Identifier( "valueResidue" ) ).get().value().string() );
 
     }
 }

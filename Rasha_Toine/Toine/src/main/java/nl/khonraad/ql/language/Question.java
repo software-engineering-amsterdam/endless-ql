@@ -1,9 +1,10 @@
-package nl.khonraad.ql.domain;
+package nl.khonraad.ql.language;
 
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
+import nl.khonraad.ql.cdi.StyleAspect;
 
 public class Question {
 
@@ -16,7 +17,9 @@ public class Question {
     private Identifier      identifier;
     private Label           label;
     private Value           value;
+    // TODO ADD STYLING
 
+    @StyleAspect
     public Question( BehaviouralType behaviouralType, Identifier identifier, Label label, Value value ) {
 
         this.behaviouralType = behaviouralType;
@@ -25,6 +28,7 @@ public class Question {
         this.value = value;
     }
 
+    @StyleAspect
     public BehaviouralType getBehaviouralType() {
         return behaviouralType;
     }
@@ -51,8 +55,10 @@ public class Question {
 
     void setValue( Value value ) {
 
-        if ( this.value.type() != value.type() )
+        if ( this.value.type() != value.type() ) {
+
             throw new RuntimeException( "TYPE_ERROR" );
+        }
         this.value = value;
     }
 }

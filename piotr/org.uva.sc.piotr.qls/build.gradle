@@ -18,3 +18,13 @@ dependencies {
     implementation project(":org.uva.sc.piotr.ql")
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+test {
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+            }
+        }
+    }
+}

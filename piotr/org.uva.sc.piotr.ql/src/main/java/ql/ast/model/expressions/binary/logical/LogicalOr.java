@@ -9,10 +9,6 @@ public class LogicalOr extends BinaryExpression {
         super(leftSide, rightSide, metaInformation);
     }
 
-    public LogicalOr(Expression leftSide, Expression rightSide) {
-        super(leftSide, rightSide);
-    }
-
     @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);

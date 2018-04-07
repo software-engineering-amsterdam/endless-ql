@@ -9,10 +9,6 @@ public class GreaterEqual extends BinaryExpression {
         super(leftSide, rightSide, metaInformation);
     }
 
-    public GreaterEqual(Expression leftSide, Expression rightSide) {
-        super(leftSide, rightSide);
-    }
-
     @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);

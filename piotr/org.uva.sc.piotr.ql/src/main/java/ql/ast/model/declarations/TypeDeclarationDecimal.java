@@ -8,10 +8,6 @@ public class TypeDeclarationDecimal extends TypeDeclaration {
         super(identifier, metaInformation);
     }
 
-    public TypeDeclarationDecimal(String identifier) {
-        super(identifier);
-    }
-
     @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);

@@ -9,10 +9,6 @@ public class Minus extends UnaryExpression{
         super(expression, metaInformation);
     }
 
-    public Minus(Expression expression) {
-        super(expression);
-    }
-
     @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);

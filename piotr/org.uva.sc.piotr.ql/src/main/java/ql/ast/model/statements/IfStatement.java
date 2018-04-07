@@ -18,13 +18,6 @@ public class IfStatement extends Statement {
         this.elseStatementList = elseStatementList;
     }
 
-    public IfStatement(Expression condition, List<Statement> statementList, List<Statement> elseStatementList){
-        super();
-        this.condition = condition;
-        this.statementList = statementList;
-        this.elseStatementList = elseStatementList;
-    }
-
     public Expression getCondition() {
         return condition;
     }

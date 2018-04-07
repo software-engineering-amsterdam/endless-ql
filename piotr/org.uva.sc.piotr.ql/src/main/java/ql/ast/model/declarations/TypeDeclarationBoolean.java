@@ -8,10 +8,6 @@ public class TypeDeclarationBoolean extends TypeDeclaration {
         super(identifier, metaInformation);
     }
 
-    public TypeDeclarationBoolean(String identifier) {
-        super(identifier);
-    }
-
     @Override
     public <T> T accept(ASTNodeVisitor<T> visitor) {
         return visitor.visit(this);

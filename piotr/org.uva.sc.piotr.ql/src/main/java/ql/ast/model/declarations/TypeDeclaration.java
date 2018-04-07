@@ -11,11 +11,6 @@ public abstract class TypeDeclaration extends ASTNode implements TypeDeclaration
         this.identifier = identifier;
     }
 
-    TypeDeclaration(String identifier) {
-        super();
-        this.identifier = identifier;
-    }
-
     public String getIdentifier() {
         return identifier;
     }

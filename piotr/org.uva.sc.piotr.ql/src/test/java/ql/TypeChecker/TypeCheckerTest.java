@@ -32,9 +32,6 @@ public class TypeCheckerTest {
         return astBuilder.visitForm(formContext);
     }
 
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
     @Test
     public void checkReferenceToUndefinedQuestionTest() {
 

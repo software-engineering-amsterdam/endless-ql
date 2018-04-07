@@ -27,16 +27,6 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
 
     private List<QuestionModel> questionModels;
     private LinkedHashMap<String, QuestionModel> questionModelsMap = new LinkedHashMap<>();
-
-    // styles stack per data type
-    static class TypeDefinitionLayer {
-        WidthProperty width;
-        FontProperty font;
-        FontSizeProperty fontSize;
-        ColorProperty color;
-        Widget widget;
-    }
-
     private HashMap<String, Stack<TypeDefinitionLayer>> typeDefinitions;
 
     // returns a linked list of panels (pages)
@@ -280,7 +270,6 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
         return null;
     }
 
-
     private void definitionsStacksPush(List<DefaultDefinition> defaultDefinitions) {
         if (!defaultDefinitions.isEmpty()) {
             for (DefaultDefinition definition : defaultDefinitions) {
@@ -333,6 +322,15 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
                 typeStack.pop();
             }
         }
+    }
+
+    // styles stack per data type
+    static class TypeDefinitionLayer {
+        WidthProperty width;
+        FontProperty font;
+        FontSizeProperty fontSize;
+        ColorProperty color;
+        Widget widget;
     }
 
 }

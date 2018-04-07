@@ -140,7 +140,6 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public Widget visitWidget(QLSParser.WidgetContext ctx) {
-        System.out.println("Visiting widget "+ctx.getText());
         if (ctx.WIDGET_BOOL_CHECKBOX() != null) {
             if (ctx.booleanParameters() != null) {
                 return new CheckboxWidget(

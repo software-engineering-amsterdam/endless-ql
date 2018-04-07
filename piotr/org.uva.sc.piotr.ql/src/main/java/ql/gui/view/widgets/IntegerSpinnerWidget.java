@@ -70,21 +70,15 @@ public class IntegerSpinnerWidget extends Widget {
     }
 
     public void setMin(Integer min) {
-        System.out.println("Setting min: " + min);
         this.spinnerModel.setMinimum(min);
         this.spinnerModel.setValue(min);
-
     }
 
     public void setMax(Integer max) {
-        System.out.println("Setting max: " + max);
         this.spinnerModel.setMaximum(max);
-
     }
 
     public void setStep(Integer step) {
-        System.out.println("Setting step: " + step);
         this.spinnerModel.setStepSize(step);
-
     }
 }

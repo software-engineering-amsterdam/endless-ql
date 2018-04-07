@@ -64,21 +64,15 @@ public class IntegerSliderWidget extends Widget {
     }
 
     public void setMin(Integer min) {
-        System.out.println("Setting min: " + min);
         this.slider.setMinimum(min);
         this.slider.setValue(min);
-
     }
 
     public void setMax(Integer max) {
-        System.out.println("Setting max: " + max);
         this.slider.setMaximum(max);
-
     }
 
     public void setStep(Integer step) {
-        System.out.println("Setting step: " + step);
         this.slider.setMajorTickSpacing(step);
-
     }
 }

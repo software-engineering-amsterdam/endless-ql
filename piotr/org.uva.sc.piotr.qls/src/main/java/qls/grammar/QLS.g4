@@ -20,7 +20,7 @@ section
     ;
 
 questionDefinition
-    : 'question' name=IDENTIFIER (widgetDefinition)?
+    : 'question' name=IDENTIFIER widgetDefinition?
     ;
 
 defaultDefinition

@@ -2,6 +2,8 @@ package qls.ast;
 
 import qls.ast.model.*;
 import qls.ast.model.properties.*;
+import qls.ast.model.properties.parameters.BooleanParameters;
+import qls.ast.model.properties.parameters.IntegerParameters;
 import qls.ast.model.properties.widgets.*;
 import qls.grammar.QLSBaseVisitor;
 import qls.grammar.QLSParser;
@@ -138,14 +140,11 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public Widget visitWidget(QLSParser.WidgetContext ctx) {
+        System.out.println("Visiting widget "+ctx.getText());
         if (ctx.WIDGET_BOOL_CHECKBOX() != null) {
             if (ctx.booleanParameters() != null) {
                 return new CheckboxWidget(
-                        new ASTNode.MetaInformation(ctx.start.getLine()),
-                        new Widget.BooleanParameters(
-                                ctx.booleanParameters().trueValue.getText().substring(1, ctx.booleanParameters().trueValue.getText().length() - 1),
-                                ctx.booleanParameters().falseValue.getText().substring(1, ctx.booleanParameters().falseValue.getText().length() - 1)
-                        )
+                        new ASTNode.MetaInformation(ctx.start.getLine())
                 );
             }
             return new CheckboxWidget(new ASTNode.MetaInformation(ctx.start.getLine())
@@ -155,9 +154,9 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
             if (ctx.booleanParameters() != null) {
                 return new DropdownWidget(
                         new ASTNode.MetaInformation(ctx.start.getLine()),
-                        new Widget.BooleanParameters(
-                                ctx.booleanParameters().trueValue.getText(),
-                                ctx.booleanParameters().falseValue.getText()
+                        new BooleanParameters(
+                                ctx.booleanParameters().trueValue.getText().substring(1, ctx.booleanParameters().trueValue.getText().length() - 1),
+                                ctx.booleanParameters().falseValue.getText().substring(1, ctx.booleanParameters().falseValue.getText().length() - 1)
                         )
                 );
             }
@@ -167,9 +166,9 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
             if (ctx.booleanParameters() != null) {
                 return new RadioWidget(
                         new ASTNode.MetaInformation(ctx.start.getLine()),
-                        new Widget.BooleanParameters(
-                                ctx.booleanParameters().trueValue.getText(),
-                                ctx.booleanParameters().falseValue.getText()
+                        new BooleanParameters(
+                                ctx.booleanParameters().trueValue.getText().substring(1, ctx.booleanParameters().trueValue.getText().length() - 1),
+                                ctx.booleanParameters().falseValue.getText().substring(1, ctx.booleanParameters().falseValue.getText().length() - 1)
                         )
                 );
             }
@@ -179,7 +178,7 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
             if (ctx.integerParameters() != null) {
                 return new SpinboxWidget(
                         new ASTNode.MetaInformation(ctx.start.getLine()),
-                        new Widget.IntegerParameters(
+                        new IntegerParameters(
                                 Integer.parseInt(ctx.integerParameters().min.getText()),
                                 Integer.parseInt(ctx.integerParameters().max.getText()),
                                 Integer.parseInt(ctx.integerParameters().step.getText())
@@ -192,7 +191,7 @@ public class ASTBuilder extends QLSBaseVisitor<ASTNode> {
             if (ctx.integerParameters() != null) {
                 return new SliderWidget(
                         new ASTNode.MetaInformation(ctx.start.getLine()),
-                        new Widget.IntegerParameters(
+                        new IntegerParameters(
                                 Integer.parseInt(ctx.integerParameters().min.getText()),
                                 Integer.parseInt(ctx.integerParameters().max.getText()),
                                 Integer.parseInt(ctx.integerParameters().step.getText())

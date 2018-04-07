@@ -10,7 +10,7 @@ import qls.gui.model.GuiModel;
 import qls.gui.model.Paginator;
 import qls.gui.view.InitialPanel;
 import qls.gui.view.PagePanel;
-import qls.gui.view.paginator.PaginatorView;
+import qls.gui.view.paginator.PaginatorPanel;
 import qls.logic.builders.GuiBuilder;
 
 import javax.swing.*;
@@ -75,13 +75,13 @@ public class GuiController {
             JPanel pagePanel = new JPanel();
             pagePanel.add(paginator.getCurrentPage());
 
-            JPanel paginatorView = new PaginatorView(paginator, pagePanel);
+            JPanel paginatorPanel = new PaginatorPanel(paginator, pagePanel);
 
             gridBagConstraints.gridy = 0;
             mainPanel.add(pagePanel, gridBagConstraints);
             gridBagConstraints.gridy = 1;
             gridBagConstraints.anchor = GridBagConstraints.CENTER;
-            mainPanel.add(paginatorView, gridBagConstraints);
+            mainPanel.add(paginatorPanel, gridBagConstraints);
 
             this.windowView.setMainPanel(mainPanel);
             windowView.formatAndShow();

@@ -79,7 +79,7 @@ public class BooleanRadioWidget extends Widget {
     }
 
     public void setNoText(String noText) {
-        this.yesButton.setText(noText);
+        this.noButton.setText(noText);
     }
 
 }

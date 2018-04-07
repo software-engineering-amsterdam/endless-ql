@@ -1,6 +1,7 @@
 package qls.ast.model.properties.widgets;
 
 import qls.ast.model.properties.Widget;
+import qls.ast.model.properties.parameters.BooleanParameters;
 import qls.ast.visitors.ASTNodeVisitor;
 
 public class DropdownWidget extends Widget {
@@ -14,6 +15,11 @@ public class DropdownWidget extends Widget {
     public DropdownWidget(MetaInformation metaInformation, BooleanParameters parameters) {
         super(metaInformation);
         this.parameters = parameters;
+    }
+
+    @Override
+    public BooleanParameters getParameters() {
+        return parameters;
     }
 
     @Override

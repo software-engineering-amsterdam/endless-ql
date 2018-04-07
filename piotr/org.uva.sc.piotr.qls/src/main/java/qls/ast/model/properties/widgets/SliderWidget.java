@@ -1,6 +1,7 @@
 package qls.ast.model.properties.widgets;
 
 import qls.ast.model.properties.Widget;
+import qls.ast.model.properties.parameters.IntegerParameters;
 import qls.ast.visitors.ASTNodeVisitor;
 
 public class SliderWidget extends Widget {
@@ -16,6 +17,7 @@ public class SliderWidget extends Widget {
         this.parameters = parameters;
     }
 
+    @Override
     public IntegerParameters getParameters() {
         return parameters;
     }

@@ -1,23 +1,18 @@
 package qls.ast.model.properties.widgets;
 
 import qls.ast.model.properties.Widget;
+import qls.ast.model.properties.parameters.BooleanParameters;
 import qls.ast.visitors.ASTNodeVisitor;
 
 public class CheckboxWidget extends Widget {
-
-    private BooleanParameters parameters;
 
     public CheckboxWidget(MetaInformation metaInformation) {
         super(metaInformation);
     }
 
-    public CheckboxWidget(MetaInformation metaInformation, BooleanParameters parameters) {
-        super(metaInformation);
-        this.parameters = parameters;
-    }
-
+    @Override
     public BooleanParameters getParameters() {
-        return parameters;
+        return null;
     }
 
     @Override

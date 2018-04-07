@@ -5,9 +5,9 @@ import qls.gui.model.Paginator;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class PaginatorView extends JPanel {
+public class PaginatorPanel extends JPanel {
 
-    public PaginatorView(Paginator paginator, JPanel pagePanel) {
+    public PaginatorPanel(Paginator paginator, JPanel pagePanel) {
         JButton buttonPrevious = new JButton("previous");
         JButton buttonNext = new JButton("next");
         buttonNext.setEnabled(paginator.hasNext());

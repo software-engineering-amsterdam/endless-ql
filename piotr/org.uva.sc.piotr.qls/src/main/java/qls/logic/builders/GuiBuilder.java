@@ -7,6 +7,9 @@ import ql.gui.view.widgets.*;
 import ql.logic.collectors.CollectQuestionModelsVisitor;
 import qls.ast.model.*;
 import qls.ast.model.properties.*;
+import qls.ast.model.properties.parameters.BooleanParameters;
+import qls.ast.model.properties.parameters.IntegerParameters;
+import qls.ast.model.properties.parameters.OptionalParameters;
 import qls.ast.model.properties.widgets.*;
 import qls.ast.visitors.AbstractASTTraverse;
 import qls.gui.view.PagePanel;
@@ -163,7 +166,7 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
         // if explicitly declared widget
         if (questionDefinition.getWidget() != null) {
             // use this widget
-            qlWidget = this.getQlWidgetForQLS(questionDefinition.getWidget().getName(), type, questionModel);
+            qlWidget = this.getQlWidgetForQLS(questionDefinition.getWidget().getName(), type, questionDefinition.getWidget().getParameters(), questionModel);
             if (qlWidget == null) {
                 throw new RuntimeException("Widget mismatch");
             }
@@ -172,7 +175,7 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
             TypeDefinitionLayer layer = this.typeDefinitions.get(type).peek();
             if (layer.widget != null) {
                 // use this
-                qlWidget = this.getQlWidgetForQLS(layer.widget.getName(), type, questionModel);
+                qlWidget = this.getQlWidgetForQLS(layer.widget.getName(), type, layer.widget.getParameters(), questionModel);
                 if (qlWidget == null) {
                     throw new RuntimeException("Widget mismatch");
                 }
@@ -180,7 +183,7 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
 
         } else {
             // default widget
-            qlWidget = this.getQlWidgetForQLS(null, type, questionModel);
+            qlWidget = this.getQlWidgetForQLS(null, type, null, questionModel);
             if (qlWidget == null) {
                 throw new RuntimeException("Widget mismatch");
             }
@@ -204,42 +207,56 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
             }
         }
 
-        if (qlWidget instanceof IntegerSpinnerWidget) {
-            SpinboxWidget actualWidget = (SpinboxWidget) questionDefinition.getWidget();
-            if (actualWidget != null && actualWidget.getParameters() != null) {
-                ((IntegerSpinnerWidget) qlWidget).setMin(actualWidget.getParameters().getMin());
-                ((IntegerSpinnerWidget) qlWidget).setMax(actualWidget.getParameters().getMax());
-                ((IntegerSpinnerWidget) qlWidget).setStep(actualWidget.getParameters().getStep());
-            }
-        }
-
-        if (qlWidget instanceof BooleanRadioWidget) {
-            RadioWidget actualWidget = (RadioWidget) questionDefinition.getWidget();
-            if (actualWidget != null && actualWidget.getParameters() != null) {
-                ((BooleanRadioWidget) qlWidget).setYesText(actualWidget.getParameters().getValueTrue());
-                ((BooleanRadioWidget) qlWidget).setNoText(actualWidget.getParameters().getValueFalse());
-            }
-        }
-
         return new QuestionView(questionModel, qlWidget);
     }
 
-    private ql.gui.view.Widget getQlWidgetForQLS(String widgetName, String questionDataType, QuestionModel questionModel) {
+    private ql.gui.view.Widget getQlWidgetForQLS(String widgetName, String questionDataType, OptionalParameters parameters, QuestionModel questionModel) {
         if (questionDataType.equals("boolean")) {
-            if (widgetName.equals("checkbox"))
+
+            if (widgetName.equals("checkbox")) {
                 return new BooleanCheckboxWidget(questionModel);
-            if (widgetName.equals("dropdown"))
-                return new BooleanCheckboxWidget(questionModel);    // TODO: implement widget
-            if (widgetName.equals("radio"))
-                return new BooleanRadioWidget(questionModel);
+            }
+
+            if (widgetName.equals("dropdown")) {
+                BooleanRadioWidget qlWidget = new BooleanRadioWidget(questionModel);    // TODO: implement widget
+                if (parameters != null && parameters instanceof BooleanParameters) {
+                    qlWidget.setYesText(((BooleanParameters) parameters).getValueTrue());
+                    qlWidget.setNoText(((BooleanParameters) parameters).getValueFalse());
+                }
+                return qlWidget;
+            }
+
+            if (widgetName.equals("radio")) {
+                BooleanRadioWidget qlWidget = new BooleanRadioWidget(questionModel);
+                if (parameters != null && parameters instanceof BooleanParameters) {
+                    qlWidget.setYesText(((BooleanParameters) parameters).getValueTrue());
+                    qlWidget.setNoText(((BooleanParameters) parameters).getValueFalse());
+                }
+                return qlWidget;
+            }
+
             // default - radio
             return new BooleanRadioWidget(questionModel);
         }
         if (questionDataType.equals("integer")) {
-            if (widgetName.equals("slider"))
-                return new IntegerSpinnerWidget(questionModel);     // TODO: implement widget
-            if (widgetName.equals("spinbox"))
-                return new IntegerSpinnerWidget(questionModel);
+            if (widgetName.equals("slider")) {
+                IntegerSpinnerWidget qlWidget = new IntegerSpinnerWidget(questionModel);     // TODO: implement widget
+                if (parameters != null && parameters instanceof IntegerParameters) {
+                    qlWidget.setMax(((IntegerParameters) parameters).getMax());
+                    qlWidget.setMin(((IntegerParameters) parameters).getMin());
+                    qlWidget.setStep(((IntegerParameters) parameters).getStep());
+                }
+                return qlWidget;
+            }
+            if (widgetName.equals("spinbox")) {
+                IntegerSpinnerWidget qlWidget = new IntegerSpinnerWidget(questionModel);
+                if (parameters != null && parameters instanceof IntegerParameters) {
+                    qlWidget.setMax(((IntegerParameters) parameters).getMax());
+                    qlWidget.setMin(((IntegerParameters) parameters).getMin());
+                    qlWidget.setStep(((IntegerParameters) parameters).getStep());
+                }
+                return qlWidget;
+            }
             if (widgetName.equals("text"))
                 return new IntegerFieldWidget(questionModel);
             // default

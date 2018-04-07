@@ -8,3 +8,35 @@ Piotr Kosytorz, piotr.kosytorz@student.uva.nl
 - ANTLR4
 - JUnit
 - Gradle
+
+### How to run?
+
+#### QL
+
+```
+cd piotr/org.uva.sc.piotr.ql
+./gradlew run
+```
+
+#### QLS
+
+```
+cd piotr/org.uva.sc.piotr.qls
+./gradlew run
+```
+
+### How to test?
+
+#### QL
+
+```
+cd piotr/org.uva.sc.piotr.ql
+./gradlew test
+```
+
+#### QLS
+
+```
+cd piotr/org.uva.sc.piotr.qls
+./gradlew test
+```

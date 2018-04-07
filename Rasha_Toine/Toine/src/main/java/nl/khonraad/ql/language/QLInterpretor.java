@@ -18,12 +18,14 @@ public interface QLInterpretor {
 
     Optional<Question> queryAnswerableQuestion( Identifier identifier );
 
+    Optional<Question> queryQuestion( Identifier identifier );
+
     void declareAsAnswerableQuestion( Identifier identifier, Label label, Type type );
 
     Value declareAsComputedQuestion( Identifier identifier, Label label, Value value );
 
-    void assigns( Question question, Value value );
+    void assign( Question question, Value value );
     
-    void dump();
+    void memoryDump();
 
 }

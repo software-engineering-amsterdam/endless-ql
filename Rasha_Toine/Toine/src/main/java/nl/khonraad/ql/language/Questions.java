@@ -31,7 +31,7 @@ class Questions implements Iterable<Question> {
         return Optional.empty();
     }
 
-    List<Question> listQuestions() {
+    List<Question> list() {
         return questionList;
     }
 

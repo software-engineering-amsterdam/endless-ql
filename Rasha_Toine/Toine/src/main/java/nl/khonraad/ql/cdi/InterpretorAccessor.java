@@ -10,7 +10,7 @@ import nl.khonraad.ql.language.QLLanguage;
 
 public interface InterpretorAccessor {
 
-    default QLInterpretor questionnaire() {
+    default QLInterpretor interpretor() {
 
         BeanManager bm = CDI.current().getBeanManager();
 

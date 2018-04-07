@@ -6,8 +6,10 @@ import org.slf4j.Logger;
 
 import nl.khonraad.qls.QLSBaseVisitor;
 import nl.khonraad.qls.QLSParser;
+import nl.khonraad.qls.language.StyleNode;
 import nl.khonraad.qls.language.QLSInterpretor;
-import nl.khonraad.qls.language.TreeNode;
+import nl.khonraad.qls.language.StyleNodeTree;
+import nl.khonraad.qls.language.StyleNodeTree.NodeType;
 
 public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<String> {
 
@@ -17,7 +19,7 @@ public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<String> {
     @Inject
     private QLSInterpretor interpretor;
 
-    TreeNode<String>       pointer;
+    StyleNodeTree<StyleNode>       treeNodePointer;
 
     @Override
     public String visitType( QLSParser.TypeContext ctx ) {
@@ -27,11 +29,11 @@ public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<String> {
     @Override
     public String visitStylesheet( QLSParser.StylesheetContext ctx ) {
 
-        pointer = new TreeNode<String>( "Stylesheet: " + ctx.Identifier().getText() );
+        treeNodePointer = new StyleNodeTree<>( new StyleNode( NodeType.Stylesheet, ctx.Identifier().getText() ));
 
         visitChildren( ctx );
 
-        interpretor.declareStyleSheet( pointer );
+        interpretor.declareStyleSheet( treeNodePointer );
 
         return ctx.Identifier().getText();
 
@@ -40,11 +42,11 @@ public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<String> {
     @Override
     public String visitPage( QLSParser.PageContext ctx ) {
 
-        pointer = pointer.addChild( "Page: " + ctx.Identifier().getText() );
+        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.Page, ctx.Identifier().getText() ));
 
         visitChildren( ctx );
 
-        pointer = pointer.parent();
+        treeNodePointer = treeNodePointer.parent();
 
         return ctx.Identifier().getText();
     }
@@ -52,11 +54,11 @@ public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<String> {
     @Override
     public String visitSection( QLSParser.SectionContext ctx ) {
 
-        pointer = pointer.addChild( "Section: " + ctx.QuotedString().getText() );
+        treeNodePointer = treeNodePointer.addChild( new StyleNode(NodeType.Section,  ctx.QuotedString().getText() ));
 
         visitChildren( ctx );
 
-        pointer = pointer.parent();
+        treeNodePointer = treeNodePointer.parent();
 
         return ctx.QuotedString().getText();
     }
@@ -64,11 +66,11 @@ public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<String> {
     @Override
     public String visitQuestion( QLSParser.QuestionContext ctx ) {
 
-        pointer = pointer.addChild( "Question: " + ctx.Identifier().getText() );
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.Question, ctx.Identifier().getText() ));
 
         visitChildren( ctx );
 
-        pointer = pointer.parent();
+        treeNodePointer = treeNodePointer.parent();
 
         return ctx.Identifier().getText();
     }
@@ -86,11 +88,11 @@ public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<String> {
     @Override
     public String visitDefaultStyle( QLSParser.DefaultStyleContext ctx ) {
 
-        pointer = pointer.addChild( "Defaultstyle: " + ctx.questionType().getText()  );
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.DefaultStyle, ctx.questionType().getText() ));
 
         visitChildren( ctx );
 
-        pointer = pointer.parent();
+        treeNodePointer = treeNodePointer.parent();
 
         return ctx.questionType().getText();
 
@@ -109,68 +111,56 @@ public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<String> {
 
     @Override
     public String visitGivenWidgetType( QLSParser.GivenWidgetTypeContext ctx ) {
-        pointer = pointer.addChild( "Widget:  - " + ctx.widgetType().getText());
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.Widget, ctx.widgetType().getText() ));
 
         visitChildren( ctx );
 
-        pointer = pointer.parent();
+        treeNodePointer = treeNodePointer.parent();
 
         return "";
     }
 
     @Override
     public String visitGivenWidth( QLSParser.GivenWidthContext ctx ) {
-        pointer = pointer.addChild( "Width  - " + ctx.IntegerConstant() );
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.Width, ctx.IntegerConstant().getText() ));
 
         visitChildren( ctx );
 
-        pointer = pointer.parent();
+        treeNodePointer = treeNodePointer.parent();
 
         return visitChildren( ctx );
     }
 
     @Override
     public String visitGivenColor( QLSParser.GivenColorContext ctx ) {
-        pointer = pointer.addChild( "Color  - " + ctx.HexConstant() );
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.Color, ctx.HexConstant().getText() ));
 
         visitChildren( ctx );
 
-        pointer = pointer.parent();
+        treeNodePointer = treeNodePointer.parent();
 
         return visitChildren( ctx );
     }
 
     @Override
     public String visitGivenFont( QLSParser.GivenFontContext ctx ) {
-        pointer = pointer.addChild( "Font  - " + ctx.QuotedString() );
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.Font, ctx.QuotedString().getText() ));
 
         visitChildren( ctx );
 
-        pointer = pointer.parent();
+        treeNodePointer = treeNodePointer.parent();
 
         return visitChildren( ctx );
     }
 
     @Override
     public String visitGivenFontsize( QLSParser.GivenFontsizeContext ctx ) {
-        pointer = pointer.addChild( "Fontsize  - " + ctx.IntegerConstant() );
+        treeNodePointer = treeNodePointer.addChild( new StyleNode ( NodeType.FontSize,ctx.IntegerConstant().getText() ));
 
         visitChildren( ctx );
 
-        pointer = pointer.parent();
+        treeNodePointer = treeNodePointer.parent();
 
         return visitChildren( ctx );
     }
-
-//    @Override
-//    public String visitWidgetType( QLSParser.WidgetTypeContext ctx ) {
-//        pointer = pointer.addChild( "WidgetType  - " + ctx.QuotedString() );
-//
-//        visitChildren( ctx );
-//
-//        pointer = pointer.parent();
-//
-//        return "";
-//    }
-
 }

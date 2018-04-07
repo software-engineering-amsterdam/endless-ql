@@ -41,10 +41,10 @@ public class Test_CollegeExample {
 
         interpretor.visitSource( visitor );
 
-        interpretor.assigns( questionLabeled( "hasSoldHouse" ), True );
+        interpretor.assign( questionLabeled( "hasSoldHouse" ), True );
         
-        interpretor.assigns( interpretor.queryAnswerableQuestion( new Identifier( "hasBoughtHouse" ) ).get(), True );
-        interpretor.assigns( interpretor.queryAnswerableQuestion( new Identifier( "hasMaintLoan" ) ).get(), True );
+        interpretor.assign( interpretor.queryAnswerableQuestion( new Identifier( "hasBoughtHouse" ) ).get(), True );
+        interpretor.assign( interpretor.queryAnswerableQuestion( new Identifier( "hasMaintLoan" ) ).get(), True );
 
         assertTrue( !interpretor.queryAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
         assertTrue( !interpretor.queryAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
@@ -54,8 +54,8 @@ public class Test_CollegeExample {
         assertTrue( interpretor.queryAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
         assertTrue( interpretor.queryAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
 
-        interpretor.assigns( interpretor.queryAnswerableQuestion( new Identifier( "sellingPrice" ) ).get(), Value.typed( Type.Money, "1000000.00" ) );
-        interpretor.assigns( interpretor.queryAnswerableQuestion( new Identifier( "privateDebt" ) ).get(), Value.typed( Type.Money, "800000.00" ) );
+        interpretor.assign( interpretor.queryAnswerableQuestion( new Identifier( "sellingPrice" ) ).get(), Value.typed( Type.Money, "1000000.00" ) );
+        interpretor.assign( interpretor.queryAnswerableQuestion( new Identifier( "privateDebt" ) ).get(), Value.typed( Type.Money, "800000.00" ) );
 
         interpretor.visitSource( visitor );
 

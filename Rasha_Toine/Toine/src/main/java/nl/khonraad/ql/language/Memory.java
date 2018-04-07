@@ -7,6 +7,7 @@ import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
+import nl.khonraad.ql.cdi.StyleAspect;
 import nl.khonraad.ql.language.Question.BehaviouralType;
 
 class Memory {
@@ -14,7 +15,7 @@ class Memory {
     private Questions     questions     = new Questions();
     private StickyAnswers stickyAnswers = new StickyAnswers();
 
-    void prepare() {
+    void reset() {
 
         // TODO Explain sticky behaviour
         stickyAnswers.clear();
@@ -44,6 +45,15 @@ class Memory {
         return value;
     }
 
+    public Optional<Question> queryQuestion( Identifier identifier ) {
+        for ( Question question : questions ) {
+            if ( question.identifier().equals( identifier ) ) {
+                return Optional.of( question );
+            }
+        }
+        return Optional.empty();
+    }
+
     Optional<Question> queryQuestion( BehaviouralType behaviouralType, Identifier identifier ) {
 
         for ( Question question : questions ) {
@@ -54,21 +64,33 @@ class Memory {
         return Optional.empty();
     }
 
-    List<Question> questions() {
-        return questions.listQuestions();
+    @StyleAspect
+    List<Question> queryQuestions() {
+        return questions.list();
     }
 
     void storeAnwer( Question question, Value value ) {
         questions.storeAnswer( question, value );
     }
 
-    public void dump() {
+    void dump() {
 
-        System.out.println( "Dumping memory" );
-        System.out.println( "--------------" );
-        for ( Question question : questions ) {
-            System.out.println( " > " + question.label() );
-        }
+        System.out.println();
+        System.out.println( "=========================================================================================================================================="  );
+        System.out.println( "Speaking the \"vernacular\", these are the questions and resp. answers in good-old CVS-format"  );
+        System.out.println( "=========================================================================================================================================="  );
         
+        String QUOTE = "\"";
+        String COMMA = ", ";
+
+        System.out.println( QUOTE + "Question" + QUOTE + COMMA + QUOTE + "Answer" + QUOTE );
+
+        for ( Question question : questions ) {
+
+            System.out.println( QUOTE + question.label() + QUOTE + COMMA + QUOTE + question.value().string() + QUOTE );
+        }
+        System.out.println( "=========================================================================================================================================="  );
+        System.out.println();
+
     }
 }

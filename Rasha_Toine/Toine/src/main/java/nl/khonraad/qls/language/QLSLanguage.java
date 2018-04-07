@@ -17,27 +17,33 @@ import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
     @Inject
     private QLSAbstractSyntaxTreeBuilder qLsAstBuilder;
 
-    private Memory                      memory;
+    private Memory                       memory;
 
     @PostConstruct
     void postConstruct() {
 
         memory = new Memory();
     }
-    
+
+    @Override
     public String visitSource( QLSVisitor<String> visitor ) {
 
         return visitor.visit( qLsAstBuilder.getTree() );
     }
 
     @Override
-    public void dump() {
-        memory.dump();
-    }
-    @Override
-    public void declareStyleSheet( TreeNode<String> styleSheet ) {
+    public void declareStyleSheet( StyleNodeTree<StyleNode> styleSheet ) {
         memory.addStylesheet( styleSheet );
-        
     }
 
+    @Override
+    public void memoryDump() {
+        memory.dump();
+    }
+
+    @Override
+    public StyleNodeTree<StyleNode> nodes() {
+        return memory.nodes();
+    }
 }
+

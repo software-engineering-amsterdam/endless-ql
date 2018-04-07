@@ -26,7 +26,7 @@ public class StringWidget implements InterpretorAccessor {
                 JTextField textField = (JTextField) e.getSource();
                 String current = textField.getText();
 
-                questionnaire().assigns( question, Value.typed( Type.String, current ) );
+                interpretor().assign( question, Value.typed( Type.String, current ) );
             }
 
             @Override

@@ -2,9 +2,10 @@ package nl.khonraad.ql.language;
 
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.BeforeDestroyed;
 import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -15,7 +16,6 @@ import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
-import nl.khonraad.ql.cdi.LoggingAspect;
 import nl.khonraad.ql.gui.application.VisualizeEvent;
 import nl.khonraad.ql.language.Question.BehaviouralType;
 
@@ -30,32 +30,25 @@ import nl.khonraad.ql.language.Question.BehaviouralType;
     @Inject
     private QLAbstractSyntaxTreeBuilder qLAstBuilder;
 
+    @Inject
     private Memory                      memory;
 
-    @PostConstruct
-    void postConstruct() {
-
-        memory = new Memory();
+    public void destroy(@Observes @BeforeDestroyed(ApplicationScoped.class) Object init) {
+        
+        memory.dump();
     }
-
+    
     @Override
     public void visitSource( QLVisitor<Value> visitor ) {
 
-        try {
+        memory.reset();
+        visitor.visit( qLAstBuilder.getTree() );
 
-            memory.prepare();
-
-            visitor.visit( qLAstBuilder.getTree() );
-
-        } catch (IllegalStateException e) {
-
-            logger.info( e.getMessage() );
-        }
     }
 
     @Override
     public Iterable<Question> questions() {
-        return memory.questions();
+        return memory.queryQuestions();
     }
 
     @Override
@@ -69,6 +62,11 @@ import nl.khonraad.ql.language.Question.BehaviouralType;
     }
 
     @Override
+    public Optional<Question> queryQuestion( Identifier identifier ) {
+        return memory.queryQuestion( identifier );
+    }
+
+    @Override
     public void declareAsAnswerableQuestion( Identifier identifier, Label label, Type type ) {
         memory.addAnswerableQuestion( identifier, label, type );
     }
@@ -78,17 +76,16 @@ import nl.khonraad.ql.language.Question.BehaviouralType;
         return memory.addComputedQuestion( identifier, label, value );
     }
 
-    @LoggingAspect
     @Override
-    public void assigns( Question question, Value value ) {
+    public void assign( Question question, Value value ) {
 
         memory.storeAnwer( question, value );
         event.fire( new VisualizeEvent() );
     }
 
     @Override
-    public void dump() {
-       memory.dump();
-        
+    public void memoryDump() {
+        memory.dump();
+
     }
 }

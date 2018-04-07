@@ -6,8 +6,10 @@ public interface QLSInterpretor {
 
     String visitSource( QLSVisitor<String> visitor );
 
-    void dump();
+    void memoryDump();
 
-    void declareStyleSheet( TreeNode<String> styleSheet );
+    void declareStyleSheet( StyleNodeTree<StyleNode> styleSheet );
 
+    StyleNodeTree<StyleNode> nodes();
+    
 }

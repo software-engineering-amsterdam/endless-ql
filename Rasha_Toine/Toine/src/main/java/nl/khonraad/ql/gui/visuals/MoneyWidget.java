@@ -41,7 +41,7 @@ public class MoneyWidget implements InterpretorAccessor {
 
             String dec = new BigDecimal( current ).setScale( 2, RoundingMode.HALF_EVEN ).toString();
 
-            questionnaire().assigns( question, Value.typed( Type.Money, dec ) );
+            interpretor().assign( question, Value.typed( Type.Money, dec ) );
 
         } );
     }

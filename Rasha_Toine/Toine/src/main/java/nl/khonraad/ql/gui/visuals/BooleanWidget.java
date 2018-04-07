@@ -60,14 +60,14 @@ public class BooleanWidget implements InterpretorAccessor {
         Value value = question.value();
         String selectedAsInitial = displayedValues.display( value );
         jComboBox.setSelectedItem( selectedAsInitial );
-        jComboBox.setToolTipText( "<html>,<h1>abc</h1>TOOLTIP</html>" );
+        
         jComboBox.addActionListener( e -> {
 
             @SuppressWarnings( "unchecked" )
             JComboBox<String> combo = (JComboBox<String>) e.getSource();
             String selectedString = (String) combo.getSelectedItem();
             Value choiceMade = displayedValues.value( selectedString );
-            questionnaire().assigns( question, choiceMade );
+            interpretor().assign( question, choiceMade );
         } );
     }
 }

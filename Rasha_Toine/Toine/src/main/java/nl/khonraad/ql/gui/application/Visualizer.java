@@ -25,7 +25,8 @@ import nl.khonraad.ql.gui.visuals.WidgetContainer;
 
     public void eventListener( @Observes VisualizeEvent event ) {
 
-        widgetContainer.visualize();
+        //widgetContainer.visualize();
+        widgetContainer.visualizeStyled();
 
         canvas.validate();
         canvas.repaint();
@@ -58,7 +59,7 @@ import nl.khonraad.ql.gui.visuals.WidgetContainer;
 
     private Dimension chosenDimensions() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = screenSize.height * 1 / 2;
+        int height = screenSize.height * 3 / 4;
         final double GOLDEN_RATIO = 1.61803398875;
         Double goldenHeight = height * GOLDEN_RATIO;
         int width = goldenHeight.intValue();

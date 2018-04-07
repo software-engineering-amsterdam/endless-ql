@@ -11,9 +11,6 @@ import javax.interceptor.InvocationContext;
     @AroundInvoke
     public Object logMethodEntry( InvocationContext ctx ) throws Exception {
 
-        System.out.println( "Here we call " + ctx.getMethod().getName() + " as to" );
-        Object object = ctx.proceed();
-
-        return object;
+        return ctx.proceed();
     }
 }

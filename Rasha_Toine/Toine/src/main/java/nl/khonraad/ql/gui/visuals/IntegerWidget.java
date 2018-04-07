@@ -36,7 +36,7 @@ public class IntegerWidget implements InterpretorAccessor {
 
             String current = source.getModel().getValue().toString();
 
-            questionnaire().assigns( question, Value.typed( Type.Integer, current ) );
+            interpretor().assign( question, Value.typed( Type.Integer, current ) );
         } );
     }
 }

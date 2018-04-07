@@ -6,6 +6,7 @@ import ql.ast.model.expressions.values.Literal;
 import ql.ast.model.expressions.values.VariableReference;
 import ql.ast.model.statements.Question;
 import ql.gui.model.FormModel;
+import ql.gui.model.ValidatorsHandler;
 import ql.gui.view.ErrorMessageView;
 import ql.gui.view.WindowView;
 import ql.gui.view.panels.FormPanel;
@@ -74,17 +75,8 @@ public class OpenFileController implements ActionListener {
                     new DateFormatValidator(dateLiterals)
             };
 
-            // validating
-            for (Validator validator : validators) {
-                if (!validator.validate()) {
-                    if (validator.criticalErrorOccurred()) {
-                        ErrorMessageView.showErrorDialog(windowView, "Validation error", validator.getMessage());
-                        return;
-                    } else {
-                        ErrorMessageView.showWarningDialog(windowView, "Validation warning", validator.getMessage());
-                    }
-                }
-            }
+            if (!ValidatorsHandler.execute(windowView, validators))
+                return;
 
             // all good
 
@@ -101,4 +93,6 @@ public class OpenFileController implements ActionListener {
             this.windowView.formatAndShow();
         }
     }
+
+
 }

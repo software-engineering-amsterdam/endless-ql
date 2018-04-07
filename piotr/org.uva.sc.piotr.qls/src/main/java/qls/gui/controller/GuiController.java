@@ -4,14 +4,20 @@ import ql.ast.model.Form;
 import ql.gui.controller.BuildFormController;
 import ql.gui.controller.FormController;
 import ql.gui.model.FormModel;
+import ql.gui.model.ValidatorsHandler;
 import ql.gui.view.WindowView;
+import ql.logic.validators.Validator;
 import qls.ast.model.Stylesheet;
 import qls.gui.model.GuiModel;
 import qls.gui.model.Paginator;
+import qls.gui.model.StylesheetBuilder;
 import qls.gui.view.InitialPanel;
 import qls.gui.view.PagePanel;
 import qls.gui.view.paginator.PaginatorPanel;
 import qls.logic.builders.GuiBuilder;
+import qls.logic.validators.AllQuestionsCoveredValidator;
+import qls.logic.validators.NoEmptyReferencesValidator;
+import qls.logic.validators.NoMultipleQuestionDeclarationValidator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,7 +49,7 @@ public class GuiController {
     public void setQlsFilePath(String path) {
         this.guiModel.setQlsFilePath(path);
 
-        Stylesheet stylesheet = BuildStylesheetController.buildStylesheet(this.guiModel.getQlsFilePath(), windowView);
+        Stylesheet stylesheet = StylesheetBuilder.buildStylesheet(this.guiModel.getQlsFilePath(), windowView);
         if (stylesheet != null)
             this.guiModel.setStylesheet(stylesheet);
 
@@ -52,6 +58,18 @@ public class GuiController {
 
     private void proceed() {
         if (this.guiModel.getForm() != null && this.guiModel.getStylesheet() != null) {
+
+            Form form = this.guiModel.getForm();
+            Stylesheet stylesheet = this.guiModel.getStylesheet();
+
+            Validator[] validators = new Validator[]{
+                    new AllQuestionsCoveredValidator(form, stylesheet),
+                    new NoEmptyReferencesValidator(form, stylesheet),
+                    new NoMultipleQuestionDeclarationValidator(stylesheet)
+            };
+
+            if (!ValidatorsHandler.execute(windowView, validators))
+                return;
 
             GuiBuilder guiBuilder = new GuiBuilder(
                     this.guiModel.getForm(),

@@ -1,4 +1,4 @@
-package qls.gui.controller;
+package qls.gui.model;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -13,7 +13,7 @@ import qls.grammar.QLSParser;
 
 import java.io.IOException;
 
-public final class BuildStylesheetController {
+public final class StylesheetBuilder {
     public static Stylesheet buildStylesheet(String selectedFilePath, WindowView windowView) {
         CharStream charStream;
 

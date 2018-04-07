@@ -10,8 +10,7 @@ import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
 import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
 import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
-import nl.khonraad.qls.ast.data.Design;
-import nl.khonraad.qls.ast.data.StyleElements;
+import nl.khonraad.qls.language.QLSLanguage;
 
 public class Test_DefaultStyleMoney {
 
@@ -20,8 +19,7 @@ public class Test_DefaultStyleMoney {
             SourcePathProvider.class, 
             QLSAbstractSyntaxTreeBuilder.class,
             ExtendedQLSBaseVisitor.class,
-            Design.class,
-            StyleElements.class,
+            QLSLanguage.class,
             LoggerProducer.class 
     ).activate( ApplicationScoped.class ).build();
 

@@ -14,12 +14,12 @@ import org.slf4j.Logger;
 
 import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.cdi.LoggingAspect;
-import nl.khonraad.ql.domain.Question;
-import nl.khonraad.ql.domain.Questionnaire;
-import nl.khonraad.ql.domain.Question.BehaviouralType;
+import nl.khonraad.ql.language.QLInterpretor;
+import nl.khonraad.ql.language.Question;
+import nl.khonraad.ql.language.Question.BehaviouralType;
 import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
-import nl.khonraad.qls.ast.data.StyleElement;
-import nl.khonraad.qls.ast.data.Styling;
+import nl.khonraad.qls.language.QLSInterpretor;
+import nl.khonraad.qls.language.StyleElement;
 import nl.khonraad.ql.algebra.values.Type;
 
 @SuppressWarnings( "serial" )
@@ -36,10 +36,10 @@ public class WidgetContainer extends Panel {
     ExtendedQLSBaseVisitor extendedQLSBaseVisitor;
 
     @Inject
-    Questionnaire          questionnaire;
+    QLInterpretor          qlInterpretor;
 
     @Inject
-    Styling                styling;
+    QLSInterpretor         qlsInterpretor;
 
     @PostConstruct
     public void postConstruct() {
@@ -52,14 +52,22 @@ public class WidgetContainer extends Panel {
 
         removeAll();
 
-        questionnaire.visitSource( extendedQLBaseVisitor );
-        styling.visitSource( extendedQLSBaseVisitor );
+        qlInterpretor.visitSource( extendedQLBaseVisitor );
+        qlInterpretor.dump();
 
-        for ( Question question : questionnaire.questions() ) {
+        for ( Question question : qlInterpretor.questions() ) {
 
-            add( new JLabel( question.label() ) );
+            add( new JLabel( "<html>" + question.label() + "</html>" ) );
             add( visualizeQuestion( question ) );
         }
+
+        qlsInterpretor.visitSource( extendedQLSBaseVisitor );
+
+        qlsInterpretor.dump();
+        
+        // JComponent jComponent = styling.visitSource( extendedQLSBaseVisitor );
+        // System.out.println( jComponent.getComponentCount() );
+        // add( jComponent);
     }
 
     private static JPanel addToParent( JPanel parentPanel, JComponent component ) {
@@ -88,7 +96,7 @@ public class WidgetContainer extends Panel {
 
         if ( behaviouralType == BehaviouralType.ANSWERABLE ) {
 
-            Optional<StyleElement> styleElement = styling.styleElement( type );
+            Optional<StyleElement> styleElement = Optional.of( new StyleElement( "VOORTRUE", "VOORFALSE" ));
 
             switch ( type ) {
 

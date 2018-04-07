@@ -4,73 +4,173 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.algebra.values.Type;
-import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.qls.QLSBaseVisitor;
 import nl.khonraad.qls.QLSParser;
-import nl.khonraad.qls.ast.data.StyleElement;
-import nl.khonraad.qls.ast.data.Styling;
+import nl.khonraad.qls.language.QLSInterpretor;
+import nl.khonraad.qls.language.TreeNode;
 
-public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<Value> {
-
-    @Inject
-    Logger  logger;
+public final class ExtendedQLSBaseVisitor extends QLSBaseVisitor<String> {
 
     @Inject
-    Styling questionLangugaeStyle;
+    Logger                 logger;
+
+    @Inject
+    private QLSInterpretor interpretor;
+
+    TreeNode<String>       pointer;
 
     @Override
-    public Value visitType( QLSParser.TypeContext ctx ) {
+    public String visitType( QLSParser.TypeContext ctx ) {
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitStylesheet( QLSParser.StylesheetContext ctx ) {
+    public String visitStylesheet( QLSParser.StylesheetContext ctx ) {
+
+        pointer = new TreeNode<String>( "Stylesheet: " + ctx.Identifier().getText() );
+
+        visitChildren( ctx );
+
+        interpretor.declareStyleSheet( pointer );
+
+        return ctx.Identifier().getText();
+
+    }
+
+    @Override
+    public String visitPage( QLSParser.PageContext ctx ) {
+
+        pointer = pointer.addChild( "Page: " + ctx.Identifier().getText() );
+
+        visitChildren( ctx );
+
+        pointer = pointer.parent();
+
+        return ctx.Identifier().getText();
+    }
+
+    @Override
+    public String visitSection( QLSParser.SectionContext ctx ) {
+
+        pointer = pointer.addChild( "Section: " + ctx.QuotedString().getText() );
+
+        visitChildren( ctx );
+
+        pointer = pointer.parent();
+
+        return ctx.QuotedString().getText();
+    }
+
+    @Override
+    public String visitQuestion( QLSParser.QuestionContext ctx ) {
+
+        pointer = pointer.addChild( "Question: " + ctx.Identifier().getText() );
+
+        visitChildren( ctx );
+
+        pointer = pointer.parent();
+
+        return ctx.Identifier().getText();
+    }
+
+    @Override
+    public String visitSectionElements( QLSParser.SectionElementsContext ctx ) {
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitPage( QLSParser.PageContext ctx ) {
+    public String visitSectionElement( QLSParser.SectionElementContext ctx ) {
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitSection( QLSParser.SectionContext ctx ) {
+    public String visitDefaultStyle( QLSParser.DefaultStyleContext ctx ) {
+
+        pointer = pointer.addChild( "Defaultstyle: " + ctx.questionType().getText()  );
+
+        visitChildren( ctx );
+
+        pointer = pointer.parent();
+
+        return ctx.questionType().getText();
+
+    }
+
+    @Override
+    public String visitQuestionType( QLSParser.QuestionTypeContext ctx ) {
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitQuestion( QLSParser.QuestionContext ctx ) {
+    public String visitStyling( QLSParser.StylingContext ctx ) {
+
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitStatement( QLSParser.StatementContext ctx ) {
+    public String visitGivenWidgetType( QLSParser.GivenWidgetTypeContext ctx ) {
+        pointer = pointer.addChild( "Widget:  - " + ctx.widgetType().getText());
+
+        visitChildren( ctx );
+
+        pointer = pointer.parent();
+
+        return "";
+    }
+
+    @Override
+    public String visitGivenWidth( QLSParser.GivenWidthContext ctx ) {
+        pointer = pointer.addChild( "Width  - " + ctx.IntegerConstant() );
+
+        visitChildren( ctx );
+
+        pointer = pointer.parent();
+
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitDefaultstyle( QLSParser.DefaultstyleContext ctx ) {
+    public String visitGivenColor( QLSParser.GivenColorContext ctx ) {
+        pointer = pointer.addChild( "Color  - " + ctx.HexConstant() );
 
-        logger.info( ctx.type().getText() );
+        visitChildren( ctx );
 
-        if ( "boolean".equals( ctx.type().getText() ) ) {
+        pointer = pointer.parent();
 
-            String t = ctx.widget().QuotedString( 0 ).getText();
-            String f = ctx.widget().QuotedString( 1 ).getText();
-
-            questionLangugaeStyle.storeElementDefault( new StyleElement( Type.Boolean, t, f ) );
-        }
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitAttribute( QLSParser.AttributeContext ctx ) {
+    public String visitGivenFont( QLSParser.GivenFontContext ctx ) {
+        pointer = pointer.addChild( "Font  - " + ctx.QuotedString() );
+
+        visitChildren( ctx );
+
+        pointer = pointer.parent();
+
         return visitChildren( ctx );
     }
 
     @Override
-    public Value visitWidget( QLSParser.WidgetContext ctx ) {
+    public String visitGivenFontsize( QLSParser.GivenFontsizeContext ctx ) {
+        pointer = pointer.addChild( "Fontsize  - " + ctx.IntegerConstant() );
+
+        visitChildren( ctx );
+
+        pointer = pointer.parent();
+
         return visitChildren( ctx );
     }
+
+//    @Override
+//    public String visitWidgetType( QLSParser.WidgetTypeContext ctx ) {
+//        pointer = pointer.addChild( "WidgetType  - " + ctx.QuotedString() );
+//
+//        visitChildren( ctx );
+//
+//        pointer = pointer.parent();
+//
+//        return "";
+//    }
+
 }

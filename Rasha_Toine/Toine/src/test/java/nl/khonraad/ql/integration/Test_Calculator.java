@@ -13,21 +13,18 @@ import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
 import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
 import nl.khonraad.ql.cdi.LoggerProducer;
 import nl.khonraad.ql.cdi.SourcePathProvider;
-import nl.khonraad.ql.domain.Questionnaire;
-import nl.khonraad.ql.domain.Repository;
-import nl.khonraad.ql.domain.Survey;
-import nl.khonraad.qls.ast.data.StyleElements;
+import nl.khonraad.ql.language.QLInterpretor;
+import nl.khonraad.ql.language.QLLanguage;
 
 public class Test_Calculator {
 
     @Rule
     public WeldInitiator weld = WeldInitiator.from( 
             SourcePathProvider.class, 
-            StyleElements.class,
             QLAbstractSyntaxTreeBuilder.class, 
             ExtendedQLBaseVisitor.class, 
-            Survey.class, 
-            Repository.class, 
+            QLLanguage.class, 
+//            Memory.class, 
             LoggerProducer.class 
     ).activate( ApplicationScoped.class ).build();
 
@@ -35,13 +32,13 @@ public class Test_Calculator {
     public void test_Calculations() throws Exception {
 
         weld.select( SourcePathProvider.class ).get().setSourcePathQL( "/nl/khonraad/ql/integration/Calculator.ql" );
-        Questionnaire questionnaire = weld.select( Survey.class ).get();
+        QLInterpretor interpretor = weld.select( QLLanguage.class ).get();
         ExtendedQLBaseVisitor visitor = weld.select( ExtendedQLBaseVisitor.class ).get();
 
-        questionnaire.visitSource( visitor );
+        interpretor.visitSource( visitor );
 
-        assertEquals( "a", 14, Integer.parseInt( questionnaire.findComputedQuestion( new Identifier( "a" ) ).get().value().string() ) );
-        assertEquals( "b", 20, Integer.parseInt( questionnaire.findComputedQuestion( new Identifier( "b" ) ).get().value().string() ) );
-        assertEquals( "c", true, Boolean.parseBoolean( questionnaire.findComputedQuestion( new Identifier( "c" ) ).get().value().string() ) );
+        assertEquals( "a", 14, Integer.parseInt( interpretor.queryComputedQuestion( new Identifier( "a" ) ).get().value().string() ) );
+        assertEquals( "b", 20, Integer.parseInt( interpretor.queryComputedQuestion( new Identifier( "b" ) ).get().value().string() ) );
+        assertEquals( "c", true, Boolean.parseBoolean( interpretor.queryComputedQuestion( new Identifier( "c" ) ).get().value().string() ) );
     }
 }

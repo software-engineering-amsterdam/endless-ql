@@ -1,4 +1,4 @@
-package nl.khonraad.ql.domain;
+package nl.khonraad.ql.language;
 
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
 
-public class StickyAnswers {
+class StickyAnswers {
 
     private Map<Identifier, Value> stickyAnswersMap = new HashMap<>();
 

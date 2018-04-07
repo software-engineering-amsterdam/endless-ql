@@ -5,7 +5,7 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
-import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.language.Question;
 
 public class ComputedQuestionWidget {
 

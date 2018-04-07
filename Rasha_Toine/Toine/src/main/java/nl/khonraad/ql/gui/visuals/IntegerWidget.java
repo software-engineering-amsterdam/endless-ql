@@ -9,10 +9,10 @@ import javax.swing.SwingConstants;
 
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
-import nl.khonraad.ql.cdi.QuestionnaireAccessor;
-import nl.khonraad.ql.domain.Question;
+import nl.khonraad.ql.cdi.InterpretorAccessor;
+import nl.khonraad.ql.language.Question;
 
-public class IntegerWidget implements QuestionnaireAccessor {
+public class IntegerWidget implements InterpretorAccessor {
 
     JSpinner jSpinner;
 
@@ -36,7 +36,7 @@ public class IntegerWidget implements QuestionnaireAccessor {
 
             String current = source.getModel().getValue().toString();
 
-            questionnaire().storeAnswer( question, Value.typed( Type.Integer, current ) );
+            questionnaire().assigns( question, Value.typed( Type.Integer, current ) );
         } );
     }
 }

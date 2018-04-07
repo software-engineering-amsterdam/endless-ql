@@ -1,15 +1,11 @@
-package nl.khonraad.qls.ast.data;
-
-import nl.khonraad.ql.algebra.values.Type;
+package nl.khonraad.qls.language;
 
 public class StyleElement {
 
-    Type          type;
     DisplayValues displayValues;
 
-    public StyleElement( Type type, String styledTrueString, String styledFalseString ) {
+    public StyleElement( String styledTrueString, String styledFalseString ) {
 
-        this.type = type;
         displayValues = new DisplayValues( styledFalseString, styledTrueString );
     }
 

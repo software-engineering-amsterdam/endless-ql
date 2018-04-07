@@ -1,4 +1,4 @@
-package nl.khonraad.ql.domain;
+package nl.khonraad.ql.language;
 
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;

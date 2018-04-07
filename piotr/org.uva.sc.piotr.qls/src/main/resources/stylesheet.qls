@@ -39,7 +39,7 @@ stylesheet taxOfficeExample
     }
       default boolean {
         color: #56f442
-        widget radio ("yeeeeeeesssss", "nooooooooooooooo")
+        widget dropdown ("yeeeeeeesssss", "nooooooooooooooo")
     }
   }
 
@@ -49,7 +49,8 @@ stylesheet taxOfficeExample
     question someNumber
     default integer
     {
-      widget spinbox (min=10, max=10000, step=10)
+      widget slider (min=-100,max=100,step=50)
+      width: 600
     }
   }
 }

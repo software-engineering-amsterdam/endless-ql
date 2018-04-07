@@ -218,7 +218,7 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
             }
 
             if (widgetName.equals("dropdown")) {
-                BooleanRadioWidget qlWidget = new BooleanRadioWidget(questionModel);    // TODO: implement widget
+                BooleanDropdownWidget qlWidget = new BooleanDropdownWidget(questionModel);
                 if (parameters != null && parameters instanceof BooleanParameters) {
                     qlWidget.setYesText(((BooleanParameters) parameters).getValueTrue());
                     qlWidget.setNoText(((BooleanParameters) parameters).getValueFalse());
@@ -240,7 +240,7 @@ public class GuiBuilder extends AbstractASTTraverse<JComponent> {
         }
         if (questionDataType.equals("integer")) {
             if (widgetName.equals("slider")) {
-                IntegerSpinnerWidget qlWidget = new IntegerSpinnerWidget(questionModel);     // TODO: implement widget
+                IntegerSliderWidget qlWidget = new IntegerSliderWidget(questionModel);
                 if (parameters != null && parameters instanceof IntegerParameters) {
                     qlWidget.setMax(((IntegerParameters) parameters).getMax());
                     qlWidget.setMin(((IntegerParameters) parameters).getMin());

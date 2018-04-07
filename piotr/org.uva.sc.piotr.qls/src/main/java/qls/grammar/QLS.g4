@@ -91,7 +91,7 @@ OPEN_PARENTHESIS: '(';
 CLOSE_PARENTHESIS : ')';
 
 STRING: '"' .*? '"';
-INTEGER: ('0'..'9')+;
+INTEGER: '-'?('0'..'9')+;
 HEX_VALUE: '#'(HEX_DIGIT)(HEX_DIGIT)(HEX_DIGIT)(HEX_DIGIT)(HEX_DIGIT)(HEX_DIGIT);
 HEX_DIGIT: '0'..'9'|'a'..'f'|'A'..'F';
 

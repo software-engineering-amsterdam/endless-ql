@@ -2,6 +2,7 @@ package qls.logic.validators;
 
 import ql.ast.model.Form;
 import ql.ast.model.statements.Question;
+import ql.error.Error;
 import ql.logic.collectors.CollectQuestionsVisitor;
 import ql.logic.validators.Validator;
 import qls.ast.model.Stylesheet;
@@ -33,8 +34,11 @@ public class NoEmptyReferencesValidator extends Validator {
                 if (qlQuestion.getVariableName().equals(qlsQuestionName))
                     found = true;
             }
-            if (!found)
+            if (!found) {
+                String message = "Question \"" + qlsQuestionName+"\" declared in the stylesheet refers to a non-existing question in the QL file.";
+                this.setError(new Error(Error.Level.CRITICAL, message));
                 return false;
+            }
         }
         return true;
     }

@@ -8,7 +8,7 @@ public abstract class Validator {
 
     public abstract boolean validate();
 
-    void setError(Error error) {
+    public void setError(Error error) {
         this.error = error;
     }
 

@@ -1,5 +1,6 @@
 package qls.logic.validators;
 
+import ql.error.Error;
 import ql.logic.validators.Validator;
 import qls.ast.model.Stylesheet;
 import qls.logic.collectors.QLSCollectQuestionsVisitor;
@@ -22,7 +23,13 @@ public class NoMultipleQuestionDeclarationValidator extends Validator {
         List<String> stylesheetQuestionsList = QLSVisitor.getQuestionsNames(stylesheet);
         Set<String> stylesheetQuestionsSet = new HashSet<>(stylesheetQuestionsList);
 
-        return stylesheetQuestionsSet.size() == stylesheetQuestionsList.size();
+        if (stylesheetQuestionsSet.size() != stylesheetQuestionsList.size()) {
+            String message = "There are questions declared multiple times in the stylesheet.";
+            this.setError(new Error(Error.Level.CRITICAL, message));
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -4,19 +4,18 @@ import ql.collectors._
 import ql.models.ast._
 
 class SymbolTableEvaluator(ast: Root) {
-  val state = collection.mutable.Map[Identifier, ExpressionValue]()
+  var state = collection.mutable.Map[Identifier, ExpressionValue]()
 
-  // def constructSymbolTable(ast: Root): Unit = {
-    // // val statements = StatementCollector.getStatements(ast)
-  // }
-
-  def getQuestions(ast: Root): List[Question] = {
-    FormCollector.getStatements(ast).map(reachableStatements).flatten
+  def getQuestions(): List[Question] = {
+    FormCollector.getStatements(ast).map(reachableStatements).flatten.collect {
+      case q: Question => q
+    }
   }
 
-  def reachableStatements(statement: Statement): List[Question] = {
+  def reachableStatements(statement: Statement): List[Statement] = {
     statement match {
       case q: Question => List(q)
+      case comp: Computation => List(comp)
       case ifStmt: IfStatement => ifStmt.statements.flatMap(reachableStatements)
       case elseStmt: ElseStatement => elseStmt.statements.flatMap(reachableStatements)
       case condition: ConditionalStatement => {

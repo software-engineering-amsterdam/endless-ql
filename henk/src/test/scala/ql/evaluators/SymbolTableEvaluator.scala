@@ -14,12 +14,12 @@ class SymbolTableEvaluatorSpec extends FunSpec with MockitoSugar {
   val form = FormHelper.getRoot(getClass.getResource(s"${resourceDir}/simple.ql"))
   val evaluator = new SymbolTableEvaluator(form)
 
-  def reachableQuestions(location: String): List[Question] = {
-    val filename = s"${resourceDir}/${location}"
-    val form = FormHelper.getRoot(getClass.getResource(filename))
-    val statements = FormCollector.getStatements(form)
-    evaluator.getQuestions(form)
-  }
+  // def reachableQuestions(location: String): List[Question] = {
+    // val filename = s"${resourceDir}/${location}"
+    // val form = FormHelper.getRoot(getClass.getResource(filename))
+    // val statements = FormCollector.getStatements(form)
+    // evaluator.getQuestions(form)
+  // }
 
   // describe("conditionals containing no identifiers") {
     // it("should return 0") {

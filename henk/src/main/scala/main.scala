@@ -9,7 +9,7 @@ import scalafx.geometry.Insets
 import scalafx.scene.Scene
 // import scalafx.scene.control.Label
 import scalafx.scene.control._
-import scalafx.scene.layout.{ BorderPane, HBox, VBox, Priority}
+import scalafx.scene.layout._
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.input._
@@ -18,52 +18,67 @@ import scalafx.beans.property._
 
 object Main extends JFXApp {
   stage = new JFXApp.PrimaryStage {
-    scene = new Scene {
-        root = new VBox {
-          val q1Answer = StringProperty("")
-          val q2Visible = BooleanProperty(false)
-          q1Answer.onChange {(_, _, answer) => q2Visible.value = (answer == "yes")}
+    scene = new Scene(500, 500) {
+        val box = new VBox
+        val sp = new ScrollPane
+        var st = ""
+        var newUI : List[HBox] = getQuestions(st).map(callbackBox(_, boxUpdate))
 
-          val firstQ = createBox("Show second questions?", q1Answer)
-          val secondQ = createBox("second question", q2Visible)
-          children = List(firstQ, secondQ)
-      }
-    }
-  }
-  def createBox(question: String, prop: StringProperty): HBox = {
-    new HBox {
-      vgrow = Priority.Always
-      hgrow = Priority.Always
-      spacing = 10
-      padding = Insets(20)
-      children = List(
-        new Label(question),
-        new TextField {
-          text.onChange {
-            prop.value = text()
+        def existsId(id: String): Boolean = {
+          newUI.exists( hb => hb.id.value == id )
+        }
+
+        def getId(id: String): Option[HBox] = {
+          newUI.find { case hb: HBox if hb.id.value == id => true}
+        }
+
+        def render(): Unit = {
+          sp.content = new VBox {
+            children = newUI
           }
         }
-      )
+
+        def rerender(): Unit = {
+          val result = getQuestions(st).map(callbackBox(_, boxUpdate))
+          .map {
+            case hb: HBox if existsId(hb.id.value) => getId(hb.id.value).get
+            case other => other
+          }
+          newUI = result
+          render()
+        }
+
+        def getQuestions(value: String): List[String] = {
+          if(value == "yes") {
+            List("Question 1", "Question 2")
+          } else {
+            List("Question 1")
+          }
+        }
+
+        def boxUpdate(value: String): Unit = {
+          st = value
+          rerender()
+        }
+
+        render()
+        root = sp
     }
   }
 
-  def createBox(question: String, isVisible: BooleanProperty): HBox = {
+  def callbackBox(question: String, cb: (String) => Unit): HBox = {
     val box = new HBox {
+      id = question
       vgrow = Priority.Always
       hgrow = Priority.Always
       spacing = 10
-      visible = isVisible.value
       padding = Insets(20)
-      children = List(
-        new Label(question),
-        new TextField {
-          text.onChange {
-            println(text())
-          }
-        }
-      )
     }
-    isVisible.onChange((_,_, newVal) => box.visible = newVal)
+    val inputField = new TextField {}
+    inputField.text.onChange {
+      cb(inputField.text())
+    }
+    box.children = List(new Label(question), inputField)
     box
   }
 

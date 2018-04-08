@@ -32,62 +32,62 @@ import nl.khonraad.ql.parser.QuestionsVisitor;
     @Inject
     private QuestionsAST    qLAstBuilder;
 
-    private QuestionsMemory memory;
+    private QuestionsMemory questionsMemory;
 
     @PostConstruct
     void postConstruct() {
-        memory = new QuestionsMemory();
+        questionsMemory = new QuestionsMemory();
     }
 
     public void destroy( @Observes @BeforeDestroyed( ApplicationScoped.class ) Object init ) {
-        memory.dump();
+        questionsMemory.dump();
     }
 
     @Override
     public void visitSource( QuestionsVisitor visitor ) {
-        memory.reset();
+        questionsMemory.reset();
         visitor.visit( qLAstBuilder.getTree() );
 
     }
 
     @Override
     public Iterable<Question> questions() {
-        return memory.queryQuestions();
+        return questionsMemory.queryQuestions();
     }
 
     @Override
     public Optional<Question> queryComputedQuestion( Identifier identifier ) {
-        return memory.queryQuestion( BehaviouralType.COMPUTED, identifier );
+        return questionsMemory.queryQuestion( BehaviouralType.COMPUTED, identifier );
     }
 
     @Override
     public Optional<Question> queryAnswerableQuestion( Identifier identifier ) {
-        return memory.queryQuestion( BehaviouralType.ANSWERABLE, identifier );
+        return questionsMemory.queryQuestion( BehaviouralType.ANSWERABLE, identifier );
     }
 
     @Override
     public Optional<Question> queryQuestion( Identifier identifier ) {
-        return memory.queryQuestion( identifier );
+        return questionsMemory.queryQuestion( identifier );
     }
 
     @Override
     public void declareAsAnswerableQuestion( Identifier identifier, Label label, Type type ) {
-        memory.addAnswerableQuestion( identifier, label, type );
+        questionsMemory.addAnswerableQuestion( identifier, label, type );
     }
 
     @Override
     public Value declareAsComputedQuestion( Identifier identifier, Label label, Value value ) {
-        return memory.addComputedQuestion( identifier, label, value );
+        return questionsMemory.addComputedQuestion( identifier, label, value );
     }
 
     @Override
     public void assign( Question question, Value value ) {
-        memory.storeAnwer( question, value );
+        questionsMemory.storeAnwer( question, value );
         event.fire( new VisualizeEvent() );
     }
 
     @Override
     public void memoryDump() {
-        memory.dump();
+        questionsMemory.dump();
     }
 }

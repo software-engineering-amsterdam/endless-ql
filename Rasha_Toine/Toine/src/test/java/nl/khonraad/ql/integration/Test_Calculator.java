@@ -24,7 +24,6 @@ public class Test_Calculator {
             QuestionsAST.class, 
             QuestionsVisitor.class, 
             QuestionsLanguage.class, 
-//            Memory.class, 
             LoggerProducer.class 
     ).activate( ApplicationScoped.class ).build();
 

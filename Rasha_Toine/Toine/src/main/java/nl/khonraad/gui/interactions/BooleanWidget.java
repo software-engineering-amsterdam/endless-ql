@@ -66,7 +66,9 @@ public class BooleanWidget implements QuestionsInterpretorAccessor {
             JComboBox<String> combo = (JComboBox<String>) e.getSource();
             String selectedString = (String) combo.getSelectedItem();
             Value choiceMade = displayedValues.value( selectedString );
+            
             questionsInterpretor().assign( question, choiceMade );
+            
         } );
     }
 }

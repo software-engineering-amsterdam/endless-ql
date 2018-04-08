@@ -26,8 +26,8 @@ import nl.khonraad.gui.interactions.WidgetContainer;
     public void eventListener( @Observes VisualizeEvent event ) {
 
         // TODO make this programmable
-        // widgetContainer.visualize();
-        widgetContainer.visualizeStyled();
+        widgetContainer.visualize();
+        // widgetContainer.visualizeStyled();
 
         canvas.validate();
         canvas.repaint();

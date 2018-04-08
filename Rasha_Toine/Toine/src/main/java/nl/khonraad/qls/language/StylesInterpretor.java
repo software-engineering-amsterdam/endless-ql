@@ -4,12 +4,12 @@ import nl.khonraad.qls.parser.StylesVisitor;
 
 public interface StylesInterpretor {
 
-    void declareAsStyleSheet( StyleNodeTree<StyleNode> styleSheet );
+    void                        declareAsStyleSheet( StyleNodeTree<StyleNode> styleSheet );
 
-    void memoryDump();
+    void                        memoryDump();
 
-    StyleNodeTree<StyleNode> nodes();
+    StyleNodeTree<StyleNode>    nodes();
 
-    String visitSource( StylesVisitor visitor );
+    String                      visitSource( StylesVisitor visitor );
 
 }

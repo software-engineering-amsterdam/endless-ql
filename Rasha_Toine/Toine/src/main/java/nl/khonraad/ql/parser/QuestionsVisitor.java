@@ -118,11 +118,8 @@ public final class QuestionsVisitor extends QLBaseVisitor<Value> {
         Value right = visit( ctx.expression( 1 ) );
         String operator = ctx.multiplicationOperator().getText();
 
-        try {
-            return left.apply( Operator.parse( operator ), right );
-        } catch (Exception e) {
-            throw new RuntimeException( e.getMessage() );
-        }
+        return left.apply( Operator.parse( operator ), right );
+        
     }
 
     @Override
@@ -132,13 +129,7 @@ public final class QuestionsVisitor extends QLBaseVisitor<Value> {
         Value right = visit( ctx.expression( 1 ) );
         String operator = ctx.additionOperator().getText();
 
-        try {
-
-            return left.apply( Operator.parse( operator ), right );
-        } catch (Exception e) {
-
-            throw new RuntimeException( e.getMessage() );
-        }
+        return left.apply( Operator.parse( operator ), right );
     }
 
     @Override
@@ -148,11 +139,7 @@ public final class QuestionsVisitor extends QLBaseVisitor<Value> {
         Value right = visit( ctx.expression( 1 ) );
         String operator = ctx.equalityOperator().getText();
 
-        try {
-            return left.apply( Operator.parse( operator ), right );
-        } catch (Exception e) {
-            throw new RuntimeException( e.getMessage() );
-        }
+        return left.apply( Operator.parse( operator ), right );
     }
 
     @Override
@@ -162,11 +149,7 @@ public final class QuestionsVisitor extends QLBaseVisitor<Value> {
         Value right = visit( ctx.expression( 1 ) );
         String operator = ctx.logicalOperator().getText();
 
-        try {
-            return left.apply( Operator.parse( operator ), right );
-        } catch (Exception e) {
-            throw new RuntimeException( e.getMessage() );
-        }
+        return left.apply( Operator.parse( operator ), right );
     }
 
     @Override
@@ -176,12 +159,7 @@ public final class QuestionsVisitor extends QLBaseVisitor<Value> {
         Value right = visit( ctx.expression( 1 ) );
         String operator = ctx.orderingOperator().getText();
 
-        try {
-
-            return left.apply( Operator.parse( operator ), right );
-        } catch (Exception e) {
-            throw new RuntimeException( e.getMessage() );
-        }
+        return left.apply( Operator.parse( operator ), right );
     }
 
     @Override

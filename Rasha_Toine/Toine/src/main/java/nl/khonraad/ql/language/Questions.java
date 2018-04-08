@@ -13,8 +13,13 @@ class Questions implements Iterable<Question> {
 
     private List<Question> questionList = new ArrayList<>();
 
-    Optional<Question> findQuestion( BehaviouralType behaviouralType, Identifier identifier ) {
+    
+    @Override
+    public Iterator<Question> iterator() {
+        return questionList.iterator();
+    }
 
+    Optional<Question> findQuestion( BehaviouralType behaviouralType, Identifier identifier ) {
         for ( Question question : questionList ) {
             if ( behaviouralType == question.getBehaviouralType() && question.identifier().equals( identifier ) ) {
                 return Optional.of( question );
@@ -25,11 +30,6 @@ class Questions implements Iterable<Question> {
 
     List<Question> list() {
         return questionList;
-    }
-
-    @Override
-    public Iterator<Question> iterator() {
-        return questionList.iterator();
     }
 
     void clear() {

@@ -9,7 +9,6 @@ import nl.khonraad.ql.algebra.values.Value;
 public class Question {
 
     public enum BehaviouralType {
-
         ANSWERABLE, COMPUTED;
     }
 
@@ -19,7 +18,6 @@ public class Question {
     private Value           value;
 
     public Question( BehaviouralType behaviouralType, Identifier identifier, Label label, Value value ) {
-
         this.behaviouralType = behaviouralType;
         this.identifier = identifier;
         this.label = label;
@@ -52,7 +50,6 @@ public class Question {
     }
 
     void setValue( Value value ) {
-
         if ( this.value.type() != value.type() ) {
             throw new RuntimeException( "TYPE_ERROR" );
         }

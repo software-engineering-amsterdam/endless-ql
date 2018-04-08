@@ -10,6 +10,10 @@ import nl.khonraad.ql.parser.QuestionsVisitor;
 
 public interface QuestionsInterpretor {
 
+    /*
+     * Sorted alphabetically for readability
+     */
+    
     void                assign( Question question, Value value );
     
     void                declareAsAnswerableQuestion( Identifier identifier, Label label, Type type );

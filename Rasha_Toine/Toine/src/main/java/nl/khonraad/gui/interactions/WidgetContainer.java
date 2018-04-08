@@ -57,7 +57,7 @@ public class WidgetContainer extends Panel {
 
         for ( Question question : questionsInterpretor.questions() ) {
 
-            add( new JLabel( question.label() ) );
+            add( new JLabel( addHtmlTag( question.label() ) ) );
 
             add( visualizeQuestion( question ) );
         }
@@ -69,7 +69,6 @@ public class WidgetContainer extends Panel {
         questionsInterpretor.visitSource( questionsVisitor );
 
         stylesInterpretor.visitSource( stylesVisitor );
-        // stylesInterpretor.memoryDump();
 
         visualizeTree( stylesInterpretor.nodes() );
 
@@ -133,10 +132,10 @@ public class WidgetContainer extends Panel {
                 Question question = optional.get();
 
                 JLabel jLabel = new JLabel( addHtmlTag( question.label() ) );
-                String tooltip = addH1Tag( node.data().nodeType().name() );
-                
-                tooltip += node.data().string();
-                
+                String tooltip = addH1Tag( "&quot;Proof Of Concept&quot;<br/>" + "In QLS the placement for: " + node.data().string() );
+
+                tooltip += "was found in section " +   node.parent().data().string();
+
                 jLabel.setToolTipText( addHtmlTag( tooltip ) );
 
                 add( jLabel );

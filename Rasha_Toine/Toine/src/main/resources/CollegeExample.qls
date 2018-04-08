@@ -35,7 +35,7 @@ stylesheet taxOfficeExample
   }  
   page Kipling 
   {
-    section "VZ" {
+    section "The identifier of 4 placements" {
         question q1
         question q2
         question q3

@@ -41,9 +41,6 @@ stylesheet taxOfficeExample
         question q3
         question positive
     }
-    section "End" {
-        question poem
-    }
   }
   default boolean widget radio("Ja", "Nee")
 }

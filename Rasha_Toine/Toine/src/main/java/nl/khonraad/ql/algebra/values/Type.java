@@ -6,12 +6,15 @@ package nl.khonraad.ql.algebra.values;
  */
 public enum Type {
 
-    Boolean("boolean"), Date("date"), Integer("integer"), Money("money"), String("string");
+    Boolean("boolean"), 
+    Date("date"), 
+    Integer("integer"), 
+    Money("money"), 
+    String("string");
 
     private String terminalSymbol;
 
     private Type( String terminalSymbol ) {
-
         this.terminalSymbol = terminalSymbol;
     }
 
@@ -22,9 +25,7 @@ public enum Type {
     public static Type type( String terminalSymbol ) {
 
         for ( Type type : values() ) {
-
             if ( type.terminalSymbol.equals( terminalSymbol ) ) {
-
                 return type;
             }
         }

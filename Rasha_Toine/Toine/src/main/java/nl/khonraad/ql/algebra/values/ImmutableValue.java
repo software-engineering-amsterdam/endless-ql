@@ -14,8 +14,8 @@ import nl.khonraad.ql.algebra.functions.UnarySignature;
 
 final class ImmutableValue implements Value {
 
-    private Type              type;
-    private MutableValue      mutableValue;
+    private Type         type;
+    private MutableValue mutableValue;
 
     @Override
     public String string() {
@@ -59,9 +59,7 @@ final class ImmutableValue implements Value {
     public Value apply( Operator operator, Value other ) {
 
         BiFunction<Value, Value, Value> function = BinaryFunctions.function( BinarySignature.signature( this.type(), operator, other.type() ) );
-
         return function.apply( this, other );
-
     }
 
     @Override
@@ -77,13 +75,13 @@ final class ImmutableValue implements Value {
     @Override
     public boolean equals( Object object ) {
 
-        if ( object == null || getClass() != object.getClass() )
+        if ( object == null || getClass() != object.getClass() ) {
             return false;
+        }
 
         final ImmutableValue other = (ImmutableValue) object;
 
         return Objects.equals( this.mutableValue, other.mutableValue ) && Objects.equals( this.type, other.type );
     }
-
 
 }

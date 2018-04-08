@@ -8,22 +8,22 @@ import org.jboss.weld.junit4.WeldInitiator;
 import org.junit.Rule;
 import org.junit.Test;
 
+import nl.khonraad.cdi.producers.LoggerProducer;
+import nl.khonraad.cdi.producers.SourcePathProvider;
 import nl.khonraad.ql.algebra.Identifier;
-import nl.khonraad.ql.ast.ExtendedQLBaseVisitor;
-import nl.khonraad.ql.ast.QLAbstractSyntaxTreeBuilder;
-import nl.khonraad.ql.cdi.LoggerProducer;
-import nl.khonraad.ql.cdi.SourcePathProvider;
-import nl.khonraad.ql.language.QLInterpretor;
-import nl.khonraad.ql.language.QLLanguage;
+import nl.khonraad.ql.language.QuestionsInterpretor;
+import nl.khonraad.ql.language.QuestionsLanguage;
+import nl.khonraad.ql.parser.QuestionsVisitor;
+import nl.khonraad.ql.parser.QuestionsAST;
 
 public class Test_Calculator {
 
     @Rule
     public WeldInitiator weld = WeldInitiator.from( 
             SourcePathProvider.class, 
-            QLAbstractSyntaxTreeBuilder.class, 
-            ExtendedQLBaseVisitor.class, 
-            QLLanguage.class, 
+            QuestionsAST.class, 
+            QuestionsVisitor.class, 
+            QuestionsLanguage.class, 
 //            Memory.class, 
             LoggerProducer.class 
     ).activate( ApplicationScoped.class ).build();
@@ -32,13 +32,13 @@ public class Test_Calculator {
     public void test_Calculations() throws Exception {
 
         weld.select( SourcePathProvider.class ).get().setSourcePathQL( "/nl/khonraad/ql/integration/Calculator.ql" );
-        QLInterpretor interpretor = weld.select( QLLanguage.class ).get();
-        ExtendedQLBaseVisitor visitor = weld.select( ExtendedQLBaseVisitor.class ).get();
+        QuestionsInterpretor questionsInterpretor = weld.select( QuestionsLanguage.class ).get();
+        QuestionsVisitor visitor = weld.select( QuestionsVisitor.class ).get();
 
-        interpretor.visitSource( visitor );
+        questionsInterpretor.visitSource( visitor );
 
-        assertEquals( "a", 14, Integer.parseInt( interpretor.queryComputedQuestion( new Identifier( "a" ) ).get().value().string() ) );
-        assertEquals( "b", 20, Integer.parseInt( interpretor.queryComputedQuestion( new Identifier( "b" ) ).get().value().string() ) );
-        assertEquals( "c", true, Boolean.parseBoolean( interpretor.queryComputedQuestion( new Identifier( "c" ) ).get().value().string() ) );
+        assertEquals( "a", 14, Integer.parseInt( questionsInterpretor.queryComputedQuestion( new Identifier( "a" ) ).get().value().string() ) );
+        assertEquals( "b", 20, Integer.parseInt( questionsInterpretor.queryComputedQuestion( new Identifier( "b" ) ).get().value().string() ) );
+        assertEquals( "c", true, Boolean.parseBoolean( questionsInterpretor.queryComputedQuestion( new Identifier( "c" ) ).get().value().string() ) );
     }
 }

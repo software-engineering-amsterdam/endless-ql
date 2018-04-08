@@ -6,20 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 import nl.khonraad.ql.algebra.Identifier;
-import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.language.Question.BehaviouralType;
 
 class Questions implements Iterable<Question> {
 
     private List<Question> questionList = new ArrayList<>();
-
-    Value storeComputedQuestion( Identifier identifier, Label label, Value value ) {
-
-        Question question = new Question( BehaviouralType.COMPUTED, identifier, label, value );
-        questionList.add( question );
-        return value;
-    }
 
     Optional<Question> findQuestion( BehaviouralType behaviouralType, Identifier identifier ) {
 

@@ -38,19 +38,16 @@ class StickyAnswers {
     }
 
     void clear() {
-
         stickyAnswersMap.clear();
     }
 
     void add( Identifier identifier, Value value ) {
-
         stickyAnswersMap.put( identifier, value );
     }
 
     Value get( Identifier identifier, Type type ) {
 
         if ( stickyAnswersMap.containsKey( identifier ) ) {
-
             return stickyAnswersMap.get( identifier );
         }
         return initialValueOf( type );

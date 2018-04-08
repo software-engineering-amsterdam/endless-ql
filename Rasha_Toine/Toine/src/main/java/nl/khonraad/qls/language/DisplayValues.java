@@ -6,7 +6,6 @@ public class DisplayValues {
     private String trueString;
 
     DisplayValues( String falseString, String trueString ) {
-
         this.falseString = falseString;
         this.trueString = trueString;
     }
@@ -18,5 +17,4 @@ public class DisplayValues {
     String trueString() {
         return trueString;
     }
-
 }

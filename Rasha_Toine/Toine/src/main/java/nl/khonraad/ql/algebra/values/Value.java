@@ -8,9 +8,9 @@ import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
 
 public interface Value {
 
-    public static final Value Unit  = new ImmutableValue( null, null );
-    public static final Value True  = Value.of( true );
-    public static final Value False = Value.of( false );
+    public static final Value  Unit        = new ImmutableValue( null, null );
+    public static final Value  True        = Value.of( true );
+    public static final Value  False       = Value.of( false );
     public static final String TrueString  = True.string();
     public static final String FalseString = False.string();
 
@@ -45,5 +45,4 @@ public interface Value {
     static Value of( String s ) {
         return new ImmutableValue( Type.String, s );
     }
-
 }

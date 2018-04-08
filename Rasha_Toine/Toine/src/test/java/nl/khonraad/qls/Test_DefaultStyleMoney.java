@@ -6,20 +6,20 @@ import org.jboss.weld.junit4.WeldInitiator;
 import org.junit.Rule;
 import org.junit.Test;
 
-import nl.khonraad.ql.cdi.LoggerProducer;
-import nl.khonraad.ql.cdi.SourcePathProvider;
-import nl.khonraad.qls.ast.ExtendedQLSBaseVisitor;
-import nl.khonraad.qls.ast.QLSAbstractSyntaxTreeBuilder;
-import nl.khonraad.qls.language.QLSLanguage;
+import nl.khonraad.cdi.producers.LoggerProducer;
+import nl.khonraad.cdi.producers.SourcePathProvider;
+import nl.khonraad.qls.language.StylesLanguage;
+import nl.khonraad.qls.parser.StylesVisitor;
+import nl.khonraad.qls.parser.StylesAST;
 
 public class Test_DefaultStyleMoney {
 
     @Rule
     public WeldInitiator weld = WeldInitiator.from( 
             SourcePathProvider.class, 
-            QLSAbstractSyntaxTreeBuilder.class,
-            ExtendedQLSBaseVisitor.class,
-            QLSLanguage.class,
+            StylesAST.class,
+            StylesVisitor.class,
+            StylesLanguage.class,
             LoggerProducer.class 
     ).activate( ApplicationScoped.class ).build();
 
@@ -27,8 +27,8 @@ public class Test_DefaultStyleMoney {
     public void test_Calculations() throws Exception {
 
         weld.select( SourcePathProvider.class ).get().setSourcePathQLS( "/nl/khonraad/qls/integration/DefaultStyleMoney.qls" );
-        ExtendedQLSBaseVisitor visitor = weld.select( ExtendedQLSBaseVisitor.class ).get();
-        QLSAbstractSyntaxTreeBuilder builder = weld.select( QLSAbstractSyntaxTreeBuilder.class ).get();
+        StylesVisitor visitor = weld.select( StylesVisitor.class ).get();
+        StylesAST builder = weld.select( StylesAST.class ).get();
         visitor.visit(  builder.getTree() );
 
     }

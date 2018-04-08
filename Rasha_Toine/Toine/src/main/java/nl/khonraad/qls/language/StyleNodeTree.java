@@ -3,8 +3,6 @@ package nl.khonraad.qls.language;
 import java.util.LinkedList;
 import java.util.List;
 
-import nl.khonraad.qls.QLSParser;
-
 public class StyleNodeTree<T> {
 
     public enum NodeType {
@@ -26,16 +24,12 @@ public class StyleNodeTree<T> {
     public StyleNodeTree<T> addChild( T child ) {
 
         StyleNodeTree<T> childNode = new StyleNodeTree<>( child );
-
         childNode.parent = this;
-
         this.children.add( childNode );
-
         return childNode;
     }
 
     public StyleNodeTree<T> parent() {
-
         return parent;
     }
 
@@ -46,5 +40,4 @@ public class StyleNodeTree<T> {
     public StyleNode data() {
         return (StyleNode) data;
     }
-
 }

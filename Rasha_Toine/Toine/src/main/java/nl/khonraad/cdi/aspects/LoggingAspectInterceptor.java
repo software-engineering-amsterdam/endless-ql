@@ -9,7 +9,6 @@ import javax.interceptor.InvocationContext;
 
     @AroundInvoke
     public Object logMethodEntry( InvocationContext ctx ) throws Exception {
-
         return ctx.proceed();
     }
 }

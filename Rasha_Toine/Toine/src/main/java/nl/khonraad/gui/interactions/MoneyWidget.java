@@ -28,6 +28,7 @@ public class MoneyWidget implements QuestionsInterpretorAccessor {
         format.setMaximumFractionDigits( 2 );
         format.setMinimumFractionDigits( 2 );
         editor.getTextField().setHorizontalAlignment( SwingConstants.RIGHT );
+        
         Dimension d = jSpinner.getPreferredSize();
         d.width = 185;
         jSpinner.setPreferredSize( d );
@@ -35,11 +36,8 @@ public class MoneyWidget implements QuestionsInterpretorAccessor {
         jSpinner.addChangeListener( e -> {
 
             JSpinner source = (JSpinner) e.getSource();
-
             String current = source.getModel().getValue().toString();
-
             String dec = new BigDecimal( current ).setScale( 2, RoundingMode.HALF_EVEN ).toString();
-
             questionsInterpretor().assign( question, Value.typed( Type.Money, dec ) );
 
         } );

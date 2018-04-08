@@ -26,6 +26,7 @@ public class IntegerWidget implements QuestionsInterpretorAccessor {
         format.setMaximumFractionDigits( 0 );
         format.setMinimumFractionDigits( 0 );
         editor.getTextField().setHorizontalAlignment( SwingConstants.RIGHT );
+        
         Dimension d = jSpinner.getPreferredSize();
         d.width = 185;
         jSpinner.setPreferredSize( d );
@@ -33,9 +34,7 @@ public class IntegerWidget implements QuestionsInterpretorAccessor {
         jSpinner.addChangeListener( e -> {
 
             JSpinner source = (JSpinner) e.getSource();
-
             String current = source.getModel().getValue().toString();
-
             questionsInterpretor().assign( question, Value.typed( Type.Integer, current ) );
         } );
     }

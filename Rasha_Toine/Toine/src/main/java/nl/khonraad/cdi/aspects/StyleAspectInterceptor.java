@@ -9,9 +9,7 @@ import javax.interceptor.InvocationContext;
 
     @AroundInvoke
     public Object aroundInvoke( InvocationContext ctx ) throws Exception {
-
         Object object = ctx.proceed();
-
         return object;
     }
 }

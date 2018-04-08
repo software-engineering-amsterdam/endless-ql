@@ -12,9 +12,7 @@ public class ComputedQuestionWidget {
     JLabel jLabel;
 
     public ComputedQuestionWidget( Question question ) {
-
         jLabel = new JLabel( question.string() );
-
         jLabel.setFont( new Font( "Courier", Font.BOLD, 16 ) );
     }
 }

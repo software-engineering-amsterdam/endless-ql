@@ -119,7 +119,7 @@ public final class QuestionsVisitor extends QLBaseVisitor<Value> {
         String operator = ctx.multiplicationOperator().getText();
 
         return left.apply( Operator.parse( operator ), right );
-        
+
     }
 
     @Override

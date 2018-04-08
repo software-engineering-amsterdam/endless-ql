@@ -15,7 +15,6 @@ public class BooleanWidget implements QuestionsInterpretorAccessor {
     private JComboBox<String> jComboBox;
 
     JComponent jComponent() {
-
         return jComboBox;
     }
 
@@ -24,9 +23,7 @@ public class BooleanWidget implements QuestionsInterpretorAccessor {
         private String[] displayedStrings = { Value.FalseString, Value.TrueString };
 
         DisplayedValues( Optional<StyleElement> styleElement ) {
-
             if ( styleElement.isPresent() ) {
-
                 displayedStrings[0] = styleElement.get().styledFalseString();
                 displayedStrings[1] = styleElement.get().styledTrueString();
             }

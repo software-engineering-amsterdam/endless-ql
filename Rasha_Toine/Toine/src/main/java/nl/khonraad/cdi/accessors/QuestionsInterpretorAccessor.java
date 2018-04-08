@@ -16,9 +16,7 @@ public interface QuestionsInterpretorAccessor {
 
         @SuppressWarnings( "unchecked" )
         Bean<QuestionsLanguage> bean = (Bean<QuestionsLanguage>) beanManager.getBeans( QuestionsLanguage.class ).iterator().next();
-
         CreationalContext<QuestionsLanguage> ctx = beanManager.createCreationalContext( bean );
-
         return (QuestionsInterpretor) beanManager.getReference( bean, QuestionsLanguage.class, ctx );
     }
 }

@@ -17,15 +17,12 @@ public class DateWidget implements QuestionsInterpretorAccessor {
     public DateWidget( Question question ) {
 
         jTextField = new JTextField( question.string(), 10 );
-
         jTextField.addFocusListener( new FocusListener() {
 
             @Override
             public void focusLost( FocusEvent e ) {
-
                 JTextField textField = (JTextField) e.getSource();
                 String current = textField.getText();
-
                 questionsInterpretor().assign( question, Value.typed( Type.Date, current ) );
             }
 

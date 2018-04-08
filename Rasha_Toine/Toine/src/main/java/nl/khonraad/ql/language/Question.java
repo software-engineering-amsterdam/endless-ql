@@ -1,6 +1,5 @@
 package nl.khonraad.ql.language;
 
-import nl.khonraad.cdi.aspects.StyleAspect;
 import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Type;
@@ -24,7 +23,6 @@ public class Question {
         this.value = value;
     }
 
-    @StyleAspect
     public BehaviouralType getBehaviouralType() {
         return behaviouralType;
     }

@@ -16,10 +16,101 @@ class SymbolTableEvaluator(ast: Root) {
     return result 
   }
 
+  def getReachableComputations(st: collection.mutable.Map[Identifier, ExpressionValue]): List[Computation] = {
+    val stateHolder = this.state
+    this.state = st
+    val result = FormCollector.getStatements(ast).map(reachableStatements).flatten.collect {
+      case comp: Computation => comp
+    }
+    this.state = stateHolder
+    return result 
+  }
+
+  def getReachableStatements(st: collection.mutable.Map[Identifier, ExpressionValue]): List[Statement] = {
+    val stateHolder = this.state
+    this.state = st
+    evaluateComputations(st)
+
+    val result = FormCollector.getStatements(ast).map(reachableStatements).flatten.collect {
+      case comp: Computation => comp
+      case quest: Question => quest
+    }
+    this.state = stateHolder
+    return result 
+  }
+
+  def evaluableComputations(st: collection.mutable.Map[Identifier, ExpressionValue]): List[Computation] = {
+    val computations = FormCollector.getStatements(ast)
+      .flatMap(StatementCollector.getComputations)
+
+      computations.filter(x => {
+        val identifiers = ExpressionCollector.getIdentifiers(x.valAssign)
+        val values = identifiers.map(this.state.get(_))
+        if(values.exists(x => x.isEmpty)) {
+          false
+        } else {
+          true
+        }
+      })
+  }
+
+  def nonEvaluableComputations(st: collection.mutable.Map[Identifier, ExpressionValue]): List[Computation] = {
+    val computations = FormCollector.getStatements(ast)
+      .flatMap(StatementCollector.getComputations)
+
+      computations.filter(x => {
+        val identifiers = ExpressionCollector.getIdentifiers(x.valAssign)
+        val values = identifiers.map(this.state.get(_))
+        if(values.exists(x => x.isEmpty)) {
+          true
+        } else {
+          false
+        }
+      })
+  }
+
+  def evaluateComputations(st: collection.mutable.Map[Identifier, ExpressionValue]): Unit = {
+    // Try to evaluate all computations
+    val computations = evaluableComputations(st)
+    computations.map(x => {
+      st.update(x.varDecl.id, evaluateComputation(x, st))
+    })
+
+    // Reset unreachable questions to none, otherwise computations
+    // can still keep their value
+    FormCollector.getStatements(ast)
+      .flatMap(StatementCollector.getQuestions).diff(getQuestions)
+      .map(q => {
+        st.remove(q.varDecl.id)
+      })
+
+    // reset all computations in ST to none if they can't be evaluated
+    // this is due to dependencies like questions being changed.
+    nonEvaluableComputations(st).map(x => {
+      st.remove(x.varDecl.id)
+    })
+
+    // resetting computations could trigger a ripple, invalidating
+    // other computations so therefor we have to keep looking for
+    // other computations until no computation is left that is
+    // invaluable
+    if(evaluableComputations(st).size < computations.size) {
+      evaluateComputations(st)
+    }
+  }
+
   def getQuestions(): List[Question] = {
     FormCollector.getStatements(ast).map(reachableStatements).flatten.collect {
       case q: Question => q
     }
+  }
+
+  def evaluateComputation(comp: Computation, st: collection.mutable.Map[Identifier, ExpressionValue]): ExpressionValue = {
+    val stateHolder = this.state
+    this.state = st
+    val result = evaluateExpression(comp.valAssign.expression)
+    this.state = stateHolder
+    return result 
   }
 
   def reachableStatements(statement: Statement): List[Statement] = {

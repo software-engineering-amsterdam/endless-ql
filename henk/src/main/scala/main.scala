@@ -27,6 +27,7 @@ object Main extends JFXApp {
   val evaluator = new SymbolTableEvaluator(root)
   var programState = collection.mutable.Map[Identifier, ExpressionValue]()
   val factory = new QuestionFactory(programState)
+  val compFactory = new ComputationFactory(programState, evaluator)
 
   stage = new JFXApp.PrimaryStage {
     scene = new Scene(500, 500) {
@@ -40,7 +41,10 @@ object Main extends JFXApp {
         }
 
         def getId(id: String): Option[HBox] = {
-          newUI.find { case hb: HBox if hb.id.value == id => true}
+          newUI.find {
+            case hb: HBox if hb.id.value == id => true
+            case other => false
+          }
         }
 
         def render(): Unit = {
@@ -50,11 +54,26 @@ object Main extends JFXApp {
         }
 
         def rerender(): Unit = {
-          val result = getQuestions().map(factory.create(_, rerender))
-          .map {
-            case hb: HBox if existsId(hb.id.value) => getId(hb.id.value).get
-            case other => other
-          }
+          val result = evaluator.getReachableStatements(programState)
+            .map(stat => {
+              stat match {
+                case comp: Computation => compFactory.create(comp, rerender)
+                case quest: Question => {
+                  val q = factory.create(quest, rerender)
+                  if(existsId(q.id.value)) {
+                    getId(q.id.value).get
+                  } else {
+                    q
+                  }
+                }
+              }
+            })
+
+          // val result = getQuestions().map(factory.create(_, rerender))
+          // .map {
+            // case hb: HBox if existsId(hb.id.value) => getId(hb.id.value).get
+            // case other => other
+          // }
           newUI = result
           render()
         }
@@ -67,7 +86,14 @@ object Main extends JFXApp {
           rerender()
         }
 
-        newUI = getQuestions().map(factory.create(_, rerender))
+        // newUI = getQuestions().map(factory.create(_, rerender))
+        newUI = evaluator.getReachableStatements(programState)
+            .map(stat => {
+              stat match {
+                case comp: Computation => compFactory.create(comp, rerender)
+                case quest: Question => factory.create(quest, rerender)
+              }
+            })
         render()
         root = sp
     }

@@ -16,8 +16,8 @@ class QuestionFactory(symbolTable: collection.mutable.Map[Identifier, Expression
   def create(question: Question, cb: () => Unit): HBox = {
     val varDecl = question.varDecl
     varDecl.typeDecl match {
-      case IntegerType => createBooleanQuestion(question, cb)
-      case StringType => createBooleanQuestion(question, cb)
+      case IntegerType => createIntegerQuestion(question, cb)
+      case StringType => createStringQuestion(question, cb)
       case BooleanType => createBooleanQuestion(question, cb)
       case MoneyType => createBooleanQuestion(question, cb)
     }
@@ -35,7 +35,7 @@ class QuestionFactory(symbolTable: collection.mutable.Map[Identifier, Expression
       maxWidth = 80
       maxHeight = 50
       items = ObservableBuffer("Yes", "No")
-      selectionModel().selectFirst()
+      selectionModel().select(1)
     }
 
     selection.onAction = (ae) => {
@@ -58,11 +58,19 @@ class QuestionFactory(symbolTable: collection.mutable.Map[Identifier, Expression
       padding = Insets(20)
     }
     val inputField = new TextField
+
     inputField.text.onChange {
       var varDecl = question.varDecl
-      symbolTable.update(varDecl.id, IntegerValue(1))
+      val fieldContent = inputField.getText()
+      if(fieldContent.isEmpty) {
+        symbolTable.remove(varDecl.id)
+      } else {
+        val amount = Integer.parseInt(fieldContent)
+        symbolTable.update(varDecl.id, IntegerValue(amount))
+      }
       cb()
     }
+
     box.children = List(new Label(question.label), inputField)
     box
   }

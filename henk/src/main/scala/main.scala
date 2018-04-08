@@ -1,6 +1,11 @@
-import grammar._
+// import grammar._
+import scala.io.Source
 
-import org.antlr.v4.runtime._
+// import org.antlr.v4.runtime._
+import ql.parsers._
+import ql.ui._
+import ql.models.ast._
+import ql.evaluators._
 
 import scalafx.Includes._
 import scalafx.application.JFXApp
@@ -17,12 +22,18 @@ import scalafx.event.ActionEvent
 import scalafx.beans.property._
 
 object Main extends JFXApp {
+  val location = getClass.getResource("/simple.ql")
+  val root = QLParser.getRoot(location)
+  val evaluator = new SymbolTableEvaluator(root)
+  var programState = collection.mutable.Map[Identifier, ExpressionValue]()
+  val factory = new QuestionFactory(programState)
+
   stage = new JFXApp.PrimaryStage {
     scene = new Scene(500, 500) {
         val box = new VBox
         val sp = new ScrollPane
-        var st = ""
-        var newUI : List[HBox] = getQuestions(st).map(callbackBox(_, boxUpdate))
+        var newUI : List[HBox] = List()
+        var UIstatements : List[Statement] = List()
 
         def existsId(id: String): Boolean = {
           newUI.exists( hb => hb.id.value == id )
@@ -39,7 +50,7 @@ object Main extends JFXApp {
         }
 
         def rerender(): Unit = {
-          val result = getQuestions(st).map(callbackBox(_, boxUpdate))
+          val result = getQuestions().map(factory.create(_, rerender))
           .map {
             case hb: HBox if existsId(hb.id.value) => getId(hb.id.value).get
             case other => other
@@ -48,53 +59,17 @@ object Main extends JFXApp {
           render()
         }
 
-        def getQuestions(value: String): List[String] = {
-          if(value == "yes") {
-            List("Question 1", "Question 2")
-          } else {
-            List("Question 1")
-          }
+        def getQuestions(): List[Question] = {
+          evaluator.getReachableQuestions(programState)
         }
 
         def boxUpdate(value: String): Unit = {
-          st = value
           rerender()
         }
 
+        newUI = getQuestions().map(factory.create(_, rerender))
         render()
         root = sp
     }
-  }
-
-  def callbackBox(question: String, cb: (String) => Unit): HBox = {
-    val box = new HBox {
-      id = question
-      vgrow = Priority.Always
-      hgrow = Priority.Always
-      spacing = 10
-      padding = Insets(20)
-    }
-    val inputField = new TextField {}
-    inputField.text.onChange {
-      cb(inputField.text())
-    }
-    box.children = List(new Label(question), inputField)
-    box
-  }
-
-  def getParser(input:String): QLParser = {
-    val charStream = new ANTLRInputStream(input)
-    val lexer = new QLLexer(charStream)
-    val tokens = new CommonTokenStream(lexer)
-    val parser = new QLParser(tokens)
-    return parser
-  }
-
-  def getQLSParser(input:String): QLSParser = {
-    val charStream = new ANTLRInputStream(input)
-    val lexer = new QLSLexer(charStream)
-    val tokens = new CommonTokenStream(lexer)
-    val parser = new QLSParser(tokens)
-    return parser
   }
 }

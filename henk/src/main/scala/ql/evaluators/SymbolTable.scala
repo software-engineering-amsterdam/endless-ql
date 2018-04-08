@@ -6,6 +6,16 @@ import ql.models.ast._
 class SymbolTableEvaluator(ast: Root) {
   var state = collection.mutable.Map[Identifier, ExpressionValue]()
 
+  def getReachableQuestions(st: collection.mutable.Map[Identifier, ExpressionValue]): List[Question] = {
+    val stateHolder = this.state
+    this.state = st
+    val result = FormCollector.getStatements(ast).map(reachableStatements).flatten.collect {
+      case q: Question => q
+    }
+    this.state = stateHolder
+    return result 
+  }
+
   def getQuestions(): List[Question] = {
     FormCollector.getStatements(ast).map(reachableStatements).flatten.collect {
       case q: Question => q

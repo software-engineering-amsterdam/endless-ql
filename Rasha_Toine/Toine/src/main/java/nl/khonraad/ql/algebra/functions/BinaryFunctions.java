@@ -17,6 +17,7 @@ public class BinaryFunctions {
     static {
 
         map.put( BinarySignature.BooleanEqualsBoolean,      ( a, b ) -> Value.of( a.equals( b ) ) );
+        
         map.put( BinarySignature.BooleanAndBoolean,         ( a, b ) -> Value.of( bool( a ) && bool( b ) ) );
         map.put( BinarySignature.BooleanOrBoolean,          ( a, b ) -> Value.of( bool( a ) || bool( b ) ) );
 

@@ -17,71 +17,48 @@ final class ImmutableValue implements Value {
     private Type         type;
     private MutableValue mutableValue;
 
-    @Override
-    public String string() {
-
-        return mutableValue.string();
-    }
-
+    /*
+     * Constructors
+     */
     public ImmutableValue( Type type, String string ) {
-
         this.type = type;
         this.mutableValue = new MutableValue( string );
     }
 
-    ImmutableValue( boolean b ) {
-        this( Type.Boolean, b ? "True" : "False" );
+    ImmutableValue( boolean aBoolean )  { this( Type.Boolean, aBoolean ? "True" : "False" ); }
+    ImmutableValue( DateTime dateTime ) { this( Type.Date,    SimpleDateFormatter.string( dateTime ) ); }
+    ImmutableValue( Integer integer )   { this( Type.Integer, Integer.toString( integer ) ); }
+    ImmutableValue( BigDecimal money )  { this( Type.Money,   money.toString() ); }
+    ImmutableValue( String string )     { this( Type.String,  string ); }
+    
+    /*
+     * Methods
+     */
+    @Override public String string() { 
+        return mutableValue.string();  
     }
-
-    public ImmutableValue( DateTime m ) {
-        this( Type.Date, SimpleDateFormatter.string( m ) );
-    }
-
-    public ImmutableValue( Integer i ) {
-        this( Type.Integer, Integer.toString( i ) );
-    }
-
-    public ImmutableValue( BigDecimal m ) {
-        this( Type.Money, m.toString() );
-    }
-
-    public ImmutableValue( String s ) {
-        this( Type.String, s );
-    }
-
-    @Override
-    public Value apply( Operator operator ) {
-
+    
+    @Override public Value apply( Operator operator ) {
         return UnaryFunctions.function( UnarySignature.signature( operator, type() ) ).apply( this );
     }
 
-    @Override
-    public Value apply( Operator operator, Value other ) {
-
+    @Override public Value apply( Operator operator, Value other ) {
         BiFunction<Value, Value, Value> function = BinaryFunctions.function( BinarySignature.signature( this.type(), operator, other.type() ) );
         return function.apply( this, other );
     }
 
-    @Override
-    public Type type() {
+    @Override public Type type() {
         return type;
     }
-
-    @Override
-    public int hashCode() {
+    
+    @Override public int hashCode() {
         return Objects.hash( this.mutableValue, this.type );
     }
 
-    @Override
-    public boolean equals( Object object ) {
-
-        if ( object == null || getClass() != object.getClass() ) {
+    @Override public boolean equals( Object object ) {
+        if ( object == null || getClass() != object.getClass() )
             return false;
-        }
-
         final ImmutableValue other = (ImmutableValue) object;
-
         return Objects.equals( this.mutableValue, other.mutableValue ) && Objects.equals( this.type, other.type );
     }
-
 }

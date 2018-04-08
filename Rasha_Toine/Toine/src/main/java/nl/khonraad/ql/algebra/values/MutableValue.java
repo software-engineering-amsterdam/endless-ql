@@ -21,13 +21,10 @@ class MutableValue {
 
     @Override
     public boolean equals( Object object ) {
-
         if ( object == null || getClass() != object.getClass() ) {
             return false;
         }
-
         final MutableValue other = (MutableValue) object;
-
         return Objects.equals( this.string, other.string );
     }
 

@@ -16,19 +16,8 @@ class QuestionsMemory {
 
     void reset() {
 
-        stickyAnswers.clear();
-
-        for ( Question question : questions ) {
-            stickAnswer( question );
-        }
-        questions.clear();
-    }
-
-    private void stickAnswer( Question question ) {
-
-        if ( BehaviouralType.ANSWERABLE == question.getBehaviouralType() ) {
-            stickyAnswers.add( question.identifier(), question.value() );
-        }
+        resetStickyAnswers();
+        resetQuestions();
     }
 
     void addAnswerableQuestion( Identifier identifier, Label label, Type type ) {
@@ -42,7 +31,7 @@ class QuestionsMemory {
         return value;
     }
 
-    public Optional<Question> queryQuestion( Identifier identifier ) {
+    Optional<Question> queryQuestion( Identifier identifier ) {
         for ( Question question : questions ) {
             if ( question.identifier().equals( identifier ) ) {
                 return Optional.of( question );
@@ -71,7 +60,7 @@ class QuestionsMemory {
 
     void dump() {
 
-        final String LINEHEADER = "==========================================================================================================================================";
+        String LINEHEADER = "==========================================================================================================================================";
 
         System.out.println();
         System.out.println( LINEHEADER );
@@ -90,5 +79,20 @@ class QuestionsMemory {
         System.out.println( LINEHEADER );
         System.out.println();
 
+    }
+
+    private void resetStickyAnswers() {
+        stickyAnswers.clear();
+    
+        for ( Question question : questions ) {
+            
+            if ( BehaviouralType.ANSWERABLE == question.getBehaviouralType() ) {
+                stickyAnswers.add( question.identifier(), question.value() );
+            }
+        }
+    }
+
+    private void resetQuestions() {
+        questions.clear();
     }
 }

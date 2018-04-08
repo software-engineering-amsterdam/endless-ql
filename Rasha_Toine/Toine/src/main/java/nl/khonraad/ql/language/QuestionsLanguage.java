@@ -30,7 +30,7 @@ import nl.khonraad.ql.parser.QuestionsVisitor;
     Event<VisualizeEvent>   event;
 
     @Inject
-    private QuestionsAST    qLAstBuilder;
+    private QuestionsAST    questionsAST;
 
     private QuestionsMemory questionsMemory;
 
@@ -45,9 +45,9 @@ import nl.khonraad.ql.parser.QuestionsVisitor;
 
     @Override
     public void visitSource( QuestionsVisitor visitor ) {
+        
         questionsMemory.reset();
-        visitor.visit( qLAstBuilder.getTree() );
-
+        visitor.visit( questionsAST.getTree() );
     }
 
     @Override

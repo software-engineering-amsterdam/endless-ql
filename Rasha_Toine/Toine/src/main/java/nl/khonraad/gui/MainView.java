@@ -27,7 +27,7 @@ import nl.khonraad.gui.interactions.WidgetContainer;
 
         // TODO make this programmable
         widgetContainer.visualize();
-        // widgetContainer.visualizeStyled();
+        //widgetContainer.applyStyles();
 
         canvas.validate();
         canvas.repaint();

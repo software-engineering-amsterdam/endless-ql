@@ -21,186 +21,197 @@ public class Test_Value {
 
     static int MAX_STRINGLENGTH_TO_TEST = 512;
 
-    Value guarded_apply( Value l, Operator operator, Value r ) {
-
-        try {
-            return l.apply( operator, r );
-        } catch (Exception e) {
-            throw new RuntimeException( e.getMessage() );
-        }
+    Value applying( Operator operator, Value l, Value r ) {
+        return l.apply( operator, r );
     }
 
-    Value guarded_apply( Value l, Operator operator ) {
-
-        try {
-            return l.apply( operator );
-        } catch (Exception e) {
-            throw new RuntimeException( e.getMessage() );
-        }
+    Value applying( Operator operator, Value l ) {
+        return l.apply( operator );
     }
-
+    
     @Test
     public void not_boolean() {
         qt()
-        .forAll( booleans().all() )
-        .check( ( φ ) -> guarded_apply( Value.of( φ ), Operator.Not ).equals( Value.of( !φ ) ) );
+        .forAll( randomBooleans() )
+        .check( ( φ ) -> applying( Operator.Not, Value.of( φ ) ).equals( Value.of( !φ ) ) );
     }
 
     @Test
     public void boolean_and_boolean() {
-
         qt()
-        .forAll( booleans().all(), booleans().all() )
-        .check( ( φ, ψ ) -> guarded_apply( Value.of( φ ), Operator.And, Value.of( ψ ) ).equals( Value.of( φ && ψ ) ) );
+        .forAll( randomBooleans(), randomBooleans() )
+        .check( ( φ, ψ ) -> applying( Operator.And, Value.of( φ ), Value.of( ψ ) ).equals( Value.of( φ && ψ ) ) );
     }
 
     @Test
     public void boolean_or_boolean() {
         qt()
-        .forAll( booleans().all(), booleans().all() )
-        .check( ( φ, ψ ) -> guarded_apply( Value.of( φ ), Operator.Or, Value.of( ψ ) ).equals( Value.of( φ || ψ ) ) );
+        .forAll( randomBooleans(), randomBooleans() )
+        .check( ( φ, ψ ) -> applying( Operator.Or, Value.of( φ ), Value.of( ψ ) ).equals( Value.of( φ || ψ ) ));
     }
 
     @Test
     public void boolean_compared_with_boolean() {
         qt()
-        .forAll( booleans().all(), booleans().all() )
-        .check( ( φ, ψ ) -> guarded_apply( Value.of( φ ), Operator.Equals, Value.of( ψ ) ).equals( Value.of( φ.equals( ψ ) ) ) );
+        .forAll( randomBooleans(), randomBooleans() )
+        .check( ( φ, ψ ) -> applying( Operator.Equals, Value.of( φ ), Value.of( ψ ) ).equals( Value.of( φ.equals( ψ ) ) ) );
     }
 
     @Test
     public void string_plus_string() {
         qt()
-        .forAll( strings().basicLatinAlphabet().ofLengthBetween( 0, MAX_STRINGLENGTH_TO_TEST ), strings().basicLatinAlphabet().ofLengthBetween( 0, MAX_STRINGLENGTH_TO_TEST ) )
-        .check( ( left_string, right_string ) -> guarded_apply( Value.of( left_string ), Operator.Plus, Value.of( right_string ) ).equals( Value.of( left_string + right_string ) ) );
+        .forAll( randomStrings(), randomStrings() )
+        .check( ( left_string, right_string ) -> applying( Operator.Plus, Value.of( left_string ), Value.of( right_string ) ).equals( Value.of( left_string + right_string ) ) );
     }
 
     @Test
     public void string_plus_integer() {
         qt()
-        .forAll( strings().basicLatinAlphabet().ofLengthBetween( 0, MAX_STRINGLENGTH_TO_TEST ), integers().all() )
-        .check( ( string, integer ) -> guarded_apply( Value.of( string ), Operator.Plus, Value.of( integer ) ).equals( Value.of( string + integer ) ) );
+        .forAll( randomStrings(), randomIntegers() )
+        .check( ( string, integer ) -> applying( Operator.Plus, Value.of( string ), Value.of( integer ) ).equals( Value.of( string + integer ) ) );
     }
 
     @Test
     public void string_plus_money() {
         qt()
-        .forAll( strings().basicLatinAlphabet().ofLengthBetween( 0, MAX_STRINGLENGTH_TO_TEST ), randomBigDecimals() )
-        .check( ( string, money ) -> guarded_apply( Value.of( string ), Operator.Plus, Value.of( money ) ).equals( Value.of( string + money.toString() ) ) );
+        .forAll( randomStrings(), randomMoneys() )
+        .check( ( string, money ) -> applying( Operator.Plus, Value.of( string ), Value.of( money ) ).equals( Value.of( string + money.toString() ) ) );
     }
 
     @Test
     public void min_integer() {
         qt()
-        .forAll( integers().all() )
-        .check( ( left_integer ) -> guarded_apply( Value.of( left_integer ), Operator.Minus ).equals( Value.of( -left_integer ) ) );
+        .forAll( randomIntegers() )
+        .check( ( integer ) -> applying( Operator.Minus, Value.of( integer ) ).equals( Value.of( -integer ) ) );
     }
 
     @Test
     public void integer_times_integer() {
         qt()
-        .forAll( integers().all(), integers().all() )
-        .check( ( left_integer, right_integer ) -> guarded_apply( Value.of( left_integer ), Operator.Multiply, Value.of( right_integer ) ).equals( Value.of( left_integer * right_integer ) ) );
+        .forAll( randomIntegers(), randomIntegers() )
+        .check( ( left_integer, right_integer ) -> applying( Operator.Multiply, Value.of( left_integer ), Value.of( right_integer ) ).equals( Value.of( left_integer * right_integer ) ) );
     }
 
     @Test
     public void integer_dividedBy_integer() {
         qt()
-        .forAll( integers().all(), integers().all().assuming( integer -> integer != 0 ) )
-        .check( ( left_integer, right_integer ) -> guarded_apply( Value.of( left_integer ), Operator.DividedBy, Value.of( right_integer ) ).equals( Value.of( left_integer / right_integer ) ) );
+        .forAll( randomIntegers(), randomNonZeroIntegerValues() )
+        .check( ( left_integer, right_integer ) -> applying( Operator.DividedBy, Value.of( left_integer ), Value.of( right_integer ) ).equals( Value.of( left_integer / right_integer ) ) );
     }
 
     @Test
     public void integer_plus_integer() {
         qt()
-        .forAll( integers().all(), integers().all() )
-        .check( ( left_integer, right_integer ) -> guarded_apply( Value.of( left_integer ), Operator.Plus, Value.of( right_integer ) ).equals( Value.of( left_integer + right_integer ) ) );
+        .forAll( randomIntegers(), randomIntegers() )
+        .check( ( left_integer, right_integer ) -> applying( Operator.Plus, Value.of( left_integer ), Value.of( right_integer ) ).equals( Value.of( left_integer + right_integer ) ) );
     }
 
     @Test
     public void integer_min_integer() {
         qt()
-        .forAll( integers().all(), integers().all() )
-        .check( ( left_integer, right_integer ) -> guarded_apply( Value.of( left_integer ), Operator.Minus, Value.of( right_integer ) ).equals( Value.of( left_integer - right_integer ) ) );
+        .forAll( randomIntegers(), randomIntegers() )
+        .check( ( left_integer, right_integer ) -> applying( Operator.Minus, Value.of( left_integer ), Value.of( right_integer ) ).equals( Value.of( left_integer - right_integer ) ) );
     }
 
     @Test
     public void integer_compared_with_integer() {
         qt()
-        .forAll( integers().all(), integers().all() )
-        .check( ( left_integer, right_integer ) -> guarded_apply( Value.of( left_integer ), Operator.Equals, Value.of( right_integer ) ).equals( Value.of( left_integer.equals( right_integer ) ) ) );
+        .forAll( randomIntegers(), randomIntegers() )
+        .check( ( left_integer, right_integer ) -> applying( Operator.Equals, Value.of( left_integer ), Value.of( right_integer ) ).equals( Value.of( left_integer.equals( right_integer ) ) ) );
     }
 
     @Test
     public void integer_isLowerThen_integer() {
         qt()
-        .forAll( integers().all(), integers().all() )
-        .check( ( left_integer, right_integer ) -> guarded_apply( Value.of( left_integer ), Operator.Less, Value.of( right_integer ) ).equals( Value.of( left_integer < right_integer ) ) );
+        .forAll( randomIntegers(), randomIntegers() )
+        .check( ( left_integer, right_integer ) -> applying( Operator.Less, Value.of( left_integer ), Value.of( right_integer ) ).equals( Value.of( left_integer < right_integer ) ) );
     }
 
     @Test
     public void integer_isGreaterThen_integer() {
         qt()
-        .forAll( integers().all(), integers().all() )
-        .check( ( left_integer, right_integer ) -> guarded_apply( Value.of( left_integer ), Operator.More, Value.of( right_integer ) ).equals( Value.of( left_integer > right_integer ) ) );
+        .forAll( randomIntegers(), randomIntegers() )
+        .check( ( left_integer, right_integer ) -> applying( Operator.More, Value.of( left_integer ), Value.of( right_integer ) ).equals( Value.of( left_integer > right_integer ) ) );
     }
 
     @Test
     public void integer_isLowerThenOrEqualTo_integer() {
         qt()
-        .forAll( integers().all(), integers().all() )
-        .check( ( left_integer, right_integer ) -> guarded_apply( Value.of( left_integer ), Operator.NotMore, Value.of( right_integer ) ).equals( Value.of( left_integer <= right_integer ) ) );
+        .forAll( randomIntegers(), randomIntegers() )
+        .check( ( left_integer, right_integer ) -> applying( Operator.NotMore, Value.of( left_integer ), Value.of( right_integer ) ).equals( Value.of( left_integer <= right_integer ) ) );
     }
 
     @Test
     public void integer_isGreaterThenOrEqualTo_integer() {
         qt()
-        .forAll( integers().all(), integers().all() )
-        .check( ( left_integer, right_integer ) -> guarded_apply( Value.of( left_integer ), Operator.NotLess, Value.of( right_integer ) ).equals( Value.of( left_integer >= right_integer ) ) );
+        .forAll( randomIntegers(), randomIntegers() )
+        .check( ( left_integer, right_integer ) -> applying( Operator.NotLess, Value.of( left_integer ), Value.of( right_integer ) ).equals( Value.of( left_integer >= right_integer ) ) );
     }
 
     @Test
     public void money_times_integer() {
         qt()
-        .forAll( randomBigDecimals(), integers().all() )
-        .check( ( left_money, right_integer ) -> guarded_apply( Value.of( left_money ), Operator.Multiply, Value.of( right_integer ) ).equals( Value.of( left_money.multiply( new BigDecimal( right_integer ) ) ) ) );
+        .forAll( randomMoneys(), randomIntegers() )
+        .check( ( left_money, right_integer ) -> applying( Operator.Multiply, Value.of( left_money ), Value.of( right_integer ) ).equals( Value.of( left_money.multiply( new BigDecimal( right_integer ) ) ) ) );
     }
 
     @Test
     public void money_plus_money() {
         qt()
-        .forAll( randomBigDecimals(), randomBigDecimals() )
-        .check( ( left, right ) -> guarded_apply( Value.of( left ), Operator.Plus, Value.of( right ) ).equals( Value.of( left.add( right ) ) ) );
+        .forAll( randomMoneys(), randomMoneys() )
+        .check( ( left, right ) -> applying( Operator.Plus, Value.of( left ), Value.of( right ) ).equals( Value.of( left.add( right ) ) ) );
     }
 
     @Test
     public void money_minus_money() {
         qt()
-        .forAll( randomBigDecimals(), randomBigDecimals() )
-        .check( ( left, right ) -> guarded_apply( Value.of( left ), Operator.Minus, Value.of( right ) ).equals( Value.of( left.subtract( right ) ) ) );
+        .forAll( randomMoneys(), randomMoneys() )
+        .check( ( left, right ) -> applying( Operator.Minus, Value.of( left ), Value.of( right ) ).equals( Value.of( left.subtract( right ) ) ) );
     }
-
-    final long MILLSECONDS_EPOCH_PLUS_100YEARS = 3131202899000L;
 
     @Test
     public void date_plus_integer() {
         qt()
-        .forAll( randomDate(), integers().from( 0 ).upTo( 365 * 1000 ) )
-        .check( ( date, right_integer ) -> guarded_apply( Value.of( new DateTime( date ) ), Operator.Plus, Value.of( right_integer ) ).equals( Value.of( new DateTime( date ).plusDays( right_integer ) ) ) );
+        .forAll( randomDatesForTheComing70YearsOrSo(), randomPositiveIntegersUpTo365000() )
+        .check( ( date, right_integer ) -> applying( Operator.Plus, Value.of( new DateTime( date ) ), Value.of( right_integer ) ).equals( Value.of( new DateTime( date ).plusDays( right_integer ) ) ) );
     }
 
     @Test
     public void date_min_integer() {
         qt()
-        .forAll( randomDate(), integers().from( 0 ).upTo( 365 * 1000 ) )
-        .check( ( date, right_integer ) -> guarded_apply( Value.of( new DateTime( date ) ), Operator.Minus, Value.of( right_integer ) ).equals( Value.of( new DateTime( date ).minusDays( right_integer ) ) ) );
+        .forAll( randomDatesForTheComing70YearsOrSo(), randomPositiveIntegersUpTo365000() )
+        .check( ( date, right_integer ) -> applying( Operator.Minus, Value.of( new DateTime( date ) ), Value.of( right_integer ) ).equals( Value.of( new DateTime( date ).minusDays( right_integer ) ) ) );
     }
 
-    private Gen<BigDecimal> randomBigDecimals() {
+    /*
+     * Generators
+     */
+    private Gen<Boolean> randomBooleans() {
+        return booleans().all();
+    }
+
+    private Gen<String> randomStrings() {
+        return strings().basicLatinAlphabet().ofLengthBetween( 0, MAX_STRINGLENGTH_TO_TEST );
+    }
+
+    private Gen<Integer> randomIntegers() {
+        return integers().all();
+    }
+
+    private Gen<Integer> randomPositiveIntegersUpTo365000() {
+        return integers().from( 0 ).upTo( 365 * 1000 );
+    }
+
+    private Gen<BigDecimal> randomMoneys() {
         return bigDecimals().ofBytes( 32 ).withScale( 2 );
     }
 
-    private Gen<Date> randomDate() {
+    private Gen<Integer> randomNonZeroIntegerValues() {
+        return randomIntegers().assuming( integer -> integer != 0 );
+    }
+
+    private Gen<Date> randomDatesForTheComing70YearsOrSo() {
+        final long MILLSECONDS_EPOCH_PLUS_100YEARS = 3131202899000L;
         return dates().withMillisecondsBetween( 0L, MILLSECONDS_EPOCH_PLUS_100YEARS );
     }
 }

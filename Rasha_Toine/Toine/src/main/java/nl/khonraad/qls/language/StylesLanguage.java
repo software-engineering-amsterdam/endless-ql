@@ -30,7 +30,7 @@ import nl.khonraad.qls.parser.StylesVisitor;
     }
 
     @Override
-    public void declareAsStyleSheet( StyleNodeTree<StyleNode> styleSheet ) {
+    public void declareAsStyleSheet( StyleTree<Style> styleSheet ) {
         memory.addStylesheet( styleSheet );
     }
 
@@ -40,7 +40,7 @@ import nl.khonraad.qls.parser.StylesVisitor;
     }
 
     @Override
-    public StyleNodeTree<StyleNode> nodes() {
-        return memory.nodes();
+    public StyleTree<Style> styles() {
+        return memory.styles();
     }
 }

@@ -6,10 +6,10 @@ import org.slf4j.Logger;
 
 import nl.khonraad.qls.QLSBaseVisitor;
 import nl.khonraad.qls.QLSParser;
-import nl.khonraad.qls.language.StyleNode;
+import nl.khonraad.qls.language.Style;
 import nl.khonraad.qls.language.StylesInterpretor;
-import nl.khonraad.qls.language.StyleNodeTree;
-import nl.khonraad.qls.language.StyleNodeTree.NodeType;
+import nl.khonraad.qls.language.StyleTree;
+import nl.khonraad.qls.language.StyleTree.StyleType;
 
 public final class StylesVisitor extends QLSBaseVisitor<String> {
 
@@ -19,7 +19,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
     @Inject
     private StylesInterpretor stylesInterpretor;
 
-    StyleNodeTree<StyleNode>  treeNodePointer;
+    StyleTree<Style>          treeNodePointer;
 
     @Override
     public String visitType( QLSParser.TypeContext ctx ) {
@@ -29,7 +29,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
     @Override
     public String visitStylesheet( QLSParser.StylesheetContext ctx ) {
 
-        treeNodePointer = new StyleNodeTree<>( new StyleNode( NodeType.Stylesheet, ctx.Identifier().getText() ) );
+        treeNodePointer = new StyleTree<>( new Style( StyleType.Stylesheet, ctx.Identifier().getText() ) );
 
         visitChildren( ctx );
         stylesInterpretor.declareAsStyleSheet( treeNodePointer );
@@ -40,7 +40,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
     @Override
     public String visitPage( QLSParser.PageContext ctx ) {
 
-        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.Page, ctx.Identifier().getText() ) );
+        treeNodePointer = treeNodePointer.addChild( new Style( StyleType.Page, ctx.Identifier().getText() ) );
 
         visitChildren( ctx );
 
@@ -52,7 +52,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
     @Override
     public String visitSection( QLSParser.SectionContext ctx ) {
 
-        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.Section, ctx.QuotedString().getText() ) );
+        treeNodePointer = treeNodePointer.addChild( new Style( StyleType.Section, ctx.QuotedString().getText() ) );
 
         visitChildren( ctx );
 
@@ -64,7 +64,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
     @Override
     public String visitQuestion( QLSParser.QuestionContext ctx ) {
 
-        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.Question, ctx.Identifier().getText() ) );
+        treeNodePointer = treeNodePointer.addChild( new Style( StyleType.Question, ctx.Identifier().getText() ) );
 
         visitChildren( ctx );
 
@@ -86,7 +86,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
     @Override
     public String visitDefaultStyle( QLSParser.DefaultStyleContext ctx ) {
 
-        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.DefaultStyle, ctx.questionType().getText() ) );
+        treeNodePointer = treeNodePointer.addChild( new Style( StyleType.DefaultStyle, ctx.questionType().getText() ) );
 
         visitChildren( ctx );
 
@@ -109,7 +109,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
 
     @Override
     public String visitGivenWidgetType( QLSParser.GivenWidgetTypeContext ctx ) {
-        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.Widget, ctx.widgetType().getText() ) );
+        treeNodePointer = treeNodePointer.addChild( new Style( StyleType.Widget, ctx.widgetType().getText() ) );
 
         visitChildren( ctx );
 
@@ -120,7 +120,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
 
     @Override
     public String visitGivenWidth( QLSParser.GivenWidthContext ctx ) {
-        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.Width, ctx.IntegerConstant().getText() ) );
+        treeNodePointer = treeNodePointer.addChild( new Style( StyleType.Width, ctx.IntegerConstant().getText() ) );
 
         visitChildren( ctx );
 
@@ -131,7 +131,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
 
     @Override
     public String visitGivenColor( QLSParser.GivenColorContext ctx ) {
-        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.Color, ctx.HexConstant().getText() ) );
+        treeNodePointer = treeNodePointer.addChild( new Style( StyleType.Color, ctx.HexConstant().getText() ) );
 
         visitChildren( ctx );
 
@@ -142,7 +142,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
 
     @Override
     public String visitGivenFont( QLSParser.GivenFontContext ctx ) {
-        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.Font, ctx.QuotedString().getText() ) );
+        treeNodePointer = treeNodePointer.addChild( new Style( StyleType.Font, ctx.QuotedString().getText() ) );
 
         visitChildren( ctx );
 
@@ -153,7 +153,7 @@ public final class StylesVisitor extends QLSBaseVisitor<String> {
 
     @Override
     public String visitGivenFontsize( QLSParser.GivenFontsizeContext ctx ) {
-        treeNodePointer = treeNodePointer.addChild( new StyleNode( NodeType.FontSize, ctx.IntegerConstant().getText() ) );
+        treeNodePointer = treeNodePointer.addChild( new Style( StyleType.FontSize, ctx.IntegerConstant().getText() ) );
 
         visitChildren( ctx );
 

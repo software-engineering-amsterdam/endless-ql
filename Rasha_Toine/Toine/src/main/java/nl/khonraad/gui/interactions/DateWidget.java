@@ -5,10 +5,10 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 
-import nl.khonraad.ql.language.Question;
 import nl.khonraad.cdi.accessors.QuestionsInterpretorAccessor;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
+import nl.khonraad.ql.language.Question;
 
 public class DateWidget implements QuestionsInterpretorAccessor {
 

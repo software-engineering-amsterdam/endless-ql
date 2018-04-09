@@ -2,29 +2,29 @@ package nl.khonraad.qls.language;
 
  class StylesMemory {
 
-    private StyleNodeTree<StyleNode> styleSheet;
+    private StyleTree<Style> styles;
 
-    void addStylesheet( StyleNodeTree<StyleNode> styleSheet ) {
-        this.styleSheet = styleSheet;
+    void addStylesheet( StyleTree<Style> styleSheet ) {
+        this.styles = styleSheet;
     }
 
     void dump() {
 
         System.out.println( "Dumping QLS memory" );
         System.out.println( "------------------" );
-        printTree( styleSheet, "_" );
+        printTree( styles, "_" );
     }
 
-    private void printTree( StyleNodeTree<StyleNode> node, String appender ) {
+    private void printTree( StyleTree<Style> styleTree, String appender ) {
 
-        System.out.println( appender + "{" + node.data.nodeType() + "} " + node.data.string() );
+        System.out.println( appender + "{" + styleTree.data.styleType() + "} " + styleTree.data.string() );
 
-        for ( StyleNodeTree<StyleNode> each : node.children ) {
+        for ( StyleTree<Style> each : styleTree.children ) {
             printTree( each, appender + appender );
         }
     }
 
-    public StyleNodeTree<StyleNode> nodes() {
-       return styleSheet;
+    public StyleTree<Style> styles() {
+       return styles;
     }
 }

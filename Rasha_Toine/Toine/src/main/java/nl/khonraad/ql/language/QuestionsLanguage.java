@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import nl.khonraad.gui.VisualizeEvent;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
-import nl.khonraad.ql.language.Question.BehaviouralType;
+import nl.khonraad.ql.language.FormElement.BehaviouralType;
 import nl.khonraad.ql.parser.QuestionsAST;
 import nl.khonraad.ql.parser.QuestionsVisitor;
 

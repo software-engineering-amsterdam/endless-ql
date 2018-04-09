@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
-import nl.khonraad.ql.language.Question.BehaviouralType;
+import nl.khonraad.ql.language.FormElement.BehaviouralType;
 
 class QuestionsMemory {
 
@@ -19,12 +19,12 @@ class QuestionsMemory {
     }
 
     void addAnswerableQuestion( Identifier identifier, Label label, Type type ) {
-        questions.add( new Question( BehaviouralType.ANSWERABLE, identifier, label, stickyAnswers.get( identifier, type ) ) );
+        questions.add( new FormElement( BehaviouralType.ANSWERABLE, identifier, label, stickyAnswers.get( identifier, type ) ) );
     }
 
     Value addComputedQuestion( Identifier identifier, Label label, Value value ) {
 
-        Question question = new Question( BehaviouralType.COMPUTED, identifier, label, value );
+        FormElement question = new FormElement( BehaviouralType.COMPUTED, identifier, label, value );
         questions.add( question );
         return value;
     }

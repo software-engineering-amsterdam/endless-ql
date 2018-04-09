@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import nl.khonraad.ql.algebra.values.Value;
-import nl.khonraad.ql.language.Question.BehaviouralType;
+import nl.khonraad.ql.language.FormElement.BehaviouralType;
 
 class Questions implements Iterable<Question> {
 
@@ -40,6 +40,6 @@ class Questions implements Iterable<Question> {
     }
 
     void storeAnswer( Question question, Value value ) {
-        question.setValue( value );
+        question.answer( value );
     }
 }

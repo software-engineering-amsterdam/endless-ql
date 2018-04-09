@@ -14,14 +14,14 @@ import org.slf4j.Logger;
 
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.language.Identifier;
+import nl.khonraad.ql.language.FormElement.BehaviouralType;
 import nl.khonraad.ql.language.Question;
-import nl.khonraad.ql.language.Question.BehaviouralType;
 import nl.khonraad.ql.language.QuestionsInterpretor;
 import nl.khonraad.ql.parser.QuestionsVisitor;
 import nl.khonraad.qls.language.StyleElement;
-import nl.khonraad.qls.language.StyleNode;
-import nl.khonraad.qls.language.StyleNodeTree;
-import nl.khonraad.qls.language.StyleNodeTree.NodeType;
+import nl.khonraad.qls.language.Style;
+import nl.khonraad.qls.language.StyleTree;
+import nl.khonraad.qls.language.StyleTree.StyleType;
 import nl.khonraad.qls.language.StylesInterpretor;
 import nl.khonraad.qls.parser.StylesVisitor;
 
@@ -63,14 +63,14 @@ public class WidgetContainer extends Panel {
         }
     }
 
-    public void visualizeStyled() {
+    public void applyStyles() {
 
         removeAll();
         questionsInterpretor.visitSource( questionsVisitor );
 
         stylesInterpretor.visitSource( stylesVisitor );
 
-        visualizeTree( stylesInterpretor.nodes() );
+        visualizeStyle( stylesInterpretor.styles() );
 
     }
 
@@ -121,20 +121,20 @@ public class WidgetContainer extends Panel {
         return "<h1>" + s + "</h1>";
     }
 
-    private void visualizeTree( StyleNodeTree<StyleNode> node ) {
+    private void visualizeStyle( StyleTree<Style> style ) {
 
-        if ( node.data().nodeType() == NodeType.Question ) {
+        if ( style.data().styleType() == StyleType.Question ) {
 
-            Optional<Question> optional = questionsInterpretor.queryQuestion( new Identifier( node.data().string() ) );
+            Optional<Question> optional = questionsInterpretor.queryQuestion( new Identifier( style.data().string() ) );
 
             if ( optional.isPresent() ) {
 
                 Question question = optional.get();
 
                 JLabel jLabel = new JLabel( addHtmlTag( question.label() ) );
-                String tooltip = addH1Tag( "&quot;Proof Of Concept&quot;<br/>" + "In QLS the placement for: " + node.data().string() );
+                String tooltip = addH1Tag( "&quot;Proof Of Concept&quot;<br/>" + "In QLS the placement for: " + style.data().string() );
 
-                tooltip += "was found in section " +   node.parent().data().string();
+                tooltip += "was found in section " +   style.parent().data().string();
 
                 jLabel.setToolTipText( addHtmlTag( tooltip ) );
 
@@ -143,9 +143,9 @@ public class WidgetContainer extends Panel {
             }
         }
 
-        for ( StyleNodeTree<StyleNode> each : node.children() ) {
+        for ( StyleTree<Style> each : style.children() ) {
 
-            visualizeTree( each );
+            visualizeStyle( each );
         }
     }
 

@@ -2,53 +2,22 @@ package nl.khonraad.ql.language;
 
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
+import nl.khonraad.ql.language.FormElement.BehaviouralType;
 
-public class Question {
+public interface Question {
 
-    public enum BehaviouralType {
-        ANSWERABLE, COMPUTED;
-    }
+    BehaviouralType getBehaviouralType();
 
-    private BehaviouralType behaviouralType;
-    private Identifier      identifier;
-    private Label           label;
-    private Value           value;
+    Identifier identifier();
 
-    public Question( BehaviouralType behaviouralType, Identifier identifier, Label label, Value value ) {
-        this.behaviouralType = behaviouralType;
-        this.identifier = identifier;
-        this.label = label;
-        this.value = value;
-    }
+    String label();
 
-    public BehaviouralType getBehaviouralType() {
-        return behaviouralType;
-    }
+    Value value();
 
-    public Identifier identifier() {
-        return identifier;
-    }
+    Type type();
 
-    public String label() {
-        return label.string();
-    }
+    String string();
 
-    public Value value() {
-        return value;
-    }
+    void answer( Value value );
 
-    public Type type() {
-        return value.type();
-    }
-
-    public String string() {
-        return value.string();
-    }
-
-    void setValue( Value value ) {
-        if ( this.value.type() != value.type() ) {
-            throw new RuntimeException( "TYPE_ERROR" );
-        }
-        this.value = value;
-    }
 }

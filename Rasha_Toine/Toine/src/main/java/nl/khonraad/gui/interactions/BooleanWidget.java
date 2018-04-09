@@ -5,10 +5,10 @@ import java.util.Optional;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-import nl.khonraad.ql.language.Question;
-import nl.khonraad.qls.language.StyleElement;
 import nl.khonraad.cdi.accessors.QuestionsInterpretorAccessor;
 import nl.khonraad.ql.algebra.values.Value;
+import nl.khonraad.ql.language.Question;
+import nl.khonraad.qls.language.StyleElement;
 
 public class BooleanWidget implements QuestionsInterpretorAccessor {
 

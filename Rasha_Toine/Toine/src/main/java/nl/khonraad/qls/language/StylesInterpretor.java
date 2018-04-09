@@ -8,12 +8,12 @@ public interface StylesInterpretor {
      * Sorted alphabetically for readability
      */
     
-    void                        declareAsStyleSheet( StyleNodeTree<StyleNode> styleSheet );
+    void                declareAsStyleSheet( StyleTree<Style> styleSheet );
 
-    void                        memoryDump();
+    void                memoryDump();
 
-    StyleNodeTree<StyleNode>    nodes();
+    StyleTree<Style>    styles();
 
-    String                      visitSource( StylesVisitor visitor );
+    String              visitSource( StylesVisitor visitor );
 
 }

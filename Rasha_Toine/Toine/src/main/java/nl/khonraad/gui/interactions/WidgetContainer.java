@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 
 import org.slf4j.Logger;
 
-import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.values.Type;
+import nl.khonraad.ql.language.Identifier;
 import nl.khonraad.ql.language.Question;
 import nl.khonraad.ql.language.Question.BehaviouralType;
 import nl.khonraad.ql.language.QuestionsInterpretor;

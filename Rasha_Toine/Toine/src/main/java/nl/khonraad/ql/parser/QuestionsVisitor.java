@@ -8,12 +8,12 @@ import javax.inject.Inject;
 
 import nl.khonraad.ql.QLBaseVisitor;
 import nl.khonraad.ql.QLParser;
-import nl.khonraad.ql.algebra.Identifier;
-import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Operator;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.language.QuestionsInterpretor;
+import nl.khonraad.ql.language.Identifier;
+import nl.khonraad.ql.language.Label;
 import nl.khonraad.ql.language.Question;
 
 public final class QuestionsVisitor extends QLBaseVisitor<Value> {

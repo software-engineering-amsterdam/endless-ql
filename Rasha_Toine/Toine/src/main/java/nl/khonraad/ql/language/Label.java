@@ -1,12 +1,12 @@
-package nl.khonraad.ql.algebra;
+package nl.khonraad.ql.language;
 
 import java.util.Objects;
 
-public class Identifier {
+public class Label {
 
     private String string;
 
-    public Identifier( String string ) {
+    public Label( String string ) {
         this.string = string;
     }
 
@@ -24,7 +24,7 @@ public class Identifier {
         if ( object == null || getClass() != object.getClass() ) {
             return false;
         }
-        final Identifier other = (Identifier) object;
+        final Label other = (Label) object;
         return Objects.equals( this.string, other.string );
     }
 }

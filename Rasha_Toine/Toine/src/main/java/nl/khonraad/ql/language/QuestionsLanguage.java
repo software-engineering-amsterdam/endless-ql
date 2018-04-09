@@ -13,8 +13,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 
 import nl.khonraad.gui.VisualizeEvent;
-import nl.khonraad.ql.algebra.Identifier;
-import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.language.Question.BehaviouralType;

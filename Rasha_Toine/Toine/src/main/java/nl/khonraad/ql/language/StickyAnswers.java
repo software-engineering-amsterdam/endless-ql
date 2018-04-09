@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 
-import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;

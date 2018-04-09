@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.language.Question.BehaviouralType;
 

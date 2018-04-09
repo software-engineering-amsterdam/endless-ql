@@ -1,7 +1,5 @@
 package nl.khonraad.ql.language;
 
-import nl.khonraad.ql.algebra.Identifier;
-import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
 

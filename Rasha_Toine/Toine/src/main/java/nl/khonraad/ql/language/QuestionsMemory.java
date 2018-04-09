@@ -3,8 +3,6 @@ package nl.khonraad.ql.language;
 import java.util.List;
 import java.util.Optional;
 
-import nl.khonraad.ql.algebra.Identifier;
-import nl.khonraad.ql.algebra.Label;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.language.Question.BehaviouralType;

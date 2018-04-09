@@ -12,11 +12,11 @@ import org.junit.Test;
 
 import nl.khonraad.cdi.producers.LoggerProducer;
 import nl.khonraad.cdi.producers.SourcePathProvider;
-import nl.khonraad.ql.algebra.Identifier;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
 import nl.khonraad.ql.language.QuestionsInterpretor;
 import nl.khonraad.ql.language.QuestionsLanguage;
+import nl.khonraad.ql.language.Identifier;
 import nl.khonraad.ql.language.Question;
 import nl.khonraad.ql.parser.QuestionsVisitor;
 import nl.khonraad.ql.parser.QuestionsAST;

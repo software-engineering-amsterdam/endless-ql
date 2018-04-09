@@ -1,6 +1,7 @@
-import grammar._
+// import grammar._
 
 import ql.models._
+import qls.parsers._
 import qls.listeners._
 import ql.visitors._
 
@@ -24,7 +25,7 @@ class SimpleQLSGrammarParserSpec extends FunSpec with BeforeAndAfter {
       source.close
 
       listener = new CountNodesListener()
-      val parser = Main.getQLSParser(sourcedLines)
+      val parser = QLSParser.getParser(sourcedLines)
       val tree = parser.root()
 
       val paul = new ParseTreeWalker()

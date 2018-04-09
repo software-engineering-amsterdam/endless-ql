@@ -15,7 +15,11 @@ class IdentifierValidator extends BaseValidator {
     foundIdentifiers.distinct
       .diff(declaredIdentifiers)
       .map(undeclaredIdentifier => {
-        throw new IdentifierNotDeclared(undeclaredIdentifier.id)
+        val message = s"""
+          Identifier with the name '${undeclaredIdentifier.id}' is not declared
+          anywhere in the form.
+        """
+        throw new IdentifierNotDeclared(message)
       })
   }
 

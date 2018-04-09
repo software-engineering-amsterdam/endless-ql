@@ -2,11 +2,11 @@ package nl.khonraad.ql.algebra.values;
 
 import java.util.Objects;
 
-class MutableValue {
+class Storage {
 
     String string;
 
-    MutableValue( String string ) {
+    Storage( String string ) {
         this.string = string;
     }
 
@@ -24,7 +24,7 @@ class MutableValue {
         if ( object == null || getClass() != object.getClass() ) {
             return false;
         }
-        final MutableValue other = (MutableValue) object;
+        final Storage other = (Storage) object;
         return Objects.equals( this.string, other.string );
     }
 

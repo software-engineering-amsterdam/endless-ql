@@ -14,35 +14,34 @@ public interface Value {
     public static final String TrueString  = True.string();
     public static final String FalseString = False.string();
 
-    String string();
+    public String string();
+    public Type   type();
 
-    Type type();
+    public Value apply( Operator operator );
 
-    Value apply( Operator operator );
+    public Value apply( Operator operator, Value other );
 
-    Value apply( Operator operator, Value other );
-
-    static Value typed( Type type, String string ) {
+    public static Value typed( Type type, String string ) {
         return new ImmutableValue( type, string );
     }
 
-    static Value of( boolean b ) {
+    public static Value of( boolean b ) {
         return new ImmutableValue( b );
     }
 
-    static Value of( DateTime m ) {
+    public static Value of( DateTime m ) {
         return new ImmutableValue( Type.Date, SimpleDateFormatter.string( m ) );
     }
 
-    static Value of( Integer i ) {
+    public static Value of( Integer i ) {
         return new ImmutableValue( Type.Integer, Integer.toString( i ) );
     }
 
-    static Value of( BigDecimal m ) {
+    public static Value of( BigDecimal m ) {
         return new ImmutableValue( Type.Money, m.toString() );
     }
 
-    static Value of( String s ) {
+    public static Value of( String s ) {
         return new ImmutableValue( Type.String, s );
     }
 }

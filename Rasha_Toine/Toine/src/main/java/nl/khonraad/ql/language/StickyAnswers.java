@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 
-import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
 import nl.khonraad.ql.algebra.values.Type;
 import nl.khonraad.ql.algebra.values.Value;
+import nl.khonraad.ql.algebra.values.utility.SimpleDateFormatter;
 
 class StickyAnswers {
 
@@ -22,16 +22,16 @@ class StickyAnswers {
                 return Value.False;
 
             case Date:
-                return Value.typed( Type.Date, SimpleDateFormatter.string( new DateTime() ) );
+                return Value.of( Type.Date, SimpleDateFormatter.string( new DateTime() ) );
 
             case Integer:
-                return Value.typed( Type.Integer, "0" );
+                return Value.of( Type.Integer, "0" );
 
             case Money:
-                return Value.typed( Type.Money, "0.00" );
+                return Value.of( Type.Money, "0.00" );
 
             case String:
-                return Value.typed( Type.String, "" );
+                return Value.of( Type.String, "" );
         }
         throw new RuntimeException( "'Constructor' not implemented for type " + type );
     }

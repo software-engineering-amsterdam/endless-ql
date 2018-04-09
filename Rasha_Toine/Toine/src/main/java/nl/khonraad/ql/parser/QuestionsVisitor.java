@@ -107,7 +107,7 @@ public final class QuestionsVisitor extends QLBaseVisitor<Value> {
 
     @Override
     public Value visitExpressionQuotedString( QLParser.ExpressionQuotedStringContext ctx ) {
-        return Value.typed( Type.String, ctx.QuotedString().getText() );
+        return Value.of( Type.String, ctx.QuotedString().getText() );
     }
 
     @Override
@@ -165,25 +165,25 @@ public final class QuestionsVisitor extends QLBaseVisitor<Value> {
     @Override
     public Value visitExpressionMoneyConstant( QLParser.ExpressionMoneyConstantContext ctx ) {
 
-        return Value.typed( Type.Money, ctx.MoneyConstant().getText() );
+        return Value.of( Type.Money, ctx.MoneyConstant().getText() );
     }
 
     @Override
     public Value visitExpressionDateConstant( QLParser.ExpressionDateConstantContext ctx ) {
 
-        return Value.typed( Type.Date, ctx.DateConstant().getText() );
+        return Value.of( Type.Date, ctx.DateConstant().getText() );
     }
 
     @Override
     public Value visitExpressionIntegerConstant( QLParser.ExpressionIntegerConstantContext ctx ) {
 
-        return Value.typed( Type.Integer, ctx.IntegerConstant().getText() );
+        return Value.of( Type.Integer, ctx.IntegerConstant().getText() );
     }
 
     @Override
     public Value visitExpressionBooleanConstant( QLParser.ExpressionBooleanConstantContext ctx ) {
 
-        return Value.typed( Type.Boolean, ctx.BooleanConstant().getText() );
+        return Value.of( Type.Boolean, ctx.BooleanConstant().getText() );
     }
 
     @Override

@@ -7,8 +7,8 @@ import java.util.function.BiFunction;
 
 import org.joda.time.DateTime;
 
-import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
 import nl.khonraad.ql.algebra.values.Value;
+import nl.khonraad.ql.algebra.values.utility.SimpleDateFormatter;
 
 public class BinaryFunctions {
 

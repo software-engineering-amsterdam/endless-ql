@@ -54,8 +54,8 @@ public class Test_CollegeExample {
         assertTrue( questionsInterpretor.queryAnswerableQuestion( new Identifier( "sellingPrice" ) ).isPresent() );
         assertTrue( questionsInterpretor.queryAnswerableQuestion( new Identifier( "privateDebt" ) ).isPresent() );
 
-        questionsInterpretor.assign( questionLabeled( "sellingPrice" ), Value.typed( Type.Money, "1000000.00" ) );
-        questionsInterpretor.assign( questionLabeled( "privateDebt" ), Value.typed( Type.Money, "800000.00" ) );
+        questionsInterpretor.assign( questionLabeled( "sellingPrice" ), Value.of( Type.Money, "1000000.00" ) );
+        questionsInterpretor.assign( questionLabeled( "privateDebt" ), Value.of( Type.Money, "800000.00" ) );
 
         questionsInterpretor.visitSource( visitor );
 

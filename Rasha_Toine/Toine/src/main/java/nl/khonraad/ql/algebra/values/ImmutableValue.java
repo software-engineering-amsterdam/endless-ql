@@ -6,11 +6,11 @@ import java.util.function.BiFunction;
 
 import org.joda.time.DateTime;
 
-import nl.khonraad.ql.algebra.formatters.SimpleDateFormatter;
 import nl.khonraad.ql.algebra.functions.BinaryFunctions;
 import nl.khonraad.ql.algebra.functions.BinarySignature;
 import nl.khonraad.ql.algebra.functions.UnaryFunctions;
 import nl.khonraad.ql.algebra.functions.UnarySignature;
+import nl.khonraad.ql.algebra.values.utility.SimpleDateFormatter;
 
 final class ImmutableValue implements Value {
 

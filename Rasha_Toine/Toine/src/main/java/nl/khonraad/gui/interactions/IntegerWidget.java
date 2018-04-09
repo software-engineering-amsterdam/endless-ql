@@ -35,7 +35,7 @@ public class IntegerWidget implements QuestionsInterpretorAccessor {
 
             JSpinner source = (JSpinner) e.getSource();
             String current = source.getModel().getValue().toString();
-            questionsInterpretor().assign( question, Value.typed( Type.Integer, current ) );
+            questionsInterpretor().assign( question, Value.of( Type.Integer, current ) );
         } );
     }
 }

@@ -1,4 +1,4 @@
-package nl.khonraad.ql.algebra.formatters;
+package nl.khonraad.ql.algebra.values.utility;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;

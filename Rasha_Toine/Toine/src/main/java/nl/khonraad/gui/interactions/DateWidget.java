@@ -23,7 +23,7 @@ public class DateWidget implements QuestionsInterpretorAccessor {
             public void focusLost( FocusEvent e ) {
                 JTextField textField = (JTextField) e.getSource();
                 String current = textField.getText();
-                questionsInterpretor().assign( question, Value.typed( Type.Date, current ) );
+                questionsInterpretor().assign( question, Value.of( Type.Date, current ) );
             }
 
             @Override

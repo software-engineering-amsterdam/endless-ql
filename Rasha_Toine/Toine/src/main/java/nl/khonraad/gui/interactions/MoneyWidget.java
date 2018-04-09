@@ -38,7 +38,7 @@ public class MoneyWidget implements QuestionsInterpretorAccessor {
             JSpinner source = (JSpinner) e.getSource();
             String current = source.getModel().getValue().toString();
             String dec = new BigDecimal( current ).setScale( 2, RoundingMode.HALF_EVEN ).toString();
-            questionsInterpretor().assign( question, Value.typed( Type.Money, dec ) );
+            questionsInterpretor().assign( question, Value.of( Type.Money, dec ) );
 
         } );
     }

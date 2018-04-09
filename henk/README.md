@@ -1,7 +1,6 @@
 # Software Construction
 ## Members
 - Hector Stenger, 10398872
-- Jovan Maric, 10443762
 
 ## Requirements
 The following prerequisite are needed to setup the project:
@@ -10,10 +9,15 @@ The following prerequisite are needed to setup the project:
 2. SBT 4.7.1
 
 ## Running
-To start the application call:
+Create JAR:
 
 ```
-sbt
+sbt assembly
+```
+
+Run JAR:
+```
+java -jar <location target jar> <ql file location>
 ```
 
 ## Testing

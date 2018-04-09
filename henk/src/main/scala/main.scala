@@ -1,22 +1,14 @@
-import grammar._
+import scala.io.Source
+import java.io.File
 
-import org.antlr.v4.runtime._
+import ql.ui._
+import ql.app._
 
 object Main extends App {
+  override def main(args: Array[String]) = {
 
-  def getParser(input:String): QLParser = {
-    val charStream = new ANTLRInputStream(input)
-    val lexer = new QLLexer(charStream)
-    val tokens = new CommonTokenStream(lexer)
-    val parser = new QLParser(tokens)
-    return parser
-  }
-
-  def getQLSParser(input:String): QLSParser = {
-    val charStream = new ANTLRInputStream(input)
-    val lexer = new QLSLexer(charStream)
-    val tokens = new CommonTokenStream(lexer)
-    val parser = new QLSParser(tokens)
-    return parser
+    val fileLocation = new File(args(0)).toURI().toURL();
+    val app = new QLApp(fileLocation)
+    app.main(args)
   }
 }

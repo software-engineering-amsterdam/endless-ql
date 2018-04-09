@@ -1,7 +1,8 @@
-import grammar._
+// import grammar._
 
 import ql.models._
 import ql.listeners._
+import ql.parsers._
 import ql.visitors._
 
 import scala.io.Source
@@ -24,7 +25,7 @@ class GrammarSpec extends FunSpec with BeforeAndAfter {
       source.close
 
       listener = new CountNodesListener()
-      val parser = Main.getParser(sourcedLines)
+      val parser = QLParser.getParser(sourcedLines)
       val tree = parser.root()
 
       val paul = new ParseTreeWalker()
@@ -67,7 +68,7 @@ class GrammarOneSpec extends FunSpec with BeforeAndAfter {
       source.close
 
       listener = new CountNodesListener()
-      val parser = Main.getParser(sourcedLines)
+      val parser = QLParser.getParser(sourcedLines)
       val tree = parser.root()
 
       val paul = new ParseTreeWalker()

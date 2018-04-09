@@ -25,7 +25,13 @@ class DuplicateQuestionValidator extends BaseValidator {
         .isEmpty
     })
     .map(question => {
-      val message = s"Question with label: '${question.label}' already exists"
+      val varDecl = question.varDecl
+      val identifier = varDecl.id
+      val message = s"""
+        Question with label '${question.label}' and identifier 
+        '${identifier.id}' is already declared with a different types 
+        somewhere else in the form.
+      """
       throw new DuplicateQuestionDeclaration(message)
     })
   }

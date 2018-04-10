@@ -1,7 +1,8 @@
 package QL.AST;
 
-import QL.Analysis.EvaluationType;
 import QL.AST.Expressions.Expression;
+import QL.Analysis.EvaluationType;
+import QL.Analysis.QuestionVisitorInterface;
 
 public class Question extends ASTNode {
     private String identifier;
@@ -41,4 +42,8 @@ public class Question extends ASTNode {
     public Expression getCondition(){ return condition;}
 
     public Boolean isPredefined(){ return predefined;}
+
+    public <T> T accept(QuestionVisitorInterface<T> visitor) {
+        return visitor.visit(this);
+    }
 }

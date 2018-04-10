@@ -1,8 +1,6 @@
 package GUI;
-import java.io.File;
-
-import QL.Analysis.TypeChecker;
 import QL.AST.Form;
+import QL.Analysis.TypeChecker;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -11,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 public class QLUserInterface {
     public QLUserInterface(Stage stage){
@@ -55,6 +55,7 @@ public class QLUserInterface {
     public void performAnalysis(Form form){
         TypeChecker typechecker = new TypeChecker(form, form.getExpressionTable());
         typechecker.typeCheck();
+        typechecker.detectCyclicDependencies();
         typechecker.detectLabelDuplication();
     }
 

@@ -23,6 +23,7 @@ public class ConditionVisitor extends QLBaseVisitor{
         int line = ctx.getStart().getLine();
         ArrayList<Question> questions = new ArrayList<>();
         ExpressionVisitor expressionVisitor = new ExpressionVisitor(expressionTable);
+
         QLParser.ExpressionContext expressionCtx = ctx.expression();
         Expression condition = expressionVisitor.visit(expressionCtx);
 

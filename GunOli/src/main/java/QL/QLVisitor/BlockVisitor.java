@@ -32,7 +32,9 @@ public class BlockVisitor extends QLBaseVisitor<ArrayList<Question>> {
             if (statementCtx.question() != null) {
                 Question question = questionVisitor.visitQuestion(statementCtx.question());
                 questions.add(question);
-            }  else if(statementCtx.condition() != null) {
+            }
+
+            if(statementCtx.condition() != null) {
                 ArrayList<Question> conditionQuestions = conditionVisitor.visitCondition(statementCtx.condition());
                 questions.addAll(conditionQuestions);
             }

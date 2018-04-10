@@ -1,6 +1,5 @@
 package QL.Analysis;
 
-
 import QL.AST.Form;
 import QL.AST.Question;
 

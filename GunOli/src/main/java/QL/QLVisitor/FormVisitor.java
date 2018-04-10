@@ -1,6 +1,7 @@
 package QL.QLVisitor;
 
 import QL.AST.*;
+import QL.AST.Question;
 import QL.QLAntlrGen.QLBaseVisitor;
 import QL.QLAntlrGen.QLParser;
 

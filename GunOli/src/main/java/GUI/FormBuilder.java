@@ -6,7 +6,6 @@ import QL.AST.Expressions.Expression;
 import QL.AST.Expressions.ExpressionConstants.*;
 import QL.AST.Question;
 import QL.Evaluation.EvaluationVisitor;
-import QL.Evaluation.Value;
 import QL.Evaluation.Values.BooleanValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

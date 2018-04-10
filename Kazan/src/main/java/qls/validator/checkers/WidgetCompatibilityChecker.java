@@ -1,35 +1,13 @@
 package qls.validator.checkers;
 
-import issuetracker.Error;
-import issuetracker.Warning;
-import ql.validator.checkers.Checker;
+import ql.ast.Form;
+import ql.validator.checkers.BaseChecker;
 import qls.ast.Stylesheet;
 
-import java.util.List;
+public class WidgetCompatibilityChecker extends BaseChecker {
 
-public class WidgetCompatibilityChecker implements Checker<Stylesheet> {
-    @Override
-    public boolean passesTests(Stylesheet stylesheet) {
-        return false;
-    }
-
-    @Override
-    public List<Error> getErrors() {
-        return null;
-    }
-
-    @Override
-    public List<Warning> getWarnings() {
-        return null;
-    }
-
-    @Override
-    public void logErrors() {
+    public WidgetCompatibilityChecker(Form form, Stylesheet stylesheet) {
 
     }
 
-    @Override
-    public void logWarnings() {
-
-    }
 }

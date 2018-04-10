@@ -1,36 +1,52 @@
-package ql.gui.widgets;
+package ql.gui.uicomponents.widgets;
 
 import ql.ast.statements.Question;
 import ql.environment.Environment;
 import ql.environment.values.BooleanValue;
 import ql.environment.values.Value;
 import ql.gui.WidgetListener;
+import ql.gui.uicomponents.QuestionStyle;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class DropdownWidget extends BaseWidget {
 
-    private final String TRUE_LABEL = "YES";
-    private final String FALSE_LABEL = "NO";
     private final JComboBox<String> dropdown;
+    private final String trueLabel;
+    private final String falseLabel;
 
     public DropdownWidget(Environment environment, Question question, boolean isEditable) {
+        this(environment, question, isEditable, "Yes", "No", new QuestionStyle());
+    }
+
+    public DropdownWidget(Environment environment, Question question, boolean isEditable, String trueLabel, String falseLabel, QuestionStyle style) {
         super(environment, question, isEditable);
+        this.trueLabel = trueLabel;
+        this.falseLabel = falseLabel;
 
         dropdown = new JComboBox<>();
-        dropdown.addItem(TRUE_LABEL);
-        dropdown.addItem(FALSE_LABEL);
+        dropdown.addItem(this.trueLabel);
+        dropdown.addItem(this.falseLabel);
         setValue();
         setEditable(isEditable);
+        setStyle(style);
     }
 
     @Override
     public void setValue() {
         if ((boolean) environment.getQuestionValue(question.getId()).getValue()) {
-            dropdown.setSelectedItem(TRUE_LABEL);
+            dropdown.setSelectedItem(trueLabel);
         } else {
-            dropdown.setSelectedItem(FALSE_LABEL);
+            dropdown.setSelectedItem(falseLabel);
         }
+    }
+
+    @Override
+    public void setStyle(QuestionStyle style) {
+        dropdown.setForeground(style.getColor());
+        dropdown.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
+        dropdown.setFont(style.getFont());
     }
 
     @Override

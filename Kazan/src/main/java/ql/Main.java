@@ -1,14 +1,15 @@
 package ql;
 
 import ql.ast.Form;
-import ql.gui.FormUI;
 import ql.gui.FormUIFactory;
+import ql.gui.uicomponents.FormUI;
 import ql.parser.FormBuilder;
 import ql.utilities.IOHandler;
 import ql.validator.FormValidator;
 
 import javax.swing.*;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
 
 /**
@@ -18,18 +19,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //TODO: pass file (non-string) instead of filecontents to formbuilder
-
         outputInDialog();
 
-        String qlFileName = "src/input/ql/correct/ifElse.ql";
-        // String qlFileName = "src/input/ql/incorrect/validator/cyclicalBetweenQuestions.ql";
-        // String qlFileName = "src/input/ql/correct/gui/dependentValue.ql";
-        // String qlFileName = "src/input/ql/correct/gui/allComputedQuestionTypes.ql";
-        // String qlFileName = "src/input/ql/correct/gui/allQuestionTypes.ql";
-
-        // String qlFile = IOHandler.loadFileUsingDialog("ql");
-        String qlFile = IOHandler.loadFile(qlFileName);
+        File qlFile = IOHandler.loadFileUsingDialog("ql");
 
         Form form = FormBuilder.createForm(qlFile);
 
@@ -43,7 +35,7 @@ public class Main {
 
     }
 
-    public static void outputInDialog() {
+    private static void outputInDialog() {
         PrintStream printStream = new PrintStream(new ByteArrayOutputStream()) {
             public void println(String message) {
                 JOptionPane.showMessageDialog(null, message);

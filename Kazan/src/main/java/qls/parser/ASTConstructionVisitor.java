@@ -3,25 +3,23 @@ package qls.parser;
 import org.antlr.v4.runtime.ParserRuleContext;
 import ql.ast.ASTNode;
 import ql.ast.SourceLocation;
-import ql.ast.statements.Statement;
 import ql.ast.types.*;
 import qls.QLSBaseVisitor;
 import qls.QLSParser;
 import qls.ast.Page;
 import qls.ast.Stylesheet;
 import qls.ast.components.Component;
-import qls.ast.components.Question;
+import qls.ast.components.QuestionReference;
 import qls.ast.components.Section;
 import qls.ast.defaultrules.DefaultRule;
-import qls.ast.defaultrules.DefaultStyle;
-import qls.ast.defaultrules.DefaultWidget;
+import qls.ast.defaultrules.DefaultStyleRule;
+import qls.ast.defaultrules.DefaultWidgetRule;
 import qls.ast.properties.*;
 import qls.ast.widgets.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ASTConstructionVisitor extends QLSBaseVisitor<ASTNode> {
 
@@ -36,8 +34,8 @@ public class ASTConstructionVisitor extends QLSBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitPage(QLSParser.PageContext ctx) {
         String pageId = ctx.IDENTIFIER().getText();
-        List<Component> components = ctx.component().stream()
-                .map(componentContext -> (Component) visit(componentContext))
+        List<Component> components = ctx.section().stream()
+                .map(sectionContext -> (Component) visit(sectionContext))
                 .collect(Collectors.toList());
         List<DefaultRule> rules = ctx.defaultRule().stream()
                 .map(defaultRuleContext -> (DefaultRule) visit(defaultRuleContext))
@@ -47,28 +45,28 @@ public class ASTConstructionVisitor extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitSection(QLSParser.SectionContext ctx) {
-        String sectionId = ctx.STRINGLITERAL().getText().substring(1, ctx.STRINGLITERAL().getText().length() - 1);
+        String sectionId = ctx.STRINGLITERAL().getText().replaceAll("^\"|\"$", "");
         List<Component> components = ctx.component().stream()
                 .map(componentContext -> (Component) visit(componentContext))
                 .collect(Collectors.toList());
         List<DefaultRule> rules = ctx.defaultRule().stream()
                 .map(defaultRuleContext -> (DefaultRule) visit(defaultRuleContext))
                 .collect(Collectors.toList());
-        return new Section(sectionId, components, rules,getSourceLocation(ctx));
+        return new Section(sectionId, components, rules, getSourceLocation(ctx));
     }
 
     @Override
     public ASTNode visitQuestion(QLSParser.QuestionContext ctx) {
         String questionId = ctx.IDENTIFIER().getText();
         WidgetType widgetType = (ctx.widget() == null) ? null : (WidgetType) visit(ctx.widget());
-        return new Question(questionId, widgetType, getSourceLocation(ctx));
+        return new QuestionReference(questionId, widgetType, getSourceLocation(ctx));
     }
 
     @Override
     public ASTNode visitWidgetRule(QLSParser.WidgetRuleContext ctx) {
         Type type = (Type) visit(ctx.type());
         WidgetType widgetType = (WidgetType) visit(ctx.widget());
-        return new DefaultWidget(type, widgetType, getSourceLocation(ctx));
+        return new DefaultWidgetRule(type, widgetType, getSourceLocation(ctx));
     }
 
     @Override
@@ -78,7 +76,7 @@ public class ASTConstructionVisitor extends QLSBaseVisitor<ASTNode> {
                 .map(stylePropertyContext -> (Property) visit(stylePropertyContext))
                 .collect(Collectors.toList());
         WidgetType widgetType = ctx.style().widget() == null ? null : (WidgetType) visit(ctx.style().widget());
-        return new DefaultStyle(type, styleProperties, widgetType, getSourceLocation(ctx));
+        return new DefaultStyleRule(type, styleProperties, widgetType, getSourceLocation(ctx));
     }
 
     @Override
@@ -119,23 +117,27 @@ public class ASTConstructionVisitor extends QLSBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitCheckboxType(QLSParser.CheckboxTypeContext ctx) {
         if (ctx.yes != null) {
-            return new CheckboxType(ctx.yes.getText(), getSourceLocation(ctx));
+            return new CheckboxType(ctx.yes.getText().replaceAll("^\"|\"$", ""), getSourceLocation(ctx));
         }
         return new CheckboxType(getSourceLocation(ctx));
     }
 
     @Override
     public ASTNode visitDropdownType(QLSParser.DropdownTypeContext ctx) {
-        if (ctx.choiceMap().yes != null && ctx.choiceMap().no != null) {
-            return new DropdownType(ctx.choiceMap().yes.getText(), ctx.choiceMap().no.getText(), getSourceLocation(ctx));
+        if (ctx.choiceMap() != null) {
+            String trueLabel = ctx.choiceMap().yes.getText().replaceAll("^\"|\"$", "");
+            String falseLabel = ctx.choiceMap().no.getText().replaceAll("^\"|\"$", "");
+            return new DropdownType(trueLabel, falseLabel, getSourceLocation(ctx));
         }
         return new DropdownType(getSourceLocation(ctx));
     }
 
     @Override
     public ASTNode visitRadioType(QLSParser.RadioTypeContext ctx) {
-        if (ctx.choiceMap().yes != null && ctx.choiceMap().no != null) {
-            return new RadioType(ctx.choiceMap().yes.getText(), ctx.choiceMap().no.getText(), getSourceLocation(ctx));
+        if (ctx.choiceMap() != null) {
+            String trueLabel = ctx.choiceMap().yes.getText().replaceAll("^\"|\"$", "");
+            String falseLabel = ctx.choiceMap().no.getText().replaceAll("^\"|\"$", "");
+            return new RadioType(trueLabel, falseLabel, getSourceLocation(ctx));
         }
         return new RadioType(getSourceLocation(ctx));
     }
@@ -165,7 +167,7 @@ public class ASTConstructionVisitor extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitFontProperty(QLSParser.FontPropertyContext ctx) {
-        return new FontProperty(ctx.STRINGLITERAL().getText(), getSourceLocation(ctx));
+        return new FontProperty(ctx.STRINGLITERAL().getText().replaceAll("^\"|\"$", ""), getSourceLocation(ctx));
     }
 
     @Override
@@ -176,6 +178,11 @@ public class ASTConstructionVisitor extends QLSBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitWidthProperty(QLSParser.WidthPropertyContext ctx) {
         return new WidthProperty(Integer.parseInt(ctx.INTEGERLITERAL().getText()), getSourceLocation(ctx));
+    }
+
+    @Override
+    public ASTNode visitHeightProperty(QLSParser.HeightPropertyContext ctx) {
+        return new HeightProperty(Integer.parseInt(ctx.INTEGERLITERAL().getText()), getSourceLocation(ctx));
     }
 
     private SourceLocation getSourceLocation(ParserRuleContext ctx) {

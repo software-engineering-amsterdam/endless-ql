@@ -2,7 +2,9 @@ package qls.ast.components;
 
 import ql.ast.SourceLocation;
 import qls.ast.defaultrules.DefaultRule;
+import qls.ast.visitors.ComponentVisitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Section extends Component {
@@ -17,4 +19,26 @@ public class Section extends Component {
         this.components = components;
         this.rules = rules;
     }
+
+    public List<QuestionReference> getQuestionReferences() {
+        return new ArrayList<>();
+    }
+
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public List<Component> getComponents() {
+        return components;
+    }
+
+    public List<DefaultRule> getRules() {
+        return rules;
+    }
+
+    @Override
+    public <T> T accept(ComponentVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }

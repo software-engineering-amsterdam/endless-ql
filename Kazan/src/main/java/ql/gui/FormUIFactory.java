@@ -4,6 +4,9 @@ import ql.ast.Form;
 import ql.ast.statements.Question;
 import ql.environment.Environment;
 import ql.environment.FormEnvironment;
+import ql.gui.uicomponents.FormUI;
+import ql.gui.uicomponents.QuestionUI;
+import ql.gui.uicomponents.widgets.Widget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,8 @@ public class FormUIFactory {
     }
 
     private QuestionUI getQuestionUI(Environment environment, Question question) {
-        return new QuestionUI(environment, question);
+        Widget widget = new WidgetFactory().createWidget(question, environment);
+        return new QuestionUI(environment, question, widget);
     }
 
 }

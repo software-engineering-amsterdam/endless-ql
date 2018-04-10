@@ -1,18 +1,16 @@
-package ql.gui;
+package ql.gui.uicomponents;
 
 import ql.ast.statements.Question;
 import ql.environment.Environment;
 import ql.environment.EnvironmentListener;
 import ql.environment.values.Value;
-import ql.gui.widgets.Widget;
+import ql.gui.WidgetListener;
+import ql.gui.uicomponents.widgets.Widget;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class QuestionUI implements WidgetListener, EnvironmentListener {
-
-    //TODO: Inconsistent with input widgets
-    //TODO: Move Question / environment field from widget to QuestionUI
 
     private final JLabel label;
     private final Widget widget;
@@ -20,14 +18,14 @@ public class QuestionUI implements WidgetListener, EnvironmentListener {
     private final Environment environment;
     private final Question question;
 
-    public QuestionUI(Environment environment, Question question) {
+    public QuestionUI(Environment environment, Question question, Widget widget) {
         this.question = question;
         this.environment = environment;
 
         environment.registerChangeListener(this);
 
         label = new JLabel(question.getLabel());
-        widget = new WidgetFactory().createWidget(question, environment);
+        this.widget = widget;
         widget.registerChangeListener(this);
 
         panel = new JPanel(new BorderLayout());
@@ -62,4 +60,5 @@ public class QuestionUI implements WidgetListener, EnvironmentListener {
         setVisible(isVisible());
         widget.setValue();
     }
+
 }

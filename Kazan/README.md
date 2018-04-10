@@ -18,15 +18,18 @@ The project is based on the [Language Workbench Challenge](https://homepages.cwi
 ### How to run
 * ```mvn antlr4:antlr4``` to generate parsers from grammar
 * ```mvn exec:java``` to run
-* Alternatively, instead of directly running generate a JAR with ```mvn package``` and run with ```java -cp target/querylanguage-1.0-jar-with-dependencies.jar ql.Main``` 
+* Alternatively, instead of directly running generate a JAR with ```mvn package``` and run with ```java -cp target/querylanguage-1.0-jar-with-dependencies.jar qls.Main``` 
 
 ### Setup instructions for IntelliJ
 * File -> New -> Project from existing sources -> Kazan
 * Make sure to run the antlr4 maven plugin to generate required parsers from the grammar
-* Run /endless-ql/Kazan/src/main/java/ql/Main
+* Run /endless-ql/Kazan/src/main/java/qls/Main
 
 ### Running Tests
 ```mvn test```
+
+### Screencast
+[link](https://timnederveen.nl/construction)
 
 ### How does it work?
 .g4 files containing Lexer/Parser rules for both the QL and QLS DSLs can be found in src/main/antlr4. Before running, Maven will need to generate the required classes from this grammar using the included ANTLR v4 plugin.

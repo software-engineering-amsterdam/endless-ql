@@ -1,10 +1,10 @@
-package ql.gui.widgets;
+package ql.gui.uicomponents.widgets;
 
 import ql.ast.statements.Question;
 import ql.environment.Environment;
-import ql.environment.values.DecimalValue;
 import ql.environment.values.Value;
 import ql.gui.WidgetListener;
+import ql.gui.uicomponents.QuestionStyle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,25 +13,23 @@ public class SliderWidget extends BaseWidget {
 
     private final JSlider slider;
 
-    public SliderWidget(Environment environment, Question question, boolean isEditable) {
+    public SliderWidget(Environment environment, Question question, boolean isEditable, int start, int end, int step, QuestionStyle style) {
         super(environment, question, isEditable);
 
         Value value = environment.getQuestionValue(question.getId());
-        Number number = value != null ? (Number) value.getValue() : 0;
-        final int CURRENT_VALUE = number.intValue();
-        final int START = 0;
-        final int END = CURRENT_VALUE + 10;
-
-        slider = new JSlider(START, END, CURRENT_VALUE);
-        slider.setMinorTickSpacing((END - START) / 10);
-        slider.setMajorTickSpacing((END - START) / 5);
+        int current = value != null ? ((Number) value.getValue()).intValue() : 0;
+        start = current < start ? current : start;
+        end = current > end ? current : end;
+        slider = new JSlider(start, end, current);
+        slider.setMinorTickSpacing(step);
+        slider.setMajorTickSpacing(step * 2);
         slider.setSnapToTicks(true);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
 
-        slider.setPreferredSize(new Dimension(200, 50));
         setValue();
         setEditable(isEditable);
+        setStyle(style);
     }
 
     @Override
@@ -42,8 +40,15 @@ public class SliderWidget extends BaseWidget {
     }
 
     @Override
+    public void setStyle(QuestionStyle style) {
+        slider.setForeground(style.getColor());
+        slider.setFont(style.getFont());
+        slider.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
+    }
+
+    @Override
     public Value getValue() {
-        return new DecimalValue(slider.getValue());
+        return parseValue(Integer.toString(slider.getValue()));
     }
 
     @Override

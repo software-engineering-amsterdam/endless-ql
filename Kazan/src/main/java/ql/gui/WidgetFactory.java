@@ -4,7 +4,10 @@ import ql.ast.statements.Question;
 import ql.ast.types.*;
 import ql.ast.visitors.TypeVisitor;
 import ql.environment.Environment;
-import ql.gui.widgets.*;
+import ql.gui.uicomponents.widgets.CheckboxWidget;
+import ql.gui.uicomponents.widgets.SpinboxWidget;
+import ql.gui.uicomponents.widgets.TextFieldWidget;
+import ql.gui.uicomponents.widgets.Widget;
 
 public class WidgetFactory {
 
@@ -17,12 +20,12 @@ public class WidgetFactory {
 
             @Override
             public Widget visit(BooleanType booleanType) {
-                return new RadioWidget(environment, question, isEditable);
+                return new CheckboxWidget(environment, question, isEditable);
             }
 
             @Override
             public Widget visit(DecimalType decimalType) {
-                return new SliderWidget(environment, question, isEditable);
+                return new TextFieldWidget(environment, question, isEditable);
             }
 
             @Override

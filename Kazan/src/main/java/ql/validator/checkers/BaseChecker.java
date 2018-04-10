@@ -3,16 +3,20 @@ package ql.validator.checkers;
 import issuetracker.Error;
 import issuetracker.IssueTracker;
 import issuetracker.Warning;
-import ql.ast.Form;
 
 import java.util.List;
 
-public abstract class BaseChecker implements Checker<Form> {
+public abstract class BaseChecker implements Checker {
 
     protected final IssueTracker issueTracker;
 
-    public BaseChecker() {
+    protected BaseChecker() {
         this.issueTracker = new IssueTracker();
+    }
+
+    @Override
+    public boolean passesTests() {
+        return !issueTracker.hasErrors();
     }
 
     @Override

@@ -36,7 +36,6 @@
     "tinycolor2": "^1.4.1",
     "ts-jest": "^20.0.7",
     "ts-loader": "^2.3.7",
-    "ts-money": "^0.4.4",
     "ts-pegjs": "^0.1.13",
     "tsconfig-paths-webpack-plugin": "^2.0.0",
     "tslint": "^5.7.0",

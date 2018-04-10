@@ -1,11 +1,12 @@
-package ql.gui.widgets;
+package ql.gui.uicomponents.widgets;
 
 import ql.ast.statements.Question;
 import ql.ast.types.*;
 import ql.ast.visitors.TypeVisitor;
 import ql.environment.Environment;
-import ql.environment.values.*;
+import ql.environment.values.Value;
 import ql.gui.WidgetListener;
+import ql.gui.uicomponents.QuestionStyle;
 
 import javax.swing.*;
 import javax.swing.text.DateFormatter;
@@ -23,11 +24,15 @@ public class TextFieldWidget extends BaseWidget {
     private final JFormattedTextField textField;
 
     public TextFieldWidget(Environment environment, Question question, boolean isEditable) {
+        this(environment, question, isEditable, new QuestionStyle());
+    }
+
+    public TextFieldWidget(Environment environment, Question question, boolean isEditable, QuestionStyle style) {
         super(environment, question, isEditable);
         textField = createTextField(question);
-        textField.setPreferredSize(new Dimension(200, 50));
         setValue();
         setEditable(isEditable);
+        setStyle(style);
     }
 
     @Override
@@ -56,43 +61,15 @@ public class TextFieldWidget extends BaseWidget {
     }
 
     @Override
+    public void setStyle(QuestionStyle style) {
+        textField.setForeground(style.getColor());
+        textField.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
+        textField.setFont(style.getFont());
+    }
+
+    @Override
     public Value getValue() {
-        return question.getType().accept(new TypeVisitor<Value>() {
-            @Override
-            public Value visit(BooleanType booleanType) {
-                return new BooleanValue(textField.getText());
-            }
-
-            @Override
-            public Value visit(DecimalType decimalType) {
-                return new DecimalValue(textField.getText());
-            }
-
-            @Override
-            public Value visit(IntegerType integerType) {
-                return new IntegerValue(textField.getText());
-            }
-
-            @Override
-            public Value visit(MoneyType moneyType) {
-                return new MoneyValue(textField.getText());
-            }
-
-            @Override
-            public Value visit(StringType stringType) {
-                return new StringValue(textField.getText());
-            }
-
-            @Override
-            public Value visit(DateType dateType) {
-                return new DateValue(textField.getText());
-            }
-
-            @Override
-            public Value visit(ErrorType errorType) {
-                throw new IllegalArgumentException();
-            }
-        });
+        return parseValue(textField.getText());
     }
 
     @Override

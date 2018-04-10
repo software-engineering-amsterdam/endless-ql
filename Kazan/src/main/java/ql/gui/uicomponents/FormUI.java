@@ -1,4 +1,4 @@
-package ql.gui;
+package ql.gui.uicomponents;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,9 +24,6 @@ public class FormUI {
             questionContainer.add(question.getComponent());
             questionContainer.add(Box.createRigidArea(new Dimension(0, 40)));
         }
-        // JScrollPane scrollPane = new JScrollPane(questionContainer);
-        // questionContainer.setPreferredSize(new Dimension(500,
-        //         800));
 
         initialiseFrame(questionContainer);
     }

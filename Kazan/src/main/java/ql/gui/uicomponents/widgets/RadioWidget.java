@@ -1,10 +1,11 @@
-package ql.gui.widgets;
+package ql.gui.uicomponents.widgets;
 
 import ql.ast.statements.Question;
 import ql.environment.Environment;
 import ql.environment.values.BooleanValue;
 import ql.environment.values.Value;
 import ql.gui.WidgetListener;
+import ql.gui.uicomponents.QuestionStyle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,32 +13,38 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RadioWidget extends BaseWidget {
-    //TODO create separate button map for arbitrary types
 
     private final Map<String, JRadioButton> choiceButtonMap;
     private final JPanel panel;
     private final ButtonGroup buttonGroup;
 
     public RadioWidget(Environment environment, Question question, boolean isEditable) {
+        this(environment, question, isEditable, "Yes", "No", new QuestionStyle());
+    }
+
+    public RadioWidget(Environment environment, Question question, boolean isEditable, String trueLabel, String falseLabel, QuestionStyle style) {
         super(environment, question, isEditable);
+        this.choiceButtonMap = new HashMap<>();
 
         panel = new JPanel();
-        panel.setPreferredSize(new Dimension(200, 50));
-
-        this.choiceButtonMap = new HashMap<>();
 
         buttonGroup = new ButtonGroup();
 
-        String[] defaultOptions = {"true", "false"};
-        for (String option : defaultOptions) {
-            JRadioButton button = new JRadioButton(option);
-            button.setActionCommand(option);
-            buttonGroup.add(button);
-            choiceButtonMap.put(option, button);
-            panel.add(button);
-        }
+        JRadioButton trueButton = new JRadioButton(trueLabel);
+        trueButton.setActionCommand(trueLabel);
+        buttonGroup.add(trueButton);
+        choiceButtonMap.put("true", trueButton);
+        panel.add(trueButton);
+
+        JRadioButton falseButton = new JRadioButton(falseLabel);
+        falseButton.setActionCommand(falseLabel);
+        buttonGroup.add(falseButton);
+        choiceButtonMap.put("false", falseButton);
+        panel.add(falseButton);
+
         setValue();
         setEditable(isEditable);
+        setStyle(style);
     }
 
     @Override
@@ -52,11 +59,20 @@ public class RadioWidget extends BaseWidget {
     }
 
     @Override
+    public void setStyle(QuestionStyle style) {
+        for (JRadioButton button : choiceButtonMap.values()) {
+            button.setForeground(style.getColor());
+            button.setFont(style.getFont());
+        }
+        panel.setPreferredSize(new Dimension(style.getWidth(), style.getHeight()));
+    }
+
+    @Override
     public Value getValue() {
         for (Map.Entry entry : choiceButtonMap.entrySet()) {
             JRadioButton button = (JRadioButton) entry.getValue();
             if (button.isSelected()) {
-                return new BooleanValue((String) entry.getKey());
+                return parseValue((String) entry.getKey());
             }
         }
         return new BooleanValue(false);

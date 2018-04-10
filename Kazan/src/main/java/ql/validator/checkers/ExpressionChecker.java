@@ -16,25 +16,22 @@ import ql.validator.symboltable.SymbolTable;
 import java.util.List;
 
 /**
- * Checks AST for references to undefined questions, conditions of non-boolean type,
+ * Checks Form for references to undefined questions, conditions of non-boolean type,
  * and invalid operand/operator type combinations
  */
 public class ExpressionChecker extends BaseChecker implements FormStatementVisitor<Void>, ExpressionVisitor<Type>, TypeVisitor<Type> {
 
-    private SymbolTable symbolTable;
+    private final SymbolTable symbolTable;
 
-    @Override
-    public boolean passesTests(Form form) {
-        issueTracker.reset();
+    public ExpressionChecker(Form form) {
+        super();
         symbolTable = new SymbolTable(form);
         form.accept(this);
-        return !issueTracker.hasErrors();
     }
 
     /**
      * Checks if left and right child are compatible with each other
      *
-     * @param binaryOperation
      * @return ErrorType if incompatible, otherwise the dominating return type of the two children
      */
     private Type checkTypeCompatibility(BinaryOperation binaryOperation) {
@@ -64,8 +61,6 @@ public class ExpressionChecker extends BaseChecker implements FormStatementVisit
     /**
      * Checks if operand type is allowed within parent expression
      *
-     * @param actualType
-     * @param expectedType
      * @return the actual type if allowed, otherwise ErrorType
      */
     private Type verifyType(Type actualType, String expectedType) {

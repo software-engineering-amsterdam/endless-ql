@@ -1,6 +1,5 @@
 package ql.parser;
 
-import org.junit.Before;
 import org.junit.Test;
 import ql.BaseQlTest;
 import ql.ast.Form;
@@ -65,51 +64,5 @@ public class ASTConstructionVisitorTest extends BaseQlTest {
         assertEquals(3, ifStatement.getIfStatements().size());
         assertEquals("hasSoldHouse", variable.getName());
     }
-
-    // @Test
-    // public void visitUnaryExpression() {
-    //     Negation negation = (Negation) FormBuilder.createExpression("!(true)");
-    //     Negative arithmeticNegation = (Negative) FormBuilder.createExpression(parser);
-    // }
-
-    // @Test
-    // public void visitArithMeticBinary() {
-    // }
-    //
-    // @Test
-    // public void visitLogicalBinary() {
-    // }
-    //
-    // @Test
-    // public void visitRelationalBinary() {
-    // }
-    //
-    // @Test
-    // public void visitBooleanLiteral() {
-    // }
-    //
-    // @Test
-    // public void visitStringLiteral() {
-    // }
-    //
-    // @Test
-    // public void visitIntegerLiteral() {
-    // }
-    //
-    // @Test
-    // public void visitDecimalLiteral() {
-    // }
-    //
-    // @Test
-    // public void visitMoneyLiteral() {
-    // }
-    //
-    // @Test
-    // public void visitDateLiteral() {
-    // }
-    //
-    // @Test
-    // public void visitIdentifier() {
-    // }
 
 }

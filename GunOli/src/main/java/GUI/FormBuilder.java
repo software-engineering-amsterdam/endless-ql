@@ -7,6 +7,7 @@ import QL.AST.Expressions.ExpressionConstants.*;
 import QL.AST.Question;
 import QL.Evaluation.EvaluationVisitor;
 import QL.Evaluation.Values.BooleanValue;
+import QL.Evaluation.ExpressionTable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import QL.AST.Form;
@@ -26,20 +27,14 @@ import java.util.regex.Pattern;
 public class FormBuilder {
     private Form form;
     private Stage stage;
+    private ExpressionTable expressionTable;
     private EvaluationVisitor evaluationVisitor;
 
-    public FormBuilder(Form form, Stage stage){
-        setForm(form);
-        setStage(stage);
-        evaluationVisitor = new EvaluationVisitor(form);
-    }
-
-    public void setForm(Form form){
+    public FormBuilder(Form form, ExpressionTable expressionTable, Stage stage){
         this.form = form;
-    }
-
-    public void setStage(Stage stage){
         this.stage = stage;
+        this.expressionTable = expressionTable;
+        evaluationVisitor = new EvaluationVisitor(expressionTable);
     }
 
     private void initializeFormGrid(GridPane formGrid){
@@ -148,7 +143,7 @@ public class FormBuilder {
                 textField.textProperty().addListener((observableText, oldValue, newValue) -> {
                     if(!textField.isDisabled() && !textField.getText().isEmpty()){
                         Expression newAnswer = createNewAnswer(question.getType(), newValue, question.getLineNumber());
-                        form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
+                        expressionTable.updateExpression(question.getIdentifier(), newAnswer);
                     }});
             } else {
                 renderForm();
@@ -166,7 +161,7 @@ public class FormBuilder {
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if(!checkBox.isDisabled()){
                     Expression newAnswer = new BooleanConstant(newValue, question.getLineNumber());
-                    form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
+                    expressionTable.updateExpression(question.getIdentifier(), newAnswer);
                     renderForm();
                 }
             });
@@ -182,7 +177,7 @@ public class FormBuilder {
 
         datePicker.valueProperty().addListener((observable, oldValue, newValue)->{
             Expression newAnswer = new DateConstant(newValue, question.getLineNumber());
-            form.getExpressionTable().updateExpression(question.getIdentifier(), newAnswer);
+            expressionTable.updateExpression(question.getIdentifier(), newAnswer);
             renderForm();
         });
         return datePicker;

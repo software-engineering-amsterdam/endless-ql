@@ -13,12 +13,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class ExpressionVisitor extends QLBaseVisitor<Expression> {
-    private ExpressionTable expressionTable;
-
-    public ExpressionVisitor(ExpressionTable exprTable){
-        this.expressionTable = exprTable;
-    }
-
     @Override
     public Expression visitBinaryExpr(QLParser.BinaryExprContext ctx) {
         int line = ctx.getStart().getLine();
@@ -98,6 +92,6 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
 
     @Override
     public Expression visitIdentifierConstant(QLParser.IdentifierConstantContext ctx){
-        return new IdentifierExpression(ctx.IDENTIFIER().getText(), expressionTable, ctx.getStart().getLine());
+        return new IdentifierExpression(ctx.IDENTIFIER().getText(), ctx.getStart().getLine());
     }
 }

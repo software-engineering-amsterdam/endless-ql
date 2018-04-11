@@ -9,23 +9,20 @@ import QL.QLAntlrGen.QLParser;
 import java.util.ArrayList;
 
 public class BlockVisitor extends QLBaseVisitor<ArrayList<Question>> {
-    private ExpressionTable expressionTable;
     private Expression condition;
 
-    public BlockVisitor(ExpressionTable exprTable){
-        this.expressionTable = exprTable;
+    public BlockVisitor(){
         this.condition = new BooleanConstant(true, 0);
     }
 
-    public BlockVisitor(ExpressionTable exprTable, Expression condition){
-        this.expressionTable = exprTable;
+    public BlockVisitor(Expression condition){
         this.condition = condition;
     }
 
     @Override
     public ArrayList<Question> visitBlock(QLParser.BlockContext ctx){
-        QuestionVisitor questionVisitor = new QuestionVisitor(expressionTable, condition);
-        ConditionVisitor conditionVisitor = new ConditionVisitor(expressionTable, condition);
+        QuestionVisitor questionVisitor = new QuestionVisitor(condition);
+        ConditionVisitor conditionVisitor = new ConditionVisitor(condition);
 
         ArrayList<Question> questions = new ArrayList<Question>();
         for(QLParser.StatementContext statementCtx : ctx.statement()){

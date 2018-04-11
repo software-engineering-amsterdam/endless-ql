@@ -8,11 +8,9 @@ import QL.QLAntlrGen.QLBaseVisitor;
 import QL.QLAntlrGen.QLParser;
 
 public class QuestionVisitor extends QLBaseVisitor<Question>{
-    private ExpressionTable expressionTable;
     private Expression condition;
 
-    public QuestionVisitor(ExpressionTable exprTable, Expression condition){
-        this.expressionTable = exprTable;
+    public QuestionVisitor(Expression condition){
         this.condition = condition;
     }
 
@@ -30,14 +28,13 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
 
         Boolean isPredefined = questionTypeCTX.expression() != null; // checks question is already assigned in form
         Expression initialAnswer = initializeAnswer(questionTypeCTX, typeValue);
-        expressionTable.addExpression(name, initialAnswer);
         return new Question(name, text, typeValue, initialAnswer, condition, isPredefined, line);
     }
 
     private Expression initializeAnswer(QLParser.QuestionTypeContext ctx, EvaluationType type){
         int line = ctx.getStart().getLine();
         if(ctx.expression() != null) {
-            ExpressionVisitor expressionVisitor = new ExpressionVisitor(expressionTable);
+            ExpressionVisitor expressionVisitor = new ExpressionVisitor();
             return expressionVisitor.visit(ctx.expression());
         }
 

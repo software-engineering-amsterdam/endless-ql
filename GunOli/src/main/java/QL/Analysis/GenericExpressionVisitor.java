@@ -26,6 +26,7 @@ import QL.AST.Expressions.UnaryExpressions.NegationExpression;
 import QL.AST.Expressions.UnaryExpressions.NotExpression;
 
 public class GenericExpressionVisitor<T> implements ExpressionVisitorInterface<T>{
+
     private T visitBinaryExpression(BinaryExpression expression) {
         expression.getExprLeft().accept(this);
         expression.getExprRight().accept(this);

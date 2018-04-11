@@ -3,7 +3,6 @@ package GUI;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import QL.QLVisitor.ExpressionTable;
 import QL.AST.Form;
 import QL.QLAntlrGen.QLParser;
 import QL.QLAntlrGen.QLLexer;
@@ -30,8 +29,7 @@ public class Parser {
             //Trees.inspect(parser.head(), parser); //Debug parse tree, change for later viewing
             //parser.reset();
 
-            ExpressionTable expressionTable = new ExpressionTable();
-            FormVisitor visitor = new FormVisitor(expressionTable);
+            FormVisitor visitor = new FormVisitor();
             return visitor.visit(parser.head());
         }catch(Exception e){
             System.out.println("Unable to Parse Selected QL File");

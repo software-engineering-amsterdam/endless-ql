@@ -3,6 +3,8 @@ package QL.AST;
 import QL.AST.Expressions.Expression;
 import QL.Analysis.EvaluationType;
 import QL.Analysis.QuestionVisitorInterface;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Question extends ASTNode {
     private String identifier;
@@ -45,5 +47,11 @@ public class Question extends ASTNode {
 
     public <T> T accept(QuestionVisitorInterface<T> visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public String toString(){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 }

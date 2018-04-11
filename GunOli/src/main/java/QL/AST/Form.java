@@ -1,23 +1,18 @@
 package QL.AST;
 
-import QL.QLVisitor.ExpressionTable;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 
 public class Form extends ASTNode {
     private String name;
     private ArrayList<Question> questions;
-    private ExpressionTable expressionTable;
 
-    public Form(String name, ArrayList<Question> questions, ExpressionTable exprTable, int lineNumber){
+    public Form(String name, ArrayList<Question> questions, int lineNumber){
         super(lineNumber);
         this.name = name;
         this.questions = questions;
-        this.expressionTable = exprTable;
-    }
-
-    public ExpressionTable getExpressionTable(){
-        return expressionTable;
     }
 
     public String getName() {
@@ -25,4 +20,19 @@ public class Form extends ASTNode {
     }
 
     public ArrayList<Question> getQuestions() { return questions; }
+
+    public Question getQuestion(String id){
+        for(Question question : questions){
+            if(question.getIdentifier().equals(id)){
+                return question;
+            }
+        }
+        throw new IllegalArgumentException("Bad request: Question with identifier '"+id+"' not found in Form '"+name+"'.");
+    }
+
+    @Override
+    public String toString(){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
+    }
 }

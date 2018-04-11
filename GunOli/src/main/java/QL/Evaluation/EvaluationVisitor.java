@@ -1,27 +1,46 @@
 package QL.Evaluation;
 
 import QL.AST.Expressions.BinaryExpression;
-import QL.AST.Expressions.BinaryExpressions.*;
+import QL.AST.Expressions.BinaryExpressions.AdditionExpression;
+import QL.AST.Expressions.BinaryExpressions.AndExpression;
+import QL.AST.Expressions.BinaryExpressions.DivisionExpression;
+import QL.AST.Expressions.BinaryExpressions.EqualExpression;
+import QL.AST.Expressions.BinaryExpressions.GreaterOrEqualExpression;
+import QL.AST.Expressions.BinaryExpressions.GreaterThanExpression;
+import QL.AST.Expressions.BinaryExpressions.LessOrEqualExpression;
+import QL.AST.Expressions.BinaryExpressions.LessThanExpression;
+import QL.AST.Expressions.BinaryExpressions.MultiplicationExpression;
+import QL.AST.Expressions.BinaryExpressions.NotEqualExpression;
+import QL.AST.Expressions.BinaryExpressions.OrExpression;
+import QL.AST.Expressions.BinaryExpressions.SubtractExpression;
 import QL.AST.Expressions.Expression;
-import QL.AST.Expressions.ExpressionConstants.*;
+import QL.AST.Expressions.ExpressionConstants.BooleanConstant;
+import QL.AST.Expressions.ExpressionConstants.DateConstant;
+import QL.AST.Expressions.ExpressionConstants.DecimalConstant;
+import QL.AST.Expressions.ExpressionConstants.IntegerConstant;
+import QL.AST.Expressions.ExpressionConstants.MoneyConstant;
+import QL.AST.Expressions.ExpressionConstants.StringConstant;
+import QL.AST.Expressions.ExpressionConstants.UndefinedConstant;
 import QL.AST.Expressions.IdentifierExpression;
 import QL.AST.Expressions.UnaryExpression;
 import QL.AST.Expressions.UnaryExpressions.NegationExpression;
 import QL.AST.Expressions.UnaryExpressions.NotExpression;
-import QL.AST.Form;
 import QL.AST.Question;
 import QL.Analysis.ExpressionVisitorInterface;
 import QL.Evaluation.Evaulators.EvaluatorFactory;
-import QL.Evaluation.Values.*;
-import QL.QLVisitor.ExpressionTable;
+import QL.Evaluation.Values.BooleanValue;
+import QL.Evaluation.Values.DateValue;
+import QL.Evaluation.Values.NumericValue;
+import QL.Evaluation.Values.StringValue;
+import QL.Evaluation.Values.UndefinedValue;
 
 public class EvaluationVisitor implements ExpressionVisitorInterface<Value> {
     private EvaluatorFactory evaluatorFactory;
     private ExpressionTable expressionTable;
 
-    public EvaluationVisitor(Form form){
+    public EvaluationVisitor(ExpressionTable expressionTable){
         this.evaluatorFactory = new EvaluatorFactory();
-        this.expressionTable = form.getExpressionTable();
+        this.expressionTable = expressionTable;
     }
 
     public String evaluateQuestion(Question question){

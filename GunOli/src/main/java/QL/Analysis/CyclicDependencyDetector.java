@@ -9,49 +9,71 @@ import org.jgrapht.alg.CycleDetector;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CyclicDependencyDetector {
 
     private final Form form;
 
-    public CyclicDependencyDetector(Form form){
+    public CyclicDependencyDetector(Form form) {
         this.form = form;
     }
 
-    public void detectCycles(){
-        Graph<String, DefaultEdge> dependencyGraph = new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
+    public void detectCycles() {
+        Graph<Question, DefaultEdge> dependencyGraph = buildDependencyGraph();
 
-        for(Question question : form.getQuestions()){
-            dependencyGraph.addVertex(question.getIdentifier());
+        CycleDetector<Question, DefaultEdge> cycleDetector = new CycleDetector<>(dependencyGraph);
+        Set<Question> cyclicDependencies = cycleDetector.findCycles();
 
-            if(!question.isPredefined()){
-                break;
+        if (!cyclicDependencies.isEmpty()) {
+            throw new IllegalArgumentException(
+                "Cyclic dependencies detected: " + getCycleIdentifiers(cyclicDependencies));
+        }
+    }
+
+    private Graph<Question, DefaultEdge> buildDependencyGraph() {
+        Graph<Question, DefaultEdge> dependencyGraph = new DefaultDirectedGraph<Question, DefaultEdge>(
+            DefaultEdge.class);
+
+        buildVerticesFromQuestions(dependencyGraph);
+        buildEdgesFromReferences(dependencyGraph);
+
+        return dependencyGraph;
+    }
+
+    private void buildVerticesFromQuestions(Graph<Question, DefaultEdge> dependencyGraph) {
+        for (Question question : form.getQuestions()) {
+            dependencyGraph.addVertex(question);
+        }
+    }
+
+    private void buildEdgesFromReferences(Graph<Question, DefaultEdge> dependencyGraph) {
+        for (Question question : dependencyGraph.vertexSet()) {
+            Set<Question> referencedQuestions;
+
+            if (!question.isPredefined()) {
+                continue;
             }
 
-            Set<String> referencedQuestions = detectReferences(question.getAnswer());
+            referencedQuestions = detectReferences(question.getAnswer());
 
-            for(String identifier : referencedQuestions){
-                dependencyGraph.addEdge(question.getIdentifier(), identifier);
-            }
-
-            CycleDetector<String, DefaultEdge> cycleDetector = new CycleDetector<>(dependencyGraph);
-
-            Set<String> cyclicDependencies = cycleDetector.findCycles();
-            if(!cyclicDependencies.isEmpty()){
-                throw new IllegalArgumentException("Cyclic dependencies detected: " + cyclicDependencies);
+            for (Question referencedQuestion : referencedQuestions) {
+                dependencyGraph.addEdge(question, referencedQuestion);
             }
         }
     }
 
-    private Set<String> detectReferences(Expression answer){
-        Set<String> referencedQuestions = new HashSet<>();
+    private Set<Question> detectReferences(Expression answer) {
+        Set<Question> referencedQuestions = new HashSet<>();
 
-        GenericExpressionVisitor referenceVisitor = new GenericExpressionVisitor(){
+        GenericExpressionVisitor referenceVisitor = new GenericExpressionVisitor() {
             @Override
-            public Object visit(IdentifierExpression expression){
-                referencedQuestions.add(expression.getIdentifier());
+            public Object visit(IdentifierExpression expression) {
+                Question referencedQuestion = form.getQuestion(expression.getIdentifier());
+                referencedQuestions.add(referencedQuestion);
                 return super.visit(expression);
             }
         };
@@ -59,5 +81,13 @@ public class CyclicDependencyDetector {
         answer.accept(referenceVisitor);
 
         return referencedQuestions;
+    }
+
+    private List<String> getCycleIdentifiers(Set<Question> cyclicDependencies) {
+        List<String> identifiers = new ArrayList<>();
+        for (Question question : cyclicDependencies) {
+            identifiers.add(question.getIdentifier());
+        }
+        return identifiers;
     }
 }

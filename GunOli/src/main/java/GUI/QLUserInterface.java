@@ -1,6 +1,7 @@
 package GUI;
 import QL.AST.Form;
 import QL.Analysis.TypeChecker;
+import QL.Evaluation.ExpressionTable;
 import QLS.ParseObjectQLS.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -36,8 +37,9 @@ public class QLUserInterface {
             Parser parser = new Parser();
 
             Form form = parser.parseInputToForm(formFile.getPath());
+            ExpressionTable expressionTable = new ExpressionTable(form);
 
-            performAnalysis(form);
+            performAnalysis(form, expressionTable);
 
             //todo: static analysis typechecker
             Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
@@ -45,17 +47,17 @@ public class QLUserInterface {
             //parser.printQLForm(form); //debug print the form questions in console
             //parser.printQLSStyleSheet(stylesheet); //debug partially print stylesheet to console
 
-            FormBuilder formBuilder = new FormBuilder(form, stage);
+            FormBuilder formBuilder = new FormBuilder(form, expressionTable, stage);
             formBuilder.renderForm();
         });
 
         layout.getChildren().add(debugBtn);
     }
 
-    public void performAnalysis(Form form){
-        TypeChecker typechecker = new TypeChecker(form, form.getExpressionTable());
-        typechecker.typeCheck();
+    public void performAnalysis(Form form, ExpressionTable expressionTable){
+        TypeChecker typechecker = new TypeChecker(form, expressionTable);
         typechecker.detectCyclicDependencies();
+        typechecker.typeCheck();
         typechecker.detectLabelDuplication();
     }
 
@@ -68,11 +70,14 @@ public class QLUserInterface {
             if (file != null) {
                 Parser parser = new Parser();
                 Form form = parser.parseInputToForm(file.getPath());
+                ExpressionTable expressionTable = new ExpressionTable(form);
+                //performAnalysis(form, expressionTable);
                 //parser.printQLForm(form);
                 if (form == null) { Platform.exit(); }
                 else {
-                    FormBuilder formBuilder = new FormBuilder(form, stage);
+                    FormBuilder formBuilder = new FormBuilder(form, expressionTable, stage);
                     formBuilder.renderForm();
+                    performAnalysis(form, expressionTable);
                 }
             }
         });

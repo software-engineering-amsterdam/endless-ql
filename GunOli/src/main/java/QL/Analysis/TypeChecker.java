@@ -26,7 +26,7 @@ import QL.AST.Expressions.UnaryExpressions.NegationExpression;
 import QL.AST.Expressions.UnaryExpressions.NotExpression;
 import QL.AST.Form;
 import QL.AST.Question;
-import QL.QLVisitor.ExpressionTable;
+import QL.Evaluation.ExpressionTable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +51,6 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType>, 
             question.accept(this); // checks type assignments
 
             checkRepeatAssignment(question, checkedQuestionMap);
-
             checkedQuestionMap.put(question.getIdentifier(), question);
         }
     }
@@ -233,7 +232,7 @@ public class TypeChecker implements ExpressionVisitorInterface<EvaluationType>, 
 
     @Override
     public EvaluationType visit(IdentifierExpression expression) {
-        if(this.expressionTable.exisitsIn(expression.getIdentifier())){
+        if(this.expressionTable.containsExpression(expression.getIdentifier())){
             return this.expressionTable.getExpression(expression.getIdentifier()).accept(this);
         }
         throw new IllegalArgumentException("Reference to undefined question '" + expression.getIdentifier()

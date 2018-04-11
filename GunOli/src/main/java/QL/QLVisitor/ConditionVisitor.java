@@ -10,11 +10,9 @@ import QL.QLAntlrGen.QLParser;
 import java.util.ArrayList;
 
 public class ConditionVisitor extends QLBaseVisitor{
-    private ExpressionTable expressionTable;
     private Expression condition;
 
-    public ConditionVisitor(ExpressionTable exprTable, Expression condition){
-        this.expressionTable = exprTable;
+    public ConditionVisitor(Expression condition){
         this.condition = condition;
     }
 
@@ -22,7 +20,7 @@ public class ConditionVisitor extends QLBaseVisitor{
     public ArrayList<Question> visitCondition(QLParser.ConditionContext ctx){
         int line = ctx.getStart().getLine();
         ArrayList<Question> questions = new ArrayList<>();
-        ExpressionVisitor expressionVisitor = new ExpressionVisitor(expressionTable);
+        ExpressionVisitor expressionVisitor = new ExpressionVisitor();
 
         QLParser.ExpressionContext expressionCtx = ctx.expression();
         Expression condition = expressionVisitor.visit(expressionCtx);
@@ -33,13 +31,13 @@ public class ConditionVisitor extends QLBaseVisitor{
             QLParser.BlockContext falseBlockCtx = ctx.falseBlock;
             Expression negatedCondition = new NotExpression(condition, line);
             Expression conditionChain = new AndExpression(negatedCondition, this.condition, line);
-            BlockVisitor falseBlockVisitor = new BlockVisitor(expressionTable, conditionChain);
+            BlockVisitor falseBlockVisitor = new BlockVisitor(conditionChain);
             ArrayList<Question> falseBlockQuestions = falseBlockVisitor.visitBlock(falseBlockCtx);
             questions.addAll(falseBlockQuestions);
         }
 
         Expression conditionChain = new AndExpression(condition, this.condition, line);
-        BlockVisitor trueBlockVisitor = new BlockVisitor(expressionTable, conditionChain);
+        BlockVisitor trueBlockVisitor = new BlockVisitor(conditionChain);
         ArrayList<Question> blockQuestions = trueBlockVisitor.visitBlock(blockCtx);
         questions.addAll(blockQuestions);
         return questions;

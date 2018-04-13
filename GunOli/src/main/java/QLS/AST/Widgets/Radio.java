@@ -1,9 +1,8 @@
-package QLS.ParseObjectQLS.Widgets;
+package QLS.AST.Widgets;
 
 import QLS.Analysis.WidgetVisitorInterface;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Radio extends Widget {
 

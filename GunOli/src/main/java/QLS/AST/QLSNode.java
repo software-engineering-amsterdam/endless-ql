@@ -1,4 +1,4 @@
-package QLS.ParseObjectQLS;
+package QLS.AST;
 
 import QLS.Analysis.WidgetVisitorInterface;
 

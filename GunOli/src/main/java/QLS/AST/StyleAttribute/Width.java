@@ -1,15 +1,15 @@
-package QLS.ParseObjectQLS.StyleAttribute;
+package QLS.AST.StyleAttribute;
 
 import GUI.Styles.StyleInterface;
 import QLS.Analysis.WidgetVisitorInterface;
-import QLS.ParseObjectQLS.Widgets.Widget;
 
-public class FontSize extends Style {
-    private int fontSize;
+public class Width extends Style{
+    private int width;
 
-    public FontSize(int line, int fontSize) {
+    public Width(int width, int line) {
         super(line);
-        this.fontSize = fontSize;
+        this.width = width;
+
     }
 
     @Override
@@ -17,9 +17,12 @@ public class FontSize extends Style {
         return visitor.visit(this);
     }
 
+    public int getWidth() {
+        return width;
+    }
+
     @Override
     public void apply(StyleInterface widget) {
-        widget.setFontSize(fontSize);
-
+        widget.setWidth(width);
     }
 }

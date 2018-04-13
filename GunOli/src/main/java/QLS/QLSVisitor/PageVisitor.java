@@ -1,8 +1,8 @@
 package QLS.QLSVisitor;
 
-import QLS.ParseObjectQLS.Default;
-import QLS.ParseObjectQLS.Page;
-import QLS.ParseObjectQLS.Section;
+import QLS.AST.Page;
+import QLS.AST.Statements.Default;
+import QLS.AST.Statements.Statement;
 import QLS.QLSAntlrGen.QLSBaseVisitor;
 import QLS.QLSAntlrGen.QLSParser;
 
@@ -14,25 +14,24 @@ public class PageVisitor extends QLSBaseVisitor<Page> {
     public Page visitPage(QLSParser.PageContext ctx){
 
         int line = ctx.getStart().getLine();
-        ArrayList<Section> sections = new ArrayList<Section>();
+        ArrayList<Statement> statements = new ArrayList<>();
         ArrayList<Default> defaultSections = new ArrayList<Default>();
 
         SectionVisitor sectionVisitor = new SectionVisitor();
         DefaultVisitor defaultVisitor = new DefaultVisitor();
 
         for(QLSParser.SectionContext secCtx: ctx.section()){
-            Section section = sectionVisitor.visitSection(secCtx);
-            sections.add(section);
-
+            ArrayList<Statement> sectionStatements = sectionVisitor.visitSection(secCtx);
+            statements.addAll(sectionStatements);
         }
 
         for(QLSParser.DefaultSecContext defSecCtx: ctx.defaultSec()){
             Default defaultSection = defaultVisitor.visitDefaultSec(defSecCtx);
             defaultSections.add(defaultSection);
-
         }
+
         //return new Page(sections, defaultSections, ctx.IDENTIFIER().getText());
-        return new Page(sections, ctx.IDENTIFIER().getText(), line);
+        return new Page(statements, ctx.IDENTIFIER().getText(), line);
     }
 
 

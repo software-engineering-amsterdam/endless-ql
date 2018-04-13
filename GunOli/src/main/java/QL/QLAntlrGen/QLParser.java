@@ -1,4 +1,4 @@
-// Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QL.g4 by ANTLR 4.7
+// Generated from /Users/molivari/temp/endless-ql/GunOli/src/main/antlr/QL.g4 by ANTLR 4.7
 package QL.QLAntlrGen;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -193,7 +193,7 @@ public class QLParser extends Parser {
 				setState(33); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==IF || _la==IDENTIFIER );
+			} while ( _la==IF || _la==STRING );
 			setState(35);
 			match(T__1);
 			}
@@ -249,7 +249,7 @@ public class QLParser extends Parser {
 				condition();
 				}
 				break;
-			case IDENTIFIER:
+			case STRING:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(38);
@@ -359,8 +359,8 @@ public class QLParser extends Parser {
 	}
 
 	public static class QuestionContext extends ParserRuleContext {
-		public TerminalNode IDENTIFIER() { return getToken(QLParser.IDENTIFIER, 0); }
 		public TerminalNode STRING() { return getToken(QLParser.STRING, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(QLParser.IDENTIFIER, 0); }
 		public QuestionTypeContext questionType() {
 			return getRuleContext(QuestionTypeContext.class,0);
 		}
@@ -390,11 +390,11 @@ public class QLParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(57);
-			match(IDENTIFIER);
-			setState(58);
-			match(T__4);
-			setState(59);
 			match(STRING);
+			setState(58);
+			match(IDENTIFIER);
+			setState(59);
+			match(T__4);
 			setState(60);
 			questionType();
 			}
@@ -1156,7 +1156,7 @@ public class QLParser extends Parser {
 		"\2(*\5\n\6\2)\'\3\2\2\2)(\3\2\2\2*\7\3\2\2\2+,\7\27\2\2,-\7\5\2\2-.\5"+
 		"\16\b\2./\7\6\2\2/\60\5\4\3\2\60:\3\2\2\2\61\62\7\27\2\2\62\63\7\5\2\2"+
 		"\63\64\5\16\b\2\64\65\7\6\2\2\65\66\5\4\3\2\66\67\7\30\2\2\678\5\4\3\2"+
-		"8:\3\2\2\29+\3\2\2\29\61\3\2\2\2:\t\3\2\2\2;<\7(\2\2<=\7\7\2\2=>\7\'\2"+
+		"8:\3\2\2\29+\3\2\2\29\61\3\2\2\2:\t\3\2\2\2;<\7\'\2\2<=\7(\2\2=>\7\7\2"+
 		"\2>?\5\f\7\2?\13\3\2\2\2@F\5\30\r\2AB\5\30\r\2BC\7\b\2\2CD\5\16\b\2DF"+
 		"\3\2\2\2E@\3\2\2\2EA\3\2\2\2F\r\3\2\2\2GH\b\b\1\2HI\7\5\2\2IJ\5\16\b\2"+
 		"JK\7\6\2\2KQ\3\2\2\2LM\5\20\t\2MN\5\16\b\5NQ\3\2\2\2OQ\5\26\f\2PG\3\2"+

@@ -1,7 +1,6 @@
-package QLS.ParseObjectQLS.Widgets;
+package QLS.AST.Widgets;
 
 import QLS.Analysis.WidgetVisitorInterface;
-import QLS.QLSVisitor.WidgetVisitor;
 
 public class CheckBox extends Widget {
 

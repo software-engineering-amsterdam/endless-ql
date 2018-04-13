@@ -1,8 +1,10 @@
 package GUI;
+
 import QL.AST.Form;
-import QL.Analysis.TypeChecker;
+import QL.Analysis.QLTypeChecker;
 import QL.Evaluation.ExpressionTable;
-import QLS.ParseObjectQLS.Stylesheet;
+import QLS.Analysis.QLSTypeChecker;
+import QLS.AST.Stylesheet;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,8 +30,8 @@ public class QLUserInterface {
         Button debugBtn = new Button("Debug");
 
         debugBtn.setOnAction((event) ->{
-            String formPath = "./src/main/resources/example.ql";
-            String styleSheetPath = "./src/main/resources/example.qls";
+            String formPath = "./src/main/resources/test.ql";
+            String styleSheetPath = "./src/main/resources/test.qls";
 
             File formFile = new File(formPath);
             File styleSheetFile = new File(styleSheetPath);
@@ -39,13 +41,14 @@ public class QLUserInterface {
             Form form = parser.parseInputToForm(formFile.getPath());
             ExpressionTable expressionTable = new ExpressionTable(form);
 
-            performAnalysis(form, expressionTable);
+            Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
 
-            //todo: static analysis typechecker
-            //Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
+            performAnalysis(form, expressionTable, stylesheet);
 
-            //parser.printQLForm(form); //debug print the form questions in console
-            //parser.printQLSStyleSheet(stylesheet); //debug partially print stylesheet to console
+            /*System.out.println("\n\n---------------- Form -----------------\n\n");
+            System.out.println(form); //debug print the form questions in console
+            System.out.println("\n\n---------------- StyleSheet -----------------\n\n");
+            System.out.println(stylesheet); //debug print stylesheet to console*/
 
             FormBuilder formBuilder = new FormBuilder(form, expressionTable, stage);
             formBuilder.renderForm();
@@ -54,11 +57,19 @@ public class QLUserInterface {
         layout.getChildren().add(debugBtn);
     }
 
-    public void performAnalysis(Form form, ExpressionTable expressionTable){
-        TypeChecker typechecker = new TypeChecker(form, expressionTable);
-        typechecker.detectCyclicDependencies();
-        typechecker.typeCheck();
-        typechecker.detectLabelDuplication();
+    public void performAnalysis(Form form, ExpressionTable expressionTable, Stylesheet stylesheet){
+        QLTypeChecker qlTypeChecker = new QLTypeChecker(form, expressionTable);
+        qlTypeChecker.detectCyclicDependencies();
+        qlTypeChecker.typeCheck();
+        qlTypeChecker.detectLabelDuplication();
+
+        if(stylesheet != null) {
+            QLSTypeChecker qlsTypeChecker = new QLSTypeChecker(stylesheet, form);
+            qlsTypeChecker.typeCheck();
+            qlsTypeChecker.detectUnknownReferences();
+            qlsTypeChecker.detectDuplicateQuestions();
+            qlsTypeChecker.detectUnplacedQuestions();
+        }
     }
 
     private void createBrowseButton(Stage stage, HBox layout){
@@ -77,7 +88,7 @@ public class QLUserInterface {
                 else {
                     FormBuilder formBuilder = new FormBuilder(form, expressionTable, stage);
                     formBuilder.renderForm();
-                    performAnalysis(form, expressionTable);
+                    //performAnalysis(form, expressionTable);
                 }
             }
         });

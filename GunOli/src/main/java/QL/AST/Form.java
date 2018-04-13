@@ -27,7 +27,7 @@ public class Form extends ASTNode {
                 return question;
             }
         }
-        throw new IllegalArgumentException("Bad request: Question with identifier '"+id+"' not found in Form '"+name+"'.");
+        throw new IllegalArgumentException("Bad assignment: Question with identifier '"+id+"' not found in Form '"+name+"'.");
     }
 
     @Override

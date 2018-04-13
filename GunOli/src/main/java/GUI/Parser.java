@@ -1,20 +1,18 @@
 package GUI;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-
 import QL.AST.Form;
-import QL.QLAntlrGen.QLParser;
 import QL.QLAntlrGen.QLLexer;
+import QL.QLAntlrGen.QLParser;
 import QL.QLVisitor.FormVisitor;
-import QLS.ParseObjectQLS.*;
-import QLS.ParseObjectQLS.Widgets.Widget;
+import QLS.AST.Stylesheet;
 import QLS.QLSAntlrGen.QLSLexer;
 import QLS.QLSAntlrGen.QLSParser;
 import QLS.QLSVisitor.StylesheetVisitor;
-
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 
 public class Parser {
@@ -40,7 +38,7 @@ public class Parser {
             throw new UnsupportedOperationException(e.getMessage());
         }
     }
-/*
+
     public Stylesheet parseInputToStyleSheet(String file) throws UnsupportedOperationException{
         try{
             InputStream stream = new FileInputStream(file);
@@ -51,51 +49,11 @@ public class Parser {
             //Trees.inspect(parser.head(), parser); //Debug QLS parse tree, change later
             //parser.reset();
 
-
             StylesheetVisitor visitor = new StylesheetVisitor();
             return visitor.visit(parser.head());
         }catch(Exception e){
             System.out.println("Unable to Parse Selected QLS File");
             throw new UnsupportedOperationException(e.getMessage());
-        }
-    }*/
-
-
-    //debugging prints, remove after completion
-
-    /*public void printQLForm(Form form){
-        for(Question question : form.getQuestions()){
-            String questionName = question.getIdentifier();
-            ExpressionTable expressionTable = form.getExpressionTable();
-            System.out.println( question.getIdentifier() + " : " +
-                                question.getText()+" : "+
-                                question.getType()+" : "+
-                                //question.isEnabled()+" : "+
-                                expressionTable.getExpression(questionName).evaluate().getValue());
-        }
-    }*/
-
-    public void printQLSStyleSheet(Stylesheet ss){
-        for(Page page : ss.getPages()){
-            System.out.println(page.getIdentifier());
-            for(Section sec : page.getSections()){
-                System.out.println("    section : " + sec.getSectionName());
-
-                for(Default d : sec.getDefaultSection()){
-                    System.out.println("    default : "+ d.getType());
-                    for(Widget w : d.getWidgets()){
-                        System.out.println("    widget");
-                    }
-                }
-
-                for(QLSQuestion q : sec.getQuestions()){
-                    System.out.println("    question : " + q.getIdentifier());
-                    for(Widget w : q.getWidget()){
-                        System.out.println("    widget");
-                    }
-                }
-            }
-            System.out.println("<EOP>");
         }
     }
 }

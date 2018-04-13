@@ -1,11 +1,9 @@
 package QLS.QLSVisitor;
 
-import QLS.ParseObjectQLS.QLSQuestion;
-import QLS.ParseObjectQLS.Widgets.Widget;
+import QLS.AST.Statements.QLSQuestion;
+import QLS.AST.Widgets.Widget;
 import QLS.QLSAntlrGen.QLSBaseVisitor;
 import QLS.QLSAntlrGen.QLSParser;
-
-import java.util.ArrayList;
 
 public class QLSQuestionVisitor extends QLSBaseVisitor<QLSQuestion> {
 
@@ -13,15 +11,14 @@ public class QLSQuestionVisitor extends QLSBaseVisitor<QLSQuestion> {
     @Override
     public QLSQuestion visitQuestion(QLSParser.QuestionContext ctx){
         int line = ctx.getStart().getLine();
-        ArrayList<Widget> widgets = new ArrayList<>();
+        Widget widget = null;
         WidgetVisitor widgetvisitor = new WidgetVisitor();
 
 
-        for( QLSParser.WidgetContext widgetContext : ctx.widget()){
-            Widget widget = (Widget) widgetvisitor.visit(widgetContext);
-            widgets.add(widget);
+        if(ctx.widget() != null){
+            widget = (Widget) widgetvisitor.visit(ctx.widget());
         }
 
-        return new QLSQuestion(ctx.IDENTIFIER().getText(), widgets, line);
+        return new QLSQuestion(ctx.IDENTIFIER().getText(), widget, line);
     }
 }

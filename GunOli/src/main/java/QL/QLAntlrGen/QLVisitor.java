@@ -1,4 +1,4 @@
-// Generated from C:/Users/Michael/Desktop/Software Construction/endless-ql/GunOli/src/main/antlr\QL.g4 by ANTLR 4.7
+// Generated from /Users/molivari/temp/endless-ql/GunOli/src/main/antlr/QL.g4 by ANTLR 4.7
 package QL.QLAntlrGen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 

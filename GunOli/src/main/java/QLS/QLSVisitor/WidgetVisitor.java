@@ -1,11 +1,6 @@
 package QLS.QLSVisitor;
 
-import QLS.ParseObjectQLS.StyleAttribute.Color;
-import QLS.ParseObjectQLS.StyleAttribute.Font;
-import QLS.ParseObjectQLS.StyleAttribute.FontSize;
-import QLS.ParseObjectQLS.StyleAttribute.Width;
-import QLS.ParseObjectQLS.Widgets.*;
-import QLS.ParseObjectQLS.StyleAttribute.*;
+import QLS.AST.Widgets.*;
 import QLS.QLSAntlrGen.QLSBaseVisitor;
 import QLS.QLSAntlrGen.QLSParser;
 import org.antlr.v4.runtime.tree.TerminalNode;

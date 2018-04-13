@@ -33,12 +33,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class TypeChecker implements ExpressionVisitorInterface<EvaluationType>, QuestionVisitorInterface<EvaluationType> {
+public class QLTypeChecker implements ExpressionVisitorInterface<EvaluationType>, QuestionVisitorInterface<EvaluationType> {
 
     private final Form form;
     private final ExpressionTable expressionTable;
 
-    public TypeChecker(Form form, ExpressionTable expressionTable){
+    public QLTypeChecker(Form form, ExpressionTable expressionTable){
         this.form = form;
         this.expressionTable = expressionTable;
     }

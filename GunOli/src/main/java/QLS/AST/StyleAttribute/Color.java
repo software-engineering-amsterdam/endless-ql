@@ -1,15 +1,18 @@
-package QLS.ParseObjectQLS.StyleAttribute;
+package QLS.AST.StyleAttribute;
 
 import GUI.Styles.StyleInterface;
 import QLS.Analysis.WidgetVisitorInterface;
-import QLS.ParseObjectQLS.Widgets.Widget;
 
-public class Font extends Style {
-    private String font;
+public class Color extends Style {
+    private String HEX;
 
-    public Font(String font, int line){
+    public Color(String color, int line){
         super(line);
-        this.font = font;
+        setHEX(color);
+    }
+
+    public void setHEX(String HEX) {
+        this.HEX = HEX;
     }
 
     @Override
@@ -19,6 +22,6 @@ public class Font extends Style {
 
     @Override
     public void apply(StyleInterface widget) {
-        widget.setFont(font);
+        widget.setColor(HEX);
     }
 }

@@ -1,30 +1,21 @@
 package QLS.Analysis;
 
-import QLS.ParseObjectQLS.*;
-import QLS.ParseObjectQLS.StyleAttribute.*;
-import QLS.ParseObjectQLS.Widgets.*;
+import QLS.AST.Page;
+import QLS.AST.Statements.Default;
+import QLS.AST.Statements.QLSQuestion;
+import QLS.AST.StyleAttribute.Style;
+import QLS.AST.Stylesheet;
+import QLS.AST.Widgets.Widget;
 
 public interface WidgetVisitorInterface<T> {
-    T visit(Stylesheet Styelsheet);
-    T visit(Section section);
+    T visit(Stylesheet stylesheet);
     T visit(Page page);
     T visit(QLSQuestion question);
     T visit(Default defaultStyle);
+
+    //Widgets
     T visit(Widget widget);
 
     //Style attributes
-    T visit(Font widget);
-    T visit(FontSize widget);
-    T visit(Width widget);
-    T visit(Color widget);
-
-    //Widgets
-    T visit(CheckBox widget);
-    T visit(DropDown widget);
-    T visit(Radio widget);
-    T visit(Slider widget);
-    T visit(SpinBox widget);
-    T visit(Text widget);
-
-
+    T visit(Style style);
 }

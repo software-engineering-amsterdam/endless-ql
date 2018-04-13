@@ -1,7 +1,7 @@
-package QLS.ParseObjectQLS.StyleAttribute;
+package QLS.AST.StyleAttribute;
 
 import GUI.Styles.StyleInterface;
-import QLS.ParseObjectQLS.QLSNode;
+import QLS.AST.QLSNode;
 
 public abstract class Style extends QLSNode {
 

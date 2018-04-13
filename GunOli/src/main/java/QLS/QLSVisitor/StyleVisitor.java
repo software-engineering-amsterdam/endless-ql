@@ -1,7 +1,7 @@
 package QLS.QLSVisitor;
 
 
-import QLS.ParseObjectQLS.StyleAttribute.*;
+import QLS.AST.StyleAttribute.*;
 import QLS.QLSAntlrGen.*;
 
 

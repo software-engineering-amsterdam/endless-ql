@@ -1,4 +1,4 @@
-package QLS.ParseObjectQLS.Widgets;
+package QLS.AST.Widgets;
 
 import QLS.Analysis.WidgetVisitorInterface;
 
@@ -6,8 +6,6 @@ public class Text extends Widget {
     Text(int line) {
         super(WidgetType.Text, line);
     }
-
-
 
     @Override
     public <T> T accept(WidgetVisitorInterface<T> visitor) {

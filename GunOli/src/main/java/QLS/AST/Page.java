@@ -1,30 +1,27 @@
-package QLS.ParseObjectQLS;
+package QLS.AST;
 
 import QLS.Analysis.WidgetVisitorInterface;
+import QLS.AST.Statements.Statement;
 
 import java.util.ArrayList;
 
 public class Page extends QLSNode {
 
-    private ArrayList<Section> sections;
+    private ArrayList<Statement> statements;
     //private ArrayList<Default> defaultSections;
     private String identifier;
 
     //public Page(ArrayList<Section> sections, ArrayList<Default> defaultSections, String identifier, int line){
-    public Page(ArrayList<Section> sections, String identifier, int line){
+    public Page(ArrayList<Statement> statements, String identifier, int line){
         super(line);
         //setDefaultSection(defaultSections);
-        setSections(sections);
-        setIdentifier(identifier);
+        this.statements = statements;
+        this.identifier = identifier;
 
     }
 
-    public ArrayList<Section> getSections() {
-        return sections;
-    }
-
-    public void setSections(ArrayList<Section> sections) {
-        this.sections = sections;
+    public ArrayList<Statement> getStatements() {
+        return statements;
     }
 
     /*public ArrayList<Default> getDefaultSections() {
@@ -37,10 +34,6 @@ public class Page extends QLSNode {
 
     public String getIdentifier() {
         return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
     }
 
     @Override

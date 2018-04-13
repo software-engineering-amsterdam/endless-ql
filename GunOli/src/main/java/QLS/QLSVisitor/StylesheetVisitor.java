@@ -1,7 +1,7 @@
 package QLS.QLSVisitor;
 
-import QLS.ParseObjectQLS.Page;
-import QLS.ParseObjectQLS.Stylesheet;
+import QLS.AST.Page;
+import QLS.AST.Stylesheet;
 import QLS.QLSAntlrGen.QLSBaseVisitor;
 import QLS.QLSAntlrGen.QLSParser;
 

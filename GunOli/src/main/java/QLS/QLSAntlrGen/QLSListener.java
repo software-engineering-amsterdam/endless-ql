@@ -1,4 +1,5 @@
-package QLS.QLSAntlrGen;// Generated from /Users/leogunnarvidisson/Documents/UvA/Software_Construction/endless-ql/GunOli/src/main/antlr/QLS.g4 by ANTLR 4.7
+// Generated from /Users/molivari/temp/endless-ql/GunOli/src/main/antlr/QLS.g4 by ANTLR 4.7
+package QLS.QLSAntlrGen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**

@@ -1,7 +1,6 @@
-package QLS.ParseObjectQLS.Widgets;
+package QLS.AST.Widgets;
 
-import QLS.Analysis.WidgetVisitorInterface;
-import QLS.ParseObjectQLS.QLSNode;
+import QLS.AST.QLSNode;
 
 public abstract class Widget extends QLSNode {
     private final WidgetType type;

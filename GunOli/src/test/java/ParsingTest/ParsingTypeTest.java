@@ -2,11 +2,13 @@ package ParsingTest;
 
 import GUI.Parser;
 import QL.AST.Form;
+import QL.Analysis.EvaluationType;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ParsingTypeTest {
 
@@ -40,9 +42,9 @@ public class ParsingTypeTest {
         example1Expected.add("Money");
         example1Expected.add("Boolean");
         example1Expected.add("Date");
+        
+        assertEquals(example1Expected.toString(), typeList(example1).toString());
 
-        System.out.println(typeList(example1));
-        assertEquals(example1Expected, typeList(example1));
     }
 
 }

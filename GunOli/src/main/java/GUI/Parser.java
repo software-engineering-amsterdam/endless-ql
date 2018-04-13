@@ -19,6 +19,10 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 public class Parser {
 
+    public Parser(){
+
+    }
+
     public Form parseInputToForm(String file) throws UnsupportedOperationException{
         try{
             InputStream stream = new FileInputStream(file);
@@ -36,7 +40,7 @@ public class Parser {
             throw new UnsupportedOperationException(e.getMessage());
         }
     }
-
+/*
     public Stylesheet parseInputToStyleSheet(String file) throws UnsupportedOperationException{
         try{
             InputStream stream = new FileInputStream(file);
@@ -54,7 +58,7 @@ public class Parser {
             System.out.println("Unable to Parse Selected QLS File");
             throw new UnsupportedOperationException(e.getMessage());
         }
-    }
+    }*/
 
 
     //debugging prints, remove after completion

@@ -23,6 +23,6 @@ public class Color extends Style {
 
     @Override
     public void apply(StyleInterface widget) {
-        widget.Color(HEX);
+        widget.setColor(HEX);
     }
 }

@@ -42,7 +42,7 @@ public class QLUserInterface {
             performAnalysis(form, expressionTable);
 
             //todo: static analysis typechecker
-            Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
+            //Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
 
             //parser.printQLForm(form); //debug print the form questions in console
             //parser.printQLSStyleSheet(stylesheet); //debug partially print stylesheet to console

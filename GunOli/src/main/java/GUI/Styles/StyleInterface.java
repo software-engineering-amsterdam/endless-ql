@@ -1,9 +1,12 @@
 package GUI.Styles;
 
+import javafx.scene.Node;
+
 public interface StyleInterface {
 
-    public void Color(String color);
-    public void Font(String font);
-    public void FontSize(int size);
-    public void width(int width);
+    Node node();
+    void setColor(String color);
+    void setFont(String font);
+    void setFontSize(int size);
+    void setWidth(int width);
 }

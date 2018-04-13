@@ -19,6 +19,7 @@ public class FontSize extends Style {
 
     @Override
     public void apply(StyleInterface widget) {
-        widget.FontSize(fontSize);
+        widget.setFontSize(fontSize);
+
     }
 }

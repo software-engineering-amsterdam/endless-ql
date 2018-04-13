@@ -19,6 +19,6 @@ public class Font extends Style {
 
     @Override
     public void apply(StyleInterface widget) {
-        widget.Font(font);
+        widget.setFont(font);
     }
 }

@@ -24,6 +24,6 @@ public class Width extends Style{
 
     @Override
     public void apply(StyleInterface widget) {
-        widget.width(width);
+        widget.setWidth(width);
     }
 }

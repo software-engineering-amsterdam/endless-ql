@@ -7,8 +7,6 @@ form testForm {
             if(q1 && qq){
                 q2: "What is your name?" string = "Mr. Sugarnips"
                 qw: "What is your name?" string
-                string1: "w" string = string2
-                string2: "hy" string = string1
                 q3: "What is your favorite number?" integer
                 q5: "Favorite decimal (really..)?" decimal
                 q6: "How much money do you have?" money

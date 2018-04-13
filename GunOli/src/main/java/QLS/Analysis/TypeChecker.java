@@ -51,8 +51,6 @@ public class TypeChecker implements WidgetVisitorInterface<WidgetType>{
 
     @Override
     public WidgetType visit(Font widget) {
-
-
         return null;
     }
 

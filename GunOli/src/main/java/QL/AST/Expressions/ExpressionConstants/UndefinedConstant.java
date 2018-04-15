@@ -1,8 +1,8 @@
 package QL.AST.Expressions.ExpressionConstants;
 
-import QL.Analysis.ExpressionVisitorInterface;
+import QL.Visitors.ExpressionVisitorInterface;
 import QL.AST.Expressions.Constant;
-import QL.Analysis.EvaluationType;
+import QL.Evaluation.EvaluationType;
 
 public class UndefinedConstant extends Constant<Object> {
     private EvaluationType type;

@@ -1,8 +1,8 @@
 package QL.AST;
 
 import QL.AST.Expressions.Expression;
-import QL.Analysis.EvaluationType;
-import QL.Analysis.QuestionVisitorInterface;
+import QL.Evaluation.EvaluationType;
+import QL.Visitors.QuestionVisitorInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

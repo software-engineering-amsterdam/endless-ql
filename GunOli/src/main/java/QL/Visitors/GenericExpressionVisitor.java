@@ -1,4 +1,4 @@
-package QL.Analysis;
+package QL.Visitors;
 
 import QL.AST.Expressions.BinaryExpression;
 import QL.AST.Expressions.BinaryExpressions.AdditionExpression;
@@ -25,7 +25,7 @@ import QL.AST.Expressions.IdentifierExpression;
 import QL.AST.Expressions.UnaryExpressions.NegationExpression;
 import QL.AST.Expressions.UnaryExpressions.NotExpression;
 
-public class GenericExpressionVisitor<T> implements ExpressionVisitorInterface<T>{
+public class GenericExpressionVisitor<T> implements ExpressionVisitorInterface<T> {
 
     private T visitBinaryExpression(BinaryExpression expression) {
         expression.getExprLeft().accept(this);

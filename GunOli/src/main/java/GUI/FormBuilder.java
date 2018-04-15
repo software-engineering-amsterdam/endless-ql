@@ -1,7 +1,7 @@
 package GUI;
 
 import QL.AST.Expressions.Constant;
-import QL.Analysis.EvaluationType;
+import QL.Evaluation.EvaluationType;
 import QL.AST.Expressions.Expression;
 import QL.AST.Expressions.ExpressionConstants.*;
 import QL.AST.Question;

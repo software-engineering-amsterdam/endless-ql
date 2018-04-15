@@ -1,6 +1,6 @@
 package QL.AST.Expressions.UnaryExpressions;
 
-import QL.Analysis.ExpressionVisitorInterface;
+import QL.Visitors.ExpressionVisitorInterface;
 import QL.AST.Expressions.Expression;
 import QL.AST.Expressions.UnaryExpression;
 

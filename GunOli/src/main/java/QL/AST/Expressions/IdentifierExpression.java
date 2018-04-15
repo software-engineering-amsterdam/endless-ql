@@ -1,6 +1,6 @@
 package QL.AST.Expressions;
 
-import QL.Analysis.ExpressionVisitorInterface;
+import QL.Visitors.ExpressionVisitorInterface;
 
 public class IdentifierExpression extends Expression {
     private String identifier;

@@ -3,7 +3,7 @@ package QLS.QLSVisitor;
 import QLS.AST.Statements.Default;
 import QLS.AST.StyleAttribute.Style;
 import QLS.AST.Widgets.Widget;
-import QL.Analysis.EvaluationType;
+import QL.Evaluation.EvaluationType;
 import QLS.QLSAntlrGen.QLSBaseVisitor;
 import QLS.QLSAntlrGen.QLSParser;
 

@@ -26,7 +26,7 @@ import QL.AST.Expressions.UnaryExpression;
 import QL.AST.Expressions.UnaryExpressions.NegationExpression;
 import QL.AST.Expressions.UnaryExpressions.NotExpression;
 import QL.AST.Question;
-import QL.Analysis.ExpressionVisitorInterface;
+import QL.Visitors.ExpressionVisitorInterface;
 import QL.Evaluation.Evaulators.EvaluatorFactory;
 import QL.Evaluation.Values.BooleanValue;
 import QL.Evaluation.Values.DateValue;

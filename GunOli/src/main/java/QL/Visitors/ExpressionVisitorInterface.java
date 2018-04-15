@@ -1,4 +1,4 @@
-package QL.Analysis;
+package QL.Visitors;
 
 import QL.AST.Expressions.BinaryExpressions.AdditionExpression;
 import QL.AST.Expressions.BinaryExpressions.AndExpression;

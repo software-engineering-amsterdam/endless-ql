@@ -1,6 +1,6 @@
 package QLS.AST.Statements;
 
-import QL.Analysis.EvaluationType;
+import QL.Evaluation.EvaluationType;
 import QLS.Analysis.WidgetVisitorInterface;
 import QLS.AST.StyleAttribute.Style;
 import QLS.AST.Widgets.Widget;

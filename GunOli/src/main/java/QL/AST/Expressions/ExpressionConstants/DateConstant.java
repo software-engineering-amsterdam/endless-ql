@@ -1,7 +1,7 @@
 package QL.AST.Expressions.ExpressionConstants;
 
 import QL.AST.Expressions.Constant;
-import QL.Analysis.ExpressionVisitorInterface;
+import QL.Visitors.ExpressionVisitorInterface;
 
 import java.time.LocalDate;
 

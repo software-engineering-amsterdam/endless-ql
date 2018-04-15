@@ -5,8 +5,6 @@ import QL.Evaluation.Value;
 import QL.Evaluation.Values.NumericValue;
 import QL.Evaluation.Values.UndefinedValue;
 
-import java.math.BigDecimal;
-
 public class NegationEvaluator extends UnaryEvaluator{
     public NegationEvaluator(Value value){
         super(value);

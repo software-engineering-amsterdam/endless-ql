@@ -1,11 +1,11 @@
 form simpleExample{
-    q1: "View the questions?" boolean
+     "View the questions?" q1: boolean
     if(q1){
-        q2: "Whats your favorit int?" integer
-        q3: "Whats your favorit double?" decimal
-        q4: "What is your monthly sallary?" money
-        q5: "Give my your date of birth" date
-        q6: "Whats your first name?" string
-        q7: "Did you enjoy these questions" boolean
+        "Whats your favorit int?" q2: integer
+        "Whats your favorit double?" q3: decimal
+        "What is your monthly sallary?" q4: money
+        "Give my your date of birth" q5: date
+        "Whats your first name?" q6: string
+        "Did you enjoy these questions" q7: boolean
     }
 }

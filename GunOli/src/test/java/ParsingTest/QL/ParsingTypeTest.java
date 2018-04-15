@@ -1,15 +1,12 @@
-package ParsingTest;
+package ParsingTest.QL;
 
 import GUI.Parser;
 import QL.AST.Form;
-import QL.Analysis.EvaluationType;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 public class ParsingTypeTest {
 
     private String example1 = "./src/test/resources/PassingForms/example1.ql";
@@ -42,7 +39,7 @@ public class ParsingTypeTest {
         example1Expected.add("Money");
         example1Expected.add("Boolean");
         example1Expected.add("Date");
-        
+
         assertEquals(example1Expected.toString(), typeList(example1).toString());
 
     }

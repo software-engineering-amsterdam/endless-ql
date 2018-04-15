@@ -1,26 +1,9 @@
-package ParsingTest;
+package ParsingTest.QL;
 
 import GUI.Parser;
 import QL.AST.Form;
-import QL.AST.Question;
-import QL.QLAntlrGen.QLLexer;
-import QL.QLAntlrGen.QLParser;
-import QL.QLVisitor.FormVisitor;
-import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import static java.lang.String.valueOf;
 import static org.junit.Assert.assertEquals;
 
 public class ParserQuestionTest {
@@ -72,7 +55,7 @@ public class ParserQuestionTest {
         example2Expected.add("\"If the number is larger than 5\"");
         example2Expected.add("\"This number is 3\"");
         example2Expected.add("\"q6 condition faild:\"");
-        example2Expected.add("\"This condition should fail: \"");
+        example2Expected.add("\"This condition should fail:\"");
 
 
         assertEquals(example2Expected, questionListTest(example2));

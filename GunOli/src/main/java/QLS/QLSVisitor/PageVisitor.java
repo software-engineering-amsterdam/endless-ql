@@ -30,7 +30,6 @@ public class PageVisitor extends QLSBaseVisitor<Page> {
             defaultSections.add(defaultSection);
         }
 
-        //return new Page(sections, defaultSections, ctx.IDENTIFIER().getText());
         return new Page(statements, ctx.IDENTIFIER().getText(), line);
     }
 

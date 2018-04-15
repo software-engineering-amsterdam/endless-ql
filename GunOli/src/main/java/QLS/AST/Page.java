@@ -8,13 +8,10 @@ import java.util.ArrayList;
 public class Page extends QLSNode {
 
     private ArrayList<Statement> statements;
-    //private ArrayList<Default> defaultSections;
     private String identifier;
 
-    //public Page(ArrayList<Section> sections, ArrayList<Default> defaultSections, String identifier, int line){
     public Page(ArrayList<Statement> statements, String identifier, int line){
         super(line);
-        //setDefaultSection(defaultSections);
         this.statements = statements;
         this.identifier = identifier;
 
@@ -24,13 +21,6 @@ public class Page extends QLSNode {
         return statements;
     }
 
-    /*public ArrayList<Default> getDefaultSections() {
-        return defaultSections;
-    }
-
-    public void setDefaultSection(ArrayList<Default> defaultSections) {
-        this.defaultSections = defaultSections;
-    }*/
 
     public String getIdentifier() {
         return identifier;

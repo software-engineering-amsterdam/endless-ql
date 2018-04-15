@@ -4,7 +4,6 @@ package GUI.Styles;
 import QL.AST.Expressions.Expression;
 import QL.AST.Expressions.ExpressionConstants.BooleanConstant;
 import javafx.scene.Node;
-import javafx.scene.text.Font;
 
 
 public class CheckBoxWidget extends javafx.scene.control.CheckBox implements StyleInterface {

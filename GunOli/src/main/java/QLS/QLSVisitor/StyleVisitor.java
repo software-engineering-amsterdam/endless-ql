@@ -1,9 +1,7 @@
 package QLS.QLSVisitor;
 
-
 import QLS.AST.StyleAttribute.*;
 import QLS.QLSAntlrGen.*;
-
 
 public class StyleVisitor extends QLSBaseVisitor {
 
@@ -24,5 +22,4 @@ public class StyleVisitor extends QLSBaseVisitor {
     public Style visitColorStyle(QLSParser.ColorStyleContext ctx) {
         return new Color(ctx.HEXVALUE().getText(), ctx.getStart().getLine());
     }
-
 }

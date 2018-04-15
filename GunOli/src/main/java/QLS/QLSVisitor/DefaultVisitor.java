@@ -19,9 +19,11 @@ public class DefaultVisitor extends QLSBaseVisitor<Default> {
         StyleVisitor styleVisitor = new StyleVisitor();
 
         QLSParser.TypeContext typeCTX = ctx.type();
+
+        //Format text of type to match EvaluationType declarations
         String typeText = typeCTX.getText();
         typeText = typeText.substring(0,1).toUpperCase() + typeText.substring(1);
-        //Format text of type to match EvaluationType declarations
+
         EvaluationType typeValue = EvaluationType.valueOf(typeText);
 
         Widget widget = null;

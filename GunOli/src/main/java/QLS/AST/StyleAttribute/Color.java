@@ -1,6 +1,5 @@
 package QLS.AST.StyleAttribute;
 
-import GUI.Styles.StyleInterface;
 import QLS.Analysis.WidgetVisitorInterface;
 
 public class Color extends Style {

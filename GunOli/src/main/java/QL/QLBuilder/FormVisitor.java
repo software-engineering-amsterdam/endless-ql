@@ -1,4 +1,4 @@
-package QL.QLVisitor;
+package QL.QLBuilder;
 
 import QL.AST.*;
 import QL.AST.Question;

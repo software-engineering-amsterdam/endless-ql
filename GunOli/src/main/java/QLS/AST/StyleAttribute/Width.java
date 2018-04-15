@@ -1,6 +1,5 @@
 package QLS.AST.StyleAttribute;
 
-import GUI.Styles.StyleInterface;
 import QLS.Analysis.WidgetVisitorInterface;
 
 public class Width extends Style{
@@ -9,7 +8,6 @@ public class Width extends Style{
     public Width(int width, int line) {
         super(line);
         this.width = width;
-
     }
 
     @Override

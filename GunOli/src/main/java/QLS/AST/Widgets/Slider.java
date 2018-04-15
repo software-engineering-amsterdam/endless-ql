@@ -4,11 +4,9 @@ import QLS.Analysis.WidgetVisitorInterface;
 
 public class Slider extends Widget {
 
-    Slider(int line) {
+    public Slider(int line) {
         super(WidgetType.Slider, line);
     }
-
-
 
     @Override
     public <T> T accept(WidgetVisitorInterface<T> visitor) {

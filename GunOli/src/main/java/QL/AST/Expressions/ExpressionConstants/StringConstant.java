@@ -1,16 +1,11 @@
 package QL.AST.Expressions.ExpressionConstants;
 
-import QL.Analysis.ExpressionVisitorInterface;
 import QL.AST.Expressions.Constant;
-import QL.Analysis.EvaluationType;
+import QL.Analysis.ExpressionVisitorInterface;
 
 public class StringConstant extends Constant<String> {
     public StringConstant(String value, int line){
         super(value == null ? "" : value, line);
-    }
-
-    public EvaluationType returnType(){
-        return EvaluationType.String;
     }
 
     @Override

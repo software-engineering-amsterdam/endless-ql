@@ -42,7 +42,6 @@ public class FormBuilder {
         formGrid.setHgap(10);
         formGrid.setVgap(10);
         formGrid.setPadding(new Insets(25,25,25,25));
-        //formGrid.setGridLinesVisible(true); // for debugging
     }
 
     public void renderForm(){
@@ -92,7 +91,7 @@ public class FormBuilder {
 
         submitBtn.setOnAction((event) -> {
             actiontarget.setFill(Color.FIREBRICK);
-            actiontarget.setText("Submit button pressed."); //Todo: Change after debugging?
+            actiontarget.setText("Submit button pressed.");
         });
 
         VBox vBox = new VBox(10);
@@ -121,7 +120,8 @@ public class FormBuilder {
             case Date:
                 return createDateField(question);
             default:
-                return null;// Todo: Change
+                throw new IllegalArgumentException("Unable to build question field: unkown type '"
+                                                    +question.getType()+"'.");
         }
     }
 

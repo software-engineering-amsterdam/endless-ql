@@ -1,4 +1,4 @@
-package QL.QLVisitor;
+package QL.QLBuilder;
 
 import QL.AST.Expressions.BinaryExpressions.AndExpression;
 import QL.AST.Expressions.Expression;

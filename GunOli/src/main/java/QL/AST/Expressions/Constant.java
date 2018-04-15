@@ -5,7 +5,7 @@ public abstract class Constant<T> extends Expression {
 
     public Constant(T value, int lineNumber) {
         super(lineNumber);
-        setValue(value);
+        this.value = value;
     }
 
     public void setValue(T value) {
@@ -15,11 +15,6 @@ public abstract class Constant<T> extends Expression {
     public T getValue() {
         return this.value;
     }
-    /*
-    @Override
-    public Constant<T> evaluate() {
-        return this;
-    }*/
 
     public abstract String toString();
 }

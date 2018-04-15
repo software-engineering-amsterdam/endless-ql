@@ -7,7 +7,6 @@ import QLS.QLSAntlrGen.QLSParser;
 
 public class QLSQuestionVisitor extends QLSBaseVisitor<QLSQuestion> {
 
-
     @Override
     public QLSQuestion visitQuestion(QLSParser.QuestionContext ctx){
         int line = ctx.getStart().getLine();

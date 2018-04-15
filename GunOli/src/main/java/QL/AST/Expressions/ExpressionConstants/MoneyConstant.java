@@ -1,16 +1,11 @@
 package QL.AST.Expressions.ExpressionConstants;
 
-import QL.Analysis.ExpressionVisitorInterface;
 import QL.AST.Expressions.Constant;
-import QL.Analysis.EvaluationType;
+import QL.Analysis.ExpressionVisitorInterface;
 
 public class MoneyConstant extends Constant<Double> {
     public MoneyConstant(Number value, int line){
         super(value == null ? 0.00 : value.doubleValue(), line);
-    }
-
-    public EvaluationType returnType(){
-        return EvaluationType.Money;
     }
 
     @Override

@@ -1,8 +1,24 @@
-package QL.QLVisitor;
+package QL.QLBuilder;
 
-import QL.AST.Expressions.BinaryExpressions.*;
+import QL.AST.Expressions.BinaryExpressions.AdditionExpression;
+import QL.AST.Expressions.BinaryExpressions.AndExpression;
+import QL.AST.Expressions.BinaryExpressions.DivisionExpression;
+import QL.AST.Expressions.BinaryExpressions.EqualExpression;
+import QL.AST.Expressions.BinaryExpressions.GreaterOrEqualExpression;
+import QL.AST.Expressions.BinaryExpressions.GreaterThanExpression;
+import QL.AST.Expressions.BinaryExpressions.LessOrEqualExpression;
+import QL.AST.Expressions.BinaryExpressions.LessThanExpression;
+import QL.AST.Expressions.BinaryExpressions.MultiplicationExpression;
+import QL.AST.Expressions.BinaryExpressions.NotEqualExpression;
+import QL.AST.Expressions.BinaryExpressions.OrExpression;
+import QL.AST.Expressions.BinaryExpressions.SubtractExpression;
 import QL.AST.Expressions.Expression;
-import QL.AST.Expressions.ExpressionConstants.*;
+import QL.AST.Expressions.ExpressionConstants.BooleanConstant;
+import QL.AST.Expressions.ExpressionConstants.DateConstant;
+import QL.AST.Expressions.ExpressionConstants.DecimalConstant;
+import QL.AST.Expressions.ExpressionConstants.IntegerConstant;
+import QL.AST.Expressions.ExpressionConstants.MoneyConstant;
+import QL.AST.Expressions.ExpressionConstants.StringConstant;
 import QL.AST.Expressions.IdentifierExpression;
 import QL.AST.Expressions.UnaryExpressions.NegationExpression;
 import QL.AST.Expressions.UnaryExpressions.NotExpression;
@@ -43,13 +59,11 @@ public class ExpressionVisitor extends QLBaseVisitor<Expression> {
         Expression expr = visit(ctx.expression());
         String operator = ctx.operator().getText();
 
-        if (operator.charAt(0) == '-') {
-            return new NegationExpression(expr, line);
+        switch (operator){
+            case "-": return new NegationExpression(expr, line);
+            case "!": return new NotExpression(expr, line);
+            default:  throw new IllegalArgumentException("Unable to parse '"+ operator +"': unregonized operator");
         }
-        else if (operator.charAt(0) == '!') {
-            return new NotExpression(expr, line);
-        }
-        throw new IllegalArgumentException("Unable to parse '"+ operator +"': unregonized operator");
     }
 
     @Override

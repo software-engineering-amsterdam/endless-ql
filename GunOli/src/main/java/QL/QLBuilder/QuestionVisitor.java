@@ -1,4 +1,4 @@
-package QL.QLVisitor;
+package QL.QLBuilder;
 
 import QL.Analysis.EvaluationType;
 import QL.AST.Expressions.Expression;

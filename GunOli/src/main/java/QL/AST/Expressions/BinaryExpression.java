@@ -7,33 +7,21 @@ public abstract class BinaryExpression extends Expression {
 
     public BinaryExpression(String operator, Expression exprLeft, Expression exprRight, int lineNumber){
         super(lineNumber);
-        setExprRight(exprRight);
-        setExprLeft(exprLeft);
-        setOperator(operator);
+        this.exprRight = exprRight;
+        this.exprLeft = exprLeft;
+        this.operator = operator;
     }
 
     public Expression getExprLeft() {
         return exprLeft;
     }
 
-    public void setExprLeft(Expression exprLeft) {
-        this.exprLeft = exprLeft;
-    }
-
     public Expression getExprRight() {
         return exprRight;
     }
 
-    public void setExprRight(Expression exprRight) {
-        this.exprRight = exprRight;
-    }
-
     public String getOperator() {
         return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
     }
 
     @Override

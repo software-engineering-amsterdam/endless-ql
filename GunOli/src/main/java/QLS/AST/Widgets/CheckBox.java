@@ -8,7 +8,6 @@ public class CheckBox extends Widget {
         super( WidgetType.CheckBox, line);
     }
 
-
     @Override
     public <T> T accept(WidgetVisitorInterface<T> visitor) {
         return visitor.visit(this);

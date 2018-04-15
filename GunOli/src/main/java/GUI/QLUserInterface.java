@@ -3,31 +3,47 @@ package GUI;
 import QL.AST.Form;
 import QL.Analysis.QLTypeChecker;
 import QL.Evaluation.ExpressionTable;
-import QLS.Analysis.QLSTypeChecker;
 import QLS.AST.Stylesheet;
-import javafx.application.Platform;
+import QLS.Analysis.QLSTypeChecker;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 
 public class QLUserInterface {
+    private Form form;
+    private Stylesheet stylesheet;
+
     public QLUserInterface(Stage stage){
-        HBox hBox = new HBox(5);
-        createBrowseButton(stage, hBox);
-        createDebugButton(stage, hBox);
-        hBox.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(hBox, 300, 300);
+        VBox vBox = new VBox(5);
+        vBox.setAlignment(Pos.CENTER);
+
+        form = null;
+        stylesheet = null;
+
+        //create Buttons
+        createBrowseButton(stage, vBox, "QL");
+        createBrowseButton(stage, vBox, "QLS");
+        createDebugButton(stage, vBox);
+        createRenderButton(stage, vBox);
+
+        //build scene
+        Scene scene = new Scene(vBox, 300, 300);
         stage.setScene(scene);
         stage.show();
     }
 
-    private void createDebugButton(Stage stage, HBox layout){
+    private void createDebugButton(Stage stage, VBox layout){
         Button debugBtn = new Button("Debug");
+        HBox buttonContainer = new HBox(5);
+        buttonContainer.setAlignment(Pos.CENTER);
+        buttonContainer.getChildren().add(debugBtn);
 
         debugBtn.setOnAction((event) ->{
             String formPath = "./src/main/resources/test.ql";
@@ -36,28 +52,61 @@ public class QLUserInterface {
             File formFile = new File(formPath);
             File styleSheetFile = new File(styleSheetPath);
 
+            Text debugQL = new Text(formFile.getName());
+            Text debugQLS = new Text(styleSheetFile.getName());
+
+            buttonContainer.getChildren().add(debugQL);
+            buttonContainer.getChildren().add(debugQLS);
+
             Parser parser = new Parser();
 
-            Form form = parser.parseInputToForm(formFile.getPath());
+            form = parser.parseInputToForm(formFile.getPath());
+            stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
+        });
+
+        layout.getChildren().add(buttonContainer);
+    }
+
+    private void createBrowseButton(Stage stage, VBox layout, String buttonName){
+        HBox buttonContainer = new HBox(5);
+        buttonContainer.setAlignment(Pos.CENTER);
+        Button browseBtn = new Button(buttonName);
+        buttonContainer.getChildren().add(browseBtn);
+
+        browseBtn.setOnAction((event) ->{
+            final FileChooser fileChooser = new FileChooser();
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                Text fileText = new Text(file.getName());
+                buttonContainer.getChildren().add(fileText);
+
+                Parser parser = new Parser();
+
+                if(buttonName.equals("QL")) {
+                    form = parser.parseInputToForm(file.getPath());
+                } else {
+                    stylesheet = parser.parseInputToStyleSheet(file.getPath());
+                }
+            }
+        });
+
+        layout.getChildren().addAll(buttonContainer);
+    }
+
+    private void createRenderButton(Stage stage, VBox layout){
+        Button renderBtn = new Button("Render");
+
+        renderBtn.setOnAction((event) ->{
             ExpressionTable expressionTable = new ExpressionTable(form);
-
-            Stylesheet stylesheet = parser.parseInputToStyleSheet(styleSheetFile.getPath());
-
             performAnalysis(form, expressionTable, stylesheet);
-
-            /*System.out.println("\n\n---------------- Form -----------------\n\n");
-            System.out.println(form); //debug print the form questions in console
-            System.out.println("\n\n---------------- StyleSheet -----------------\n\n");
-            System.out.println(stylesheet); //debug print stylesheet to console*/
-
             FormBuilder formBuilder = new FormBuilder(form, expressionTable, stage);
             formBuilder.renderForm();
         });
 
-        layout.getChildren().add(debugBtn);
+        layout.getChildren().addAll(renderBtn);
     }
 
-    public void performAnalysis(Form form, ExpressionTable expressionTable, Stylesheet stylesheet){
+    private void performAnalysis(Form form, ExpressionTable expressionTable, Stylesheet stylesheet){
         QLTypeChecker qlTypeChecker = new QLTypeChecker(form, expressionTable);
         qlTypeChecker.detectCyclicDependencies();
         qlTypeChecker.typeCheck();
@@ -70,29 +119,5 @@ public class QLUserInterface {
             qlsTypeChecker.detectDuplicateQuestions();
             qlsTypeChecker.detectUnplacedQuestions();
         }
-    }
-
-    private void createBrowseButton(Stage stage, HBox layout){
-        Button browseBtn = new Button("Browse");
-
-        browseBtn.setOnAction((event) ->{
-            final FileChooser fileChooser = new FileChooser();
-            File file = fileChooser.showOpenDialog(stage);
-            if (file != null) {
-                Parser parser = new Parser();
-                Form form = parser.parseInputToForm(file.getPath());
-                ExpressionTable expressionTable = new ExpressionTable(form);
-                //performAnalysis(form, expressionTable);
-                //parser.printQLForm(form);
-                if (form == null) { Platform.exit(); }
-                else {
-                    FormBuilder formBuilder = new FormBuilder(form, expressionTable, stage);
-                    formBuilder.renderForm();
-                    //performAnalysis(form, expressionTable);
-                }
-            }
-        });
-
-        layout.getChildren().add(browseBtn);
     }
 }

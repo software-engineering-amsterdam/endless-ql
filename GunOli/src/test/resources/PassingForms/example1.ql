@@ -1,22 +1,22 @@
 form testForm {
-    q1: "View the questions?" boolean
+    "View the questions?" q1:  boolean
     if(q1){
-        qq: "Are you sure?" boolean
+        "Are you sure?" qq:  boolean
         if(qq){
-            qqq: "Do you want to give your birthdate?" boolean
+            "Do you want to give your birthdate?" qqq: boolean
             if(q1 && qq){
-                q2: "What is your name?" string = "Mr. Sugarnips"
-                qw: "What is your name?" string
-                q3: "What is your favorite number?" integer
-                q5: "Favorite decimal (really..)?" decimal
-                q6: "How much money do you have?" money
-                q7: "How much money do you want" money
-                q8: "You need this much:" money = (q7 - q6)
+                "What is your name?" q2:  string = "Mr. Sugarnips"
+                "What is your name?" qw:  string
+                "What is your favorite number?" q3:  integer
+                "Favorite decimal (really..)?" q5:  decimal
+                "How much money do you have?" q6: money
+                "How much money do you want"  q7: money
+                "You need this much:" q8:  money = (q7 - q6)
             }
             if(qqq){
-                q4: "What is your birthdate?" date
+                "What is your birthdate?" q4:  date
             } else {
-                q9: "You hate birthdays?" boolean
+                "You hate birthdays?" q9:  boolean
             }
         }
     }

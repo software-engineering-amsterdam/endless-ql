@@ -145,7 +145,7 @@ public class QLSTypeChecker implements WidgetVisitorInterface<WidgetType>{
 
             if(!this.checkCompatibility(widgetType, defaultType)){
                 throw new IllegalArgumentException("Invalid assignment: default style with type '" + defaultType +
-                    "' not compatible with widget type '" + widgetType +"'.");
+                                                    "' not compatible with widget type '" + widgetType +"'.");
             }
         }
         return null;

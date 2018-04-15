@@ -118,7 +118,7 @@ public class QLTypeChecker implements ExpressionVisitorInterface<EvaluationType>
 
         if(validType){ return EvaluationType.Boolean;}
 
-        throw new IllegalArgumentException("Invalid logical expression: non-boolean argument passed at ql: "
+        throw new IllegalArgumentException("Invalid logical expression: non-numeric argument passed at ql: "
                                             + expression.getLineNumber());
     }
 

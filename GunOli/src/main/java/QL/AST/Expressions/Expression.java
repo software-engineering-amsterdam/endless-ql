@@ -1,7 +1,7 @@
 package QL.AST.Expressions;
 
 import QL.AST.ASTNode;
-import QL.Analysis.ExpressionVisitorInterface;
+import QL.Visitors.ExpressionVisitorInterface;
 
 public abstract class Expression extends ASTNode {
 

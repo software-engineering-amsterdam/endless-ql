@@ -26,14 +26,18 @@ import QL.AST.Expressions.UnaryExpressions.NegationExpression;
 import QL.AST.Expressions.UnaryExpressions.NotExpression;
 import QL.AST.Form;
 import QL.AST.Question;
+import QL.Evaluation.EvaluationType;
 import QL.Evaluation.ExpressionTable;
+import QL.Visitors.ExpressionVisitorInterface;
+import QL.Visitors.QuestionVisitorInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class QLTypeChecker implements ExpressionVisitorInterface<EvaluationType>, QuestionVisitorInterface<EvaluationType> {
+public class QLTypeChecker implements ExpressionVisitorInterface<EvaluationType>,
+    QuestionVisitorInterface<EvaluationType> {
 
     private final Form form;
     private final ExpressionTable expressionTable;
@@ -135,8 +139,8 @@ public class QLTypeChecker implements ExpressionVisitorInterface<EvaluationType>
             EvaluationType type = question.getAnswer().accept(this);
 
             if(type != question.getType()){
-                throw new IllegalArgumentException("Invalid assignment: cannot assign " + type + " to question type " +
-                                                    question.getType() +" at ql: " + question.getLineNumber());
+                throw new IllegalArgumentException("Invalid assignment: cannot assign " + type + " to question type "
+                                                    + question.getType() +" at ql: " + question.getLineNumber());
             }
         }
 

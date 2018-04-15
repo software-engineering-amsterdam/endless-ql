@@ -14,7 +14,6 @@ public class Page extends QLSNode {
         super(line);
         this.statements = statements;
         this.identifier = identifier;
-
     }
 
     public ArrayList<Statement> getStatements() {

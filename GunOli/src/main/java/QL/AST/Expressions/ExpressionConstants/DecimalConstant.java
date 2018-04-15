@@ -1,15 +1,11 @@
 package QL.AST.Expressions.ExpressionConstants;
 
-import QL.Analysis.ExpressionVisitorInterface;
 import QL.AST.Expressions.Constant;
-import QL.Analysis.EvaluationType;
+import QL.Visitors.ExpressionVisitorInterface;
 
 public class DecimalConstant extends Constant<Double> {
     public DecimalConstant(Double value, int line){
         super(value == null ? 0.0 : value, line);
-    }
-    public EvaluationType returnType(){
-        return EvaluationType.Decimal;
     }
 
     @Override

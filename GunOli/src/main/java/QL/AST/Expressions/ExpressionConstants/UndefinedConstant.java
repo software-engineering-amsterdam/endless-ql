@@ -1,25 +1,21 @@
 package QL.AST.Expressions.ExpressionConstants;
 
-import QL.Analysis.ExpressionVisitorInterface;
+import QL.Visitors.ExpressionVisitorInterface;
 import QL.AST.Expressions.Constant;
-import QL.Analysis.EvaluationType;
+import QL.Evaluation.EvaluationType;
 
 public class UndefinedConstant extends Constant<Object> {
     private EvaluationType type;
 
     public UndefinedConstant(int line){
         super(null, line);
-        setType(EvaluationType.Undefined);
+        this.type = EvaluationType.Undefined;
     }
 
     public UndefinedConstant(EvaluationType type, int line){
         super(null, line);
-        setType(type);
+        this.type = type;
     }
-
-    public EvaluationType returnType() { return type; }
-
-    public void setType(EvaluationType type) { this.type = type; }
 
     @Override
     public String toString(){

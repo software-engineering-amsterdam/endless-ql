@@ -7,9 +7,7 @@ import QLS.QLSAntlrGen.QLSParser;
 
 import java.util.ArrayList;
 
-
 public class StylesheetVisitor extends QLSBaseVisitor<Stylesheet> {
-
 
     @Override
     public Stylesheet visitHead(QLSParser.HeadContext ctx){

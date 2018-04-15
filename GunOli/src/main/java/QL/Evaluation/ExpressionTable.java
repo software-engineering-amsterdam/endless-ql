@@ -3,7 +3,7 @@ package QL.Evaluation;
 import QL.AST.Expressions.Expression;
 import QL.AST.Form;
 import QL.AST.Question;
-import QL.Analysis.QuestionVisitorInterface;
+import QL.Visitors.QuestionVisitorInterface;
 
 import java.util.HashMap;
 import java.util.Map;

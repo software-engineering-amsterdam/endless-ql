@@ -3,7 +3,7 @@ package QLS.QLSVisitor;
 import QLS.AST.Statements.Default;
 import QLS.AST.StyleAttribute.Style;
 import QLS.AST.Widgets.Widget;
-import QL.Analysis.EvaluationType;
+import QL.Evaluation.EvaluationType;
 import QLS.QLSAntlrGen.QLSBaseVisitor;
 import QLS.QLSAntlrGen.QLSParser;
 
@@ -19,9 +19,11 @@ public class DefaultVisitor extends QLSBaseVisitor<Default> {
         StyleVisitor styleVisitor = new StyleVisitor();
 
         QLSParser.TypeContext typeCTX = ctx.type();
+
+        //Format text of type to match EvaluationType declarations
         String typeText = typeCTX.getText();
         typeText = typeText.substring(0,1).toUpperCase() + typeText.substring(1);
-        //Format text of type to match EvaluationType declarations
+
         EvaluationType typeValue = EvaluationType.valueOf(typeText);
 
         Widget widget = null;

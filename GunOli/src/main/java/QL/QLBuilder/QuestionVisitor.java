@@ -1,6 +1,6 @@
-package QL.QLVisitor;
+package QL.QLBuilder;
 
-import QL.Analysis.EvaluationType;
+import QL.Evaluation.EvaluationType;
 import QL.AST.Expressions.Expression;
 import QL.AST.Expressions.ExpressionConstants.*;
 import QL.AST.Question;
@@ -21,9 +21,10 @@ public class QuestionVisitor extends QLBaseVisitor<Question>{
         String text = ctx.STRING().getText();
 
         QLParser.QuestionTypeContext questionTypeCTX = ctx.questionType();
+
+        //Format text of type to match EvaluationType declarations
         String typeText = questionTypeCTX.type().getText();
         typeText = typeText.substring(0,1).toUpperCase() + typeText.substring(1);
-        //Format text of type to match EvaluationType declarations
         EvaluationType typeValue = EvaluationType.valueOf(typeText);
 
         Boolean isPredefined = questionTypeCTX.expression() != null; // checks question is already assigned in form

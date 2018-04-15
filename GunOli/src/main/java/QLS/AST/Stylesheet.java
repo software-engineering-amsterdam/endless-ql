@@ -34,7 +34,6 @@ public class Stylesheet extends QLSNode {
 
     private List<QLSQuestion> gatherQuestions(){
         List<QLSQuestion> questions = new ArrayList<>();
-
         for(Page page : pages){
             for(Statement statement : page.getStatements()){
                 if(statement.getClass().getSimpleName().equals("QLSQuestion")){
@@ -42,7 +41,6 @@ public class Stylesheet extends QLSNode {
                 }
             }
         }
-
         return questions;
     }
 

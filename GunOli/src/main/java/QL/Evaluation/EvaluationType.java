@@ -1,4 +1,4 @@
-package QL.Analysis;
+package QL.Evaluation;
 
 public enum EvaluationType {
     Boolean, String, Integer, Decimal, Money, Date, Undefined;
@@ -15,7 +15,7 @@ public enum EvaluationType {
         if(this.isArithmetic() && evaluationType.isArithmetic()){
             if(this == Decimal || this == Money){
                 return this;
-            } else if(this == Integer && evaluationType == Integer){
+            } else if (this == Integer && evaluationType == Integer){
                 return this;
             }
 

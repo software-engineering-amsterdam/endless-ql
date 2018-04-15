@@ -1,6 +1,6 @@
 package QL.AST.Expressions.BinaryExpressions;
 
-import QL.Analysis.ExpressionVisitorInterface;
+import QL.Visitors.ExpressionVisitorInterface;
 import QL.AST.Expressions.BinaryExpression;
 import QL.AST.Expressions.Expression;
 

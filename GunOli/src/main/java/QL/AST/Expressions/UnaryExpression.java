@@ -6,24 +6,16 @@ public abstract class UnaryExpression extends Expression{
 
     public UnaryExpression(String operator, Expression expr, int lineNumber){
         super(lineNumber);
-        setOperator(operator);
-        setExpression(expr);
+        this.operator = operator;
+        this.expr = expr;
     }
 
     public Expression getExpression() {
         return expr;
     }
 
-    public void setExpression(Expression expr) {
-        this.expr = expr;
-    }
-
     public String getOperator() {
         return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
     }
 
     @Override

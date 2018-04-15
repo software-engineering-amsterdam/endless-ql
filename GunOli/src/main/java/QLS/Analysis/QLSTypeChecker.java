@@ -2,7 +2,7 @@ package QLS.Analysis;
 
 import QL.AST.Form;
 import QL.AST.Question;
-import QL.Analysis.EvaluationType;
+import QL.Evaluation.EvaluationType;
 import QLS.AST.Page;
 import QLS.AST.Statements.Default;
 import QLS.AST.Statements.QLSQuestion;

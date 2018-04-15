@@ -26,7 +26,6 @@ public class WidgetVisitor extends QLSBaseVisitor {
 
     @Override
     public Widget visitCheckWidget(QLSParser.CheckWidgetContext ctx){
-
         return new CheckBox(ctx.getStart().getLine());
     }
 

@@ -1,4 +1,4 @@
-package QL.Analysis;
+package QL.Visitors;
 
 import QL.AST.Question;
 public interface QuestionVisitorInterface<T> {

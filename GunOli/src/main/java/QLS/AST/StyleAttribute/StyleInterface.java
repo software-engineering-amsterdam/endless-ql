@@ -1,10 +1,6 @@
-package GUI.Styles;
-
-import javafx.scene.Node;
+package QLS.AST.StyleAttribute;
 
 public interface StyleInterface {
-
-    Node node();
     void setColor(String color);
     void setFont(String font);
     void setFontSize(int size);

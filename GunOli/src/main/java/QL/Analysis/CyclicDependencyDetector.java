@@ -4,6 +4,7 @@ import QL.AST.Expressions.Expression;
 import QL.AST.Expressions.IdentifierExpression;
 import QL.AST.Form;
 import QL.AST.Question;
+import QL.Visitors.GenericExpressionVisitor;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.CycleDetector;
 import org.jgrapht.graph.DefaultDirectedGraph;

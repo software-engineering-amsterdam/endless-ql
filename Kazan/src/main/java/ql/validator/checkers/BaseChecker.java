@@ -1,8 +1,8 @@
 package ql.validator.checkers;
 
-import issuetracker.Error;
-import issuetracker.IssueTracker;
-import issuetracker.Warning;
+import ql.issuetracker.Error;
+import ql.issuetracker.IssueTracker;
+import ql.issuetracker.Warning;
 
 import java.util.List;
 

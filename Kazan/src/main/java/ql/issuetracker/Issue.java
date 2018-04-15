@@ -1,4 +1,4 @@
-package issuetracker;
+package ql.issuetracker;
 
 import ql.ast.SourceLocation;
 

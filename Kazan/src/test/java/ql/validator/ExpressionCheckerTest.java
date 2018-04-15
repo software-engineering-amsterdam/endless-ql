@@ -1,6 +1,6 @@
 package ql.validator;
 
-import issuetracker.Error;
+import ql.issuetracker.Error;
 import org.junit.Test;
 import ql.BaseQlTest;
 import ql.ast.Form;
